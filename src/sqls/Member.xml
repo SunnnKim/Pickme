@@ -5,7 +5,7 @@
   
 <mapper namespace="Member">
 <select id="test" resultType="int">
-select count(*) from sample
+select num from sample
 </select>
 
 </mapper>
