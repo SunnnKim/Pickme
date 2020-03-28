@@ -14,7 +14,7 @@ public class AdminController {
 
 	@Autowired
 	AdminService service;
-
+	/* commit test */
 	/*
 	@Autowired
 	SqlSession sqlSession;
