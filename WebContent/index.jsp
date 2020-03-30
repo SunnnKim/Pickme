@@ -9,8 +9,8 @@
 <body>
 
 <p>test</p>
-<<<<<<< HEAD
-<a href="test.do">main.do</a>
 
-</body>		
+<a href="getList.do">main.do</a>
+
+</body>
 </html>
