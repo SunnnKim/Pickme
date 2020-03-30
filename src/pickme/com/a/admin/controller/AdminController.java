@@ -14,7 +14,6 @@ public class AdminController {
 
 	@Autowired
 	AdminService service;
-
 	/*
 	@Autowired
 	SqlSession sqlSession;
