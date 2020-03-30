@@ -9,6 +9,10 @@ package model;
 );
  */
 public class MemberDto {
+<<<<<<< HEAD
+=======
+
+>>>>>>> b9ef67c87817db033780e64ccd90ee5c2f56a954
 	private int seq;
 	private String email;
 	private String pwd;
