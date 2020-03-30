@@ -14,22 +14,5 @@ public class AdminController {
 
 	@Autowired
 	AdminService service;
-	/*
-	@Autowired
-	SqlSession sqlSession;
-	*/
-	
-	@RequestMapping(value="main.do")
-	public String test( Model model ) {
-		return "index2";
-	}
-	
-	/*
-	@RequestMapping(value="test.do")
-	public String test1( Model model ) {
-		int a = sqlSession.selectOne("test");
-		model.addAttribute("a", a);
-		return "index2";
-	}
-	*/
+
 }

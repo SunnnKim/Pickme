@@ -9,6 +9,6 @@
 <body>
 
 <p>test</p>
-<a href="test.do">main.do</a>
+<a href="main.do">main.do</a>
 </body>		
 </html>

@@ -8,6 +8,6 @@
 </head>
 <body>
 <h1>index2</h1>
-test : ${a }
+<h3>num: ${num }</h3>
 </body>
 </html>
