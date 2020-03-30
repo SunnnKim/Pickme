@@ -8,12 +8,8 @@
 </head>
 <body>
 
-<<<<<<< Updated upstream
 <p>test</p>
-<a href="main.do">main.do</a>
-=======
 <a href="test.do">main.do</a>
->>>>>>> Stashed changes
 
 </body>		
 </html>
