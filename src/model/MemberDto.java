@@ -9,7 +9,6 @@ package model;
 );
  */
 public class MemberDto {
-
 	private int seq;
 	private String email;
 	private String pwd;
