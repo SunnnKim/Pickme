@@ -9,10 +9,7 @@ package model;
 );
  */
 public class MemberDto {
-<<<<<<< HEAD
-=======
-	/* commit test */
->>>>>>> bcc1a65edc33a668d4e958584d710566cb9f195d
+
 	private int seq;
 	private String email;
 	private String pwd;
