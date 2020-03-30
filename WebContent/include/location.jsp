@@ -29,6 +29,7 @@ if (lourl.contains("exhibit")){
 <%
 }	
 %>
+<!-- a_member mypage -->
 
 
 <!-- schedule -->
