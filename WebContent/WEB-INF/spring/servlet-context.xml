@@ -58,4 +58,10 @@
 	
 	<bean id="myHandler" class="pickme.com.a.websock.WebSocket"/>
  	-->
+ 	<mvc:interceptors>
+ 		<mvc:interceptor>
+ 			<mvc:mapping path="/*"/>
+ 			<bean id="customInterceptor" class="pickme.com.a.login.util.CustomInterceptor" />
+ 		</mvc:interceptor>
+ 	</mvc:interceptors>
 </beans>

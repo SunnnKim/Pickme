@@ -41,6 +41,7 @@
 				</c:if>		
 			</td>
 			<td>${request.rdate }</td>
+			
 		</tr>	
 	</c:forEach>
 	

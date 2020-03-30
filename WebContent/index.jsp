@@ -9,6 +9,7 @@
 <body>
 
 <p>test</p>
+<a href="test.do">main.do</a>
 
 <a href="getList.do">main.do</a>
 
