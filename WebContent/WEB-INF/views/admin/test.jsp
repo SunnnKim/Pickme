@@ -7,10 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-<p>test</p>
-<<<<<<< HEAD
-<a href="test.do">main.do</a>
-
-</body>		
+<h1>index2</h1>
+test : ${a }
+</body>
 </html>

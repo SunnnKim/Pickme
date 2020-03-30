@@ -9,7 +9,6 @@ package model;
 );
  */
 public class MemberDto {
-
 	private int seq;
 	private String email;
 	private String pwd;
@@ -74,8 +73,5 @@ public class MemberDto {
 		return "MemberDto [seq=" + seq + ", email=" + email + ", pwd=" + pwd + ", name=" + name + ", auth=" + auth
 				+ "]";
 	}
-	
-	
-	
 	
 }

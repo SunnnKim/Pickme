@@ -8,10 +8,6 @@
 </head>
 <body>
 <h1>index2</h1>
-<<<<<<< Updated upstream
-<h3>uosdfhhsg</h3>
-=======
-test : ${a }
->>>>>>> Stashed changes
+<h3>num: ${num }</h3>
 </body>
 </html>
