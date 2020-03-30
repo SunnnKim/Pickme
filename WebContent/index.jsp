@@ -9,7 +9,6 @@
 <body>
 
 <p>test</p>
-<<<<<<< HEAD
 <a href="test.do">main.do</a>
 
 </body>		
