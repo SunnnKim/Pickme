@@ -58,7 +58,8 @@
 	
 	<bean id="myHandler" class="pickme.com.a.websock.WebSocket"/>
  	-->
- <!-- 	<mvc:annotation-driven>
+ <!-- 	
+ 	<mvc:annotation-driven>
  		<mvc:message-converters>
  			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
  				<property name="supportedMediaTypes">
@@ -69,10 +70,11 @@
  			</bean>
  		</mvc:message-converters>
  	</mvc:annotation-driven>
+ 	-->
  	<mvc:interceptors>
  		<mvc:interceptor>
  			<mvc:mapping path="/*"/>
  			<bean id="customInterceptor" class="pickme.com.a.login.util.CustomInterceptor" />
  		</mvc:interceptor>
- 	</mvc:interceptors> -->
+ 	</mvc:interceptors> 
 </beans>
