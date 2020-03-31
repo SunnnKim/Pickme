@@ -46,7 +46,7 @@
   
   <!-- spring security filter -->
   <!-- Spring Security -->
-<!--   <filter> 
+  <!-- <filter> 
 	  	<filter-name>springSecurityFilterChain</filter-name> 
 	  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
   </filter> 
@@ -56,14 +56,12 @@
   </filter-mapping>
   
   <context-param> 
-  		<param-name>contextConfigLocation</param-name> 
-  		<param-value> 
-  			/WEB-INF/spring/servlet-context.xml 
-  			/WEB-INF/spring/security-context.xml 
-  		</param-value> 
-  	</context-param>
-
-   -->
+ 		<param-name>contextConfigLocation</param-name> 
+ 		<param-value> 
+ 			/WEB-INF/spring/security-context.xml 
+ 		</param-value> 
+ 	</context-param>
+ -->
   
   <!-- 한글 설정 -->
   <filter>
