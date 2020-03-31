@@ -3,12 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="Member">
-<select id="test" resultType="int">
-select count(*) from sample
+<mapper namespace="Request">
+
+<select id="getList" resultType="model.RequestDto">
+	SELECT *
+	FROM CV_REQUEST
 </select>
+	
 
 </mapper>
-
 
 

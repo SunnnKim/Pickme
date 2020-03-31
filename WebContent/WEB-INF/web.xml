@@ -46,8 +46,7 @@
   
   <!-- spring security filter -->
   <!-- Spring Security -->
-  <!-- 
-  <filter> 
+<!--   <filter> 
 	  	<filter-name>springSecurityFilterChain</filter-name> 
 	  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
   </filter> 
@@ -64,8 +63,7 @@
   		</param-value> 
   	</context-param>
 
- --> 
-  
+   -->
   
   <!-- 한글 설정 -->
   <filter>
