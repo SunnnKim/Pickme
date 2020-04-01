@@ -38,7 +38,6 @@
 	
     <security:authentication-manager> 
 	    <security:authentication-provider ref="userAuthProvider"/>
-	    <security:authentication-provider user-service-ref="loginServiceImpl"/>
 	</security:authentication-manager>	
 
 </beans>
