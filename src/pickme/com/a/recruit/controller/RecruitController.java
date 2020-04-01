@@ -17,14 +17,12 @@ public class RecruitController {
 	@Autowired
 	RecruitService recruitService;
 	
-	@RequestMapping(value = "getList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "getRequestList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String viewTest(Model model) {
 		
-		
-		
-		List<RequestDto> list = recruitService.getList();
+		List<RequestDto> list = recruitService.getRequestList();
 		
 		model.addAttribute("requestList", list);
-		return "recruit/ViewTest";
+		return "recruit/recruitList";
 	}
 }

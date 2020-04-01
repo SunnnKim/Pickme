@@ -84,4 +84,10 @@ if (ifurl.contains("reserv.jsp")){
 	
 
 
-
+<% 
+if (ifurl.contains("recruitList.jsp")){
+%>
+<h2>지원현황</h2>
+<%
+}	
+%>	

@@ -16,8 +16,8 @@ public class RecruitDaoImpl implements RecruitDao{
 	String namespace = "Request.";
 
 	@Override
-	public List<RequestDto> getList() {
-		List<RequestDto> list = sqlSession.selectList(namespace+"getList");
+	public List<RequestDto> getRequestList() {
+		List<RequestDto> list = sqlSession.selectList(namespace+"getRequestList");
 		return list;
 	}
 	

@@ -6,6 +6,6 @@ import model.RequestDto;
 
 public interface RecruitService {
 
-	List<RequestDto> getList();
+	List<RequestDto> getRequestList();
 
 }
