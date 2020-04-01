@@ -9,7 +9,7 @@
 <body>
 
 <div>
-<form action="logincheck.do" method="post">
+<form action="signup.do" method="post">
 	<table>
 		<tr>
 			<td>ID</td>
@@ -25,12 +25,12 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input type="submit" value="로그인">
+				<input type="submit" value="회원가입">
 			</td>
 		</tr>
 	</table>
+
 </form>
-<a href="signform.do">회원가입</a>
 </div>
 
 </body>
