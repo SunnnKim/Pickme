@@ -28,10 +28,9 @@
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
 					<li><span id="myBtn">로그인 / 회원가입</span></li>
-					<li><a href="#none">기업서비스</a></li>
+					<li><a href="comLogin.do">기업서비스</a></li>
 				</ul>
 			</div>
-			<!-- // inner -->
 		</header>
 		<!-- // header -->
 
@@ -55,6 +54,4 @@
 				</div>
 				<!-- // subTit -->
 				<div class="subCont">
-				</div>
-				</div>
-				</div>
+				
