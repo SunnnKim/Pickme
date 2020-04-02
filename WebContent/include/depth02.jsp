@@ -21,4 +21,18 @@ if (durl.contains("recruit")){
 <%
 }	
 %>	
-
+<!-- 기업 로그인 페이지  -->
+<% 
+if (durl.contains("/login")){
+%>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("comLogin.jsp") ? " on" :" "%>>
+		<a href="comLogin.do">기업로그인</a>
+	</li>
+	<li class=<%= durl.contains("comJoin.jsp") ? " on" :" "%>>
+		<a href="comJoin.do">기업회원가입</a>
+	</li>
+</ul>
+<%
+}	
+%>	

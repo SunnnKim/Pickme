@@ -4,14 +4,17 @@
 String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져옴
  System.out.println(ifurl);
 
-if (ifurl.contains("comLogin")){
-%>
-<h2>ABOUT US</h2>
-<%
-}	
 %>
 
 <!-- recruit - 구인 현황  -->
 <% if (ifurl.contains("c_message.jsp")){ %>
 구인 현황
 <% } %>	
+
+<!-- 기업 서비스 -->
+<% if(ifurl.contains("/login/com")){
+%>
+기업서비스 
+<% } %>
+
+

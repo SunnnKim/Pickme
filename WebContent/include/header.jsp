@@ -37,7 +37,7 @@
 			<div class="inner">
 				<div class="subTit">
 					<h2 class="pageTit"><%@include file ="./title01.jsp" %></h2>
-					<%@include file ="../../../location.jsp" %>
+					<%@include file ="../../../include/location.jsp" %>
 					<!-- 
 					<div class="location">
 						<span>홈</span>
