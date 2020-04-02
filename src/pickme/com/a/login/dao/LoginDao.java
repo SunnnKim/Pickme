@@ -1,4 +1,4 @@
-package pickme.com.a.login.controller;
+package pickme.com.a.login.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,7 +61,7 @@ public class LoginDao {
 	@Transactional
 	public void signup(User user) {
 		try {
-			jdbcTemplate.queryForObject("insert into users (id, password) values (?, ?)", new Object[] { user.getId(), user.getPassword() }, User.class);
+			jdbcTemplate.update("insert into users (id, password) values (?, ?)", new Object[] { user.getId(), user.getPassword() });
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

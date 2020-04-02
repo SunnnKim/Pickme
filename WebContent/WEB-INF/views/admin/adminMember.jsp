@@ -8,8 +8,5 @@
 </head>
 <body>
 
-<p>test</p>
-<a href="test1.do">main.do</a>
-
 </body>
 </html>

@@ -5,7 +5,7 @@
   
 <mapper namespace="Request">
 
-<select id="getList" resultType="model.RequestDto">
+<select id="getRequestList" resultType="model.RequestDto">
 	SELECT *
 	FROM CV_REQUEST
 </select>

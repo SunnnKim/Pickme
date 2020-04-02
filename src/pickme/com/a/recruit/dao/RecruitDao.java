@@ -6,6 +6,6 @@ import model.RequestDto;
 
 public interface RecruitDao {
 
-	List<RequestDto> getList();
+	List<RequestDto> getRequestList();
 
 }

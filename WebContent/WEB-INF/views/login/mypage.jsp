@@ -8,8 +8,9 @@
 </head>
 <body>
 
-<p>test</p>
-<a href="test1.do">main.do</a>
+<div>
+	<p>마이페이지로 로그인 완료</p>
+</div>
 
 </body>
 </html>

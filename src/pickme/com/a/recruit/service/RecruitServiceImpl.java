@@ -15,8 +15,8 @@ public class RecruitServiceImpl implements RecruitService{
 	RecruitDao recruitDao;
 
 	@Override
-	public List<RequestDto> getList() {
-		return recruitDao.getList();
+	public List<RequestDto> getRequestList() {
+		return recruitDao.getRequestList();
 	}
 	
 	

@@ -25,4 +25,5 @@ public class CMypageController {
 		System.out.println(list.toString());
 		return "index2";
 	}
+	
 }

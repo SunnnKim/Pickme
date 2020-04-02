@@ -1,4 +1,4 @@
-package pickme.com.a.login.service;
+	package pickme.com.a.login.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import model.User;
-import pickme.com.a.login.controller.LoginDao;
+import pickme.com.a.login.dao.LoginDao;
 
 @Service
 public class LoginServiceImpl implements LoginService, UserDetailsService {
@@ -18,6 +18,7 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
+		System.out.println("[LoginServiceImpl] Searching input id: " + username);
 		UserDetails userDetails = mapper.login(username);
 		if(userDetails == null) {
 			System.out.println("[LoginServiceImpl] Fail to find user");
