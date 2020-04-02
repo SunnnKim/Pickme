@@ -12,6 +12,7 @@ import model.RequestDto;
 import pickme.com.a.recruit.service.RecruitService;
 
 @Controller
+@RequestMapping(value = "/recruit")
 public class RecruitController {
 	
 	@Autowired

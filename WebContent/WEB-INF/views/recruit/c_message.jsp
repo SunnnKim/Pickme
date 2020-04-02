@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <!-- 헤더호출 -->
-<%@include file="/include/header.jsp"%>
+<%@include file="../../../include/header.jsp"%>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

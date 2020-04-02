@@ -38,6 +38,8 @@
 			<div class="inner">
 				<div class="subTit">
 					<h2 class="pageTit"><%@include file ="./title01.jsp" %></h2>
+					<%@include file ="./location.jsp" %>
+					<!-- 
 					<div class="location">
 						<span>홈</span>
 						<span>></span>
@@ -45,15 +47,16 @@
 						<span>></span>
 						<span>depth2</span>
 					</div>
-					<ul class="depth02 clfix">
+					
+					 -->
+					<!-- depth02 -->
+					<%@include file ="./depth02.jsp" %>
+					<!-- <ul class="depth02 clfix">
 						<li class="on"><a href="#none">depth02-A</a></li>
 						<li><a href="#none">depth02-B</a></li>
 						<li><a href="#none">depth02-C</a></li>
-					</ul>
+					</ul> -->
 					<!-- // depth02 -->
 				</div>
 				<!-- // subTit -->
 				<div class="subCont">
-				</div>
-				</div>
-				</div>

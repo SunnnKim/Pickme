@@ -237,7 +237,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 
 /* paging */
 .paging{margin-top:30px; text-align:center; font-size:0;}
-.paging [class^=btn-]{width:30px; height:30px; border-radius:0; background:url('/images/main/paging.png') no-repeat}
+.paging [class^=btn-]{width:30px; height:30px; border-radius:0; background:url('../images/main/paging.png') no-repeat}
 .paging .btn-last{background-position-x:-50px;}
 .paging .btn-prev{margin-left:8px; background-position-x:-100px;}
 .paging .btn-next{margin-right:8px; background-position-x:-150px;}
@@ -257,14 +257,6 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .table-bbs td a {display: block; text-align: left; max-width: 340px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 .star-td i {font-size: 20px; color: #ddd; cursor: pointer;}
 .star-td i.on {color: #fccd35;}
-
-
-/*=================== 매인 페이 ====================*/
-.slide-wrap{
-	border: 1px solid; 
-	height: 230px; margin-bottom: 80px;
-}
-
 
 
 /*=================== BBS 끝 ====================*/
