@@ -84,10 +84,11 @@ if (ifurl.contains("reserv.jsp")){
 	
 
 
+<!-- 정우철 : c_message.jsp -->
 <% 
-if (ifurl.contains("recruitList.jsp")){
+if (ifurl.contains("c_message.jsp")){
 %>
-<h2>지원현황</h2>
+<h2>구인 현황</h2>
 <%
 }	
 %>	

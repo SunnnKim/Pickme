@@ -31,3 +31,16 @@ if (durl.contains("community")){
 <%
 }	
 %>	
+
+
+
+
+
+<!-- 정우철 : c_message.jsp -->
+<% if (durl.substring(8).contains("exhibit")){ %>
+<div class="depth02">
+	<a href="exhibit_past.jsp" id="past">지난전시</a>
+	<a href="exhibit.jsp" id="now" class="active">현재전시</a>
+	<a href="exhibit_future.jsp" id="future">예정전시</a>
+</div>
+<%  } %>
