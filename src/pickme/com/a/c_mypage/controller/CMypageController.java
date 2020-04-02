@@ -17,13 +17,13 @@ public class CMypageController {
 	@Autowired
 	CMypageService service;
 	
-	/*
-	@RequestMapping(value = "test.do", method = {RequestMethod.GET, RequestMethod.POST})
+	
+	@RequestMapping(value = "test1.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String test(CMemberMypageDto dto, Model model) {
 		CMemberMypageDto list = service.dateTest(dto);
 		model.addAttribute("list", list);
 		System.out.println(list.toString());
 		return "index2";
 	}
-	*/
+	
 }

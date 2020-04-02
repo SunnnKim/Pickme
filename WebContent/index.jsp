@@ -8,8 +8,7 @@
 </head>
 <body>
 
-<p>test</p>
-<a href="test.do">main.do</a>
+<a href="login/main.do">메인페이지보기</a>
 
 </body>
 </html>

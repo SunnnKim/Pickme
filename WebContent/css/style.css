@@ -259,4 +259,12 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .star-td i.on {color: #fccd35;}
 
 
+/*=================== 매인 페이 ====================*/
+.slide-wrap{
+	border: 1px solid; 
+	height: 230px; margin-bottom: 80px;
+}
+
+
+
 /*=================== BBS 끝 ====================*/

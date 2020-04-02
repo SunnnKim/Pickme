@@ -11,9 +11,9 @@ if (ifurl.contains("aboutus.jsp")){
 }	
 %>
 
-<!-- exhibit -->
+<!-- a_mypage -->
 <% 
-if (ifurl.substring(8).contains("exhibit")){
+if (ifurl.substring(8).contains("/a_mypage/")){
 %>
 <h2 id="ex-title" >현재전시</h2>
 <%
