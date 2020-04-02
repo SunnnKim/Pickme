@@ -39,47 +39,6 @@ p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
 .subCont {width:100%; min-height:600px; padding:35px 0 100px;}
 
 
-@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap');
-.inner {width:1050px; margin:0 auto;}
-a {text-decoration:none !important;}
-/*============ MAIN ============*/
-#wrap {position:relative; width:100%;  min-width:1050px; overflow:hidden;}
-header {width:100%; height:50px; border-bottom:1px solid #ddd;}
-header .inner {position:relative;}
-header strong.logo {float:left; width:108px; display:block; font-size:25px; line-height:52px; font-family: 'Black Han Sans', sans-serif;}
-header strong.logo a {color:#304edf; text-shadow:3px 3px 0 #ececec;}
-header nav.gnb {float:left; width:670px; text-align:center;}
-header nav.gnb a {display:inline-block; line-height:49px; color:#333; font-size:15px; margin-left:40px; font-weight:500;}
-header nav.gnb a:first-child {margin-left:0;}
-.header_infoBtn {float:right;}
-.header_infoBtn li {float:left; line-height:49px; margin-left:12px; font-size:14px;}
-.header_infoBtn li:first-child {position:relative; margin-left:0;}
-.header_infoBtn li:first-child:before{position:absolute; top:13px; right:0; content:''; width:1px; height:24px; background:#ddd;}
-.header_infoBtn li button#searchBtn {display:block; width:50px; height:50px; background:url(../images/main/ico_search.png) center / 15px no-repeat;}
-.header_infoBtn li a {color:#333;}
-.header_infoBtn li span {display:inline-block;}
-.header_infoBtn li span a {}
-
-footer {width:100%; border-top:1px; background:#333; text-align:center;}
-p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
-
-/*============ SUB ============*/
-#sub-container {width:100%;}
-#sub-container .inner {position:relative;}
-.subTit {padding:50px 0 5px; border-bottom:1px solid #ddd;}
-.subTit h2.pageTit {font-size:32px; color:#333; font-weight:normal; line-height:1; margin-bottom:15px;}
-.subTit .location {position:absolute; top:62px; right:0;}
-.subTit .location span {display:inline-block; margin-left:10px; font-size:14px; color:#8b8b8b;}
-.subTit .location span:last-child{color:#333;}
-.subTit ul.depth02 {}
-.subTit ul.depth02 li {float:left; margin-left:40px; line-height:40px;}
-.subTit ul.depth02 li:first-child{margin-left:0;}
-.subTit ul.depth02 li a {font-size:18px; color:#ddd; transition:all 0.2s ease-in-out;}
-.subTit ul.depth02 li:hover a {color:#333;}
-.subTit ul.depth02 li.on a {color:#333;}
-.subCont {width:100%; min-height:600px; padding:35px 0 100px;}
-
-
 /*=================== BBS 시작 (정리필요) ====================*/
 /* tab */
 [class^=tab-list]:after {content:""; display:block; clear:both;}
@@ -151,6 +110,9 @@ p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
 /* .form-search .btn-search:before{content:""; position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('/cjom/web/images/common/spr_common.svg') 0 -120px no-repeat; background-size:510px 210px;} */
 .form-search .btn-search:before{content:""; position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('../images/main/ico_search.png') no-repeat; background-size:17px 17px;}
 .form-search .btn-search span{display:block; text-indent:-99999px;}
+
+.form-search input[type=text] {height:40px; padding:0 16px 1px; line-height:37px; font-size:15px; font-weight:400; color:#000; box-sizing:border-box; outline:none; border:1px solid #ccc; border-radius:0; transition:border-color 150ms ease-in-out 0s;}
+
 
 
 /* table */
@@ -287,15 +249,14 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .paging li a{display:block; height:30px; font-size:15px;}
 .paging li span{position:relative; display:block; font-size:15px; background:#4f6eff; color:#fff;}
 
+/* .bbs-delete {color: #fff; background-color: #17a2b8; border-color: #17a2b8;} */
 
-input[type=search] {height:40px; padding:0 16px 1px; line-height:37px; font-size:15px; font-weight:400; color:#000; box-sizing:border-box; outline:none; border:1px solid #ccc; border-radius:0; transition:border-color 150ms ease-in-out 0s;}
+.btn-message button {width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: inline-block; font-size: 15px; margin-top: 15px; cursor: pointer;}
+.btn-message button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
 
-/*=================== 매인 페이 ====================*/
-.slide-wrap{
-	border: 1px solid; 
-	height: 230px; margin-bottom: 80px;
-}
-
+.table-bbs td a {display: block; text-align: left; max-width: 340px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.star-td i {font-size: 20px; color: #ddd; cursor: pointer;}
+.star-td i.on {color: #fccd35;}
 
 
 /*=================== BBS 끝 ====================*/

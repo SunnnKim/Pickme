@@ -29,6 +29,6 @@
 	
 	</div><!-- // wrap -->
 	<!-- 로그인/회원가입모달 -->
-	<%@include file ="../../../include/loginmodal.jsp" %>
+	<%@include file ="./loginmodal.jsp" %>
 </body>
 </html>

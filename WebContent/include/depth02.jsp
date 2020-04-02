@@ -1,33 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%
 String durl = request.getServletPath();  
-System.out.println(durl);
-// exhibit
-if (durl.substring(8).contains("exhibit")){
-%>
-<div class="depth02">
-	<a href="exhibit_past.jsp" id="past">지난전시</a>
-	<a href="exhibit.jsp" id="now" class="active">현재전시</a>
-	<a href="exhibit_future.jsp" id="future">예정전시</a>
-</div>
-<%
-}	
+/* System.out.println("durl:"+durl); */
 %>
 
-<!-- community -->
+
+<!-- recruit -->
 <% 
-if (durl.contains("community")){
+if (durl.contains("recruit")){
 %>
-<div class="depth02">
-	<a class="${pageContext.request.requestURI eq '/AgencyBgencyy/community/notice.jsp' ? ' active' : ''}"
-	href="/AgencyBgencyy/community/notice.jsp">공지사항
-	</a>
-	<a class="${pageContext.request.requestURI eq '/AgencyBgencyy/community/faq.jsp' ? ' active' : ''}"
-	href="/AgencyBgencyy/community/faq.jsp">FAQ</a>
-	<a class="${pageContext.request.requestURI eq '/AgencyBgencyy/community/review.jsp' ? ' active' : ''}"
-	href="/AgencyBgencyy/community/review.jsp">리뷰보기</a>
-</div>
+<ul class="depth02 clfix">
+	<li ><a href="getRequestList.do">지원자 관리</a></li>
+	<li class=<%= durl.contains("c_message.jsp") ? " on" :" "%>>
+		<a href="c_message.do">메시지함</a>
+	</li>
+	<li><a href="">이력서 열람요청</a></li>
+</ul>
 <%
 }	
 %>	
+

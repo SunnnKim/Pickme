@@ -12,6 +12,7 @@ import model.RequestDto;
 import pickme.com.a.recruit.service.RecruitService;
 
 @Controller
+@RequestMapping(value = "/recruit")
 public class RecruitController {
 	
 	@Autowired
@@ -24,5 +25,10 @@ public class RecruitController {
 		
 		model.addAttribute("requestList", list);
 		return "recruit/recruitList";
+	}
+	
+	@RequestMapping(value = "c_message.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String c_message() {
+		return "recruit/c_message";
 	}
 }
