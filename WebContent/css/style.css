@@ -290,4 +290,12 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 
 input[type=search] {height:40px; padding:0 16px 1px; line-height:37px; font-size:15px; font-weight:400; color:#000; box-sizing:border-box; outline:none; border:1px solid #ccc; border-radius:0; transition:border-color 150ms ease-in-out 0s;}
 
+/*=================== 매인 페이 ====================*/
+.slide-wrap{
+	border: 1px solid; 
+	height: 230px; margin-bottom: 80px;
+}
+
+
+
 /*=================== BBS 끝 ====================*/

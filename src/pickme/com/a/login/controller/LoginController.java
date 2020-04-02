@@ -16,9 +16,22 @@ public class LoginController {
 	@Autowired
 	private LoginService service;
 	
+	// 테스트용 로그인폼 
 	@RequestMapping(value="loginform.do")
 	public String loginForm() {
 		return "login/loginform";
+	}
+	
+	// 메인페이지 
+	@RequestMapping(value="main.do")
+	public String mainView() {
+		return "main/main";
+	}
+	
+	// 기업로그인 페이지 
+	@RequestMapping(value="comLogin.do")
+	public String comLoginView() {
+		return "login/comLogin";
 	}
 	
 	@RequestMapping("mypage.do")

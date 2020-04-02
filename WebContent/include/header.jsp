@@ -8,9 +8,9 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>index</title>
 <!----- [ 디자인 CSS 영역 ] ----->
-<link rel="stylesheet" href="./css/reset.css" type="text/css">
+<link rel="stylesheet" href="/Pickme/css/reset.css" type="text/css">
 <!-- 리셋 CSS -->
-<link rel="stylesheet" href="./css/style.css" type="text/css">
+<link rel="stylesheet" href="/Pickme/css/style.css" type="text/css">
 <!-- 디자인 CSS -->
 </head>
 <body>
@@ -27,7 +27,7 @@
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
-					<li><span><a href="#none">로그인</a> / <a href="#none">회원가입</a></span></li>
+					<li><span id="myBtn">로그인 / 회원가입</span></li>
 					<li><a href="#none">기업서비스</a></li>
 				</ul>
 			</div>

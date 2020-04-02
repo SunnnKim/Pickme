@@ -9,7 +9,7 @@ public class LogAop {
 	// logger AOP
 	
 	// 자동적으로 호출되는 함수
-	@Around("within(pickme.com.a.*.*)")
+	@Around("within(pickme.com.a.*.*.*)")
 	public Object loggerAop(ProceedingJoinPoint joinpoint) throws Throwable {
 		
 		// 사용자가 지정한 함수를 실행했을 때 아래 함수가 실행, 리턴
