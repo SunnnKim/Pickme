@@ -21,6 +21,7 @@ if (durl.contains("recruit")){
 <%
 }	
 %>	
+
 <!-- 기업 로그인 페이지  -->
 <% 
 if (durl.contains("/login")){
@@ -36,3 +37,24 @@ if (durl.contains("/login")){
 <%
 }	
 %>	
+
+
+
+<!-- apply  -->
+<%
+if( durl.contains("apply")){
+%>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("CvReq")? " on" : " " %>>
+		<a href="curCvReq.do">열람요청보기</a>
+	</li>
+	<li class=<%= durl.contains("Msg") ? " on" :" "%>>
+		<a href="inMsg.do">메시지함</a>
+	</li>
+	<li class=<%= durl.contains("AList")? " on" : " "%>>
+	  <a href="curAList.do">나의지원내역</a>
+	</li>
+</ul>
+
+<%} %>
+

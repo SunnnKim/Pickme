@@ -23,6 +23,12 @@ public class MessageController {
 		return "apply/outMsg";
 	}
 	
+	@RequestMapping(value="impoMsg.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getImpoMsgList() {
+		
+		return "apply/impoMsg";
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value="deleteMsg.do", method={RequestMethod.GET, RequestMethod.POST})

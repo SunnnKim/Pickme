@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CvRequestController {
 	
 	
-	@RequestMapping (value="getCurCvReq.do", method=RequestMethod.POST)
+	@RequestMapping (value="curCvReq.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getcurCvReq() {
 		
 		
 		return "apply/curCvReq";
 	}
 	
-	@RequestMapping(value="getPastCvReq.do", method=RequestMethod.POST)
+	@RequestMapping(value="pastCvReq.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String getPastCvReq() {
-		
+		System.out.println("pastCvReq");
 		return "apply/pastCvReq";
 	}
 	
-	@RequestMapping(value="cvReqResp", method=RequestMethod.POST)
+	@RequestMapping(value="cvReqResp.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String cvReqResp() {
-		
-		return "redirect:apply/getCurCvReq.do";
+		// ajax로 처리할지도 몰라유~~~
+		return "redirect:apply/curCvReq.do";
 	}
 
 	

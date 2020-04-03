@@ -7,22 +7,39 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+ 
+<!-- 메뉴 -->
+<ul class="tab-default column3 mt30" data-tab="">
+	<li class="active"><a href="inMsg.do" >받은 메시지</a></li>
+	<li><a href="outMsg.do" >보낸 메시지</a></li>
+	<li><a href="impoMsg.do" >중요 메시지</a></li>
+</ul>
+
+<div id="allList" data-tab-content="" class="active">
+
+	<!-- 검색창 -->
+	<div class="bbs-top">
+		<div class="form-search">
+			<input type="text" name="keyWord" title="검색어 입력"
+				placeholder="검색어를 입력해주세요." value="">
+			<button type="button" class="btn-search" onclick="searchAction()">
+				<span>검색</span>
+			</button>
+		</div>
+	</div>
 
 
  		<div class="comeMsg" > 
           <div class="title">
-              <h4>제목 불러오기</h4>
+              <h3>제목 불러오기</h3>
               <span>2020-04-01</span><!-- 메시지 보낸 날짜 불러오기-->
           </div><!-- // title-->
           <div class="from">            
-              <p>보낸이 불러오기</p>
+             <a href="클릭시 기업정보페이지가기"><p class=msgFrom>보낸이 불러오기</p></a>
           </div>
           <div class="msg-content" >
             <p>
               내용 불러오기
-              
             </p>
 
           </div><!--// msg-content -->
@@ -54,16 +71,6 @@
             </div><!-- // messageCont-->
       </div><!-- // messageBox -->
     </form>
-    
-   <!--  <div class="delete-wrap">
-	    <div class="delcheck">
-	    	<h4>정말로 삭제하시겠습니까?</h4>
-	    	<div class="delBtn">
-		    	<button onclick="del(seq)">삭제</button>		
-		    	<button onclick="cancel()">취소</button>
-	    	</div>		    
-		</div>
-	</div> -->
 <%@include file="/include/footer.jsp"%>
 <script>
 
@@ -107,22 +114,17 @@ function delcheck(){
 		  cancelButtonColor: '#d33',
 		  cancelButtonText:'취소',
 		  confirmButtonText: '삭제'
-		}).then((result) => {
+		}).then((result) =>{
 		  if (result.value) {
+			 // ajax로 삭제 구현
 		    Swal.fire(
-		      'Deleted!',
-		      'Your file has been deleted.',
-		      'success'
+		      '',
+		      '성공적으로 삭제가 되었습니다',
+		      ''
 		    )
 		  }
-		})
-
-	
-	
+		});
 } 
 
-function del(seq){
-	
-}
 
 </script>

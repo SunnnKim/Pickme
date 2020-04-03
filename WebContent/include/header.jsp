@@ -7,6 +7,9 @@
 <meta name="viewport" content="width= 1050px, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>index</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 삭제 alert -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <!----- [ 디자인 CSS 영역 ] ----->
 <link rel="stylesheet" href="/Pickme/css/reset.css" type="text/css">
 <!-- 리셋 CSS -->
@@ -21,7 +24,7 @@
 				<nav class="gnb">
 					<a href="#none">채용탐색</a> 
 					<a href="#none">이력서</a> 
-					<a href="#none">지원현황</a>
+					<a href="/Pickme/apply/curCvReq.do">지원현황</a>
 					<a href="#none">고객센터</a>
 				</nav>
 				<!-- // gnb -->

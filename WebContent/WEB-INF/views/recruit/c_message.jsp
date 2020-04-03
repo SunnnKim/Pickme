@@ -3,17 +3,9 @@
 
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
-
-
-
-
-
 
 <!-- subCont 시작 -->
 
