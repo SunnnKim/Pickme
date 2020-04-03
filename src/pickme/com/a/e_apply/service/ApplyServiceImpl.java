@@ -1,4 +1,4 @@
-package pickme.com.a.apply.service;
+package pickme.com.a.e_apply.service;
 
 
 public class ApplyServiceImpl implements ApplyService{

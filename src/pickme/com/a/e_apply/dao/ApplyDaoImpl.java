@@ -1,4 +1,4 @@
-package pickme.com.a.apply.dao;
+package pickme.com.a.e_apply.dao;
 
 
 public class ApplyDaoImpl implements ApplyDao{

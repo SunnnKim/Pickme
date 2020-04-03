@@ -24,7 +24,7 @@
 				<nav class="gnb">
 					<a href="#none">채용탐색</a> 
 					<a href="#none">이력서</a> 
-					<a href="/Pickme/apply/curCvReq.do">지원현황</a>
+					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a>
 					<a href="#none">고객센터</a>
 				</nav>
 				<!-- // gnb -->

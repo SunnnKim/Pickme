@@ -1,11 +1,11 @@
-package pickme.com.a.apply.controller;
+package pickme.com.a.e_apply.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value="/apply")
+@RequestMapping(value="/e_apply")
 public class CvRequestController {
 	
 	

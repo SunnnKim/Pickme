@@ -20,7 +20,7 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 
 <!--  apply - 지원 현 -->
-<% if(ifurl.contains("apply")){%>
+<% if(ifurl.contains("e_apply")){%>
 	지원현황
 <% }%>
 

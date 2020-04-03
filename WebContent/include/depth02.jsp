@@ -45,7 +45,7 @@ if (durl.contains("/login")){
 
 <!-- apply  -->
 <%
-if( durl.contains("apply")){
+if( durl.contains("e_apply")){
 %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("CvReq")? " on" : " " %>>

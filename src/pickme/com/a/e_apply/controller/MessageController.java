@@ -1,4 +1,4 @@
-package pickme.com.a.apply.controller;
+package pickme.com.a.e_apply.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value="/apply")
+@RequestMapping(value="/e_apply")
 public class MessageController {
 	
 	@RequestMapping(value="inMsg.do", method= {RequestMethod.GET, RequestMethod.POST})
