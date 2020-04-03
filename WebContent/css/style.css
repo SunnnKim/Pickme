@@ -259,3 +259,74 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 
 
 /*=================== BBS 끝 ====================*/
+
+
+/*=================== Messsage =================*/
+/* apply - 메시지보기 + 답장 */
+.msg-content > textarea {width:100%; height:500px;border:none; margin:15px;}
+.messageBox {margin-top:50px; width:1050px; height:630px; border-radius: 15px; border:0.5px solid #ddd}
+.msgFrom {font-size:12px}
+.messageCont {width:100%; padding:20px 30px 40px;}
+.messageCont > div {margin-top:12px;}
+.messageCont > div:first-child {margin-top:0;}
+.messageBox input {outline:none; display:block; width:100%; height:50px; padding:0 15px; border:none; border-bottom:1px solid #ddd;}
+.messageCont > div.messageText {margin-top:0;}
+.messageText textarea {border:none; width:100%; height:400px;background:#eee;}
+.messageBtn {width:100%; text-align:center; font-size:0; margin-top:20px;}
+.messageBtn button {display:inline-block; width:90px; height:45px; line-height:45px; font-size:15px; background:#333; color:#fff; margin:0 4px;}
+.messageBox textarea:focus {outline: none;}
+.comeMsg .title{position:relative; width:100%; padding:10px 15px; border-bottom:1px solid #ddd;}
+.comeMsg .title h4{ }
+.comeMsg .title span{display:block; position:absolute; top:0; right:0;}
+.comeMsg .from {width:100%; padding:10px 15px; border-bottom:1px solid #ddd;} 
+.comeMsg .msg-content {padding:15px; min-height:300px; background:#eee;}  
+#repl-con {padding:10px;}
+
+
+/* apply - 메시지보내기 팝업 */
+.messenger-wrap{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4);}
+.msgBox {width:600px; background:#fff; margin:15% auto;}
+.msg-bar {width:100%; background:#333; padding:0 20px}
+.msg-bar h4 {color:#fff; font-weight:normal; line-height:60px; font-size:18px;}
+.msgCont {width:100%; padding:20px 30px 40px; background:#fff;}
+.msgCont > div {margin-top:12px;}
+.msgCont > div:first-child {margin-top:0;}
+.msgBox input {outline:none; display:block; width:100%; height:50px; padding:0 15px; border:none; border-bottom:1px solid #ddd;}
+.msgCont > div.msgeText {margin-top:0;}
+.msgText textarea {border:none; width:100%; height:400px; background:#f7f7f7;}
+.msgCont > div.msgBtn {width:100%; text-align:center; font-size:0; margin-top:20px;}
+.msgBtn button {display:inline-block; width:100px; height:45px; line-height:45px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
+.msgText textarea:focus {outline: none;}
+
+/* apply - applyList */
+.btn-apply{width:100%; height:50px;}
+.btn-apply button{width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: block; font-size: 15px; margin-top: 15px; cursor: pointer;}
+.btn-apply button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
+.applyDelBtn{width:70px; height:40px; line-height:40px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
+
+/* apply - cvReq */
+.cvAcepBtn{width:70px; height:40px; line-height:40px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
+.cvRejBtn{width:70px; height:40px; line-height:40px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
+
+.cvreq-DelBtn{width:100%; height:50px}
+.cvreq-DelBtn button{width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: inline-block; font-size: 15px; margin-top: 15px; cursor: pointer;}
+.cvreq-DelBtn button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

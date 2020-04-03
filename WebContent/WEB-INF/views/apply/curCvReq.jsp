@@ -11,9 +11,8 @@
 
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
-	<li class="active"><a href="#none" onclick="">받은 메시지</a></li>
-	<li><a href="#none" onclick="">보낸 메시지</a></li>
-	<li><a href="#none" onclick="">중요 메시지</a></li>
+	<li class="active"><a href="curCvReq.do" >현재요청</a></li>
+	<li><a href="pastCvReq.do">지난요청</a></li>
 </ul>
 
 <div id="allList" data-tab-content="" class="active">
@@ -29,61 +28,40 @@
 		</div>
 	</div>
 
-
 	<!-- 리스트 -->
 	<div class="table-col table-bbs">
 		<table>
 			<caption>전체</caption>
 			<colgroup>
-				<col style="width: 45px">
-				<col style="width: 400px">
-				<col>
-				<col>
-				<col>
-				<col style="width: 100px">
+				<col style="width: 10%">
+				<col style="width: 50%">
+				<col style="width: 15%">
+				<col style="width: 25%"> 
 			</colgroup>
 			<thead>
 				<tr>
-					<th>중요</th>
-					<th>내용</th>
-					<th>발신자</th>
-					<th>발신일</th>
-					<th>상태</th>
 					<th><input type="checkbox" id="checkall"></th>
+					<th>기업명</th>
+					<th>요청일</th>
+					<th>수락여부</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<!-- 중요메세지 -->
-					<td class="star-td"><i class="fas fa-star"> <input name="bool"
-							type="hidden" value="">
-					</i></td>
-					<td><a href="#none">안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-							안녕하세요 안녕하세요 안녕하세요 안녕하세요 </a></td>
-					<td>OOOOO</td>
-					<td>2020-04-05 12:40</td>
-					<td>확인</td>
 					<td><input type="checkbox" name="checkRow" value=""></td>
-				</tr>
-
-				<tr>
-					<!-- 중요메세지 -->
-					<td class="star-td">
-						<i class="fas fa-star"><input type="hidden" value=""> </i></td>
-					<td><a href="#none">안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-							안녕하세요 안녕하세요 안녕하세요 안녕하세요 </a></td>
-					<td>OOOOO</td>
+					<td><a href="기업코멘트팝업?">Google</a></td>
 					<td>2020-04-05 12:40</td>
-					<td>확인</td>
-					<td><input type="checkbox" name="checkRow" value=""></td>
+					<td>
+						<button class="cvAcepBtn" onclick="accept()">수락</button>
+						<button class="cvRejBtn" onclick="reject()">거절</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
-	</div>
+	</div><!-- // table-col close -->
 
-	<div class="btn-message">
-		<button type="button" onclick="writeAction()">메시지 작성</button>
-		<button type="button" style="float: right;" onclick="deleteAction()">선택삭제</button>
+	<div class="cvreq-DelBtn">
+		<button type="button" style="float: left;" onclick="deleteAction()">선택수락</button>
 	</div>
 
 	<!-- 페이징 -->
@@ -97,6 +75,8 @@
 		</button>
 		<ul>
 			<li class="active"><span>1</span></li>
+			<li><a href="" onclick="">2</a></li>
+			<li><a href="" onclick="">3</a></li>
 		</ul>
 		<button type="button" class="btn-next" onclick="getList('allList', 2)">
 			<span>다음</span>
@@ -123,25 +103,6 @@
 				$("input[name=checkRow]").prop("checked", false);
 			}
 		})
-
-		// 중요메세지 표시
-		$('.star-td i').click(function() {
-			$(this).toggleClass('on');
-			/* let _bool = $("input[name=bool]").val("0");
-			console.log("_bool은 " + _bool);
-
-			$.ajax({
-				url: "",
-				data: _bool,
-
-				success: function() {
-					alert("아작스 통신 성공");
-				},
-				error: function() {
-					alert("아작스 통신 실패");
-				}
-			}) */
-		});
 	})
 
 	/* 선택 삭제(체크박스된 것 전부) */
@@ -160,19 +121,25 @@
 
 		if (confirm("정보를 삭제 하시겠습니까?")) {
 			//삭제처리 후 다시 불러올 리스트 url      
-
-			
+	
 		}
 	}
 
-	/* 메시지 작성 */
-	function writeAction() {
-		alert("메세지 작성 클릭");
-	}
 
 	function searchAction() {
 		alert("검색 버튼 클릭");
 	}
+	
+	function accept(){
+		alert("수락");
+		
+	}
+	
+	function reject(){
+		alert("거절")
+		
+	}
+	
 </script>
 
 

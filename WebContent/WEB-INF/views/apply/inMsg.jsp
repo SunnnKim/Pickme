@@ -11,9 +11,9 @@
 
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
-	<li class="active"><a href="#none" onclick="">받은 메시지</a></li>
-	<li><a href="#none" onclick="">보낸 메시지</a></li>
-	<li><a href="#none" onclick="">중요 메시지</a></li>
+	<li class="active"><a href="inMsg.do" >받은 메시지</a></li>
+	<li><a href="outMsg.do" >보낸 메시지</a></li>
+	<li><a href="impoMsg.do" >중요 메시지</a></li>
 </ul>
 
 <div id="allList" data-tab-content="" class="active">
@@ -35,12 +35,11 @@
 		<table>
 			<caption>전체</caption>
 			<colgroup>
-				<col style="width: 45px">
-				<col style="width: 400px">
-				<col>
-				<col>
-				<col>
-				<col style="width: 100px">
+				<col style="width: 10%">
+				<col style="width: 50%">
+				<col style="width:15%">
+				<col style="width:15%">
+				<col style="width: 10%">
 			</colgroup>
 			<thead>
 				<tr>
@@ -48,36 +47,35 @@
 					<th>내용</th>
 					<th>발신자</th>
 					<th>발신일</th>
-					<th>상태</th>
 					<th><input type="checkbox" id="checkall"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<!-- 중요메세지 -->
-					<td class="star-td"><i class="fas fa-star"> <input name="bool"
+					<td class="star-td"><i class="fas fa-star"> <input
 							type="hidden" value="">
 					</i></td>
 					<td><a href="#none">안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
 							안녕하세요 안녕하세요 안녕하세요 안녕하세요 </a></td>
 					<td>OOOOO</td>
-					<td>2020-04-05 12:40</td>
-					<td>확인</td>
+					<td>2020-04-05</td>
 					<td><input type="checkbox" name="checkRow" value=""></td>
 				</tr>
 
 				<tr>
 					<!-- 중요메세지 -->
-					<td class="star-td">
-						<i class="fas fa-star"><input type="hidden" value=""> </i></td>
+					<td class="star-td"><i class="fas fa-star"> <input
+							type="hidden" vlaue="">
+					</i></td><!-- 별표시 없애면 2초후  -->
 					<td><a href="#none">안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
 							안녕하세요 안녕하세요 안녕하세요 안녕하세요 </a></td>
 					<td>OOOOO</td>
-					<td>2020-04-05 12:40</td>
-					<td>확인</td>
+					<td>2020-04-05</td>
 					<td><input type="checkbox" name="checkRow" value=""></td>
 				</tr>
 			</tbody>
+
 		</table>
 	</div>
 
@@ -97,6 +95,8 @@
 		</button>
 		<ul>
 			<li class="active"><span>1</span></li>
+			<li><a href="" onclick="">2</a></li>
+			<li><a href="" onclick="">3</a></li>
 		</ul>
 		<button type="button" class="btn-next" onclick="getList('allList', 2)">
 			<span>다음</span>
@@ -110,8 +110,35 @@
 </div>
 <!-- // allList -->
 
-
-
+<!-- 메시지작성 팝업 -->
+ <div class="messenger-wrap">
+     <form id="frm" action="" method="post">
+         <div class="msgBox">
+                <div class="msg-bar">
+                    <h4>메세지 보내기</h4>
+                </div><!-- // message-bar-->
+                <div class="msgCont">
+                    <div class="msgTo"><!--검색기능 jquery-ui, ajax사용-->
+                        <!--https://jqueryui.com/autocomplete/ 
+                            https://hellogk.tistory.com/74
+                            참고하면 될듯해요-->
+                        <input type="text"  placeholder="To">
+                    </div><!-- // messageTo-->
+                    <div class="msgTit">
+                        <input type="text" id="msgTitle" placeholder="Title">
+                    </div><!-- // messageTit-->
+                    <div class="msgText">
+                        <textarea id="content" placeholder=""></textarea>
+                    </div><!-- // messageText-->
+                    <div class="msgBtn">
+                        <button onclick="send()">보내기</button>
+                        <button class="close_window">닫기</button>
+                    </div><!-- // messageBtn-->
+                </div><!-- // messageCont-->
+          </div><!-- // messageBox-->
+ 	 </form>
+</div><!-- //messenger-wrap -->
+      
 
 <script>
 	$(document).ready(function() {
@@ -127,20 +154,9 @@
 		// 중요메세지 표시
 		$('.star-td i').click(function() {
 			$(this).toggleClass('on');
-			/* let _bool = $("input[name=bool]").val("0");
-			console.log("_bool은 " + _bool);
-
-			$.ajax({
-				url: "",
-				data: _bool,
-
-				success: function() {
-					alert("아작스 통신 성공");
-				},
-				error: function() {
-					alert("아작스 통신 실패");
-				}
-			}) */
+			
+			// ajax로 중요메시지 저장 or 취소
+			
 		});
 	})
 
@@ -167,9 +183,16 @@
 
 	/* 메시지 작성 */
 	function writeAction() {
-		alert("메세지 작성 클릭");
+	   $('.messenger-wrap').fadeIn(200);
 	}
 
+	/* 메시지 창 닫기 */
+	$('.close_window').click(function(){
+          $('input').val('');
+          $('textarea').val('');
+        $('.messenger-wrap').fadeOut(200);
+      });
+	
 	function searchAction() {
 		alert("검색 버튼 클릭");
 	}

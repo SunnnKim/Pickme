@@ -34,6 +34,12 @@ public class LoginController {
 		return "login/comLogin";
 	}
 	
+	// 기업회원가입 페이지 
+	@RequestMapping(value="comJoin.do")
+	public String comJoinView() {
+		return "login/comJoin";
+	}
+	
 	@RequestMapping("mypage.do")
 	public void mypage() {}
 	
