@@ -6,6 +6,6 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 %>
 
 <!-- recruit - 구인 현황  -->
-<% if (ifurl.contains("c_message.jsp")){ %>
+<% if (ifurl.contains("c_apply")){ %>
 구인 현황
 <% } %>	

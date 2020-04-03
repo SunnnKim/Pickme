@@ -10,7 +10,6 @@ header strong.logo a {color:#304edf; text-shadow:3px 3px 0 #ececec;}
 header nav.gnb {float:left; width:670px; text-align:center;}
 header nav.gnb a {display:inline-block; line-height:49px; color:#333; font-size:15px; margin-left:40px; font-weight:500;}
 header nav.gnb a:first-child {margin-left:0;}
-.header_infoBtn {float:right;}
 .header_infoBtn li {float:left; line-height:49px; margin-left:12px; font-size:14px;}
 .header_infoBtn li:first-child {position:relative; margin-left:0;}
 .header_infoBtn li:first-child:before{position:absolute; top:13px; right:0; content:''; width:1px; height:24px; background:#ddd;}

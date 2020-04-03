@@ -63,8 +63,8 @@
 			<tbody>
 				<tr>
 					<!-- 중요메세지 -->
-					<td class="star-td"><i class="fas fa-star"> <input
-							type="hidden" vlaue="">
+					<td class="star-td"><i class="fas fa-star"> <input name="bool"
+							type="hidden" value="">
 					</i></td>
 					<td><a href="#none">안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
 							안녕하세요 안녕하세요 안녕하세요 안녕하세요 </a></td>
@@ -76,9 +76,8 @@
 
 				<tr>
 					<!-- 중요메세지 -->
-					<td class="star-td"><i class="fas fa-star"> <input
-							type="hidden" vlaue="">
-					</i></td>
+					<td class="star-td">
+						<i class="fas fa-star"><input type="hidden" value=""> </i></td>
 					<td><a href="#none">안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
 							안녕하세요 안녕하세요 안녕하세요 안녕하세요 </a></td>
 					<td>OOOOO</td>
@@ -106,8 +105,6 @@
 		</button>
 		<ul>
 			<li class="active"><span>1</span></li>
-			<li><a href="" onclick="">2</a></li>
-			<li><a href="" onclick="">3</a></li>
 		</ul>
 		<button type="button" class="btn-next" onclick="getList('allList', 2)">
 			<span>다음</span>
@@ -138,6 +135,20 @@
 		// 중요메세지 표시
 		$('.star-td i').click(function() {
 			$(this).toggleClass('on');
+			/* let _bool = $("input[name=bool]").val("0");
+			console.log("_bool은 " + _bool);
+
+			$.ajax({
+				url: "",
+				data: _bool,
+
+				success: function() {
+					alert("아작스 통신 성공");
+				},
+				error: function() {
+					alert("아작스 통신 실패");
+				}
+			}) */
 		});
 	})
 

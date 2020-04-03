@@ -1,6 +1,6 @@
 package model;
 
-public class RequestDto {
+public class CApplyDto {
 
 	private int seq;
 	private int p_seq;
@@ -12,11 +12,11 @@ public class RequestDto {
 	private int del;
 	private String ddate;
 	
-	public RequestDto() {
+	public CApplyDto() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public RequestDto(int seq, int p_seq, int c_seq, String rdate, String comment, int accept, int state, int del,
+	public CApplyDto(int seq, int p_seq, int c_seq, String rdate, String comment, int accept, int state, int del,
 			String ddate) {
 		super();
 		this.seq = seq;
