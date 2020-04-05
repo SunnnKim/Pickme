@@ -1,31 +1,38 @@
 package pickme.com.a.login.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
-import model.User;
-import pickme.com.a.login.service.LoginService;
+import pickme.com.a.login.service.CustomUserDetailsService;
 
-@RequestMapping("/login")
 @Controller
+@RequestMapping("/login")
 public class LoginController {
 	
-	@Autowired
-	private LoginService service;
+	private CustomUserDetailsService service;
 	
 	// 테스트용 로그인폼 
 	@RequestMapping(value="loginform.do")
 	public String loginForm() {
-		return "login/loginform";
+		return "login/loginsample";
 	}
 	
 	// 메인페이지 
 	@RequestMapping(value="main.do")
 	public String mainView() {
 		return "main/main";
+	}
+	
+	// 회원용 로그인페이지
+	@RequestMapping(value="memLogin.do")
+	public String memLogin() {
+		return "login/memLogin";
+	}
+	
+	// 회원용 회원가입 페이지
+	@RequestMapping(value="memJoin.do")
+	public String memJoin() {
+		return "login/memJoin";
 	}
 	
 	// 기업로그인 페이지 
@@ -40,6 +47,7 @@ public class LoginController {
 		return "login/comJoin";
 	}
 	
+	/*
 	@RequestMapping("mypage.do")
 	public void mypage() {}
 	
@@ -47,7 +55,7 @@ public class LoginController {
 	public void signform() {}
 	
 	@RequestMapping("signup.do")
-	public String signup(User user) {
+	public String signup(AMemberDto user) {
 		user.setPassword( new BCryptPasswordEncoder().encode(user.getPassword()) );
 		service.signup(user);
 		return "login/loginform";
@@ -57,5 +65,5 @@ public class LoginController {
 	public String test() {
 		return "index2";
 	}
-	
+	*/
 }

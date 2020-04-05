@@ -13,6 +13,7 @@ public class SessionDestroyListener implements ApplicationListener<SessionDestro
 		// TODO Auto-generated method stub
 		List<SecurityContext> securityContexts = event.getSecurityContexts();
 		
+		System.out.println("[SessionDestroyListener] Session destroyed.");
 		for(SecurityContext sc : securityContexts) {
 			System.out.println("[SessionDestroyListener] " + sc.getAuthentication().getPrincipal());
 		}

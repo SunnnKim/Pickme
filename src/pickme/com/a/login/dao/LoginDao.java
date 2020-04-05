@@ -9,27 +9,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import model.User;
+import model.AMemberDto;
 
-@Repository
+@Component
 public class LoginDao {
 
 	private JdbcTemplate jdbcTemplate;
+	
 	@Autowired
 	public void setDataSource(DataSource dataSrc) {
 		this.jdbcTemplate = new JdbcTemplate(dataSrc);
 	}
 	
-	public User login (String id) {
+	public AMemberDto getMemberByEmail (String email) {
 		
-		User userCheck = new User();
+		AMemberDto memberCheck = new AMemberDto();
 		try {
-			userCheck = (User) jdbcTemplate.queryForObject(
-					"select * from users where id = ?",
-					new Object[] { id },
+			memberCheck = (AMemberDto) jdbcTemplate.queryForObject(
+					"select * from a_member where email = ?",
+					new Object[] { email },
 					new RowMapper<Object>() {
 						
 						@Override
@@ -37,31 +37,32 @@ public class LoginDao {
 							// TODO Auto-generated method stub
 							System.out.println("mapping...");
 							
-							User user = new User();
-							user.setId(rs.getString("id"));
-							user.setPassword(rs.getString("password"));
-							return user;
+							AMemberDto member = new AMemberDto();
+							member.setEmail(rs.getString("email"));
+							member.setPassword(rs.getString("password"));
+							return member;
 						}
 					}
 				);
 		} catch (Exception e) {
-			userCheck = null;
+			memberCheck = null;
 		}
-		return userCheck;
+		return memberCheck;
 	}
-	public String idCheck(String id) {
+	public String emailCheck(String email) {
 		String result = "";
 		try {
-			result = jdbcTemplate.queryForObject("select id from users where id = ?", new Object[] { id }, String.class);
+			result = jdbcTemplate.queryForObject("select email from a_member where email = ?", new Object[] { email }, String.class);
 		} catch (Exception e) {
 			result = "";
 		}
 		return result;
 	}
 	@Transactional
-	public void signup(User user) {
+	public void signup(AMemberDto member) {
 		try {
-			jdbcTemplate.update("insert into users (id, password) values (?, ?)", new Object[] { user.getId(), user.getPassword() });
+			System.out.println(member.toString());
+			jdbcTemplate.update("insert into a_member (email, pwd, name) values (?, ?, ?)", new Object[] { member.getEmail(), member.getPassword(), member.getName() });
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

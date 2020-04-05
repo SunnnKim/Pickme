@@ -16,9 +16,29 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>메세지함</span>
 </div> 
 <% } %>
+<!-- 일반 로그인 페이지  -->
+<% if (lourl.contains("/login/mem")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>회원서비스</span>
+	<span>></span>
+<% if(lourl.contains("memLogin.jsp")){
+	%>
+		<span>로그인</span>
+	<%
+	}else if(lourl.contains("memJoin.jsp")){
+		%>
+		<span>회원가입</span>
+		<%
+	}
+%>
+</div>
+<% } %>
+
 
 <!-- 기업로그인 페이지 -->
-<% if (lourl.contains("/login/")) {%>
+<% if (lourl.contains("/login/com")) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>

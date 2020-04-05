@@ -28,7 +28,5 @@
 	  </footer><!-- // footer -->
 	
 	</div><!-- // wrap -->
-	<!-- 로그인/회원가입모달 -->
-	<%@include file ="./loginmodal.jsp" %>
 </body>
 </html>

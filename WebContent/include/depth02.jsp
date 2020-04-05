@@ -25,16 +25,37 @@ System.out.println("durl:"+durl);
 }	
 %>	
 
+<!-- 일반 로그인 페이지  -->
+<% 
+if (durl.contains("/login/mem")){
+%>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("memLogin.jsp") ? " on" :" "%>>
+		<a href="../login/memLogin.do">회원로그인</a>
+	</li>
+	<li class=<%= durl.contains("memJoin.jsp") ? " on" :" "%>>
+		<a href="../login/memJoin.do">회원가입</a>
+	</li>
+	<li class=<%= durl.contains("memIdpwd.jsp") ? " on" :" "%>>
+		<a href="../login/memIdPwd.do">이메일/비밀번호찾기</a>
+	</li>
+</ul>
+<%
+}	
+%>	
 <!-- 기업 로그인 페이지  -->
 <% 
-if (durl.contains("/login")){
+if (durl.contains("/login/com")){
 %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("comLogin.jsp") ? " on" :" "%>>
-		<a href="comLogin.do">기업로그인</a>
+		<a href="../login/comLogin.do">기업로그인</a>
 	</li>
 	<li class=<%= durl.contains("comJoin.jsp") ? " on" :" "%>>
-		<a href="comJoin.do">기업회원가입</a>
+		<a href="../login/comJoin.do">기업회원가입</a>
+	</li>
+	<li class=<%= durl.contains("comIdpwd.jsp") ? " on" :" "%>>
+		<a href="../login/comIdPwd.do">이메일/비밀번호찾기</a>
 	</li>
 </ul>
 <%
@@ -60,5 +81,3 @@ if( durl.contains("e_apply")){
 </ul>
 
 <%} %>
-
->>>>>>> 7084dddfb2883831144cbb788d519289e76cbc76

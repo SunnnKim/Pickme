@@ -13,6 +13,8 @@
 <!-- 리셋 CSS -->
 <link rel="stylesheet" href="/Pickme/css/style.css" type="text/css">
 <!-- 디자인 CSS -->
+<script src="https://kit.fontawesome.com/e11681bffc.js" crossorigin="anonymous"></script>
+<!-- font-awesome -->
 </head>
 <body>
 
@@ -29,7 +31,7 @@
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
-					<li><span id="myBtn">로그인 / 회원가입</span></li>
+					<li><a href="../login/memLogin.do">로그인 / 회원가입</a></li>
 					<li><a href="comLogin.do">기업서비스</a></li>
 				</ul>
 			</div>
@@ -70,8 +72,6 @@
 	  </footer><!-- // footer -->
 	
 	</div><!-- // wrap -->
-		<!-- 로그인/회원가입모달 -->
-		<%@include file ="../../../include/loginmodal.jsp" %>
 	
 
 </body>
