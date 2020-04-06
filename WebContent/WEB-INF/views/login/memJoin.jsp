@@ -75,6 +75,23 @@ document.addEventListener("DOMContentLoaded", function(){
   if( email.onkeyup = () => {
     // 정규식 확인 
     if( regExp.test(email.value) === true){
+
+	$.ajax({
+		url:"emailCheckA.do",
+		data:{
+			username:email.value
+		},
+		type:'post',
+		success: function( data ){
+			alert('success');
+			alert(data)
+		},
+		error: function(err) {
+			alert('err');
+			console.log(err)
+		}
+	})
+        
           var check = true;  // ajax로 나온 결과 
           if( check === false ){
               document.querySelector("#email-icon").classList.add('false');
