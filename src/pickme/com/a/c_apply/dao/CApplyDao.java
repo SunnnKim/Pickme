@@ -1,5 +1,10 @@
 package pickme.com.a.c_apply.dao;
 
-public interface CApplyDao {
+import java.util.List;
 
+import model.CApplyDto;
+
+public interface CApplyDao {
+	
+	List<CApplyDto> getRequestList();
 }

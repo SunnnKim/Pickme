@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width= 1050px, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index</title>
+  <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
+<!----- [ 디자인 CSS 영역 ] ----->
+<link rel="stylesheet" href="./css/reset.css" type="text/css"> <!-- 리셋 CSS -->
+<link rel="stylesheet" href="./css/style.css" type="text/css"> <!-- 디자인 CSS -->
+
+<style>
+
+
+/* input , button CSS */
+
+.cMypage span input[type=text]{
+  border: none;
+  border-bottom: solid 1px #000000;
+  padding-left:10px;
+}
+
+.cMypage span input[type=password]{
+  border: none;
+  border-bottom: solid 1px #000000;
+  padding-left:10px;
+} 
+
+.cMypage span .upload-name {
+    display: inline-block;
+  height: 35px;
+  font-size:15px;
+  padding: 0 10px;
+    vertical-align: middle;
+    background-color: #f7f8ff;
+  border: 1px solid #f7f8ff;
+  border-radius: 5px;
+
+}
+
+.cMypage button {
+  width:100px;
+  height:35px;
+  color: #212529;
+  background-color: #f7f8ff;
+  border-color: #f7f8ff;
+}
+
+.cMypage textarea {
+  resize: none;             /* textarea 사이즈 사용자 임의 변경 불가 */
+  border-radius: 5px 5px 0 0;
+  border-color: #f7f8ff;
+  background-color: #fff;
+  box-shadow: 0 0 2px rgb(162, 161, 161);
+}
+
+
+/* 파일 CSS */
+
+.filebox label { 
+  display: inline-block; 
+  padding: .5em .75em; 
+  color: rgb(19, 19, 19); 
+  font-size: inherit; 
+  line-height: normal; 
+  vertical-align: middle; 
+  background-color: #fdfdfd; 
+  cursor: pointer; 
+  border: 1px solid #d7d7d7; 
+  border-bottom-color: #d7d7d7; 
+  border-radius: .25em;
+ } 
+ 
+ .filebox input[type="file"] { /* 파일 필드 숨기기 */ 
+  position: absolute; 
+  width: 1px; 
+  height: 1px; 
+  padding: 0; 
+  margin: -1px; 
+  overflow: hidden; 
+  clip:rect(0,0,0,0); 
+  border: 0; 
+}
+
+
+
+
+
+/* select CSS */
+
+/* * {
+  outline: 0;
+  font-family: sans-serif
+} */
+
+span.msg,
+span.choose {
+  color: #555;
+  padding: 5px 0 10px;
+  display: inherit
+}
+.container {
+  width: 500px;
+  margin: 50px auto 0;
+  text-align: center
+}
+
+/*Styling Selectbox*/
+.dropdown {
+  width: 100px;
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgb(162, 161, 161);
+  transition: all .5s ease;
+  position: relative;
+  font-size: 14px;
+  color: #474747;
+  height: 100%;
+  text-align: left
+}
+.dropdown .select {
+    cursor: pointer;
+    display: block;
+    padding: 10px
+}
+.dropdown .select > i {
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    line-height: 5px
+}
+.dropdown:hover {
+    box-shadow: 0 0 4px rgb(204, 204, 204)
+}
+.dropdown:active {
+    background-color: #f8f8f8
+}
+.dropdown.active:hover,
+.dropdown.active {
+    box-shadow: 0 0 4px rgb(204, 204, 204);
+    border-radius: 5px 5px 0 0;
+    background-color: #f8f8f8
+}
+.dropdown.active .select > i {
+    transform: rotate(-90deg)
+}
+.dropdown .dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    box-shadow: 0 1px 2px rgb(204, 204, 204);
+    border-radius: 0 1px 5px 5px;
+    overflow: hidden;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 9
+}
+.dropdown .dropdown-menu li {
+    padding: 6px;                                 /* 리스트 간 간격 */
+    transition: all .2s ease-in-out;
+    cursor: pointer
+} 
+.dropdown .dropdown-menu {
+    padding: 0;
+    list-style: none
+}
+.dropdown .dropdown-menu li:hover {
+    background-color: #e6e6e6
+}
+.dropdown .dropdown-menu li:active {
+    background-color: #c7c7c7
+}
+
+</style>
+
+
+</head>
+<body>
+<div id="wrap">
+  <header>
+    <div class="inner clfix">
+      <strong class="logo"><a href="#none">PICK ME</a></strong>
+      <nav class="gnb">
+        <a href="#none">채용탐색</a>
+        <a href="#none">이력서</a>
+        <a href="#none">지원현황</a>
+        <a href="#none">고객센터</a>
+      </nav><!-- // gnb -->
+      <ul class="header_infoBtn clfix">
+        <li><button type="button" id="searchBtn"></button></li>
+        <li><span><a href="#none">로그인</a> / <a href="#none">회원가입</a></span></li>
+        <li><a href="#none">기업서비스</a></li>
+      </ul>
+    </div><!-- // inner -->
+  </header><!-- // header -->
+
+  <div id="sub-container">
+    <div class="inner">
+      <div class="subTit">
+        <h2 class="pageTit">마이페이지</h2>
+        <div class="location">
+          <span>홈</span>
+          <span>></span>
+          <span>마이페이지</span>
+          <span>></span>
+          <span>기업정보 수정 · 등록</span>
+        </div>
+        <ul class="depth02 clfix">
+          <li class="on"><a href="#none">기업정보 수정 · 등록</a></li>
+          <li><a href="#none">결제</a></li>
+          <li><a href = "#none">회원탈퇴</a></li>
+        <!--<li><a href="#none">depth02-C</a></li>-->
+        </ul><!-- // depth02 -->
+      </div><!-- // subTit -->
+
+      <div class="subCont">
+
+        <!-- 본문 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+        
+        <br><br>
+        <div class = "cMypage" style = "padding-left:235px">
+
+        <br><br><br>
+          <!-- 이메일 -->
+          <label style= "font-size: 13pt; padding-left:65px"> 이메일 </label>
+          <span style= "padding-left:50px"><input type="text" style= "width:140px;"></span> &nbsp; @ &nbsp; <span><input type = "text" style="width:140px;"></span> &nbsp;&nbsp;
+                <span class="dropdown" style = "width: 103px;">
+                  <span class="select">
+                    <span>메일계정 선택</span>
+                    <i class="fa fa-chevron-left"></i>
+                  </span>
+                  <input type="hidden" name="gender">
+                  <ul class="dropdown-menu">
+                    <li id="google">gmail.com</li>
+                    <li id="naver">naver.com</li>
+                    <li id="daum">hanmail.net</li>
+                    <li id="nate">nate.com</li>
+                    <li id="user">직접입력</li>
+                  </ul>
+                </span>
+                <!-- <select>
+                  <option value = "none">선택</option>
+                  <option value="google">gmail.com</option>
+                  <option value="naver">naver.com</option>
+                  <option value="daum">hanmail.net</option>
+                  <option value="nate">nate.com</option>
+                </select> -->
+
+          <!-- 기업명 -->
+          <br><br><br><br>
+          <label style= "font-size:13pt; padding-left:65px"> 기업명 </label>
+          <span style = "padding-left:50px"><input type = "text" style = "width:400px;"></span>
+          
+          <!-- 비밀번호 -->
+          <br><br><br><br>
+          <label style= "font-size:13pt; padding-left:34px"> 새 비밀번호 </label>
+          <span style = "padding-left:50px"><input type = "password" style = "width:400px;"></span>
+          
+          <!-- 비밀번호 확인 -->
+          <br><br><br><br>
+          <label style= "font-size: 13pt; padding-left: 18px"> 비밀번호 확인 </label>
+          <span style = "padding-left:46px"><input type = "password" style = "width:400px;"></span>
+          
+          <!-- 대표자 성명 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left: 30px"> 대표자 성명 </label>
+          <span style = "padding-left:48px"><input type = "text" style = "width:400px;"></span>
+          
+          <!-- 기업 분야 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left: 45px"> 기업 분야 </label>
+          <span style = "padding-left:45px">
+
+            <span class="dropdown" style="width: 400px;">
+              <span class="select">
+                <span> 기업분야 선택 </span>
+                <i class="fa fa-chevron-left"></i>
+              </span>
+              <input type="hidden" name="gender">
+              <ul class="dropdown-menu">
+                <li id="IT">IT</li>
+                <li id="디자인">디자인</li>
+              </ul>
+            </span>
+
+
+              <!-- <select style = "width:260px">
+                <option value="none">선택</option>
+                <option value="it">IT</option>
+                <option value="디자인">디자인</option>
+              </select> -->
+          </span>
+
+          <!-- 기업 형태 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left: 45px"> 기업 형태 </label>
+          <span style = "padding-left:45px">
+
+            <span class="dropdown" style = "width: 400px;">
+              <span class="select">
+                <span>기업형태 선택</span>
+                <i class="fa fa-chevron-left"></i>
+              </span>
+              <input type="hidden" name="gender">
+              <ul class="dropdown-menu">
+                <li id = "대기업">대기업</li>
+                <li id = "대기업 계열사, 자회사">대기업 계열사, 자회사</li>
+                <li id = "중소기업(300명 이하)">중소기업(300명 이하)</li>
+                <li id = "중견기업(300명 이상)">중견기업(300명 이상)</li>
+                <li id = "벤처기업">벤처기업</li>
+                <li id = "외국계(외국 투자기업)">외국계(외국 투자기업)</li>
+                <li id = "외국계(외국 법인기업)">외국계(외국 법인기업)</li>
+                <li id = "국내 공공기관, 공기업">국내 공공기관, 공기업</li>
+                <li id = "비영리단체, 협회, 교육재단">비영리단체, 협회, 교육재단</li>
+              </ul>
+            </span>
+                  <!-- <select>
+                    <option value = "none">선택</option>
+                      <option value = "대기업"> 대기업 </option>
+                      <option value = "대기업 계열사, 자회사"> 대기업 계열사, 자회사 </option>
+                      <option value = "중소기업(300명 이하)"> 중소기업(300명 이하) </option>
+                      <option value = "중견기업(300명 이상)"> 중견기업(300명 이상) </option>
+                      <option value = "벤처기업"> 벤처기업 </option>
+                      <option value = "외국계(외국 투자기업)"> 외국계(외국 투자기업) </option>
+                      <option value = "외국계(외국 법인기업)"> 외국계(외국 법인기업) </option>
+                      <option value = "국내 공공기관, 공기업"> 국내 공공기관, 공기업 </option>
+                      <option value= "비영리단체, 협회, 교육재단"> 비영리단체, 협회, 교육재단 </option>
+                  </select> -->
+          </span>
+
+          <!-- 기업 주소 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left: 45px"> 기업 주소 </label>
+          <span style = "padding-left:45px">
+            <button> 주소 찾기 </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 기본 주소 -->
+            <input type="text" style= "width: 280px;" placeholder="기본주소">
+            <br>
+            <!-- 상세 주소 -->
+            <span style = "padding-left:61px"><input type = "text" style = "width:280px; margin-left:220px" placeholder="상세주소"></span>
+          </span>
+
+          <!-- 사업자 등록번호 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left:4px"> 사업자 등록번호 </label>
+          <span style= "padding-left: 50px;">
+            <input type="text" style= "width:395px;" placeholder="'-' 구분없이 10자의 숫자로만 입력">
+          </span>
+
+          <!-- 전화번호 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left: 53px"> 전화번호 </label>
+          <span style = "padding-left: 45px;">
+
+            <span class="dropdown" style = "width: 100px;">
+              <span class="select">
+                <span>앞자리 선택</span>
+                <i class="fa fa-chevron-left"></i>
+              </span>
+              <input type="hidden" name="gender">
+              <ul class="dropdown-menu">
+                <li value="서울">02<li>
+                <li value="경기도">031<li>
+                <li value="인천광역시">032<li>
+                <li value="강원도">033<li>
+                <li value="충청남도">041<li>
+                <li value="대전광역시">042<li>
+                <li value="충청북도">043<li>
+                <li value="세종특별자치시">044<li>
+                <li value="부산광역시">051<li>
+                <li value="울산광역시">052<li>
+                <li value="대구광역시">053<li>
+                <li value="경상북도">054<li>
+                <li value="경상남도">056<li>
+                <li value="전라남도">061<li>
+                <li value="광주광역시">062<li>
+                <li value="전라북도">063<li>
+                <li value="제주특별자치도">064<li>
+                <li value="010">010<li>
+                <li value="011">011<li>
+                <li value="012">012<li>
+                <li value="016">016<li>
+                <li value="017">017<li>
+                <li value="018">018<li>
+                <li value="019">019<li>
+              </ul>
+            </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type = "text" style = "width:280px;" placeholder="'-' 구분없이 7~8자의 숫자로만 입력">
+
+          </span>
+
+            <!-- <select>
+              <option value = "none">선택</option>
+              <option value="서울">02</option>
+              <option value="경기도">031</option>
+              <option value="인천광역시">032</option>
+              <option value="강원도">033</option>
+              <option value="충청남도">041</option>
+              <option value="대전광역시">042</option>
+              <option value="충청북도">043</option>
+              <option value="세종특별자치시">044</option>
+              <option value="부산광역시">051</option>
+              <option value="울산광역시">052</option>
+              <option value="대구광역시">053</option>
+              <option value="경상북도">054</option>
+              <option value="경상남도">056</option>
+              <option value="전라남도">061</option>
+              <option value="광주광역시">062</option>
+              <option value="전라북도">063</option>
+              <option value="제추특별자치도">064</option>
+              <option value="010">010</option>
+              <option value="011">011</option>
+              <option value="012">012</option>
+              <option value="016">016</option>
+              <option value="017">017</option>
+              <option value="018">018</option>
+              <option value="019">019</option>
+            </select> &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" style = "width: 328px" placeholder=" 7~8자의 숫자로 '-' 구분없이 입력">-->
+           
+
+          <!-- 기업 소개 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left: 46px"> 기업 소개 </label>
+          <span style= "padding-left: 46px">
+            <textarea rows="5" cols="44" style = "padding-top:10px;padding-left:10px;padding-right:10px;padding-bottom:10px"></textarea>
+          </span>
+
+          <!-- 해시태그 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left: 52px"> 해시태그 </label>
+          <span style= "padding-left:50px">
+            <input type = "text" style = "width:398px">
+          </span>
+
+          <!-- 사진 -->
+          <br><br><br><br>
+          <label style = "font-size: 13pt; padding-left: 80px;"> 사진 </label>
+          <span class = "filebox" style = "padding-left:50px">
+            <label>업로드</label>
+            <input type = "file" id = "ex_file">
+            <div id = "image_box">
+
+            </div>
+          </span>
+
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+        </div>
+
+        <div class = "cMypage" align = "center"><button> 완료 </button></div>
+        <br><br><br>
+
+        <!-- 본문 끝!!!!!!!!!!!!!!!! !!!!!!!! -->
+
+      </div><!-- // subCont -->
+    </div><!-- // inner -->
+  </div><!-- // sub-container -->
+
+  <footer>
+    <p class="copyright">Copyright by Up All Rights Reserved.</p>
+  </footer><!-- // footer -->
+
+</div><!-- // wrap -->
+
+
+
+
+<script>
+  /*Dropdown Menu*/
+$('.dropdown').click(function () {
+        $(this).attr('tabindex', 1).focus();
+        $(this).toggleClass('active');
+        $(this).find('.dropdown-menu').slideToggle(300);
+    });
+    $('.dropdown').focusout(function () {
+        $(this).removeClass('active');
+        $(this).find('.dropdown-menu').slideUp(300);
+    });
+    $('.dropdown .dropdown-menu li').click(function () {
+        $(this).parents('.dropdown').find('span').text($(this).text());
+        $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
+    });
+/*End Dropdown Menu*/
+$('.dropdown-menu li').click(function () {
+  var input = '<strong>' + $(this).parents('.dropdown').find('input').val() + '</strong>',
+      msg = '<span class="msg">Hidden input value: ';
+  $('.msg').html(msg + input + '</span>');
+}); 
+</script>
+
+</body>
+</html>

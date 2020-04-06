@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-  xmlns:beans="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-           http://www.springframework.org/schema/security
-           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         	 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+         	 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
           
-<http auto-config='true'  use-expressions="true">  
-	<intercept-url pattern="/login" access="permitAll" />
-	<intercept-url pattern="/resources/**" access="permitAll" />
-	<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
-	<form-login login-page="/login" 
-			default-target-url="/monitering"
-				username-parameter="username" 
-				password-parameter="password" 
-				authentication-failure-url="/login?error"
-				always-use-default-target='true'
-	/> 
-
-		<logout invalidate-session="true" logout-url="/logout"   
-			logout-success-url="/login?logout" />
-		<!-- enable csrf protection -->
-		<csrf/> 
-	</http> 
-        <authentication-manager> 
-		    <authentication-provider user-service-ref="memberService"/>
-	</authentication-manager>	
-
-<!-- 	<beans:bean id="memberService" class="com.company.wmos.auth.MemberService">
-   	</beans:bean> -->
-
-</beans:beans>
+	<security:http auto-config='true'  use-expressions="true">  
+		<security:csrf disabled="true" />
+			<!-- cross-site request forgery -->
+<!-- 		<security:intercept-url pattern="/mypage 주소 입력하면" access="isAuthenticated() 로그인된 아이디만 접근 가능" /> -->
+<!-- 		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" /> -->
+		<security:intercept-url pattern="/login/mypage.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/login/logout.do" access="permitAll" />
+		<security:intercept-url pattern="/**" access="permitAll" />
+		<security:form-login login-page="/login/memLogin.do" 
+						     login-processing-url="/login/logincheck.do"
+						     username-parameter="email" 
+						     password-parameter="password"
+						     authentication-failure-url="/login/memLogin.do?fail=true"
+						     authentication-success-handler-ref="userSuccessHandler"
+		/> 
+		<security:session-management invalid-session-url="/login/memLogin.do">
+			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
+		</security:session-management>
+	
+		<security:logout invalidate-session="true" logout-url="/login/logout.do" logout-success-url="/login/main.do" />
+	</security:http>
+	
+	<bean id="passwordEncoder" class=" org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<bean id="userAuthProvider" class="pickme.com.a.login.util.CustomAuthenticationProvider" />
+	
+	<bean id="userSuccessHandler" class="pickme.com.a.login.util.CustomSuccessHandler">
+		<property name="defaultTargetUrl" value="/login/main.do" />
+		<property name="alwaysUseDefaultTargetUrl" value="true"></property>		
+	</bean>
+	
+    <security:authentication-manager> 
+	    <security:authentication-provider ref="userAuthProvider"/>
+	</security:authentication-manager>		
+</beans>
 
 
