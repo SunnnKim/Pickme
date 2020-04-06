@@ -1,13 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
-  "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace = "CApply">
+<mapper namespace="CApply">
+
+<select id="getRequestList" resultType="model.CvRequestDto">
+	select cv_request.seq, a_member.name, rdate, comment, accept, state, cv_request.del
+	from cv_request inner join a_member 
+	on cv_request.cseq = 2 and cv_request.del = 0 and a_member.seq = cv_request.pseq
+</select>
 	
-	<select id = "getRequestList" resultType = "model.CApplyDto">
-		SELECT *
-		FROM CV_REQUEST
-	</select>
-	
+<update id="requestDelete" parameterType="java.lang.String">
+	update cv_request
+	set del = 1
+	where seq = #{seq} 
+</update>
+
+<select id="requestListList" resultType="model.CvRequestDto">
+	select f.likepickseq, a.name
+	from favorite as f inner join a_member as a
+	on f.id ='H@MAIL' and f.likepick_seq = a.seq;
+</select>
+
+
+
+
 </mapper>
+
+

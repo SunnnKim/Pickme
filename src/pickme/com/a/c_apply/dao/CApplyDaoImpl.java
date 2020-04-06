@@ -6,7 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import model.CApplyDto;
+import model.CvRequestDto;
+
 
 @Repository
 public class CApplyDaoImpl implements CApplyDao{
@@ -15,8 +16,19 @@ public class CApplyDaoImpl implements CApplyDao{
 	SqlSession sqlSession;
 	String ns = "CApply.";
 	@Override
-	public List<CApplyDto> getRequestList() {
-		List<CApplyDto> list = sqlSession.selectList(ns+"getRequestList");
+	public List<CvRequestDto> getRequestList() {
+		List<CvRequestDto> list = sqlSession.selectList(ns+"getRequestList");
+		return list;
+	}
+	@Override
+	public int requestDelete(String seq) {
+		System.out.println("seq : " + seq);
+		return sqlSession.update(ns+"requestDelete", seq);		
+		
+	}
+	@Override
+	public List<CvRequestDto> requestListList() {
+		List<CvRequestDto> list = sqlSession.selectList(ns+"requestListList");
 		return list;
 	}
 	
