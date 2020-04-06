@@ -81,3 +81,25 @@ if( durl.contains("e_apply")){
 </ul>
 
 <%} %>
+
+<!-- recruit. 공고 detail -->
+<% if(durl.contains("/recruit/recDetail")){ %>
+<div class="recDetailTop clfix">
+          <div class="detailTop-left">
+            <h1 class="recTit"></h1>
+            <h3 class="recSubTit"></h3>
+          </div><!-- .detailTop-left -->
+          <div class="detailTop-right">
+            <section class="section-controller">
+              <button type="button"><i class="fas fa-edit"></i>지원하기</button>
+              <button type="button"><i class="fas fa-envelope"></i>쪽지보내기</button>
+            </section>
+          </div><!-- .detailTop-right -->
+        </div><!-- .recDetailTop -->
+<% } %>
+
+<!-- searchJob. 채용탐색 -->
+<% if(durl.contains("/searchJob/recSearch")){ %>
+ <ul class="jobs_list clfix" id="joblist">
+          </ul>
+<% } %>
