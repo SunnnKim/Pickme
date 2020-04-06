@@ -2,9 +2,13 @@ package pickme.com.a.c_apply.service;
 
 import java.util.List;
 
-import model.CApplyDto;
+import model.CvRequestDto;
 
 public interface CApplyService {
 
-	List<CApplyDto> getRequestList();
+	public List<CvRequestDto> getRequestList();
+	
+	public int requestDelete(String checkRow);
+
+	public List<CvRequestDto> requestLikeList();
 }

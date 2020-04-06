@@ -2,9 +2,13 @@ package pickme.com.a.c_apply.dao;
 
 import java.util.List;
 
-import model.CApplyDto;
+import model.CvRequestDto;
 
 public interface CApplyDao {
 	
-	List<CApplyDto> getRequestList();
+	public List<CvRequestDto> getRequestList();
+	
+	public int requestDelete(String seq);
+
+	public List<CvRequestDto> requestListList();
 }
