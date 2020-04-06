@@ -2,7 +2,6 @@ package model;
 
 public class CMemberDto {
 	
-	
 	// 기업 회원 정보 수정
 	private int cMemberSeq;				// 기업 시퀀스
 	private String email;				// 이메일 (아이디)
@@ -20,7 +19,6 @@ public class CMemberDto {
 	private String logo_path;			// 로고이미지 경로
 	private String logo_name;			// 로고이미지 이름
 	
-	
 	// 결제
 	private int paySeq;				// 결제 시퀀스
 	private int buyer_id;			// 결제자 아이디 시퀀스
@@ -30,7 +28,6 @@ public class CMemberDto {
 	private int refund;				// 환불여부
 	private String request_date;	// 환불요청일
 	private String refund_date;		// 환불처리일
-	
 	
 	public CMemberDto() {
 		// TODO Auto-generated constructor stub
@@ -207,7 +204,6 @@ public class CMemberDto {
 	public int getSecession() {
 		return secession;
 	}
-
 
 	public void setSecession(int secession) {
 		this.secession = secession;
