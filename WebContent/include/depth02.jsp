@@ -99,6 +99,22 @@ if( durl.contains("e_apply")){
         </div><!-- .recDetailTop -->
 <% } %>
 
+<!-- recruit. 공고 insert -->
+<% if(durl.contains("/recruit/recInsert")){ %>
+  <ul class="depth02 clfix">
+  <li class=<%= durl.contains("recNow.jsp") ? " on" :" "%>>
+		<a href="/Pickme/recruit/recNow.do">현재공고보기</a>
+	</li>
+	<li class=<%= durl.contains("recPast.jsp") ? " on" :" "%>>
+		<a href="/Pickme/recruit/recPast.do">지난공고보기</a>
+	</li>
+	<li class=<%= durl.contains("recInsert.jsp") ? " on" :" "%>>
+		<a href="/Pickme/recruit/recInsert.do">공고등록하기</a>
+	</li>
+ </ul><!-- // depth02 -->
+<% } %>
+
+
 <!-- searchJob. 채용탐색 -->
 <% if(durl.contains("/searchJob/recSearch")){ %>
  <ul class="jobs_list clfix" id="joblist">

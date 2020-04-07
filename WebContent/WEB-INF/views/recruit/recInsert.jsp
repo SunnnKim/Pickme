@@ -4,7 +4,11 @@
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet"	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- jquery ui -->
+
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
 <script src="https://cdn.ckeditor.com/4.14.0/basic/ckeditor.js"></script> 
@@ -22,17 +26,18 @@
           </div><!-- rec-title -->
           <form action="" enctype="multipart/form-data">
           <div class="rec-conatainer">
-            <div class="rec-top">
-                <!-- 회사기본정보 -->
-                <h3 class="tit">회사기본정보</h3>
-                <div class="cont clfix">                    
-                  <h4>대표이미지등록<span class="ess">*</span><div class=""><input type="file" name="uploadfile" id="input_imgs" multiple></div></h4>
-                  <!-- <div class="imgs-wrap" id="imgs-wrap"></div>   -->                   
-                </div><!-- cont -->
-            </div> <!-- rec-top -->    
-
             <div class="rec-info">
-              <h3 class="tit">채용등록정보</h3>
+              <h3 class="tit">채용등록정보</h3>                
+                  <h4>대표이미지등록<span class="ess">*</span></h4>
+                  <div class="cont"><input type="file" name="uploadfile" id="input_imgs" multiple>
+                  </div>
+                  <!-- <div class="imgs-wrap" id="imgs-wrap"></div>   -->                   
+           	<h4>채용마감일<span class="ess">*</span></h4>
+                  <div class="cont"> 
+                  	<input type="text" id="datepicker" name="edate" required placeholder="채용마감일을 설정해주세요." maxlength="20" readonly="readonly" style="cursor: pointer;">
+             
+                  </div>
+              
               <h4>직군/직무<span class="ess">*</span></h4>
               <div class="cont">
                 <!-- <input type="text" name="com_job" required placeholder="직무를 입력해주세요" maxlength="100" autofocus>
@@ -44,7 +49,6 @@
                   <option value="0">2차분류</option>
                 </select>
               </div>
-
             <div>
             <div class="lef">
              <h4>경력<span class="ess">*</span></h4>
@@ -57,7 +61,7 @@
             </div>
             <div class="lef_r">
                <h4>근무형태<span class="ess">*</span></h4>
-               <div class="cont">
+               <div class="cont" style="margin-left: 0;">
                 <select class="select_cons" name="working_form">
                   <option value="정규직">정규직</option>
                   <option value="계약직">계약직</option>
@@ -70,11 +74,7 @@
                 <input type="text" name="main_task" required placeholder="주요업무를 간략하게 입력해주세요" maxlength="200">
                 <i class="far fa-check-circle"></i>
               </div>
-              <!-- <h4>근무형태<span class="ess">*</span></h4>
-              <div class="cont">
-                <input type="text" name="working_form" required placeholder="정규직/계약직 등 원하는 근무형태를 입력해주세요" maxlength="100">
-                <i class="far fa-check-circle"></i>
-              </div> -->
+             
               <h4>자격요건<span class="ess">*</span></h4>
               <div class="cont">
                 <input type="text" name="requirements"  required placeholder="학력, 스킬 등 원하는 조건을 입력해주세요." maxlength="200">
@@ -104,6 +104,13 @@
         </div> <!-- rec-wrapper -->
 
   <script type="text/javascript">
+	// datepicker
+	$("#datepicker").datepicker({
+			minDate : 0,
+			maxDate : "+1M 7D",
+			dateFormat : "yy-mm-dd"
+	});
+  
     // 직무 카테고리
     var json_url = './../util/rec-joblist.json';
     var keyArr = new Array();
@@ -150,7 +157,6 @@
     
 
     // v 체크 불 들어오게
-
    var com_jobtype = $("input[name='com_jobtype']");
    var main_task = $("input[name='main_task']");
    var working_form = $("input[name='working_form']");
@@ -163,6 +169,8 @@
   var b_working_form;
   var b_requirements;
   var b_salary;
+
+
 
     //경력
     $(com_jobtype).keyup(function(){
