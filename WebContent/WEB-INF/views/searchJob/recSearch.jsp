@@ -14,20 +14,11 @@
           <ul class="filter_ul clfix">
             <li><span><strong>최신순</strong></span></li>
             <li>
-              <select class="" name="">
+              <select class="" name="career">
                 <option value="">경력</option>
                 <option value="전체">전체</option>
                 <option value="신입">신입</option>
-                <option value="1년">1년</option>
-                <option value="2년">2년</option>
-                <option value="3년">3년</option>
-                <option value="4년">4년</option>
-                <option value="5년">5년</option>
-                <option value="6년">6년</option>
-                <option value="7년">7년</option>
-                <option value="8년">8년</option>
-                <option value="9년">9년</option>
-                <option value="10년">10년↑</option>
+                <option value="경력">경력</option>
               </select>
              </li>
           </ul>

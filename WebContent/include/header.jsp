@@ -24,7 +24,7 @@
 			<div class="inner clfix">
 				<strong class="logo"><a href="#none">PICK ME</a></strong>
 				<nav class="gnb">
-					<a href="#none">채용탐색</a> 
+					<a href="/Pickme/searchJob/recSearch.do">채용탐색</a> 
 					<a href="#none">이력서</a> 
 					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a>
 					<a href="#none">고객센터</a>
