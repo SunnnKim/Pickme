@@ -1,70 +1,96 @@
 package pickme.com.a.login.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import model.User;
+import model.AMemberDto;
+import model.CMemberDtoTest;
 
-@Repository
+@Component
 public class LoginDao {
-
-	private JdbcTemplate jdbcTemplate;
+	
 	@Autowired
-	public void setDataSource(DataSource dataSrc) {
-		this.jdbcTemplate = new JdbcTemplate(dataSrc);
-	}
+	SqlSession sqlSession;
+	String namespace = "Login.";
 	
-	public User login (String id) {
+	// 일반 회원가입 이메일 찾기 
+	public String emailCheck(String email) {
+		AMemberDto dto = sqlSession.selectOne( namespace + "emailCheckA", new AMemberDto(email));
+		if(dto == null ) return "";
+		return dto.getEmail();
 		
-		User userCheck = new User();
-		try {
-			userCheck = (User) jdbcTemplate.queryForObject(
-					"select * from users where id = ?",
-					new Object[] { id },
-					new RowMapper<Object>() {
-						
-						@Override
-						public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-							// TODO Auto-generated method stub
-							System.out.println("mapping...");
-							
-							User user = new User();
-							user.setId(rs.getString("id"));
-							user.setPassword(rs.getString("password"));
-							return user;
-						}
-					}
-				);
-		} catch (Exception e) {
-			userCheck = null;
-		}
-		return userCheck;
-	}
-	public String idCheck(String id) {
-		String result = "";
-		try {
-			result = jdbcTemplate.queryForObject("select id from users where id = ?", new Object[] { id }, String.class);
-		} catch (Exception e) {
-			result = "";
-		}
-		return result;
-	}
-	@Transactional
-	public void signup(User user) {
-		try {
-			jdbcTemplate.update("insert into users (id, password) values (?, ?)", new Object[] { user.getId(), user.getPassword() });
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
+	// 일반 회원가입 
+	@Transactional
+	public void signup(AMemberDto member) {
+		sqlSession.insert( namespace + "memberJoin", member);
+	}
+	
+	// 일반 로그인용 세션 빼기
+	public AMemberDto getMemberByEmail (String email) {
+		AMemberDto member = sqlSession.selectOne(namespace + "getLoginInfo", new AMemberDto(email));
+		System.out.println("logindao : " + member);
+		return member;
+	}
+	
+	// --- 기업 ---	
+	// 기업 회원가입 이메일 찾기 
+	public String emailCheckForCompany(String email) {
+//		AMemberDto dto = sqlSession.selectOne( namespace + "emailCheckA", new AMemberDto(email));
+//		if(dto == null ) return "";
+		return null;
+		
+	}
+	// 기업 회원가입 
+	@Transactional
+	public void signupForCompany(AMemberDto member) {
+//		sqlSession.insert( namespace + "memberJoin", member);
+	}
+	// 기업 이메일 체크로 멤버 데이터 가져오기
+	public CMemberDtoTest getMemberByEmailForCompany(String email) {
+		CMemberDtoTest member = sqlSession.selectOne(namespace + "getLoginInfoForCompany", new CMemberDtoTest(email));
+		System.out.println("logindao : " + member);
+		return member;
+	}
+//   private JdbcTemplate jdbcTemplate;
+//   
+//   @Autowired
+//   public void setDataSource(DataSource dataSrc) {
+//      this.jdbcTemplate = new JdbcTemplate(dataSrc);
+//   }
+//   
+//   
+//   
+//   public AMemberDto getMemberByEmail (String email) {
+//      
+//      AMemberDto memberCheck = new AMemberDto();
+//      try {
+//         memberCheck = (AMemberDto) jdbcTemplate.queryForObject(
+//               "select * from a_member where email = ?",
+//               new Object[] { email },
+//               new RowMapper<Object>() {
+//                  
+//                  @Override
+//                  public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+//                     // TODO Auto-generated method stub
+//                     System.out.println("mapping...");
+//                     
+//                     AMemberDto member = new AMemberDto();
+//                     member.setEmail(rs.getString("email"));
+//                     member.setPassword(rs.getString("password"));
+//                     return member;
+//                  }
+//               }
+//            );
+//      } catch (Exception e) {
+//         memberCheck = null;
+//      }
+//      return memberCheck;
+//   }
+   
+   
+   
 }

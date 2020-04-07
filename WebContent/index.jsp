@@ -8,8 +8,10 @@
 </head>
 <body>
 
-<p>test</p>
-<a href="test1.do">main.do</a>
+<a href="login/main.do">메인페이지보기</a>
 
+<!-- <script>
+	location.href="login/loginform.do"
+</script> -->
 </body>
 </html>

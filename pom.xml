@@ -295,24 +295,33 @@
 	</dependency>
 	
 	<!-- spring security -->
-	<!-- 기징 기초적인 '인증'과 '접근 제어' 클래스, 인터페이스를 포함. 스프링 시큐리티를 사용하기 위한 가장 기초적인 dependency. -->
+	<!-- 가장 기초적인 '인증'과 '접근 제어' 클래스, 인터페이스를 포함. 스프링 시큐리티를 사용하기 위한 가장 기초적인 dependency. -->
 	<dependency>
 	    <groupId>org.springframework.security</groupId>
 	    <artifactId>spring-security-core</artifactId>
 	    <version>5.2.0.RELEASE</version>
 	</dependency>
-	<!-- 필터들과 웹 보안에 관련된 기초가 되는 코드들을 포함. url기반의 접근제어와 웹 인증을 위해 필요함. -->
+	<!-- spring security -->
+	<!-- 필터들과 웹 보안에 관련된 기반이 되는 코드들을 포함. url기반의 접근제어와 웹 인증을 위해 필요함. -->
 	<dependency>
 		<groupId>org.springframework.security</groupId> 
 		<artifactId>spring-security-web</artifactId> 
 		<version>5.2.0.RELEASE</version> 
 	</dependency> 
+	<!-- spring security -->
 	<!-- xml과 자바 설정파일에서 namespace parsing 담당. -->
 	<dependency> 
 		<groupId>org.springframework.security</groupId> 
 		<artifactId>spring-security-config</artifactId>
 		<version>5.2.0.RELEASE</version> 
 	</dependency>
+	
+	<dependency>
+	    <groupId>com.googlecode.json-simple</groupId>
+	    <artifactId>json-simple</artifactId>
+	    <version>1.1.1</version>
+	</dependency>
+		
 
   </dependencies>
 </project>

@@ -3,132 +3,102 @@
 <%
 String lourl = request.getServletPath();  //프로젝트의 경로값만 가져옴
 // System.out.println(ifurl);
-
-if (lourl.contains("aboutus.jsp")){
 %>
+
+
+<!-- recruit - 구인 현황  -->
+<% if (lourl.contains("c_message.jsp")) {%>
 <div class="location">
-	<span>HOME</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>ABOUT US</span>
-</div>
-<%
-}	
-%>
-
-<!-- exhibit -->
-<% 
-if (lourl.contains("exhibit")){
-%>
+	<span>홈</span>
+	<span>></span>
+	<span>구인 현황</span>
+	<span>></span>
+	<span>메세지함</span>
+</div> 
+<% } %>
+<!-- 일반 로그인 페이지  -->
+<% if (lourl.contains("/login/mem")) {%>
 <div class="location">
-	<span>HOME</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>EXHIBIT</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span id="loc_depth02">현재전시</span>
+	<span>홈</span>
+	<span>></span>
+	<span>회원서비스</span>
+	<span>></span>
+<% if(lourl.contains("memLogin.jsp")){
+	%>
+		<span>로그인</span>
+	<%
+	}else if(lourl.contains("memJoin.jsp")){
+		%>
+		<span>회원가입</span>
+		<%
+	}
+%>
 </div>
-<%
-}	
-%>
-<!-- a_member mypage -->
+<% } %>
 
 
-<!-- schedule -->
-<% 
-if (lourl.contains("schedule.jsp")){
-%>
+<!-- 기업로그인 페이지 -->
+<% if (lourl.contains("/login/com")) {%>
 <div class="location">
-	<span>HOME</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>SCHEDULE</span>
-</div>
-<%
-}	
-%>	
-
-<!-- community -->
-<% 
-if (lourl.contains("notice.jsp")){
+	<span>홈</span>
+	<span>></span>
+	<span>기업서비스</span>
+	<span>></span>
+<% if(lourl.contains("comLogin.jsp")){
+	%>
+		<span>기업로그인</span>
+	<%
+	}else if(lourl.contains("comJoin.jsp")){
+		%>
+		<span>기업회원가입</span>
+		<%
+	}
 %>
+</div>
+<% } %>
+
+<!-- apply - message -->
+<% if (lourl.contains("Msg")) {%>
 <div class="location">
-	<span>HOME</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>COMMUNITY</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>공지사항</span>
+	<span>홈</span>
+	<span>></span>
+	<span>지원현황</span>
+	<span>></span>
+	<span>메세지함</span>
 </div>
-<%
-}	
-%>
 
-<% 
-if (lourl.contains("faq.jsp")){
-%>
+<% } %>
+
+<!-- apply - cvReq -->
+<% if (lourl.contains("CvReq")) {%>
 <div class="location">
-	<span>HOME</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>COMMUNITY</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>자주하는 질문</span>
+	<span>홈</span>
+	<span>></span>
+	<span>지원현황</span>
+	<span>></span>
+	<span>열람요청보기</span>
 </div>
-<%
-}	
-%>	
 
-<% 
-if (lourl.contains("review.jsp")){
-%>
+<% } %>
+
+
+<!-- apply - applyList -->
+<% if (lourl.contains("AList")) {%>
 <div class="location">
-	<span>HOME</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>COMMUNITY</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>공지사항</span>
+	<span>홈</span>
+	<span>></span>
+	<span>지원현황</span>
+	<span>></span>
+	<span>나의지원내역</span>
 </div>
-<%
-}	
-%>	
+<% } %>
 
-
-<!-- member -->
-<% 
-if (lourl.contains("login.jsp")){
-%>
+<% if (lourl.contains("requestList.jsp")) {%>
 <div class="location">
-	<span>HOME</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>MEMBER</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>LOGIN</span>
+	<span>홈</span>
+	<span>></span>
+	<span>구인 현황</span>
+	<span>></span>
+	<span>이력서 열람 요청</span>
 </div>
-<%
-}	
-%>	
-
-<% 
-if (lourl.contains("join.jsp")){
-%>
-<div class="location">
-	<span>HOME</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>MEMBER</span>
-	<img src="../images/sub/lo_arrow.jpg" alt=">">
-	<span>회원가입</span>
-</div>
-<%
-}	
-%>	
-
-<!-- Reservation -->
-<% 
-if (lourl.contains("reserv.jsp")){
-%>
-<div class="location">
-   <span>HOME</span>
-   <img src="../images/sub/lo_arrow.jpg" alt=">">
-   <span>RESERVATION</span>
-   <img src="../images/sub/lo_arrow.jpg" alt=">">
-   <span>예매하기</span>
-</div>
-<%
-}   
-%>
+<% } %>

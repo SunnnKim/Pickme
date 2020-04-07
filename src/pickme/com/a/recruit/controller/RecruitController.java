@@ -1,28 +1,24 @@
 package pickme.com.a.recruit.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import model.RequestDto;
-import pickme.com.a.recruit.service.RecruitService;
 
 @Controller
+@RequestMapping(value = "/recruit")
 public class RecruitController {
 	
-	@Autowired
-	RecruitService recruitService;
 	
-	@RequestMapping(value = "getRequestList.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String viewTest(Model model) {
-		
-		List<RequestDto> list = recruitService.getRequestList();
-		
-		model.addAttribute("requestList", list);
-		return "recruit/recruitList";
+	//테스트 insert view
+	@RequestMapping(value = "recInsert.do")
+	public String recInsert() {
+		return "recruit/recInsert";
 	}
+	
+	@RequestMapping(value = "recDetail.do")
+	public String recDetail() {
+		return "recruit/recDetail";
+	}
+	
+	
+	
 }

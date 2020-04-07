@@ -28,6 +28,5 @@
 	  </footer><!-- // footer -->
 	
 	</div><!-- // wrap -->
-
 </body>
 </html>
