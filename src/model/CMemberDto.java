@@ -1,6 +1,11 @@
 package model;
 
-public class CMemberDto {
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+public class CMemberDto implements UserDetails {
 	
 	
 	// 기업 회원 정보 수정
@@ -20,13 +25,61 @@ public class CMemberDto {
 	private String logoPath;		// 로고이미지 경로
 	private String logoName;		// 로고이미지 이름
 	
+	// 로그인 시큐리티용 변수 
+	private Collection<GrantedAuthority> authorities;
 	
-	
-	
-	public CMemberDto() {
-		// TODO Auto-generated constructor stub
+	// 로그인 시큐리티용 함수 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.password;
+	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}	
+	
+	
+	// 기본 생성자 
+	public CMemberDto() {
+	}
+	
+	// email 생성자 
+	public CMemberDto(String email) {
+		this.email = email;
+	}
+	
 	public CMemberDto(int seq, String email, String password, String president, String name, String tel,
 			String department, String type, String address, String introduce, int del, String hashTag, int number,
 			String logoPath, String logoName) {
@@ -62,10 +115,6 @@ public class CMemberDto {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
 	}
 
 	public void setPassword(String password) {
@@ -175,6 +224,8 @@ public class CMemberDto {
 				+ ", address=" + address + ", introduce=" + introduce + ", del=" + del + ", hashTag=" + hashTag
 				+ ", number=" + number + ", logoPath=" + logoPath + ", logoName=" + logoName + "]";
 	}
+
+	
 	
 	
 	

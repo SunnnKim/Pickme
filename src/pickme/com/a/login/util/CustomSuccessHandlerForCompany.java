@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
-import model.CMemberDtoTest;
+import model.CMemberDto;
 import pickme.com.a.login.service.CustomUserDetailsServiceForCompany;
 
 public class CustomSuccessHandlerForCompany extends SimpleUrlAuthenticationSuccessHandler {
@@ -24,10 +24,10 @@ public class CustomSuccessHandlerForCompany extends SimpleUrlAuthenticationSucce
 		// TODO Auto-generated method stub
 		System.out.println("[CustomSuccessHandlerForCompany] Access permited by successHandler.");
 		String id = (String) authentication.getPrincipal();
-		CMemberDtoTest company = (CMemberDtoTest) service.loadUserByUsername(id);
+		CMemberDto company = (CMemberDto) service.loadUserByUsername(id);
 		company.setPassword("");
 		System.out.println("기업용 석세스 핸들러 : " + company );
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(); 
 		session.setAttribute("logincompany", company);
 		super.onAuthenticationSuccess(request, response, authentication);
 	}

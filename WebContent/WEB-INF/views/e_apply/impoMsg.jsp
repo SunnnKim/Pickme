@@ -1,11 +1,12 @@
 <%@page import="pickme.com.a.util.EApplyUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<!-- 헤더호출 -->
+<%@include file="../../../include/header.jsp"%>
 <!-- JSTL사용 추가 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!-- 헤더호출 -->
-<%@include file="../../../include/header.jsp"%>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>

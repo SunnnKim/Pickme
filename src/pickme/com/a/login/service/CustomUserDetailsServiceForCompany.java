@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import model.AMemberDto;
-import model.CMemberDtoTest;
+import model.CMemberDto;
 import pickme.com.a.login.dao.LoginDao;
 
 @Service
@@ -21,7 +21,7 @@ public class CustomUserDetailsServiceForCompany implements LoginServiceForCompan
       // TODO Auto-generated method stub
       // override의 파라미터 변수 username과 혼동되지 않도록 email 변수에 담아서 사용. (username = 클라이언트 아이디)
       String email = username;
-      CMemberDtoTest member = dao.getMemberByEmailForCompany(email);
+      CMemberDto member = dao.getMemberByEmailForCompany(email);
       if(member == null) {
          System.out.println("[CustomUserDetailsServiceForCompany] Can't to find company user.");
          throw new UsernameNotFoundException(email);

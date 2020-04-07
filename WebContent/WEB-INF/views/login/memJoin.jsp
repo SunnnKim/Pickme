@@ -31,7 +31,7 @@
 	   <div class="join-content">
 	       <div class="input-label">패스워드<span>*</span></div>
 	       <div class="join-input" id="pwd-icon">
-	           <input type="text" id="password" name="password" placeholder="패스워드를 입력하세요 (숫자, 기호 포함 8자이상)">
+	           <input type="text" id="password" name="password" placeholder="패스워드를 입력하세요 (숫자, 기호 포함 6자이상)">
 	           <i class="far fa-check-square true"></i>
 	       </div>
 	   </div>
@@ -39,7 +39,7 @@
 	   <div class="join-content">
 	       <div class="input-label">패스워드 확인 <span>*</span></div>
 	       <div class="join-input" id="pwdcheck-icon">
-	           <input type="text" id="pwdcheck" placeholder="패스워드를 확인하세요 (숫자, 기호 포함 8자이상)">
+	           <input type="text" id="pwdcheck" placeholder="패스워드를 확인하세요 (숫자, 기호 포함 6자이상)">
 	           <i class="far fa-check-square true"></i>
 	       </div>
 	   </div>
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function(){
     if( regExp.test(email.value) === true){
         // 아이디 중복 확인 
 		$.ajax({
-			url:"emailCheckA.do",
+			url:"emailCheckAll.do",
 			data:{
 				username:email.value
 			},
@@ -119,8 +119,8 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 
   // 2. pwd 체크
-  // 영문 2자이상, 특수문자, 숫자 1개 이상, 8문자 이상
-  var regExpPw = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=.,]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+  // 영문 2자이상, 특수문자, 숫자 1개 이상, 6문자 이상
+  var regExpPw = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=.,]{1,50})(?=.*[a-zA-Z]{2,50}).{6,50}$/;
 
   if( pwd.onkeyup = () => {
     if( regExpPw.test(pwd.value) ){
@@ -133,7 +133,15 @@ document.addEventListener("DOMContentLoaded", function(){
           _pwdcheck = false;
     }
   });
-
+	//비밀번호 체크후 입력시 false 처리 
+  if( pwd.onchange = () => {
+	  if( pwd.value != pwdcheck.value ){
+			_pwdCheck2 = false;
+			document.querySelector("#pwdcheck-icon").classList.add('false');
+	        document.querySelector("#pwdcheck-icon").classList.remove('true');
+	        pwdcheck.value = '';
+	  }
+	});
 
     // 3. 비밀번호 같은지 체크
     if( pwdcheck.onkeyup = () => {
@@ -166,6 +174,9 @@ document.addEventListener("DOMContentLoaded", function(){
         _namecheck = false;
       }
     });
+
+
+    
 
     // 회원가입 버튼 클릭 
     joinBtn = () => {

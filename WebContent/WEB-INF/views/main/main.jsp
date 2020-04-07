@@ -1,10 +1,10 @@
-<%@page import="model.CMemberDtoTest"%>
+<%@page import="model.CMemberDto"%>
 <%@page import="model.AMemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	AMemberDto member = (AMemberDto) session.getAttribute("loginuser");
-	CMemberDtoTest company = (CMemberDtoTest) session.getAttribute("logincompany");
+	CMemberDto company = (CMemberDto) session.getAttribute("logincompany");
 	String userName = "";
 	if( member != null ){
 		userName = member.getName();
@@ -13,8 +13,6 @@
 	else if( company != null ){
 // 		userName = company.getC_name();
 		userName = company.getName();
-	}else if(member == null){
-		System.out.println("왜 널이야 ");		
 	}
 	
 %>
