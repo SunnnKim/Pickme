@@ -1,10 +1,10 @@
 package model;
 
-public class ApplyDto {
+public class EApplyDto {
 
 	private int seq;
-	private int job_seq;
-	private int mem_seq;
+	private int jobSeq;
+	private int memSeq;
 	private String adate;
 	private int open;
 	private int cancel;
@@ -12,17 +12,18 @@ public class ApplyDto {
 	private String resumeName;
 	private int mainResume;
 	
-	
-	public ApplyDto() {
+
+	public EApplyDto() {
+		
 	}
-	
-	
-	public ApplyDto(int seq, int job_seq, int mem_seq, String adate, int open, int cancel, String resumePath,
+
+
+	public EApplyDto(int seq, int jobSeq, int memSeq, String adate, int open, int cancel, String resumePath,
 			String resumeName, int mainResume) {
 		super();
 		this.seq = seq;
-		this.job_seq = job_seq;
-		this.mem_seq = mem_seq;
+		this.jobSeq = jobSeq;
+		this.memSeq = memSeq;
 		this.adate = adate;
 		this.open = open;
 		this.cancel = cancel;
@@ -36,17 +37,17 @@ public class ApplyDto {
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
-	public int getJob_seq() {
-		return job_seq;
+	public int getJobSeq() {
+		return jobSeq;
 	}
-	public void setJob_seq(int job_seq) {
-		this.job_seq = job_seq;
+	public void setJobSeq(int jobSeq) {
+		this.jobSeq = jobSeq;
 	}
-	public int getMem_seq() {
-		return mem_seq;
+	public int getMemSeq() {
+		return memSeq;
 	}
-	public void setMem_seq(int mem_seq) {
-		this.mem_seq = mem_seq;
+	public void setMem_seq(int memSeq) {
+		this.memSeq = memSeq;
 	}
 	public String getAdate() {
 		return adate;
@@ -88,7 +89,7 @@ public class ApplyDto {
 	
 	@Override
 	public String toString() {
-		return "ApplyDto [seq=" + seq + ", job_seq=" + job_seq + ", mem_seq=" + mem_seq + ", adate=" + adate + ", open="
+		return "ApplyDto [seq=" + seq + ", jobSeq=" + jobSeq + ", memSeq=" + memSeq + ", adate=" + adate + ", open="
 				+ open + ", cancel=" + cancel + ", resumePath=" + resumePath + ", resumeName=" + resumeName
 				+ ", mainResume=" + mainResume + "]";
 	}

@@ -12,13 +12,13 @@ public class EApplyController {
 	public String getCurAList() {
 		
 	
-		return "apply/curAList";
+		return "e_apply/curAList";
 	}
 	
 	@RequestMapping(value="pastAList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getPastAList() {
 		
-		return "apply/pastAList";
+		return "e_apply/pastAList";
 	}
 	
 }

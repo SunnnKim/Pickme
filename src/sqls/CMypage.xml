@@ -5,7 +5,7 @@
   
   <mapper namespace = "payment">
   
-  <select id = "TestAll" resultType = "model.CMemberMypageDto">
+  <select id = "TestAll" resultType = "model.CMemberDto">
   	SELECT PAYDATE, REQUEST_DATE, REFUND_DATE
   	FROM PAYMENT
   </select>

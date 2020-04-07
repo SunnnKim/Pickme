@@ -367,20 +367,23 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 /*=================== Messsage =================*/
 /* apply - 메시지보기 + 답장 */
 .msg-content > textarea {width:100%; height:500px;border:none; margin:15px;}
-.messageBox {margin-top:50px; width:1050px; height:630px; border-radius: 15px; border:0.5px solid #ddd}
+.messageBox {margin-top:50px; width:1050px; height:630px; border-radius: 15px; border:1px solid #ddd}
 .msgFrom {font-size:12px}
-.messageCont {width:100%; padding:20px 30px 40px;}
+.messageCont {width:100%; padding:60px 30px 40px;}
 .messageCont > div {margin-top:12px;}
 .messageCont > div:first-child {margin-top:0;}
 .messageBox input {outline:none; display:block; width:100%; height:50px; padding:0 15px; border:none; border-bottom:1px solid #ddd;}
 .messageCont > div.messageText {margin-top:0;}
-.messageText textarea {border:none; width:100%; height:400px;background:#eee;}
+.messageTo{border-bottom: 1px solid #ddd; margin: 20px; height: 45px;}
+.messageCont img {float:left; width:20px; height: 20px}
+.messageCont #recipient{display:inline; float:left; margin:0px 10px; font-size: 15px;}
+.messageText textarea {padding:20px;border:none; width:100%; height:400px;background:#eee;}
 .messageBtn {width:100%; text-align:center; font-size:0; margin-top:20px;}
 .messageBtn button {display:inline-block; width:90px; height:45px; line-height:45px; font-size:15px; background:#333; color:#fff; margin:0 4px;}
 .messageBox textarea:focus {outline: none;}
-.comeMsg .title{position:relative; width:100%; padding:10px 15px; border-bottom:1px solid #ddd;}
-.comeMsg .title h4{ }
-.comeMsg .title span{display:block; position:absolute; top:0; right:0;}
+
+.comeMsg .title{position:relative; width:100%; height: 45px; padding:10px 15px; border-bottom:1px solid #ddd;}
+.comeMsg .title span{display:block; position:absolute; top:0; right:0; padding: 15px 0px;}
 .comeMsg .from {width:100%; padding:10px 15px; border-bottom:1px solid #ddd;} 
 .comeMsg .msg-content {padding:15px; min-height:300px; background:#eee;}  
 #repl-con {padding:10px;}

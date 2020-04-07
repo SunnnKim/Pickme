@@ -82,6 +82,7 @@ if( durl.contains("e_apply")){
 
 <%} %>
 
+
 <!-- recruit. 공고 detail -->
 <% if(durl.contains("/recruit/recDetail")){ %>
 <div class="recDetailTop clfix">
@@ -103,3 +104,4 @@ if( durl.contains("e_apply")){
  <ul class="jobs_list clfix" id="joblist">
           </ul>
 <% } %>
+
