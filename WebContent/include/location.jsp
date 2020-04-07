@@ -102,3 +102,36 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>이력서 열람 요청</span>
 </div>
 <% } %>
+
+<!-- 채용등록 -->
+<% if (lourl.contains("recInsert.jsp")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>채용관리</span>
+	<span>></span>
+	<span>공고등록</span>
+</div>
+<% } %>
+
+<!-- 채용상세 -->
+<% if (lourl.contains("recDetail.jsp")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>채용탐색</span>
+	<span>></span>
+	<span>채용상세</span>
+</div>
+<% } %>
+
+<!-- 채용탐색 -->
+<% if (lourl.contains("recSearch.jsp")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>채용탐색</span>
+	<span>></span>
+	<span>전체보기</span>
+</div>
+<% } %>

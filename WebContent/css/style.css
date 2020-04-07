@@ -85,8 +85,6 @@ button.likebtn{
     height: 32px;
     border-radius: 3px;
     position: absolute;
-    right: 10px;
-    top: 10px;
     background: rgba(0,0,0,.4); 
     color: #fff;
     font-size: 12px;
@@ -465,8 +463,9 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .rec-top .cont .company-info ul li{font-size: 19px; }
 .rec-top .cont .company-info ul li strong{font-size: 23px;}
 
-.rec-info .lef {float: left; margin-right: 100px;}
+.rec-info .lef {float: left; }
 .rec-info .lef:last-child{margin-right: 0;}
+.rec-info .lef_r{width: 522px;float:right;}
 .rec-info .lef_r .cont{margin-left:200px;}
 
 
@@ -490,7 +489,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 }
 .rec-info .cont .inhash .hashbtn i.fas{ margin-left: 5px; }
  .rec-info .cont select.select_cons{ 
-    width: 200px;
+    width: 522px;
     padding: .8em .5em;
     border: 1px solid #999;
     font-family: inherit;
@@ -513,6 +512,7 @@ select.select_cons::-ms-expand {
 .rec-info .rec-buttons button{outline: none; width: 150px; height: 45px; background-color: #000; color: #fff;}
 
 span.ess {color: red; font-weight: bold;}
+
 
 /*============ 채용등록 끝============*/
 /*============ 채용탐색 시작============*/
@@ -739,8 +739,7 @@ span.ess {color: red; font-weight: bold;}
 .subCont .recTop .infoCom span.likes{
     vertical-align: middle;
     height: 10px;
-    border-radius: 15px;
-    border: 1px solid #e1e2e3;
+   
     margin-right: 12px;
     padding: 0 15px;
 }
