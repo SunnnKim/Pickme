@@ -79,7 +79,7 @@
               </tbody>
             </table>
             <span class="likes">
-              <button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+              <button type="button" class="likebtn" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
             </span>
           </div><!-- div.infoCom -->
         </div><!-- dvi.recTop -->
@@ -93,6 +93,8 @@
         </div><!-- rec-location -->
 
 <script>
+	
+
 	//회사이름, 제목 
 	$(".recTit").text("공고 제목");
 	$(".recSubTit").text("회사명");

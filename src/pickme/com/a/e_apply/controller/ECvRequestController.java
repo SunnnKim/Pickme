@@ -6,26 +6,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping(value="/e_apply")
-public class CvRequestController {
+public class ECvRequestController {
 	
 	
 	@RequestMapping (value="curCvReq.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getcurCvReq() {
 		
 		
-		return "apply/curCvReq";
+		return "e_apply/curCvReq";
 	}
 	
 	@RequestMapping(value="pastCvReq.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String getPastCvReq() {
 		System.out.println("pastCvReq");
-		return "apply/pastCvReq";
+		return "e_apply/pastCvReq";
 	}
 	
 	@RequestMapping(value="cvReqResp.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String cvReqResp() {
 		// ajax로 처리할지도 몰라유~~~
-		return "redirect:apply/curCvReq.do";
+		return "redirect:e_apply/curCvReq.do";
 	}
 
 	

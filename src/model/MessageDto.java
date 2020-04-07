@@ -6,26 +6,31 @@ public class MessageDto {
 	private int seq;
 	private String content;
 	private int from;
+	private String name;
 	private int to;
 	private String sdate;
 	private int open;
 	private int del;
 	private int important;
+	private String distinguish;
 	
 	public MessageDto(){
 		
 	}
 
-	public MessageDto(int seq, String content, int from, int to, String sdate, int open, int del, int important) {
+	public MessageDto(int seq, String content, int from, String name, int to, String sdate, int open, int del,
+			int important, String distinguish) {
 		super();
 		this.seq = seq;
 		this.content = content;
 		this.from = from;
+		this.name = name;
 		this.to = to;
 		this.sdate = sdate;
 		this.open = open;
 		this.del = del;
 		this.important = important;
+		this.distinguish = distinguish;
 	}
 
 	public int getSeq() {
@@ -50,6 +55,14 @@ public class MessageDto {
 
 	public void setFrom(int from) {
 		this.from = from;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getTo() {
@@ -92,10 +105,22 @@ public class MessageDto {
 		this.important = important;
 	}
 
+	public String getDistinguish() {
+		return distinguish;
+	}
+
+	public void setDistinguish(String distinguish) {
+		this.distinguish = distinguish;
+	}
+
 	@Override
 	public String toString() {
-		return "MessageDto [seq=" + seq + ", content=" + content + ", from=" + from + ", to=" + to + ", sdate=" + sdate
-				+ ", open=" + open + ", del=" + del + ", important=" + important + "]";
+		return "MessageDto [seq=" + seq + ", content=" + content + ", from=" + from + ", name=" + name + ", to=" + to
+				+ ", sdate=" + sdate + ", open=" + open + ", del=" + del + ", important=" + important + ", distinguish="
+				+ distinguish + "]";
 	}
+
+		
 	
 }
+	
