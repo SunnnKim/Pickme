@@ -2,9 +2,9 @@ package pickme.com.a.c_mypage.service;
 
 import java.util.List;
 
-import model.CMemberMypageDto;
+import model.CMemberDto;
 
 public interface CMypageService {
 
-	CMemberMypageDto dateTest(CMemberMypageDto dto);
+	CMemberDto dateTest(CMemberDto dto);
 }

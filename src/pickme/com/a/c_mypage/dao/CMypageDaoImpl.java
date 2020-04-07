@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import model.CMemberMypageDto;
+import model.CMemberDto;
 
 @Repository
 public class CMypageDaoImpl implements CMypageDao{
@@ -17,8 +17,8 @@ public class CMypageDaoImpl implements CMypageDao{
 	String nameSpace = "payment.";
 
 	@Override
-	public CMemberMypageDto dateTest(CMemberMypageDto dto) {
-		CMemberMypageDto dtoList = session.selectOne(nameSpace + "TestAll", dto);
+	public CMemberDto dateTest(CMemberDto dto) {
+		CMemberDto dtoList = session.selectOne(nameSpace + "TestAll", dto);
 		return dtoList;
 	}
 	

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import model.CMemberMypageDto;
+import model.CMemberDto;
 import pickme.com.a.c_mypage.dao.CMypageDao;
 
 @Service
@@ -15,7 +15,7 @@ public class CMypageServiceImpl implements CMypageService{
 	CMypageDao dao;
 
 	@Override
-	public CMemberMypageDto dateTest(CMemberMypageDto dto) {
+	public CMemberDto dateTest(CMemberDto dto) {
 		return dao.dateTest(dto);
 	}
 
