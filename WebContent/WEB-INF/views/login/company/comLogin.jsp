@@ -1,6 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
 <%@include file ="../../../../include/header.jsp" %>
+<script src="sweetalert2.all.min.js"></script>
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 
+<%
+if(request.getParameter("fail") != null ){
+%>
+	<script>
+		Swal.fire({
+			  position: 'center',
+			  icon: 'error',
+			  text:'아이디 또는 비밀번호가 틀렸습니다!',
+			  showConfirmButton: false,
+			  timer: 1500
+		});
+	</script>
+<%
+}
+%>
 
 <div class="profile-wrap">
 
@@ -10,17 +28,39 @@
       <img src="/Pickme/images/sub/comLogin.png">
     </div>
     <div class="com-content">
-	   	<form method="POST" action="logincheck.do">
+	   	<form method="POST" action="logincheck.do" id="frm">
 	      <span>기업회원 로그인</span>
 	      <input type="text" id="email" name="email" placeholder="이메일을 입력하세요" autocomplete="off">
 	      <input type="password" id="pwd" name="password" placeholder="비밀번호 입력하세요" autocomplete="off">
-	      <button id="com-login-btn" type="submit">로그인</button>
+	      <button id="com-login-btn" type="button">로그인</button>
 	   	</form>
     	<div class="com-href"><a href="ffd.do">아이디/비밀번호를 잊으셨나요?</a></div>
     </div>
   </div>
 </div>
+<script>
+// 로그인 버튼 
+document.querySelector('#com-login-btn').onclick = ()=>{
+	var email = document.querySelector('input[name=email]');
+	var password = document.querySelector('input[name=password]');
 
+	// 이메일 입력 안함 
+	if( email.value.trim() === '' ){
+		email.style.border = '1px solid red';
+
+		email.focus();
+		return false;
+	}
+	// 비번 입력 안함 
+	if( password.value.trim() === '' ){
+		password.style.border = '1px solid red';
+		email.style.border = '1px solid #eaeaea';
+		password.focus();
+		return false;
+	}
+	document.querySelector('#frm').submit();
+}
+</script>
 
 <%@include file ="../../../../include/footer.jsp" %>
 <style>

@@ -1,8 +1,8 @@
 package pickme.com.a.login.service;
 
-import model.AMemberDto;
+import model.CMemberDto;
 
 public interface LoginServiceForCompany {
    public String emailCheck(String email);
-   public void signup(AMemberDto member);
+   public void signup(CMemberDto member);
 }

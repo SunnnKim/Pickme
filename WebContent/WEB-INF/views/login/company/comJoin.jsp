@@ -17,7 +17,7 @@
         <img src="/Pickme/images/sub/joinimg2.jpg" style="width: 215px;">
       </div>
     </div>
-	<form action="" method="post" id="frm" >
+	<form action="/Pickme/login/company/companySignUp.do" method="post" id="frm" >
     <!-- input -->
     <!-- 회사명 -->
     <div class="com-content">
@@ -224,12 +224,10 @@
   });
   // 비밀번호 체크후 입력시 false 처리 
   if( pwd.onchange = () => {
-	  if( pwd.value != pwdcheck.value ){
 			pwdcheckCheck = false;
 			document.querySelector("#pwdcheck-icon").classList.add('false');
 	        document.querySelector("#pwdcheck-icon").classList.remove('true');
-	        pwdcheck.value = '';
-	  }
+	        pwdcheck.value = "";
 	});
 
   // 3. 비밀번호 같은지 체크
@@ -400,7 +398,7 @@
 			Swal.fire({
 				  position: 'center',
 				  icon: 'success',
-				  title: '성공적으로 가입되었습니다!',
+				  text: '성공적으로 가입되었습니다!',
 				  showConfirmButton: false,
 				  timer: 1500
 			}).then( (result) =>{
@@ -419,7 +417,7 @@ function warning ( msg, sec ) {
 	  Swal.fire({
 		  position: 'center',
 		  icon: 'error',
-		  title: msg,
+		  text: msg,
 		  showConfirmButton: false,
 		  timer: sec
 	})

@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import model.AMemberDto;
 import model.CMemberDto;
 import pickme.com.a.login.dao.LoginDao;
 
@@ -37,7 +36,7 @@ public class CustomUserDetailsServiceForCompany implements LoginServiceForCompan
    }
    
    @Override
-   public void signup(AMemberDto member) {
+   public void signup(CMemberDto member) {
       dao.signupForCompany(member);
    }
 

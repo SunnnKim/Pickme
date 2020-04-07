@@ -50,8 +50,8 @@ public class LoginDao {
 	}
 	// 기업 회원가입 
 	@Transactional
-	public void signupForCompany(AMemberDto member) {
-//		sqlSession.insert( namespace + "memberJoin", member);
+	public void signupForCompany(CMemberDto member) {
+		sqlSession.insert( namespace + "companyJoin", member);
 	}
 	// 기업 이메일 체크로 멤버 데이터 가져오기
 	public CMemberDto getMemberByEmailForCompany(String email) {
@@ -59,6 +59,8 @@ public class LoginDao {
 		System.out.println("logindao : " + member);
 		return member;
 	}
+	
+	
 //   private JdbcTemplate jdbcTemplate;
 //   
 //   @Autowired
