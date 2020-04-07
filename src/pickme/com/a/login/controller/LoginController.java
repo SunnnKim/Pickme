@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
+import model.CMemberDto;
 import pickme.com.a.login.service.LoginService;
 
 @RequestMapping("/login")
@@ -55,9 +56,8 @@ public class LoginController {
    
    // 일반 이메일 있는지 체크 
    @ResponseBody
-   @RequestMapping(value="emailCheckA.do", method=RequestMethod.POST, produces="application/String; charset=utf-8")
+   @RequestMapping(value="emailCheckAll.do", method=RequestMethod.POST, produces="application/String; charset=utf-8")
    public String emailCheckA( String username ) {
-	   System.out.println(username);
 	   String a = login.emailCheck(username);
 	   if(!a.equals("")) return true + "";
 	   return false + "";
@@ -74,6 +74,13 @@ public class LoginController {
 	  return "redirect:/login/memLogin.do";
   }
   
+  // 기업 회원가입 (암호화)
+  @RequestMapping(value="comJoin.do", method=RequestMethod.POST)
+  public String companyJoin( CMemberDto member ) {
+	  
+	  System.out.println(member);
+	  return "redirect:/login/comLogin.do";
+  }
   
    
    /*

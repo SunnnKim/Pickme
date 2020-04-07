@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import model.AMemberDto;
-import model.CMemberDtoTest;
+import model.CMemberDto;
 
 @Component
 public class LoginDao {
@@ -15,11 +15,13 @@ public class LoginDao {
 	SqlSession sqlSession;
 	String namespace = "Login.";
 	
-	// 일반 회원가입 이메일 찾기 
+	// 일반+기업 회원가입 이메일 찾기 
 	public String emailCheck(String email) {
-		AMemberDto dto = sqlSession.selectOne( namespace + "emailCheckA", new AMemberDto(email));
-		if(dto == null ) return "";
-		return dto.getEmail();
+		CMemberDto dto1 = sqlSession.selectOne( namespace + "emailCheckC", new CMemberDto(email));
+		AMemberDto dto2 = sqlSession.selectOne( namespace + "emailCheckA", new AMemberDto(email));
+		if( dto1 == null && dto2 == null ) return "";
+		if( dto1 != null ) return dto1.getEmail();
+		return dto2.getEmail();
 		
 	}
 	
@@ -39,9 +41,11 @@ public class LoginDao {
 	// --- 기업 ---	
 	// 기업 회원가입 이메일 찾기 
 	public String emailCheckForCompany(String email) {
-//		AMemberDto dto = sqlSession.selectOne( namespace + "emailCheckA", new AMemberDto(email));
-//		if(dto == null ) return "";
-		return null;
+		CMemberDto dto1 = sqlSession.selectOne( namespace + "emailCheckC", new CMemberDto(email));
+		AMemberDto dto2 = sqlSession.selectOne( namespace + "emailCheckA", new AMemberDto(email));
+		if( dto1 == null && dto2 == null ) return "";
+		if( dto1 != null ) return dto1.getEmail();
+		return dto2.getEmail();
 		
 	}
 	// 기업 회원가입 
@@ -50,8 +54,8 @@ public class LoginDao {
 //		sqlSession.insert( namespace + "memberJoin", member);
 	}
 	// 기업 이메일 체크로 멤버 데이터 가져오기
-	public CMemberDtoTest getMemberByEmailForCompany(String email) {
-		CMemberDtoTest member = sqlSession.selectOne(namespace + "getLoginInfoForCompany", new CMemberDtoTest(email));
+	public CMemberDto getMemberByEmailForCompany(String email) {
+		CMemberDto member = sqlSession.selectOne(namespace + "getLoginInfoForCompany", new CMemberDto(email));
 		System.out.println("logindao : " + member);
 		return member;
 	}
