@@ -27,9 +27,7 @@
                 <h3 class="tit">회사기본정보</h3>
                 <div class="cont clfix">                    
                   <h4>대표이미지등록<span class="ess">*</span><div class=""><input type="file" name="uploadfile" id="input_imgs" multiple></div></h4>
-                  <div class="imgs-wrap" id="imgs-wrap"></div>                     
-                  
-                    
+                  <!-- <div class="imgs-wrap" id="imgs-wrap"></div>   -->                   
                 </div><!-- cont -->
             </div> <!-- rec-top -->    
 
@@ -39,28 +37,44 @@
               <div class="cont">
                 <!-- <input type="text" name="com_job" required placeholder="직무를 입력해주세요" maxlength="100" autofocus>
                 <i class="far fa-check-circle"></i> -->
-                <select class="jobselect" name="com_job1" id="com_job1" onchange="changeOcc(this)">
+                <select class="select_cons" name="com_job1" id="com_job1" onchange="changeOcc(this)">
                   <option value="0">1차분류</option>
                 </select>
-                <select class="jobselect" name="com_job2" id="com_job2">
+                <select class="select_cons" name="com_job2" id="com_job2">
                   <option value="0">2차분류</option>
                 </select>
               </div>
-              <h4>경력<span class="ess">*</span></h4>
-              <div class="cont">
-                <input type="text" name="com_jobtype" required placeholder="신입/경력 등 원하는 경력을 입력해주세요" maxlength="100">
-                <i class="far fa-check-circle"></i>
-              </div>
+
+            <div>
+            <div class="lef">
+             <h4>경력<span class="ess">*</span></h4>
+               <div class="cont">
+                <select class="select_cons" name="com_jobtype">
+                  <option value="신입">신입</option>
+                  <option value="경력">경력</option>
+                </select>
+                </div>
+            </div>
+            <div class="lef_r">
+               <h4>근무형태<span class="ess">*</span></h4>
+               <div class="cont">
+                <select class="select_cons" name="working_form">
+                  <option value="정규직">정규직</option>
+                  <option value="계약직">계약직</option>
+                </select>
+                </div>
+             </div>
+             </div>
               <h4>주요업무<span class="ess">*</span></h4>
               <div class="cont">
                 <input type="text" name="main_task" required placeholder="주요업무를 간략하게 입력해주세요" maxlength="200">
                 <i class="far fa-check-circle"></i>
               </div>
-              <h4>근무형태<span class="ess">*</span></h4>
+              <!-- <h4>근무형태<span class="ess">*</span></h4>
               <div class="cont">
                 <input type="text" name="working_form" required placeholder="정규직/계약직 등 원하는 근무형태를 입력해주세요" maxlength="100">
                 <i class="far fa-check-circle"></i>
-              </div>
+              </div> -->
               <h4>자격요건<span class="ess">*</span></h4>
               <div class="cont">
                 <input type="text" name="requirements"  required placeholder="학력, 스킬 등 원하는 조건을 입력해주세요." maxlength="200">
@@ -149,9 +163,6 @@
   var b_working_form;
   var b_requirements;
   var b_salary;
-  var addHashtext;
-
-
 
     //경력
     $(com_jobtype).keyup(function(){
@@ -223,9 +234,12 @@
     var element_count = document.getElementsByTagName('hashtag').length;
     function tagappend(){
      var hashtext = document.getElementById('hashtag').value;
-     const str = "<button type='button' class='hashbtn' name='hashtag' value='"+hashtext+"' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button>";
+     const str = "<span><button type='button' class='hashbtn' name='hashbtn' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashtag' value='"+hashtext+"'></span>";
+	 
+	 
      if(hashtext.trim() != ""){
       $(".inhash").append(str);
+    
       document.getElementById('hashtag').value="";
       element_count++;
       hashTagCount();
@@ -236,11 +250,16 @@
     }
 
     function remove( element ){  
-      element.parentNode.parentNode.removeChild(element.parentNode);
+      //element.parentNode.parentNode.removeChild(element.parentNode);
+      
       element_count--;
       hashTagCount();
     // alert(element_count);
     };
+
+    $('.inhash').on('click', 'i', function() {
+        $(this).parent('button').parent('span').remove();
+     });
 
     function hashTagCount(){
       if(element_count >= 3){
@@ -253,55 +272,31 @@
     }
     //텍스트에디터
     CKEDITOR.replace( 'content' );
-    
 
-    // 이미지 프리뷰
-    var sel_files = [];
+    var comJob = $("#com_job1 option:selected").text()+$("#com_job2 option:selected").text();	//직군, 직무
 
-    $(document).ready(function() {
-        $("#input_imgs").on("change", handleImgsFilesSelect);
-    }); 
-
-    function handleImgsFilesSelect(e) {
-        var files = e.target.files;
-        var filesArr = Array.prototype.slice.call(files);
-
-        filesArr.forEach(function(f) {
-            if(!f.type.match("image.*")) {
-                alert("확장자는 이미지 확장자만 가능합니다.");
-                return;
-            }
-
-            sel_files.push(f);
-
-            var reader = new FileReader();
-            reader.onload = function(e) {
-               var img_html = "<img width='240px' src=\"" + e.target.result + "\" />";
-                //var bannerw = $(".imgs-wrap");
-                //bannerw.style.removeProperty("background-color");
-                $(".imgs-wrap").append(img_html);
-                $(".imgs-wrap").css("background-color","");
-            }
-            reader.readAsDataURL(f);
-        });
-        $('input:file').MultiFile('reset')
-    }
-
-
-    var tags = document.getElementsByTagName("hashtag");
+    //console.log("에디터:"+CKEDITOR.instances.content.getData());
 
     //등록눌렀을때
     $("#rec-insert").on("click",function(){
-      console.log("직군:"+$("#com_job1 option:selected").val() );
-      console.log("직무:"+$("#com_job2 option:selected").val() );
-    //console.log("에디터:"+CKEDITOR.instances.content.getData());
+    	console.log("클릭");
+    	var taglen = $("input[name='hashtag']").length;
+    	var tags = new Array(taglen);
 
-    	
-/*        if( b_com_job==true && b_com_jobtype==true && b_main_task==true && b_working_form==true && b_working_form==true && b_requirements==true && b_salary==true ){
+       	for(var i=0;i<=taglen;i++){
+    		tags[i] = $("input[name='hashtag']").eq(i).val();
+    	}
+
+    	var str = tags.join('\'');
+    	console.log("str: "+str);
+		console.log("_hashlen: "+taglen);
+    
+    	/*
+        if( b_com_job==true && b_com_jobtype==true && b_main_task==true && b_working_form==true && b_working_form==true && b_requirements==true && b_salary==true ){
          alert("등록가능");
        } else {
          alert("등록x");
-       }  */
+       } /**/
 
     });
 

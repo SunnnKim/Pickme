@@ -67,19 +67,54 @@ header nav.gnb a:first-child {margin-left:0;}
     display: block;
     outline: none;
 }
-
+/* 
 ul.pmList li button i.unliked{
     outline: none;
     margin-right: 6px;
     opacity:0.4;
 }
-
 .pmList li button i.liked{
     outline: none;
     margin-right: 6px;
     opacity: 1;
     color: #ff0000;
+} */
+
+button.likebtn{
+    width: 65px;
+    height: 32px;
+    border-radius: 3px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: rgba(0,0,0,.4); 
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: block;
+    outline: none;
 }
+
+ button i.unliked{
+    outline: none;
+    margin-right: 6px;
+    opacity:0.4;
+}
+
+ button i.liked{
+    outline: none;
+    margin-right: 6px;
+    opacity: 1;
+    color: #ff0000;
+}
+
+
 .pmList li .txt {padding:12px 10px;}
 .pmList li .txt h3 {width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 .pmList li .txt p {font-size:15px; color:#bbb; line-height:22px; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
@@ -388,7 +423,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 /*============ 채용등록 시작 ============*/
 .rec-wrapper{}
 .rec-wrapper h3.tit{font-size: 24px; margin-bottom: 20px; color: #304edf; margin-top: 5px;}
-.rec-wrapper h4 {font-size: 18px;margin-bottom: 5px; margin-top: 10px;}
+.rec-wrapper h4 {font-size: 18px;margin-bottom: 5px; /* margin-top: 10px; */}
 
 .rec-caution{}
 .rec-caution .rec-ul {}
@@ -427,7 +462,12 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .rec-top .cont .company-info ul li{font-size: 19px; }
 .rec-top .cont .company-info ul li strong{font-size: 23px;}
 
-.rec-info .cont {width: 100%;position: relative;}
+.rec-info .lef {float: left; margin-right: 100px;}
+.rec-info .lef:last-child{margin-right: 0;}
+.rec-info .lef_r .cont{margin-left:200px;}
+
+
+.rec-info .cont {width: 100%;position: relative;margin-bottom: 15px;}
 .rec-info .cont input{padding: 0 20px 0 10px;}
 .rec-info .cont i.far{position: absolute; top: 9px;right: 10px;z-index: 99; font-size: 25px; color: #bbb;}
 .rec-info .cont .inhash { width: 1000px; height: 40px;}
@@ -446,7 +486,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
     outline: none;
 }
 .rec-info .cont .inhash .hashbtn i.fas{ margin-left: 5px; }
- .rec-info .cont select.jobselect{ 
+ .rec-info .cont select.select_cons{ 
     width: 200px;
     padding: .8em .5em;
     border: 1px solid #999;
@@ -458,7 +498,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
     -moz-appearance: none;
     appearance: none;
 }
-select.jobselect::-ms-expand {
+select.select_cons::-ms-expand {
     display: none;
 } 
 

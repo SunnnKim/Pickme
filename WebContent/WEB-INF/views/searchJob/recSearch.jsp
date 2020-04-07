@@ -5,6 +5,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
+	<div class="jobSubMenu">
+<!-- 		<div class="jobsub" id="job_sub">
+			<label name="occ_title"></label>
+		</div> -->
+	</div>
     <div class="filter_wrap">
           <ul class="filter_ul clfix">
             <li><span><strong>최신순</strong></span></li>
@@ -31,7 +36,7 @@
           <ul class="pmList clfix">
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -42,7 +47,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -53,7 +58,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -64,7 +69,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -75,7 +80,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -86,7 +91,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -97,7 +102,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -108,7 +113,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -119,7 +124,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -130,7 +135,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -141,7 +146,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -152,7 +157,7 @@
             </a></li>
             <li><a href="#">
               <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt=""><button type="button" class="likeButton" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+                <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
                 <h3>iOS 앱 개발자</h3>
@@ -225,25 +230,13 @@
 			}
 		});
 	}
-  //좋아요 
-  function likech(btn){
-    console.log($(btn).children('i'));
-     if( $(btn).children('i').hasClass('unliked')==true ){
-       $(btn).children('i').removeClass('unliked');
-       $(btn).children('i').addClass('liked');
-    //   alert( "dd");
+ 
 
-    } else if($(btn).children(':first').hasClass('liked')) {
-        $(btn).children(':first').removeClass('liked');
-        $(btn).children(':first').addClass('unliked');
-     }
-  }
-
-
- // 직무 카테고리
+ // 직군 카테고리
  var json_url = './../util/rec-joblist.json';
     var keyArr = new Array();
     var valArr = new Array();
+	var duty; //직무
   
     var json;
     var jsonArr = [];
@@ -255,6 +248,20 @@
           for( key in json ){
            // console.log(key);
             $("#joblist").append("<li><span><a href='#none'>"+key+"</a></span></li>");
+           /*  var jobdiv = document.createElement("div");
+            jobdiv.attr("class","jobsub");
+            var joblabel = document.createElement("label");
+            joblabel.attr("class","occ_title");
+            var jobtext = document.createTextNode(key);
+
+            $(".jobSubMenu").appendChild(jobdiv);
+            $(".jobsub").appendChild(joblabel);
+            $(".occ_title").appendChild(jobtext); */
+        
+   /*          $("#job_sub").append(key+"<ul><li>"+json[key]+"</li></ul>");
+            $(".jobSubMenu").hide();
+ */
+         
             // console.log("key:"+key+", value:"+json[key]);
             keyArr.push(key);
             valArr.push(json[key]);
@@ -262,8 +269,11 @@
           }
         }
             // console.log(jsonArr)
-
     });
+
+
+  
+  
 
 </script>
 <%@include file="/include/footer.jsp"%>
