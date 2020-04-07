@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+// session
 	AMemberDto member = (AMemberDto) session.getAttribute("loginuser");
 	CMemberDto company = (CMemberDto) session.getAttribute("logincompany");
 	String userName = "";
@@ -11,7 +12,6 @@
 		System.out.println("유저네임 : "+userName);
 	}
 	else if( company != null ){
-// 		userName = company.getC_name();
 		userName = company.getName();
 	}
 	
@@ -39,32 +39,68 @@
 	<div id="wrap">
 		<header>
 			<div class="inner clfix">
-				<strong class="logo"><a href="#none">PICK ME</a></strong>
-				<nav class="gnb">
-					<a href="#none">채용탐색</a> 
-					<a href="#none">이력서</a> 
-					<a href="#none">지원현황</a>
+				<strong class="logo"><a href="/Pickme/login/main.do">PICK ME</a></strong>
+				<%
+			 // 일반 로그인일 떄 
+		 	 if( member != null ){
+		 		 %>
+		 		 <nav class="gnb">
+					<a href="#none">채용탐색</a> <!-- 일반회원 채용탐색  -->
+					<a href="#">이력서</a><!-- 일반회원 이력서쓰기  -->
+					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a><!-- 일반회원 지원현황  -->
 					<a href="#none">고객센터</a>
 				</nav>
 				<!-- // gnb -->
-				<% if(userName.equals("")){
-					%>
-						<ul class="header_infoBtn clfix">
-							<li><button type="button" id="searchBtn"></button></li>
-							<li><a href="/Pickme/login/memLogin.do">로그인 / 회원가입</a></li>
-							<li><a href="/Pickme/login/company/comLogin.do">기업서비스</a></li>
-						</ul>
-					<%
-				}else{
-					%>
-						<ul class="header_infoBtn clfix">
-							<li><button type="button" id="searchBtn"></button></li>
-							<li><a href="mypage.do"><%=userName %>님</a></li>
-							<li><a href="logout.do">로그아웃</a></li>
-						</ul>
-					<%
-				}
-					%>
+				<ul class="header_infoBtn clfix">
+					<li><button type="button" id="searchBtn"></button></li>
+					<li>
+						<a href="#mypage.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
+					</li>
+					<li><a href="/Pickme/login/logout.do">로그아웃</a></li>
+				</ul>
+		 		 <%
+		 		 // 기업회원 로그인일때
+		 	 } else if( company != null ){
+				 %>
+				 <nav class="gnb">
+					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
+					<a href="#">지원현황</a><!-- 기업회원 지원현황  -->
+					<a href="/Pickme/e_apply/curCvReq.do">채용관리</a><!-- 기업회원 채용현황  -->
+					<a href="#none">고객센터</a>
+				</nav>
+				<!-- // gnb -->
+				<ul class="header_infoBtn clfix">
+					<li><button type="button" id="searchBtn"></button></li>
+					<li>
+						<a href="#mypage.do"> <%=userName %> </a><!-- 기업회원 마이페이지 -->
+					</li>
+					<!-- 기업회원 마이페이지 -->
+					<li><a href="/Pickme/login/company/logout.do">로그아웃</a></li>
+				</ul>
+				 <%
+			
+			// 비로그인 시
+			 } else {
+				 %>
+				 <nav class="gnb">
+					<a href="#none">채용탐색</a> <!-- 비로그인 채용탐색  -->
+					<a href="/Pickme/login/memLogin.do">이력서</a><!-- 일반회원 이력서쓰기  -->
+					<a href="/Pickme/login/memLogin.do">지원현황</a><!-- 비로그인 -> 로그인 페이지로 -->
+					<a href="#none">고객센터</a>
+				</nav>
+				<!-- // gnb -->
+				<ul class="header_infoBtn clfix">
+					<li><button type="button" id="searchBtn"></button></li>
+					<li>
+						<a href="/Pickme/login/memLogin.do">로그인</a>
+							 			/
+					 	<a href="/Pickme/login/memJoin.do">회원가입</a>
+					</li>
+					<li><a href="/Pickme/login/company/comLogin.do">기업서비스</a></li>
+				</ul>
+				 <%
+			 }
+			%>
 			</div>
 			<!-- // inner -->
 		</header>
