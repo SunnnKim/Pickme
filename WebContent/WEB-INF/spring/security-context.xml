@@ -8,40 +8,80 @@
              http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
          	 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
          	 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-          
-	<security:http auto-config='true'  use-expressions="true">  
+	<!-- user-login -->
+	<security:http pattern="/login/**.do"
+				   authentication-manager-ref="userAuthManager"	
+				   auto-config="true" disable-url-rewriting="true" 
+     			   use-expressions="true" >
+		
 		<security:csrf disabled="true" />
-			<!-- cross-site request forgery -->
-<!-- 		<security:intercept-url pattern="/mypage 주소 입력하면" access="isAuthenticated() 로그인된 아이디만 접근 가능" /> -->
-<!-- 		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" /> -->
-		<security:intercept-url pattern="/login/mypage.do" access="isAuthenticated()" />
-		<security:intercept-url pattern="/login/logout.do" access="permitAll" />
-		<security:intercept-url pattern="/**" access="permitAll" />
-		<security:form-login login-page="/login/memLogin.do" 
+	    
+	    <security:intercept-url pattern="/login/**.do" access="permitAll" />
+   		
+   		<security:logout invalidate-session="true" logout-url="/login/logout.do" logout-success-url="/login/main.do" />
+   		
+   		<security:form-login login-page="/login/memLogin.do" 
 						     login-processing-url="/login/logincheck.do"
-						     username-parameter="email" 
-						     password-parameter="password"
-						     authentication-failure-url="/login/memLogin.do?fail=true"
-						     authentication-success-handler-ref="userSuccessHandler"
-		/> 
+     						 username-parameter="email" 
+     						 password-parameter="password"
+	     					 authentication-failure-url="/login/memLogin.do?fail=true"
+		     				 authentication-success-handler-ref="userSuccessHandler" />
+		
 		<security:session-management invalid-session-url="/login/memLogin.do">
 			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
 		</security:session-management>
-	
-		<security:logout invalidate-session="true" logout-url="/login/logout.do" logout-success-url="/login/main.do" />
+		
 	</security:http>
+	<!-- // user-login -->
+	<!-- com-login  -->
+	<security:http pattern="/login/company/**"
+				   authentication-manager-ref="companyAuthManager"	
+				   auto-config="true" 
+				   disable-url-rewriting="true" 
+				   use-expressions="true" >
+		
+		<security:csrf disabled="true" />
+	    
+	    <security:intercept-url pattern="/login/company/**" access="permitAll" />
+
+	    <security:logout invalidate-session="true" logout-url="/login/company/logout.do" logout-success-url="/login/main.do" /> 
 	
+	    <security:form-login login-page="/login/company/comLogin.do" 
+						     login-processing-url="/login/company/logincheck.do"
+     						 username-parameter="email" 
+     						 password-parameter="password"
+	     					 authentication-failure-url="/login/company/comLogin.do?fail=true"
+		     				 authentication-success-handler-ref="companySuccessHandler" />
+	</security:http>
+	<!-- // com-login -->
+
+	<!-- 암호화 빈 -->
 	<bean id="passwordEncoder" class=" org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-	<bean id="userAuthProvider" class="pickme.com.a.login.util.CustomAuthenticationProvider" />
 	
+	<!-- 일반 회원 인증 필터 -->
+	<bean id="userAuthProvider" class="pickme.com.a.login.util.CustomAuthenticationProvider" />
+	<!-- 기업 회원 인증 필터 -->
+	<bean id="companyAuthProvider" class="pickme.com.a.login.util.CustomAuthenticationProviderForCompany" />
+	
+	<!-- 일반 회원 석세스 핸들러 -->
 	<bean id="userSuccessHandler" class="pickme.com.a.login.util.CustomSuccessHandler">
 		<property name="defaultTargetUrl" value="/login/main.do" />
 		<property name="alwaysUseDefaultTargetUrl" value="true"></property>		
 	</bean>
+	<!-- 기업 회원 석세스 핸들러 -->
+	<bean id="companySuccessHandler" class="pickme.com.a.login.util.CustomSuccessHandlerForCompany">
+		<property name="defaultTargetUrl" value="/login/main.do" />
+		<property name="alwaysUseDefaultTargetUrl" value="true"></property>		
+	</bean>
 	
-    <security:authentication-manager> 
-	    <security:authentication-provider ref="userAuthProvider"/>
+	<!-- <security:authentication-manager alias="authenticationManager" /> -->
+	<!-- 일반 회원 인증 필터 등록 -->
+    <security:authentication-manager id="userAuthManager"> 
+	    <security:authentication-provider ref="userAuthProvider" />
 	</security:authentication-manager>		
+	<!-- 기업	 회원 인증 필터 등록 -->
+	<security:authentication-manager id="companyAuthManager">
+		<security:authentication-provider ref="companyAuthProvider" />
+	</security:authentication-manager>
+
 </beans>
-
-

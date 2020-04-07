@@ -11,14 +11,18 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 구인 현황
 <% } %>	
 
-<!-- 기업 서비스 -->
+<!-- 기업로그인  서비스 -->
+<% if(ifurl.contains("/login/mem")){
+%>
+회원서비스 
+<% } %>
+<!-- 일반로그인 서비스 -->
 <% if(ifurl.contains("/login/com")){
 %>
 기업서비스 
 <% } %>
 
-
-<!--  apply - 지원 현 -->
+<!--  apply - 지원 현황 -->
 <% if(ifurl.contains("e_apply")){%>
 	지원현황
 <% }%>

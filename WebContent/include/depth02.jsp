@@ -31,13 +31,13 @@ if (durl.contains("/login/mem")){
 %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("memLogin.jsp") ? " on" :" "%>>
-		<a href="../login/memLogin.do">회원로그인</a>
+		<a href="/Pickme/login/memLogin.do">회원로그인</a>
 	</li>
 	<li class=<%= durl.contains("memJoin.jsp") ? " on" :" "%>>
-		<a href="../login/memJoin.do">회원가입</a>
+		<a href="/Pickme/login/memJoin.do">회원가입</a>
 	</li>
 	<li class=<%= durl.contains("memIdpwd.jsp") ? " on" :" "%>>
-		<a href="../login/memIdPwd.do">이메일/비밀번호찾기</a>
+		<a href="/Pickme/login/memIdPwd.do">이메일/비밀번호찾기</a>
 	</li>
 </ul>
 <%
@@ -49,13 +49,13 @@ if (durl.contains("/login/com")){
 %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("comLogin.jsp") ? " on" :" "%>>
-		<a href="../login/comLogin.do">기업로그인</a>
+		<a href="/Pickme/login/company/comLogin.do">기업로그인</a>
 	</li>
 	<li class=<%= durl.contains("comJoin.jsp") ? " on" :" "%>>
-		<a href="../login/comJoin.do">기업회원가입</a>
+		<a href="/Pickme/login/company/comJoin.do">기업회원가입</a>
 	</li>
 	<li class=<%= durl.contains("comIdpwd.jsp") ? " on" :" "%>>
-		<a href="../login/comIdPwd.do">이메일/비밀번호찾기</a>
+		<a href="/Pickme/login/company/comIdPwd.do">이메일/비밀번호찾기</a>
 	</li>
 </ul>
 <%

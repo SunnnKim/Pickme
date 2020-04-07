@@ -4,13 +4,29 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="Login">
-<!-- <select id="emailCheckA" parameterType="model.AMemberDto" resultType="model.AMemberDto">
+
+<select id="emailCheckA" parameterType="model.AMemberDto" resultType="model.AMemberDto">
 SELECT email
 FROM A_MEMBER 
 WHERE EMAIL = #{email}
 </select>
- -->
- 
+<!-- 회원로그인 -->
+ <select id="getLoginInfo" parameterType="model.AMemberDto" resultType="model.AMemberDto">
+SELECT *
+FROM A_MEMBER 
+WHERE EMAIL = #{email} 
+ </select>
+<!-- 기업로그인 -->
+ <select id="getLoginInfoForCompany" parameterType="model.CMemberDtoTest" resultType="model.CMemberDtoTest">
+SELECT *
+FROM C_MEMBER 
+WHERE EMAIL = #{email} 
+ </select>
+ <!-- 일반 회원가입 -->
+ <select id="memberJoin">
+ INSERT INTO A_MEMBER ( EMAIL, PASSWORD, NAME )
+ VALUES ( #{email }, #{password}, #{name} )
+ </select>
 </mapper>
 
 

@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
 <%@include file ="../../../include/header.jsp" %>
+<script src="sweetalert2.all.min.js"></script>
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+
+
 
 <div class="profile-wrap">
 	<div class="mem-logo">
@@ -12,12 +17,13 @@
             <img src="/Pickme/images/sub/memJoin.jpg">
         </div>
     </div>
-	<form action="" method="post">
+	<form id="frm" action="memberJoin.do" method="post">
 	    <!-- 이메일 -->
 	   <div class="join-content">
 	       <div class="input-label">이메일<span>*</span></div>
 	       <div class="join-input" id="email-icon">
 	           <input type="text" id="email" name="email" placeholder="이메일을 입력하세요">
+	           <span id="email-warning"></span>
 	           <i class="far fa-check-square true"></i>
 	       </div>
 	   </div>
@@ -25,7 +31,7 @@
 	   <div class="join-content">
 	       <div class="input-label">패스워드<span>*</span></div>
 	       <div class="join-input" id="pwd-icon">
-	           <input type="text" id="pwd" name="pwd" placeholder="패스워드를 입력하세요(숫자,기호 포함 8자이상)">
+	           <input type="text" id="password" name="password" placeholder="패스워드를 입력하세요 (숫자, 기호 포함 8자이상)">
 	           <i class="far fa-check-square true"></i>
 	       </div>
 	   </div>
@@ -33,7 +39,7 @@
 	   <div class="join-content">
 	       <div class="input-label">패스워드 확인 <span>*</span></div>
 	       <div class="join-input" id="pwdcheck-icon">
-	           <input type="text" id="pwdcheck" placeholder="패스워드를 확인하세요">
+	           <input type="text" id="pwdcheck" placeholder="패스워드를 확인하세요 (숫자, 기호 포함 8자이상)">
 	           <i class="far fa-check-square true"></i>
 	       </div>
 	   </div>
@@ -60,7 +66,7 @@
 document.addEventListener("DOMContentLoaded", function(){
 
   var email = document.querySelector("#email");
-  var pwd   = document.querySelector("#pwd");
+  var pwd   = document.querySelector("#password");
   var pwdcheck = document.querySelector("#pwdcheck");
   var name = document.querySelector("#name");
 
@@ -75,37 +81,40 @@ document.addEventListener("DOMContentLoaded", function(){
   if( email.onkeyup = () => {
     // 정규식 확인 
     if( regExp.test(email.value) === true){
-
-	$.ajax({
-		url:"emailCheckA.do",
-		data:{
-			username:email.value
-		},
-		type:'post',
-		success: function( data ){
-			alert('success');
-			alert(data)
-		},
-		error: function(err) {
-			alert('err');
-			console.log(err)
-		}
-	})
+        // 아이디 중복 확인 
+		$.ajax({
+			url:"emailCheckA.do",
+			data:{
+				username:email.value
+			},
+			type:'post',
+			success: function( data ){
+				if( data == 'true' ){	// 아이디 있음
+					document.querySelector("#email-icon").classList.add('false');
+					document.querySelector("#email-icon").classList.remove('true');
+					_emailcheck = false;
+					document.querySelector('#email-warning').style.display = 'inline-block';
+					document.querySelector('#email-warning').innerHTML = '이미 존재하는 이메일입니다!';
+					
+				}else{	// 아이디 없음 
+		            document.querySelector('#email-warning').style.display = 'none';
+					document.querySelector("#email-icon").classList.add('true');
+		            document.querySelector("#email-icon").classList.remove('false');
+		            _emailcheck = true;
+				}
+			},
+			error: function(err) {
+				alert('err');
+				console.log(err)
+			}
+		});
         
-          var check = true;  // ajax로 나온 결과 
-          if( check === false ){
-              document.querySelector("#email-icon").classList.add('false');
-              document.querySelector("#email-icon").classList.remove('true');
-              _emailcheck = false;
-          }else{
-              document.querySelector("#email-icon").classList.add('true');
-              document.querySelector("#email-icon").classList.remove('false');
-              _emailcheck = true;
-          }
     } else{
         document.querySelector("#email-icon").classList.add('false');
         document.querySelector("#email-icon").classList.remove('true');
         _emailcheck = false;
+        document.querySelector('#email-warning').style.display = 'inline-block';
+        document.querySelector('#email-warning').innerHTML = '올바른 이메일 형식이 아닙니다';
     }
   });
 
@@ -183,14 +192,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
         // 정규표현식 확인
         if( _emailcheck == true && _pwdcheck == true && _pwdcheck2 == true && _namecheck == true ){
-          alert('success');
-          // 디비에 넣기 
+          	// 디비에 넣기 
+	        Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: '성공적으로 가입되었습니다!',
+				  showConfirmButton: false,
+				  timer: 1500
+			}).then( (result) =>{
+		 		document.querySelector('#frm').submit();
+			})
         }
-
-
-
-
-    }
+	}
 });
     
 
@@ -214,6 +227,8 @@ document.addEventListener("DOMContentLoaded", function(){
 .join-content .join-input { width: 500px; position: relative; margin-bottom: 10px;}
 .join-content .join-input input {  width: 500px; height: 50px; outline: none; padding-left: 15px; padding-right: 50px; }
 .join-content .join-input i { position:absolute; top:11px; right:10px; z-index:99; color:#bbb; font-size:25px }
+/* 이메일 경고창  */
+#email-warning { display: none; background: red; color: #fff; width: 200px; position: absolute; z-index: 100; right: 0px; top: -28px; text-align: center; }
 /* 정규식 체크 */
 .join-content > div.true i {color:green;}
 .join-content > div.false i {color:red;}

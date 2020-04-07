@@ -32,8 +32,10 @@
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
-					<li><a href="../login/memLogin.do">로그인 / 회원가입</a></li>
-					<li><a href="comLogin.do">기업서비스</a></li>
+					<li><a href="/Pickme/login/memLogin.do">로그인 </a>
+						 /
+						 <a href="/Pickme/login/memJoin.do"> 회원가입</a></li>
+					<li><a href="/Pickme/login/company/comLogin.do">기업서비스</a></li>
 				</ul>
 			</div>
 		</header>

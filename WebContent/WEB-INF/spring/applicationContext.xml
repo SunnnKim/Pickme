@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-    <context:component-scan base-package="pickme.com.a.login" />      
+    <context:component-scan base-package="pickme.com.a.login" />
 	<!-- Database 설정 -->
 	
 	<!-- db 설정 파일의 위치 -->

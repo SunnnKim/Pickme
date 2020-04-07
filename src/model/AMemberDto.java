@@ -21,7 +21,8 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 	private String hashtag;		// 해시태그
 	private int mainResume;  	// 대표 이력서
 	private int del;			// 삭제 여부 
-	
+	private Collection<GrantedAuthority> authorities;
+
 	public int getSeq() {
 		return seq;
 	}
@@ -106,12 +107,7 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 		this.authorities = authorities;
 	}
 
-	private Collection<GrantedAuthority> authorities;
-	
-	
 	// 생성자 
-	
-	
 	public AMemberDto () {}
 	
 	public AMemberDto(String email) {

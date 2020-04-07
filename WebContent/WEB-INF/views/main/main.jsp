@@ -1,5 +1,23 @@
+<%@page import="model.CMemberDtoTest"%>
+<%@page import="model.AMemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	AMemberDto member = (AMemberDto) session.getAttribute("loginuser");
+	CMemberDtoTest company = (CMemberDtoTest) session.getAttribute("logincompany");
+	String userName = "";
+	if( member != null ){
+		userName = member.getName();
+		System.out.println("유저네임 : "+userName);
+	}
+	else if( company != null ){
+// 		userName = company.getC_name();
+		userName = company.getName();
+	}else if(member == null){
+		System.out.println("왜 널이야 ");		
+	}
+	
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,11 +49,24 @@
 					<a href="#none">고객센터</a>
 				</nav>
 				<!-- // gnb -->
-				<ul class="header_infoBtn clfix">
-					<li><button type="button" id="searchBtn"></button></li>
-					<li><a href="../login/memLogin.do">로그인 / 회원가입</a></li>
-					<li><a href="comLogin.do">기업서비스</a></li>
-				</ul>
+				<% if(userName.equals("")){
+					%>
+						<ul class="header_infoBtn clfix">
+							<li><button type="button" id="searchBtn"></button></li>
+							<li><a href="/Pickme/login/memLogin.do">로그인 / 회원가입</a></li>
+							<li><a href="/Pickme/login/company/comLogin.do">기업서비스</a></li>
+						</ul>
+					<%
+				}else{
+					%>
+						<ul class="header_infoBtn clfix">
+							<li><button type="button" id="searchBtn"></button></li>
+							<li><a href="mypage.do"><%=userName %>님</a></li>
+							<li><a href="logout.do">로그아웃</a></li>
+						</ul>
+					<%
+				}
+					%>
 			</div>
 			<!-- // inner -->
 		</header>

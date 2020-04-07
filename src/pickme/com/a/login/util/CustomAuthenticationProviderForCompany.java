@@ -9,32 +9,32 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import pickme.com.a.login.service.CustomUserDetailsService;
+import pickme.com.a.login.service.CustomUserDetailsServiceForCompany;
 
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuthenticationProviderForCompany implements AuthenticationProvider {
 	
 	@Autowired
-//	private UserDetailsService service;
-	private CustomUserDetailsService service;
+	private CustomUserDetailsServiceForCompany service;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		System.out.println("[CustomAuthenticationProvider] Authentication start...");
+		System.out.println("[CustomAuthenticationProviderForCompany] Authentication start...");
 		String email = (String)authentication.getPrincipal();
 		String rawPassword = (String)authentication.getCredentials();
-		System.out.println("[CustomAuthenticationProvider] input email & pwd: " + email + ", " + rawPassword);
+		
+		System.out.println("[CustomAuthenticationProviderForCompany] input email & pwd: " + email + ", " + rawPassword);
 		UserDetails member = service.loadUserByUsername(email);
 		
 		if(!bCryptPasswordEncoder.matches(rawPassword, member.getPassword())) {
-			System.out.println("[CustomAuthenticationProvider] Password dismatched.");
+			System.out.println("[CustomAuthenticationProviderForCompany] Password dismatched.");
 			throw new BadCredentialsException(email);
 		}
 		
 		if(!member.isEnabled()) {
-			System.out.println("[CustomAuthenticationProvider] Disabled member.");
+			System.out.println("[CustomAuthenticationProviderForCompany] Disabled member.");
 			throw new BadCredentialsException(email);
 		}
 		return new UsernamePasswordAuthenticationToken(email, rawPassword, member.getAuthorities());

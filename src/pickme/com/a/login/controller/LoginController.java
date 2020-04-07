@@ -1,21 +1,19 @@
 package pickme.com.a.login.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pickme.com.a.login.service.CustomUserDetailsService;
+import model.AMemberDto;
 import pickme.com.a.login.service.LoginService;
 
 @RequestMapping("/login")
 @Controller
 public class LoginController {
    
-	private CustomUserDetailsService service;
-
-	
 	@Autowired
 	LoginService login;
 	
@@ -44,32 +42,39 @@ public class LoginController {
    }
    
    // 기업로그인 페이지 
-   @RequestMapping(value="comLogin.do")
+   @RequestMapping(value="company/comLogin.do")
    public String comLoginView() {
-      return "login/comLogin";
+      return "login/company/comLogin";
    }
    
    // 기업회원가입 페이지 
-   @RequestMapping(value="comJoin.do")
+   @RequestMapping(value="company/comJoin.do")
    public String comJoinView() {
-      return "login/comJoin";
+      return "login/company/comJoin";
    }
    
+   // 일반 이메일 있는지 체크 
    @ResponseBody
    @RequestMapping(value="emailCheckA.do", method=RequestMethod.POST, produces="application/String; charset=utf-8")
    public String emailCheckA( String username ) {
 	   System.out.println(username);
 	   String a = login.emailCheck(username);
-	   if(!a.equals("")) {
-		   System.out.println(a);
-	   }
-	   else {
-		   System.out.println("null");
-	   }
-	   return true + "";
+	   if(!a.equals("")) return true + "";
+	   return false + "";
    }
-  
    
+   // 일반회원 가입 (암호화)
+  @RequestMapping(value="memberJoin.do", method=RequestMethod.POST)
+  public String memberJoin( AMemberDto member ) {
+	  System.out.println(member);
+	  // 암호화 
+	  member.setPassword( new BCryptPasswordEncoder().encode(member.getPassword()));
+	 System.out.println("암호화 함 : " + member);
+	  login.signup(member);	// DB에 넣기 
+	  return "redirect:/login/memLogin.do";
+  }
+  
+  
    
    /*
    @RequestMapping("mypage.do")

@@ -11,24 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
-import model.AMemberDto;
-import pickme.com.a.login.service.CustomUserDetailsService;
+import model.CMemberDtoTest;
+import pickme.com.a.login.service.CustomUserDetailsServiceForCompany;
 
-public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class CustomSuccessHandlerForCompany extends SimpleUrlAuthenticationSuccessHandler {
 
 	@Autowired
-	CustomUserDetailsService service;
+	CustomUserDetailsServiceForCompany service;
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		System.out.println("[CustomSuccessHandler] Access permited by successHandler.");
+		System.out.println("[CustomSuccessHandlerForCompany] Access permited by successHandler.");
 		String id = (String) authentication.getPrincipal();
-		AMemberDto user = (AMemberDto) service.loadUserByUsername(id);
-		user.setPassword("");
-		System.out.println("석세스 핸들러 : " + user );
+		CMemberDtoTest company = (CMemberDtoTest) service.loadUserByUsername(id);
+		company.setPassword("");
+		System.out.println("기업용 석세스 핸들러 : " + company );
 		HttpSession session = request.getSession();
-		session.setAttribute("loginuser", user);
+		session.setAttribute("logincompany", company);
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 	
