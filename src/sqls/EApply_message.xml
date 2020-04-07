@@ -4,7 +4,7 @@
   "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 
   <mapper namespace="eApplyMessage">
-  
+  <!-- 
 	<select id="getInMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
 		FROM MESSAGE m, C_Member c
@@ -16,7 +16,7 @@
 		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
 
 
-	<!-- 나중에 login session 하고나면 추가하기 AND m.TO = #{toSeq} -->
+	나중에 login session 하고나면 추가하기 AND m.TO = #{toSeq}
  	 </select>
  	 
  	 <select id="getTotalRecordCount" parameterType="model.MessageParam" resultType="int">
@@ -27,7 +27,7 @@
 		 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
  	 </select>
- 	 <!-- AND m.TO = #{toSeq} -->
+ 	 AND m.TO = #{toSeq}
 
 	<update id="addStar" parameterType="int">
 	   UPDATE MESSAGE
@@ -62,7 +62,7 @@
 		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
 
 
-	<!-- 나중에 login session 하고나면 추가하기 AND m.TO = #{toSeq} -->
+	나중에 login session 하고나면 추가하기 AND m.TO = #{toSeq}
  	 </select>
  	 
  	  	 <select id="getImpoCount" parameterType="model.MessageParam" resultType="int">
@@ -90,7 +90,7 @@
 		</if>
 		ORDER BY m.SDATE DESC
 		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
- 	 	 <!-- 나중에 login session 하고나면 추가하기 AND m.FROM = #{toSeq} -->
+ 	 	 나중에 login session 하고나면 추가하기 AND m.FROM = #{toSeq}
  	 
  	 </select>
  	 
@@ -114,7 +114,7 @@
  	 	INSERT INTO MESSAGE
  	 	VALUES(SEQ, #{content}, #{from}, #{to} , NOW(), 0, 0, 0, "mem")
  	 
- 	 </insert>
+ 	 </insert> -->
  	 
  	
  	 
