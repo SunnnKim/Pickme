@@ -4,32 +4,31 @@ public class CMemberMypageDto {
 	
 	
 	// 기업 회원 정보 수정
-	private int cMemberSeq;				// 기업 시퀀스
-	private String email;				// 이메일 (아이디)
-	private String pwd;					// 비밀번호
-	private String president;			// 대표자 성명
-	private String c_name;				// 기업명
-	private String tel;					// 전화번호
-	private String c_department;		// 기업 업종
-	private String c_type;				// 기업 종류 (대기업/중소/중견 등)
-	private String c_address;			// 기업 주소
-	private String c_introduce;			// 기업 소개
-	private int secession;				// 탈퇴 여부
-	private String hashTag;				// 해시태그
-	private int number;					// 사업자등록번호
-	private String logo_path;			// 로고이미지 경로
-	private String logo_name;			// 로고이미지 이름
-	
+	private int memberSeq;			// 기업시퀀스
+	private String email;			// 이메일
+	private String password;		// 비밀번호
+	private String president;		// 대표자 성명
+	private String name;			// 기업명
+	private String tel;				// 전화번호
+	private String department;		// 기업분야
+	private String type;			// 기업종류
+	private String address;			// 주소
+	private String introduce;		// 기업소개
+	private int del;				// 탈퇴여부 (0 등록 / 1 삭제)
+	private String hashTag;			// 해시태그
+	private int number;				// 사업자등록번호
+	private String logoPath;		// 로고이미지 경로
+	private String logoName;		// 로고이미지 이름
 	
 	// 결제
-	private int paySeq;				// 결제 시퀀스
-	private int buyer_id;			// 결제자 아이디 시퀀스
-	private String service_name;	// 서비스명
+	private int paySeq;				// 결제시퀀스
+	private int buyerId;			// 결제자 아이디 시퀀스
+	private String serviceName;		// 결제 서비스명
 	private String payDate;			// 결제일
 	private int totalPay;			// 총 결제금액
 	private int refund;				// 환불여부
-	private String request_date;	// 환불요청일
-	private String refund_date;		// 환불처리일
+	private String requestDate;		// 환불요청일
+	private String refundDate;		// 환불처리일
 	
 	
 	public CMemberMypageDto() {
@@ -37,80 +36,85 @@ public class CMemberMypageDto {
 	}
 
 
-	public CMemberMypageDto(int cMemberSeq, String email, String pwd, String president, String c_name, String tel,
-			String c_department, String c_type, String c_address, String c_introduce, int secession, String hashTag,
-			int number, String logo_path, String logo_name, int paySeq, int buyer_id, String service_name,
-			String payDate, int totalPay, int refund, String request_date, String refund_date) {
+	public CMemberMypageDto(int memberSeq, String email, String password, String president, String name, String tel,
+			String department, String type, String address, String introduce, int del, String hashTag, int number,
+			String logoPath, String logoName, int paySeq, int buyerId, String serviceName, String payDate, int totalPay,
+			int refund, String requestDate, String refundDate) {
 		super();
-		this.cMemberSeq = cMemberSeq;
+		this.memberSeq = memberSeq;
 		this.email = email;
-		this.pwd = pwd;
+		this.password = password;
 		this.president = president;
-		this.c_name = c_name;
+		this.name = name;
 		this.tel = tel;
-		this.c_department = c_department;
-		this.c_type = c_type;
-		this.c_address = c_address;
-		this.c_introduce = c_introduce;
-		this.secession = secession;
+		this.department = department;
+		this.type = type;
+		this.address = address;
+		this.introduce = introduce;
+		this.del = del;
 		this.hashTag = hashTag;
 		this.number = number;
-		this.logo_path = logo_path;
-		this.logo_name = logo_name;
+		this.logoPath = logoPath;
+		this.logoName = logoName;
 		this.paySeq = paySeq;
-		this.buyer_id = buyer_id;
-		this.service_name = service_name;
+		this.buyerId = buyerId;
+		this.serviceName = serviceName;
 		this.payDate = payDate;
 		this.totalPay = totalPay;
 		this.refund = refund;
-		this.request_date = request_date;
-		this.refund_date = refund_date;
+		this.requestDate = requestDate;
+		this.refundDate = refundDate;
 	}
 
 
-	public CMemberMypageDto(int cMemberSeq, String email, String pwd, String president, String c_name, String tel,
-			String c_department, String c_type, String c_address, String c_introduce, int secession, String hashTag,
-			int number, String logo_path, String logo_name) {
+	public CMemberMypageDto(int memberSeq, String email, String password, String president, String name, String tel,
+			String department, String type, String address, String introduce, int del, String hashTag, int number,
+			String logoPath, String logoName) {
 		super();
-		this.cMemberSeq = cMemberSeq;
+		this.memberSeq = memberSeq;
 		this.email = email;
-		this.pwd = pwd;
+		this.password = password;
 		this.president = president;
-		this.c_name = c_name;
+		this.name = name;
 		this.tel = tel;
-		this.c_department = c_department;
-		this.c_type = c_type;
-		this.c_address = c_address;
-		this.c_introduce = c_introduce;
-		this.secession = secession;
+		this.department = department;
+		this.type = type;
+		this.address = address;
+		this.introduce = introduce;
+		this.del = del;
 		this.hashTag = hashTag;
 		this.number = number;
-		this.logo_path = logo_path;
-		this.logo_name = logo_name;
+		this.logoPath = logoPath;
+		this.logoName = logoName;
 	}
 
 
-	public CMemberMypageDto(int paySeq, int buyer_id, String service_name, String payDate, int totalPay, int refund,
-			String request_date, String refund_date) {
+	public CMemberMypageDto(int paySeq, int buyerId, String serviceName, String payDate, int totalPay, int refund,
+			String requestDate, String refundDate) {
 		super();
 		this.paySeq = paySeq;
-		this.buyer_id = buyer_id;
-		this.service_name = service_name;
+		this.buyerId = buyerId;
+		this.serviceName = serviceName;
 		this.payDate = payDate;
 		this.totalPay = totalPay;
 		this.refund = refund;
-		this.request_date = request_date;
-		this.refund_date = refund_date;
+		this.requestDate = requestDate;
+		this.refundDate = refundDate;
+	}
+
+	
+	
+	
+	
+	
+
+	public int getMemberSeq() {
+		return memberSeq;
 	}
 
 
-	public int getcMemberSeq() {
-		return cMemberSeq;
-	}
-
-
-	public void setcMemberSeq(int cMemberSeq) {
-		this.cMemberSeq = cMemberSeq;
+	public void setMemberSeq(int memberSeq) {
+		this.memberSeq = memberSeq;
 	}
 
 
@@ -124,13 +128,13 @@ public class CMemberMypageDto {
 	}
 
 
-	public String getPwd() {
-		return pwd;
+	public String getPassword() {
+		return password;
 	}
 
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 
@@ -144,13 +148,13 @@ public class CMemberMypageDto {
 	}
 
 
-	public String getC_name() {
-		return c_name;
+	public String getName() {
+		return name;
 	}
 
 
-	public void setC_name(String c_name) {
-		this.c_name = c_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 
@@ -164,53 +168,53 @@ public class CMemberMypageDto {
 	}
 
 
-	public String getC_department() {
-		return c_department;
+	public String getDepartment() {
+		return department;
 	}
 
 
-	public void setC_department(String c_department) {
-		this.c_department = c_department;
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 
 
-	public String getC_type() {
-		return c_type;
+	public String getType() {
+		return type;
 	}
 
 
-	public void setC_type(String c_type) {
-		this.c_type = c_type;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 
-	public String getC_address() {
-		return c_address;
+	public String getAddress() {
+		return address;
 	}
 
 
-	public void setC_address(String c_address) {
-		this.c_address = c_address;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 
-	public String getC_introduce() {
-		return c_introduce;
+	public String getIntroduce() {
+		return introduce;
 	}
 
 
-	public void setC_introduce(String c_introduce) {
-		this.c_introduce = c_introduce;
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
 	}
 
 
-	public int getSecession() {
-		return secession;
+	public int getDel() {
+		return del;
 	}
 
 
-	public void setSecession(int secession) {
-		this.secession = secession;
+	public void setDel(int del) {
+		this.del = del;
 	}
 
 
@@ -234,23 +238,23 @@ public class CMemberMypageDto {
 	}
 
 
-	public String getLogo_path() {
-		return logo_path;
+	public String getLogoPath() {
+		return logoPath;
 	}
 
 
-	public void setLogo_path(String logo_path) {
-		this.logo_path = logo_path;
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
 	}
 
 
-	public String getLogo_name() {
-		return logo_name;
+	public String getLogoName() {
+		return logoName;
 	}
 
 
-	public void setLogo_name(String logo_name) {
-		this.logo_name = logo_name;
+	public void setLogoName(String logoName) {
+		this.logoName = logoName;
 	}
 
 
@@ -264,23 +268,23 @@ public class CMemberMypageDto {
 	}
 
 
-	public int getBuyer_id() {
-		return buyer_id;
+	public int getBuyerId() {
+		return buyerId;
 	}
 
 
-	public void setBuyer_id(int buyer_id) {
-		this.buyer_id = buyer_id;
+	public void setBuyerId(int buyerId) {
+		this.buyerId = buyerId;
 	}
 
 
-	public String getService_name() {
-		return service_name;
+	public String getServiceName() {
+		return serviceName;
 	}
 
 
-	public void setService_name(String service_name) {
-		this.service_name = service_name;
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
 	}
 
 
@@ -314,36 +318,40 @@ public class CMemberMypageDto {
 	}
 
 
-	public String getRequest_date() {
-		return request_date;
+	public String getRequestDate() {
+		return requestDate;
 	}
 
 
-	public void setRequest_date(String request_date) {
-		this.request_date = request_date;
+	public void setRequestDate(String requestDate) {
+		this.requestDate = requestDate;
 	}
 
 
-	public String getRefund_date() {
-		return refund_date;
+	public String getRefundDate() {
+		return refundDate;
 	}
 
 
-	public void setRefund_date(String refund_date) {
-		this.refund_date = refund_date;
+	public void setRefundDate(String refundDate) {
+		this.refundDate = refundDate;
 	}
 
 
 	@Override
 	public String toString() {
-		return "CMemberMypageDto [cMemberSeq=" + cMemberSeq + ", email=" + email + ", pwd=" + pwd + ", president="
-				+ president + ", c_name=" + c_name + ", tel=" + tel + ", c_department=" + c_department + ", c_type="
-				+ c_type + ", c_address=" + c_address + ", c_introduce=" + c_introduce + ", secession=" + secession
-				+ ", hashTag=" + hashTag + ", number=" + number + ", logo_path=" + logo_path + ", logo_name="
-				+ logo_name + ", paySeq=" + paySeq + ", buyer_id=" + buyer_id + ", service_name=" + service_name
-				+ ", payDate=" + payDate + ", totalPay=" + totalPay + ", refund=" + refund + ", request_date="
-				+ request_date + ", refund_date=" + refund_date + "]";
+		return "CMemberMypageDto [memberSeq=" + memberSeq + ", email=" + email + ", password=" + password
+				+ ", president=" + president + ", name=" + name + ", tel=" + tel + ", department=" + department
+				+ ", type=" + type + ", address=" + address + ", introduce=" + introduce + ", del=" + del + ", hashTag="
+				+ hashTag + ", number=" + number + ", logoPath=" + logoPath + ", logoName=" + logoName + ", paySeq="
+				+ paySeq + ", buyerId=" + buyerId + ", serviceName=" + serviceName + ", payDate=" + payDate
+				+ ", totalPay=" + totalPay + ", refund=" + refund + ", requestDate=" + requestDate + ", refundDate="
+				+ refundDate + "]";
 	}
+
+	
+	
+
 	
 	
 }
