@@ -17,7 +17,7 @@ System.out.println("durl:"+durl);
 	<li class=<%= durl.contains("c_message.jsp") ? " on" :" "%>>
 		<a href="c_message.do">메시지함</a>
 	</li>
-	<li class=<%= durl.contains("requestList.jsp") ? " on" :" "%>>
+	<li class=<%= durl.contains("requestList.jsp") || durl.contains("requestLike.jsp") ? " on" :" "%>>
 		<a href="getRequestList.do">이력서 열람 요청</a>
 	</li>
 </ul>

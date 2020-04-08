@@ -93,7 +93,11 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 </div>
 <% } %>
 
-<% if (lourl.contains("requestList.jsp")) {%>
+
+
+<!-- c_apply -->
+
+<% if (lourl.contains("requestList.jsp") || lourl.contains("requestLike.jsp")) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>

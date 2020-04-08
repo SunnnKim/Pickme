@@ -6,26 +6,69 @@
 <mapper namespace="CApply">
 
 <select id="getRequestList" resultType="model.CvRequestDto">
-	select cv_request.seq, a_member.name, rdate, comment, accept, state, cv_request.del
-	from cv_request inner join a_member 
-	on cv_request.cseq = 2 and cv_request.del = 0 and a_member.seq = cv_request.pseq
+<![CDATA[
+	SELECT cv_request.SEQ, a_member.seq as pseq, c_member.email, a_member.name, comment, accept, state, cv_request.del
+		,(SELECT 1 FROM FAVORITE WHERE FAVORITE.ID = C_MEMBER.EMAIL AND FAVORITE.LIKEPICKSEQ = cv_request.PSEQ GROUP BY FAVORITE.LIKEPICKSEQ) AS likePick
+		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
+	FROM cv_request , a_member ,  C_MEMBER 
+	WHERE cv_request.cseq = 2 AND cv_request.del = 0 AND cv_request.cancel = 0 AND a_member.seq = cv_request.pseq
+		  AND cv_request.cseq =C_MEMBER.SEQ 
+	ORDER BY CV_REQUEST.RDATE DESC
+]]>
 </select>
 	
+<select id="requestLike" resultType="model.CvRequestDto">
+<![CDATA[	
+	select cv_request.seq, a_member.seq as pseq, a_member.name, comment, accept, state, cv_request.del
+		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
+	from cv_request , a_member , c_member , favorite
+	where cv_request.cseq = 2 and cv_request.del = 0 and a_member.seq = cv_request.pseq AND cv_request.cancel = 0
+		  and cv_request.cseq =c_member.seq and favorite.id = c_member.email and favorite.likepickseq = cv_request.pseq
+	ORDER BY CV_REQUEST.RDATE DESC
+]]>
+</select>
+
+
+
 <update id="requestDelete" parameterType="java.lang.String">
 	update cv_request
 	set del = 1
 	where seq = #{seq} 
 </update>
 
-<select id="requestListList" resultType="model.CvRequestDto">
-	select f.likepickseq, a.name
-	from favorite as f inner join a_member as a
-	on f.id ='H@MAIL' and f.likepick_seq = a.seq;
-</select>
+
+<insert id="addLike" parameterType="model.FavoriteDto">
+	insert into favorite
+	values(seq, #{email}, #{likePickSeq}, null, 0)
+</insert>
+
+<delete id="delLike" parameterType="model.FavoriteDto">
+	DELETE FROM FAVORITE
+	WHERE ID=#{email } AND LIKEPICKSEQ=#{likePickSeq}
+</delete>
+
+<update id="requestCancel" parameterType="java.lang.String">
+	UPDATE CV_REQUEST
+	SET CANCEL = 1
+	WHERE SEQ = #{cv_seq}
+</update>
 
 
 
 
 </mapper>
 
-
+<!-- 	SELECT cv_request.SEQ, a_member.seq as pseq, c_member.email, a_member.name, rdate, comment, accept, state, cv_request.del ,C_MEMBER.EMAIL 
+	,(SELECT 1 FROM FAVORITE WHERE FAVORITE.ID = C_MEMBER.EMAIL AND FAVORITE.LIKEPICKSEQ = cv_request.PSEQ GROUP BY FAVORITE.LIKEPICKSEQ) AS likePick
+	FROM cv_request , a_member ,  C_MEMBER 
+	WHERE cv_request.cseq = 2 and cv_request.del = 0 and cv_request.cancel = 0 and a_member.seq = cv_request.pseq
+		  and cv_request.cseq =C_MEMBER.SEQ
+	ORDER BY CV_REQUEST.RDATE DESC -->
+	
+	
+	<!--	 
+	select a_member.seq, a_member.name, rdate, comment, accept, state, cv_request.del
+	from cv_request inner join a_member 
+	on cv_request.cseq = 2 and cv_request.del = 0 and a_member.seq = cv_request.pseq
+	-->
+	
