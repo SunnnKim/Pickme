@@ -11,7 +11,10 @@
 </head>
 <body>
 
-<a href="login/main.do">메인페이지보기</a>
+<!-- <a href="login/main.do">메인페이지보기</a> -->
+<script>
+	location.href="login/main.do"
+</script>
 
 <!-- <script>
 	location.href="login/loginform.do"
