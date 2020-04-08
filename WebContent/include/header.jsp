@@ -72,7 +72,7 @@
 					<li>
 						<a href="#mypage.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
 					</li>
-					<li><a href="/Pickme/login/company/comLogin.do">기업서비스</a></li>
+					<li><a href="/Pickme/login/logout.do">로그아웃</a></li>
 				</ul>
 		 		 <%
 		 		 // 기업회원 로그인일때
@@ -91,7 +91,7 @@
 						[기업] <%=userName %> 
 					</li>
 					<!-- 일반회원 마이페이지 -->
-					<li><a href="/Pickme/login/company/comLogin.do">기업페이지</a></li>
+					<li><a href="/Pickme/login/company/logout.do">기업페이지</a></li>
 				</ul>
 				 <%
 				 // 비로그인 시
