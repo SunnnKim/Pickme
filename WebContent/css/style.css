@@ -293,8 +293,8 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .accordion-wrap .table-list .row .column{padding:0 !important;}
 .btn-target{position:relative; display:inline-block; padding-right:25px;}
 .btn-target:after{content:""; position:absolute; top:50%; right:0; display:block; width:14px; height:6px; margin-top:-3px; background:url('/cjom/web/images/common/spr_common.svg') -30px -60px no-repeat; background-size:510px 210px;}
-[data-accordion].active + div {display:block;}
-[data-accordion].active .btn-target:after{background-position-x:-60px;}
+[data-accordion].active + div {display:block; !important}
+[data-accordion].active .btn-target:after{background-position-x:-60px; !important}
 
 .target .btn-target {display:inline-block;}
 .target .btn-target:after {position:static; transition:transform 300ms ease-in-out 0s;}
@@ -357,6 +357,19 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .table-bbs td a {display: block; text-align: left; max-width: 340px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 .star-td i {font-size: 20px; color: #ddd; cursor: pointer;}
 .star-td i.on {color: #fccd35;}
+
+.like-td i.unliked {
+    font-size: 18px;
+    outline: none;
+    opacity: 0.7;
+}
+
+.like-td i.liked{
+	font-size: 18px;
+    outline: none;
+    opacity: 0.7;
+    color: #ff0000;
+}
 
 
 /*=================== BBS 끝 ====================*/
@@ -462,6 +475,74 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .rec-top .cont .company-info ul{ margin-top: 20px;}
 .rec-top .cont .company-info ul li{font-size: 19px; }
 .rec-top .cont .company-info ul li strong{font-size: 23px;}
+
+/*==================채용등록 file upload================== */
+
+.rec-info .cont .file-image {
+  display:inline-block;
+  position:relative;
+}
+.rec-info .cont .file-image input {
+  position:absolute;
+  overflow:hidden;
+  opacity:0;
+  width:0;
+}
+.rec-info .cont .file-image .reset {
+  cursor:pointer;
+  display:block;
+  position:absolute;
+  right:0;
+  width:40px;
+  height:40px;
+  text-align:center;
+  background:rgba(0,0,0,.8);
+}
+.rec-info .cont .file-image .reset:before {
+  content:'\d7';
+  font:normal normal 40px/39px sans-serif, Arial;
+  color:#fa8e8e;
+}
+.rec-info .cont .file-image .image {
+  cursor:pointer;
+  display:block;
+  box-sizing:border-box;
+  width:150px;
+  height:150px;
+  border:1px solid #dbdbdb;
+  background-color:#f0f0f0;
+  background-repeat:no-repeat;
+  background-position:center center;
+  background-size:100% 100%;
+}
+.rec-info .cont .file-image .image:before, .file-image .image:after {
+  content:"";
+  display:block;
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  font:normal normal 14px sans-serif, Arial;
+  line-height:0;
+  color:#ababab;
+  text-align:center;
+}
+.rec-info .cont .file-image .image:before {
+  content:"+";
+  font-size:100px;
+  margin-top:-20px;
+}
+.rec-info .cont .file-image .image:after {
+  content:"Add Icon";
+  margin-top:30px;
+}
+.rec-info .cont .file-image .reset {display:none}
+.rec-info .cont .file-image input:not([title=""]) ~ .reset {display:block}
+.rec-info .cont .file-image input:not([title=""]) ~ .image {border:0 none;}
+.rec-info .cont .file-image input:not([title=""]) ~ .image:before,
+.rec-info .cont .file-image input:not([title=""]) ~ .image:after {display:none}
+
+/*==================채용등록 file upload 끝==================*/
 
 .rec-info .lef {float: left; }
 .rec-info .lef:last-child{margin-right: 0;}

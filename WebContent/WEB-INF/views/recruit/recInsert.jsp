@@ -1,9 +1,19 @@
+<%@page import="model.CMemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
+<% /* CMemberDto cMem = (CMemberDto) session.getAttribute("logincompany "); */  %>
+<% 
+/*
+[seq=1, email=aa@company.com, password=, president=대표자, name=테스트, tel=010-1111-1111, 
+department=공공행정, 국방, type=중소기업(300명 이하), address=null, introduce=null, 
+del=-1, hashTag=null, number=1111111111, logoPath=null, logoName=null] /**/
+CMemberDto cMem= new CMemberDto(1,"aa@company.com","bitcamp.1", "대표자","회사명테스트","010-1111-1111", "공공행정,국방", "중소기업(300명이하)","서울특별시 강남구 테헤란로 151, 403-404호(역삼동, 역삼하이츠빌딩)",
+		"intro",-1, "태그'태그1'태그2",1111111111, null, null);
 
+%>
 <link rel="stylesheet"	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -25,12 +35,35 @@
             </ul>
           </div><!-- rec-title -->
           <form action="" enctype="multipart/form-data">
+          <!-- 회사정보 넘기기 -->
+          <input type="hidden" name="comseq" value="<%= cMem.getSeq()%>">
           <div class="rec-conatainer">
             <div class="rec-info">
               <h3 class="tit">채용등록정보</h3>                
                   <h4>대표이미지등록<span class="ess">*</span></h4>
-                  <div class="cont"><input type="file" name="uploadfile" id="input_imgs" multiple>
-                  </div>
+                  <div class="cont">
+					<i class="file-image">
+					 <input id="img1" type="file" onchange="readImage(this)" title="" />
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img1" class="image"></label>
+					</i>
+					<i class="file-image">
+					 <input id="img2" type="file" onchange="readImage(this)" title="" />
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img2" class="image"></label>
+					</i>
+					<i class="file-image">
+					 <input id="img3" type="file" onchange="readImage(this)" title="" />
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img3" class="image"></label>
+					</i>
+					<i class="file-image">
+					 <input id="img4" type="file" onchange="readImage(this)" title="" />
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img4" class="image"></label>
+					</i>
+					
+				</div>
                   <!-- <div class="imgs-wrap" id="imgs-wrap"></div>   -->                   
            	<h4>채용마감일<span class="ess">*</span></h4>
                   <div class="cont"> 
@@ -54,8 +87,10 @@
              <h4>경력<span class="ess">*</span></h4>
                <div class="cont">
                 <select class="select_cons" name="com_jobtype">
+                <option value="0">경력을 선택해주세요</option>
                   <option value="신입">신입</option>
                   <option value="경력">경력</option>
+                  <option value="경력무관">경력무관</option>
                 </select>
                 </div>
             </div>
@@ -63,6 +98,7 @@
                <h4>근무형태<span class="ess">*</span></h4>
                <div class="cont" style="margin-left: 0;">
                 <select class="select_cons" name="working_form">
+                  <option value="0">근무형태를 선택해주세요</option>
                   <option value="정규직">정규직</option>
                   <option value="계약직">계약직</option>
                 </select>
@@ -104,6 +140,25 @@
         </div> <!-- rec-wrapper -->
 
   <script type="text/javascript">
+
+	//파일업로드
+	function resetImage(input) {
+  input.value = '';
+  input.onchange();
+}
+function readImage(input) {
+  var receiver = input.nextElementSibling.nextElementSibling;
+  input.setAttribute('title', input.value.replace(/^.*[\\/]/, ''));
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      receiver.style.backgroundImage = 'url(' + e.target.result + ')';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+  else receiver.style.backgroundImage = 'none';
+}
+  
 	// datepicker
 	$("#datepicker").datepicker({
 			minDate : 0,
@@ -229,12 +284,15 @@
    });
 
 
-
+	//태그 입력
    $("#hashtag").keyup(function(e){if(e.keyCode == 13) 
     if($(this).val().trim() !=""){
       tagappend(); 
     } else {
-      alert("태그를 입력해주세요.");
+    	Swal.fire({
+			  icon: 'error',
+			  text: '태그를 입력해주세요.'
+		})
     }
     });
 
@@ -282,12 +340,10 @@
     CKEDITOR.replace( 'content' );
 
     var comJob = $("#com_job1 option:selected").text()+$("#com_job2 option:selected").text();	//직군, 직무
-
     //console.log("에디터:"+CKEDITOR.instances.content.getData());
 
     //등록눌렀을때
     $("#rec-insert").on("click",function(){
-    	console.log("클릭");
     	var taglen = $("input[name='hashtag']").length;
     	var tags = new Array(taglen);
 
@@ -298,13 +354,57 @@
     	var str = tags.join('\'');
     	console.log("str: "+str);
 		console.log("_hashlen: "+taglen);
-    
-    	/*
-        if( b_com_job==true && b_com_jobtype==true && b_main_task==true && b_working_form==true && b_working_form==true && b_requirements==true && b_salary==true ){
-         alert("등록가능");
-       } else {
-         alert("등록x");
-       } /**/
+
+		/*
+		if ( $("input[name='edate']").val() == ""){
+			Swal.fire({
+				  icon: 'error',
+				  text: '채용마감일을 등록해주세요'
+				})
+		} else if($("select[name='com_job1']").val()==0 || $("select[name='com_job2']").val()==0){
+			Swal.fire({
+				  icon: 'error',
+				  text: '직군/직무를 선택해주세요.'
+				})
+		} else if($("select[name='com_jobtype']").val()==0){
+			Swal.fire({
+				  icon: 'error',
+				  text: '경력을 선택해주세요.'
+				})
+		} else if($("select[name='working_form']").val()==0){
+			Swal.fire({
+				  icon: 'error',
+				  text: '근무형태를 선택해주세요.'
+				})
+		} else if($("input[name='main_task']").val().trim()==""){
+			Swal.fire({
+				  icon: 'error',
+				  text: '주요업무를 입력해주세요.'
+				})
+		} else if($("input[name='salary']").val().trim()==""){
+			Swal.fire({
+				  icon: 'error',
+				  text: '급여를 입력해주세요.'
+				})
+		} else if(CKEDITOR.instances.content.getData().trim()==""){
+			Swal.fire({
+				  icon: 'error',
+				  text: '내용을 입력해주세요.'
+				})
+		}  else if(CKEDITOR.instances.content.getData().trim()==""){
+			Swal.fire({
+				  icon: 'error',
+				  text: '내용을 입력해주세요.'
+				})
+		} else if(taglen<1){
+			Swal.fire({
+				  icon: 'error',
+				  text: '태그를 입력해주세요.'
+				})
+		} else {
+			alert("등록가능");
+			
+		}/**/
 
     });
 
