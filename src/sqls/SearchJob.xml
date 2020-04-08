@@ -8,16 +8,15 @@
  		 SELECT NVL(MAX(REF),0)+1 FROM RECRUIT
  	</select>
 	<insert id="rec_insert" parameterType="model.RecruitDto">
-		INSERT INTO RECRUIT(COM_SEQ, TITLE, COM_JOB, COM_JOBTYPE,
-		MAIN_TASK, WORKING_FORM, REQUIREMENTS, SALARY,
+		INSERT INTO RECRUIT(COMSEQ, TITLE, COMJOB, COMJOBTYPE,
+		MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY,
  		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL)
-		VALUES (#{com_seq}, #{title}, #{com_job}, #{com_jobtype},
-		#{main_task}, #{working_form}, #{requirements}, #{salary},
-		#{content}, #{hashtag}, NOW(), #{edate}, #{ref}, 
-		0, 0)
+		VALUES (#{comseq}, #{title}, #{comjob}, #{comjobtype},
+		#{maintask}, #{workingform}, #{requirements}, #{salary},
+		#{content}, #{hashtag}, NOW(), #{edate}, #{ref}, 0, 0)
 	</insert>
 	<insert id="rec_upfile" parameterType="model.FilesDto">
 		INSERT INTO FILES (USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE )
-		VALUES ( RECRUIT, #{originname}, #{newname}, #{path}, 0, #{ref},  )
+		VALUES ( RECRUIT, #{originname}, #{newname}, #{path}, 0, #{ref}, #{step}, #{filetype} )
 	</insert>
  </mapper>
