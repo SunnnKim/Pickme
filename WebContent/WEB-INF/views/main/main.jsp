@@ -7,11 +7,20 @@
 	AMemberDto member = (AMemberDto) session.getAttribute("loginuser");
 	CMemberDto company = (CMemberDto) session.getAttribute("logincompany");
 	String userName = "";
+	// 인증 페이지
+	
 	if( member != null ){
+		if(member.getDel() == -1 ){
+			response.sendRedirect("/Pickme/login/validate.do");
+			return;
+		}
 		userName = member.getName();
-		System.out.println("유저네임 : "+userName);
 	}
 	else if( company != null ){
+		if(company.getDel() == -1 ){
+			response.sendRedirect("/Pickme/login/validate.do");
+			return;
+		}
 		userName = company.getName();
 	}
 	
@@ -32,8 +41,12 @@
 <!-- font-awesome -->
 <script src="https://kit.fontawesome.com/e11681bffc.js" crossorigin="anonymous"></script>
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-</head>
+<script src="/Pickme/js/jquery/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+<!-- sweetAlert2 -->
+
+ </head>
 <body>
 
 	<div id="wrap">

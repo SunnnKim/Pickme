@@ -16,7 +16,7 @@ SELECT email
 FROM C_MEMBER 
 WHERE EMAIL = #{email} AND DEL != 1
 </select>
-<!-- 일반회원 로그인 -->
+<!-- 일반회원 로그인 정보(세션에 담을용) -->
  <select id="getLoginInfo" parameterType="model.AMemberDto" resultType="model.AMemberDto">
 SELECT *
 FROM A_MEMBER 
@@ -27,7 +27,7 @@ WHERE EMAIL = #{email}  AND DEL != 1
  INSERT INTO A_MEMBER ( EMAIL, PASSWORD, NAME, DEL )
  VALUES ( #{email }, #{password}, #{name}, -1 )
  </select>
-<!-- 기업 로그인 -->
+<!-- 기업 로그인 정보(세션에 담을용) -->
  <select id="getLoginInfoForCompany" parameterType="model.CMemberDto" resultType="model.CMemberDto">
 SELECT *
 FROM C_MEMBER
@@ -38,7 +38,18 @@ WHERE EMAIL = #{email} AND DEL != 1
  INSERT INTO C_MEMBER ( EMAIL, PASSWORD, PRESIDENT, NAME, DEPARTMENT, TYPE, NUMBER, TEL, DEL )
  VALUES ( #{email}, #{password}, #{president}, #{name}, #{department}, #{type}, #{number}, #{tel}, -1 )
  </insert>
- 
+<!-- 일반 회원 이메일 인증 -->
+<update id="AMemberValidate" parameterType="model.AMemberDto">
+UPDATE A_MEMBER
+SET DEL = 0 
+WHERE EMAIL = #{email}
+</update>
+<!-- 기업 회원 이메일 인증 -->
+<update id="CMemberValidate" parameterType="model.CMemberDto">
+UPDATE C_MEMBER
+SET DEL = 0 
+WHERE EMAIL = #{email}
+</update>
  
 </mapper>
 

@@ -40,4 +40,14 @@ public class CustomUserDetailsService implements LoginService, UserDetailsServic
       dao.signup(member);
    }
 
+	@Override
+	public void emailValidateA(AMemberDto member) {
+		dao.emailValidateA(member);
+	}
+
+	@Override
+	public AMemberDto updateSession(String email) {
+		return dao.getMemberByEmail(email);
+	}
+
 }

@@ -3,15 +3,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-// session
+	// session
 	AMemberDto member = (AMemberDto) session.getAttribute("loginuser");
 	CMemberDto company = (CMemberDto) session.getAttribute("logincompany");
 	String userName = "";
+	// 일반 로그인 
 	if( member != null ){
+		// 미인증 메일일 때 
+		if(member.getDel() == -1 ){
+			response.sendRedirect("/Pickme/login/validate.do");
+			return;
+		}
 		userName = member.getName();
-		System.out.println("유저네임 : "+userName);
 	}
+	// 기업 로그인 
 	else if( company != null ){
+		// 미인증 메일일 때
+		if(company.getDel() == -1 ){
+			response.sendRedirect("/Pickme/login/validate.do");
+			return;
+		}
 		userName = company.getName();
 	}
 	
@@ -23,9 +34,10 @@
 <meta name="viewport" content="width= 1050px, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>index</title>
+<!-- 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- 삭제 alert -->
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+ -->
+ 
 <!----- [ 디자인 CSS 영역 ] ----->
 <link rel="stylesheet" href="/Pickme/css/reset.css" type="text/css">
 <!-- 리셋 CSS -->
@@ -33,6 +45,11 @@
 <!-- 디자인 CSS -->
 <script src="https://kit.fontawesome.com/e11681bffc.js" crossorigin="anonymous"></script>
 <!-- font-awesome -->
+<script src="/Pickme/js/jquery/jquery-3.4.1.min.js"></script>
+<!-- jquery -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+<!-- sweetAlert2 -->
 </head>
 <body>
 	<div id="wrap">
