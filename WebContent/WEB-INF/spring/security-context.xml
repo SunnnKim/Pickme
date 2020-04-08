@@ -27,7 +27,7 @@
 	     					 authentication-failure-url="/login/memLogin.do?fail=true"
 		     				 authentication-success-handler-ref="userSuccessHandler" />
 		
-		<security:session-management invalid-session-url="/login/memLogin.do">
+		<security:session-management invalid-session-url="/login/main.do">
 			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
 		</security:session-management>
 		

@@ -53,50 +53,20 @@ public class LoginDao {
 	public void signupForCompany(CMemberDto member) {
 		sqlSession.insert( namespace + "companyJoin", member);
 	}
-	// 기업 이메일 체크로 멤버 데이터 가져오기
+	// 기업 세션 데이터 가져오기 
 	public CMemberDto getMemberByEmailForCompany(String email) {
 		CMemberDto member = sqlSession.selectOne(namespace + "getLoginInfoForCompany", new CMemberDto(email));
 		System.out.println("logindao : " + member);
 		return member;
 	}
 	
+	// 일반회원 인증받기
+	public void emailValidateA(AMemberDto member) {
+		sqlSession.update(namespace + "AMemberValidate", member);
+	}
+	// 기업회원 인증받기
+	public void emailValidateC(CMemberDto member) {
+		sqlSession.update(namespace + "CMemberValidate", member);
+	}
 	
-//   private JdbcTemplate jdbcTemplate;
-//   
-//   @Autowired
-//   public void setDataSource(DataSource dataSrc) {
-//      this.jdbcTemplate = new JdbcTemplate(dataSrc);
-//   }
-//   
-//   
-//   
-//   public AMemberDto getMemberByEmail (String email) {
-//      
-//      AMemberDto memberCheck = new AMemberDto();
-//      try {
-//         memberCheck = (AMemberDto) jdbcTemplate.queryForObject(
-//               "select * from a_member where email = ?",
-//               new Object[] { email },
-//               new RowMapper<Object>() {
-//                  
-//                  @Override
-//                  public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-//                     // TODO Auto-generated method stub
-//                     System.out.println("mapping...");
-//                     
-//                     AMemberDto member = new AMemberDto();
-//                     member.setEmail(rs.getString("email"));
-//                     member.setPassword(rs.getString("password"));
-//                     return member;
-//                  }
-//               }
-//            );
-//      } catch (Exception e) {
-//         memberCheck = null;
-//      }
-//      return memberCheck;
-//   }
-   
-   
-   
 }

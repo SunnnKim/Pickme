@@ -40,4 +40,14 @@ public class CustomUserDetailsServiceForCompany implements LoginServiceForCompan
       dao.signupForCompany(member);
    }
 
+	@Override
+	public void emailValidateC(CMemberDto member) {
+		dao.emailValidateC(member);
+	}
+
+	@Override
+	public CMemberDto updateSession(String email) {
+		return dao.getMemberByEmailForCompany(email);
+	}
+
 }

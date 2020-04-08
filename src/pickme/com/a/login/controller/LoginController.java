@@ -1,8 +1,14 @@
 package pickme.com.a.login.controller;
 
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.aop.aspectj.AspectJAdviceParameterNameDiscoverer.AmbiguousBindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +17,7 @@ import model.AMemberDto;
 import model.CMemberDto;
 import pickme.com.a.login.service.LoginService;
 import pickme.com.a.login.service.LoginServiceForCompany;
+import pickme.com.a.util.MailUtil;
 
 @RequestMapping("/login")
 @Controller
@@ -89,15 +96,59 @@ public class LoginController {
 		return "redirect:/login/company/comLogin.do";
 	}
 
-	/*
-	 * @RequestMapping("mypage.do") public void mypage() {}
-	 * 
-	 * @RequestMapping("signform.do") public void signform() {}
-	 * 
-	 * @RequestMapping("signup.do") public String signup(AMemberDto user) {
-	 * user.setPassword( new BCryptPasswordEncoder().encode(user.getPassword()) );
-	 * service.signup(user); return "login/loginform"; }
-	 * 
-	 * @RequestMapping(value="test") public String test() { return "index2"; }
-	 */
+	// 가입 인증 페이지
+	@RequestMapping(value = "validate.do")
+	public String emailValidate( Model model ) {
+	
+		return "login/validate";
+	}
+	
+	// 인증메일 발송
+	@ResponseBody
+	@RequestMapping(value="sendValidateEmail.do", method=RequestMethod.POST, produces = "application/String; charset=utf-8")
+	public String sendValidateEmail(HttpSession session, String email ) {
+		// 키코드 발급 
+		UUID one = UUID.randomUUID();
+		String keyCode = one.toString().split("-")[0];
+		// 메일 쓰기 
+		String subject = "[ Pick ME ] 회원가입 인증코드 안내 ";
+
+		String msg = "";
+		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+		msg += "<h3 style='color: blue;'> 이메일 인증코드입니다.</h3>";
+		msg += "<div style='font-size: 130%'>";
+		msg += "이메일 인증 페이지에서 인증코드 <strong>"; 
+		msg += keyCode + "</strong> 를 입력해주세요.</div><br/>";
+		// 메일 보내기 
+		try {
+		//	MailUtil.sendMail(email, subject, msg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+		}
+		return keyCode;
+	}
+	
+	@RequestMapping(value="accountValidate.do", method=RequestMethod.POST)
+	public String accountValidate( String memberType, String email, HttpSession session) {
+		System.out.println();
+		if( memberType.equalsIgnoreCase("amember") ) {
+			// 일반회원 계정 
+			aMember.emailValidateA(new AMemberDto(email));
+			// session 갱신
+			AMemberDto loginuser = aMember.updateSession(email);
+			session.setAttribute("loginuser", loginuser);
+			
+		}else if( memberType.equalsIgnoreCase("cmember") ) {
+			// 기업회원 계정
+			cMember.emailValidateC(new CMemberDto(email));
+			// session 갱신
+			CMemberDto logincompany = cMember.updateSession(email);
+			session.setAttribute("logincompany", logincompany);
+		}
+		
+		return "redirect:/login/main.do";
+		
+	}
+	
 }

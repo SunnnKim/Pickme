@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
 <%@include file ="../../../include/header.jsp" %>
-<script src="sweetalert2.all.min.js"></script>
-<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-
 
 
 <div class="profile-wrap">
@@ -78,12 +74,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
   // 1. email 체크 
   var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
   if( email.onkeyup = () => {
     // 정규식 확인 
-    if( regExp.test(email.value) === true){
+    if( regExp.test(email.value) == true){
         // 아이디 중복 확인 
 		$.ajax({
-			url:"emailCheckAll.do",
+			url:"/Pickme/login/emailCheckAll.do",
 			data:{
 				username:email.value
 			},
