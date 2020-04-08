@@ -111,27 +111,26 @@ public class LoginController {
 		UUID one = UUID.randomUUID();
 		String keyCode = one.toString().split("-")[0];
 		// 메일 쓰기 
-		String subject = "[ Pick ME ] 회원가입 인증코드 안내 ";
+		String subject = "[ Pick Me ] 회원가입 인증코드 안내 ";
 
 		String msg = "";
 		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
-		msg += "<h3 style='color: blue;'> 이메일 인증코드입니다.</h3>";
+		msg += "<h3 style='color: blue;'> PICK ME 이메일 인증코드입니다.</h3>";
 		msg += "<div style='font-size: 130%'>";
 		msg += "이메일 인증 페이지에서 인증코드 <strong>"; 
 		msg += keyCode + "</strong> 를 입력해주세요.</div><br/>";
 		// 메일 보내기 
 		try {
-		//	MailUtil.sendMail(email, subject, msg);
+			MailUtil.sendMail(email, subject, msg);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.getMessage();
 		}
 		return keyCode;
 	}
 	
+	// 이메일 인증후데이터베이스 바꾸기 
 	@RequestMapping(value="accountValidate.do", method=RequestMethod.POST)
 	public String accountValidate( String memberType, String email, HttpSession session) {
-		System.out.println();
 		if( memberType.equalsIgnoreCase("amember") ) {
 			// 일반회원 계정 
 			aMember.emailValidateA(new AMemberDto(email));

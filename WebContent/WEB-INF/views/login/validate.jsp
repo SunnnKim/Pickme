@@ -30,6 +30,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width= 1050px, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<style>
+.validate-box{ width: 500px; float: left; margin-top: 80px; }
+.validate-box p{ font-size: 20px; margin: 30px 20px; }
+.validate-box #codeBtn{ background: #4f6eff; color:#fff; margin-left: 20px; outline: none; font-size: 15px; width: 400px; height: 50px; text-align: center; transition: all 0.3s ease-in-out; }
+.validate-box #codeBtn:hover{ background: #3349ac; }
+.validate-img{ margin-top: 30px; width: 500px; float: right; }
+.validate-img img{ width: 500px; }
+/* validate-input */
+.validate-input{ margin: 30px 0; margin-left: 20px; width: 400px; text-align: center; }
+.validate-input input{ width: 280px; height: 50px; outline: none; padding-left: 10px; }
+.validate-input #pressBtn{ border: 1px solid #3349ac; color: #3349ac; border-radius: 5px; margin-left: 15px; width: 100px; height: 50px; outline: none; transition: all 0.3s ease-in-out; }
+.validate-input #pressBtn:hover{ background: #3349ac; color: #fff; }
+
+</style>
 <title>index</title>
 <!----- [ 디자인 CSS 영역 ] ----->
 <!-- 리셋 CSS -->
@@ -107,18 +121,22 @@
 			<div class="subCont">
 			
 				<div class="profile-wrap">
-				
-					<div>
-						메일인증해주세요
-						<button type="button" id="codeBtn">인증코드보내기</button>
-						<div id="append"></div>
-						<form method="post" action="accountValidate.do" id="frm">
+					<div class="validate-box">
+			            <p>이메일 인증을 완료하면 <br>더 많은 Pick Me의 서비스를 이용할 수 있습니다</p>
+			            <button type="button" id="codeBtn">인증메일 보내기</button>
+			            <!-- input -->
+			            <div class="validate-input" id="append">
+			            </div>
+       				</div>
+			        <div class="validate-img">
+			            <img src="/Pickme/images/sub/validateImg.jpg">
+			        </div>
+			        <form method="post" action="accountValidate.do" id="frm">
 							<input type="hidden" name="memberType" value="<%=memType%>">
 							<input type="hidden" name="email" value="<%=userMail%>">
-						</form>
-					</div>
-					
+					</form>
 				</div>
+				
 <script type="text/javascript">
 var keyCode;
 $('#codeBtn').click(function(){
@@ -145,9 +163,9 @@ $('#codeBtn').click(function(){
 	});
 
 	$('#append').html('');
-	$('#append').append('<p>인증 코드를 입력해주세요.</p>');
-	$('#append').append('<input type="text">');
-	$('#append').append('<button type="button" id="pressBtn">인증하기</button>');
+	$('#append').append('<input type="text" id="keyCode" placeholder="Key Code를 입력하세요">');
+    $('#append').append('<button type="button" id="pressBtn">인증하기</button>');
+
 })
 
 $(document).on('click','#pressBtn', function(){
@@ -179,17 +197,11 @@ $(document).on('click','#pressBtn', function(){
 			  icon: 'success',
 			  text: '이메일 인증이 완료되었습니다',
 			  showConfirmButton: false,
-			  timer: 800
-		});
-
-		
-		$('#frm').submit();
-		
-			
-		
-	
+			  timer: 1300
+		}).then( (result) =>{
+			$('#frm').submit();
+		})
 	}
-	
 })
 
 </script>

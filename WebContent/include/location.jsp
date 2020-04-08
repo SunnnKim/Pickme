@@ -56,7 +56,16 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 %>
 </div>
 <% } %>
-
+<!-- 회원 이메일 인증 페이지  -->
+<% if (lourl.contains("login/validate")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>회원서비스</span>
+	<span>></span>
+	<span>회원인증</span>
+</div> 
+<% } %>
 <!-- apply - message -->
 <% if (lourl.contains("Msg")) {%>
 <div class="location">
