@@ -85,7 +85,7 @@
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
 					<li>
-						<a href="#mypage.do"> <%=userName %> </a><!-- 기업회원 마이페이지 -->
+						<a href="/Pickme/c_member/goCMypage.do"> <%=userName %> </a><!-- 기업회원 마이페이지 -->
 					</li>
 					<!-- 기업회원 마이페이지 -->
 					<li><a href="/Pickme/login/company/logout.do">로그아웃</a></li>

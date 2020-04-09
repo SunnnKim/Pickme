@@ -60,7 +60,26 @@ if (durl.contains("/login/com")){
 </ul>
 <%
 }	
-%>	
+%>
+
+<!-- 기업 마이페이지 -->	
+<%
+if (durl.contains("c_mypage")) {
+	if ( !durl.contains("c_mypage/myPage.jsp")) {
+		%>
+		<ul class = "depth02 clfix">
+			<li class = <%= durl.contains("update.jsp") ? " on" :" " %>>
+				<a href="goCMypage.do">기업정보 수정 · 등록</a>
+			</li>
+			<li class = <%= durl.contains("payment.jsp") ? " on" :" " %>>
+				<a href="goPayment.do">결제</a>
+			</li>
+			<li class = <%= durl.contains("withdrawal.jsp") ? " on" :" " %>>
+				<a href="goWithdrawal.do">탈퇴</a>
+			</li>
+		</ul>
+	<% }
+} %>
 
 
 
@@ -100,7 +119,9 @@ if( durl.contains("e_apply")){
 <% } %>
 
 <!-- recruit. 공고 insert -->
-<% if(durl.contains("/recruit/recInsert")){ %>
+<% if(durl.contains("/recruit/recInsert")){ 
+		if(!durl.contains("recDetail.jsp")){ 
+%>
   <ul class="depth02 clfix">
   <li class=<%= durl.contains("recNow.jsp") ? " on" :" "%>>
 		<a href="/Pickme/recruit/recNow.do">현재공고보기</a>
@@ -112,7 +133,7 @@ if( durl.contains("e_apply")){
 		<a href="/Pickme/recruit/recInsert.do">공고등록하기</a>
 	</li>
  </ul><!-- // depth02 -->
-<% } %>
+<% }} %>
 
 
 <!-- searchJob. 채용탐색 -->
@@ -120,4 +141,8 @@ if( durl.contains("e_apply")){
  <ul class="jobs_list clfix" id="joblist">
           </ul>
 <% } %>
+
+
+
+
 

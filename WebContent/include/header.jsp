@@ -91,7 +91,7 @@
 						[기업] <%=userName %> 
 					</li>
 					<!-- 일반회원 마이페이지 -->
-					<li><a href="/Pickme/login/company/logout.do">기업페이지</a></li>
+					<li><a href="/Pickme/c_member/goCMypage.do">기업페이지</a></li>
 				</ul>
 				 <%
 				 // 비로그인 시

@@ -12,6 +12,7 @@ import model.CMemberDto;
 import pickme.com.a.c_mypage.service.CMypageService;
 
 @Controller
+@RequestMapping(value = "/c_member")
 public class CMypageController {
 
 	@Autowired
@@ -26,4 +27,55 @@ public class CMypageController {
 		return "index2";
 	}
 	
+	
+	// 기업 마이페이지 이동
+	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String goCMyPage(CMemberDto dto) {
+		
+		service.goCMypage(dto);
+		
+		return "c_mypage/myPage";
+	}
+	
+	// 기업 수정페이지 이동
+	@RequestMapping(value = "goUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String goUpdate(CMemberDto dto) {
+			
+		service.goUpdate(dto);
+		
+		return "c_mypage/update";
+	}
+	
+	// 기업회원 탈퇴페이지 이동
+	@RequestMapping(value = "goWithdrawal.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String goWithdrawal(CMemberDto dto) {
+		
+		service.goWithdrawal(dto);
+		
+		return "c_mypage/withdrawal";
+	}
+	
+	// 결제 페이지 이동
+	@RequestMapping(value = "goPayment.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String goPayment() {
+		
+		return "c/mypage/payment";
+	}
+	
+	
+	// 기업회원 탈퇴
+	@RequestMapping(value = "withdrawal.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String withdrawal() throws Exception{
+		
+		
+		
+		return "main/main";
+	}
+	
 }
+
+
+
+
+
+

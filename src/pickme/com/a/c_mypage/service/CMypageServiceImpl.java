@@ -20,4 +20,25 @@ public class CMypageServiceImpl implements CMypageService{
 	}
 
 	
+	// 기업 마이페이지 이동
+	@Override
+	public void goCMypage(CMemberDto dto) {
+		dao.goCMypage(dto);
+	}
+
+	
+	// 기업 정보 수정페이지 이동
+	@Override
+	public void goUpdate(CMemberDto dto) {
+		dao.goUpdate(dto);
+	}
+
+	
+	// 기업 탈퇴 페이지 이동
+	@Override
+	public void goWithdrawal(CMemberDto dto) {
+		dao.goWithdrawal(dto);
+	}
+
+	
 }
