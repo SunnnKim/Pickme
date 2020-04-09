@@ -11,6 +11,8 @@ public class EApplyDto {
 	private String resumePath;
 	private String resumeName;
 	private int mainResume;
+	private String name; // 기업이름
+	private String edate;
 	
 
 	public EApplyDto() {
@@ -19,7 +21,7 @@ public class EApplyDto {
 
 
 	public EApplyDto(int seq, int jobSeq, int memSeq, String adate, int open, int cancel, String resumePath,
-			String resumeName, int mainResume) {
+			String resumeName, int mainResume, String name, String edate) {
 		super();
 		this.seq = seq;
 		this.jobSeq = jobSeq;
@@ -30,6 +32,8 @@ public class EApplyDto {
 		this.resumePath = resumePath;
 		this.resumeName = resumeName;
 		this.mainResume = mainResume;
+		this.name = name;
+		this.edate = edate;
 	}
 	public int getSeq() {
 		return seq;
@@ -46,7 +50,7 @@ public class EApplyDto {
 	public int getMemSeq() {
 		return memSeq;
 	}
-	public void setMem_seq(int memSeq) {
+	public void setMemSeq(int memSeq) {
 		this.memSeq = memSeq;
 	}
 	public String getAdate() {
@@ -86,12 +90,32 @@ public class EApplyDto {
 		this.mainResume = mainResume;
 	}
 	
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
+
+	public String getEdate() {
+		return edate;
+	}
+
+
+	public void setEdate(String edate) {
+		this.edate = edate;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ApplyDto [seq=" + seq + ", jobSeq=" + jobSeq + ", memSeq=" + memSeq + ", adate=" + adate + ", open="
 				+ open + ", cancel=" + cancel + ", resumePath=" + resumePath + ", resumeName=" + resumeName
-				+ ", mainResume=" + mainResume + "]";
+				+ ", mainResume=" + mainResume + ", name=" + name + ", memSeq" + memSeq + "]";
 	}
 	
 	

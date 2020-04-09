@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
+  "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="eApplyApply">
+       <select id="getCurAList" parameterType="model.MessageParam" resultType="model.EApplyDto">
+       		SELECT a.SEQ, a.JOBSEQ, a.MEMSEQ, a.ADATE, a.OPEN, a.CANCEL, a.RESUMEPATH, a.RESUMENAME, a.MAINRESUME, r.EDATE, c.NAME 
+       		FROM APPLY a, RECRUIT r, C_MEMBER c
+       		WHERE a.JOBSEQ = r.SEQ AND r.COMSEQ = c.SEQ  AND a.CANCEL = 0 AND  <![CDATA[r.EDATE >= DATE(NOW()) ]]>
+       	<if test="sKeyword != null and sKeyword !=''">
+			AND( r.EDATE LIKE CONCAT('%', #{sKeyword}, '%') OR a.ADATE LIKE CONCAT('%', #{sKeyword}, '%')OR  c.NAME = #{sKeyword})
+		</if>
+			ORDER BY a.ADATE DESC
+			LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+       
+       <!--  a.MEMSEQ = #{toSeq} AND  -->
+       </select>
+       
+       <select id="getTotalRecordCount" parameterType="model.MessageParam" resultType="int">
+ 	 	SELECT COUNT(*)
+ 	 	FROM APPLY a, RECRUIT r, C_MEMBER c
+ 	 	WHERE a.JOBSEQ = r.SEQ AND r.COMSEQ = c.SEQ  AND a.CANCEL = 0 AND  <![CDATA[r.EDATE >= DATE(NOW()) ]]>
+		<if test="sKeyword != null and sKeyword !=''">
+		 AND( r.EDATE LIKE CONCAT('%', #{sKeyword}, '%') OR a.ADATE LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
+		</if>
+ 	 </select>
+ 	 
+ 	 <update id="cancelApply" parameterType="int">
+	 	 UPDATE APPLY
+	 	 SET CANCEL = 1
+	 	 WHERE SEQ = #{seq}
+ 	 </update>
+  
+  	<update id="deleteApply" parameterType="int">
+	  	UPDATE APPLY
+	  	SET CANCEL = 1
+	  	WHERE SEQ = #{seq}
+  	</update>
+  	 
+  	<select id="getPastAList" parameterType="model.MessageParam" resultType="model.EApplyDto">
+       		SELECT a.SEQ, a.JOBSEQ, a.MEMSEQ, a.ADATE, a.OPEN, a.CANCEL, a.RESUMEPATH, a.RESUMENAME, a.MAINRESUME, r.EDATE, c.NAME 
+       		FROM APPLY a, RECRUIT r, C_MEMBER c
+       		WHERE a.JOBSEQ = r.SEQ AND r.COMSEQ = c.SEQ  AND a.CANCEL = 0 AND  <![CDATA[r.EDATE < DATE(NOW()) ]]>
+       	<if test="sKeyword != null and sKeyword !=''">
+			AND( r.EDATE LIKE CONCAT('%', #{sKeyword}, '%') OR a.ADATE LIKE CONCAT('%', #{sKeyword}, '%')OR  c.NAME = #{sKeyword})
+		</if>
+			ORDER BY a.ADATE DESC
+			LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+       
+       <!--  a.MEMSEQ = #{toSeq} AND  -->
+    </select>
+       
+    <select id="getTotalPastCount" parameterType="model.MessageParam" resultType="int">
+ 	 	SELECT COUNT(*)
+ 	 	FROM APPLY a, RECRUIT r, C_MEMBER c
+ 	 	WHERE a.JOBSEQ = r.SEQ AND r.COMSEQ = c.SEQ  AND a.CANCEL = 0 AND  <![CDATA[r.EDATE < DATE(NOW()) ]]>
+		<if test="sKeyword != null and sKeyword !=''">
+		 AND( r.EDATE LIKE CONCAT('%', #{sKeyword}, '%') OR a.ADATE LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
+		</if>
+ 	 </select>
+  </mapper>

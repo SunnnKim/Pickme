@@ -31,11 +31,19 @@ public class EMessageServiceImpl implements EMessageService {
 		return dao.addStar(seq);
 	}
 
+	// 받은 메시지 detail 
 	@Override
 	public MessageDto getMsgDetail(int seq) {
 		
 		return dao.getMsgDetail(seq);
 	}
+	
+	// 보낸메시지 detail
+	@Override
+	public MessageDto getSMsgDetail(int seq) {
+		
+		return dao.getSMsgDetail(seq);
+	};
 
 	@Override
 	public List<MessageDto> getImpoMsgList(MessageParam param) {
@@ -83,6 +91,31 @@ public class EMessageServiceImpl implements EMessageService {
 	public int sendMsg(MessageDto dto) {
 		
 		return dao.sendMsg(dto);
-	};
+	}
+
+	@Override
+	public int unreadCount(int seq) {
+		
+		return dao.unreadCount(seq);
+	}
+
+	@Override
+	public int impoUnreadCount(int seq) {
+	
+		return dao.impoUnreadCount(seq);
+	}
+
+	@Override
+	public List<MessageDto> getUnreadMsgCount(MessageParam param) {
+		
+		return dao.getUnreadMsgCount(param);
+	}
+
+	@Override
+	public List<MessageDto> getImpoUnreadMsgCount(MessageParam param) {
+		
+		return dao.getImpoUnreadMsgCount(param);
+	}
+
 
 }

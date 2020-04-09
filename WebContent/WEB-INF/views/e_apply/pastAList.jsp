@@ -1,5 +1,10 @@
+<%@page import="pickme.com.a.util.EApplyUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<!-- JSTL사용 추가 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
@@ -20,24 +25,28 @@
 	<!-- 검색창 -->
 	<div class="bbs-top">
 		<div class="form-search">
-			<input type="text" name="keyWord" title="검색어 입력"
+			<input type="text" id="_keyword" name="keyWord" title="검색어 입력"
 				placeholder="검색어를 입력해주세요." value="">
 			<button type="button" class="btn-search" onclick="searchAction()">
 				<span>검색</span>
 			</button>
 		</div>
 	</div>
-
+	<div class="bbs-infoWrap clfix mt30">
+		<div class="bbs-lt"> 총 <span>${totalRecordCount }</span>개</div>
+		<div class="bbs-rt"><p class=cancel-notice></p></div>
+	</div>
 
 <!-- 리스트 -->
-	<div class="table-col table-bbs">
+	<div class="table-col table-bbs past mt10">
 		<table>
 			<caption>전체</caption>
 			<colgroup>
-				<col style="width: 45px">
+				<col style="width: 100px">
 				<col style="width: 400px">
-				<col>
-				<col>
+				<col style="width: 150px">
+				<col style="width: 150px">
+				<col style="width: 140px">
 				<col style="width: 100px">
 			</colgroup>
 			<thead>
@@ -45,18 +54,42 @@
 					<th><input type="checkbox" id="checkall"></th>
 					<th>기업명</th>
 					<th>지원일</th>
-					<th>담당자확인여부</th>
+					<th>채용마감일</th>
+					<th>담당자확인</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
+			   <c:if test="${empty myPastApplyList }">
+					<tr>
+					<c:if test="${sKeyword != null }">
+						<td colspan="5">찾으시는 지원내역이 없습니다</td>
+					</c:if>
+					<c:if test="${sKeyword == null }">
+						<td colspan="5">과거에 지원하신 내역이 없습니다</td>
+					</c:if>
+					</tr>
+			</c:if>
+			<c:forEach items="${myPastApplyList }" var="myPastApply" varStatus="vs">
+			<c:set var="adate" value="${myPastApply.adate }"/>
 				<tr>
-					<td><input type="checkbox" name="checkRow" value=""></td>
-					<td><a href="채용공고페이지">기업명</a></td>
-					<td>2020-04-01</td>
-					<td>2020-04-05 12:40</td>
-					<td><button class="applyDelBtn" onclick="cancelApply()">삭제</button></td>
+					<td><input type="checkbox" name="checkRow" value="${myPastApply.seq  }"></td>
+					<td><a href="채용공고페이지">${myPastApply.name }</a></td>
+					<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("adate").toString())%></td>
+					<td>${myPastApply.edate }</td>
+					<c:if test="${myPastApply.open == 0 }">
+					<td>
+						<span>미확인</span>
+					</td>	
+					</c:if>
+					<c:if test="${myPastApply.open == 1 }">
+					<td>
+						<span>확인</span>
+						</td>
+					</c:if>
+					<td><button class="applyDelBtn" onclick="delApply(${myPastApply.seq})">삭제</button></td>
 				</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -68,83 +101,155 @@
 	
 	
 	<!-- 페이징 -->
-	<div class="paging">
-		<button type="button" class="btn-first"
-			onclick="getList('allList', 1)">
-			<span>처음</span>
-		</button>
-		<button type="button" class="btn-prev" onclick="getList('allList', 1)">
-			<span>이전</span>
-		</button>
-		<ul>
-			<li class="active"><span>1</span></li>
-			<li><a href="" onclick="">2</a></li>
-			<li><a href="" onclick="">3</a></li>
-		</ul>
-		<button type="button" class="btn-next" onclick="getList('allList', 2)">
-			<span>다음</span>
-		</button>
-		<button type="button" class="btn-last"
-			onclick="getList('allList', 10)">
-			<span>마지막</span>
-		</button>
-	</div>
+
+	<!-- 페이징 -->
+	<div id="paging_wrap">
+		<jsp:include page="/WEB-INF/views/e_apply/paging.jsp" flush="false">
+			<jsp:param name="totalRecordCount" value="${totalRecordCount }" />
+			<jsp:param name="pageNumber" value="${pageNumber }" />
+			<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
+			<jsp:param name="recordCountPerPage" value="${recordCountPerPage }" />
+		</jsp:include>
+	</div><!-- // paging_wrap -->
 
 </div>
 <!-- // allList -->
 
 <script>
+
+// 체크박스 전체 체크
+$("#checkall").click(function() {
+	if ($("#checkall").prop("checked")) {
+		$("input[name=checkRow]").prop("checked", true);
+	} else {
+		$("input[name=checkRow]").prop("checked", false);
+	}
+});
+
+function delApply(seq){
+	Swal.fire({
+	  title: '정말 삭제 하시겠습니까?',
+	  text: "",
+	  icon: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  cancelButtonText:'돌아가기',
+	  confirmButtonText: '삭제'
+	}).then((result) =>{
+		
+	  if (result.value) {
+		  var seqArray = [];
+			 seqArray.push(seq);
+		  
+		  $.ajax({
+				url        : "delApply.do",
+				dataType   : "json",
+				type       : "post",
+				traditional: true, // array보낼때 필요
+				data       : {"seqArray" : seqArray},
+				success    : function(data){
+					
+					if(data != null){
+
+						Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: '삭제되었습니다!',
+							  showConfirmButton: false,
+							  timer: 1000
+						}).then( (result) =>{
+							  var sKeyword = '<c:out value="${sKeyword}"/>';
+							  var pn = '<c:out value="${pageNumber}"/>'
+							
+							location.href="pastAList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+						})
+					}
+				},
+				error      : function(request, status, error){
+					alert("error");
+				}
+			});	
+	  }
+	});
+	
+}
+
+		/* 선택 삭제(체크박스된 것 전부) */
 		function deleteAction() {
-			var checkRow = "";
+			// 삭제할 seq 넣을 배열 선언
+			var seqArray = [];
 			$("input[name='checkRow']:checked").each(function() {
-				checkRow = checkRow + $(this).val() + ",";
+				// 배열에 집어넣기
+				seqArray.push($(this).val());
+			
 			});
-			checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
-			alert("checkRow : " + checkRow);
-			if (checkRow == '') {
+			// checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
+			
+			if (seqArray == null) {
 				alert("삭제 할 대상을 선택하세요.");
 				return false;
 			}
-			console.log("### checkRow => {}" + checkRow);
-		
-			if (confirm("선택한 항목을 삭제 하시겠습니까?")) {
+			// console.log("### checkRow => {}" + checkRow);
+			
+			alert("seq length:" + seqArray.length);
+
+			if(seqArray.length == 0){
+				alert("삭제하실 내역이 없습니다");
+				return false;
+			}
+			
+			if (confirm("정보를 삭제 하시겠습니까?")) {
 				//삭제처리 후 다시 불러올 리스트 url      
-		
-				
+				$.ajax({
+					url        : "delApply.do",
+					dataType   : "json",
+					type       : "post",
+				    traditional: true, // array보낼때 필요
+					data       : {"seqArray" : seqArray},
+					success    : function(data){
+						
+						if(data != null){
+							  var sKeyword = '<c:out value="${sKeyword}"/>';
+							  var pn = '<c:out value="${pageNumber}"/>'
+							
+							location.href="pastAList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+							
+						}
+					},
+					error      : function(request, status, error){
+						alert("error");
+					}
+				});
 			}
 		}
 
-	
-	function cancelApply(){
-		Swal.fire({
-		  title: "정말 삭제하시겠습니까?",
-		  text: "",
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  cancelButtonText:'취소',
-		  confirmButtonText: '삭제'
-		}).then((result) =>{
-		  if (result.value) {
-			 // ajax로 삭제 구현
-		    Swal.fire(
-		      '',
-		      '성공적으로 삭제가 되었습니다',
-		      ''
-		    )
-		  }
-		});
-		
-	}
+		/* 페이지 이동 */
+		function goPage(pn){
+		  var sKeyword = '<c:out value="${sKeyword}"/>';
+		//  alert("sKeyword: " + sKeyword);	
+			
+		  location.href="pastAList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
+			
+		}
 
-	/*담당자 확인한 경우 삭제버튼 disabled*/
-	
-	
+
 	/* 검색 */
 	function searchAction() {
-		alert("검색 버튼 클릭");
-	}
+		var sKeyword =($("#_keyword").val()).trim();
+		
+		//	alert("sKeyword: " + sKeyword );
+			if(sKeyword == null || sKeyword == ""){
+				alert("검색어를 입력해주세요.");
+			}else{
+			 location.href="pastAList.do?sKeyword=" + sKeyword +"&pageNumber=0";
+			}	
+		}
+		
+		$("#_keyword").keyup(function(e){if(e.keyCode == 13) searchAction(); });
+
+		
+
 	</script>
 
 

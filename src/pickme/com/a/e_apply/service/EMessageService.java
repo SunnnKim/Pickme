@@ -16,6 +16,8 @@ public interface EMessageService {
 	
 	public MessageDto getMsgDetail(int seq);
 	
+	public MessageDto getSMsgDetail(int seq);
+	
 	public List<MessageDto> getImpoMsgList(MessageParam param);
 	
 	public int getImpoCount(MessageParam param);
@@ -31,5 +33,14 @@ public interface EMessageService {
 	public int msgOpen(int seq);
 	
 	public int sendMsg(MessageDto dto);
+	
+	public int unreadCount(int seq);
+	
+	public int impoUnreadCount(int seq);
+	
+	public List<MessageDto> getUnreadMsgCount(MessageParam param);
+	
+	public List<MessageDto> getImpoUnreadMsgCount(MessageParam param);
+	
 	
 }

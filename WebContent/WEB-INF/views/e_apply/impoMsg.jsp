@@ -33,9 +33,14 @@
 		</div>
 	</div>
 
+	<div class="bbs-infoWrap clfix mt30">
+		<div class="bbs-lt"> 총 <span>${totalRecordCount }</span>개</div>
 
-	<!-- 리스트 -->
-	<div class="table-col table-bbs">
+		<div class="bbs-rt">
+		     <a href="unread.do?page=impoMsg"><p class="unread">안읽은메시지 ${unreadCount}</p></a>
+		</div>
+	</div>	<!-- 리스트 -->
+	<div class="table-col table-bbs msg mt10">
 		<jsp:useBean id="paging" class="pickme.com.a.util.EApplyUtil"/>
 		<table>
 			<caption>전체</caption>
@@ -58,13 +63,16 @@
 			<tbody>
 			<c:if test="${empty impoMsglist }">
 			<tr>
+				<c:if test="${unreadCount == 0 && isUnread != null }">
+					<td colspan="5">안읽으신 메시지가 없습니다</td>
+				</c:if>
 				<c:if test="${sKeyword != null }">
 					<td colspan="5">찾으시는 메시지가 없습니다</td>
 				</c:if>
-				<c:if test="${sKeyword == null}">
+				<c:if test="${sKeyword == null && isUnread == null}">
 					<td colspan="5">중요 메시지가 없습니다</td>
 				</c:if>
-				</tr>
+			</tr>
 				
 			</c:if>
 			
@@ -88,11 +96,16 @@
 						<!-- 메시지내용 안읽은경우 굵은글씨 --> 
 						<td>	
 							<c:if test="${ impoMsg.open == 0 }" >
-							
-								<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}"><span style="text-align:left;font-weight:600"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
+								<c:if test="${isUnread != null }">
+									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=1"><span style="text-align:left;color:#777;font-weight:600"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
+								</c:if>
+								<c:if test="${isUnread == null }">
+									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;color:#777;font-weight:600"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
+								</c:if>
+									
 							</c:if>
 							<c:if test="${impoMsg.open == 1 }">
-								<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}"><span style="text-align:left;color:#777;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
+									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
 							</c:if>
 						</td>
 						<td> ${ impoMsg.name } <input type="hidden" id="_seq" value="${ impoMsg.seq}"></td>
@@ -214,15 +227,14 @@
 			 				
 			 				if(data != null){
 			 					location.href="impoMsg.do"
-			 					alert("중요메시지에서 삭제되었습니다 ");
+			 				//	alert("중요메시지에서 삭제되었습니다 ");
 			 				}
 			 			},
 			 			error: function(){
 			 				
 			 			}
 			 		});
-				} 
-			
+				} 	
 		});	
 	})
 
@@ -244,7 +256,13 @@
 		}
 		// console.log("### checkRow => {}" + checkRow);
 		
-		alert(seqArray.length);
+		// alert(seqArray.length);
+
+		if(seqArray.length == 0){
+			alert("삭제하실 내역이 없습니다");
+			return false;
+		}
+		
 		if (confirm("정보를 삭제 하시겠습니까?")) {
 			//삭제처리 후 다시 불러올 리스트 url      
 			$.ajax({
@@ -257,7 +275,10 @@
 					
 					if(data != null){
 						
-						location.href="impoMsg.do";
+						  var sKeyword = '<c:out value="${sKeyword}"/>';
+						  var pn = '<c:out value="${pageNumber}"/>'
+						
+						location.href="impoMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
 						
 					}
 				},
@@ -270,10 +291,21 @@
 	/* 페이지 이동 */
 	function goPage(pn){
 	  var sKeyword = '<c:out value="${sKeyword}"/>';
-	  alert("sKeyword: " + sKeyword);	
+	  alert("sKeyword: " + sKeyword);
+
+	  var isUnread = '<c:out value="${isUnread}"/>';
+
+	  alert(isUnread);
+
+	  if(isUnread == 'yes'){
+		  
+		  location.href="unread.do?page=impoMsg&pageNumber=" + pn;
+
+	 }else{	
 		
-	  location.href="impoMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
-		
+	  	location.href="impoMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
+
+	 }	
 	}
 
 	

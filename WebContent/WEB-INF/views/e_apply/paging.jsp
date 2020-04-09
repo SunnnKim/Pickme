@@ -53,6 +53,7 @@
 		screenEndPageIndex = totalPageCount;
 	}
 	
+	
 	System.out.println("totalPageCount: " + totalPageCount);
 	System.out.println("screenEndPageIndex: " + screenEndPageIndex);
 	
@@ -69,7 +70,7 @@
 %>
 
 <!-- paging 출력 -->
-<div class="paging" style="float: left;width: 96%; text-align: center;">
+<div class="paging" >
 	<!-- << -->
 	<button type="button" class="btn-first"
 			onclick="goPage(0)">
@@ -106,6 +107,10 @@
 	
 	<ul>
 	<%
+	if(screenStartPageIndex == screenEndPageIndex){%>
+		<li class="active"><span>1</span></li>
+	<% }
+	
 	for(int i = screenStartPageIndex; i < screenEndPageIndex; i++){
 		if(i == pageNumber){	// 현재 페이지	2
 			%>

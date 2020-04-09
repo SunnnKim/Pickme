@@ -1,5 +1,10 @@
+<%@page import="pickme.com.a.util.EApplyUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<!-- JSTL사용 추가 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
@@ -20,26 +25,28 @@
 	<!-- 검색창 -->
 	<div class="bbs-top">
 		<div class="form-search">
-			<input type="text" name="keyWord" title="검색어 입력"
+			<input type="text"  id="_keyword" name="keyWord" title="검색어 입력"
 				placeholder="검색어를 입력해주세요." value="">
 			<button type="button" class="btn-search" onclick="searchAction()">
 				<span>검색</span>
 			</button>
 		</div>
 	</div>
-
-
+	<div class="bbs-infoWrap clfix mt30">
+		<div class="bbs-lt"> 총 <span>${totalRecordCount }</span>개</div>
+		<div class="bbs-rt"><p class=cancel-notice>※담당자 확인 후에는 지원을 취소하실 수 없습니다.</p></div>
+	</div>
 	<!-- 리스트 -->
-	<div class="table-col table-bbs">
-		<table>
+	<div class="table-col table-bbs cur mt10">
+		<table >
 			<caption>전체</caption>
 			<colgroup>
-				<col style="width: 45px">
-				<col>
-				<col style="width: 140px">
+				<col style="width: 100px">
+				<col style="width: 400px">
+				<col style="width: 150px">
 				<col style="width: 180px">
 				<col style="width: 140px">
-				<col style="width: 80px">
+				<col style="width: 180px">
 			</colgroup>
 			<thead>
 				<tr>
@@ -52,45 +59,58 @@
 				</tr>
 			</thead>
 			<tbody>
+			<c:if test="${empty myApplyList }">
 				<tr>
-					<td>1</td>
-					<td><a href="채용공고페이지" title="채용공고 페이지로 이동">기업명</a></td>
-					<td>2020-04-01</td>
-					<td>2020-04-05 12:40</td>
-					<td>확인/미확인</td>
-					<td><button class="applyDelBtn" onclick="cancelApply()">지원취소</button></td>
+				<c:if test="${sKeyword != null }">
+					<td colspan="5">찾으시는 지원내역이 없습니다</td>
+				</c:if>
+				<c:if test="${sKeyword == null }">
+					<td colspan="5">지원하신 내역이 없습니다</td>
+				</c:if>
 				</tr>
+			</c:if>
+			
+			<c:forEach items="${myApplyList }" var="myApply" varStatus="vs">
+			<c:set var="adate" value="${myApply.adate }"/>
+				<tr >
+					<td>${vs.index + 1 }</td>
+					<td><a href="채용공고페이지로" title="채용공고 페이지로 이동" style="text-align:center;">${myApply.name }</a></td>
+					<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("adate").toString())%></td>
+					<td>${myApply.edate }</td>
+					<c:if test="${myApply.open == 0 }">
+					<td>
+						<span>미확인</span>
+					</td>
+					<td><button class="applyDelBtn" onclick="cancelApply(${myApply.seq})">지원취소</button></td>	
+					</c:if>
+					<c:if test="${myApply.open == 1 }">
+					<td>
+						<span>확인</span>
+						</td>
+					<td><span style="color:red;">취소불가</span></td>
+					</c:if>
+					
+				</tr>
+			</c:forEach>	
 			</tbody>
 		</table>
 	</div><!-- 페이징 -->
-	<div class="paging">
-		<button type="button" class="btn-first"
-			onclick="getList('allList', 1)">
-			<span>처음</span>
-		</button>
-		<button type="button" class="btn-prev" onclick="getList('allList', 1)">
-			<span>이전</span>
-		</button>
-		<ul>
-			<li class="active"><span>1</span></li>
-			<li><a href="" onclick="">2</a></li>
-			<li><a href="" onclick="">3</a></li>
-		</ul>
-		<button type="button" class="btn-next" onclick="getList('allList', 2)">
-			<span>다음</span>
-		</button>
-		<button type="button" class="btn-last"
-			onclick="getList('allList', 10)">
-			<span>마지막</span>
-		</button>
-	</div>
+<!-- 페이징 -->
+	<div id="paging_wrap">
+		<jsp:include page="/WEB-INF/views/e_apply/paging.jsp" flush="false">
+			<jsp:param name="totalRecordCount" value="${totalRecordCount }" />
+			<jsp:param name="pageNumber" value="${pageNumber }" />
+			<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
+			<jsp:param name="recordCountPerPage" value="${recordCountPerPage }" />
+		</jsp:include>
+	</div><!-- // paging_wrap -->
 
 </div>
 <!-- // allList -->
 
 <script>
 	
-	function cancelApply(){
+	function cancelApply(seq){
 		Swal.fire({
 		  title: '지원취소하시기를 원하십니까?',
 		  text: "",
@@ -102,24 +122,65 @@
 		  confirmButtonText: '지원취소'
 		}).then((result) =>{
 		  if (result.value) {
-			 // ajax로 삭제 구현
-		    Swal.fire(
-		      '',
-		      '지원이 취소되었습니다',
-		      ''
-		    )
+			  $.ajax({
+					url        : "cancelApply.do",
+					dataType   : "json",
+					type       : "post",
+					data       : {"seq" : seq },
+					success    : function(data){
+						
+						if(data != null){
+							Swal.fire({
+								  position: 'center',
+								  icon: 'success',
+								  title: '취소되었습니다!',
+								  showConfirmButton: false,
+								  timer: 1000
+							}).then( (result) =>{
+
+							  var sKeyword = '<c:out value="${sKeyword}"/>';
+							  var pn = '<c:out value="${pageNumber}"/>'
+							
+							location.href="curAList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+							});
+						}
+					},
+					error      : function(request, status, error){
+						alert("error");
+					}
+				});	
 		  }
 		});
 		
 	}
 
-	/*담당자 확인한 경우 삭제버튼 disabled*/
 	
+
+	
+		/* 페이지 이동 */
+	function goPage(pn){
+	  var sKeyword = '<c:out value="${sKeyword}"/>';
+	//  alert("sKeyword: " + sKeyword);	
+		
+	  location.href="curAList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
+		
+	}
 	
 	/* 검색 */
 	function searchAction() {
-		alert("검색 버튼 클릭");
-	}
+		var sKeyword =($("#_keyword").val()).trim();
+		
+		//	alert("sKeyword: " + sKeyword );
+			if(sKeyword == null || sKeyword == ""){
+				alert("검색어를 입력해주세요.");
+			}else{
+			 location.href="curAList.do?sKeyword=" + sKeyword +"&pageNumber=0";
+			}	
+		}
+		
+		$("#_keyword").keyup(function(e){if(e.keyCode == 13) searchAction(); });
+
+		
 </script>
 
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class MessageParam implements Serializable{
 	
 	// login id
-	private String toSeq;
+	private int toSeq;
 	
 	// search 
 	private String sKeyword;
@@ -25,7 +25,7 @@ public class MessageParam implements Serializable{
 	}
 
 
-	public MessageParam(String toSeq, String sKeyword, int pageNumber, int recordCountPerPage, int start, int end) {
+	public MessageParam(int toSeq, String sKeyword, int pageNumber, int recordCountPerPage, int start, int end) {
 		super();
 		this.toSeq = toSeq;
 		this.sKeyword = sKeyword;
@@ -36,12 +36,12 @@ public class MessageParam implements Serializable{
 	}
 
 
-	public String getToSeq() {
+	public int getToSeq() {
 		return toSeq;
 	}
 
 
-	public void setToSeq(String toSeq) {
+	public void setToSeq(int toSeq) {
 		this.toSeq = toSeq;
 	}
 
@@ -93,6 +93,13 @@ public class MessageParam implements Serializable{
 
 	public void setEnd(int end) {
 		this.end = end;
+	}
+
+
+	@Override
+	public String toString() {
+		return "MessageParam [toSeq=" + toSeq + ", sKeyword=" + sKeyword + ", pageNumber=" + pageNumber
+				+ ", recordCountPerPage=" + recordCountPerPage + ", start=" + start + ", end=" + end + "]";
 	}
 	
 	

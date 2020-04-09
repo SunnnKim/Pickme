@@ -46,6 +46,13 @@ public class EMessageDaoImpl implements EMessageDao {
 		
 		return sqlSession.selectOne(ns + "getMsgDetail" , seq);
 	}
+	
+
+	@Override
+	public MessageDto getSMsgDetail(int seq) {
+		
+		return sqlSession.selectOne(ns + "getSMsgDetail", seq);
+	}
 
 	@Override
 	public List<MessageDto> getImpoMsgList(MessageParam param) {
@@ -106,8 +113,30 @@ public class EMessageDaoImpl implements EMessageDao {
 		
 		return sqlSession.insert(ns + "sendMsg" ,  dto);
 	}
-	
-	
-	
+
+	@Override
+	public int unreadCount(int seq) {
+		
+		return sqlSession.selectOne(ns + "unreadCount", seq);
+	}
+
+	@Override
+	public int impoUnreadCount(int seq) {
+		
+		return sqlSession.selectOne(ns + "impoUnreadCount", seq);
+	}
+
+	@Override
+	public List<MessageDto> getUnreadMsgCount(MessageParam param) {
+		
+		return sqlSession.selectList(ns + "getUnreadMsgCount", param);
+	}
+
+	@Override
+	public List<MessageDto> getImpoUnreadMsgCount(MessageParam param) {
+		
+		return sqlSession.selectList(ns + "getImpoUnreadMsgCount", param);
+	}
+		
 	
 }

@@ -6,7 +6,7 @@
   
 	<select id="getInMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
-		FROM MESSAGE m, C_Member c
+		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m, C_Member c
 		WHERE m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
@@ -17,8 +17,8 @@
 
  	 <select id="getTotalRecordCount" parameterType="model.MessageParam" resultType="int">
  	 	SELECT COUNT(*)
- 	 	FROM MESSAGE m, C_Member c
- 	 	WHERE m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
+ 	 	FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m, C_Member c
+ 	 	WHERE  m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
@@ -43,12 +43,21 @@
 		FROM MESSAGE m, C_Member c
 		WHERE m.FROM = c.SEQ AND m.SEQ = ${seq}
 		
-	
 	</select>
+	
+	<select id="getSMsgDetail" parameterType="int" resultType="model.MessageDto">
+		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, c.NAME
+		FROM MESSAGE m, C_Member c
+		WHERE m.TO = c.SEQ AND m.SEQ = ${seq}
+		
+	</select>
+	
+	
+	
  	 
  	 <select id="getImpoMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
-		FROM MESSAGE m, C_Member c
+		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m, C_Member c
 		WHERE m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
@@ -60,7 +69,7 @@
  	 
  	 <select id="getImpoCount" parameterType="model.MessageParam" resultType="int">
  	 	SELECT COUNT(*)
- 	 	FROM MESSAGE m, C_Member c
+ 	 	FROM (SELECT * FROM MESSAGE WHERE `TO` =  #{toSeq}) m, C_Member c
  	 	WHERE m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
@@ -76,8 +85,8 @@
  	 
  	 <select id="getOutMsgList" parameterType="model.MessageParam" resultType="model.MessageDto">
  	 	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
-		FROM MESSAGE m, C_Member c
-		WHERE m.FROM = c.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+		FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m, C_Member c
+		WHERE m.TO = c.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
@@ -88,8 +97,8 @@
  	 
  	 <select id="getSendCount" parameterType="model.MessageParam" resultType="int">
  	 	SELECT COUNT(*)
- 	 	FROM MESSAGE m, C_Member c
- 	 	WHERE m.FROM = c.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+ 	 	FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m, C_Member c
+ 	 	WHERE m.TO = c.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
@@ -107,6 +116,42 @@
  	 	VALUES(SEQ, #{content}, #{from}, #{to} , NOW(), 0, 0, 0, "mem")
  	 
  	 </insert>
-
+ 	 
+ 	 <select id="unreadCount" parameterType="int" resultType="int">
+ 	 	SELECT COUNT(*)
+ 	 	FROM MESSAGE 
+ 	 	WHERE `TO` = #{seq} AND OPEN = 0 AND DEL = 0 AND DISTINGUISH = 'com'
+ 	 </select>
+	
+	<select id="impoUnreadCount" parameterType="int" resultType="int">
+ 	 	SELECT COUNT(*)
+ 	 	FROM MESSAGE 
+ 	 	WHERE `TO` = #{seq} AND OPEN = 0 AND DEL = 0 AND IMPORTANT = 1 AND DISTINGUISH = 'com'
+ 	 </select>
+ 	
+ 	<select id="getUnreadMsgCount" parameterType="model.MessageParam" resultType="model.MessageDto">
+ 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
+		FROM (SELECT * FROM MESSAGE WHERE `TO` =  #{toSeq}) m, C_Member c
+		WHERE m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0 AND m.OPEN = 0
+		<if test="sKeyword != null and sKeyword !=''">
+		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
+		</if>
+		ORDER BY m.SDATE DESC
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+ 	
+ 	</select> 
+ 	
+ 	<select id="getImpoUnreadMsgCount" parameterType="model.MessageParam" resultType="model.MessageDto">
+ 				SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
+		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m, C_Member c
+		WHERE m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0 AND m.OPEN = 0
+		<if test="sKeyword != null and sKeyword !=''">
+		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
+		</if>
+		ORDER BY m.SDATE DESC
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+ 	
+ 	</select>  
+ 	 
  	 
   </mapper>

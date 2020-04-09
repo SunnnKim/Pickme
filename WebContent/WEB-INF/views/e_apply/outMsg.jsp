@@ -34,9 +34,15 @@
 		</div>
 	</div>
 
+	<div class="bbs-infoWrap clfix mt30">
+		<div class="bbs-lt"> 총 <span>${totalRecordCount }</span>개</div>
+		<div class="bbs-rt">
+		     <a href="unread.do?page=inMsg"></a>
+		</div>
+	</div>
 
 	<!-- 리스트 -->
-	<div class="table-col table-bbs">
+	<div class="table-col table-bbs msg mt10">
 		<jsp:useBean id="paging" class="pickme.com.a.util.EApplyUtil"/>
 		<table>
 			<caption>전체</caption>
@@ -73,12 +79,12 @@
 					<tr><!-- 중요메시지 표시 -->
 					<td>
 						
-						<a href="seeMsg.do?seq=${outMsg.seq }&page=outMsg&pageNumber=${pageNumber}"><span style="text-align:left;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
+						<a href="seeMsg.do?seq=${outMsg.seq }&page=outMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
 					
 					</td>
 					<td> ${ outMsg.name } <input type="hidden" id="_seq" value="${ outMsg.seq}"></td>
 					<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td>
-						<!-- 메시지내용 안읽은경우 굵은글씨 --> 
+						
 						<td>	
 							<c:if test="${ outMsg.open == 0 }" >
 								<span>읽지않음</span>
@@ -178,7 +184,13 @@
 		}
 		// console.log("### checkRow => {}" + checkRow);
 		
-		alert(seqArray.length);
+		// alert(seqArray.length);
+
+		if(seqArray.length == 0){
+			alert("삭제하실 내역이 없습니다");
+			return false;
+		}
+		
 		if (confirm("정보를 삭제 하시겠습니까?")) {
 			//삭제처리 후 다시 불러올 리스트 url      
 			$.ajax({
@@ -191,7 +203,10 @@
 					
 					if(data != null){
 						
-						location.href="outMsg.do";
+						  var sKeyword = '<c:out value="${sKeyword}"/>';
+						  var pn = '<c:out value="${pageNumber}"/>'
+						
+						location.href="outMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
 						
 					}
 				},

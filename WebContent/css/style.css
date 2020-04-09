@@ -168,6 +168,7 @@ p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
 .tab-default a {display:block; height:50px; line-height:50px; font-size:16px; color:#767676;}
 .tab-default .active a {color:#4f6eff; font-weight:500;}
 
+
 .tab-table {display:table; width:100%; table-layout:fixed;}
 .tab-table li {float:none; display:table-cell;}
 
@@ -192,7 +193,7 @@ p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
 .bbs-list .important .row {background-color:#f6faf8;}
 .bbs-list .important .title {font-weight:500;}
 
-.table-bbs {margin-top:30px;}
+.table-bbs {margin-top:10px;}
 .table-bbs thead th {padding:17px 30px; color: #000;}
 .table-bbs tbody td {padding:17px 30px; color: #767676;}
 .table-bbs a {display: block;}
@@ -303,6 +304,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .table-col table {}
 .table-col th,
 .table-col td{ padding:9px 30px 10px; border-top:1px solid #ddd; font-size:15px; color:#555; text-align:center; background:#fff;}
+.table-col.cur td:last-child span {display:inline-block; height:40px; line-height:40px;}
 .table-col th{font-weight:500; color:#000;}
 .table-col tr.type2 th{padding:7px 30px 8px; background:#f8f8f8;}
 .table-col thead tr + tr th {border-top: 1px solid #ddd;}
@@ -355,6 +357,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .btn-message button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
 
 .table-bbs td a {display: block; text-align: left; max-width: 340px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.table-bbs.past td a {text-align:center;}
 .star-td i {font-size: 20px; color: #ddd; cursor: pointer;}
 .star-td i.on {color: #fccd35;}
 
@@ -393,6 +396,9 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .messageBtn button {display:inline-block; width:90px; height:45px; line-height:45px; font-size:15px; background:#333; color:#fff; margin:0 4px;}
 .messageBox textarea:focus {outline: none;}
 
+
+
+
 .comeMsg .title{position:relative; width:100%; height: 45px; padding:10px 15px; border-bottom:1px solid #ddd;}
 .comeMsg .title span{display:block; position:absolute; top:0; right:0; padding: 15px 0px;}
 .comeMsg .from {width:100%; padding:10px 15px; border-bottom:1px solid #ddd;} 
@@ -415,12 +421,19 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .msgBtn button {display:inline-block; width:100px; height:45px; line-height:45px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
 .msgText textarea:focus {outline: none;}
 
+
 /* apply - applyList */
 .btn-apply{width:100%; height:50px;}
 .btn-apply button{width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: block; font-size: 15px; margin-top: 15px; cursor: pointer;}
 .btn-apply button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
-.applyDelBtn{width:70px; height:40px; line-height:40px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
-
+.applyDelBtn{width:80px; height:40px; line-height:40px; font-size:15px; background:#4f6eff; color:#fff; margin:0 3px;}
+.applyDelBtn2{width:80px; height:40px; line-height:40px; font-size:15px; background:#777; color:#fff; margin:0 3px;}
+.bbs-infoWrap{line-height:24px;}
+.bbs-infoWrap .bbs-lt{float:left;padding-left:5px;}
+.bbs-infoWrap .bbs-lt span{font-weight:600;}
+.bbs-infoWrap .bbs-rt{float:right;}
+.bbs-infoWrap .bbs-rt p.unread{ background:#4f6eff; border-radius:10; padding:5px; color: #fff; font-weight: 400px; font-size:13px;}
+p.cancel-notice{font-size:12px; color:#8aa5c1; text-align:right;}
 /* apply - cvReq */
 .cvAcepBtn{width:70px; height:40px; line-height:40px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
 .cvRejBtn{width:70px; height:40px; line-height:40px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
@@ -428,10 +441,6 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .cvreq-DelBtn{width:100%; height:50px}
 .cvreq-DelBtn button{width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: inline-block; font-size: 15px; margin-top: 15px; cursor: pointer;}
 .cvreq-DelBtn button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
-
-
-
-
 
 
 /*============ 채용등록 시작 ============*/

@@ -34,8 +34,8 @@
          <div class="title">
               <span>${ msgDetail.sdate}</span><!-- 메시지 보낸 날짜 불러오기-->
           </div><!-- // title-->
-          <div class="from">            
-             <a href="클릭시 기업정보페이지가기"><span class=msgFrom>${msgDetail.name } </span></a>
+          <div class="from">             
+             <a href="클릭시 기업정보페이지가기"><span class=msgFrom>  언리드: ${unread } ) ${msgDetail.name } </span></a>
           </div>
           <div class="msg-content" >
             <p>
@@ -46,15 +46,26 @@
           <div class="messageBtn" id="msgBtn">
               <button onclick="delcheck()">삭제하기</button>  
               <button id="_reply" onclick="reply()">답장하기</button> 
+           
               
-          <c:if test="${page eq 'inMsg'}">   
-              <a href="inMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+          <c:if test="${page eq 'inMsg'}">
+          	  <c:if test="${unread == 0 }">
+          		  <a href="inMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+          	  </c:if> 
+          	  <c:if test="${unread == 1 }">
+              	<a href="unread.do?page=inMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
+         	</c:if>
           </c:if>
 		 <c:if test="${page eq 'impoMsg'}">
-          	    <a href="impoMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
-          </c:if>
-          <c:if test="${page eq 'outMsg' }" >   
-                <a href="outMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+		 	<c:if test="${unread == 0 }">
+		 		 <a href="impoMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+		 	</c:if>
+		 	<c:if test="${unread == 1 }">
+		 		 <a href="unread.do?page=impoMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
+		 	</c:if>
+        </c:if>
+        <c:if test="${page eq 'outMsg' }" >  
+         		 <a href="outMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a> 
          </c:if>
           </div><!-- // messageBtn-->
         </div><!--// comeMsg-->

@@ -14,7 +14,7 @@
 
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
-	<li id="inMsg"class="active"><a href="inMsg.do" >받은 메시지</a></li>
+	<li id="inMsg" class="active"><a href="inMsg.do" >받은 메시지</a></li>
 	<li id="outMsg"><a href="outMsg.do" >보낸 메시지</a></li>
 	<li id="impoMsg"><a href="impoMsg.do" >중요 메시지</a></li>
 </ul>
@@ -31,10 +31,18 @@
 			</button>
 		</div>
 	</div>
+	<div class="bbs-infoWrap clfix mt30">
+		<div class="bbs-lt"> 총 <span>${totalRecordCount }</span>개</div>
+		<div class="bbs-rt">
+		     <a href="unread.do?page=inMsg"><p class="unread">안읽은메시지 ${unreadCount}</p></a>
+		</div>
+	</div>
 
+	
 
 	<!-- 리스트 -->
-	<div class="table-col table-bbs">
+	<div class="table-col table-bbs msg mt10">
+	
 		<jsp:useBean id="paging" class="pickme.com.a.util.EApplyUtil"/>
 		<table>
 			<caption>전체</caption>
@@ -56,12 +64,14 @@
 			</thead>
 			<tbody>
 			<c:if test="${empty inMsglist }">
-
 				<tr>
+				<c:if test="${unreadCount == 0 && isUnread != null}">
+					<td colspan="5">안읽으신 메시지가 없습니다</td>
+				</c:if>
 				<c:if test="${sKeyword != null }">
 					<td colspan="5">찾으시는 메시지가 없습니다</td>
 				</c:if>
-				<c:if test="${sKeyword == null}">
+				<c:if test="${sKeyword == null && isUnread == null}">
 					<td colspan="5">받은 메시지가 없습니다</td>
 				</c:if>
 				</tr>
@@ -78,19 +88,24 @@
 							</i>
 						</c:if>
 						<c:if test="${ inMsg.important == 1 }">
-							<i class="fas fa-star on"> <input
-							type="hidden" value="${inMsg.seq }">
+							<i class="fas fa-star on"> <input type="hidden" value="${inMsg.seq }">
 							</i>
 						</c:if>
 						</td>
 						<!-- 메시지내용 안읽은경우 굵은글씨 --> 
 						<td>	
 							<c:if test="${ inMsg.open == 0 }" >
-							
-								<a href="seeMsg.do?seq=${inMsg.seq }&page=inMsg&pageNumber=${pageNumber}"><span style="text-align:left;font-weight:600"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
+								<c:if test="${isUnread != null }">
+							    	
+									<a href="seeMsg.do?seq=${inMsg.seq }&page=inMsg&pageNumber=${pageNumber}&unread=1"><span style="text-align:left;color:#777;font-weight:600"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
+								</c:if>
+								<c:if test="${isUnread == null }">
+								 	<a href="seeMsg.do?seq=${inMsg.seq }&page=inMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;color:#777;font-weight:600"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
+								</c:if>	
 							</c:if>
 							<c:if test="${inMsg.open == 1 }">
-								<a href="seeMsg.do?seq=${inMsg.seq }&page=inMsg&pageNumber=${pageNumber}"><span style="text-align:left;color:#777;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
+								<a href="seeMsg.do?seq=${inMsg.seq }&page=inMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
+	
 							</c:if>
 						</td>
 						<td> ${ inMsg.name } <input type="hidden" id="_seq" value="${ inMsg.seq}"></td>
@@ -164,7 +179,7 @@
 			} else {
 				$("input[name=checkRow]").prop("checked", false);
 			}
-		})
+		});
 
 		// 중요메세지 표시
 		$('.star-td i').click(function() {
@@ -182,7 +197,6 @@
 			 // 클릭한 중요 별이 속해있는 tr 가져오기 
 			 // prevAll은 현재 tr요소 앞의 모든 tr요소 이므로 그 length 값에 +1을 해야 현재 tr의 넘버를 알 수 있음
 
-
 			 	$.ajax({
 			 			url:"addStar.do",
 			 			dataType: "JSON",
@@ -191,7 +205,7 @@
 			 			success: function(data){
 			 				
 			 				if(data != null){
-			 					alert("중요메시지에 추가되었습니다 ");
+			 				//	alert("중요메시지에 추가되었습니다 ");
 			 				}
 			 			},
 			 			error: function(){
@@ -238,9 +252,16 @@
 		}
 		// console.log("### checkRow => {}" + checkRow);
 		
-		alert(seqArray.length);
+		// alert(seqArray.length);
+
+		if(seqArray.length == 0){
+			alert("삭제하실 내역이 없습니다");
+			return false;
+		}
+
+		
 		if (confirm("정보를 삭제 하시겠습니까?")) {
-			//삭제처리 후 다시 불러올 리스트 url      
+		   
 			$.ajax({
 				url        : "deleteMsg.do",
 				dataType   : "json",
@@ -250,8 +271,10 @@
 				success    : function(data){
 					
 					if(data != null){
-						
-						location.href="inMsg.do";
+						  var sKeyword = '<c:out value="${sKeyword}"/>';
+						  var pn = '<c:out value="${pageNumber}"/>'
+						//삭제처리 후 다시 불러올 리스트 url   
+						location.href="inMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
 						
 					}
 				},
@@ -263,15 +286,23 @@
 	}
 
 	/* 페이지 이동 */
-	function goPage(pn){
+function goPage(pn){
 	  var sKeyword = '<c:out value="${sKeyword}"/>';
 	//  alert("sKeyword: " + sKeyword);	
-		
+
+	  var isUnread = '<c:out value="${isUnread}"/>';
+	  alert("확인 " + isUnread);
+
+	  if(isUnread == 'yes'){
+		  location.href="unread.do?page=inMsg&pageNumber=" + pn;
+
+
+	 }else{	
+	
 	  location.href="inMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 		
 	}
-
-	
+}
 	
 	/* 메시지 작성 */
 	function writeAction() {
