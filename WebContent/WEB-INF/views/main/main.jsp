@@ -78,7 +78,7 @@
 				 <nav class="gnb">
 					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
 					<a href="#">지원현황</a><!-- 기업회원 지원현황  -->
-					<a href="/Pickme/e_apply/curCvReq.do">채용관리</a><!-- 기업회원 채용현황  -->
+					<a href="/Pickme/recruit/recInsert.do">채용관리</a><!-- 기업회원 채용현황  -->
 					<a href="#none">고객센터</a>
 				</nav>
 				<!-- // gnb -->

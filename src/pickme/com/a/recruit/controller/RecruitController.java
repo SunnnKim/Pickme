@@ -42,19 +42,22 @@ public class RecruitController {
 
 	@ResponseBody
 	@RequestMapping(value = "recInsertAf.do",method = RequestMethod.POST)
-	public String recInsertAf(RecruitDto recDto,  @RequestParam(value = "originfile", required = false) MultipartFile fileload,
-			HttpServletRequest req) {
+	public String recInsertAf(RecruitDto dto) {
 
-		System.out.println(recDto.toString());
-		
+		System.out.println(dto.toString());
+	
 		String msg="";
 		
-		if(recDto != null ) msg = "true";
-		 else msg="false";
 		
+		 if(dto != null ) msg = "true"; 
+		 else msg="false";
+		  
+		  
 		return msg;
 	}
 	
+	
+	// @RequestParam(value = "originfile", required = false) MultipartFile fileload, HttpServletRequest req 
 	
 	
 }

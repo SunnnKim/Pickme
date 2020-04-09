@@ -118,8 +118,8 @@ if( durl.contains("e_apply")){
         </div><!-- .recDetailTop -->
 <% } %>
 
-<!-- recruit. 공고 insert -->
-<% if(durl.contains("/recruit/recInsert")){ 
+<!-- recruit. 채용관리 -->
+<% if(durl.contains("/recruit")){ 
 	%>
 	  <ul class="depth02 clfix">
 	  <li class=<%= durl.contains("recNow") ? " on" :" "%>>
