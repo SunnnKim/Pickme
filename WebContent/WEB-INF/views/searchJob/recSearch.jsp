@@ -25,7 +25,7 @@
         </div><!-- div.filter_wrap -->
         <div class="cont">
           <ul class="pmList clfix">
-            <li><a href="#">
+            <li><a href="recDetail.do">
               <div class="img">
                 <img src="/Pickme/images/main/img.jpg" alt="">
               </div>

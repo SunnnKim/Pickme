@@ -1,24 +1,16 @@
 <%@page import="model.CMemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- 헤더호출 -->
-<<<<<<< Updated upstream
-<%@include file="../../../include/header.jsp"%>
-=======
-<c:import url="../../../include/header.jsp"/> 
-<%-- <%@include file="../../../include/header.jsp"%> --%>
 
->>>>>>> Stashed changes
+<!-- 헤더호출 -->
+<%@include file="../../../include/header.jsp"%>
+<%  CMemberDto cMem = (CMemberDto) session.getAttribute("logincompany");   %>
+<% int ref = (Integer)request.getAttribute("ref");  %>
 
 <link rel="stylesheet"	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link href="./../css/calstyle.css" rel="stylesheet">
-
-<%-- <%  CMemberDto cMem = (CMemberDto) session.getAttribute("logincompany");   %> --%>
-<%-- <% int ref = (Integer)request.getAttribute("ref");  %> --%>
-
 <!-- jquery ui -->
 
 <!--font-awesome-->
@@ -38,8 +30,8 @@
           </div><!-- rec-title -->
           <form id="frm" enctype="multipart/form-data">
           <!-- 회사정보 넘기기 -->
-         <input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
-         <input type="hidden" name="ref" value="${ref}">
+         <input type="hidden" name="comSeq" value="<%= cMem.getSeq()%>"> 
+         <input type="hidden" name="ref" value="<%=ref%>">
           <div class="rec-conatainer">
             <div class="rec-info">
               <h3 class="tit">채용등록정보</h3>
@@ -55,6 +47,22 @@
 					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
 					<label for="img1" class="image"></label>
 					</i>
+					<i class="file-image">
+					 <input id="img2" name="originname" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img2" class="image"></label>
+					</i>
+					<i class="file-image">
+					 <input id="img3" name="originname" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img3" name="originfile" class="image"></label>
+					</i>
+					<i class="file-image">
+					 <input id="img4" name="originname" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img4" class="image"></label>
+					</i>
+					
 				</div>
                   <!-- <div class="imgs-wrap" id="imgs-wrap"></div>   -->                   
            	<h4>채용마감일<span class="ess">*</span></h4>
@@ -350,13 +358,13 @@ function readImage(input) {
 		console.log("_hashlen: "+taglen);
 
 		//이미지 등록갯수
-/* 		var imglen = 0;
+		var imglen = 0;
 		for(var i=0; i<$("input[name='originname']").length;i++){
 			if( $("input[name='originname']").eq(i).val() != "" ){
 				imglen++;
 			}
 		}
- */
+
 
 		// null 체크 && true 체크
 		if ( $("input[name='title']").val() == "" && b_title == true){
@@ -364,10 +372,10 @@ function readImage(input) {
 				  icon: 'error',
 				  text: '제목을 등록해주세요'
 				})
-		} else if ( $("input[name='originname']").val() == ""){
+		} else if ( imglen < 1){
 			Swal.fire({
 				  icon: 'error',
-				  text: '대표이미지를 등록해주세요'
+				  text: '이미지를 1개이상 등록해주세요'
 				})
 		} else if ( $("input[name='edate']").val() == "" ){
 			Swal.fire({

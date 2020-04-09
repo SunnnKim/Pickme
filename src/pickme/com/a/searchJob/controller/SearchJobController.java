@@ -12,4 +12,11 @@ public class SearchJobController {
 	public String recSearch() {
 		return "searchJob/recSearch";
 	}
+	
+	
+	@RequestMapping(value = "recDetail.do")
+	public String recDetail() {
+		return "searchJob/recDetail";
+	}
+	
 }

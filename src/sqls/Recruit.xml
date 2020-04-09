@@ -5,7 +5,7 @@
   
  <mapper namespace="Recruit">
  	<select id="rec_getRef" resultType="int">
- 		 SELECT NVL(MAX(REF),0)+1 FROM RECRUIT
+ 		 SELECT IFNULL(MAX(REF),0)+1 FROM RECRUIT
  	</select>
 	<insert id="rec_insert" parameterType="model.RecruitDto">
 		INSERT INTO RECRUIT(COMSEQ, TITLE, COMJOB, COMJOBTYPE,

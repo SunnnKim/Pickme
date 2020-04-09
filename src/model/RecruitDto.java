@@ -65,6 +65,29 @@ public class RecruitDto implements Serializable {
 		this.hashTag = hashTag;
 		this.edate = edate;
 	}
+	
+	
+
+
+
+
+	public RecruitDto(int comSeq, String title, String comJob, String comJobType, String mainTask, String workingForm,
+			String requirements, String salary, String content, String hashTag, String wdate, String edate, int ref) {
+		super();
+		this.comSeq = comSeq;
+		this.title = title;
+		this.comJob = comJob;
+		this.comJobType = comJobType;
+		this.mainTask = mainTask;
+		this.workingForm = workingForm;
+		this.requirements = requirements;
+		this.salary = salary;
+		this.content = content;
+		this.hashTag = hashTag;
+		this.wdate = wdate;
+		this.edate = edate;
+		this.ref = ref;
+	}
 
 
 
@@ -219,6 +242,18 @@ public class RecruitDto implements Serializable {
 
 	public void setDel(int del) {
 		this.del = del;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "RecruitDto [seq=" + seq + ", comSeq=" + comSeq + ", title=" + title + ", comJob=" + comJob
+				+ ", comJobType=" + comJobType + ", mainTask=" + mainTask + ", workingForm=" + workingForm
+				+ ", requirements=" + requirements + ", salary=" + salary + ", content=" + content + ", hashTag="
+				+ hashTag + ", wdate=" + wdate + ", edate=" + edate + ", ref=" + ref + ", readCount=" + readCount
+				+ ", del=" + del + "]";
 	}
 	
 	
