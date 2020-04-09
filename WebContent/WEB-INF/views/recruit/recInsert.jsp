@@ -4,19 +4,11 @@
 
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
-<% /* CMemberDto cMem = (CMemberDto) session.getAttribute("logincompany "); */  %>
-<% 
-/*
-[seq=1, email=aa@company.com, password=, president=대표자, name=테스트, tel=010-1111-1111, 
-department=공공행정, 국방, type=중소기업(300명 이하), address=null, introduce=null, 
-del=-1, hashTag=null, number=1111111111, logoPath=null, logoName=null] /**/
-CMemberDto cMem= new CMemberDto(1,"aa@company.com","bitcamp.1", "대표자","회사명테스트","010-1111-1111", "공공행정,국방", "중소기업(300명이하)","서울특별시 강남구 테헤란로 151, 403-404호(역삼동, 역삼하이츠빌딩)",
-		"intro",-1, "태그'태그1'태그2",1111111111, null, null);
 
-%>
 <link rel="stylesheet"	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="./../css/calstyle.css" rel="stylesheet">
 <!-- jquery ui -->
 
 <!--font-awesome-->
@@ -34,31 +26,31 @@ CMemberDto cMem= new CMemberDto(1,"aa@company.com","bitcamp.1", "대표자","회
               <li>채용등록주의사항3</li>
             </ul>
           </div><!-- rec-title -->
-          <form action="" enctype="multipart/form-data">
+          <form id="frm" action="recInsertAf.do" method="post" enctype="multipart/form-data">
           <!-- 회사정보 넘기기 -->
-          <input type="hidden" name="comseq" value="<%= cMem.getSeq()%>">
+        <%--   <input type="hidden" name="comseq" value="<%= cMem.getSeq()%>"> --%>
           <div class="rec-conatainer">
             <div class="rec-info">
               <h3 class="tit">채용등록정보</h3>                
                   <h4>대표이미지등록<span class="ess">*</span></h4>
                   <div class="cont">
 					<i class="file-image">
-					 <input id="img1" type="file" onchange="readImage(this)" title="" />
+					 <input id="img1" name="originfile" type="file" onchange="readImage(this)" title="" />
 					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
 					<label for="img1" class="image"></label>
 					</i>
 					<i class="file-image">
-					 <input id="img2" type="file" onchange="readImage(this)" title="" />
+					 <input id="img2" name="originfile" type="file" onchange="readImage(this)" title="" />
 					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
 					<label for="img2" class="image"></label>
 					</i>
 					<i class="file-image">
-					 <input id="img3" type="file" onchange="readImage(this)" title="" />
+					 <input id="img3" name="originfile" type="file" onchange="readImage(this)" title="" />
 					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
-					<label for="img3" class="image"></label>
+					<label for="img3" name="originfile" class="image"></label>
 					</i>
 					<i class="file-image">
-					 <input id="img4" type="file" onchange="readImage(this)" title="" />
+					 <input id="img4" name="originfile" type="file" onchange="readImage(this)" title="" />
 					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
 					<label for="img4" class="image"></label>
 					</i>
@@ -340,7 +332,8 @@ function readImage(input) {
     CKEDITOR.replace( 'content' );
 
     var comJob = $("#com_job1 option:selected").text()+$("#com_job2 option:selected").text();	//직군, 직무
-    //console.log("에디터:"+CKEDITOR.instances.content.getData());
+
+    
 
     //등록눌렀을때
     $("#rec-insert").on("click",function(){
@@ -355,8 +348,21 @@ function readImage(input) {
     	console.log("str: "+str);
 		console.log("_hashlen: "+taglen);
 
-		/*
-		if ( $("input[name='edate']").val() == ""){
+		//이미지 등록갯수
+		var imglen = 0;
+		for(var i=0; i<$("input[name='originfile']").length;i++){
+			if( $("input[name='originfile']").eq(i).val() != "" ){
+				imglen++;
+			}
+		}
+
+	
+		if ( imglen < 1){
+			Swal.fire({
+				  icon: 'error',
+				  text: '이미지를 1개이상 등록해주세요'
+				})
+		} else if ( $("input[name='edate']").val() == ""){
 			Swal.fire({
 				  icon: 'error',
 				  text: '채용마감일을 등록해주세요'
@@ -365,6 +371,11 @@ function readImage(input) {
 			Swal.fire({
 				  icon: 'error',
 				  text: '직군/직무를 선택해주세요.'
+				})
+		} else if($("input[name='requirements']").val()==""){
+			Swal.fire({
+				  icon: 'error',
+				  text: '자격요건을 입력해주세요.'
 				})
 		} else if($("select[name='com_jobtype']").val()==0){
 			Swal.fire({
@@ -402,7 +413,11 @@ function readImage(input) {
 				  text: '태그를 입력해주세요.'
 				})
 		} else {
-			alert("등록가능");
+			Swal.fire({
+				  icon: 'success',
+				  title: '공고가 등록되었습니다.'
+			})
+			$("#frm").submit();
 			
 		}/**/
 
