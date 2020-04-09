@@ -7,4 +7,10 @@ import model.CMemberDto;
 public interface CMypageService {
 
 	CMemberDto dateTest(CMemberDto dto);
+
+	public void goCMypage(CMemberDto dto);
+
+	public void goUpdate(CMemberDto dto);
+
+	public void goWithdrawal(CMemberDto dto);
 }

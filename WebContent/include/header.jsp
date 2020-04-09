@@ -90,7 +90,7 @@
 					<li>
 						[기업] <%=userName %> 
 					</li>
-					<!-- 일반회원 마이페이지 -->
+					<!-- 기업회원 마이페이지 -->
 					<li><a href="/Pickme/login/company/logout.do">로그아웃</a></li>
 				</ul>
 				 <%

@@ -33,14 +33,31 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	지원현황
 <% }%>
 
-<!--  recruit - 채용등록 -->
-<% if(ifurl.contains("/recruit/recInsert")){%>
+<!--  recruit - 채용관리 -->
+<% if(ifurl.contains("/recruit")){
+	 if(ifurl.contains("recInsert.jsp")){ %>
 	채용등록
-<% }%>
+<% } else if(ifurl.contains("recNow.jsp")){ %>
+	현재공고
+<% } else if(ifurl.contains("recPast.jsp")){ %>
+	지난공고
+<% } 
+}%>
+
 
 <!--  searchJob - 채용탐색 -->
 <% if(ifurl.contains("/searchJob/recSearch")){%>
 	채용탐색
 <% }%>
 
+<!--  c_mypage 기업 마이페이지  -->
+<% if(ifurl.contains("c_mypage")){
+	 if(ifurl.contains("myPage.jsp")){%>
+	<!-- <div id="company-logo"></div> -->
+	회사 정보
+	<% }else{%>
+		마이페이지
+<% }}%>
 
+<!-- 기업 페이지 디테일   -->
+<%%>

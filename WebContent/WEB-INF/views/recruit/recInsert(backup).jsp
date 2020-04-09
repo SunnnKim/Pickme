@@ -1,11 +1,11 @@
 <%@page import="model.CMemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!-- 헤더호출 -->
-
-<c:import url="../../../include/header.jsp"/> 
-
+<%@include file="../../../include/header.jsp"%>
+<%  CMemberDto cMem = (CMemberDto) session.getAttribute("logincompany");   %>
+<% int ref = (Integer)request.getAttribute("ref");  %>
 
 <link rel="stylesheet"	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -28,14 +28,18 @@
               <li>채용등록주의사항3</li>
             </ul>
           </div><!-- rec-title -->
-          
+          <form id="frm" enctype="multipart/form-data">
           <!-- 회사정보 넘기기 -->
-        
+         <input type="hidden" name="comSeq" value="<%= cMem.getSeq()%>"> 
+         <input type="hidden" name="ref" value="<%=ref%>">
           <div class="rec-conatainer">
             <div class="rec-info">
               <h3 class="tit">채용등록정보</h3>
-              	<form id="fileform" action="recfileup.do" method="post" enctype="multipart/form-data">
-              	 <input type="hidden" name="ref" value="${ref}">
+               <h4>제목<span class="ess">*</span></h4>
+              <div class="cont">
+                <input type="text" name="title" required placeholder="제목을 입력해주세요." maxlength="20">
+                <i class="far fa-check-circle"></i>
+              </div>               
                   <h4>대표이미지등록<span class="ess">*</span></h4>
                   <div class="cont">
                   <i class="file-image">
@@ -43,17 +47,23 @@
 					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
 					<label for="img1" class="image"></label>
 					</i>
+					<i class="file-image">
+					 <input id="img2" name="originname" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img2" class="image"></label>
+					</i>
+					<i class="file-image">
+					 <input id="img3" name="originname" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img3" name="originfile" class="image"></label>
+					</i>
+					<i class="file-image">
+					 <input id="img4" name="originname" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img4" class="image"></label>
+					</i>
+					
 				</div>
-              	</form>     
-              	<form id="frm">
-              	 <input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
-        
-               <h4>제목<span class="ess">*</span></h4>
-              <div class="cont">
-                <input type="text" name="title" required placeholder="제목을 입력해주세요." maxlength="20">
-                <i class="far fa-check-circle"></i>
-              </div>         
-               
                   <!-- <div class="imgs-wrap" id="imgs-wrap"></div>   -->                   
            	<h4>채용마감일<span class="ess">*</span></h4>
                   <div class="cont"> 
@@ -133,21 +143,21 @@
 
 	//파일업로드
 	function resetImage(input) {
-	  input.value = '';
-	  input.onchange();
-	}
-	function readImage(input) {
-	  var receiver = input.nextElementSibling.nextElementSibling;
-	  input.setAttribute('title', input.value.replace(/^.*[\\/]/, ''));
-	  if (input.files && input.files[0]) {
-	    var reader = new FileReader();
-	    reader.onload = function (e) {
-	      receiver.style.backgroundImage = 'url(' + e.target.result + ')';
-	    };
-	    reader.readAsDataURL(input.files[0]);
-	  }
-	  else receiver.style.backgroundImage = 'none';
-	}
+  input.value = '';
+  input.onchange();
+}
+function readImage(input) {
+  var receiver = input.nextElementSibling.nextElementSibling;
+  input.setAttribute('title', input.value.replace(/^.*[\\/]/, ''));
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      receiver.style.backgroundImage = 'url(' + e.target.result + ')';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+  else receiver.style.backgroundImage = 'none';
+}
   
 	// datepicker
 	$("#datepicker").datepicker({
@@ -174,9 +184,10 @@
             // console.log("key:"+key+", value:"+json[key]);
             keyArr.push(key);
             valArr.push(json[key]);
-
+            // map.put(key, json[key]);
           }
         }
+            // console.log(jsonArr)
 
     });
     
@@ -201,10 +212,11 @@
     
 
     // v 체크 불 들어오게
-    var i_title = $("input[name='title']");
-   var i_main_task = $("input[name='mainTask']");
-   var i_requirements = $("input[name='requirements']");
-   var i_salary = $("input[name='salary']");
+  var title = $("input[name='title']");
+   var main_task = $("input[name='mainTask']");
+   var working_form = $("input[name='workingForm']");
+   var requirements = $("input[name='requirements']");
+   var salary = $("input[name='salary']");
 
     //boolean
   var b_title;
@@ -215,7 +227,7 @@
 
 
 	//경력
-	  $(i_title).keyup(function(){
+	  $(title).keyup(function(){
 	   var inputLength = $(this).val().length;
 	  console.log(inputLength);
 	  if(inputLength>1){
@@ -227,7 +239,7 @@
 	 });
 
     //주요업무
-    $(i_main_task).keyup(function(){
+    $(main_task).keyup(function(){
      var inputLength = $(this).val().length;
     console.log(inputLength);
     if(inputLength>10){
@@ -239,7 +251,7 @@
    });
 
     //자격요건
-    $(i_requirements).keyup(function(){
+    $(requirements).keyup(function(){
      var inputLength = $(this).val().length;
     console.log(inputLength);
     if(inputLength>20){
@@ -250,7 +262,7 @@
       }
    });
     //급여
-    $(i_salary).keyup(function(){
+    $(salary).keyup(function(){
      var inputLength = $(this).val().length;
     console.log(inputLength);
     if(inputLength>3){
@@ -294,8 +306,11 @@
     }
 
     function remove( element ){  
+      //element.parentNode.parentNode.removeChild(element.parentNode);
+      
       element_count--;
       hashTagCount();
+    // alert(element_count);
     };
 
     $('.inhash').on('click', 'i', function() {
@@ -314,38 +329,53 @@
     //텍스트에디터
     CKEDITOR.replace( 'content' );
 
+    var comJob = $("#com_job1 option:selected").text()+$("#com_job2 option:selected").text();	//직군, 직무
     
+	
+    
+
     //등록눌렀을때
     $("#rec-insert").on("click",function(){
+    	//form 태그 안에 hidden 만들기
+    	var form = document.getElementById("frm");
+     	 var hiddenField = document.createElement("input");
+         hiddenField.setAttribute("type", "hidden");
+         hiddenField.setAttribute("name", "comJob");
+         hiddenField.setAttribute("value", comJob);
+         form.appendChild(hiddenField);
+
         //hash tag
     	var taglen = $("input[name='hashTag']").length;
     	var tags = new Array(taglen);
 
-       	for(var i=0; i < taglen;i++){
-           	tags[i] = $("input[name='hashTag']").eq(i).val();
+       	for(var i=0;i<=taglen;i++){
+    		tags[i] = $("input[name='hashTag']").eq(i).val();
     		console.log("tags:"+tags);
     	}
-		//var jsondata = JSON.parse(tags);
-		jsondata = JSON.stringify(tags)
-    	console.log( jsondata)
-	
-	/*  
-		String 데이터를 Json데이터로 바꾸는 방법
- 		jsondata = JSON.parse(jsondata)
-    	console.log( jsondata)
- */    	
-    	
-		 
+
+    	var str = tags.join('\'');
+    	//console.log("str: "+str);
+		console.log("_hashlen: "+taglen);
+
+		//이미지 등록갯수
+		var imglen = 0;
+		for(var i=0; i<$("input[name='originname']").length;i++){
+			if( $("input[name='originname']").eq(i).val() != "" ){
+				imglen++;
+			}
+		}
+
+
 		// null 체크 && true 체크
 		if ( $("input[name='title']").val() == "" && b_title == true){
 			Swal.fire({
 				  icon: 'error',
 				  text: '제목을 등록해주세요'
 				})
-		} else if ( $("input[name='originname']").val() == ""){
+		} else if ( imglen < 1){
 			Swal.fire({
 				  icon: 'error',
-				  text: '대표이미지를 등록해주세요'
+				  text: '이미지를 1개이상 등록해주세요'
 				})
 		} else if ( $("input[name='edate']").val() == "" ){
 			Swal.fire({
@@ -394,31 +424,15 @@
 				})
 		} else {
 			var queryString = $("#frm").serialize();
+			console.log(queryString)
 			
-			//name value
-		 		var comSeq = $("input[name=comSeq]").val();
-				var ref = $("input[name=ref]").val();
-				var originname = $("input[name=originname]").val();
-				var title = $("input[name=title]").val();
-				var edate =  $("input[name=edate]").val();
-				var comJob = $("#com_job1 option:selected").text()+","+$("#com_job2 option:selected").text();	//직군, 직무;
-				var comJobType = $("select[name=comJobType]").val();
-				var workingForm = $("select[name=workingForm]").val();
-				var mainTask = $("input[name=mainTask]").val();
-				var requirements = $("input[name=requirements]").val();
-				var salary = $("input[name=salary]").val();
-				//CKEDITOR.instances.content.getData()
-				var hashTag = jsondata;
-		
-				console.log( {'comSeq':comSeq,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
-					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag });
-			  
-			  $.ajax({
+			/* $.ajax({
 				url:"recInsertAf.do",
 				type:"post",
-				datatype:'json',
-				data:{'comSeq':comSeq,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
-					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag },
+				data: queryString,
+				contentType : false,
+			    processData : false,
+			    async: false,
 				success: function(data){
 					//alert("success");
 					if(data == "true"){
@@ -427,8 +441,7 @@
 							  title: '공고가 등록되었습니다.'
 						})
 						//파일저장할 controller로 경로수정.
-						//location.href="./../login/main.do";
-						$("#fileform").submit();
+						location.href="./../login/main.do";
 					} else {
 						Swal.fire({
 							  icon: 'error',
@@ -440,13 +453,13 @@
 				error: function(){
 					alert("error");
 				}
-			}); 
-				 
+			});
+				 */
 			
 		
 			
-		}
-	
+		}/**/
+
     });
 
     

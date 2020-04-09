@@ -60,7 +60,26 @@ if (durl.contains("/login/com")){
 </ul>
 <%
 }	
-%>	
+%>
+
+<!-- 기업 마이페이지 -->	
+<%
+if (durl.contains("c_mypage")) {
+	if ( !durl.contains("c_mypage/myPage.jsp")) {
+		%>
+		<ul class = "depth02 clfix">
+			<li class = <%= durl.contains("update.jsp") ? " on" :" " %>>
+				<a href="goCMypage.do">기업정보 수정 · 등록</a>
+			</li>
+			<li class = <%= durl.contains("payment.jsp") ? " on" :" " %>>
+				<a href="goPayment.do">결제</a>
+			</li>
+			<li class = <%= durl.contains("withdrawal.jsp") ? " on" :" " %>>
+				<a href="goWithdrawal.do">탈퇴</a>
+			</li>
+		</ul>
+	<% }
+} %>
 
 
 
@@ -84,7 +103,7 @@ if( durl.contains("e_apply")){
 
 
 <!-- recruit. 공고 detail -->
-<% if(durl.contains("/recruit/recDetail")){ %>
+<% if(durl.contains("/searchJob/recDetail")){ %>
 <div class="recDetailTop clfix">
           <div class="detailTop-left">
             <h1 class="recTit"></h1>
@@ -99,19 +118,20 @@ if( durl.contains("e_apply")){
         </div><!-- .recDetailTop -->
 <% } %>
 
-<!-- recruit. 공고 insert -->
-<% if(durl.contains("/recruit/recInsert")){ %>
-  <ul class="depth02 clfix">
-  <li class=<%= durl.contains("recNow.jsp") ? " on" :" "%>>
-		<a href="/Pickme/recruit/recNow.do">현재공고보기</a>
-	</li>
-	<li class=<%= durl.contains("recPast.jsp") ? " on" :" "%>>
-		<a href="/Pickme/recruit/recPast.do">지난공고보기</a>
-	</li>
-	<li class=<%= durl.contains("recInsert.jsp") ? " on" :" "%>>
-		<a href="/Pickme/recruit/recInsert.do">공고등록하기</a>
-	</li>
- </ul><!-- // depth02 -->
+<!-- recruit. 채용관리 -->
+<% if(durl.contains("/recruit")){ 
+	%>
+	  <ul class="depth02 clfix">
+	  <li class=<%= durl.contains("recNow") ? " on" :" "%>>
+			<a href="/Pickme/recruit/recNow.do">현재공고보기</a>
+		</li>
+		<li class=<%= durl.contains("recPast") ? " on" :" "%>>
+			<a href="/Pickme/recruit/recPast.do">지난공고보기</a>
+		</li>
+		<li class=<%= durl.contains("recInsert") ? " on" :" "%>>
+			<a href="/Pickme/recruit/recInsert.do">공고등록하기</a>
+		</li>
+	 </ul><!-- // depth02 -->
 <% } %>
 
 
@@ -120,4 +140,8 @@ if( durl.contains("e_apply")){
  <ul class="jobs_list clfix" id="joblist">
           </ul>
 <% } %>
+
+
+
+
 
