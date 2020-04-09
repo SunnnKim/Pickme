@@ -100,15 +100,15 @@ if( durl.contains("e_apply")){
 <% } %>
 
 <!-- recruit. 공고 insert -->
-<% if(durl.contains("/recruit/recInsert")){ %>
+<% if(durl.contains("/recruit")){ %>
   <ul class="depth02 clfix">
-  <li class=<%= durl.contains("recNow.jsp") ? " on" :" "%>>
+  <li class=<%= durl.contains("recNow") ? " on" :" "%>>
 		<a href="/Pickme/recruit/recNow.do">현재공고보기</a>
 	</li>
-	<li class=<%= durl.contains("recPast.jsp") ? " on" :" "%>>
+	<li class=<%= durl.contains("recPast") ? " on" :" "%>>
 		<a href="/Pickme/recruit/recPast.do">지난공고보기</a>
 	</li>
-	<li class=<%= durl.contains("recInsert.jsp") ? " on" :" "%>>
+	<li class=<%= durl.contains("recInsert") ? " on" :" "%>>
 		<a href="/Pickme/recruit/recInsert.do">공고등록하기</a>
 	</li>
  </ul><!-- // depth02 -->

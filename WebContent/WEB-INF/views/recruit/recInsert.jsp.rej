@@ -1,9 +1,0 @@
-diff a/WebContent/WEB-INF/views/recruit/recInsert.jsp b/WebContent/WEB-INF/views/recruit/recInsert.jsp	(rejected hunks)
-@@ -3,7 +3,6 @@
- 
- <!-- 헤더호출 -->
- <%@include file="../../../include/header.jsp"%>
--		"intro",-1, "태그'태그1'태그2",1111111111, null, null);
- 
- <link rel="stylesheet"	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link rel="stylesheet" href="/resources/demos/style.css">

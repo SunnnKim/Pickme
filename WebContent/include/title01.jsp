@@ -37,6 +37,14 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 <% if(ifurl.contains("/recruit/recInsert")){%>
 	채용등록
 <% }%>
+<!--  recruit - 현재공고 -->
+<% if(ifurl.contains("/recruit/recNow")){%>
+	현재공고
+<% }%>
+<!--  recruit - 지난공고 -->
+<% if(ifurl.contains("/recruit/recPast")){%>
+	지난공고
+<% }%>
 
 <!--  searchJob - 채용탐색 -->
 <% if(ifurl.contains("/searchJob/recSearch")){%>
