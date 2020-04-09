@@ -80,8 +80,8 @@
 				 %>
 				 <nav class="gnb">
 					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
-					<a href="#">지원현황</a><!-- 기업 회원 지원현황  -->
-					<a href="/Pickme/recruit/recInsert.do">채용관리</a><!-- 일반회원 지원현황  -->
+					<a href="/Pickme/c_apply/getRequestList.do">지원현황</a><!-- 기업 회원 지원현황  -->
+					<a href="/Pickme/recruit/recInsert.do">채용공고</a><!-- 채용공고   -->
 					<a href="#none">고객센터</a>
 				</nav>
 				<!-- // gnb -->
@@ -91,7 +91,7 @@
 						[기업] <%=userName %> 
 					</li>
 					<!-- 일반회원 마이페이지 -->
-					<li><a href="/Pickme/login/company/logout.do">기업페이지</a></li>
+					<li><a href="/Pickme/login/company/logout.do">로그아웃</a></li>
 				</ul>
 				 <%
 				 // 비로그인 시

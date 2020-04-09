@@ -1,10 +1,14 @@
 package pickme.com.a.admin.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
-
+import model.AMemberDto;
+import model.AdminDto;
+import model.CMemberDto;
 import pickme.com.a.admin.dao.AdminDao;
 
 
@@ -12,7 +16,43 @@ import pickme.com.a.admin.dao.AdminDao;
 public class AdminServiceImpl implements AdminService {
 
 	@Autowired
-	AdminDao memberDao;
+	AdminDao dao;
+
+	@Override
+	public AdminDto loginCheck(AdminDto dto) {
+		return dao.loginCheck(dto);
+	}
+
+	@Override
+	public List<AMemberDto> aMemberAll() {
+		return dao.aMemberAll();
+	}
+
+	@Override
+	public int countNewAMember() {
+		return dao.countNewAMember();
+	}
+
+	@Override
+	public int countAmember() {
+		return dao.countAmember();
+	}
+
+	@Override
+	public int countCmember() {
+		return dao.countCmember();
+	}
+
+	@Override
+	public List<CMemberDto> cMemberAll() {
+		return dao.cMemberAll();
+	}
+
+	@Override
+	public int countNewACMember() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	
 	

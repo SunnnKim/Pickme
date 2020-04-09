@@ -198,7 +198,7 @@ $(document).on('click','#pressBtn', function(){
 			  text: '이메일 인증이 완료되었습니다',
 			  showConfirmButton: false,
 			  timer: 1300
-		}).then( (result) =>{
+		}).then( (result ) => {
 			$('#frm').submit();
 		})
 	}

@@ -24,6 +24,7 @@ public class CMemberDto implements UserDetails {
 	private int number;				// 사업자등록번호
 	private String logoPath;		// 로고이미지 경로
 	private String logoName;		// 로고이미지 이름
+	private String signDate;		// 가입일자
 	
 	// 로그인 시큐리티용 변수 
 	private Collection<GrantedAuthority> authorities;
@@ -79,10 +80,12 @@ public class CMemberDto implements UserDetails {
 	public CMemberDto(String email) {
 		this.email = email;
 	}
+
+	
 	
 	public CMemberDto(int seq, String email, String password, String president, String name, String tel,
 			String department, String type, String address, String introduce, int del, String hashTag, int number,
-			String logoPath, String logoName) {
+			String logoPath, String logoName, String signDate) {
 		super();
 		this.seq = seq;
 		this.email = email;
@@ -99,6 +102,7 @@ public class CMemberDto implements UserDetails {
 		this.number = number;
 		this.logoPath = logoPath;
 		this.logoName = logoName;
+		this.signDate = signDate;
 	}
 
 	public int getSeq() {
@@ -217,22 +221,22 @@ public class CMemberDto implements UserDetails {
 		this.logoName = logoName;
 	}
 
-	@Override
-	public String toString() {
-		return "CMemberMypageDto [seq=" + seq + ", email=" + email + ", password=" + password + ", president="
-				+ president + ", name=" + name + ", tel=" + tel + ", department=" + department + ", type=" + type
-				+ ", address=" + address + ", introduce=" + introduce + ", del=" + del + ", hashTag=" + hashTag
-				+ ", number=" + number + ", logoPath=" + logoPath + ", logoName=" + logoName + "]";
+	public String getSignDate() {
+		return signDate;
 	}
 
-	
-	
-	
-	
-	
-	
+	public void setSignDate(String signDate) {
+		this.signDate = signDate;
+	}
 
-	
+	@Override
+	public String toString() {
+		return "CMemberDto [seq=" + seq + ", email=" + email + ", password=" + password + ", president=" + president
+				+ ", name=" + name + ", tel=" + tel + ", department=" + department + ", type=" + type + ", address="
+				+ address + ", introduce=" + introduce + ", del=" + del + ", hashTag=" + hashTag + ", number=" + number
+				+ ", logoPath=" + logoPath + ", logoName=" + logoName + ", signDate=" + signDate + "]";
+	}
+
 	
 }
 

@@ -21,6 +21,8 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 	private String hashtag;		// 해시태그
 	private int mainResume;  	// 대표 이력서
 	private int del;			// 삭제 여부 
+	private String signDate;
+	
 	private Collection<GrantedAuthority> authorities;
 
 	public int getSeq() {
@@ -119,9 +121,10 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 		this.name = name;
 	}
 	
+
 	public AMemberDto(int seq, String email, String name, String password, String phone, String profilePath,
 			String profileName, String introduce, String job, String career, String hashtag, int mainResume, int del,
-			Collection<GrantedAuthority> authorities) {
+			String signDate) {
 		super();
 		this.seq = seq;
 		this.email = email;
@@ -136,7 +139,7 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 		this.hashtag = hashtag;
 		this.mainResume = mainResume;
 		this.del = del;
-		this.authorities = authorities;
+		this.signDate = signDate;
 	}
 
 	public String getEmail() {
@@ -153,6 +156,14 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getSignDate() {
+		return signDate;
+	}
+
+	public void setSignDate(String signDate) {
+		this.signDate = signDate;
 	}
 
 	// 여기는 시큐리티 오버라이딩 함수 
@@ -203,8 +214,10 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 		return "AMemberDto [seq=" + seq + ", email=" + email + ", name=" + name + ", password=" + password + ", phone="
 				+ phone + ", profilePath=" + profilePath + ", profileName=" + profileName + ", introduce=" + introduce
 				+ ", job=" + job + ", career=" + career + ", hashtag=" + hashtag + ", mainResume=" + mainResume
-				+ ", del=" + del + ", authorities=" + authorities + "]";
+				+ ", del=" + del + ", signDate=" + signDate + ", authorities=" + authorities + "]";
 	}
+
+	
 
 		
 }
