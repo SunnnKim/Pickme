@@ -23,16 +23,24 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 기업서비스 
 <% } %>
 
+<<<<<<< Updated upstream
 <!-- 이메일 인증페이지 -->
 <% if (ifurl.contains("login/validate")){ %>
 회원인증
 <% } %>	
+=======
+<!-- 일반 mypage -->
+<% if(ifurl.contains("/a_mypage/profile")){%>
+프로필
+<% }%>
+>>>>>>> Stashed changes
 
 <!--  apply - 지원 현황 -->
 <% if(ifurl.contains("e_apply")){%>
-	지원현황
+지원현황
 <% }%>
 
+<<<<<<< Updated upstream
 <!--  recruit - 채용관리 -->
 <% if(ifurl.contains("/recruit")){
 	 if(ifurl.contains("recInsert.jsp")){ %>
@@ -44,10 +52,16 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 <% } 
 }%>
 
+=======
+<!--  recruit - 채용등록 -->
+<% if(ifurl.contains("/recruit/recInsert")){%>
+채용등록
+<% }%>
+>>>>>>> Stashed changes
 
 <!--  searchJob - 채용탐색 -->
 <% if(ifurl.contains("/searchJob/recSearch")){%>
-	채용탐색
+채용탐색
 <% }%>
 
 <!--  c_mypage 기업 마이페이지  -->

@@ -81,6 +81,22 @@ if (durl.contains("c_mypage")) {
 	<% }
 } %>
 
+<!-- 일반 마이페이지 -->
+<% if (durl.contains("a_mypage")){ %>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("profile.jsp") ? " on" :" "%>>
+		<a href="/Pickme/a_mypage/profile.do">프로필</a>
+	</li>
+	<li class=<%= durl.contains("123") ? " on" :" "%>>
+		<a href="">비밀번호수정</a>
+	</li>
+	<li class=<%= durl.contains("1232") ? " on" :" "%>>
+		<a href="">탈퇴</a>
+	</li>
+</ul>
+<%
+}	
+%>	
 
 
 <!-- apply  -->
