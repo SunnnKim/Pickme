@@ -40,5 +40,26 @@ public class CMypageServiceImpl implements CMypageService{
 		dao.goWithdrawal(dto);
 	}
 
+
+	// 기업 탈퇴
+	@Override
+	public void withdrawal(CMemberDto dto) {
+		dao.withdrawal(dto);
+	}
+
+	
+	// 탈퇴를 위해 비밀번호 체크
+	@Override
+	public boolean checkPassword(String email, String password) {
+		return dao.checkPassword(email, password);
+	}
+
+	
+	// 기업 정보 수정
+	@Override
+	public void update(CMemberDto dto) {
+		dao.update(dto);
+	}
+
 	
 }

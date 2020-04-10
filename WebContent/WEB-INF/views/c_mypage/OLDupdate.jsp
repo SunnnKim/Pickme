@@ -1,12 +1,18 @@
-<%@include file ="../../../include/header.jsp" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index</title>
   <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="https://cdn.ckeditor.com/4.14.0/basic/ckeditor.js"></script> 
-  
-  
+<!----- [ 디자인 CSS 영역 ] ----->
+<link rel="stylesheet" href="./css/reset.css" type="text/css"> <!-- 리셋 CSS -->
+<link rel="stylesheet" href="./css/style.css" type="text/css"> <!-- 디자인 CSS -->
+
 <style>
 
 /* 컬럼 이름 */
@@ -234,9 +240,53 @@ div div.logo-img input.btTextW {
     border-radius: 5px 5px 5px 5px;
   }
   
-</style>    
+</style>
 
-<form action = "" method = "post">
+
+</head>
+<body>
+<div id="wrap">
+  <header>
+    <div class="inner clfix">
+      <strong class="logo"><a href="#none">PICK ME</a></strong>
+      <nav class="gnb">
+        <a href="#none">채용탐색</a>
+        <a href="#none">이력서</a>
+        <a href="#none">지원현황</a>
+        <a href="#none">고객센터</a>
+      </nav><!-- // gnb -->
+      <ul class="header_infoBtn clfix">
+        <li><button type="button" id="searchBtn"></button></li>
+        <li><span><a href="#none">로그인</a> / <a href="#none">회원가입</a></span></li>
+        <li><a href="#none">기업서비스</a></li>
+      </ul>
+    </div><!-- // inner -->
+  </header><!-- // header -->
+
+  <div id="sub-container">
+    <div class="inner">
+      <div class="subTit">
+        <h2 class="pageTit">마이페이지</h2>
+        <div class="location">
+          <span>홈</span>
+          <span>></span>
+          <span>마이페이지</span>
+          <span>></span>
+          <span>기업정보 수정 · 등록</span>
+        </div>
+        <ul class="depth02 clfix">
+          <li class="on"><a href="#none">기업정보 수정 · 등록</a></li>
+          <li><a href="#none">결제</a></li>
+          <li><a href = "#none">회원탈퇴</a></li>
+        <!--<li><a href="#none">depth02-C</a></li>-->
+        </ul><!-- // depth02 -->
+      </div><!-- // subTit -->
+
+      <div class="subCont">
+
+        <!-- 본문 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+      <form>
 
       <div style = "margin-top:50px; padding-left:90px; padding-right:90px;">
           
@@ -264,8 +314,8 @@ div div.logo-img input.btTextW {
         </div>
         
         <div class="input-box">
-          <p class = "collumName"> 기존 비밀번호 <label id = "password_inconsistency"> 비밀번호가 일치하지 않습니다. </label></p> 
-          <input type = "password" id = "oldPassword" name = "password">
+          <p class = "collumName"> 기존 비밀번호 </p>
+          <input type = "password">
         </div>
 
         <div class="input-box">
@@ -376,11 +426,12 @@ div div.logo-img input.btTextW {
             <label class = "message"> 최대 3장까지 등록 가능하며, 해당 이미지를 클릭하면 삭제됩니다. </label>
           </p>
           <p style = "margin-top:30px;float: right;">
-           <form>
+          <form>
               <input type = "file" id = "image1" class = "photo-add" name = "images[]">
               <input type = "file" id = "image2" class = "photo-add" name = "images[]">
               <input type = "file" id = "image3" class = "photo-add" name = "images[]">
-            <div class = "gallery" style = "margin-top:80px">
+            <div class = "gallery" style = "margin-top:80px"></div>
+
             </div>
           </form>
           </p>
@@ -390,12 +441,23 @@ div div.logo-img input.btTextW {
         </div>
 
         <div class="update-btn" style = "text-align:center">
-            <button type = "submit" id = "completeBtn" onclick = "updateComplete()"> 완료 </button>
+            <button type = "button" id = "completeBtn" onclick = "updateComplete()"> 완료 </button>
         </div>
           
       </div>
+
       </form>
         <!-- 본문 끝!!!!!!!!!!!!!!!! !!!!!!!! -->
+
+      </div><!-- // subCont -->
+    </div><!-- // inner -->
+  </div><!-- // sub-container -->
+
+  <footer>
+    <p class="copyright">Copyright by Up All Rights Reserved.</p>
+  </footer><!-- // footer -->
+
+</div><!-- // wrap -->
 
 
 
@@ -639,9 +701,6 @@ $("#hashId").focusout(function() {
 </script>
 
 
-<%@include file ="../../../include/footer.jsp" %>
 
-
-
-
-
+</body>
+</html>

@@ -9,12 +9,12 @@
   	SELECT PAYDATE, REQUEST_DATE, REFUND_DATE
   	FROM PAYMENT
   </select>
-  
+  <!-- 
   <select id = "">
   	SELECT
   	FROM
   	WHERE 
-  </select>
+  </select> -->
   
   <!-- 기업정보 이동 -->
   <select id = "goCMypage" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
@@ -46,12 +46,28 @@
   	WHERE SEQ=#{seq}
   </select>
   
+  <!-- 기업 정보 수정 -->
+  <update id = "update" parameterType = "model.CMemberDto">
+  	UPDATE C_MEMBER
+  	SET	PASSWORD=#{password}, PRESIDENT=#{president}, DEPARTMENT=#{department}, TYPE=#{type},
+  		ADDRESS=#{address}, NUMBER=#{number}, TEL=#{tel}, HASHTAG=#{hashTag}, INTRODUCE=#{introduce},
+  		LOGONAME=#{logoName}, LOGOPATH=#{logoPath}
+  	WHERE EMAIL=#{email}
+  </update>
+  
   <!-- 기업회원 탈퇴 -->
   <update id = "withdrawal" parameterType = "model.CMemberDto">
   	UPDATE C_MEMBER
   	SET DEL = 1
-  	WHERE SEQ=#{seq} AND PASSWORD=#{password}
+  	WHERE EMAIL=#{email} AND PASSWORD=#{password}
   </update>
+  
+  <!-- 탈퇴를 위해 비밀번호 체크 -->
+  <select id = "checkPassword" parameterType = "model.CMemberDto" resultType = "java.lang.Integer">
+  	SELECT COUNT(*)
+  	FROM C_MEMBER
+  	WHERE EMAIL=#{email} AND PASSWORD=#{password}
+  </select>
   
   </mapper>
   

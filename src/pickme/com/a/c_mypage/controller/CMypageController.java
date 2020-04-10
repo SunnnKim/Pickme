@@ -2,11 +2,14 @@ package pickme.com.a.c_mypage.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import model.CMemberDto;
 import pickme.com.a.c_mypage.service.CMypageService;
@@ -59,17 +62,35 @@ public class CMypageController {
 	@RequestMapping(value = "goPayment.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String goPayment() {
 		
-		return "c/mypage/payment";
+		return "c_mypage/payment";
+	}
+	
+	// 기업 정보 수정 ✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭ 보강해야함 ✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭✭
+	@RequestMapping(value = "update.do", method = {RequestMethod.POST})
+	public String update(CMemberDto dto) {
+		
+		service.update(dto);
+		
+		return "c_mypage/update";
 	}
 	
 	
 	// 기업회원 탈퇴
-	@RequestMapping(value = "withdrawal.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String withdrawal() throws Exception{
+	@RequestMapping(value = "withdrawal.do", method = {RequestMethod.POST})
+	public String withdrawal(@RequestParam String email, @RequestParam String password, CMemberDto dto) throws Exception {
 		
+		boolean result = service.checkPassword(email, password);
+		System.out.println("result = " + result);
 		
-		
-		return "main/main";
+		if(result == true) {
+			service.withdrawal(dto);
+			System.out.println("탈퇴 성공");
+			return "main/main";
+			
+		} else {
+			System.out.println("탈퇴 실패");
+			return "c_mypage/withdrawal";
+		}
 	}
 	
 }
