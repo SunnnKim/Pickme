@@ -25,7 +25,6 @@ public class LoginController {
 
 	@Autowired
 	LoginService aMember;	// 일반회원 
-	
 	@Autowired
 	LoginServiceForCompany cMember;	// 기업회원 
 	

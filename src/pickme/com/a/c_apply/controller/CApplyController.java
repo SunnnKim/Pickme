@@ -46,7 +46,7 @@ public class CApplyController {
 		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq(); 
 		System.out.println(">>>>> getRequestList.do < c_seq > : " + c_seq);
 
-		param.setToSeq(c_seq);
+		param.setToSeq(c_seq+"");
 		System.out.println(">>>>> getRequestList.do < param > : " + param.toString());
 		
 		
