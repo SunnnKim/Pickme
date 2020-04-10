@@ -59,6 +59,7 @@ public class EMessageController {
 		
 		
 		// 총 메시지 갯수
+
 		int totalRecordCount = eservice.getTotalRecordCount(param);
 		
 		System.out.println("totalRecordCount:: " + totalRecordCount);

@@ -4,29 +4,58 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="CApply">
-
+<!-- 
 <select id="getRequestList" resultType="model.CvRequestDto">
 <![CDATA[
 	SELECT cv_request.SEQ, a_member.seq as pseq, c_member.email, a_member.name, comment, accept, state, cv_request.del
 		,(SELECT 1 FROM FAVORITE WHERE FAVORITE.ID = C_MEMBER.EMAIL AND FAVORITE.LIKEPICKSEQ = cv_request.PSEQ GROUP BY FAVORITE.LIKEPICKSEQ) AS likePick
 		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
 	FROM cv_request , a_member ,  C_MEMBER 
-	WHERE cv_request.cseq = 2 AND cv_request.del = 0 AND cv_request.cancel = 0 AND a_member.seq = cv_request.pseq
+	WHERE cv_request.cseq = #{c_seq} AND cv_request.del = 0 AND cv_request.cancel = 0 AND a_member.seq = cv_request.pseq
 		  AND cv_request.cseq =C_MEMBER.SEQ 
 	ORDER BY CV_REQUEST.RDATE DESC
 ]]>
 </select>
+ -->
+<select id="getRequestList" parameterType="model.MessageParam" resultType="model.CvRequestDto">
+<![CDATA[
+	SELECT cv_request.SEQ, a_member.seq as pseq, c_member.email, a_member.name, comment, accept, state, cv_request.del
+		,(SELECT 1 FROM FAVORITE WHERE FAVORITE.ID = C_MEMBER.EMAIL AND FAVORITE.LIKEPICKSEQ = cv_request.PSEQ GROUP BY FAVORITE.LIKEPICKSEQ) AS likePick
+		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
+	FROM cv_request , a_member ,  C_MEMBER 
+	WHERE cv_request.cseq = #{toSeq} AND cv_request.del = 0 AND cv_request.cancel = 0 AND a_member.seq = cv_request.pseq
+		  AND cv_request.cseq =C_MEMBER.SEQ
+]]>	
+	<if test="sKeyword != null and sKeyword !=''">
+		AND a_member.name LIKE CONCAT('%', #{sKeyword}, '%')
+	</if>
+	ORDER BY cv_request.rdate DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+
+</select>
+
+
 	
 <select id="requestLike" resultType="model.CvRequestDto">
 <![CDATA[	
 	select cv_request.seq, a_member.seq as pseq, a_member.name, comment, accept, state, cv_request.del
 		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
 	from cv_request , a_member , c_member , favorite
-	where cv_request.cseq = 2 and cv_request.del = 0 and a_member.seq = cv_request.pseq AND cv_request.cancel = 0
+	where cv_request.cseq = #{c_seq} and cv_request.del = 0 and a_member.seq = cv_request.pseq AND cv_request.cancel = 0
 		  and cv_request.cseq =c_member.seq and favorite.id = c_member.email and favorite.likepickseq = cv_request.pseq
 	ORDER BY CV_REQUEST.RDATE DESC
 ]]>
 </select>
+
+<select id="getTotalRecordCount" parameterType="model.MessageParam" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM cv_request r, a_member a, c_member c
+	WHERE r.cseq = #{toSeq} AND r.del = 0 AND r.cancel = 0 AND a.seq = r.pseq AND r.cseq =c.seq 
+	<if test="sKeyword != null and sKeyword !=''">
+	AND a.name LIKE CONCAT('%', #{sKeyword}, '%');
+	</if>
+</select>
+
 
 
 
