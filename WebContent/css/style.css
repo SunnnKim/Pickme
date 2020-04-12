@@ -939,9 +939,22 @@ span.ess {color: red; font-weight: bold;}
 .aMyinfo ul li input {color:#555; outline:none; display:block; float:left; width:710px; border:none; height:40px; border-bottom:1px solid #ddd;}
 .aMyinfo ul li select {color:#555; outline:none; display:block; float:left; width:710px; border:none; height:40px; border-bottom:1px solid #ddd; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
 .aMyinfo ul li select::-ms-expand {display: none;}
-.aMyinfo ul li:last-child:after{
+.aMyinfo ul li select.select_cons {width:450px;}
+.aMyinfo ul li select.select_cons#com_job1 {width:250px;}
+.aMyinfo ul li:first-child:before{
     content: "";
-    top:14px;
+    top:50%;
+    right:480px;
+    position: absolute;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    border-top: 6px solid #999;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+.aMyinfo ul li:after{
+    content: "";
+    top:50%;
     right:20px;
     position: absolute;
     -webkit-transform: translateY(-50%);

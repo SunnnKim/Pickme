@@ -16,11 +16,16 @@
      <div class="aMyinfo">
        <h4>전지현</h4>
        <p>jihyun@gmail.com</p>
-       <p><input type="text" placeholder="연락처를 입력해주세요"></p>
+       <p><input type="text" name="_userPhone" placeholder="연락처를 입력해주세요" maxlength="13" value=""/></p>
        <ul>
          <li>
              <strong>직무</strong>
-             <input type="text">
+             <select class="select_cons" name="com_job1" id="com_job1" onchange="changeOcc(this)">
+               <option value="0">1차분류</option>
+             </select>
+             <select class="select_cons ml10" name="com_job2" id="com_job2">
+               <option value="0">2차분류</option>
+             </select>
          </li>
          <li>
            <strong>경력</strong>
@@ -57,11 +62,60 @@
  
  <script>
  $(document).ready(function(){
+
+	 
 	// 연락처 숫자만 입력
-     $(".aMyinfo input").keypress(function(event){
-         var inputVal = $(this).val();
-        $(this).val(inputVal.replace(/[^0-9]/gi,''));         
-     });
+    $("input[name=_userPhone]").keyup(function(event){
+      	var inputVal = $(this).val();        
+    	$(this).val(inputVal.replace(/[^0-9]/gi,''));      	
+ 	});
+	
+	/*
+    $("input[name=_userPhone]").on('keydown', function(e){
+	    // 숫자만 입력받기
+	    var trans_num = $(this).val().replace(/-/gi,'');
+		var k = e.keyCode;
+	 				
+	 	if(trans_num.length >= 11 && ((k >= 48 && k <=126) || (k >= 12592 && k <= 12687 || k==32 || k==229 || (k>=45032 && k<=55203)) ))
+	 	{
+	   	    e.preventDefault();
+	 	}
+    }).on('blur', function(){ // 포커스를 잃었을때 실행
+         if($(this).val() == '') return;
+
+         // 기존 번호에서 - 를 삭제.
+         var trans_num = $(this).val().replace(/-/gi,'');
+       
+         // 입력값이 있을때만 실행
+         if(trans_num != null && trans_num != '')
+         {
+             // 총 핸드폰 자리수는 11글자이거나, 10자
+             if(trans_num.length==11 || trans_num.length==10) 
+             {   
+                 // 유효성 체크
+                 var regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+                 if(regExp_ctn.test(trans_num))
+                 {
+                     // 유효성 체크에 성공하면 하이픈을 넣고 값을 바꿔줍니다.
+                     trans_num = trans_num.replace(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?([0-9]{3,4})-?([0-9]{4})$/, "$1-$2-$3");                  
+                     $(this).val(trans_num);
+                 }
+                 else
+                 {
+                     alert("유효하지 않은 전화번호 입니다.");
+                     $(this).val("");
+                     $(this).focus();
+                 }
+             }
+             else 
+             {
+                 alert("유효하지 않은 전화번호 입니다.");
+                 $(this).val("");
+                 $(this).focus();
+             }
+       }
+   });  
+	*/
      
    // 프로필 사진 등록
    var fileTarget = $('.filebox .upload-hidden');
@@ -111,6 +165,49 @@
      }
    });
  });
+
+ // 직군 , 직무 선택
+ // 직무 카테고리
+    var json_url = './../util/rec-joblist.json';
+    var keyArr = new Array();
+    var valArr = new Array();
+  
+    var json;
+    var jsonArr = [];
+    $.getJSON(json_url, function(data){
+        for( var i in data){
+          json = JSON.stringify(data[i])
+          json = JSON.parse(json);
+          jsonArr.push(json)
+          for( key in json ){
+           // console.log(key);
+            $("#com_job1").append("<option value='"+key+"'>"+key+"</option>");
+            // console.log("key:"+key+", value:"+json[key]);
+            keyArr.push(key);
+            valArr.push(json[key]);
+
+          }
+        }
+
+    });
+    
+      function changeOcc( onedepth ){
+        var i=0;
+        console.log(onedepth.value);
+        $("#com_job2").html('');
+        $("#com_job2").append("<option value='0'>2차분류</option>")
+        for( arr of jsonArr ){
+          // console.log(arr)
+          for(key in arr){
+              if( key.trim() == onedepth.value.trim() ){
+                for( i = 0; i < arr[key].length; i++ ){
+                  $("#com_job2").append("<option value='"+arr[key]+"'>"+arr[key][i]+"</option>");
+                }
+               
+              }
+          }
+        }
+      }
 
  /* hashtag */
   $("#hashtag").keyup(function(e){if(e.keyCode == 13)
