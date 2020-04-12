@@ -5,6 +5,17 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 // System.out.println(ifurl);
 %>
 
+<!-- 마이페이지 일반회원 - 프로필  -->
+<% if (lourl.contains("/a_mypage/profile")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>마이페이지</span>
+	<span>></span>
+	<span>프로필</span>
+</div> 
+<% } %>
+
 
 <!-- recruit - 구인 현황  -->
 <% if (lourl.contains("c_message.jsp")) {%>
@@ -16,6 +27,7 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>메세지함</span>
 </div> 
 <% } %>
+
 <!-- 일반 로그인 페이지  -->
 <% if (lourl.contains("/login/mem")) {%>
 <div class="location">

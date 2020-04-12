@@ -305,7 +305,7 @@ email : <%=company.getEmail()%>
 	/* 검색 엔터키 입력 */
 	$("input[name=keyWord]").keyup(function(e){if(e.keyCode == 13) searchAction(); });
 	
-	
+
 
 	/* 페이지 이동 */
 	function goPage(pn){
@@ -316,6 +316,48 @@ email : <%=company.getEmail()%>
 		
 	}
 
+
+
+	
+
+	function getList(mode, page) {
+		var $area;
+		var url = "";
+		if (mode == "" || page == "") {return false;}
+		
+		if (mode == "notice") {
+			url = "/pc/cs/noticeListData.json";
+			$area = $("div#notice");
+		} else if (mode == "favorite") {
+			/* url = "/pc/cs/winnerListData.json"; */
+			url = "requestLikeList.do";
+			/* $area = $("div#winner"); */
+		} else {
+			url = "getRequestList2.do";
+			$area = $("div#allList");
+			//alert('11');
+		}
+		
+		// 전송
+		$.ajax({
+			async		: true,
+			url			: url,
+			dataType	: 'text',
+			type		: 'POST',
+			contextType : 'application/json;charset=utf-8',
+			data		: { }, //mode : mode , page : page , keyWord : keyWord
+			success		: function(data, textStatus, jqXHR){
+				// alert('getList : ' + data);
+				// alert("dma : " +data.name);
+					
+			},
+	
+			error:function(request,status,error){ 
+				
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+			}
+		});
+	}
 
 
 	function resumeOpen() {

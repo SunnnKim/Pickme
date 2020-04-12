@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import model.CvRequestDto;
 import model.FavoriteDto;
+import model.MessageParam;
 
 
 @Repository
@@ -18,8 +19,14 @@ public class CApplyDaoImpl implements CApplyDao{
 	String ns = "CApply.";
 	
 	@Override
-	public List<CvRequestDto> getRequestList() {
-		List<CvRequestDto> list = sqlSession.selectList(ns+"getRequestList");
+	public List<CvRequestDto> getRequestList(int c_seq) {
+		List<CvRequestDto> list = sqlSession.selectList(ns + "getRequestList", c_seq);
+		return list;
+	}
+	
+	@Override
+	public List<CvRequestDto> getRequestList(MessageParam param) {
+		List<CvRequestDto> list = sqlSession.selectList(ns + "getRequestList", param);
 		return list;
 	}
 	
@@ -30,8 +37,8 @@ public class CApplyDaoImpl implements CApplyDao{
 	}
 	
 	@Override
-	public List<CvRequestDto> requestLike() {
-		List<CvRequestDto> list = sqlSession.selectList(ns+"requestLike");
+	public List<CvRequestDto> requestLike(int c_seq) {
+		List<CvRequestDto> list = sqlSession.selectList(ns + "requestLike", c_seq);
 		return list;
 	}
 
@@ -51,6 +58,12 @@ public class CApplyDaoImpl implements CApplyDao{
 	public boolean requestCancel(String cv_seq) {
 		int n = sqlSession.update(ns + "requestCancel", cv_seq);
 		return n>0?true:false;
+	}
+
+	@Override
+	public int getTotalRecordCount(MessageParam param) {
+		int totalRecordCount = sqlSession.selectOne(ns + "getTotalRecordCount",param);
+		return totalRecordCount;
 	}
 	
 }

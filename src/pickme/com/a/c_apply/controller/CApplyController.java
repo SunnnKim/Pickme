@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import model.CApplyDto;
+import model.CMemberDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
+import model.MessageParam;
 import pickme.com.a.c_apply.service.CApplyService;
 
 @Controller
@@ -29,19 +30,57 @@ public class CApplyController {
 
 	/*============== 이력서 열람 요청 리스트 ==============*/
 	@RequestMapping(value = "getRequestList.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String viewTest(Model model) {
+	public String viewTest(Model model, HttpSession session, MessageParam param) {
 
-		List<CvRequestDto> list = cApplyService.getRequestList();
-		System.out.println("이력서 열람요청 리스트 : " + list.toString());
-		model.addAttribute("requestList", list);
+
+		
+		int pn = param.getPageNumber(); // 현재페이지넘버
+		int start = pn * param.getRecordCountPerPage(); // 1, 11, 21
+		int end = (pn + 1) * param.getRecordCountPerPage(); // 10, 20, 30
+		System.out.println("pn: " + pn + " start: " + start + " end: " +end);
+		
+		param.setStart(start);
+		param.setEnd(end);
+		
+		/* 기업 로그인 세션중 seq 저장 */
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq(); 
+		System.out.println(">>>>> getRequestList.do < c_seq > : " + c_seq);
+
+		param.setToSeq(c_seq+"");
+		System.out.println(">>>>> getRequestList.do < param > : " + param.toString());
+		
+		
+		
+		List<CvRequestDto> list = cApplyService.getRequestList(param);
+	    System.out.println("이력서 열람요청 리스트 : " + list.toString());
+		
+		
+		
+		int totalRecordCount = cApplyService.getTotalRecordCount(param);
+		System.out.println(">>>>> totalRecordCount:: " + totalRecordCount);
+
+		model.addAttribute("totalRecordCount", totalRecordCount);
+		model.addAttribute("pageNumber", pn);
+		model.addAttribute("pageCountPerScreen", 10);
+		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
+		model.addAttribute("sKeyword", param.getsKeyword());
+		
+		
+		
+		
+	    
+	    model.addAttribute("requestList", list);
+	 
 		return "c_apply/requestList";
 	}
 
-	/*============== 관심인해 리스트 ==============*/
+	/*============== 관심인재 리스트 ==============*/
 	@RequestMapping(value = "requestLike.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String requestLikeList(Model model) {
-
-		List<CvRequestDto> list = cApplyService.requestLike();
+	public String requestLikeList(Model model, HttpSession session) {
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+		System.out.println(">>>>> requestLike.do < c_seq > : " + c_seq);
+		
+		List<CvRequestDto> list = cApplyService.requestLike(c_seq);
 		System.out.println("관심 인재 : " + list.toString());
 		model.addAttribute("requestLike", list);
 
@@ -104,7 +143,7 @@ public class CApplyController {
 	
 	
 	
-	
+	/*
 	@RequestMapping(value = "getRequestList2.do", method = { RequestMethod.GET,	RequestMethod.POST }, produces = "application/json;charset=utf8")
 	@ResponseBody
 	public String viewTest222() {
@@ -123,7 +162,8 @@ public class CApplyController {
 		return jList.toJSONString();
 		// return list.toString();
 	}
-
+	*/
+	
 	/*
 	 * @RequestMapping(value = "requestDelete.do", method= {RequestMethod.POST})
 	 * public boolean requestDelete (@RequestParam(value = "chbox[]") List<String>

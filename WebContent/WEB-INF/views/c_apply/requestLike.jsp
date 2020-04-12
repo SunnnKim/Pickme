@@ -1,14 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- JSTL 추가 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<!-- JQuery 추가 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js" crossorigin="anonymous"></script>
 
+
+
+
+<%-- 
+seq : <%=company.getSeq() %>
+email : <%=company.getEmail()%>
+ --%>
 
 
 
@@ -17,8 +25,8 @@
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
 	<!-- <li class="active"><a href="#allList" onclick="getList('allList', 1)">요청 목록</a></li> -->
-	<li               ><a href="#none" onclick="location.href='getRequestList.do'">요청 목록</a></li>
-	<li	class="active"><a href="#none" onclick="location.href='requestLike.do'">관심 인재</a></li>
+	<li 			  ><a href="getRequestList.do">요청 목록</a></li>
+	<li	class="active"><a href="requestLike.do">관심 인재</a></li>
 </ul>
 
 
@@ -71,8 +79,10 @@
 							<i class="fas fa-heart liked"></i>
 							<!-- <button type="button" onclick="likech(this)"><i class="fas fa-heart liked"></i></button> -->
 						</td>
-						<td>
-							<a href="" style="text-align: center;">${like.name }</a>
+						<td>	<!-- 구직자 기본 정보 링크 들어가야함 -->
+							<a href="" style="text-align: center;">
+								${like.name }
+							</a>
 						</td>
 						<td>${like.rdate }</td>
 							<td>
@@ -115,25 +125,15 @@
 	</div>
 
 	<!-- 페이징 -->
-	<div class="paging">
-		<button type="button" class="btn-first"	onclick="getList('allList', 1)">
-			<span>처음</span>
-		</button>
-		<button type="button" class="btn-prev" onclick="getList('allList', 1)">
-			<span>이전</span>
-		</button>
-		<ul>
-			<li class="active"><span>1</span></li>
-			<li><a href="" onclick="">2</a></li>
-			<li><a href="" onclick="">3</a></li>
-		</ul>
-		<button type="button" class="btn-next" onclick="getList('allList', 2)">
-			<span>다음</span>
-		</button>
-		<button type="button" class="btn-last" onclick="getList('allList', 10)">
-			<span>마지막</span>
-		</button>
-	</div>
+	<div id="paging_wrap">
+		<jsp:include page="/WEB-INF/views/c_apply/paging.jsp" flush="false">
+			<jsp:param name="totalRecordCount" value="${totalRecordCount }" />
+			<jsp:param name="pageNumber" value="${pageNumber }" />
+			<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
+			<jsp:param name="recordCountPerPage" value="${recordCountPerPage }" />
+		</jsp:include>
+	</div><!-- // paging_wrap -->
+	
 </div>
 <!-- // favorite -->
 
@@ -156,46 +156,11 @@
 		});
 	})
 	
-	/* 선택 삭제(체크박스된 것 전부) */
-	function deleteAction() {
-		
-		var checkRow = "";
-		$("input[name='checkRow']:checked").each(function() {
-			checkRow = checkRow + $(this).val() + ",";
-		});
-		checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
-		alert("checkRow seq : " + checkRow);
-
-		if (checkRow == '') {
-			alert("삭제 할 대상을 선택하세요.");
-			return false;
-		}
-		console.log("### checkRow => {" + checkRow + "}");
-
-		if (confirm("선택한 항목을 삭제 하시겠습니까?")) {
-
-			$.ajax({
-				url : 'requestDelete.do',
-				type : 'POST',
-				data : { checkRow },
-				/* dataType  : "String", */
-				success : function(result) {
-					//alert("success : " + result );
-					alert(result + "개 삭제 완료");
-					location.href="requestLike.do";
-				},
-				error:function(request,status,error){ 
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
-				}
-			});   
-		}
-	}
-
 	
 	function cancelAction(seq) {
-		alert("요청을 취소 할 cv_request의 seq : " + seq)
+		//alert("요청을 취소 할 cv_request의 seq : " + seq)
 		
-		if (confirm("요청을 취소 하시겠습니까?")) {
+		if (confirm("열람 요청을 취소 합니다.")) {
 
 			$.ajax({
 				url : 'requestCancel.do',
@@ -203,9 +168,9 @@
 				data : { "cv_seq" : seq },
 				/* dataType  : "String", */
 				success : function(result) {
-					alert("요청 취소 리턴 값 : " + result);
+					//alert("요청 취소 리턴 값 : " + result);
 					if(result) { 
-						alert("취소 완료");
+						//alert("취소 완료");
 						location.href="requestLike.do";
 					}
 				},
@@ -216,7 +181,40 @@
 		}
 	}
 	
-	
+	/* 선택 삭제(체크박스된 것 전부) */
+	function deleteAction() {
+		
+		var checkRow = "";
+		$("input[name='checkRow']:checked").each(function() {
+			checkRow = checkRow + $(this).val() + ",";
+		});
+		checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
+		//alert("checkRow seq : " + checkRow);
+
+		if (checkRow == '') {
+			alert("삭제 할 목록을 선택하세요.");
+			return false;
+		}
+		console.log("### checkRow => {" + checkRow + "}");
+
+		if (confirm("선택된 목록을 삭제 합니다")) {
+
+			$.ajax({
+				url : 'requestDelete.do',
+				type : 'POST',
+				data : { checkRow },
+				/* dataType  : "String", */
+				success : function(result) {
+					//alert("success : " + result );
+					alert(result + "개가 삭제 되었습니다");
+					location.href="requestLike.do";
+				},
+				error:function(request,status,error){ 
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+				}
+			});   
+		}
+	}
 	
 
 

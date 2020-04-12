@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import model.CvRequestDto;
 import model.FavoriteDto;
+import model.MessageParam;
 import pickme.com.a.c_apply.dao.CApplyDao;
 
 @Service
@@ -15,8 +16,13 @@ public class CApplyServiceImpl implements CApplyService{
 	CApplyDao cApplyDao;
 
 	@Override
-	public List<CvRequestDto> getRequestList() {
-		return cApplyDao.getRequestList();
+	public List<CvRequestDto> getRequestList(int c_seq) {
+		return cApplyDao.getRequestList(c_seq);
+	}
+	
+	@Override
+	public List<CvRequestDto> getRequestList(MessageParam param) {
+		return cApplyDao.getRequestList(param);
 	}
 
 	@Override
@@ -31,8 +37,8 @@ public class CApplyServiceImpl implements CApplyService{
 	}
 
 	@Override
-	public List<CvRequestDto> requestLike() {
-		return cApplyDao.requestLike();
+	public List<CvRequestDto> requestLike(int c_seq) {
+		return cApplyDao.requestLike(c_seq);
 	}
 
 	@Override
@@ -48,6 +54,11 @@ public class CApplyServiceImpl implements CApplyService{
 	@Override
 	public boolean requestCancel(String cv_seq) {
 		return cApplyDao.requestCancel(cv_seq);
+	}
+
+	@Override
+	public int getTotalRecordCount(MessageParam param) {
+		return cApplyDao.getTotalRecordCount(param);
 	}
 	
 	
