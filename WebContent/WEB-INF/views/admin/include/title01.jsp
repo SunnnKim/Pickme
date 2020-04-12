@@ -14,4 +14,8 @@ if( ifurl.contains("adminMember")){
 if( ifurl.contains("company")){
 	%>기업관리	<%
 }%>
+<%
+if( ifurl.contains("notice")){
+	%>공지사항 관리	<%
+}%>
   

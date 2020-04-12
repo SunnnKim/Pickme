@@ -50,7 +50,7 @@ public class AdminDaoImpl implements AdminDao {
 
 	@Override
 	public List<CMemberDto> cMemberAll() {
-		return sqlSession.selectOne( namespace + "cmemberAll");
+		return sqlSession.selectList( namespace + "cmemberAll");
 	}
 
 	@Override

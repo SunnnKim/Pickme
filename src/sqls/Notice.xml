@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Notice">
+<!-- 새로운 공지사항 등록 -->
+<insert id="insertNotice" parameterType="model.NoticeDto">
+	INSERT INTO NOTICE ( TITLE, CONTENT, TYPE, WDATE, DEL, FILES, READCOUNT )
+	VALUES ( #{ title }, #{ content }, #{ type }, SYSDATE(), 0, #{ files }, 0 )
+</insert>
+<!-- 마지막 시퀀스 뽑아내기 -->
+<select id="getLastSeq" resultType="int">
+SELECT  LAST_INSERT_ID()
+</select>
+<!-- 첨부파일있는경우 file 테이블에 집어넣기 -->
+<insert id="insertFiles" parameterType="model.FilesDto">
+INSERT INTO FILES ( USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE )
+VALUES ( 'NOTICE', #{ originname }, #{ newname }, #{path} , 0, #{ref} , #{step}, #{filetype} )
+</insert>
+<!-- 모든 공지사항 불러오기 -->
+<select id="getAllNotice" resultType="model.NoticeDto">
+SELECT * FROM NOTICE WHERE DEL != 1
+</select>
+
+</mapper>
+
+
+
