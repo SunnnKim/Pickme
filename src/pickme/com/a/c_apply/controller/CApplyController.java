@@ -32,6 +32,10 @@ public class CApplyController {
 	@RequestMapping(value = "getRequestList.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String viewTest(Model model, HttpSession session, MessageParam param) {
 
+		/* 기업 로그인 세션중 seq 저장 */
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq(); 
+		param.setToSeq(c_seq);
+		System.out.println(">>>>> getRequestList.do < c_seq > : " + c_seq);
 
 		
 		int pn = param.getPageNumber(); // 현재페이지넘버
@@ -41,12 +45,7 @@ public class CApplyController {
 		
 		param.setStart(start);
 		param.setEnd(end);
-		
-		/* 기업 로그인 세션중 seq 저장 */
-		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq(); 
-		System.out.println(">>>>> getRequestList.do < c_seq > : " + c_seq);
 
-		param.setToSeq(c_seq);
 		System.out.println(">>>>> getRequestList.do < param > : " + param.toString());
 		
 		
@@ -76,14 +75,64 @@ public class CApplyController {
 
 	/*============== 관심인재 리스트 ==============*/
 	@RequestMapping(value = "requestLike.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String requestLikeList(Model model, HttpSession session) {
+	public String requestLikeList(Model model, HttpSession session, MessageParam param) {
 		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+		param.setToSeq(c_seq);
 		System.out.println(">>>>> requestLike.do < c_seq > : " + c_seq);
 		
-		List<CvRequestDto> list = cApplyService.requestLike(c_seq);
+		
+		int pn = param.getPageNumber(); // 현재페이지넘버
+		int start = pn * param.getRecordCountPerPage(); // 1, 11, 21
+		int end = (pn + 1) * param.getRecordCountPerPage(); // 10, 20, 30
+		System.out.println("pn: " + pn + " start: " + start + " end: " +end);
+		
+		param.setStart(start);
+		param.setEnd(end);
+		System.out.println(">>>>> getRequestList.do < param > : " + param.toString());
+		
+		
+		
+		
+		
+		List<CvRequestDto> list = cApplyService.requestLike(param);
 		System.out.println("관심 인재 : " + list.toString());
+		
+		
+		int totalRecordCount = cApplyService.getLikeTotalRecordCount(param);
+		System.out.println(">>>>> LiketotalRecordCount:: " + totalRecordCount);
+
+		model.addAttribute("totalRecordCount", totalRecordCount);
+		model.addAttribute("pageNumber", pn);
+		model.addAttribute("pageCountPerScreen", 10);
+		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
+		model.addAttribute("sKeyword", param.getsKeyword());
+		
+		
+		
+		
+		
+		
 		model.addAttribute("requestLike", list);
 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		return "c_apply/requestLike";
 	}
 
@@ -126,11 +175,11 @@ public class CApplyController {
 	/*============== 열람 요청 취소  ==============*/
 	@ResponseBody
 	@RequestMapping(value = "requestCancel.do", method = { RequestMethod.POST })
-	public boolean requestCancel(String cv_seq) {
+	public int requestCancel(String cv_seq) {
 		System.out.println("요청 취소 할 cv_seq : " + cv_seq);
-		boolean b = cApplyService.requestCancel(cv_seq);
+		int count = cApplyService.requestCancel(cv_seq);
 
-		return b;
+		return count;
 	}
 	
 	
