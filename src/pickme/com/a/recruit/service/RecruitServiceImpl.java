@@ -33,7 +33,7 @@ public class RecruitServiceImpl implements RecruitService{
 	public boolean insertRecFile(List<FilesDto> list) {
 		return dao.insertRecFile(list);
 	}
-
+	
 
 	
 	

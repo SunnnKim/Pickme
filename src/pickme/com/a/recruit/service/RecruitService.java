@@ -10,5 +10,6 @@ public interface RecruitService {
 	public int getLastSeq();
 	public int insertRecruit(RecruitDto dto);
 	public boolean insertRecFile(List<FilesDto> list);
+
 	
 }

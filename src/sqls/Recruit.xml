@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="Recruit">
- 	<!-- 마지막 시퀀스 뽑아내기 -->
+<!-- 마지막 시퀀스 뽑아내기 -->
 	<select id="getLastSeq" resultType="int">
 	SELECT LAST_INSERT_ID()
 	</select>
@@ -12,15 +12,40 @@
  		SELECT IFNULL(MAX(REF),0)+1 FROM RECRUIT
  	</select>
 	<insert id="recInsert" parameterType="model.RecruitDto">
-		INSERT INTO RECRUIT(COMSEQ, TITLE, COMJOB, COMJOBTYPE,
+		INSERT INTO RECRUIT(COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE,
 		MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY,
- 		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL)
-		VALUES (#{comSeq}, #{title}, #{comJob}, #{comJobType},
+ 		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL, IMAGENAME)
+		VALUES (#{comSeq}, #{comName}, #{title}, #{comJob}, #{comJobType},
 		#{mainTask}, #{workingForm}, #{requirements}, #{salary},
-		#{content}, #{hashTag}, NOW(), #{edate}, #{ref}, 0, 0)
+		#{content}, #{hashTag}, SYSDATE(), #{edate}, #{ref}, 0, 0, #{imagename} )
 	</insert>
 	<insert id="recUpfile" parameterType="model.FilesDto">
 		INSERT INTO FILES (USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE )
-		VALUES ( 'RECRUIT', #{originname}, #{newname}, #{path}, 0, #{ref}, #{step}, #{filetype} )
-	</insert>
+		VALUES ( 'RECRUIT', #{originname}, #{newname}, 'upload/recruit/', 0, #{ref}, #{step}, #{filetype} )
+	</insert> 
+	<!-- =================채용탐색 들어가자마자 뿌려지는 전체 LIST======================= -->
+ 	<select id="getRecAllList" resultType="model.RecruitDto">
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
+		FROM RECRUIT 
+		WHERE DEL=0 
+		ORDER BY SEQ DESC
+	</select> 
+	<!-- 기업만 볼수있는 채용공고 list (현재공고) -->
+	<select id="getRecByCom" parameterType="int" resultType="model.RecruitDto">
+		SELECT SEQ, COMSEQ, NAME, TITLE, COMJOB, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
+		FROM RECRUIT 
+		WHERE REF=#{ref} AND COMSEQ=#{comSeq} AND DEL=0
+		ORDER BY SEQ DESC
+	</select> 
+	<!-- ref가 동일한 이미지 가져오기 -->
+	<select id="getRecFile" parameterType="int" resultType="model.FilesDto">
+		SELECT SEQ, USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE
+		FROM FILES 
+		WHERE USETABLE='RECRUIT' AND REF=#{ref}
+	</select> 
+	<!-- 해당 게시물 첨부파일 갯수 알아오기 -->
+	<select id="countFiles" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM FILES WHERE REF=#{ref}
+	</select> 
+	
  </mapper>

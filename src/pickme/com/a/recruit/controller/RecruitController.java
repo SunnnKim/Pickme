@@ -75,7 +75,7 @@ public class RecruitController {
 				// 파일 새이름 등록 
 				String originName = originfile[i].getOriginalFilename();
 				String newname = FUpUtil.getNewFileName(originName);
-				String path = "/upload/recruit";
+				String path = "/upload/recruit/";
 				String type = originfile[i].getContentType();
 				FilesDto dto = new FilesDto( 0, null, originName, newname, path, 0, ref, i, type );
 				

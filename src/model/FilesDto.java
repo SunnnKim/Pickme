@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+
+import org.apache.ibatis.type.Alias;
 /*
  CREATE TABLE FILES
 (
@@ -16,6 +18,7 @@ import java.io.Serializable;
     PRIMARY KEY (SEQ)
 ); 
   */
+
 public class FilesDto implements Serializable {
 	private int seq;
 	private String usetable;

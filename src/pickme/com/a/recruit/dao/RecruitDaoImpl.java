@@ -26,16 +26,6 @@ public class RecruitDaoImpl implements RecruitDao{
 	public int getLastSeq() {
 		return sqlSession.selectOne(ns + "getLastSeq");
 	}
-
-	/*
-	@Override
-	public int insertRecruit(RecruitDto dto) {
-		//채용등록 등록
-		sqlSession.insert(ns + "recInsert", dto);
-		//등록한 채용등록테이블 seq 불러오기
-		int seq = sqlSession.selectOne(ns + "getLastSeq");
-		return seq;
-	}/**/
 	
 	@Override
 	public int insertRecruit(RecruitDto dto) {
@@ -62,5 +52,20 @@ public class RecruitDaoImpl implements RecruitDao{
 		}
 		return true;
 	}
+
+	/*
+	@Override
+	public int getCountFiles(int ref) {
+		return sqlSession.selectOne(ns+"countFiles", ref);
+	}
+
+
+	@Override
+	public List<RecruitDto> getRecAllList() {
+		return sqlSession.selectList(ns+"getRecAllList");
+	}/**/
+
+
+
 
 }

@@ -2,16 +2,19 @@ package model;
 
 import java.io.Serializable;
 
+import org.apache.ibatis.type.Alias;
+
 /*
 CREATE TABLE RECRUIT
 (
     `SEQ`           INT              NOT NULL    AUTO_INCREMENT COMMENT '시퀀스번호', 
-    `COM_SEQ`       INT              NULL        COMMENT '회사SEQ', 
+    `COMSEQ`        INT              NULL        COMMENT '회사SEQ', 
+    `NAME`          VARCHAR(500)     NULL        COMMENT '회사이름', 
     `TITLE`         VARCHAR(200)     NULL        COMMENT '제목', 
-    `COM_JOB`       VARCHAR(500)     NULL        COMMENT '채용직무', 
-    `COM_JOBTYPE`   VARCHAR(100)     NULL        COMMENT '채용포지션(신입/경력)', 
-    `MAIN_TASK`     VARCHAR(1000)    NULL        COMMENT '주요업무', 
-    `WORKING_FORM`  VARCHAR(100)     NULL        COMMENT '근무형태(정규직계약직)', 
+    `COMJOB`        VARCHAR(500)     NULL        COMMENT '채용직무', 
+    `COMJOBTYPE`    VARCHAR(100)     NULL        COMMENT '채용포지션(신입/경력)', 
+    `MAINTASK`      VARCHAR(1000)    NULL        COMMENT '주요업무', 
+    `WORKINGFORM`   VARCHAR(100)     NULL        COMMENT '근무형태(정규직계약직)', 
     `REQUIREMENTS`  VARCHAR(500)     NULL        COMMENT '자격요건(학력스킬등)', 
     `SALARY`        VARCHAR(500)     NULL        COMMENT '급여', 
     `CONTENT`       LONGTEXT         NULL        COMMENT '내용', 
@@ -20,14 +23,17 @@ CREATE TABLE RECRUIT
     `EDATE`         DATE             NULL        COMMENT '마감일', 
     `REF`           INT              NULL        COMMENT '그룹번호(파일)', 
     `READCOUNT`     INT              NULL        COMMENT '조회수', 
+    `IMAGENAME`     VARHCAR(100)     NULL        COMMENT '대표이미지이름', 
     `DEL`           INT              NULL        COMMENT '삭제여부(0등록1삭제)', 
     PRIMARY KEY (SEQ)
 );
  */
+
 public class RecruitDto implements Serializable {
 	
 	private int seq;
 	private int comSeq;
+	private String comName;
 	private String title;
 	private String comJob;
 	private String comJobType;
@@ -42,35 +48,21 @@ public class RecruitDto implements Serializable {
 	private int ref;
 	private int readCount;
 	private int del;
+	private String imagename;
+	
 	
 	public RecruitDto() {
 		
 	}
 	
 
-	public RecruitDto(int comSeq, String title, String comJob, String comJobType, String mainTask, String workingForm,
-			String requirements, String salary, String content, String hashTag, String edate, int ref) {
-		super();
-		this.comSeq = comSeq;
-		this.title = title;
-		this.comJob = comJob;
-		this.comJobType = comJobType;
-		this.mainTask = mainTask;
-		this.workingForm = workingForm;
-		this.requirements = requirements;
-		this.salary = salary;
-		this.content = content;
-		this.hashTag = hashTag;
-		this.edate = edate;
-		this.ref = ref;
-	}
-
-	public RecruitDto(int seq, int comSeq, String title, String comJob, String comJobType, String mainTask,
+	public RecruitDto(int seq, int comSeq, String comName, String title, String comJob, String comJobType, String mainTask,
 			String workingForm, String requirements, String salary, String content, String hashTag, String wdate,
-			String edate, int ref, int readCount, int del) {
+			String edate, int ref, int del, String imagename) {
 		super();
 		this.seq = seq;
 		this.comSeq = comSeq;
+		this.comName = comName;
 		this.title = title;
 		this.comJob = comJob;
 		this.comJobType = comJobType;
@@ -83,10 +75,52 @@ public class RecruitDto implements Serializable {
 		this.wdate = wdate;
 		this.edate = edate;
 		this.ref = ref;
-		this.readCount = readCount;
 		this.del = del;
+		this.imagename = imagename;
 	}
 
+	
+
+	public RecruitDto(int comSeq, String comName, String title, String comJob, String comJobType, String mainTask,
+			String workingForm, String requirements, String salary, String content, String hashTag, String edate,
+			int ref, String imagename) {
+		super();
+		this.comSeq = comSeq;
+		this.comName = comName;
+		this.title = title;
+		this.comJob = comJob;
+		this.comJobType = comJobType;
+		this.mainTask = mainTask;
+		this.workingForm = workingForm;
+		this.requirements = requirements;
+		this.salary = salary;
+		this.content = content;
+		this.hashTag = hashTag;
+		this.edate = edate;
+		this.ref = ref;
+		this.imagename = imagename;
+	}
+
+	
+
+	public String getComName() {
+		return comName;
+	}
+
+
+	public void setComName(String comName) {
+		this.comName = comName;
+	}
+
+
+	public String getImagename() {
+		return imagename;
+	}
+
+
+	public void setImagename(String imagename) {
+		this.imagename = imagename;
+	}
 
 
 	public int getSeq() {
@@ -218,19 +252,18 @@ public class RecruitDto implements Serializable {
 	}
 
 
-
-
 	@Override
 	public String toString() {
-		return "RecruitDto [seq=" + seq + ", comSeq=" + comSeq + ", title=" + title + ", comJob=" + comJob
-				+ ", comJobType=" + comJobType + ", mainTask=" + mainTask + ", workingForm=" + workingForm
+		return "RecruitDto [seq=" + seq + ", comSeq=" + comSeq + ", comName=" + comName + ", title=" + title + ", comJob="
+				+ comJob + ", comJobType=" + comJobType + ", mainTask=" + mainTask + ", workingForm=" + workingForm
 				+ ", requirements=" + requirements + ", salary=" + salary + ", content=" + content + ", hashTag="
 				+ hashTag + ", wdate=" + wdate + ", edate=" + edate + ", ref=" + ref + ", readCount=" + readCount
-				+ ", del=" + del + "]";
+				+ ", del=" + del + ", imagename=" + imagename + "]";
 	}
-	
-	
-	
+
+
+
+
 	
 
 	

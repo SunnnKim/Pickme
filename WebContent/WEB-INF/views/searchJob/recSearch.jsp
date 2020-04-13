@@ -1,5 +1,8 @@
+<%@page import="model.RecruitDto"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% List<RecruitDto> list = (List<RecruitDto>) request.getAttribute("recList"); %>
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -25,138 +28,26 @@
         </div><!-- div.filter_wrap -->
         <div class="cont">
           <ul class="pmList clfix">
-            <li><a href="recDetail.do">
+          <% if( list.size() < 1 ) { %>
+          		<h1>리스트없음</h1>
+          <%
+          	} else {
+      			for(int i=0; i< list.size(); i++){ 
+          			RecruitDto dto = list.get(i);
+          %>
+           <li><a href="recDetail.do?seq=<%= dto.getSeq() %>">
               <div class="img">
                 <img src="/Pickme/images/main/img.jpg" alt="">
               </div>
               <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
+                <h3><%=dto.getTitle() %></h3>
+                <p><%=dto.getComName() %></p>
+                <p><%=dto.getComJobType() %></p>
+                <span>[채용] <%=dto.getWdate() %> ~ <%=dto.getEdate() %></span>
               </div>
             </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
+          <% } 
+         	} %>
           </ul>
   </div><!-- cont -->
  <!-- 페이징 -->
