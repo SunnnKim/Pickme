@@ -40,6 +40,12 @@ public class CApplyServiceImpl implements CApplyService{
 	public List<CvRequestDto> requestLike(int c_seq) {
 		return cApplyDao.requestLike(c_seq);
 	}
+	
+	@Override
+	public List<CvRequestDto> requestLike(MessageParam param) {
+		return cApplyDao.requestLike(param);
+	}
+
 
 	@Override
 	public boolean addLike(FavoriteDto dto) {
@@ -52,13 +58,18 @@ public class CApplyServiceImpl implements CApplyService{
 	}
 
 	@Override
-	public boolean requestCancel(String cv_seq) {
+	public int requestCancel(String cv_seq) {
 		return cApplyDao.requestCancel(cv_seq);
 	}
 
 	@Override
 	public int getTotalRecordCount(MessageParam param) {
 		return cApplyDao.getTotalRecordCount(param);
+	}
+
+	@Override
+	public int getLikeTotalRecordCount(MessageParam param) {
+		return cApplyDao.getLikeTotalRecordCount(param);
 	}
 	
 	

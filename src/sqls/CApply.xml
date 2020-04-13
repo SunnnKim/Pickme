@@ -42,11 +42,16 @@
 	select cv_request.seq, a_member.seq as pseq, a_member.name, comment, accept, state, cv_request.del
 		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
 	from cv_request , a_member , c_member , favorite
-	where cv_request.cseq = #{c_seq} and cv_request.del = 0 and a_member.seq = cv_request.pseq AND cv_request.cancel = 0
+	where cv_request.cseq = #{toSeq} and cv_request.del = 0 and a_member.seq = cv_request.pseq AND cv_request.cancel = 0
 		  and cv_request.cseq =c_member.seq and favorite.id = c_member.email and favorite.likepickseq = cv_request.pseq
-	ORDER BY CV_REQUEST.RDATE DESC
 ]]>
+	<if test="sKeyword != null and sKeyword !=''">
+		AND a_member.name LIKE CONCAT('%', #{sKeyword}, '%')
+	</if>
+	ORDER BY cv_request.rdate DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
 </select>
+
 
 <select id="getTotalRecordCount" parameterType="model.MessageParam" resultType="int">
  	SELECT COUNT(*)
@@ -56,6 +61,17 @@
 	AND a.name LIKE CONCAT('%', #{sKeyword}, '%');
 	</if>
 </select>
+
+
+<select id="getLikeTotalRecordCount" parameterType="model.MessageParam" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM cv_request r, a_member a, c_member c, favorite f
+	WHERE r.cseq = #{toSeq} AND r.del = 0 AND r.cancel = 0 AND a.seq = r.pseq AND r.cseq =c.seq AND f.id = c.email and f.likepickseq = r.pseq
+	<if test="sKeyword != null and sKeyword !=''">
+	AND a.name LIKE CONCAT('%', #{sKeyword}, '%');
+	</if>
+</select>
+
 
 
 

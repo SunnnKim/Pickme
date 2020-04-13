@@ -41,6 +41,12 @@ public class CApplyDaoImpl implements CApplyDao{
 		List<CvRequestDto> list = sqlSession.selectList(ns + "requestLike", c_seq);
 		return list;
 	}
+	
+	@Override
+	public List<CvRequestDto> requestLike(MessageParam param) {
+		List<CvRequestDto> list = sqlSession.selectList(ns + "requestLike", param);
+		return list;
+	}
 
 	@Override
 	public boolean addLike(FavoriteDto dto) {
@@ -55,14 +61,19 @@ public class CApplyDaoImpl implements CApplyDao{
 	}
 
 	@Override
-	public boolean requestCancel(String cv_seq) {
-		int n = sqlSession.update(ns + "requestCancel", cv_seq);
-		return n>0?true:false;
+	public int requestCancel(String cv_seq) {
+		return sqlSession.update(ns + "requestCancel", cv_seq);
 	}
 
 	@Override
 	public int getTotalRecordCount(MessageParam param) {
 		int totalRecordCount = sqlSession.selectOne(ns + "getTotalRecordCount",param);
+		return totalRecordCount;
+	}
+	
+	@Override
+	public int getLikeTotalRecordCount(MessageParam param) {
+		int totalRecordCount = sqlSession.selectOne(ns + "getLikeTotalRecordCount",param);
 		return totalRecordCount;
 	}
 	

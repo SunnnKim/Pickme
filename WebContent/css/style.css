@@ -193,7 +193,7 @@ p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
 .bbs-list .important .row {background-color:#f6faf8;}
 .bbs-list .important .title {font-weight:500;}
 
-.table-bbs {margin-top:10px;}
+.table-bbs {margin-top:30px;}
 .table-bbs thead th {padding:17px 30px; color: #000;}
 .table-bbs tbody td {padding:17px 30px; color: #767676;}
 .table-bbs a {display: block;}
@@ -388,6 +388,7 @@ button.btn-cancel {
     font-size: 15px;
     cursor: pointer;
     /* opacity: 0.8; */
+    margin: -4px;
 }
 
 button.btn-resumeOpen {
@@ -401,6 +402,7 @@ button.btn-resumeOpen {
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
+    margin: -4px;
 }
 
 
