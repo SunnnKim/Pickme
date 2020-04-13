@@ -13,6 +13,7 @@
 	FROM cv_request , a_member ,  C_MEMBER 
 	WHERE cv_request.cseq = #{c_seq} AND cv_request.del = 0 AND cv_request.cancel = 0 AND a_member.seq = cv_request.pseq
 		  AND cv_request.cseq =C_MEMBER.SEQ 
+
 	ORDER BY CV_REQUEST.RDATE DESC
 ]]>
 </select>

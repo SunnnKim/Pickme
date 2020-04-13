@@ -39,16 +39,12 @@ public class EMessageController {
 		System.out.println("param.getToSeq: " + param.getToSeq());
 		
 		
-		
-		
 		int pn = param.getPageNumber(); // 현재페이지넘버
 		int start = pn * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (pn + 1) * param.getRecordCountPerPage(); // 10, 20, 30
-		
 		System.out.println("pn: " + pn + " start: " + start + " end: " +end);
-		
-		
-		
+	
+		// MessageParam에 셋팅 
 		param.setStart(start);
 		param.setEnd(end);
 		
@@ -61,16 +57,12 @@ public class EMessageController {
 		// 총 메시지 갯수
 
 		int totalRecordCount = eservice.getTotalRecordCount(param);
-		
 		System.out.println("totalRecordCount:: " + totalRecordCount);
 		
 		
 		// 읽지 않은 받은 메시지 수
 		int unreadCount = unreadCount(toSeq);
-		
 		System.out.println("unreadCount: " + unreadCount);
-		
-		
 		
 		
 		model.addAttribute("unreadCount", unreadCount);
@@ -89,11 +81,10 @@ public class EMessageController {
 	@ResponseBody
 	@RequestMapping(value="addStar.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public int addStar(int seq) {
-		
-		System.out.println("seq: " + seq);
+	//	System.out.println("seq: " + seq);
 		
 		int n = eservice.addStar(seq);
-		System.out.println("result: " + n);
+	//	System.out.println("result: " + n);
 		
 		return n;
 	}
@@ -102,11 +93,10 @@ public class EMessageController {
 	@ResponseBody
 	@RequestMapping(value="removeStar.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public int removeStar(int seq) {
-		
-		System.out.println("seq: " + seq);
+	//	System.out.println("seq: " + seq);
 		
 		int n = eservice.removeStar(seq);
-		System.out.println("result: " + n);
+	//	System.out.println("result: " + n);
 				
 		return n;
 	}
@@ -115,26 +105,19 @@ public class EMessageController {
 	// 메시지 디테일 페이지 
 	@RequestMapping(value="seeMsg.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getMsgDetail(Model model, HttpSession session, int seq, String page, int unread, int pageNumber) {
-		// 확인용 나중에 지우고 s_seq파라미터 seq로 변경 
-		// session에서 login seq 받아오기 
-		// int fromSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq();
 		
-		// 받은 사람 seq 를 수신인 seq로 셋팅 
-		// param.setFromSeq(fromSeq);
+	//	System.out.println("unread: " );	
+	//	System.out.println("seq: " + seq);
+	//	System.out.println("page: " + page);
 		
-		System.out.println("unread: " );
-		
-		System.out.println("seq: " + seq);
-		System.out.println("page: " + page);
 		MessageDto msg = null;
 		
-		
 		if(page.equals("outMsg")) {
-			
+			// 보낸 메시지 중에서 메시지 디테일 불러오기(기업명이 다른테이블에 있어서 나눠서 불러와야함)
 			msg = eservice.getSMsgDetail(seq);
 			
 		}else {
-			
+			// 받은 메시지 중에서 메시지 디테일 불러오기
 			int n = eservice.msgOpen(seq);
 			msg = eservice.getMsgDetail(seq);
 		}
@@ -156,9 +139,8 @@ public class EMessageController {
 		// session에서 login seq 받아오기 
 		int toSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
 		
-		// 받은 사람(원래는 보낸사람 seq로 해야하는데 그냥 통용하기)seq 를 수신인 seq로 셋팅 
+		// 받은 사람(원래는 보낸사람 seq로 해야하는데 param에 toSeq밖에 없어 그냥 통용하기)seq 를 수신인 seq로 셋팅 
 		param.setToSeq(toSeq);
-		
 		
 		
 		int pn = param.getPageNumber(); // 현재페이지넘버
