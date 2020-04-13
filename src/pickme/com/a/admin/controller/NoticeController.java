@@ -82,7 +82,7 @@ public class NoticeController {
 		return map;
 	}
 	
-	// 텍스트 에디터창에 이미지 불러오기(다운로드)
+	// 텍스트 에디터창에 이미지 불러오기 (다운로드)
 	@RequestMapping(value="imgDownload.do", method= {RequestMethod.GET,RequestMethod.POST})
 	public void imgDownload( String filename, String filepath,
 			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

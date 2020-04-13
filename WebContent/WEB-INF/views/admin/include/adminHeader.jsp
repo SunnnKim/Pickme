@@ -33,9 +33,9 @@
     <div class="inner clfix">
       <strong class="logo"><a href="#none">PICK ME</a></strong>
       <nav class="gnb" style="width: 700px; margin-left: 50px;">
-        <a href="adminMember.do">회원관리</a>
-        <a href="adminCompany.do">기업관리</a>
-        <a href="notice/noticeList.do">공지사항</a>
+        <a href="/Pickme/admin/adminMember.do">회원관리</a>
+        <a href="/Pickme/admin/adminCompany.do">기업관리</a>
+        <a href="/Pickme/admin/notice/noticeList.do">공지사항</a>
         <a href="#none">유료서비스</a>
         <a href="#none">문의내역</a>
         <a href="#none">이력서관리</a>

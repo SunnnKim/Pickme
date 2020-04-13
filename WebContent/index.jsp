@@ -15,10 +15,8 @@
 <script>
 	location.href="login/main.do"
 </script>
-
-<!-- <script>
-	location.href="login/loginform.do"
-</script> -->
-</body>
+<!-- 이미지불러오는 방법 샘플
+<img src="filedownload.do?filename=파일이름.png&filepath=/upload/notice/">
+ --></body>
 </html>
 

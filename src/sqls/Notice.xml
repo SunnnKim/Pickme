@@ -20,7 +20,7 @@ VALUES ( 'NOTICE', #{ originname }, #{ newname }, #{path} , 0, #{ref} , #{step},
 </insert>
 <!-- 모든 공지사항 불러오기 -->
 <select id="getAllNotice" resultType="model.NoticeDto">
-SELECT * FROM NOTICE WHERE DEL != 1
+SELECT * FROM NOTICE WHERE DEL != 1 ORDER BY SEQ DESC
 </select>
 
 </mapper>

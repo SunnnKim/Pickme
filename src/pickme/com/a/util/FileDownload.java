@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/filedownload")
+@WebServlet("/filedownload.do")
 public class FileDownload extends HttpServlet{
 
 	
@@ -28,8 +28,8 @@ public class FileDownload extends HttpServlet{
       System.out.println("file download connected");
       
       // file 이름 및 경로 받아오기 
-      String filename = request.getParameter("filename");
-      String filepath = request.getParameter("filepath");
+      String filename = request.getParameter("filename"); 	// ex ) filename.jpg
+      String filepath = request.getParameter("filepath");	// ex ) /upload/amypage/
       
       System.out.println("download serv filepath :"+filepath);
       System.out.println("download serv filename :"+filename);
