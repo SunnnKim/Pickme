@@ -34,20 +34,29 @@
           <div class="rec-conatainer">
             <div class="rec-info">
               <h3 class="tit">채용등록정보</h3>
-              	<form id="fileform" action="recfileup.do" method="post" enctype="multipart/form-data">
-              	 <input type="hidden" name="ref" value="${ref}">
+              	<form id="fileform" method="post" action="recfileup.do" enctype="multipart/form-data">
                   <h4>대표이미지등록<span class="ess">*</span></h4>
                   <div class="cont">
                   <i class="file-image">
-					 <input id="img1" name="originname" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					 <input id="img1" name="originfile" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
 					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
-					<label for="img1" class="image"></label>
+					<label for="img1" class="image"></label> 
 					</i>
+					<i class="file-image">
+					 <input id="img2" name="originfile" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img2" class="image"></label>
+					</i>
+					  <i class="file-image">
+					 <input id="img3" name="originfile" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
+					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
+					<label for="img3" class="image"></label>
+					</i> 
 				</div>
               	</form>     
-              	<form id="frm">
+              	<form id="frm"> 
               	 <input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
-        
+              	 <input type="hidden" name="ref" value="${ref}"> 
                <h4>제목<span class="ess">*</span></h4>
               <div class="cont">
                 <input type="text" name="title" required placeholder="제목을 입력해주세요." maxlength="20">
@@ -130,6 +139,37 @@
         </div> <!-- rec-wrapper -->
 
   <script type="text/javascript">
+	//이미지 첨부 클릭 이벤트 막기
+	$("label[for=img2]").on("click",function(e){
+		if ( $("#img1").val() == "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '첫번째 이미지를 등록해주세요.'
+			})
+			return false;
+		}
+		return true;
+	});
+
+	$("label[for=img3]").on("click",function(e){
+		if ( $("#img1").val() == "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '첫번째 이미지를 등록해주세요.'
+			})
+			return false;
+		} else if ( $("#img2").val() == "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '두번째 이미지를 등록해주세요.'
+			})
+			return false;
+		}
+		return true;
+	});
+	
+	
+	
 
 	//파일업로드
 	function resetImage(input) {
@@ -148,6 +188,9 @@
 	  }
 	  else receiver.style.backgroundImage = 'none';
 	}
+
+
+
   
 	// datepicker
 	$("#datepicker").datepicker({
@@ -262,36 +305,50 @@
    });
 
 
-	//태그 입력
-   $("#hashtag").keyup(function(e){if(e.keyCode == 13) 
-    if($(this).val().trim() !=""){
-      tagappend(); 
-    } else {
-    	Swal.fire({
-			  icon: 'error',
-			  text: '태그를 입력해주세요.'
-		})
-    }
-    });
-
     //hashtag append 
     var element_count = document.getElementsByTagName('hashtag').length;
     function tagappend(){
-     var hashtext = document.getElementById('hashtag').value;
-     const str = "<span><button type='button' class='hashbtn' name='hashbtn' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashtext+"'></span>";
-	 
-	 
-     if(hashtext.trim() != ""){
-      $(".inhash").append(str);
-    
-      document.getElementById('hashtag').value="";
-      element_count++;
-      hashTagCount();
+	     var hashtext = document.getElementById('hashtag').value;
+	     var text_len =  document.getElementById('hashtag').value.length;
+	     const str = "<span><button type='button' class='hashbtn' name='hashbtn' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashtext+"'></span>";
+	     if(hashtext.trim() != "" && text_len>=5 ){
+	      $(".inhash").append(str);
+	    
+	      document.getElementById('hashtag').value="";
+	      element_count++;
+	      hashTagCount();
+	     } else if(text_len > 1 && text_len < 5){
+	    	 Swal.fire({
+				  icon: 'error',
+				  text: '태그를 5자이상입력해주세요.'
+			})
 
-     } else {
-       alert("태그를 입력해주세요.");
+	     } else if(hashtext.trim() == ""){
+	    	 Swal.fire({
+				  icon: 'error',
+				  text: '태그를 입력해주세요.'
+			})
+	     } 
+
      }
-    }
+
+
+	//태그 입력
+   $("#hashtag").keyup(function(e){
+	   if(e.keyCode == 13) {
+		   if( $(this).val().length >= 5 ) {
+			 tagappend();
+		   } else if ( $(this).val().length > 1 && $(this).val().length < 5){
+			   Swal.fire({
+					  icon: 'error',
+					  text: '태그를 5자이상입력해주세요.'
+				})
+		   }
+		}
+	   
+    });
+
+   
 
     function remove( element ){  
       element_count--;
@@ -342,7 +399,7 @@
 				  icon: 'error',
 				  text: '제목을 등록해주세요'
 				})
-		} else if ( $("input[name='originname']").val() == ""){
+		} else if ( $("input[name='originfile']").val() == ""){
 			Swal.fire({
 				  icon: 'error',
 				  text: '대표이미지를 등록해주세요'
@@ -393,12 +450,11 @@
 				  text: '태그를 입력해주세요.'
 				})
 		} else {
-			var queryString = $("#frm").serialize();
-			
+			/* var queryString = $("#frm").serialize(); */
 			//name value
 		 		var comSeq = $("input[name=comSeq]").val();
 				var ref = $("input[name=ref]").val();
-				var originname = $("input[name=originname]").val();
+				var originfile = $("input[name=originfile]").val();
 				var title = $("input[name=title]").val();
 				var edate =  $("input[name=edate]").val();
 				var comJob = $("#com_job1 option:selected").text()+","+$("#com_job2 option:selected").text();	//직군, 직무;
@@ -420,15 +476,14 @@
 				data:{'comSeq':comSeq,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
 					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag },
 				success: function(data){
-					//alert("success");
-					if(data == "true"){
+					//alert("넘어온 seq: "+data);
+					if(data > 0){
+					$("#fileform").submit();
 						Swal.fire({
 							  icon: 'success',
 							  title: '공고가 등록되었습니다.'
 						})
-						//파일저장할 controller로 경로수정.
-						//location.href="./../login/main.do";
-						$("#fileform").submit();
+						
 					} else {
 						Swal.fire({
 							  icon: 'error',
@@ -436,18 +491,14 @@
 							})
 						
 					}
-				},
-				error: function(){
-					alert("error");
 				}
-			}); 
+			}); //ajax
 				 
-			
-		
 			
 		}
 	
-    });
+    });//등록 눌렀을때
+
 
     
 </script>

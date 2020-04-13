@@ -52,8 +52,17 @@ public class FilesDto implements Serializable {
 		this.step = step;
 		this.filetype = filetype;
 	}
-
-
+	
+	
+	public FilesDto(String originname, String newname, String path, int ref, int step, String filetype) {
+		super();
+		this.originname = originname;
+		this.newname = newname;
+		this.path = path;
+		this.ref = ref;
+		this.step = step;
+		this.filetype = filetype;
+	}
 
 
 	public int getSeq() {

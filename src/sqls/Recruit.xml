@@ -4,19 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="Recruit">
- 	<select id="rec_getRef" resultType="int">
- 		 SELECT IFNULL(MAX(REF),0)+1 FROM RECRUIT
+ 	<!-- 마지막 시퀀스 뽑아내기 -->
+	<select id="getLastSeq" resultType="int">
+	SELECT LAST_INSERT_ID()
+	</select>
+ 	<select id="recGetRef" resultType="int">
+ 		SELECT IFNULL(MAX(REF),0)+1 FROM RECRUIT
  	</select>
-	<insert id="rec_insert" parameterType="model.RecruitDto">
+	<insert id="recInsert" parameterType="model.RecruitDto">
 		INSERT INTO RECRUIT(COMSEQ, TITLE, COMJOB, COMJOBTYPE,
 		MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY,
  		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL)
-		VALUES (#{comseq}, #{title}, #{comjob}, #{comjobtype},
-		#{maintask}, #{workingform}, #{requirements}, #{salary},
-		#{content}, #{hashtag}, NOW(), #{edate}, #{ref}, 0, 0)
+		VALUES (#{comSeq}, #{title}, #{comJob}, #{comJobType},
+		#{mainTask}, #{workingForm}, #{requirements}, #{salary},
+		#{content}, #{hashTag}, NOW(), #{edate}, #{ref}, 0, 0)
 	</insert>
-	<insert id="rec_upfile" parameterType="model.FilesDto">
+	<insert id="recUpfile" parameterType="model.FilesDto">
 		INSERT INTO FILES (USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE )
-		VALUES ( RECRUIT, #{originname}, #{newname}, #{path}, 0, #{ref}, #{step}, #{filetype} )
+		VALUES ( 'RECRUIT', #{originname}, #{newname}, #{path}, 0, #{ref}, #{step}, #{filetype} )
 	</insert>
  </mapper>
