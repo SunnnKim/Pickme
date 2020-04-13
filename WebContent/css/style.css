@@ -944,7 +944,7 @@ span.ess {color: red; font-weight: bold;}
 .aMyinfo ul li select {color:#555; outline:none; display:block; float:left; width:710px; border:none; height:40px; border-bottom:1px solid #ddd; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
 .aMyinfo ul li select::-ms-expand {display: none;}
 .aMyinfo ul li select.select_cons {width:450px;}
-.aMyinfo ul li select.select_cons#com_job1 {width:250px;}
+.aMyinfo ul li select.select_cons#userJob01 {width:250px;}
 .aMyinfo ul li:first-child:before{
     content: "";
     top:50%;
