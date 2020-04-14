@@ -28,7 +28,10 @@
         <div class="cont">
           <ul class="pmList clfix">
           	<c:if test="${empty recList }">
-					<h1>리스트없음</h1>
+					<div style="text-align:center; position:relative; margin-top:4wndl0px;">
+          			<p style="position:absolute; top:0; left:0; width:100%; font-size:30px;">등록된 공고가 없습니다.</p>
+					<img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width:60%;">
+				</div>
 			</c:if>
 			<c:forEach items="${recList }" var="dto" varStatus="rs">
 				<li><a href="recDetail.do?seq=${dto.seq }">
