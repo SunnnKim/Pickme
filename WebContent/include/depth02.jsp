@@ -158,6 +158,23 @@ if( durl.contains("e_apply")){
 <% } %>
 
 
-
+<!-- 고객센터  -->
+<% 
+if (durl.contains("customer/")){
+%>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("noticeList") ? " on" :" "%>>
+		<a href="/Pickme/customer/customerList.do">공지사항</a>
+	</li>
+	<li class=<%= durl.contains("customerQuestion") ? " on" :" "%>>
+		<a href="/Pickme/customer/customerQuestion.do">자주하는질문</a>
+	</li>
+	<li class=<%= durl.contains("customerService.jsp") ? " on" :" "%>>
+		<a href="/Pickme/customer/customerService">문의하기</a>
+	</li>
+</ul>
+<%
+}	
+%>	
 
 

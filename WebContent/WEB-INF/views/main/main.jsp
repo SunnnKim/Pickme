@@ -61,7 +61,7 @@
 					<a href="/Pickme/searchJob/recSearch.do">채용탐색</a> <!-- 일반회원 채용탐색  -->
 					<a href="#">이력서</a><!-- 일반회원 이력서쓰기  -->
 					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a><!-- 일반회원 지원현황  -->
-					<a href="#none">고객센터</a>
+					<a href="/Pickme/customer/customerList.do">고객센터</a>
 				</nav>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
@@ -79,7 +79,7 @@
 					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
 					<a href="/Pickme/c_apply/getRequestList.do">지원현황</a><!-- 기업회원 지원현황  -->
 					<a href="/Pickme/recruit/recInsert.do">채용관리</a><!-- 기업회원 채용현황  -->
-					<a href="#none">고객센터</a>
+					<a href="/Pickme/customer/customerList.do">고객센터</a>
 				</nav>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
@@ -99,7 +99,7 @@
 					<a href="/Pickme/searchJob/recSearch.do">채용탐색</a> <!-- 비로그인 채용탐색  -->
 					<a href="/Pickme/login/memLogin.do">이력서</a><!-- 일반회원 이력서쓰기  -->
 					<a href="/Pickme/login/memLogin.do">지원현황</a><!-- 비로그인 -> 로그인 페이지로 -->
-					<a href="#none">고객센터</a>
+					<a href="/Pickme/customer/customerList.do">고객센터</a>
 				</nav>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">

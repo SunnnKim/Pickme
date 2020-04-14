@@ -180,3 +180,36 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>전체보기</span>
 </div>
 <% } %>
+
+<!-- 공지사항 -->
+<% if (lourl.contains("noticeList")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>고객센터</span>
+	<span>></span>
+	<span>공지사항</span>
+</div>
+<% } %>
+
+<!-- 자주묻는질문  -->
+<% if (lourl.contains("customer/customerQuestion")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>고객센터</span>
+	<span>></span>
+	<span>자주묻는질문</span>
+</div>
+<% } %>
+
+<!-- 문의하기   -->
+<% if (lourl.contains("customer/customerService")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>고객센터</span>
+	<span>></span>
+	<span>문의하기</span>
+</div>
+<% } %>

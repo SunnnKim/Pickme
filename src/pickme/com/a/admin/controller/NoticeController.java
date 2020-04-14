@@ -172,6 +172,7 @@ public class NoticeController {
 	@RequestMapping(value="insertNotice.do", method=RequestMethod.POST)
 	public String insertNotice( MultipartFile [] noticeFile, NoticeDto noticeDto,  HttpServletRequest request) {
 		// 공지사항 등록 후 ref(그룹번호) 불러오기  
+		if(noticeFile.length > 0) noticeDto.setFiles(1);
 		int ref = service.insertNotice(noticeDto);
 		
 		// 첨부파일용 파일 테이블에 저장할 리스트 만들기 

@@ -22,7 +22,24 @@ VALUES ( 'NOTICE', #{ originname }, #{ newname }, #{path} , 0, #{ref} , #{step},
 <select id="getAllNotice" resultType="model.NoticeDto">
 SELECT * FROM NOTICE WHERE DEL != 1 ORDER BY SEQ DESC
 </select>
-
+<!-- 공지사항 리스트 + 페이징 -->
+<select id="getAllNoticePaging" parameterType="int" resultType="model.NoticeDto">
+SELECT * 
+FROM ( SELECT * FROM NOTICE 
+		WHERE DEL != 1
+		ORDER BY SEQ DESC ) NOTICE 
+LIMIT 10 OFFSET ${pageNumber}
+</select>
+<!-- 볼수 있는 전체 글의 개수 구하기  -->
+<select id="countAllContent" resultType="int">
+SELECT COUNT(*) FROM NOTICE
+WHERE DEL != 1
+</select>
+<!-- 공지사항 디테일 불러오기 -->
+<select id="getNoticeDetail" parameterType="int" resultType="model.NoticeDto">
+SELECT* FROM NOTICE
+WHERE SEQ = ${seq}
+</select>
 </mapper>
 
 
