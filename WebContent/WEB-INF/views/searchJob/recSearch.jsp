@@ -1,7 +1,9 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 헤더호출 -->
-<%@include file="../../../include/header.jsp"%>
+<c:import url="../../../include/header.jsp"/> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
@@ -25,138 +27,25 @@
         </div><!-- div.filter_wrap -->
         <div class="cont">
           <ul class="pmList clfix">
-            <li><a href="recDetail.do">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3>iOS 앱 개발자</h3>
-                <p>브이로거(Vlogr)</p>
-                <p>서울.한국</p>
-                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-              </div>
-            </a></li>
+          	<c:if test="${empty recList }">
+					<div style="text-align:center; position:relative; margin-top:4wndl0px;">
+          			<p style="position:absolute; top:0; left:0; width:100%; font-size:30px;">등록된 공고가 없습니다.</p>
+					<img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width:60%;">
+				</div>
+			</c:if>
+			<c:forEach items="${recList }" var="dto" varStatus="rs">
+				<li><a href="recDetail.do?seq=${dto.seq }">
+	              <div class="img">
+	               <img src="filedownload.do?filename=1586828236375__rec-detail-testimg2.jpg&filepath=/upload/recruit/" alt="엑박">
+	              </div>
+	              <div class="txt">
+	                <h3>${dto.title }</h3>
+	                <p>${dto.comName }</p>
+	                <p>${dto.comJobType }</p>
+	                <span>[채용]${dto.wdate } ~ ${dto.edate }</span>
+	              </div>
+	            </a></li>
+			</c:forEach>
           </ul>
   </div><!-- cont -->
  <!-- 페이징 -->
@@ -182,6 +71,7 @@
 	</div>
 
 <script>
+
  //페이징
  function getList(mode, page) {
 		var $area;
@@ -267,4 +157,4 @@
   
 
 </script>
-<%@include file="/include/footer.jsp"%>
+<c:import url="../../../include/footer.jsp"/> 

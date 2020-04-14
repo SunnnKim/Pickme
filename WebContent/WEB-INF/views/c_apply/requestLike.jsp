@@ -35,8 +35,8 @@ email : <%=company.getEmail()%>
 	<!-- 검색창 -->
 	<div class="bbs-top">
 		<div class="form-search">
-			<input type="text" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value="">
-			<button type="button" class="btn-search" onclick="search('allList', 1)"><span>검색</span>	</button>
+			<input type="text" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value="${sKeyword }">
+			<button type="button" class="btn-search" onclick="searchAction()"><span>검색</span>	</button>
 		</div>
 	</div>
 
@@ -45,13 +45,13 @@ email : <%=company.getEmail()%>
 		<table>
 			<caption>전체</caption>
 			<colgroup>
-				<col style="width: 70px">
-				<col style="width: 70px">
-				<col style="width: 200px">
-				<col style="width: 200px">
-				<col style="width: 150px">
-				<col style="width: 200px">
-				<col style="width: 50px">
+				<col style="width: 10%">
+				<col style="width: 10%">
+				<col style="width: 30%">
+				<col style="width: 15%">
+				<col style="width: 15%">
+				<col style="width: 15%">
+				<col style="width: 5%">
 			</colgroup>
 			<thead>
 				<tr>
@@ -74,7 +74,7 @@ email : <%=company.getEmail()%>
 
 				<c:forEach items="${requestLike }" var="like" varStatus="vs">
 					<tr>
-						<td>${vs.count }</td>
+						<td>${like.seq }</td>
 						<td class="like-td">
 							<i class="fas fa-heart liked"></i>
 							<!-- <button type="button" onclick="likech(this)"><i class="fas fa-heart liked"></i></button> -->
@@ -102,13 +102,13 @@ email : <%=company.getEmail()%>
 							<td>
 								<c:choose>
 								<c:when test="${like.accept eq '1'}">
-									<button type="button" style="border: 1px solid #000;" onclick="resumeOpen()">이력서 열람</button>
+									<button type="button" class="btn-resumeOpen" onclick="resumeOpen()">이력서 열람</button>
 								</c:when>
 									<c:when test="${like.accept eq '2'}">
 										 <!-- 요청 거절 됨 -->
 								</c:when>
 								<c:otherwise>
-									<button type="button" class="" style="border: 1px solid" onclick="cancelAction(${like.seq})">요청취소</button>
+									<button type="button" class="btn-cancel" onclick="cancelAction(${request.seq})">요청취소</button>
 										<%-- ${request.seq} = cv_request에 대한 seq --%>
 									</c:otherwise>
 								</c:choose>
@@ -157,6 +157,7 @@ email : <%=company.getEmail()%>
 	})
 	
 	
+	/* 열람요청 취소 */
 	function cancelAction(seq) {
 		//alert("요청을 취소 할 cv_request의 seq : " + seq)
 		
@@ -167,11 +168,30 @@ email : <%=company.getEmail()%>
 				type : 'POST',
 				data : { "cv_seq" : seq },
 				/* dataType  : "String", */
-				success : function(result) {
+				success : function(cancelCount) {
 					//alert("요청 취소 리턴 값 : " + result);
-					if(result) { 
-						//alert("취소 완료");
-						location.href="requestLike.do";
+					if(cancelCount == 1) {
+						alert("취소 완료");
+
+						var sKeyword = '<c:out value="${sKeyword}"/>';
+						var pn = <c:out value="${pageNumber}"/>;
+
+						var totalRecordCount = <c:out value="${totalRecordCount }"/>;
+						var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
+						var screenEndPageIndex = $('.paging > ul > li').last().text();
+						//alert(screenEndPageIndex)
+						
+						/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
+						if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
+							//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
+							if( cancelCount == (totalRecordCount % recordCountPerPage)){
+								pn = pn - 1;
+							}
+						}
+
+						if (pn < 0) pn = 0;
+						//alert("pn  : "  + pn);
+						location.href="requestLike.do?sKeyword="+sKeyword+"&pageNumber="+pn;
 					}
 				},
 				error:function(request,status,error){ 
@@ -197,17 +217,41 @@ email : <%=company.getEmail()%>
 		}
 		console.log("### checkRow => {" + checkRow + "}");
 
-		if (confirm("선택된 목록을 삭제 합니다")) {
+		if (confirm("선택된 목록을 삭제 합니다. (요청 목록도 함께 삭제 됩니다)")) {
 
 			$.ajax({
 				url : 'requestDelete.do',
 				type : 'POST',
 				data : { checkRow },
 				/* dataType  : "String", */
-				success : function(result) {
+				success : function(deleteCount) {
 					//alert("success : " + result );
-					alert(result + "개가 삭제 되었습니다");
-					location.href="requestLike.do";
+					if(deleteCount != null) {
+						alert(deleteCount + "개가 삭제 되었습니다");
+
+						
+						var sKeyword = '<c:out value="${sKeyword}"/>';
+						var pn = <c:out value="${pageNumber}"/>;
+
+						var totalRecordCount = <c:out value="${totalRecordCount }"/>;
+						var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
+						var screenEndPageIndex = $('.paging > ul > li').last().text();
+						//alert(screenEndPageIndex)
+						
+						/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
+						if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
+							//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
+							if( deleteCount == (totalRecordCount % recordCountPerPage)){
+								pn = pn - 1;
+							}else if( (totalRecordCount % recordCountPerPage) == 0 && deleteCount == 10 ){
+								pn = pn - 1;
+							}
+						}
+
+						if (pn < 0) pn = 0;
+						//alert("pn  : "  + pn);
+						location.href="requestLike.do?sKeyword="+sKeyword+"&pageNumber="+pn;
+					}
 				},
 				error:function(request,status,error){ 
 					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
@@ -218,17 +262,63 @@ email : <%=company.getEmail()%>
 	
 
 
-	function search(mode, page) {
+	/* 검색 버튼 */
+	function searchAction() {
 		//alert("검색 버튼 클릭");
-		alert("Mode : "+ mode + " Page : " + page);
-
 		var keyWord = "";
 		keyWord = $.trim($("input[name=keyWord]").val());
+		//alert("키워드 : "+keyWord);
+		
+		if(keyWord == null || keyWord == "") {
+			alert("검색어를 입력해주세요.");
+		} else {
+			location.href="requestLike.do?sKeyword="+keyWord+"&pageNumber=0";		
+		}
+	}
+	/* 검색 엔터키 입력 */
+	$("input[name=keyWord]").keyup(function(e){if(e.keyCode == 13) searchAction(); });
 
-		alert("keyWord : " + keyWord);
-		getList(mode,page);
+
+
+	/* 페이지 이동 */
+	function goPage(pn){
+	  var sKeyword = '<c:out value="${sKeyword}"/>';
+	//  alert("sKeyword: " + sKeyword);	
+		
+	  location.href="requestLike.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
+		
 	}
 
+
+
+	function resumeOpen() {
+		alert(" 이력서 열람 요청 준비중 : resumeOpen() ")
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 
 	/*	관심 인재 부분 토글 기능 삭제 
 	function likech(btn){

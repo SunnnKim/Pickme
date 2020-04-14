@@ -4,19 +4,54 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="Recruit">
- 	<select id="rec_getRef" resultType="int">
- 		 SELECT IFNULL(MAX(REF),0)+1 FROM RECRUIT
+<!-- 마지막 시퀀스 뽑아내기 -->
+	<select id="getLastSeq" resultType="int">
+	SELECT LAST_INSERT_ID()
+	</select>
+ 	<select id="recGetRef" resultType="int">
+ 		SELECT IFNULL(MAX(REF),0)+1 FROM RECRUIT
  	</select>
-	<insert id="rec_insert" parameterType="model.RecruitDto">
-		INSERT INTO RECRUIT(COMSEQ, TITLE, COMJOB, COMJOBTYPE,
+	<insert id="recInsert" parameterType="model.RecruitDto">
+		INSERT INTO RECRUIT(COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE,
 		MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY,
- 		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL)
-		VALUES (#{comseq}, #{title}, #{comjob}, #{comjobtype},
-		#{maintask}, #{workingform}, #{requirements}, #{salary},
-		#{content}, #{hashtag}, NOW(), #{edate}, #{ref}, 0, 0)
+ 		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL, IMAGENAME)
+		VALUES (#{comSeq}, #{comName}, #{title}, #{comJob}, #{comJobType},
+		#{mainTask}, #{workingForm}, #{requirements}, #{salary},
+		#{content}, #{hashTag}, SYSDATE(), #{edate}, #{ref}, 0, 0, #{imagename} )
 	</insert>
-	<insert id="rec_upfile" parameterType="model.FilesDto">
+	<insert id="recUpfile" parameterType="model.FilesDto">
 		INSERT INTO FILES (USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE )
-		VALUES ( RECRUIT, #{originname}, #{newname}, #{path}, 0, #{ref}, #{step}, #{filetype} )
-	</insert>
+		VALUES ( 'RECRUIT', #{originname}, #{newname}, 'upload/recruit/', 0, #{ref}, #{step}, #{filetype} )
+	</insert> 
+	<!-- ================= recruit 테이블 imagename 을 originname -> newname 으로 바꾸기 -->
+	<update id="imageNameUpdate" parameterType="int">
+		UPDATE RECRUIT R
+		SET IMAGENAME=(SELECT NEWNAME FROM FILES F WHERE R.SEQ = F.REF AND USETABLE = 'RECRUIT' AND F.STEP=0 )
+		WHERE R.REF=#{ref};
+	</update>
+	<!-- =================채용탐색 들어가자마자 뿌려지는 전체 LIST======================= -->
+ 	<select id="getRecAllList" resultType="model.RecruitDto">
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
+		FROM RECRUIT 
+		WHERE DEL=0 
+		ORDER BY SEQ DESC
+	</select> 
+	<!-- 기업만 볼수있는 채용공고 list (현재공고) -->
+	<select id="getMyRecruit" parameterType="int" resultType="model.RecruitDto">
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
+		FROM RECRUIT 
+		WHERE COMSEQ=#{comSeq} AND DEL=0
+		ORDER BY SEQ DESC
+	</select> 
+	<!-- ref가 동일한 이미지 가져오기 -->
+	<select id="getRecFile" parameterType="int" resultType="model.FilesDto">
+		SELECT SEQ, USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE
+		FROM FILES 
+		WHERE USETABLE='RECRUIT' AND REF=#{ref}
+	</select> 
+	<!-- 해당 게시물 첨부파일 갯수 알아오기 -->
+	<select id="countFiles" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM FILES WHERE REF=#{ref}
+	</select> 
+	
  </mapper>

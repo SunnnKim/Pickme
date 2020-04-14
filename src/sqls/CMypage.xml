@@ -10,11 +10,11 @@
   	FROM PAYMENT
   </select>
   
-  <select id = "">
+<!--   <select id = "">
   	SELECT
   	FROM
   	WHERE 
-  </select>
+  </select> -->
   
   <!-- 기업정보 이동 -->
   <select id = "goCMypage" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">

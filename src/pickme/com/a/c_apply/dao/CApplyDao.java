@@ -15,13 +15,15 @@ public interface CApplyDao {
 	public int requestDelete(String seq);
 
 	public List<CvRequestDto> requestLike(int c_seq);
+	public List<CvRequestDto> requestLike(MessageParam param);
 
 	public boolean addLike(FavoriteDto dto);
 
 	public boolean delLike(FavoriteDto dto);
 
-	public boolean requestCancel(String cv_seq);
+	public int requestCancel(String cv_seq);
 
 	public int getTotalRecordCount(MessageParam param);
+	public int getLikeTotalRecordCount(MessageParam param);
 
 }

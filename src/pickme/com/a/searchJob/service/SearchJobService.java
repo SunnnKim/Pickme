@@ -1,5 +1,9 @@
 package pickme.com.a.searchJob.service;
 
-public interface SearchJobService {
+import java.util.List;
 
+import model.RecruitDto;
+
+public interface SearchJobService {
+	public List<RecruitDto> getRecAllList();
 }

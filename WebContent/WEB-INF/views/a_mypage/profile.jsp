@@ -1,71 +1,85 @@
-<%@include file ="../../../include/header.jsp" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
-
+<%@include file="../../../include/header.jsp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+					
 <div id="aMypage-wrap">
-   <div class="aMypage_top clfix">
-     <div class="profileWrap">
-       <div class="profile">
-         <i class="fas fa-user"></i>
-         <div class="imgs-wrap" id="imgs-wrap"></div>
-       </div>
-       <div class="filebox preview-image">
-         <label for="input_file"><i class="fas fa-camera"></i></label>
-         <input type="file" id="input_file" class="upload-hidden">
-       </div>
-     </div><!-- //profileWrap -->
-     <div class="aMyinfo">
-       <h4>전지현</h4>
-       <p>jihyun@gmail.com</p>
-       <p><input type="text" name="_userPhone" placeholder="연락처를 입력해주세요" maxlength="13" value=""/></p>
-       <ul>
-         <li>
-             <strong>직무</strong>
-             <select class="select_cons" name="com_job1" id="com_job1" onchange="changeOcc(this)">
-               <option value="0">1차분류</option>
-             </select>
-             <select class="select_cons ml10" name="com_job2" id="com_job2">
-               <option value="0">2차분류</option>
-             </select>
-         </li>
-         <li>
-           <strong>경력</strong>
-           <select class="" name="">
-             <option value="신입">신입</option>
-             <option value="1년">1년</option>
-             <option value="2년">2년</option>
-             <option value="3년">3년</option>
-             <option value="4년">4년</option>
-             <option value="5년">5년</option>
-             <option value="6년">6년</option>
-             <option value="7년">7년</option>
-             <option value="8년">8년</option>
-             <option value="9년">9년</option>
-             <option value="10년">10년</option>
-           </select>
-         </li>
-       </ul>
-       <!-- <div class="aMyBtn"><a href="#none">비밀번호수정 / 탈퇴</a></div> -->
-     </div>
-   </div><!-- // aMypage_top -->
-   <div class="aMycont">
-       <h5>간단 소개글</h5>
-       <p>직무 내용, 경험, 목표 등을 추가해서 더욱 멋진 소개글을 작성해보세요.</p>
-       <textarea></textarea>
-       <h5 class="block">관심분야를 태그해주세요</h5>
-       <div class="hashtagWrap">
-         <input type="text" id="hashtag" required placeholder="태그는 최대 3개까지 입력가능합니다."><button type="button" id="hashadd" onclick="tagappend()" >추가</button>
-       </div>
-       <div class="inhash"></div>
-     <button type="button draw meet">작성 완료</button>
-   </div><!-- // aMycont -->
- </div><!-- // aMypage-wrap -->
- 
- <script>
+	<form id="form" method="post" enctype="multipart/form-data">
+		<div class="aMypage_top clfix">
+			<div class="profileWrap">
+				<div class="profile">
+					<i class="fas fa-user"></i>
+					<div class="imgs-wrap" id="imgs-wrap">
+					<div class="upload-display">
+					<img src="/Pickme/a_mypage/imageDownload.do?filename=naver.jpg&filepath=/upload/amember/" class="upload-thumb"></div>
+					</div>
+				</div>
+				<div class="filebox preview-image">
+					<label for="input_file"><i class="fas fa-camera"></i></label>
+					<input type="file" id="input_file" name="profile" class="upload-hidden">
+					<input type="hidden" class="upload-name" name="profileName">
+				</div>
+			</div>
+			<!-- //profileWrap -->
+			<div class="aMyinfo">
+				<h4><%=userName %></h4>
+				<p><%=member.getEmail() %></p>
+				<p>
+					<input type="text" name="phone" placeholder="연락처를 입력해주세요" maxlength="11" value="<%=member.getPhone() %>" />
+				</p>
+				<ul>
+					<li>
+						<strong>직무</strong>
+						<select class="select_cons" name="userJob01" id="userJob01" onchange="changeOcc(this)">
+								<option value="0">1차분류</option>
+						</select>
+						<select class="select_cons ml10" name="userJob02" id="userJob02">
+								<option value="0">2차분류</option>
+						</select>
+					</li>
+					<li>
+					
+						<strong>경력</strong>
+						<select class="" name="career">
+							<option value="신입">신입</option>
+							<option value="1년">1년</option>
+							<option value="2년">2년</option>
+							<option value="3년">3년</option>
+							<option value="4년">4년</option>
+							<option value="5년">5년</option>
+							<option value="6년">6년</option>
+							<option value="7년">7년</option>
+							<option value="8년">8년</option>
+							<option value="9년">9년</option>
+							<option value="10년">10년</option>
+						</select>
+					</li>
+				</ul>
+				<!-- <div class="aMyBtn"><a href="#none">비밀번호수정 / 탈퇴</a></div> -->
+			</div>
+		</div>
+		<!-- // aMypage_top -->
+		<div class="aMycont">
+			<h5>간단 소개글</h5>
+			<p>직무 내용, 경험, 목표 등을 추가해서 더욱 멋진 소개글을 작성해보세요.</p>
+			<textarea name="introduce"><%=member.getIntroduce() %></textarea>
+			<h5 class="block">관심분야를 태그해주세요</h5>
+			<div class="hashtagWrap">
+				<input type="text" id="hashtag" placeholder="태그는 최대 3개까지 입력가능합니다.">
+				<button type="button" id="hashadd" onclick="tagappend()">추가</button>				
+			</div>
+			<div class="inhash"></div>
+			<button type="button" id="pSaveBtn">작성 완료</button>
+		</div>
+		<!-- // aMycont -->
+	</form>
+</div>
+<!-- // aMypage-wrap -->
+
+<script>
  $(document).ready(function(){
 
 	 
 	// 연락처 숫자만 입력
-    $("input[name=_userPhone]").keyup(function(event){
+    $("input[name=phone]").keyup(function(event){
       	var inputVal = $(this).val();        
     	$(this).val(inputVal.replace(/[^0-9]/gi,''));      	
  	});
@@ -126,10 +140,11 @@
        var filename = $(this)[0].files[0].name;
      } else {
        // Old IE 파일명 추출
-       var filename = $(this).val().split('/').pop().split('\\').pop();
+    //   var filename = $(this).val().split('/').pop().split('\\').pop();
      };
 
      $(this).siblings('.upload-name').val(filename);
+
    });
 
    //preview image
@@ -149,6 +164,9 @@
        var reader = new FileReader();
        reader.onload = function (e) {
          var src = e.target.result;
+         if("<%=member.getProfileName()%>" != ""){
+             src = "filedownload?filename=<%=member.getProfileName()%>&filepath=/upload/amember/" 
+          }
          parent.prepend('<div class="upload-display"><img src="' + src + '" class="upload-thumb"></div>');
        };
        reader.readAsDataURL($(this)[0].files[0]);
@@ -181,32 +199,38 @@
           jsonArr.push(json)
           for( key in json ){
            // console.log(key);
-            $("#com_job1").append("<option value='"+key+"'>"+key+"</option>");
+            $("#userJob01").append("<option value='"+key+"'>"+key+"</option>");
             // console.log("key:"+key+", value:"+json[key]);
             keyArr.push(key);
             valArr.push(json[key]);
-
           }
+ 
         }
-
+        var jobAll = '<%=member.getJob()%>';
+        var job1 = jobAll.split(',')[0];
+        var job2 = jobAll.split(',')[1];
+		$('#userJob01').val(job1);
+		
     });
     
       function changeOcc( onedepth ){
         var i=0;
         console.log(onedepth.value);
-        $("#com_job2").html('');
-        $("#com_job2").append("<option value='0'>2차분류</option>")
+        $("#userJob02").html('');
+        $("#userJob02").append("<option value='0'>2차분류</option>")
         for( arr of jsonArr ){
           // console.log(arr)
           for(key in arr){
               if( key.trim() == onedepth.value.trim() ){
                 for( i = 0; i < arr[key].length; i++ ){
-                  $("#com_job2").append("<option value='"+arr[key]+"'>"+arr[key][i]+"</option>");
+                  $("#userJob02").append("<option value='"+arr[key]+"'>"+arr[key][i]+"</option>");
                 }
                
               }
           }
         }
+        
+        
       }
 
  /* hashtag */
@@ -222,7 +246,7 @@
   var element_count = document.getElementsByTagName('hashtag').length;
   function tagappend(){
    var hashtext = document.getElementById('hashtag').value;
-   const str = "<span><button type='button' class='hashbtn' name='hashtag' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' value="+hashtext+"></span>";
+   const str = "<span><button type='button' class='hashbtn' name='hashtag' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashtext+"'></span>";
    if(hashtext.trim() != ""){
     $(".inhash").append(str);
     document.getElementById('hashtag').value="";
@@ -243,7 +267,7 @@
 
   };
 
-  $('.inhash').on('click', 'i', function() {
+ $('.inhash').on('click', 'i', function() {
     $(this).parent('button').parent('span').remove();
  });
 
@@ -257,6 +281,90 @@
     }
   }
 
+
+ 	// 작성완료 버튼 눌렀을 때
+  	$("#pSaveBtn").on("click",function(){
+	 alert("클릭");
+      //hash tag
+  	var taglen = $("input[name='hashTag']").length;
+  	var tags = new Array(taglen);
+
+    for(var i=0; i < taglen;i++){
+        tags[i] = $("input[name='hashTag']").eq(i).val();
+  		console.log("tags:"+tags);
+  	}
+		//var jsondata = JSON.parse(tags);
+		jsondata = JSON.stringify(tags)
+  		console.log(jsondata)
+	
+	/*  
+		String 데이터를 Json데이터로 바꾸는 방법
+		jsondata = JSON.parse(jsondata)
+	  	console.log( jsondata)
+	*/    	
+
+		 
+		
+	var queryString = $("#form").serialize();
+
+	// name value
+	var seq = <%=member.getSeq() %>
+	var email = "<%=member.getEmail() %>"
+	var phone = $("input[name=phone]").val();
+	var profileName = $("input[name=profileName]").val();
+	var profilePath = "/upload/amember/";
+	var job = $("#userJob01 option:selected").text()+","+$("#userJob02 option:selected").text(); //직군, 직무;
+	var career = $("select[name=career]").val();
+	var introduce = $("textarea[name=introduce]").val();
+	var hashtag = jsondata;
+
+	console.log({
+		'seq':seq, 'email':email, 'phone':phone,'profilePath':profilePath, 'profileName':profileName,'job':job,'career':career,
+		'introduce':introduce, 'hashtag':hashtag
+	});
+	
+			let data = new FormData;
+			console.log()
+			var getFile = $('input[name=profile]')[0].files[0]
+		   	data.append("file", getFile);
+			console.log(data)
+		    $.ajax({
+		      data: data,
+		      type: 'POST',
+		      url: "profileUpdate.do",
+		      cache: false,
+		      contentType: false,
+		      processData: false,
+		      enctype: 'multipart/form-data',
+		      success: function (url) { 
+					alert('success')
+
+			     }
+		        
+		    	});
+
+
+
+		/* 
+	  $.ajax({
+		url:"profileUpdate.do",
+		type:"post",
+		datatype:'json',
+		data:{'seq':seq,'email':email,'phone':phone,'profilePath':profilePath,'profileName':profileName,'job':job,'career':career,
+			  'introduce':introduce, 'hashtag':hashtag},
+		success: function(data){
+			alert("success");
+			
+		},
+		 error:function(request,status,error){
+	        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+	       }
+	
+		});  */
+
+		
+  });
+
  </script>
 
-<%@include file ="../../../include/footer.jsp" %>		
+<%@include file="../../../include/footer.jsp"%>

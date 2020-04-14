@@ -97,15 +97,15 @@
 						<td>	
 							<c:if test="${ impoMsg.open == 0 }" >
 								<c:if test="${isUnread != null }">
-									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=1"><span style="text-align:left;color:#777;font-weight:600"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
+									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=1"><span class="unread-msg"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
 								</c:if>
 								<c:if test="${isUnread == null }">
-									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;color:#777;font-weight:600"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
+									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=0"><span class="unread-msg"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>	
 								</c:if>
 									
 							</c:if>
 							<c:if test="${impoMsg.open == 1 }">
-									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
+									<a href="seeMsg.do?seq=${impoMsg.seq }&page=impoMsg&pageNumber=${pageNumber}&unread=0"><span class="read-msg"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
 							</c:if>
 						</td>
 						<td> ${ impoMsg.name } <input type="hidden" id="_seq" value="${ impoMsg.seq}"></td>

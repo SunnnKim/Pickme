@@ -36,7 +36,7 @@ email : <%=company.getEmail()%>
 		<!-- 검색창 -->
 		<div class="bbs-top">
 			<div class="form-search">
-				<input type="text" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value="">
+				<input type="text" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value=${sKeyword }>
 				<button type="button" class="btn-search" onclick="searchAction()"><span>검색</span>	</button>
 			</div>
 		</div>
@@ -75,7 +75,8 @@ email : <%=company.getEmail()%>
 
 					<c:forEach items="${requestList }" var="request" varStatus="vs">
 						<tr>
-							<td>${vs.count }</td>
+							<%-- <td>${vs.count }</td> --%>
+							<td>${request.seq }</td>
 							<td class="like-td">
 								<%-- <input type="hidden" id="amem_seq" value="${request.seq }"> --%>
 								<c:choose>
@@ -224,7 +225,7 @@ email : <%=company.getEmail()%>
 		}
 	}
 	
-	
+	/* 열람요청 취소 */
 	function cancelAction(seq) {
 		//alert("요청을 취소 할 cv_request의 seq : " + seq)
 		
@@ -235,11 +236,30 @@ email : <%=company.getEmail()%>
 				type : 'POST',
 				data : { "cv_seq" : seq },
 				/* dataType  : "String", */
-				success : function(result) {
+				success : function(cancelCount) {
 					//alert("요청 취소 리턴 값 : " + result);
-					if(result) { 
-						//alert("취소 완료");
-						location.href="getRequestList.do";
+					if(cancelCount == 1) {
+						alert("취소 완료");
+
+						var sKeyword = '<c:out value="${sKeyword}"/>';
+						var pn = <c:out value="${pageNumber}"/>;
+
+						var totalRecordCount = <c:out value="${totalRecordCount }"/>;
+						var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
+						var screenEndPageIndex = $('.paging > ul > li').last().text();
+						//alert(screenEndPageIndex)
+						
+						/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
+						if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
+							//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
+							if( cancelCount == (totalRecordCount % recordCountPerPage)){
+								pn = pn - 1;
+							}
+						}
+
+						if (pn < 0) pn = 0;
+						//alert("pn  : "  + pn);
+						location.href="getRequestList.do?sKeyword="+sKeyword+"&pageNumber="+pn;
 					}
 				},
 				error:function(request,status,error){ 
@@ -255,6 +275,7 @@ email : <%=company.getEmail()%>
 	
 	/* 선택 삭제(체크박스된 것 전부) */
 	function deleteAction() {
+
 		
 		var checkRow = "";
 		$("input[name='checkRow']:checked").each(function() {
@@ -269,17 +290,41 @@ email : <%=company.getEmail()%>
 		}
 		console.log("### checkRow => {" + checkRow + "}");
 
+			
 		if (confirm("선택된 목록을 삭제 합니다")) {
-
 			$.ajax({
 				url : 'requestDelete.do',
 				type : 'POST',
-				data : { checkRow },
+				data : { "checkRow" :checkRow },
 				/* dataType  : "String", */
-				success : function(result) {
+				success : function(deleteCount) {
 					//alert("success : " + result );
-					alert(result + "개가 삭제 되었습니다");
-					location.href="getRequestList.do";
+					if(deleteCount != null) {
+						alert(deleteCount + "개가 삭제 되었습니다");
+
+						
+						var sKeyword = '<c:out value="${sKeyword}"/>';
+						var pn = <c:out value="${pageNumber}"/>;
+
+						var totalRecordCount = <c:out value="${totalRecordCount }"/>;
+						var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
+						var screenEndPageIndex = $('.paging > ul > li').last().text();
+						//alert(screenEndPageIndex)
+						
+						/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
+						if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
+							//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
+							if( deleteCount == (totalRecordCount % recordCountPerPage)){
+								pn = pn - 1;
+							}else if( (totalRecordCount % recordCountPerPage) == 0 && deleteCount == 10 ){
+								pn = pn - 1;
+							}
+						}
+
+						if (pn < 0) pn = 0;
+						//alert("pn  : "  + pn);
+						location.href="getRequestList.do?sKeyword="+sKeyword+"&pageNumber="+pn;
+					}
 				},
 				error:function(request,status,error){ 
 					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
@@ -294,7 +339,7 @@ email : <%=company.getEmail()%>
 		//alert("검색 버튼 클릭");
 		var keyWord = "";
 		keyWord = $.trim($("input[name=keyWord]").val());
-		alert("키워드 : "+keyWord);
+		//alert("키워드 : "+keyWord);
 		
 		if(keyWord == null || keyWord == "") {
 			alert("검색어를 입력해주세요.");
