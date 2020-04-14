@@ -53,6 +53,18 @@ public class RecruitDaoImpl implements RecruitDao{
 		return true;
 	}
 
+
+	@Override
+	public void updateImgName(int ref) {
+		sqlSession.update(ns+"imageNameUpdate", ref);
+	}
+
+
+	@Override
+	public List<RecruitDto> myCurrentRecList(int seq) {
+		return sqlSession.selectList(ns+"getMyRecruit", seq);
+	}
+
 	/*
 	@Override
 	public int getCountFiles(int ref) {

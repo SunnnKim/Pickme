@@ -453,6 +453,8 @@
 		} else {
 			/* var queryString = $("#frm").serialize(); */
 			//name value
+			 
+			
 		 		var comSeq = $("input[name=comSeq]").val();
 		 		var comName = $("input[name=comName]").val();
 				var ref = $("input[name=ref]").val();
@@ -510,6 +512,6 @@
  
 
 <!-- subCont 끝 -->
-
-<%@include file="/include/footer.jsp"%>
+<c:import url="../../../include/footer.jsp"/> 
+<%-- <%@include file="/include/footer.jsp"%> --%>
 

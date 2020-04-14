@@ -1,10 +1,9 @@
-<%@page import="model.RecruitDto"%>
-<%@page import="java.util.List"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<% List<RecruitDto> list = (List<RecruitDto>) request.getAttribute("recList"); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 헤더호출 -->
-<%@include file="../../../include/header.jsp"%>
+<c:import url="../../../include/header.jsp"/> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
@@ -28,26 +27,22 @@
         </div><!-- div.filter_wrap -->
         <div class="cont">
           <ul class="pmList clfix">
-          <% if( list.size() < 1 ) { %>
-          		<h1>리스트없음</h1>
-          <%
-          	} else {
-      			for(int i=0; i< list.size(); i++){ 
-          			RecruitDto dto = list.get(i);
-          %>
-           <li><a href="recDetail.do?seq=<%= dto.getSeq() %>">
-              <div class="img">
-                <img src="/Pickme/images/main/img.jpg" alt="">
-              </div>
-              <div class="txt">
-                <h3><%=dto.getTitle() %></h3>
-                <p><%=dto.getComName() %></p>
-                <p><%=dto.getComJobType() %></p>
-                <span>[채용] <%=dto.getWdate() %> ~ <%=dto.getEdate() %></span>
-              </div>
-            </a></li>
-          <% } 
-         	} %>
+          	<c:if test="${empty recList }">
+					<h1>리스트없음</h1>
+			</c:if>
+			<c:forEach items="${recList }" var="dto" varStatus="rs">
+				<li><a href="recDetail.do?seq=${dto.seq }">
+	              <div class="img">
+	               <img src="filedownload.do?filename=1586828236375__rec-detail-testimg2.jpg&filepath=/upload/recruit/" alt="엑박">
+	              </div>
+	              <div class="txt">
+	                <h3>${dto.title }</h3>
+	                <p>${dto.comName }</p>
+	                <p>${dto.comJobType }</p>
+	                <span>[채용]${dto.wdate } ~ ${dto.edate }</span>
+	              </div>
+	            </a></li>
+			</c:forEach>
           </ul>
   </div><!-- cont -->
  <!-- 페이징 -->
@@ -73,6 +68,7 @@
 	</div>
 
 <script>
+
  //페이징
  function getList(mode, page) {
 		var $area;
@@ -158,4 +154,4 @@
   
 
 </script>
-<%@include file="/include/footer.jsp"%>
+<c:import url="../../../include/footer.jsp"/> 

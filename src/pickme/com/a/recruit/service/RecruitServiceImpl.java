@@ -33,6 +33,14 @@ public class RecruitServiceImpl implements RecruitService{
 	public boolean insertRecFile(List<FilesDto> list) {
 		return dao.insertRecFile(list);
 	}
+	@Override
+	public void updateImgName(int ref) {
+		dao.updateImgName(ref);
+	}
+	@Override
+	public List<RecruitDto> myCurrentRecList(int seq) {
+		return dao.myCurrentRecList(seq);
+	}
 	
 
 	

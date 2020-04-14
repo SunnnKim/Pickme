@@ -20,5 +20,10 @@ public interface RecruitDao {
 	//files insert
 	public boolean insertRecFile(List<FilesDto> list);
 	
+	//file insert -> recruit table imagename -> newname 
+	public void updateImgName(int ref);
+	
+	//(기업) 로그인한 기업이 볼 수 있는 현재공고
+	public List<RecruitDto> myCurrentRecList(int ref);
 	
 }

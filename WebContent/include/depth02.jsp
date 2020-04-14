@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%
 String durl = request.getServletPath();  
 System.out.println("durl:"+durl);
@@ -135,21 +135,42 @@ if( durl.contains("e_apply")){
 <% } %>
 
 <!-- recruit. 채용관리 -->
+<c:set scope="request" var="seq" value="${sessionScope.logincompany.seq}" />
+
 <% if(durl.contains("/recruit")){ 
 	%>
 	  <ul class="depth02 clfix">
 	  <li class=<%= durl.contains("recNow") ? " on" :" "%>>
-			<a href="/Pickme/recruit/recNow.do">현재공고보기</a>
+			<a href="javascript:goPage('now');">현재공고보기</a>
 		</li>
 		<li class=<%= durl.contains("recPast") ? " on" :" "%>>
-			<a href="/Pickme/recruit/recPast.do">지난공고보기</a>
+			<a href="javascript:goPage('past');">지난공고보기</a>
 		</li>
 		<li class=<%= durl.contains("recInsert") ? " on" :" "%>>
 			<a href="/Pickme/recruit/recInsert.do">공고등록하기</a>
 		</li>
 	 </ul><!-- // depth02 -->
+	 
+	 <form name="seqFrm">
+	 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
+	 </form>
 <% } %>
 
+<!-- 현재공고/지난공고 볼때  로그인한 기업 seq 넘기기 -->
+<script>
+function goPage(str) {
+    var f = document.seqFrm;
+
+    if(str==="now"){
+	    f.action = "/Pickme/recruit/recNow.do"
+    } else if(str==="past"){
+    	f.action = "/Pickme/recruit/recPast.do"
+    }
+    // 전송 방식 : post
+    f.method = "post"
+    f.submit();
+  };
+</script>
 
 <!-- searchJob. 채용탐색 -->
 <% if(durl.contains("/searchJob/recSearch")){ %>
