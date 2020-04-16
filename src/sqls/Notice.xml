@@ -40,6 +40,28 @@ WHERE DEL != 1
 SELECT* FROM NOTICE
 WHERE SEQ = ${seq}
 </select>
+<!-- 공지사항 첨부파일 불러오기 -->
+<select id="getNoticeFiles" parameterType="int" resultType="model.FilesDto">
+SELECT * FROM FILES
+WHERE REF = ${ref}
+</select>
+<!-- 공지사항 조회수 올리기  -->
+<update id="updateReadcount" parameterType="int">
+UPDATE NOTICE
+SET READCOUNT = READCOUNT + 1
+WHERE SEQ = ${seq}
+</update>
+<!--  공지사항 수정하기  --> 
+<update id="updateNotice" parameterType="model.NoticeDto">
+UPDATE NOTICE
+SET TYPE = #{type}, TITLE = #{title}, CONTENT = #{content}, FILES = ${files}, WDATE = NOW()
+WHERE SEQ = ${seq}
+</update>
+<!-- 공지사항 파일 디비데이터 삭제하기 -->
+<delete id="deleteNoticeFiles" parameterType="int">
+DELETE FROM FILES
+WHERE REF = ${ref} 
+</delete>
 </mapper>
 
 

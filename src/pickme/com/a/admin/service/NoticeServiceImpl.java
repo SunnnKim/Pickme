@@ -29,6 +29,26 @@ public class NoticeServiceImpl implements NoticeService {
 	public List<NoticeDto> getAllNotice() {
 		return dao.getAllNotice();
 	}
+
+	@Override
+	public NoticeDto getNoticeDetail(int seq) {
+		return dao.getNoticeDetail(seq);
+	}
+
+	@Override
+	public List<FilesDto> getNoticeFiles(int ref) {
+		return dao.getNoticeFiles(ref);
+	}
+
+	@Override
+	public boolean updateNotice(NoticeDto notice) {
+		return dao.updateNotice(notice);
+	}
+
+	@Override
+	public void deleteNoticeFiles(int ref) {
+		dao.deleteNoticeFiles(ref);
+	}
 	
 	
 }

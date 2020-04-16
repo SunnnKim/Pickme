@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.FilesDto;
 import model.NoticeDto;
 import pickme.com.a.customer.dao.CustomerDao;
 
@@ -27,6 +28,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public int countAllContent() {
 		return dao.countAllContent();
+	}
+
+	@Override
+	public List<FilesDto> getNoticeFiles(int ref) {
+		return dao.getNoticeFiles(ref);
 	}
 	
 }

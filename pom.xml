@@ -44,19 +44,37 @@
 	    <artifactId>slf4j-simple</artifactId>
 	    <version>1.7.25</version>	    
 	</dependency>
-	
+	<!-- 구버전 -->
+<!-- 	
 	<dependency>
 		<groupId>javax.servlet</groupId>
 		<artifactId>servlet-api</artifactId>
 		<version>2.5</version>
 		<scope>provided</scope>
+	</dependency> -->
+	<!-- 신버전  -->
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>3.1.0</version>
+	    <scope>provided</scope>
 	</dependency>
+	<!-- 신버전 -->
+	<dependency>
+	    <groupId>javax.servlet.jsp</groupId>
+	    <artifactId>javax.servlet.jsp-api</artifactId>
+	    <version>2.3.1</version>
+	    <scope>provided</scope>
+	</dependency>
+	<!-- 구버전 -->
+	<!-- 
 	<dependency>
 		<groupId>javax.servlet.jsp</groupId>
 		<artifactId>jsp-api</artifactId>
 		<version>2.1</version>
 		<scope>provided</scope>
-	</dependency>
+	</dependency> 
+	-->
 	<dependency>
 		<groupId>javax.servlet</groupId>
 		<artifactId>jstl</artifactId>
