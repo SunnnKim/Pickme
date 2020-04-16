@@ -127,16 +127,14 @@ if( durl.contains("e_apply")){
           </div><!-- .detailTop-left -->
           <div class="detailTop-right">
             <section class="section-controller">
-              <button type="button"><i class="fas fa-edit"></i>지원하기</button>
-              <button type="button"><i class="fas fa-envelope"></i>쪽지보내기</button>
+              <button type="button" id="detailApply"><i class="fas fa-edit"></i>지원하기</button>
+              <button type="button" id="sendMsg"><i class="fas fa-envelope"></i>쪽지보내기</button>
             </section>
           </div><!-- .detailTop-right -->
         </div><!-- .recDetailTop -->
 <% } %>
 
 <!-- recruit. 채용관리 -->
-<c:set scope="request" var="seq" value="${sessionScope.logincompany.seq}" />
-
 <% if(durl.contains("/recruit")){ 
 	%>
 	  <ul class="depth02 clfix">
@@ -175,7 +173,7 @@ function goPage(str) {
 <!-- searchJob. 채용탐색 -->
 <% if(durl.contains("/searchJob/recSearch")){ %>
  <ul class="jobs_list clfix" id="joblist">
-          </ul>
+ </ul>
 <% } %>
 
 

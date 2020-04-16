@@ -41,6 +41,10 @@ public class RecruitServiceImpl implements RecruitService{
 	public List<RecruitDto> myCurrentRecList(int seq) {
 		return dao.myCurrentRecList(seq);
 	}
+	@Override
+	public List<RecruitDto> myPastRecList(int seq) {
+		return dao.myPastRecList(seq);
+	}
 	
 
 	

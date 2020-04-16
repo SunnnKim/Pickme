@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 헤더호출 -->
-<%@include file="../../../include/header.jsp"%>
+<c:import url="../../../include/header.jsp"/> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
-
+  <form method="post">
+  	<input type="hidden" name="seq" value="${recDto.seq }">
+  	<input type="hidden" name="comSeq" value="${recDto.comSeq }">
+  </form>
   <div class="recTop clfix">
           <div class="infoImg">
             <div class="slider">
@@ -24,32 +28,32 @@
                 <tr>
                   <td class="t-icon"><i class="fas fa-file-signature"></i></td>
                   <td class="t-label">직무</td>
-                  <td class="t-content">서버/백엔드, 머신러닝, 시스템/네트워크</td>
+                  <td class="t-content">${recDto.comJob }</td>
                 </tr>
                 <tr>
                   <td class="t-icon"><i class="fas fa-building"></i></td>
                   <td class="t-label">근무형태</td>
-                  <td class="t-content">정규직</td>
+                  <td class="t-content">${recDto.workingForm }</td>
                 </tr>
                 <tr>
                   <td class="t-icon"><i class="fas fa-laptop-code"></i></td>
                   <td class="t-label">경력</td>
-                  <td class="t-content">5년이상</td>
+                  <td class="t-content">${recDto.comJobType }</td>
                 </tr>
                 <tr>
                   <td class="t-icon"><i class="fas fa-calendar-alt"></i></td>
                   <td class="t-label">기간</td>
-                  <td class="t-content">2020-04-01 16:23 부터 2020-04-10 19:00 까지</td>
+                  <td class="t-content">${recDto.wdate }부터 ${recDto.edate } 까지</td>
                 </tr>
                 <tr>
                   <td class="t-icon"><i class="fas fa-map-marker-alt"></i></td>
                   <td class="t-label">위치</td>
-                  <td class="t-content">서울 서초구 서초대로38길 12, (서초동, 마제스타시티, 힐스테이트 서리풀) 타워2, 8층</td>
+                  <td class="t-content">${comAddr }</td>
                 </tr>
                 <tr>
                   <td class="t-icon"><i class="fas fa-dollar-sign"></i></td>
                   <td class="t-label">연봉</td>
-                  <td class="t-content">3,000~4,000만원</td>
+                  <td class="t-content">${recDto.salary }</td>
                 </tr>
                 <tr>
                   <td class="t-icon"><i class="fas fa-tags"></i></td>
@@ -77,7 +81,7 @@
         </div><!-- dvi.recTop -->
         
         <div class="rec-content clfix">
-          채용등록할때 입력한 내용
+  			${recDto.content }
         </div><!--div.infoContent-->
 
         <div class="rec-location">
@@ -85,11 +89,17 @@
         </div><!-- rec-location -->
 
 <script>
-	
+	$("#detailApply").on("click", function(){
+		alert("지원하기 버튼");
+	});
+
+	$("#sendMsg").on("click", function(){
+		alert("메시지보내기 클릭");
+	});
 
 	//회사이름, 제목 
-	$(".recTit").text("공고 제목");
-	$(".recSubTit").text("회사명");
+	$(".recTit").text("${recDto.title }");
+	$(".recSubTit").text("${recDto.comName }");
     //좋아요 
     function likech(btn){
     console.log($(btn).children('i'));
@@ -108,4 +118,4 @@
 
 
 </script>
-<%@include file="/include/footer.jsp"%>
+<c:import url="../../../include/footer.jsp"/> 
