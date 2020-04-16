@@ -182,8 +182,8 @@ function goPage(str) {
 if (durl.contains("customer/")){
 %>
 <ul class="depth02 clfix">
-	<li class=<%= durl.contains("noticeList") ? " on" :" "%>>
-		<a href="/Pickme/customer/customerList.do">공지사항</a>
+	<li class=<%= durl.contains("notice") ? " on" :" "%>>
+		<a href="/Pickme/customer/noticeList.do">공지사항</a>
 	</li>
 	<li class=<%= durl.contains("customerQuestion") ? " on" :" "%>>
 		<a href="/Pickme/customer/customerQuestion.do">자주하는질문</a>

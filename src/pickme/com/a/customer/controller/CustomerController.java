@@ -1,8 +1,12 @@
 package pickme.com.a.customer.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.swing.Box.Filler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import model.FilesDto;
 import model.NoticeDto;
 import pickme.com.a.customer.service.CustomerService;
 
@@ -53,28 +58,31 @@ public class CustomerController {
 	@RequestMapping(value="noticeDetail.do")
 	public String noticeDetail(Model model, int seq ) {
 		System.out.println("seq: " + seq);
+		// 조회수 증가 + 공지사항 디테일받아오기 
 		NoticeDto detail = service.getNoticeDetail(seq);
+		// 파일 목록 받아오기 
+		List<FilesDto> files = service.getNoticeFiles(seq);
+		// jsp로 전달
 		model.addAttribute("detail", detail);
+		model.addAttribute("files", files);
 		return "customer/noticeDetail";
 	}
 	
-//	// 에이작스로 받아오기
-//	@ResponseBody
-//	@RequestMapping(value="getList.do",method=RequestMethod.POST)
-//	public Object getNoticeAll(Model model, Integer pageNumber) {
-//		System.out.println("Ajax : getList.do");
-//		if(pageNumber == null ) {
-//			System.out.println("첫페이지 ");
-//			pageNumber = 1;
-//		}
-//		List<NoticeDto> list = service.getAllNoticePage(pageNumber);
-//		
-//		Map<String, Object> retVal = new HashMap<String, Object>();
-//		
-//		retVal.put("list", list);
-//		
-//		return retVal;
-//		
-//	}
+	// 공지사항 파일다운로드
+	@RequestMapping(value="noticeFileDownload.do",method = { RequestMethod.GET, RequestMethod.POST })
+	public String noticeFileDownload(String filename, HttpServletRequest request, Model model) {
+			
+			// download 경로
+			// tomcat
+			String fupload = request.getServletContext().getRealPath("/upload/notice");
+			
+			File downloadFile = new File(fupload + "/" + filename);
+			
+			model.addAttribute("downloadFile", downloadFile);
+			
+			return "downloadView";	// 다른 뷰로 이동하는 것이 아니고 다운로드만 됨
+		}
+	
+	
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import model.AMemberDto;
 import model.AdminDto;
 import model.CMemberDto;
+import model.NoticeDto;
 
 public interface AdminService {
 	public AdminDto loginCheck(AdminDto dto);
@@ -14,4 +15,5 @@ public interface AdminService {
 	public int countNewACMember();
 	public int countAmember();
 	public int countCmember();
+
 }

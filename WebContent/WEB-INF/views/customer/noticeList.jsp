@@ -113,7 +113,7 @@
 		</button>
 	</div>
 </div>
-<script type="text/javascript">
+<script>
 var listdata = [];
 var listA = {};
 <%
@@ -147,14 +147,13 @@ var vue = new Vue({
 	  },
 	  methods:{
 		detail: function(seq){
-			
 			location.href = "/Pickme/customer/noticeDetail.do?seq=" + seq;
 		}
 	}
 });
 
 // 페이지 이동함수 
-const goPage = seq => {
+goPage = seq => {
 	if(seq == -1){
 		alert('마지막 페이지 입니다!');
 		return false;

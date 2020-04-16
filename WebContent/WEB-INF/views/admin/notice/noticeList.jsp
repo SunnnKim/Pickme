@@ -62,14 +62,21 @@ $(document).ready(function () {
          }, {
              field: "TYPE",
              title: "글종류",
-             width: 150
+             width: 90
          }, {
              field: "WDATE",
-             title: "등록일"
+             title: "등록일",
+             width: 100
          }, {
              field: "BTN",
-             title: "글보기",
-             template: "<div class='goBtn' ondblclick='goBtn(this)'>더블클릭해서 글보기</div>",
+             title: "보기",
+             template: "<div class='goBtn' onclick='goBtn(this)'>글보기</div>",
+             width: 70
+         }, { 
+             field: "UPDATE",
+             title: "글수정",
+             template: "<div class='updateBtn' onclick='updateBtn(this)'>수정</div>",
+             width: 70
          }, { 
              field: "checkall",
              title: "체크",
@@ -96,9 +103,11 @@ $('#check1').click(function(){
 })  
 function goBtn( btn ){
 	var seqNum = btn.parentElement.parentElement.childNodes[0].innerHTML;
-	
-//	location.href="/Pickme/notice/noticeDetail.do?seq="+seqNum;	// 공지사항 디테일로 가는 경로 입력 
-	
+	location.href="/Pickme/customer/noticeDetail.do?seq="+seqNum;	// 공지사항 디테일로 가는 경로 입력 
+}
+function updateBtn( btn ){
+	var seqNum = btn.parentElement.parentElement.childNodes[0].innerHTML;
+	location.href="/Pickme/admin/notice/updateNoticeView.do?seq=" + seqNum;	// 공지사항 디테일로 가는 경로 입력 
 }
 
 </script>
@@ -107,7 +116,8 @@ function goBtn( btn ){
 .list-title{ font-size: 25px; margin: 20px 0;}
 .btn-wrapper{ margin: 20px 0; height: 30px; }
 .btn-wrapper button{ float:right; margin-left: 10px; width:100px; height: 30px; line-height:30px; color:#fff; background: #4f6eff; outline: none; }
-
+.goBtn{ width: 50px; background: #333; color: #fff; text-align: center;  cursor:pointer}
+.updateBtn{ width: 50px; background: #bbb; color: #fff; text-align: center; cursor:pointer}
 </style>
 
 

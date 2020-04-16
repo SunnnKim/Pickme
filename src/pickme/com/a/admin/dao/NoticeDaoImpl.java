@@ -42,6 +42,26 @@ public class NoticeDaoImpl implements NoticeDao {
 	public List<NoticeDto> getAllNotice() {
 		return sqlSession.selectList(namespace + "getAllNotice");
 	}
+
+	@Override
+	public NoticeDto getNoticeDetail(int seq) {
+		return sqlSession.selectOne(namespace + "getNoticeDetail", seq);
+	}
+
+	@Override
+	public List<FilesDto> getNoticeFiles(int ref) {
+		return sqlSession.selectList(namespace + "getNoticeFiles", ref);
+	}
+	
+	@Override
+	public boolean updateNotice(NoticeDto notice) {
+		return sqlSession.update(namespace + "updateNotice", notice) > 0 ? true:false;
+	}
+
+	@Override
+	public void deleteNoticeFiles(int ref) {
+		sqlSession.delete(namespace + "deleteNoticeFiles", ref);
+	}
 	
 	
 	
