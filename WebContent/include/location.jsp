@@ -161,9 +161,19 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>지난공고</span>
 </div>
 <% } %>
+<!-- 기업)채용상제 -->
+<% if (lourl.contains("/myRecDetail")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>채용관리</span>
+	<span>></span>
+	<span>채용상제</span>
+</div>
+<% } %>
 
-<!-- 채용상세 -->
-<% if (lourl.contains("recDetail")) {%>
+<!-- 채용탐색>채용상세 -->
+<% if (lourl.contains("/recDetail")) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>

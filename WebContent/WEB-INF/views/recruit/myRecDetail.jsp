@@ -122,11 +122,11 @@
 <script>
 	
 	$("#recruitDetailButton1").on("click", function(){
-		alert("지원하기 버튼");
+		alert("수정하기 버튼");
 	});
 
 	$("#recruitDetailButton2").on("click", function(){
-		alert("메시지보내기 클릭");
+		alert("마감하기 클릭");
 	});
 
 	$(".btnleft").on("click", function(){

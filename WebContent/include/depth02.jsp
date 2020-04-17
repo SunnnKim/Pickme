@@ -127,15 +127,31 @@ if( durl.contains("e_apply")){
           </div><!-- .detailTop-left -->
           <div class="detailTop-right">
             <section class="section-controller">
-              <button type="button" id="detailApply"><i class="fas fa-edit"></i>지원하기</button>
-              <button type="button" id="sendMsg"><i class="fas fa-envelope"></i>쪽지보내기</button>
+              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>지원하기</button>
+              <button type="button" id="recruitDetailButton2"><i class="fas fa-envelope"></i>쪽지보내기</button>
+            </section>
+          </div><!-- .detailTop-right -->
+        </div><!-- .recDetailTop -->
+<% } %>
+
+<!-- 채용관리에서. 공고 detail -->
+<% if(durl.contains("/recruit/myRecDetail")){ %>
+<div class="recDetailTop clfix">
+          <div class="detailTop-left">
+            <h1 class="recTit"></h1>
+            <h3 class="recSubTit"></h3>
+          </div><!-- .detailTop-left -->
+          <div class="detailTop-right">
+            <section class="section-controller">
+              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>수정하기</button>
+              <button type="button" id="recruitDetailButton2"><i class="fas fa-stopwatch"></i>마감하기</button>
             </section>
           </div><!-- .detailTop-right -->
         </div><!-- .recDetailTop -->
 <% } %>
 
 <!-- recruit. 채용관리 -->
-<% if(durl.contains("/recruit")){ 
+<% if(durl.contains("/recruit") && !durl.contains("/recruit/myRecDetail")){ 
 	%>
 	  <ul class="depth02 clfix">
 	  <li class=<%= durl.contains("recNow") ? " on" :" "%>>

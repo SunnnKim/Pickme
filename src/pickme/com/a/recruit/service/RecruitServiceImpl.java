@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -39,6 +40,14 @@ public class RecruitServiceImpl implements RecruitService{
 		dao.updateImgName(ref);
 	}
 	@Override
+	public RecruitDto getRecruitDetail(int seq) {
+		return dao.getRecruitDetail(seq);
+	}
+	@Override
+	public List<FilesDto> getRecFile(int ref) {
+		return dao.getRecFile(ref);
+	}
+	@Override
 	public List<RecruitDto> myCurrentRecList(RecruitParam param) {
 		return dao.myCurrentRecList(param);
 	}
@@ -53,6 +62,10 @@ public class RecruitServiceImpl implements RecruitService{
 	@Override
 	public int getComPastCount(int seq) {
 		return dao.getComPastCount(seq);
+	}
+	@Override
+	public CMemberDto getAddr(int seq) {
+		return dao.getAddr(seq);
 	}
 	
 

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -50,7 +51,17 @@ public class RecruitDaoImpl implements RecruitDao{
 		}
 		return true;
 	}
+	
+	@Override
+	public RecruitDto getRecruitDetail(int seq) {
+		return sqlSession.selectOne(ns+"getRecruitDetail", seq);
+	}
 
+
+	@Override
+	public List<FilesDto> getRecFile(int ref) {
+		return sqlSession.selectList(ns+"getRecFile", ref);
+	}
 
 	@Override
 	public void updateImgName(int ref) {
@@ -78,6 +89,12 @@ public class RecruitDaoImpl implements RecruitDao{
 	@Override
 	public int getComPastCount(int seq) {
 		return sqlSession.selectOne(ns+"getComPastCount",seq);
+	}
+
+
+	@Override
+	public CMemberDto getAddr(int seq) {
+		return sqlSession.selectOne(ns+"getAddr", seq);
 	}
 
 

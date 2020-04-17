@@ -15,7 +15,7 @@
 				<c:when test="${not empty comPastRecList }">
 				 <ul class="pmList clfix">
 					<c:forEach items="${comPastRecList }" var="dto" varStatus="rs">
-						<li><a href="recDetail.do?seq=${dto.seq }">
+						<li><a href="myRecDetail.do?seq=${dto.seq }">
 			              <div class="img">
 			               <img src="filedownload.do?filename=${dto.imagename }&filepath=/upload/recruit/" alt="엑박">
 			              </div>

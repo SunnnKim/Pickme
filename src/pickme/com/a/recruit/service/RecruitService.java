@@ -2,6 +2,7 @@ package pickme.com.a.recruit.service;
 
 import java.util.List;
 
+import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -22,6 +23,15 @@ public interface RecruitService {
 		
 		//file insert -> recruit table imagename -> newname 
 		public void updateImgName(int ref);
+		
+		// 공고 detail
+		public RecruitDto getRecruitDetail(int seq);
+		
+		// 해당되는 공고 img 불러오기
+		public List<FilesDto> getRecFile(int ref);
+		
+		// 기업 분야,주소 받아오기
+		public CMemberDto getAddr(int seq);
 		
 		//(기업) 로그인한 기업이 볼 수 있는 현재공고
 		public List<RecruitDto> myCurrentRecList(RecruitParam param);
