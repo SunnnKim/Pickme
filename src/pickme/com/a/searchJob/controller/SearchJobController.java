@@ -41,14 +41,14 @@ public class SearchJobController {
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
 		
-		System.out.println("현재 페이지 : "+ nowPage);
+		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
 		int totalRecCount = serv.getCountRec();
 		
 		param.setStart(start);
 		param.setEnd(end);
 		
-		List<RecruitDto> list = serv.getRecAllList();
+		List<RecruitDto> list = serv.getRecAllList(param);
 		System.out.println("recSearch List Size : "+list.size());
 		model.addAttribute("recList",list);
 		model.addAttribute("pageNumber", nowPage);	//현재페이지
@@ -62,16 +62,32 @@ public class SearchJobController {
 	@RequestMapping(value = "recDetail.do")
 	public String recDetail(int seq, Model model,HttpSession session) {
 		RecruitDto dto = serv.getRecruitDetail(seq);
-		System.out.println("detail dto : "+ dto.toString());
+		//System.out.println("detail dto : "+ dto.toString());
 		
+		//hashtag 빼오기
+		System.out.println("해쉬태그 : "+ dto.getHashTag());
+		String hashs = dto.getHashTag().replace("\"", " ");
+		System.out.println("hashs : "+ hashs);
+		int firstBrackets = hashs.indexOf("[");
+		int lastBrackets = hashs.indexOf("]");
+		String[] hashStr = hashs.substring(firstBrackets+1,lastBrackets).split(",");
+		for (int i = 0; i < hashStr.length; i++) {
+			System.out.println(i+"번째 hashStr : "+ hashStr[i]);
+		}
 		
+		//첨부한 파일 넘기기
 		List<FilesDto> fileslist = serv.getRecFile(seq);
+		/*
 		System.out.println("detail file count : "+fileslist.size());
+		for (int i = 0; i < fileslist.size(); i++) {
+			System.out.println("이미지 : "+ fileslist.get(i).getNewname());			
+		}/**/
 		String comAddr = serv.getAddr(dto.getComSeq());
 		comAddr = "서울 강남구 테헤란로5길 11 YBM빌딩 2층";
 		model.addAttribute("recDto", dto);
 		model.addAttribute("comAddr", comAddr);
 		model.addAttribute("filesList", fileslist);
+		model.addAttribute("hashTag",hashStr);
 		return "searchJob/recDetail";
 	}
 	

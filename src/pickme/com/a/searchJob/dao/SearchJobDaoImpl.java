@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import model.FilesDto;
 import model.RecruitDto;
+import model.RecruitParam;
 
 @Repository
 public class SearchJobDaoImpl implements SearchJobDao{
@@ -16,8 +17,8 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	String ns = "Recruit.";
 
 	@Override
-	public List<RecruitDto> getRecAllList() {
-		return sqlSession.selectList(ns+"getRecAllList");
+	public List<RecruitDto> getRecAllList(RecruitParam param) {
+		return sqlSession.selectList(ns+"getRecAllList", param);
 	}
 	
 	@Override

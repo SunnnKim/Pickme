@@ -36,10 +36,8 @@
 	<!-- 채용탐색 들어가자마자 뿌려지는 전체 LIST(페이징)-->
  	<select id="getRecAllList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
 		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
-		FROM ( SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME FROM RECRUIT 
-		WHERE DEL=0 ) RECRUIT
-		ORDER BY SEQ DESC
-		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+		FROM ( SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY SEQ DESC) R
+		LIMIT #{recordCountPerPage} OFFSET #{start}
 	</select> 
 	<!-- 채용탐색 들어가자마자 뿌려지는 전체 LIST-->
  	<!--  <select id="getRecAllList"  resultType="model.RecruitDto">

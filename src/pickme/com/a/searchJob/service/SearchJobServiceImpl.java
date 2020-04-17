@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import model.FilesDto;
 import model.RecruitDto;
+import model.RecruitParam;
 import pickme.com.a.searchJob.dao.SearchJobDao;
 
 @Service
@@ -16,8 +17,8 @@ public class SearchJobServiceImpl implements SearchJobService{
 	SearchJobDao dao;
 
 	@Override
-	public List<RecruitDto> getRecAllList() {
-		return dao.getRecAllList();
+	public List<RecruitDto> getRecAllList(RecruitParam param) {
+		return dao.getRecAllList(param);
 	}
 	@Override
 	public int getCountRec() {

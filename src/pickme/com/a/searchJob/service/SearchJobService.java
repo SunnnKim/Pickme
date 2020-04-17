@@ -4,9 +4,10 @@ import java.util.List;
 
 import model.FilesDto;
 import model.RecruitDto;
+import model.RecruitParam;
 
 public interface SearchJobService {
-	public List<RecruitDto> getRecAllList();
+	public List<RecruitDto> getRecAllList(RecruitParam param);
 	//총 게시물 수
 	public int getCountRec();
 		

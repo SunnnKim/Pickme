@@ -4,11 +4,12 @@ import java.util.List;
 
 import model.FilesDto;
 import model.RecruitDto;
+import model.RecruitParam;
 
 public interface SearchJobDao {
 
 	//채용탐색 전체 리스트
-	public List<RecruitDto> getRecAllList();
+	public List<RecruitDto> getRecAllList(RecruitParam param);
 	
 	//총 게시물 수
 	public int getCountRec();
