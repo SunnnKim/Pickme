@@ -18,7 +18,7 @@ WHERE EMAIL = #{email} AND DEL != 1
 </select>
 <!-- 일반회원 로그인 정보(세션에 담을용) -->
  <select id="getLoginInfo" parameterType="model.AMemberDto" resultType="model.AMemberDto">
-SELECT *
+SELECT SEQ, EMAIL, NAME, PASSWORD, DEL
 FROM A_MEMBER 
 WHERE EMAIL = #{email}  AND DEL != 1
  </select>
@@ -29,7 +29,7 @@ WHERE EMAIL = #{email}  AND DEL != 1
  </select>
 <!-- 기업 로그인 정보(세션에 담을용) -->
  <select id="getLoginInfoForCompany" parameterType="model.CMemberDto" resultType="model.CMemberDto">
-SELECT *
+SELECT SEQ, EMAIL, NAME, PRESIDENT, PASSWORD, DEL
 FROM C_MEMBER
 WHERE EMAIL = #{email} AND DEL != 1
  </select>
