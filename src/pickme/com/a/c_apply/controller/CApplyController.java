@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import model.CMemberDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
+import model.MessageDto;
 import model.MessageParam;
 import pickme.com.a.c_apply.service.CApplyService;
 
@@ -49,10 +50,8 @@ public class CApplyController {
 		System.out.println(">>>>> getRequestList.do < param > : " + param.toString());
 		
 		
-		
 		List<CvRequestDto> list = cApplyService.getRequestList(param);
 	    System.out.println("이력서 열람요청 리스트 : " + list.toString());
-		
 		
 		
 		int totalRecordCount = cApplyService.getTotalRecordCount(param);
@@ -63,10 +62,6 @@ public class CApplyController {
 		model.addAttribute("pageCountPerScreen", 10);
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
 		model.addAttribute("sKeyword", param.getsKeyword());
-		
-		
-		
-		
 	    
 	    model.addAttribute("requestList", list);
 	 
@@ -90,13 +85,8 @@ public class CApplyController {
 		param.setEnd(end);
 		System.out.println(">>>>> getRequestList.do < param > : " + param.toString());
 		
-		
-		
-		
-		
 		List<CvRequestDto> list = cApplyService.requestLike(param);
 		System.out.println("관심 인재 : " + list.toString());
-		
 		
 		int totalRecordCount = cApplyService.getLikeTotalRecordCount(param);
 		System.out.println(">>>>> LiketotalRecordCount:: " + totalRecordCount);
@@ -107,32 +97,8 @@ public class CApplyController {
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
 		model.addAttribute("sKeyword", param.getsKeyword());
 		
-		
-		
-		
-		
-		
 		model.addAttribute("requestLike", list);
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		return "c_apply/requestLike";
 	}
 
@@ -183,12 +149,91 @@ public class CApplyController {
 	}
 	
 	
-	/*============== 메세지함 호출 ==============*/
-	@RequestMapping(value = "c_message.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String c_message() {
-		return "c_apply/c_message";
+	/*============== 받은 메세지함 호출 ==============*/
+	@RequestMapping(value = "cRcvMsg.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String cRcvMsg(Model model, HttpSession session, MessageParam param) {
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq(); 
+		param.setToSeq(c_seq);
+		//System.out.println(">>>>> cRcvMsg.do < c_seq > : " + c_seq);
+		
+		int pn = param.getPageNumber(); // 현재페이지넘버
+		int start = pn * param.getRecordCountPerPage(); // 1, 11, 21
+		int end = (pn + 1) * param.getRecordCountPerPage(); // 10, 20, 30
+		//System.out.println("pn: " + pn + " start: " + start + " end: " +end);
+		
+		param.setStart(start);
+		param.setEnd(end);
+		System.out.println(">>>>> cRcvMsg.do < param > : " + param.toString());
+		
+		
+		List<MessageDto> list = cApplyService.rcvMsgList(param);
+		
+		
+		int totalMsgCount = cApplyService.getTotalMsgCount(param);
+		System.out.println(">>>>> totalRecordCount:: " + totalMsgCount);
+
+		int unreadCount = cApplyService.unreadCount(c_seq);
+		System.out.println(">>>>> unreadCount:: " + unreadCount);
+		
+		
+		model.addAttribute("unreadCount", unreadCount);
+		
+		model.addAttribute("totalMsgCount", totalMsgCount);
+		model.addAttribute("pageNumber", pn);
+		model.addAttribute("pageCountPerScreen", 10);
+		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
+		model.addAttribute("sKeyword", param.getsKeyword());
+	    
+	    model.addAttribute("rcvMsgList", list);
+		return "c_apply/cRcvMsg";
 	}
 
+	@RequestMapping(value="msgDetail.do", method= {RequestMethod.GET})
+	public String msgDetail(Model model, HttpSession session, int msgSeq, String page, int unread, int pageNumber) {
+		System.out.println("msgSeq : " + msgSeq);
+		MessageDto msg = null;
+		
+		
+		msg = cApplyService.rMsgDetail(msgSeq);
+		
+		/*
+		 * if(page.equals("sendMsg")) { //sg = cApplyService.sMsgDetail(seq); } else {
+		 * msg = cApplyService.rMsgDetail(msgSeq); }
+		 */
+		model.addAttribute("unread", unread);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("page", page);
+		model.addAttribute("msgDetail", msg);
+		
+		
+		
+		
+		return "c_apply/msgDetail";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/*============== 보낸 메세지함 호출 ==============*/
+	@RequestMapping(value = "cSendMsg.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String cSendMsg() {
+		return "c_apply/cSendMsg";
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -226,16 +271,4 @@ public class CApplyController {
 	
 	
 	
-	
-	
-
-	@GetMapping(value = "important_thing.do")
-	public void star_msg(int a, HttpSession session) {
-		/*
-		 * //유저디티오 디티오 = (유저디티오)session.getAttribute("loginUser"); // String id =
-		 * 디티오.getId();
-		 * 
-		 * recruitService.star_msg(a, id);
-		 */
-	}
 }

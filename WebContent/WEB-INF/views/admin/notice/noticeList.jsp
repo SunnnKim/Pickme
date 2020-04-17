@@ -13,7 +13,7 @@
     	<div id="grid"></div>
     	<div class="btn-wrapper">
 	 		<button id="check1">전체체크</button>
-	 		<button>글삭제</button>
+	 		<button onclick="deleteBtn()">글삭제</button>
 	 	</div>
 	</div>
 </div>
@@ -30,7 +30,8 @@ $(document).ready(function () {
 			SEQ:<%=dto.getSeq()%>,
 			TITLE:'<%=dto.getTitle()%>',
 			TYPE:'<%=dto.getType()%>',
-			WDATE:'<%=dto.getWdate()%>'
+			WDATE:'<%=dto.getWdate()%>',
+			SEQ:'<%=dto.getSeq()%>'
 		}
 		noticeList.push(noticeArr);
 		<%
@@ -78,9 +79,9 @@ $(document).ready(function () {
              template: "<div class='updateBtn' onclick='updateBtn(this)'>수정</div>",
              width: 70
          }, { 
-             field: "checkall",
+             field: "SEQ",
              title: "체크",
-             template: "<input type='checkbox' style='text-align:center' name='checkbox1'>",
+             template: "<input type='checkbox' style='text-align:center' seq='#: SEQ #' name='checkbox1'>",
              width: 50
          }]
      });
@@ -108,6 +109,45 @@ function goBtn( btn ){
 function updateBtn( btn ){
 	var seqNum = btn.parentElement.parentElement.childNodes[0].innerHTML;
 	location.href="/Pickme/admin/notice/updateNoticeView.do?seq=" + seqNum;	// 공지사항 디테일로 가는 경로 입력 
+}
+// 삭제하기 버튼 
+function deleteBtn(){
+	var chboxes = document.querySelectorAll('input[name=checkbox1]');
+	var checkCount = 0;
+	var seqList = [];
+	for( i = 0; i < chboxes.length; i++ ){
+		if( chboxes[i].checked == true ){
+			checkCount++;
+			seqList.push(chboxes[i].getAttribute('seq'))
+		}
+	}
+	if(checkCount == 0){
+		alert('삭제할 데이터를 체크해주세요')
+		return false;
+	}
+
+	if(confirm(checkCount + '개의 데이터를 삭제합니다.')){
+		console.log(seqList)
+		var sendData = { "seqList":seqList };
+		$.ajax({
+			url:'deleteNoticeList.do',
+			data:sendData,
+			type:'post',
+			success: function(data){
+				if(data == 'true'){
+					alert('성공적으로 삭제되었습니다.')
+					location.reload();
+				}else{
+					alert('삭제 실패함')
+				}
+			}, error: function(err){
+				alert('error!')
+			}
+		})
+
+	}
+//	checkCount[0]
+
 }
 
 </script>

@@ -36,10 +36,18 @@ email : <%=company.getEmail()%>
 		<!-- 검색창 -->
 		<div class="bbs-top">
 			<div class="form-search">
-				<input type="text" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value=${sKeyword }>
+				<input type="text" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해 주세요." value=${sKeyword }>
 				<button type="button" class="btn-search" onclick="searchAction()"><span>검색</span>	</button>
 			</div>
 		</div>
+
+		<!-- 총 인원 -->
+		<%-- 
+		<div class="bbs-infoWrap clfix mt30">
+			<div class="bbs-lt" > 총 <span>${totalRecordCount }</span>명</div>
+		</div>
+ 		--%>
+
 
 		<!-- 리스트 -->
 		<div class="table-col table-bbs">
@@ -56,7 +64,7 @@ email : <%=company.getEmail()%>
 				</colgroup>
 				<thead>
 					<tr>
-						<th>번호</th>
+						<th>No</th>
 						<th>관심</th>
 						<th>이름</th>
 						<th>요청일</th>
@@ -94,7 +102,7 @@ email : <%=company.getEmail()%>
 							</td>
 							
 							<td>	<!-- 구직자 기본 정보 링크 들어가야함 -->
-								<a href="" style="text-align: center;">
+								<a href="#none" style="text-align: center;" onclick="a_detail(${request.pseq })">
 									${request.name }
 								</a>
 							</td>
@@ -229,44 +237,64 @@ email : <%=company.getEmail()%>
 	function cancelAction(seq) {
 		//alert("요청을 취소 할 cv_request의 seq : " + seq)
 		
-		if (confirm("열람 요청을 취소 합니다.")) {
-
-			$.ajax({
-				url : 'requestCancel.do',
-				type : 'POST',
-				data : { "cv_seq" : seq },
-				/* dataType  : "String", */
-				success : function(cancelCount) {
-					//alert("요청 취소 리턴 값 : " + result);
-					if(cancelCount == 1) {
-						alert("취소 완료");
-
-						var sKeyword = '<c:out value="${sKeyword}"/>';
-						var pn = <c:out value="${pageNumber}"/>;
-
-						var totalRecordCount = <c:out value="${totalRecordCount }"/>;
-						var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
-						var screenEndPageIndex = $('.paging > ul > li').last().text();
-						//alert(screenEndPageIndex)
-						
-						/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
-						if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
-							//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
-							if( cancelCount == (totalRecordCount % recordCountPerPage)){
-								pn = pn - 1;
+		//if (confirm("열람 요청을 취소 합니다.")) {
+		Swal.fire({
+			 // title: '열람 요청을 취소합니다.',
+			  text: "열람 요청을 취소합니다",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#4f6eff',
+			  cancelButtonColor: '#ff7373',
+			  confirmButtonText: '확인',
+			  cancelButtonText: '취소'
+			}).then((result) => {
+				if(result.value) {
+					$.ajax({
+						url : 'requestCancel.do',
+						type : 'POST',
+						data : { "cv_seq" : seq },
+						/* dataType  : "String", */
+						success : function(cancelCount) {
+							//alert("요청 취소 리턴 값 : " + result);
+							if(cancelCount == 1) {
+								//alert("취소 완료");
+		
+								var sKeyword = '<c:out value="${sKeyword}"/>';
+								var pn = <c:out value="${pageNumber}"/>;
+		
+								var totalRecordCount = <c:out value="${totalRecordCount }"/>;
+								var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
+								var screenEndPageIndex = $('.paging > ul > li').last().text();
+								//alert(screenEndPageIndex)
+								
+								/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
+								if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
+									//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
+									if( cancelCount == (totalRecordCount % recordCountPerPage)){
+										pn = pn - 1;
+									}
+								}
+		
+								if (pn < 0) pn = 0;
+								//alert("pn  : "  + pn);ㄴ
+								
+								
+								if (result.value) {
+								    Swal.fire({
+								      icon : 'success',
+								      text : '취소 완료'
+								    }).then( (result) => {
+										location.href="getRequestList.do?sKeyword="+sKeyword+"&pageNumber="+pn;
+								    })
+								}
 							}
+						},
+						error:function(request,status,error){ 
+							alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 						}
-
-						if (pn < 0) pn = 0;
-						//alert("pn  : "  + pn);
-						location.href="getRequestList.do?sKeyword="+sKeyword+"&pageNumber="+pn;
-					}
-				},
-				error:function(request,status,error){ 
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
-				}
-			});   
-		}
+				   });   /* ajax end */
+			 }
+		})
 	}
 	
 	
@@ -285,52 +313,78 @@ email : <%=company.getEmail()%>
 		//alert("checkRow seq : " + checkRow); 
 
 		if (checkRow == '') {
-			alert("삭제 할 목록을 선택하세요.");
+			//alert("삭제 할 목록을 선택하세요.");
+			Swal.fire({
+			  icon : 'question',
+			  text : '삭제 할 목록을 선택하세요',
+			  confirmButtonColor: '#4f6eff'
+			})
 			return false;
 		}
 		console.log("### checkRow => {" + checkRow + "}");
+		//if (confirm("선택된 목록을 삭제 합니다")) {
+		
+		Swal.fire({
+			  title: '선택 된 목록을 삭제 합니다',
+			  text: "* 주의 : 요청 목록도 함께 삭제 됩니다",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#4f6eff',
+			  cancelButtonColor: '#ff7373',
+			  confirmButtonText: '확인',
+			  cancelButtonText: '취소'
+			}).then((result) => {
+				if(result.value) {
 
-			
-		if (confirm("선택된 목록을 삭제 합니다")) {
-			$.ajax({
-				url : 'requestDelete.do',
-				type : 'POST',
-				data : { "checkRow" :checkRow },
-				/* dataType  : "String", */
-				success : function(deleteCount) {
-					//alert("success : " + result );
-					if(deleteCount != null) {
-						alert(deleteCount + "개가 삭제 되었습니다");
+					$.ajax({
+						url : 'requestDelete.do',
+						type : 'POST',
+						data : { checkRow },
+						/* dataType  : "String", */
+						success : function(deleteCount) {
+							//alert("success : " + result );
+							if(deleteCount != null) {
+								//alert(deleteCount + "개가 삭제 되었습니다");
+								var sKeyword = '<c:out value="${sKeyword}"/>';
+								var pn = <c:out value="${pageNumber}"/>;
 
-						
-						var sKeyword = '<c:out value="${sKeyword}"/>';
-						var pn = <c:out value="${pageNumber}"/>;
-
-						var totalRecordCount = <c:out value="${totalRecordCount }"/>;
-						var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
-						var screenEndPageIndex = $('.paging > ul > li').last().text();
-						//alert(screenEndPageIndex)
-						
-						/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
-						if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
-							//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
-							if( deleteCount == (totalRecordCount % recordCountPerPage)){
-								pn = pn - 1;
-							}else if( (totalRecordCount % recordCountPerPage) == 0 && deleteCount == 10 ){
-								pn = pn - 1;
+								var totalRecordCount = <c:out value="${totalRecordCount }"/>;
+								var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
+								var screenEndPageIndex = $('.paging > ul > li').last().text();
+								//alert(screenEndPageIndex)
+								
+								/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
+								if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
+									//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
+									if( deleteCount == (totalRecordCount % recordCountPerPage)){
+										pn = pn - 1;
+									}else if( (totalRecordCount % recordCountPerPage) == 0 && deleteCount == 10 ){
+										pn = pn - 1;
+									}
+								}
+								if (pn < 0) pn = 0;
+								//alert("pn  : "  + pn);
+								
+								if (result.value) {
+								    Swal.fire(
+								      '삭제 완료',
+								      deleteCount +'개의 항목이 삭제 되었습니다.',
+								      'success'
+								    ).then( (result) => {
+								    	location.href="getRequestList.do?sKeyword="+sKeyword+"&pageNumber="+pn;
+								    })
+								}
 							}
+						},
+						error:function(request,status,error){ 
+							alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 						}
-
-						if (pn < 0) pn = 0;
-						//alert("pn  : "  + pn);
-						location.href="getRequestList.do?sKeyword="+sKeyword+"&pageNumber="+pn;
-					}
-				},
-				error:function(request,status,error){ 
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+					})
+				} else {
+					/* 취소 했을 때 */					
 				}
-			});   
-		}
+			}) /* Swal.fire end */
+		//}
 	}
 
 
@@ -342,7 +396,11 @@ email : <%=company.getEmail()%>
 		//alert("키워드 : "+keyWord);
 		
 		if(keyWord == null || keyWord == "") {
-			alert("검색어를 입력해주세요.");
+			//alert("검색어를 입력해주세요.");
+			Swal.fire({
+			  icon : 'question',
+			  text : '검색어를 입력해 주세요'
+			})
 		} else {
 			location.href="getRequestList.do?sKeyword="+keyWord+"&pageNumber=0";		
 		}
@@ -356,18 +414,16 @@ email : <%=company.getEmail()%>
 	function goPage(pn){
 	  var sKeyword = '<c:out value="${sKeyword}"/>';
 	//  alert("sKeyword: " + sKeyword);	
-		
 	  location.href="getRequestList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
-		
 	}
 
-
+	function a_detail(p_seq){
+		alert("구직자 디테일 : " + p_seq);
+	}
 
 	function resumeOpen() {
 		alert(" 이력서 열람 요청 준비중 : resumeOpen() ")
 	}
-
-
 
 	
 </script>
