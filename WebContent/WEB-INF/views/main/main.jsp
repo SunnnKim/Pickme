@@ -67,7 +67,7 @@
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
 					<li>
-						<a href="#mypage.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
+						<a href="/Pickme/a_mypage/profile.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
 					</li>
 					<li><a href="/Pickme/login/logout.do">로그아웃</a></li>
 				</ul>
