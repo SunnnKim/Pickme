@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import model.CvRequestDto;
 import model.FavoriteDto;
+import model.MessageDto;
 import model.MessageParam;
 
 
@@ -76,5 +77,39 @@ public class CApplyDaoImpl implements CApplyDao{
 		int totalRecordCount = sqlSession.selectOne(ns + "getLikeTotalRecordCount",param);
 		return totalRecordCount;
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public List<MessageDto> rcvMsgList(MessageParam param) {
+		List<MessageDto> list = sqlSession.selectList(ns + "rcvMsgList", param);
+		return list;
+	}
+
+	@Override
+	public int getTotalMsgCount(MessageParam param) {
+		int totalMsgCount = sqlSession.selectOne(ns + "getTotalMsgCount",param);
+		return totalMsgCount;
+	}
+
+	@Override
+	public int unreadCount(int c_seq) {
+		int unreadCount = sqlSession.selectOne(ns + "unreadCount", c_seq);
+		return unreadCount;
+	}
+
+	@Override
+	public MessageDto rMsgDetail(int msgSeq) {
+		return sqlSession.selectOne(ns + "rMsgDetail" , msgSeq);
+	}
+
 	
 }

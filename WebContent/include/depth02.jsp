@@ -7,17 +7,17 @@ System.out.println("durl:"+durl);
 %>
 
 
-<!-- c_apply -->
+<!-- 기업_지원현황 -->
 
 <% if (durl.contains("c_apply")){ %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("recruitList.jsp") ? " on" :" "%>>
 		<a href="">지원자 관리</a>
 	</li>
-	<li class=<%= durl.contains("c_message.jsp") ? " on" :" "%>>
-		<a href="c_message.do">메시지함</a>
+	<li class=<%= durl.contains("cRcvMsg") || durl.contains("cSendMsg") ? " on" :" "%>>
+		<a href="cRcvMsg.do">메시지함</a>
 	</li>
-	<li class=<%= durl.contains("requestList.jsp") || durl.contains("requestLike.jsp") ? " on" :" "%>>
+	<li class=<%= durl.contains("requestList") || durl.contains("requestLike") ? " on" :" "%>>
 		<a href="getRequestList.do">이력서 열람 요청</a>
 	</li>
 </ul>
