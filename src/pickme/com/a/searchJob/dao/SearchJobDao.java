@@ -2,6 +2,7 @@ package pickme.com.a.searchJob.dao;
 
 import java.util.List;
 
+import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -23,8 +24,8 @@ public interface SearchJobDao {
 	// 해당되는 공고 첨부파일 갯수
 	public int countFiles(int ref);
 	
-	// 기업 주소 뽑아오기
-	public String getAddr(int seq);
+	// 기업 주소,분야 뽑아오기
+	public CMemberDto getAddr(int seq);
 	
 	
 }

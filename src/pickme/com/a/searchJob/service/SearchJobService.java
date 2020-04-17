@@ -2,6 +2,7 @@ package pickme.com.a.searchJob.service;
 
 import java.util.List;
 
+import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -20,6 +21,6 @@ public interface SearchJobService {
 	// 해당되는 공고 첨부파일 갯수
 	public int countFiles(int ref);
 	
-	// 기업 주소 받아오기
-	public String getAddr(int seq);
+	// 기업 분야,주소 받아오기
+	public CMemberDto getAddr(int seq);
 }

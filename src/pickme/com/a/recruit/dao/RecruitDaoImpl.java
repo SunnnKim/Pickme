@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import model.FilesDto;
 import model.RecruitDto;
+import model.RecruitParam;
 
 @Repository
 public class RecruitDaoImpl implements RecruitDao{
@@ -58,13 +59,25 @@ public class RecruitDaoImpl implements RecruitDao{
 
 
 	@Override
-	public List<RecruitDto> myCurrentRecList(int seq) {
-		return sqlSession.selectList(ns+"getMyRecruitNow", seq);
+	public List<RecruitDto> myCurrentRecList(RecruitParam param) {
+		return sqlSession.selectList(ns+"getMyRecruitNow", param);
 	}
 	
 	@Override
-	public List<RecruitDto> myPastRecList(int seq) {
-		return sqlSession.selectList(ns+"getMyRecruitPast", seq);
+	public List<RecruitDto> myPastRecList(RecruitParam param) {
+		return sqlSession.selectList(ns+"getMyRecruitPast", param);
+	}
+
+
+	@Override
+	public int getComRecCount(int seq) {
+		return sqlSession.selectOne(ns+"getComRecCount", seq);
+	}
+
+
+	@Override
+	public int getComPastCount(int seq) {
+		return sqlSession.selectOne(ns+"getComPastCount",seq);
 	}
 
 

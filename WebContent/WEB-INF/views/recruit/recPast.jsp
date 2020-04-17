@@ -28,72 +28,28 @@
 			            </a></li>
 					</c:forEach>
 					</ul>
-					 <!-- 페이징 -->
-						<div class="paging">
-							<button type="button" class="btn-first" onclick="getList('allList', 1)">
-								<span>처음</span>
-							</button>
-							<button type="button" class="btn-prev" onclick="getList('allList', 1)">
-								<span>이전</span>
-							</button>
-							<ul>
-								<li class="active"><span>1</span></li>
-								<li><a href="" onclick="">2</a></li>
-								<li><a href="" onclick="">3</a></li>
-							</ul>
-							<button type="button" class="btn-next" onclick="getList('allList', 2)">
-								<span>다음</span>
-							</button>
-							<button type="button" class="btn-last"
-								onclick="getList('allList', 10)">
-								<span>마지막</span>
-							</button>
-						</div>   
+					  <!-- 페이징 -->
+						<div id="paging_wrap">
+							<jsp:include page="/WEB-INF/views/recruit/paging.jsp" flush="false">
+								<jsp:param name="totalRecCount" value="${totalRecCount }" />
+								<jsp:param name="pageNumber" value="${pageNumber }" />
+								<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
+								<jsp:param name="recordCountPerPage" value="${recordCountPerPage }" />
+							</jsp:include>
+						</div><!-- // paging_wrap -->
 				</c:when>
           </c:choose>
   		</div><!-- cont -->
 <!-- subCont 끝 -->
 <script>
 
- //페이징
- function getList(mode, page) {
-		var $area;
-		var url = "";
-		if (mode == "" || page == "") {return false;}
-		
-		if (mode == "notice") {
-			url = "/pc/cs/noticeListData.json";
-			$area = $("div#notice");
-		} else if (mode == "winner") {
-			url = "/pc/cs/winnerListData.json";
-			$area = $("div#winner");
-		} else {
-			url = "/pc/cs/allListData.json";
-			$area = $("div#allList");
-		}
-		
-		// 전송
-		$.ajax({
-			async		: true,
-			url			: url,
-			dataType	: 'json',
-			type		: 'POST',
-			data		: { mode : mode , page : page , keyWord : keyWord},
-			success		: function(data, textStatus, jqXHR){
-				// 실패 메세지 처리			
-				if(!crew.ajaxValidate(data)){ return; }
-				
-				//if (data.page <= 1) { $area.find("ul").empty(); }
-				$area.empty();
-				
-				setAddArea(data);
-				$area.append(data.html);
-			},
-			error		: function(jqXHR, textStatus, errorThrown){
-			  //console.log(jqXHR.status);
-			}
-		});
-	}
+/* 페이지 이동 */
+
+var seq = '${sessionScope.logincompany.seq}';
+function paging(pn){	
+  location.href="recPast.do?seq="+seq+"&pageNumber=" + pn;
+	
+}
  
 </script>
 <c:import url="../../../include/footer.jsp"/> 

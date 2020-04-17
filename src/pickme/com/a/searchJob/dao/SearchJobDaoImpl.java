@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -44,7 +45,7 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	}
 
 	@Override
-	public String getAddr(int seq) {
+	public CMemberDto getAddr(int seq) {
 		return sqlSession.selectOne(ns+"getAddr", seq);
 	}
 

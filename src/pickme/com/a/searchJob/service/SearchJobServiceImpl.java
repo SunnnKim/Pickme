@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -37,7 +38,7 @@ public class SearchJobServiceImpl implements SearchJobService{
 		return dao.countFiles(ref);
 	}
 	@Override
-	public String getAddr(int seq) {
+	public CMemberDto getAddr(int seq) {
 		return dao.getAddr(seq);
 	}
 	

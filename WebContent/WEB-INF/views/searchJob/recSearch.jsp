@@ -65,7 +65,7 @@
   		          </div><!-- cont -->  
 <script>
 /* 페이지 이동 */
-function goPage(pn){	
+function paging(pn){	
   location.href="recSearch.do?pageNumber=" + pn;
 	
 }

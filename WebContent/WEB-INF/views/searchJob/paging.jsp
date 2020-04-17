@@ -73,15 +73,15 @@
 <div class="paging" >
 	<!-- << -->
 	<button type="button" class="btn-first"
-			onclick="goPage(0)">
+			onclick="paging(0)">
 			<span>처음</span>
 	</button>
 	<%if (pageNumber > 0){ %>
-	<button type="button" class="btn-prev" onclick="goPage(<%=pageNumber - 1%>)">
+	<button type="button" class="btn-prev" onclick="paging(<%=pageNumber - 1%>)">
 			<span>이전</span>
 	</button>
 	<%}else if(pageNumber == 0){ %>
-	<button type="button" class="btn-prev" onclick="goPage(<%=pageNumber - 1%>)" disabled="disabled">
+	<button type="button" class="btn-prev" onclick="paging(<%=pageNumber - 1%>)" disabled="disabled">
 			<span>이전</span>
 	</button>	
 	
@@ -117,7 +117,7 @@
 			<li class="active"><span><%=i + 1 %></span></li>
         
         <%}else{ %>
-			<li><a href="#none" onclick="goPage(<%=i %>)"><%=i + 1 %></a></li> 
+			<li><a href="#none" onclick="paging(<%=i %>)"><%=i + 1 %></a></li> 
 			
 		<%}} %>	
 	</ul>
@@ -134,7 +134,7 @@
 			<span>다음</span>
 	</button>
 	<%}else { %>
-	<button type="button" class="btn-next" onclick="goPage(<%=pageNumber + 1%>)">
+	<button type="button" class="btn-next" onclick="paging(<%=pageNumber + 1%>)">
 			<span>다음</span>
 	</button>	
 	
@@ -171,7 +171,7 @@
 	
 	
 	<button type="button" class="btn-last"
-			onclick="goPage(<%=end_page %>)">
+			onclick="paging(<%=end_page %>)">
 			<span>마지막</span>
 	</button>
 	

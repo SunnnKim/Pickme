@@ -8,14 +8,14 @@
 	<<  < [1][2][3][4] > >>
 */
 
-	int totalRecordCount;	// 전체 글의 수		23 -> 3
+	int totalRecCount;	// 전체 글의 수		23 -> 3
 	int pageNumber;			// 현재 페이지		0 ~ 9 -> [1] ~ [10]	
 	int pageCountPerScreen; // 스크린당 페이지수	[1]~[10], [1]~[5]	-> 10
 	int recordCountPerPage;	// 페이지당 글의 수   [1] -> 10
 	
-	String st1 = request.getParameter("totalRecordCount");
-	if(st1 == null) totalRecordCount = 0;
-	else	totalRecordCount = Integer.parseInt(st1);
+	String st1 = request.getParameter("totalRecCount");
+	if(st1 == null) totalRecCount = 0;
+	else	totalRecCount = Integer.parseInt(st1);
 
 	String st2 = request.getParameter("pageNumber");
 	if(st2 == null) pageNumber = 0;
@@ -30,13 +30,13 @@
 	else    recordCountPerPage = Integer.parseInt(st4);
 
 	// 총 페이지의 수	[1][2][3] -> 3
-	int totalPageCount = totalRecordCount / recordCountPerPage;
+	int totalPageCount = totalRecCount / recordCountPerPage;
 	//		2				23					10
-	if((totalRecordCount % recordCountPerPage) != 0){
+	if((totalRecCount % recordCountPerPage) != 0){
 		totalPageCount++;
 	}
 	
-	System.out.println("totalRecordCount: " + totalRecordCount);
+	System.out.println("totalRecordCount: " + totalRecCount);
 	
 	// 시작페이지	[1]	[11] [21]
 	int screenStartPageIndex = ((pageNumber + 1) / pageCountPerScreen) * pageCountPerScreen;		
@@ -73,15 +73,15 @@
 <div class="paging" >
 	<!-- << -->
 	<button type="button" class="btn-first"
-			onclick="goPage(0)">
+			onclick="paging(0)">
 			<span>처음</span>
 	</button>
 	<%if (pageNumber > 0){ %>
-	<button type="button" class="btn-prev" onclick="goPage(<%=pageNumber - 1%>)">
+	<button type="button" class="btn-prev" onclick="paging(<%=pageNumber - 1%>)">
 			<span>이전</span>
 	</button>
 	<%}else if(pageNumber == 0){ %>
-	<button type="button" class="btn-prev" onclick="goPage(<%=pageNumber - 1%>)" disabled="disabled">
+	<button type="button" class="btn-prev" onclick="paging(<%=pageNumber - 1%>)" disabled="disabled">
 			<span>이전</span>
 	</button>	
 	
@@ -117,7 +117,7 @@
 			<li class="active"><span><%=i + 1 %></span></li>
         
         <%}else{ %>
-			<li><a href="#none" onclick="goPage(<%=i %>)"><%=i + 1 %></a></li> 
+			<li><a href="#none" onclick="paging(<%=i %>)"><%=i + 1 %></a></li> 
 			
 		<%}} %>	
 	</ul>
@@ -134,7 +134,7 @@
 			<span>다음</span>
 	</button>
 	<%}else { %>
-	<button type="button" class="btn-next" onclick="goPage(<%=pageNumber + 1%>)">
+	<button type="button" class="btn-next" onclick="paging(<%=pageNumber + 1%>)">
 			<span>다음</span>
 	</button>	
 	
@@ -171,7 +171,7 @@
 	
 	
 	<button type="button" class="btn-last"
-			onclick="goPage(<%=end_page %>)">
+			onclick="paging(<%=end_page %>)">
 			<span>마지막</span>
 	</button>
 	

@@ -78,9 +78,12 @@
 				 <nav class="gnb">
 					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
 					<a href="/Pickme/c_apply/getRequestList.do">지원현황</a><!-- 기업회원 지원현황  -->
-					<a href="/Pickme/recruit/recInsert.do">채용관리</a><!-- 기업회원 채용현황  -->
+					<a href="javascript:goPage('now');">채용관리</a><!-- 기업회원 채용현황  -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
 				</nav>
+				 <form name="seqFrm">
+				 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
+				 </form>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
@@ -156,6 +159,24 @@
 		</ul>
 	</div><!-- //visual_wrap -->
 	<script type="text/javascript">
+		<!-- 현재공고/지난공고 볼때  로그인한 기업 seq 넘기기 -->
+		function goPage(str) {
+		    var f = document.seqFrm;
+	
+		    if(str==="now"){
+			    f.action = "/Pickme/recruit/recNow.do"
+		    } else if(str==="past"){
+		    	f.action = "/Pickme/recruit/recPast.do"
+		    } else if(str==="insert"){
+				f.action = "/Pickme/recruit/recInsert.do"
+		    }
+		    // 전송 방식 : post
+		    f.method = "post"
+		    f.submit();
+		  };
+
+			
+	
 		$(document).ready(function(){
 			$('#visual').bxSlider({
 				//mode:'fade',
