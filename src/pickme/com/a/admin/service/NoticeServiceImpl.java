@@ -49,6 +49,11 @@ public class NoticeServiceImpl implements NoticeService {
 	public void deleteNoticeFiles(int ref) {
 		dao.deleteNoticeFiles(ref);
 	}
+
+	@Override
+	public boolean deleteNotice(List<Integer> seqList) {
+		return dao.deleteNotice(seqList);
+	}
 	
 	
 }

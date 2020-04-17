@@ -188,13 +188,15 @@ $('#submitBtn').click(function(){
 				data:sendObject,
 				type:'post',
 				success: function(data){
-					alert(data)
+					if( data == 'fail' ){
+						alert('공지사항 수정 실패!')
+					}
 				}, error: function(err){
+					alert('공지사항 수정 실패!')
 				}
 			});
 		}
 	}
-//	return false;
 	
 	// 텍스트에디터 안에 있는 소스만 배열로 옮기기 
 	for( i = 1; i < splitArr.length; i++ ) {

@@ -14,4 +14,5 @@ public interface NoticeService {
 	public List<FilesDto> getNoticeFiles(int ref);
 	public boolean updateNotice(NoticeDto notice);
 	public void deleteNoticeFiles(int ref);
+	public boolean deleteNotice(List<Integer> seqList);
 }

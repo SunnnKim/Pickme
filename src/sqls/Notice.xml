@@ -20,7 +20,9 @@ VALUES ( 'NOTICE', #{ originname }, #{ newname }, #{path} , 0, #{ref} , #{step},
 </insert>
 <!-- 모든 공지사항 불러오기 -->
 <select id="getAllNotice" resultType="model.NoticeDto">
-SELECT * FROM NOTICE WHERE DEL != 1 ORDER BY SEQ DESC
+SELECT * FROM NOTICE 
+WHERE DEL != 1 
+ORDER BY SEQ DESC
 </select>
 <!-- 공지사항 리스트 + 페이징 -->
 <select id="getAllNoticePaging" parameterType="int" resultType="model.NoticeDto">
@@ -37,7 +39,7 @@ WHERE DEL != 1
 </select>
 <!-- 공지사항 디테일 불러오기 -->
 <select id="getNoticeDetail" parameterType="int" resultType="model.NoticeDto">
-SELECT* FROM NOTICE
+SELECT * FROM NOTICE
 WHERE SEQ = ${seq}
 </select>
 <!-- 공지사항 첨부파일 불러오기 -->
@@ -62,6 +64,13 @@ WHERE SEQ = ${seq}
 DELETE FROM FILES
 WHERE REF = ${ref} 
 </delete>
+<!-- 공지사항 삭제하기 -->
+<update id="deleteNoticeList" parameterType="int">
+UPDATE NOTICE 
+SET DEL = 1
+WHERE SEQ = ${seq}
+</update>
+
 </mapper>
 
 

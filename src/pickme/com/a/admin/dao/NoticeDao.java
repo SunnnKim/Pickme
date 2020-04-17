@@ -14,4 +14,5 @@ public interface NoticeDao {
 	public List<FilesDto> getNoticeFiles(int ref);
 	public void deleteNoticeFiles(int ref);
 	public boolean updateNotice(NoticeDto notice);
+	public boolean deleteNotice(List<Integer> seqList );
 }

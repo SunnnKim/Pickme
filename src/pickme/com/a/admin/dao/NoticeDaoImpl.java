@@ -62,6 +62,20 @@ public class NoticeDaoImpl implements NoticeDao {
 	public void deleteNoticeFiles(int ref) {
 		sqlSession.delete(namespace + "deleteNoticeFiles", ref);
 	}
+
+	@Override
+	public boolean deleteNotice(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.delete(namespace + "deleteNoticeList", seq); 
+			if(a == 0) return false;
+			// 파일도 삭제하기
+			int ref  = seq;
+			sqlSession.delete(namespace + "deleteNoticeFiles", ref); 
+			
+		}
+		return true;
+	}
 	
 	
 	

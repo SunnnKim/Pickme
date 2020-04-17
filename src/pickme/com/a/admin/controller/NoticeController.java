@@ -290,4 +290,21 @@ public class NoticeController {
 		return result ? "redirect:/admin/notice/noticeList.do":"redirect:/admin/notice/noticeWrite.do";
 	}
 	
+	// 공지사항 삭제하기
+	@ResponseBody
+	@RequestMapping(value="deleteNoticeList.do", method=RequestMethod.POST, produces = "application/String; charset=utf-8")
+	public String deleteNoticeList(@RequestParam(value="seqList[]")  List<Integer> seqList) {
+		
+		boolean success = service.deleteNotice(seqList);
+		
+		
+		return success + "";
+	}
+	
+	
+	
+	
+	
+	
+	
 }
