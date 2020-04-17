@@ -3,6 +3,7 @@
 					
 <div id="aMypage-wrap">
 	<form id="form" method="post" enctype="multipart/form-data">
+		<input type="hidden" vlaue="<%=member.getSeq() %>">
 		<div class="aMypage_top clfix">
 			<div class="profileWrap">
 				<div class="profile">
