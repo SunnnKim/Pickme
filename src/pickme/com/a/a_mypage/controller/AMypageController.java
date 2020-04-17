@@ -46,9 +46,11 @@ public class AMypageController {
 	// 프로필 수정
 	@ResponseBody
 	@RequestMapping(value = "profileUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String profileUpdate( Model model, HttpSession session, MultipartFile file, HttpServletRequest request ) {
+	public String profileUpdate(AMemberDto dto, Model model, HttpSession session, MultipartFile file, HttpServletRequest request ) {
 		// 저장 경로 불러오기 
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/amember");
+		
+		System.out.println("AMemberDto dto : " + dto.toString());
 		
 		if(file != null ) {	// 파일이 있는 경우
 			// 파일이름 설정
@@ -91,7 +93,7 @@ public class AMypageController {
 	@RequestMapping(value="imageDownload.do")
 	 protected void imageDownload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			   
-		 request.setCharacterEncoding("utf-8");
+		  request.setCharacterEncoding("utf-8");
 		  response.setCharacterEncoding("utf-8");
 		  response.setContentType("text/html; charset=utf-8");
 	      System.out.println("file download connected");

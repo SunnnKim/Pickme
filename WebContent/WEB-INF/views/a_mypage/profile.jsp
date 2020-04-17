@@ -323,25 +323,25 @@
 		'introduce':introduce, 'hashtag':hashtag
 	});
 	
-			let data = new FormData;
-			console.log()
-			var getFile = $('input[name=profile]')[0].files[0]
-		   	data.append("file", getFile);
-			console.log(data)
-		    $.ajax({
-		      data: data,
-		      type: 'POST',
-		      url: "profileUpdate.do",
-		      cache: false,
-		      contentType: false,
-		      processData: false,
-		      enctype: 'multipart/form-data',
-		      success: function (url) { 
-					alert('success')
+	let data = new FormData;
+	console.log()
+	var getFile = $('input[name=profile]')[0].files[0]
+   	data.append("file", getFile);
+	console.log(data)
+    $.ajax({
+      data: data, 
+      type: 'POST',
+      url: "profileUpdate.do",
+      cache: false,
+      contentType: false,
+      processData: false,
+      enctype: 'multipart/form-data',
+      success: function (url) { 
+			alert('success')
 
-			     }
-		        
-		    	});
+	     }
+        
+    });
 
 
 
