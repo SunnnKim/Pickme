@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import model.FilesDto;
 import model.RecruitDto;
+import model.RecruitParam;
 import pickme.com.a.recruit.dao.RecruitDao;
 
 @Service
@@ -38,12 +39,20 @@ public class RecruitServiceImpl implements RecruitService{
 		dao.updateImgName(ref);
 	}
 	@Override
-	public List<RecruitDto> myCurrentRecList(int seq) {
-		return dao.myCurrentRecList(seq);
+	public List<RecruitDto> myCurrentRecList(RecruitParam param) {
+		return dao.myCurrentRecList(param);
 	}
 	@Override
-	public List<RecruitDto> myPastRecList(int seq) {
-		return dao.myPastRecList(seq);
+	public List<RecruitDto> myPastRecList(RecruitParam param) {
+		return dao.myPastRecList(param);
+	}
+	@Override
+	public int getComRecCount(int seq) {
+		return dao.getComRecCount(seq);
+	}
+	@Override
+	public int getComPastCount(int seq) {
+		return dao.getComPastCount(seq);
 	}
 	
 

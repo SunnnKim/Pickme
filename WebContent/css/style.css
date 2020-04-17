@@ -81,13 +81,15 @@ ul.pmList li button i.unliked{
 } */
 
 button.likebtn{
-    width: 65px;
-    height: 32px;
-    border-radius: 3px;
+	margin-top:7px;
+    width: 71px;
+    height: 39px;
+    border-radius: 15px;
     position: absolute;
-    background: rgba(0,0,0,.4); 
-    color: #fff;
-    font-size: 12px;
+   /*  background: rgba(0,0,0,.4);  */
+    color: #000;
+    border: 1px solid #3b467c;
+    font-size: 18px;
     font-weight: 400;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
@@ -102,7 +104,7 @@ button.likebtn{
 button i.unliked{
     outline: none;
     margin-right: 6px;
-    opacity:0.4;
+    opacity:0.1;
 }
 
  button i.liked{
@@ -854,18 +856,56 @@ span.ess {color: red; font-weight: bold;}
 }
 /* ===============detail image slider end ================= */
 .subCont .rec-content{}
+.subCont .rec-content div.impt{margin-bottom: 20px;}
+.subCont .rec-content div.content{margin-top:30px; margin-bottom: 40px;}
 .subCont .rec-location{}
-.subCont .recTop .infoCom p{font-size: 15px; font: bold;}
-.subCont .recTop .infoCom table{margin-top: 5px; margin-bottom: 10px;}
-.subCont .recTop .infoCom table td{padding-bottom: 17px;padding-left: 9px;}
-.subCont .recTop .infoCom .t-icon{font-size: 20px;}
-.subCont .recTop .infoCom .t-label{width: 100px;font-size: 19px;}
-.subCont .recTop .infoCom .t-content{font-size: 20px;}
-
+.subCont .recTop .infoCom table{margin-top: 5px; margin-bottom: 7px;}
+.subCont .recTop .infoCom table td{padding-bottom: 10px;padding-left: 10px;}
+.subCont .recTop .infoCom .t-icon{font-size: 18px;}
+.subCont .recTop .infoCom .t-label{width: 100px;font-size: 18px;}
+.subCont .recTop .infoCom .t-content{font-size: 18px;}
+.subCont .recTop .infoCom .companyInfo{/*  border: 1px solid #ccc; */ width: 100%; height: 100px;}
+.subCont .recTop .infoCom .companyInfo button.btnleft{
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+    margin-left: 10px;
+    float: left;
+}
+.subCont .recTop .infoCom .companyInfo .btnleft p.comP{font-size: 20px;font-weight: 600;}
+.subCont .recTop .infoCom .companyInfo .btnleft p.comT{color: #999; font-weight: 500;font-size: 17px;}
+.subCont .recTop .infoCom .companyInfo .btnright{
+	display: flex;
+    margin-top: 20px;
+    text-align: right;
+    margin-right: 21px;
+}
+.subCont .recTop .infoCom .companyInfo button.followButton{
+	width: 100%;
+    margin-top: 14px;
+    margin-left: 103px;
+    border-radius: 3px;
+    background: #fff;/*  #3b467c; */
+    color: #3b467c;
+    border: 1px solid #3b467c;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding: 9px 20px;
+}
+.subCont .recTop .infoCom .companyInfo .logo{
+	background-position: 50%;
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    -webkit-box-shadow: 0 0 1px 0 rgba(0,0,0,.1);
+    box-shadow: 0 0 1px 0 rgba(0,0,0,.1);
+    margin-right: 15px;	
+}
 .subCont .recTop .infoCom span.likes{
+	display: inline-block;
     vertical-align: middle;
     height: 10px;
-   
     margin-right: 12px;
     padding: 0 15px;
 }
@@ -881,7 +921,9 @@ span.ess {color: red; font-weight: bold;}
 .rec-location.view_map #btnMap {display: none;}
 .rec-location.view_roadview #mapWrapper {z-index: 0;}
 .rec-location.view_roadview #btnRoadview {display: none;}
-.rec-location {font-size: 18px;font: 700;}
+.rec-location {border-top:1px solid #ccc;}
+span.header{color: #999; width: 80px; font-size: 13pt; font-weight:600; margin: 20px; margin-left: 0;}
+span.body{color: #333;width: calc(100% - 80px); font-size: 13pt;}
 /* ============ 채용디테일 끝 ============ */
 
 

@@ -42,7 +42,6 @@
          	</div><!-- div.infoImg -->
 
           <div class="infoCom">
-            <p>요약</p>
             <table class="summary-table">
               <tbody>
                 <tr>
@@ -60,49 +59,63 @@
                   <td class="t-label">경력</td>
                   <td class="t-content">${recDto.comJobType }</td>
                 </tr>
-               <%--  <tr>
-                  <td class="t-icon"><i class="fas fa-calendar-alt"></i></td>
-                  <td class="t-label">기간</td>
-                  <td class="t-content">${recDto.wdate }부터 ${recDto.edate } 까지</td>
-                </tr> --%>
                 <tr>
                   <td class="t-icon"><i class="fas fa-dollar-sign"></i></td>
                   <td class="t-label">연봉</td>
                   <td class="t-content">${recDto.salary }</td>
                 </tr>
-                 <%-- <tr>
-                  <td class="t-icon"><i class="fas fa-map-marker-alt"></i></td>
-                  <td class="t-label">위치</td>
-                  <td class="t-content">${comAddr }</td>
-                </tr> --%>
                 <tr>
                   <td class="t-icon"><i class="fas fa-tags"></i></td>
-                  <td class="t-label">태그</td>
-                  <td class="t-content">
-                    <div class="inhash">
-                     	<c:forEach items="${hashTag }" var="str" varStatus="vs">
-	                     <button type='button' class='hashbtn' name='hashtag' style='margin-right:8px;'>
-	                       #${str }
-	                      </button>
-                     	</c:forEach>
-                  </div>
+                  <td class="t-label" colspan="2">
+	                  <div class="inhash">
+	                     	<c:forEach items="${hashTag }" var="str" varStatus="vs">
+		                     <button type='button' class='hashbtn' name='hashtag' style='margin-right:8px;'>
+		                       #${str }
+		                      </button>
+	                     	</c:forEach>
+	                  </div>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <span class="likes">
-              <button type="button" class="likebtn" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
-            </span>
+            <div class="companyInfo">
+            	<button type="button" class="btnleft">
+            		<div class="logo" style="background-image: url(&quot;https://static.wanted.co.kr/images/wdes/0_5.aded81ce.jpg&quot;);"></div>
+            		<div class="companyName">
+            			<p class="comP">${recDto.comName }</p>
+            			<p class="comT">기업분야<%-- ${cmem.department }--%></p>
+            		</div>
+            	</button>
+            	 <span class="likes">
+            		<button type="button" class="followButton">기업정보</button>
+            		 
+            	</span>
+            </div>
+          <button type="button" class="likebtn" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+             
+            
           </div><!-- div.infoCom -->
         </div><!-- div.recTop -->
         
         <div class="rec-content clfix">
-  			${recDto.content }
+        	<div class="content">
+        		<div class="impt">
+	        		<span class="header">요구조건</span>
+	        		<span class="body">${recDto.requirements }</span><br>
+	        		<span class="header">주요업무</span>
+	        		<span class="body">${recDto.mainTask }</span>
+        		</div>
+	  			${recDto.content }
+        	</div>
         </div><!--div.infoContent-->
 
-        <div class="rec-location" id="rec-location">
-        	<p>[근무지역]</p>
-			 <div id="map" style="width:100%;height:400px;"></div>
+        <div class="rec-location" id="rec-location" style="border-top:1px solid #ccc">
+        	<span class="header">채용기간</span>
+        	<span class="body"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;&nbsp;${recDto.wdate }부터 ${recDto.edate } 까지</span>
+        	<br>
+        	<span class="header">근무지역</span>
+        	<span class="body"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;&nbsp;${cmem.address }</span>
+			 <div id="map" style="width:100%;height:400px; margin-top:10px;"></div>
         </div><!-- rec-location -->
        
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9659e321755104e19052e54a7fbe78a4&libraries=services"></script>
@@ -116,6 +129,14 @@
 		alert("메시지보내기 클릭");
 	});
 
+	$(".btnleft").on("click", function(){
+		alert("기업정보 바로가기 클릭");
+	});
+
+	$(".followButton").on("click", function(){
+		alert("기업정보 바로가기 클릭");
+	});
+	
 	//회사이름, 제목 
 	$(".recTit").text("${recDto.title }");
 	$(".recSubTit").text("${recDto.comName }");
@@ -237,15 +258,11 @@
 	// 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
 	var map = new kakao.maps.Map(mapContainer, mapOption);
 
-	// 로드뷰 객체를 생성합니다 
-	var roadview = new kakao.maps.Roadview(rvContainer);
-		
-
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
 
 	// 주소로 좌표를 검색합니다
-	geocoder.addressSearch('${comAddr }', function(result, status) {
+	geocoder.addressSearch('${cmem.address }', function(result, status) {
 		  // 정상적으로 검색이 완료됐으면 
 	     if (status === kakao.maps.services.Status.OK) {
 	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);

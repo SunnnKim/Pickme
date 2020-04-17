@@ -82,10 +82,14 @@ public class SearchJobController {
 		for (int i = 0; i < fileslist.size(); i++) {
 			System.out.println("이미지 : "+ fileslist.get(i).getNewname());			
 		}/**/
-		String comAddr = serv.getAddr(dto.getComSeq());
-		comAddr = "서울 강남구 테헤란로5길 11 YBM빌딩 2층";
+		CMemberDto cmemdto = serv.getAddr(dto.getComSeq());
+		
+		//주소 제대로 들어오면 지우기
+		cmemdto.setAddress("서울 강남구 테헤란로5길 11 YBM빌딩 2층");
+		
 		model.addAttribute("recDto", dto);
-		model.addAttribute("comAddr", comAddr);
+		model.addAttribute("cmem",cmemdto);
+		//model.addAttribute("comAddr", comAddr);
 		model.addAttribute("filesList", fileslist);
 		model.addAttribute("hashTag",hashStr);
 		return "searchJob/recDetail";

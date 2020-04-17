@@ -33,6 +33,7 @@ import com.mysql.cj.Session;
 import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
+import model.RecruitParam;
 import pickme.com.a.recruit.service.RecruitService;
 import pickme.com.a.util.FUpUtil;
 
@@ -52,25 +53,55 @@ public class RecruitController {
 	}
 	
 	@RequestMapping(value = "recNow.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String recNow(Integer seq, Model model, HttpServletRequest req) {
+	public String recNow(Integer seq, RecruitParam param, Model model, HttpServletRequest req) {
 		
 		if( seq == null ) {
 			 seq = (Integer)req.getAttribute("seq"); 
 		}
-	
-		List<RecruitDto> list = serv.myCurrentRecList(seq);
+		param.setComSeq(seq);
+		int nowPage = param.getPageNumber(); // 현재페이지넘버
+		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
+		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
+		
+		//System.out.println("현재 페이지 : "+ nowPage);
+		//채용 탐색에서 채용중인 총 게시글 수
+		int totalRecCount = serv.getComRecCount(seq);
+		
+		param.setStart(start);
+		param.setEnd(end);
+		List<RecruitDto> list = serv.myCurrentRecList(param);
 		
 		model.addAttribute("comCurrentRecList", list);
+		model.addAttribute("pageNumber", nowPage);	//현재페이지
+		model.addAttribute("pageCountPerScreen", 10);
+		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
+		model.addAttribute("totalRecCount", totalRecCount); 
 		return "recruit/recNow";
 	}
 	
 	@RequestMapping(value = "recPast.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String recPast(Integer seq, Model model, HttpServletRequest req) {
+	public String recPast(Integer seq,RecruitParam param, Model model, HttpServletRequest req) {
+
 		if( seq == null ) {
 			 seq = (Integer)req.getAttribute("seq"); 
 		}
-		List<RecruitDto> list = serv.myPastRecList(seq);
+		param.setComSeq(seq);
+		int nowPage = param.getPageNumber(); // 현재페이지넘버
+		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
+		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
+		
+		//System.out.println("현재 페이지 : "+ nowPage);
+		//채용 탐색에서 채용중인 총 게시글 수
+		int totalRecCount = serv.getComPastCount(seq);
+		
+		param.setStart(start);
+		param.setEnd(end);
+		List<RecruitDto> list = serv.myPastRecList(param);
 		model.addAttribute("comPastRecList", list);
+		model.addAttribute("pageNumber", nowPage);	//현재페이지
+		model.addAttribute("pageCountPerScreen", 10);
+		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
+		model.addAttribute("totalRecCount", totalRecCount); 
 
 		return "recruit/recPast";
 	}

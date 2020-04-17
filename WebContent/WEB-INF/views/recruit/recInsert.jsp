@@ -318,10 +318,10 @@
 	      document.getElementById('hashtag').value="";
 	      element_count++;
 	      hashTagCount();
-	     } else if(text_len > 1 && text_len < 4){
+	     } else if(text_len > 1 && text_len < 2){
 	    	 Swal.fire({
 				  icon: 'error',
-				  text: '태그를 4자이상입력해주세요.'
+				  text: '태그를 2자이상입력해주세요.'
 			})
 
 	     } else if(hashtext.trim() == ""){
@@ -337,12 +337,12 @@
 	//태그 입력
    $("#hashtag").keyup(function(e){
 	   if(e.keyCode == 13) {
-		   if( $(this).val().length >= 4 ) {
+		   if( $(this).val().length >= 2 ) {
 			 tagappend();
-		   } else if ( $(this).val().length > 1 && $(this).val().length < 4){
+		   } else if ( $(this).val().length > 1 && $(this).val().length < 2){
 			   Swal.fire({
 					  icon: 'error',
-					  text: '태그를 4자이상입력해주세요.'
+					  text: '태그를 2자이상입력해주세요.'
 				})
 		   }
 		}

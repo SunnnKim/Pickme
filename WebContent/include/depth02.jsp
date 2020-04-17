@@ -145,7 +145,7 @@ if( durl.contains("e_apply")){
 			<a href="javascript:goPage('past');">지난공고보기</a>
 		</li>
 		<li class=<%= durl.contains("recInsert") ? " on" :" "%>>
-			<a href="/Pickme/recruit/recInsert.do">공고등록하기</a>
+			<a href="javascript:goPage('insert');">공고등록하기</a>
 		</li>
 	 </ul><!-- // depth02 -->
 	 
@@ -163,6 +163,8 @@ function goPage(str) {
 	    f.action = "/Pickme/recruit/recNow.do"
     } else if(str==="past"){
     	f.action = "/Pickme/recruit/recPast.do"
+    } else if(str==="insert"){
+		f.action = "/Pickme/recruit/recInsert.do"
     }
     // 전송 방식 : post
     f.method = "post"
