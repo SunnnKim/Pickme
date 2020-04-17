@@ -27,22 +27,52 @@
 	<update id="imageNameUpdate" parameterType="int">
 		UPDATE RECRUIT R
 		SET IMAGENAME=(SELECT NEWNAME FROM FILES F WHERE R.SEQ = F.REF AND USETABLE = 'RECRUIT' AND F.STEP=0 )
-		WHERE R.REF=#{ref};
+		WHERE R.REF=#{ref}
 	</update>
-	<!-- =================채용탐색 들어가자마자 뿌려지는 전체 LIST======================= -->
- 	<select id="getRecAllList" resultType="model.RecruitDto">
+	<!-- 채용탐색글 수 count -->
+	<select id="getCountRec" resultType="int">
+		SELECT IFNULL(COUNT(*),0) AS CNT FROM RECRUIT WHERE DEL=0
+	</select>
+	<!-- 채용탐색 들어가자마자 뿌려지는 전체 LIST(페이징)-->
+ 	<select id="getRecAllList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
+		FROM ( SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME FROM RECRUIT 
+		WHERE DEL=0 ) RECRUIT
+		ORDER BY SEQ DESC
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+	</select> 
+	<!-- 채용탐색 들어가자마자 뿌려지는 전체 LIST-->
+ 	<!--  <select id="getRecAllList"  resultType="model.RecruitDto">
 		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
 		FROM RECRUIT 
 		WHERE DEL=0 
 		ORDER BY SEQ DESC
-	</select> 
+	</select> -->
 	<!-- 기업만 볼수있는 채용공고 list (현재공고) -->
-	<select id="getMyRecruit" parameterType="int" resultType="model.RecruitDto">
+	<select id="getMyRecruitNow" parameterType="int" resultType="model.RecruitDto">
 		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
 		FROM RECRUIT 
 		WHERE COMSEQ=#{comSeq} AND DEL=0
 		ORDER BY SEQ DESC
 	</select> 
+	<!-- 기업만 볼수 있는 지난공고 list -->
+	<select id="getMyRecruitPast" parameterType="int" resultType="model.RecruitDto">
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
+		FROM RECRUIT 
+		WHERE COMSEQ=#{comSeq} AND DEL=1
+		ORDER BY SEQ DESC
+	</select> 
+	<!-- detail -->
+	<select id="getRecruitDetail" parameterType="int" resultType="model.RecruitDto">
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
+		FROM RECRUIT 
+		WHERE SEQ=#{seq}
+	</select> 
+	<!-- 기업 주소 가져오는 함수 -->
+	<select id="getAddr" parameterType="int" resultType="string">
+		SELECT ADDRESS FROM C_MEMBER
+  		WHERE SEQ=#{seq}
+	</select>
 	<!-- ref가 동일한 이미지 가져오기 -->
 	<select id="getRecFile" parameterType="int" resultType="model.FilesDto">
 		SELECT SEQ, USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE

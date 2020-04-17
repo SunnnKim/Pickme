@@ -24,5 +24,10 @@ public interface RecruitService {
 		
 		//(기업) 로그인한 기업이 볼 수 있는 현재공고
 		public List<RecruitDto> myCurrentRecList(int seq);
+		
+		//(기업) 로그인한 기업이 볼 수 있는 지난공고
+		public List<RecruitDto> myPastRecList(int seq);
+		
+		
 	
 }

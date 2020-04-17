@@ -484,12 +484,14 @@
 				success: function(data){
 					//alert("넘어온 seq: "+data);
 					if(data > 0){
-					$("#fileform").submit();
 						Swal.fire({
 							  icon: 'success',
 							  title: '공고가 등록되었습니다.',
-							  timer: 4000
+							  timer: 1500
+						}).then( (result) =>{
+							$("#fileform").submit();
 						})
+					
 						
 					} else {
 						Swal.fire({

@@ -7,17 +7,17 @@ System.out.println("durl:"+durl);
 %>
 
 
-<!-- c_apply -->
+<!-- 기업_지원현황 -->
 
 <% if (durl.contains("c_apply")){ %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("recruitList.jsp") ? " on" :" "%>>
 		<a href="">지원자 관리</a>
 	</li>
-	<li class=<%= durl.contains("c_message.jsp") ? " on" :" "%>>
-		<a href="c_message.do">메시지함</a>
+	<li class=<%= durl.contains("cRcvMsg") || durl.contains("cSendMsg") ? " on" :" "%>>
+		<a href="cRcvMsg.do">메시지함</a>
 	</li>
-	<li class=<%= durl.contains("requestList.jsp") || durl.contains("requestLike.jsp") ? " on" :" "%>>
+	<li class=<%= durl.contains("requestList") || durl.contains("requestLike") ? " on" :" "%>>
 		<a href="getRequestList.do">이력서 열람 요청</a>
 	</li>
 </ul>
@@ -127,16 +127,14 @@ if( durl.contains("e_apply")){
           </div><!-- .detailTop-left -->
           <div class="detailTop-right">
             <section class="section-controller">
-              <button type="button"><i class="fas fa-edit"></i>지원하기</button>
-              <button type="button"><i class="fas fa-envelope"></i>쪽지보내기</button>
+              <button type="button" id="detailApply"><i class="fas fa-edit"></i>지원하기</button>
+              <button type="button" id="sendMsg"><i class="fas fa-envelope"></i>쪽지보내기</button>
             </section>
           </div><!-- .detailTop-right -->
         </div><!-- .recDetailTop -->
 <% } %>
 
 <!-- recruit. 채용관리 -->
-<c:set scope="request" var="seq" value="${sessionScope.logincompany.seq}" />
-
 <% if(durl.contains("/recruit")){ 
 	%>
 	  <ul class="depth02 clfix">
@@ -175,7 +173,7 @@ function goPage(str) {
 <!-- searchJob. 채용탐색 -->
 <% if(durl.contains("/searchJob/recSearch")){ %>
  <ul class="jobs_list clfix" id="joblist">
-          </ul>
+ </ul>
 <% } %>
 
 

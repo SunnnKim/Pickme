@@ -17,17 +17,6 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 <% } %>
 
 
-<!-- recruit - 구인 현황  -->
-<% if (lourl.contains("c_message.jsp")) {%>
-<div class="location">
-	<span>홈</span>
-	<span>></span>
-	<span>구인 현황</span>
-	<span>></span>
-	<span>메세지함</span>
-</div> 
-<% } %>
-
 <!-- 일반 로그인 페이지  -->
 <% if (lourl.contains("/login/mem")) {%>
 <div class="location">
@@ -79,7 +68,7 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 </div> 
 <% } %>
 <!-- apply - message -->
-<% if (lourl.contains("Msg")) {%>
+<% if (lourl.contains("e_apply") && lourl.contains("Msg")) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>
@@ -116,17 +105,31 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 
 
-<!-- c_apply -->
+<!-- 기업_이력서 열람요청 -->
 
-<% if (lourl.contains("requestList.jsp") || lourl.contains("requestLike.jsp")) {%>
+<% if (lourl.contains("requestList") || lourl.contains("requestLike")) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>
-	<span>구인 현황</span>
+	<span>지원 현황</span>
 	<span>></span>
 	<span>이력서 열람 요청</span>
 </div>
 <% } %>
+
+<!-- 기업_메세지함-->
+<% if (lourl.contains("cRcvMsg") || lourl.contains("cSendMsg")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>지원 현황</span>
+	<span>></span>
+	<span>메세지함</span>
+</div> 
+<% } %>
+
+
+
 
 <!-- 채용등록 -->
 <% if (lourl.contains("recInsert")) {%>

@@ -50,20 +50,28 @@ public class RecruitController {
 		model.addAttribute("ref",ref);
 		return "recruit/recInsert";
 	}
+	
 	@RequestMapping(value = "recNow.do", method = {RequestMethod.POST,RequestMethod.GET})
 	public String recNow(Integer seq, Model model, HttpServletRequest req) {
 		
 		if( seq == null ) {
 			 seq = (Integer)req.getAttribute("seq"); 
 		}
-		/* seq = (Integer)req.getAttribute("seq"); */
+	
 		List<RecruitDto> list = serv.myCurrentRecList(seq);
 		
 		model.addAttribute("comCurrentRecList", list);
 		return "recruit/recNow";
 	}
+	
 	@RequestMapping(value = "recPast.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String recPast() {
+	public String recPast(Integer seq, Model model, HttpServletRequest req) {
+		if( seq == null ) {
+			 seq = (Integer)req.getAttribute("seq"); 
+		}
+		List<RecruitDto> list = serv.myPastRecList(seq);
+		model.addAttribute("comPastRecList", list);
+
 		return "recruit/recPast";
 	}
 
@@ -77,7 +85,7 @@ public class RecruitController {
 		System.out.println("insert success : " + count);
 		  		  
 		return count;
-	}/**/
+	}
 	
 	@RequestMapping(value = "recfileup.do",method = RequestMethod.POST)
 	public String recFileUp(RecruitDto recdto,MultipartFile [] originfile,HttpServletRequest req, HttpSession session) {
@@ -86,7 +94,6 @@ public class RecruitController {
 		
 		// 첨부파일용 파일 테이블에 저장할 리스트 만들기 
 		boolean result = true;
-	
 		System.out.println("num of files : " + originfile.length);
 		
 		if(originfile.length > 0) {	// 첨부파일이 있을 경우 
@@ -94,6 +101,8 @@ public class RecruitController {
 			for( int i = 0; i < originfile.length; i++ ) {
 				// 파일 새이름 등록 
 				String originName = originfile[i].getOriginalFilename();
+				if( !originName.equals("") ) {
+				System.out.println("오리지날 이름: "+originName);
 				String newname = FUpUtil.getNewFileName(originName);
 				String path = "/upload/recruit/";
 				String type = originfile[i].getContentType();
@@ -117,7 +126,7 @@ public class RecruitController {
 					return "redirect:/recruit/recInsert.do";
 				}
 					
-					
+				} else break;
 			
 			}//.for
 			// 파일 디비에 넣기
@@ -130,6 +139,57 @@ public class RecruitController {
 		req.setAttribute("seq", cmem.getSeq());
 
 		return result ? "forward:/recruit/recNow.do":"redirect:/recruit/recInsert.do";
+	}
+	
+	@RequestMapping("/filedownload.do")
+	public void FileDownload (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	      
+		  request.setCharacterEncoding("utf-8");
+		  response.setCharacterEncoding("utf-8");
+		  response.setContentType("text/html; charset=utf-8");
+	      System.out.println("file download connected");
+	      
+	      // file 이름 및 경로 받아오기 
+	      String filename = request.getParameter("filename"); 	// ex ) filename.jpg
+	      String filepath = request.getParameter("filepath");	// ex ) /upload/amypage/
+	      
+	      System.out.println("download serv filepath :"+filepath);
+	      System.out.println("download serv filename :"+filename);
+
+	      
+	      String uploadRoot = request.getSession().getServletContext().getRealPath(filepath);
+	      System.out.println("uploadRoot:"+uploadRoot);
+
+	      File f = new File(uploadRoot + filename);
+
+	      response.setHeader("Content-Type", "image/jpg");
+
+	      // 파일을 읽고 사용자에게 전송
+	      FileInputStream fis;
+		try {
+			fis = new FileInputStream(f);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			OutputStream out = response.getOutputStream();
+			BufferedOutputStream bos = new BufferedOutputStream(out);
+			
+			while (true) {
+				int ch = bis.read();
+				if (ch == -1)
+					break;
+				bos.write(ch);
+			}
+			
+			bis.close();
+			fis.close();
+			bos.close();
+			out.close();
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("filedownload error:" + e.getMessage());
+		}
+	
 	}
 	
 	

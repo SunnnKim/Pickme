@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.CvRequestDto;
 import model.FavoriteDto;
+import model.MessageDto;
 import model.MessageParam;
 
 public interface CApplyDao {
@@ -25,5 +26,19 @@ public interface CApplyDao {
 
 	public int getTotalRecordCount(MessageParam param);
 	public int getLikeTotalRecordCount(MessageParam param);
+
+	
+	
+	
+	
+	
+	public List<MessageDto> rcvMsgList(MessageParam param);
+
+	public int getTotalMsgCount(MessageParam param);
+
+	public int unreadCount(int c_seq);
+
+	public MessageDto rMsgDetail(int msgSeq);
+
 
 }

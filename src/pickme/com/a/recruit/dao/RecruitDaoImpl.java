@@ -34,9 +34,6 @@ public class RecruitDaoImpl implements RecruitDao{
 		return count;
 	}
 
-
-
-
 	@Override
 	public boolean insertRecFile(List<FilesDto> list) {
 	// 등록한 첨부파일목록을 디비에 넣기 
@@ -62,22 +59,13 @@ public class RecruitDaoImpl implements RecruitDao{
 
 	@Override
 	public List<RecruitDto> myCurrentRecList(int seq) {
-		return sqlSession.selectList(ns+"getMyRecruit", seq);
+		return sqlSession.selectList(ns+"getMyRecruitNow", seq);
 	}
-
-	/*
+	
 	@Override
-	public int getCountFiles(int ref) {
-		return sqlSession.selectOne(ns+"countFiles", ref);
+	public List<RecruitDto> myPastRecList(int seq) {
+		return sqlSession.selectList(ns+"getMyRecruitPast", seq);
 	}
-
-
-	@Override
-	public List<RecruitDto> getRecAllList() {
-		return sqlSession.selectList(ns+"getRecAllList");
-	}/**/
-
-
 
 
 }
