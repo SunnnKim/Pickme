@@ -13,7 +13,7 @@ if(request.getParameter("fail") != null ){
 			  icon: 'error',
 			  text:'아이디 또는 비밀번호가 틀렸습니다!',
 			  showConfirmButton: false,
-			  timer: 1500
+			  timer: 1500 
 		});
 	</script>
 <%

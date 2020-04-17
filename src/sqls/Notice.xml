@@ -45,7 +45,7 @@ WHERE SEQ = ${seq}
 <!-- 공지사항 첨부파일 불러오기 -->
 <select id="getNoticeFiles" parameterType="int" resultType="model.FilesDto">
 SELECT * FROM FILES
-WHERE REF = ${ref}
+WHERE REF = ${ref} AND USETABLE = 'NOTICE'
 </select>
 <!-- 공지사항 조회수 올리기  -->
 <update id="updateReadcount" parameterType="int">
