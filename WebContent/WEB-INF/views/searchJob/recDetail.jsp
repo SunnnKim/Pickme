@@ -118,12 +118,10 @@
 			 <div id="map" style="width:100%;height:400px; margin-top:10px;"></div>
         </div><!-- rec-location -->
        
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9659e321755104e19052e54a7fbe78a4&libraries=services"></script>
+<!-- Kakao Map Api -->
+<%@include file="../../../../api/kakaoMap.jsp" %>
 <script>
 	
-	$("#recruitDetailButton1").on("click", function(){
-		alert("지원하기 버튼");
-	});
 
 	$("#recruitDetailButton2").on("click", function(){
 		alert("메시지보내기 클릭");
@@ -279,3 +277,4 @@
 </script>
 
 <c:import url="../../../include/footer.jsp"/> 
+<%@include file="../../../include/applyModal.jsp"%> 

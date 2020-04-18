@@ -75,7 +75,7 @@ public class CustomerController {
 			// download 경로
 			// tomcat
 			String fupload = request.getServletContext().getRealPath("/upload/notice");
-			
+			System.out.println("Download filename: " + filename);
 			File downloadFile = new File(fupload + "/" + filename);
 			
 			model.addAttribute("downloadFile", downloadFile);

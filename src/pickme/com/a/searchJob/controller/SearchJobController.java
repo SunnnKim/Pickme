@@ -9,7 +9,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,11 +23,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import model.AMemberDto;
 import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeDto;
 import pickme.com.a.searchJob.service.SearchJobService;
 
 @Controller
@@ -144,5 +152,46 @@ public class SearchJobController {
 			System.out.println("filedownload error:" + e.getMessage());
 		}
 	
+	}
+	
+	
+	
+	// @@@@@ 이력서 지원하기 @@@@@@ 
+	// 나의 이력서 불러오기 
+	@ResponseBody
+	@RequestMapping(value="getMyResume.do", method=RequestMethod.POST)
+	public Object getMyResume(String memberSeq, HttpSession session) {
+		AMemberDto loginuser = (AMemberDto) session.getAttribute("loginuser");
+		if(loginuser == null) {
+			return "fail";
+		}
+		int seq = loginuser.getSeq();
+		System.out.println("memberseq: " + seq);
+		
+		// 리스트에 담기 
+		List<ResumeDto> myResumes = serv.getMyResumes(seq);
+		
+		// 리턴값 : map 으로 담아 프론트에 보내기  
+        Map<String, Object> retVal = new HashMap<String, Object>();
+        retVal.put("myResumes", myResumes);
+
+        return retVal;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="insertResume.do",method=RequestMethod.POST)
+	public String insertResume( @RequestParam(required = false) MultipartFile file, ResumeDto resume) {
+		// 파일인경우 
+		if(file != null ) {
+			System.out.println(file.getOriginalFilename());
+		}
+		//  파일이 아닌 경우 
+		else {
+			System.out.println(resume);
+			// 지원서 전체 불러오기 
+			
+		}
+		
+		return "success";
 	}
 }

@@ -1,3 +1,5 @@
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.net.URLDecoder"%>
 <%@page import="java.util.List"%>
 <%@page import="model.FilesDto"%>
 <%@page import="model.NoticeDto"%>
@@ -32,9 +34,9 @@
 	        		FilesDto file = files.get(i);
         	%>
 		        <div class="files">
-		          <a href="noticeFileDownload.do?filename=<%=file.getNewname()%>">
+		          <a href="noticeFileDownload.do?filename=<%= URLEncoder.encode(file.getNewname())%>">
 		            <i class="far fa-file-alt"></i>
-		          	<%= file.getOriginname()%>
+		          	<%=file.getOriginname()%>
 		          </a>
 		        </div>
         		<%

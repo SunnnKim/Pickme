@@ -80,6 +80,19 @@
 	<!-- 해당 게시물 첨부파일 갯수 알아오기 -->
 	<select id="countFiles" parameterType="int" resultType="int">
 		SELECT COUNT(*) FROM FILES WHERE REF=#{ref}
-	</select> 
+	</select>
 	
+	
+	
+	<!-- @@@@ 지원하기부분 @@@@ -->
+	<!-- 이력서 목록 불러오기 -->
+	<select id="getMyResumes" parameterType="int" resultType="model.ResumeDto">
+	SELECT SEQ, NAME FROM RESUME
+	WHERE MEMSEQ = ${seq} AND DEL != 1
+	</select>
+	<!-- 제출할 지원서 불러오기  -->
+	<select id="getApplyResume" parameterType="model.ResumeDto" resultMap="model.ResumeDto">
+	SELECT * FROM RESUME
+	WHERE SEQ = ${seq} AND MEMSEQ = ${memSeq}
+	</select>
  </mapper>

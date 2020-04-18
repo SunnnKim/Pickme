@@ -171,6 +171,7 @@ public class NoticeController {
 		// 공지사항 등록 후 ref(그룹번호) 불러오기  
 		if( !noticeFile[0].getOriginalFilename().equals("") && noticeFile[0] != null ) noticeDto.setFiles(noticeFile.length);
 		else noticeDto.setFiles(0);
+		System.out.println("file 개수 : " + noticeDto.getFiles());
 		int ref = service.insertNotice(noticeDto);
 		
 		// 첨부파일용 파일 테이블에 저장할 리스트 만들기 

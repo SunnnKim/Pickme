@@ -5,9 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- 헤더호출 -->
 <c:import url="../../../include/header.jsp"/> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!--font-awesome-->
-<script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
   <form method="post">
   	<input type="hidden" name="seq" value="${recDto.seq }">
   	<input type="hidden" name="comSeq" value="${recDto.comSeq }">

@@ -6,6 +6,7 @@ import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeDto;
 
 public interface SearchJobService {
 	public List<RecruitDto> getRecAllList(RecruitParam param);
@@ -23,4 +24,8 @@ public interface SearchJobService {
 	
 	// 기업 분야,주소 받아오기
 	public CMemberDto getAddr(int seq);
+	
+	// @@@@@ 지원하기 @@@@@
+	// 나의 이력서 불러오기 
+	public List<ResumeDto> getMyResumes(int seq);
 }

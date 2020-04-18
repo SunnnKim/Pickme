@@ -63,39 +63,6 @@ document.querySelector('#com-login-btn').onclick = ()=>{
 }
 </script>
 
-<script>
-
-
-/* $('#com-login-btn').submit(function(e){
-	
-	e.preventDefault();
-	
-	if(조건 1) {
-		return false;
-	}
-	...
-	return true;
-    alert('로그인');
-    var login = {
-        email:$("input[name=email").val(),
-        pwd: $('input[name=pwd').val()
-    }
-    $.ajax({
-        url:'/login/logincheck.do',
-        type:'post',
-        data:login,
-        success: function( data ){
-            alert('success')
-        }, error: function ( err ){
-            alert('로그인에 실패했습니다.');
-        }
-
-    });
-})
- */
-
-</script>
-
 <%@include file ="../../../include/footer.jsp" %>
 <style>
 

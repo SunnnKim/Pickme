@@ -10,6 +10,7 @@ import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeDto;
 
 @Repository
 public class SearchJobDaoImpl implements SearchJobDao{
@@ -47,6 +48,11 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	@Override
 	public CMemberDto getAddr(int seq) {
 		return sqlSession.selectOne(ns+"getAddr", seq);
+	}
+
+	@Override
+	public List<ResumeDto> getMyResumes(int seq) {
+		return sqlSession.selectList(ns + "getMyResumes", seq);
 	}
 
 
