@@ -91,7 +91,7 @@
 	WHERE MEMSEQ = ${seq} AND DEL != 1
 	</select>
 	<!-- 제출할 지원서 불러오기  -->
-	<select id="getApplyResume" parameterType="model.ResumeDto" resultMap="model.ResumeDto">
+	<select id="getApplyResume" parameterType="model.ResumeDto" resultType="model.ResumeDto">
 	SELECT * FROM RESUME
 	WHERE SEQ = ${seq} AND MEMSEQ = ${memSeq}
 	</select>
