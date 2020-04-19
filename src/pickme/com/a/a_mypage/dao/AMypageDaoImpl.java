@@ -13,15 +13,23 @@ public class AMypageDaoImpl implements AMypageDao{
 	SqlSession sqlSession;
 	String ns = "Amember.";
 	
+	// 프로필 정보 보여주기
+	@Override
+	public AMemberDto profileSelect(int seq) {		
+		return sqlSession.selectOne(ns + "profileSelect", seq);		
+	}	
 	
+	// 프로필 업로드
 	@Override
 	public boolean profileUpdate(AMemberDto dto) {
 		return sqlSession.update(ns + "profileUpdate", dto) > 0 ? true : false;
 	}
+
 	
 	
 	
-	// 프로필
+	
+	
 	
 
 }

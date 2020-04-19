@@ -955,16 +955,14 @@ span.body{color: #333;width: calc(100% - 80px); font-size: 13pt;}
 .profileWrap .filebox label:hover {opacity:1;}
 
 /* imaged preview */
-.filebox .upload-display {
-  position:absolute; top:0; left:0; width:250px; height:250px;
-  z-index:2; overflow: hidden; border-radius:50%;
-}
-
-.filebox .upload-display img {
+.filebox img#uploadThumb {
+	position:absolute; top:0; left:0;
+	z-index:2; overflow: hidden; 
 	display: block;
 	max-width: 250px;
 	width: 100%;
 	height: 250px;
+	border-radius:50%;
 }
 
 .aMyinfo {position:relative; float:left; width:800px; padding-left:40px; padding-top:15px;}

@@ -17,6 +17,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import model.AMemberDto;
 import pickme.com.a.a_mypage.service.AMypageService;
 import pickme.com.a.login.service.LoginService;
-import pickme.com.a.util.FUpUtil;
 
 @Controller
 @RequestMapping(value = "/a_mypage")
@@ -39,14 +39,24 @@ public class AMypageController {
 	
 	// 프로필
 	@RequestMapping(value = "profile.do")
-	public String profileView() {
+	public String profileView(Model model, HttpSession session) {
+		
+		int seq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		model.addAttribute("dto", service.profileSelect(seq));
+
+		System.out.println("프로필 시퀀스 : " + seq);
+		
 		return "a_mypage/profile";
 	}
 	
 	// 프로필 수정
 	@ResponseBody
 	@RequestMapping(value = "profileUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String profileUpdate(AMemberDto dto, Model model, HttpSession session, MultipartFile file, HttpServletRequest request ) {
+	public String profileUpdate(@ModelAttribute AMemberDto dto, Model model, HttpSession session, MultipartFile file, HttpServletRequest request ) {
+		
+		// session에서 seq 불러오기 
+		int seq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		
 		// 저장 경로 불러오기 
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/amember");
 		
@@ -54,18 +64,23 @@ public class AMypageController {
 		
 		if(file != null ) {	// 파일이 있는 경우
 			// 파일이름 설정
-			String originname = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-			System.out.println(originname);
-			// 바꿀이름
-			String newFilename = "email@naver" + originname;
-			System.out.println(newFilename);
+			String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+			System.out.println("파일확장자 - "+fileExtension);			
 			
-			// 파일 실제로 업로드 하부분
+			// 바꿀이름
+			String newFilename = seq + fileExtension;
+			System.out.println("NEW FILE NAME - " + newFilename);
+			
+			// 파일 실제로 업로드 하는부분
 			File uploadFile = new File(uploadPath + "/" + newFilename);
+			
+			dto.setProfileName(newFilename);
+			
 			
 			try {
 				// 실제 파일을 지정 폴더에 업로드 함 
 				FileUtils.writeByteArrayToFile(uploadFile, file.getBytes());
+				System.out.println("실제 파일을 지정 폴더에 업로드 완료");
 				
 			} catch (IOException e) {
 				e.getMessage();
@@ -75,16 +90,9 @@ public class AMypageController {
 		}
 		boolean success = true;
 		
-		//여기에 입력
-		//= service.profileUpdate(dto);
-		//
-		
-		
-		// 파일 디비 작성
-		// 세션은 일단.....미지의세계로
-		
-//		AMemberDto loginuser = loginService.updateSession(dto.getEmail());
-//		session.setAttribute("loginuser", loginuser);
+		// 프로필 업데이트 db
+		service.profileUpdate(dto);
+
 		return success + "";
 		
 	}
