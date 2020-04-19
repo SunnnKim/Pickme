@@ -20,13 +20,15 @@ public class FUpUtil {
 		
 		if(f.indexOf('.') >= 0) {	// 확장자명이 존재함
 			fpost = f.substring( f.indexOf('.') );	// .txt
-			filename = new Date().getTime() + fpost; // 4322445235.txt			
+			filename = new Date().getTime() + "__" + f; // 4322445235__originalName.txt	(언더바두개)	
 		}
 		else {	// 확장자명이 없음
-			filename = new Date().getTime() + ".back";
+			filename = new Date().getTime() + "__" + f + ".back";
 		}
 		return filename;
 	}
+	
+	
 
 }
 

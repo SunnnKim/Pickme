@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import model.CvRequestDto;
 import model.FavoriteDto;
+import model.MessageDto;
 import model.MessageParam;
 import pickme.com.a.c_apply.dao.CApplyDao;
 
@@ -40,6 +41,12 @@ public class CApplyServiceImpl implements CApplyService{
 	public List<CvRequestDto> requestLike(int c_seq) {
 		return cApplyDao.requestLike(c_seq);
 	}
+	
+	@Override
+	public List<CvRequestDto> requestLike(MessageParam param) {
+		return cApplyDao.requestLike(param);
+	}
+
 
 	@Override
 	public boolean addLike(FavoriteDto dto) {
@@ -52,7 +59,7 @@ public class CApplyServiceImpl implements CApplyService{
 	}
 
 	@Override
-	public boolean requestCancel(String cv_seq) {
+	public int requestCancel(String cv_seq) {
 		return cApplyDao.requestCancel(cv_seq);
 	}
 
@@ -60,7 +67,42 @@ public class CApplyServiceImpl implements CApplyService{
 	public int getTotalRecordCount(MessageParam param) {
 		return cApplyDao.getTotalRecordCount(param);
 	}
+
+	@Override
+	public int getLikeTotalRecordCount(MessageParam param) {
+		return cApplyDao.getLikeTotalRecordCount(param);
+	}
+
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public List<MessageDto> rcvMsgList(MessageParam param) {
+		return cApplyDao.rcvMsgList(param);
+	}
+
+	@Override
+	public int getTotalMsgCount(MessageParam param) {
+		return cApplyDao.getTotalMsgCount(param);
+	}
+
+	@Override
+	public int unreadCount(int c_seq) {
+		return cApplyDao.unreadCount(c_seq);
+	}
+
+	@Override
+	public MessageDto rMsgDetail(int msgSeq) {
+		return cApplyDao.rMsgDetail(msgSeq); 
+	}
 	
 	
 	

@@ -36,14 +36,14 @@
 		totalPageCount++;
 	}
 	
-	System.out.println("totalRecordCount: " + totalRecordCount);
+	System.out.println("totalRecordCount [전체 글의 수] : " + totalRecordCount);
 	
-	// 시작페이지	[1]	[11] [21]
-	int screenStartPageIndex = ((pageNumber + 1) / pageCountPerScreen) * pageCountPerScreen;		
+	// 시작페이지	[1]	[11] [21]	글 100개  / 200개 일때
+	int screenStartPageIndex = ( (pageNumber + 1) / pageCountPerScreen ) * pageCountPerScreen;		
 	//			0			 =			0			 10						10			
-	System.out.println("screeStartPageIndex: " + screenStartPageIndex);	
-			
-			
+	System.out.println("screenStartPageIndex [시작페이지] : " + screenStartPageIndex);	
+
+	
 	// 끝 페이지     [10] [20] [30]
 	int screenEndPageIndex = (((pageNumber + 1) / pageCountPerScreen) * pageCountPerScreen) + pageCountPerScreen;	
 	//			10					0				10                       10 				10
@@ -53,19 +53,20 @@
 		screenEndPageIndex = totalPageCount;
 	}
 	
-	System.out.println("totalPageCount: " + totalPageCount);
-	System.out.println("screenEndPageIndex: " + screenEndPageIndex);
+	System.out.println("totalPageCount [총 페이지 갯수] : " + totalPageCount);
+	System.out.println("screenEndPageIndex [마지막 페이지의 index] : " + screenEndPageIndex);
 	
 	// 0 ~ 9 -> 1 ~ 10
-	if((pageNumber + 1) % pageCountPerScreen == 0){
-		screenStartPageIndex = (((pageNumber + 1) / pageCountPerScreen) * pageCountPerScreen) - pageCountPerScreen;
+	
+	if( (pageNumber + 1) % pageCountPerScreen == 0 ){
+		screenStartPageIndex = ( ( (pageNumber + 1) / pageCountPerScreen ) * pageCountPerScreen ) - pageCountPerScreen;
 		screenEndPageIndex = pageNumber + 1;	// 0 -> 1 		9 -> 10
 	}
 	
 	
 	
-	System.out.println("screenStartPageIndex:" + screenStartPageIndex);
-	System.out.println("screenEndPageIndex:" + screenEndPageIndex);
+	System.out.println("screenStartPageIndex [시작페이지] : " + screenStartPageIndex);
+	System.out.println("screenEndPageIndex [마지막 페이지의 index] : " + screenEndPageIndex);
 %>
 
 <!-- paging 출력 -->
@@ -87,13 +88,12 @@
 	
 	<!-- [1] 2 [3] --> 
 	
-	
+	<ul>
 	<% if(screenStartPageIndex == screenEndPageIndex) { %>
-		<ul><li class="active"><span>1</span></li></ul>
+		<li class="active"><span>1</span></li>
 	<% }
 	for(int i = screenStartPageIndex; i < screenEndPageIndex; i++){
 		if(i == pageNumber){	// 현재 페이지	2 	%>
-	<ul>
 			<li class="active"><span><%=i + 1 %></span></li>
         <%} else { %>
 			<li ><a href="#none" onclick="goPage(<%=i %>)"><%=i + 1 %></a></li> 

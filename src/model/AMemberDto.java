@@ -16,8 +16,8 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 	private String profilePath;	// 프로필이미지 경로 
 	private String profileName;	// 프로필이미지 이름 
 	private String introduce;	// 자기 소개 
-	private String job;			// 직업 
-	private String career;		// 분야 
+	private String job;			// 직군/직업
+	private String career;		// 경력 
 	private String hashtag;		// 해시태그
 	private int mainResume;  	// 대표 이력서
 	private int del;			// 삭제 여부 
@@ -119,8 +119,19 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 		this.email = email;
 		this.password = password;
 		this.name = name;
-	}
+	}	
 	
+	public AMemberDto(String phone, String profilePath, String profileName, String introduce, String job, String career,
+			String hashtag) {
+		super();
+		this.phone = phone;
+		this.profilePath = profilePath;
+		this.profileName = profileName;
+		this.introduce = introduce;
+		this.job = job;
+		this.career = career;
+		this.hashtag = hashtag;
+	}
 
 	public AMemberDto(int seq, String email, String name, String password, String phone, String profilePath,
 			String profileName, String introduce, String job, String career, String hashtag, int mainResume, int del,

@@ -72,5 +72,10 @@ public class AdminController {
 		return "admin/companyMember";
 	}
 	
+	// 탈퇴관리 
+	@RequestMapping(value = "comWithdrawal.do",  method= {RequestMethod.GET,RequestMethod.POST})
+	public String comWithdrawal( Model model) {
+		return "admin/companyWithdrawal";
+	}
 	
 }

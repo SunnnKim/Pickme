@@ -81,13 +81,15 @@ ul.pmList li button i.unliked{
 } */
 
 button.likebtn{
-    width: 65px;
-    height: 32px;
-    border-radius: 3px;
+	margin-top:7px;
+    width: 71px;
+    height: 39px;
+    border-radius: 15px;
     position: absolute;
-    background: rgba(0,0,0,.4); 
-    color: #fff;
-    font-size: 12px;
+   /*  background: rgba(0,0,0,.4);  */
+    color: #000;
+    border: 1px solid #3b467c;
+    font-size: 18px;
     font-weight: 400;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
@@ -99,10 +101,10 @@ button.likebtn{
     outline: none;
 }
 
- button i.unliked{
+button i.unliked{
     outline: none;
     margin-right: 6px;
-    opacity:0.4;
+    opacity:0.1;
 }
 
  button i.liked{
@@ -132,7 +134,7 @@ p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
 .subTit ul.depth02 {}
 .subTit ul.depth02 li {float:left; margin-left:40px; line-height:40px;}
 .subTit ul.depth02 li:first-child{margin-left:0;}
-.subTit ul.depth02 li a {font-size:18px; color:#ddd; transition:all 0.2s ease-in-out;}
+.subTit ul.depth02 li a {font-size:18px; color:#999; transition:all 0.2s ease-in-out;}
 .subTit ul.depth02 li:hover a {color:#333;}
 .subTit ul.depth02 li.on a {color:#333;}
 .subCont {width:100%; min-height:600px; padding:35px 0 100px;}
@@ -193,7 +195,7 @@ p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
 .bbs-list .important .row {background-color:#f6faf8;}
 .bbs-list .important .title {font-weight:500;}
 
-.table-bbs {margin-top:10px;}
+.table-bbs {margin-top:30px;}
 .table-bbs thead th {padding:17px 30px; color: #000;}
 .table-bbs tbody td {padding:17px 30px; color: #767676;}
 .table-bbs a {display: block;}
@@ -218,8 +220,6 @@ p.copyright {font-size:14px; color:#fff; line-height:60px; font-weight:300;}
 
 /* table */
 table{border-collapse:collapse;border-spacing:0; width:100%;}
-
-
 
 .agl tbody td {text-align:left;}
 .table-default {position:relative; font-size:15px; border-top:1px solid #aaa;}
@@ -390,6 +390,7 @@ button.btn-cancel {
     font-size: 15px;
     cursor: pointer;
     /* opacity: 0.8; */
+    margin: -4px;
 }
 
 button.btn-resumeOpen {
@@ -403,6 +404,7 @@ button.btn-resumeOpen {
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
+    margin: -4px;
 }
 
 
@@ -439,6 +441,8 @@ button.btn-resumeOpen {
 .comeMsg .from {width:100%; padding:10px 15px; border-bottom:1px solid #ddd;} 
 .comeMsg .msg-content {padding:15px; min-height:300px; background:#eee;}  
 #repl-con {padding:10px;}
+span.unread-msg{text-align:left;color:#555;font-weight:600;}
+span.read-msg{text-align:left;color:#777;}
 
 
 /* apply - 메시지보내기 팝업 */
@@ -757,7 +761,6 @@ span.ess {color: red; font-weight: bold;}
 .subCont .recTop div.infoImg {width: 500px; float: left; max-height: 400px;}
 .subCont .recTop div.infoImg:last-child{margin-right: 0;} 
 .subCont .recTop div.infoCom{ height: 400px; float: right; width: 520px;}
-
 /* =========detail image slide css============== */
 .subCont .recTop .slider {
     max-width: 500px;
@@ -853,18 +856,56 @@ span.ess {color: red; font-weight: bold;}
 }
 /* ===============detail image slider end ================= */
 .subCont .rec-content{}
+.subCont .rec-content div.impt{margin-bottom: 20px;}
+.subCont .rec-content div.content{margin-top:30px; margin-bottom: 40px;}
 .subCont .rec-location{}
-
-.subCont .recTop .infoCom table{margin-top: 5px; margin-bottom: 10px;}
-.subCont .recTop .infoCom table td{padding-bottom: 10px;padding-left: 5px;}
-.subCont .recTop .infoCom .t-icon{}
-.subCont .recTop .infoCom .t-label{width:65px; font-size: 14px;}
-.subCont .recTop .infoCom .t-content{}
-
+.subCont .recTop .infoCom table{margin-top: 5px; margin-bottom: 7px;}
+.subCont .recTop .infoCom table td{padding-bottom: 10px;padding-left: 10px;}
+.subCont .recTop .infoCom .t-icon{font-size: 18px;}
+.subCont .recTop .infoCom .t-label{width: 100px;font-size: 18px;}
+.subCont .recTop .infoCom .t-content{font-size: 18px;}
+.subCont .recTop .infoCom .companyInfo{/*  border: 1px solid #ccc; */ width: 100%; height: 100px;}
+.subCont .recTop .infoCom .companyInfo button.btnleft{
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+    margin-left: 10px;
+    float: left;
+}
+.subCont .recTop .infoCom .companyInfo .btnleft p.comP{font-size: 20px;font-weight: 600;}
+.subCont .recTop .infoCom .companyInfo .btnleft p.comT{color: #999; font-weight: 500;font-size: 17px;}
+.subCont .recTop .infoCom .companyInfo .btnright{
+	display: flex;
+    margin-top: 20px;
+    text-align: right;
+    margin-right: 21px;
+}
+.subCont .recTop .infoCom .companyInfo button.followButton{
+	width: 100%;
+    margin-top: 14px;
+    margin-left: 103px;
+    border-radius: 3px;
+    background: #fff;/*  #3b467c; */
+    color: #3b467c;
+    border: 1px solid #3b467c;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding: 9px 20px;
+}
+.subCont .recTop .infoCom .companyInfo .logo{
+	background-position: 50%;
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    -webkit-box-shadow: 0 0 1px 0 rgba(0,0,0,.1);
+    box-shadow: 0 0 1px 0 rgba(0,0,0,.1);
+    margin-right: 15px;	
+}
 .subCont .recTop .infoCom span.likes{
+	display: inline-block;
     vertical-align: middle;
     height: 10px;
-   
     margin-right: 12px;
     padding: 0 15px;
 }
@@ -872,10 +913,256 @@ span.ess {color: red; font-weight: bold;}
 .subCont .rec-content{ border-top: 1px solid #ccc;}
 .subCont .rec-content {}
 
+/* ----- 지도 css ----- */
+.rec-location {overflow:hidden;width:100%;height:300px;position:relative;}
+#btnRoadview,  #btnMap {position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;}
+#btnRoadview:hover,  #btnMap:hover{background-color: #fcfcfc;border: 1px solid #c1c1c1;}
+.rec-location.view_map #mapWrapper {z-index: 10;}
+.rec-location.view_map #btnMap {display: none;}
+.rec-location.view_roadview #mapWrapper {z-index: 0;}
+.rec-location.view_roadview #btnRoadview {display: none;}
+.rec-location {border-top:1px solid #ccc;}
+span.header{color: #999; width: 80px; font-size: 13pt; font-weight:600; margin: 20px; margin-left: 0;}
+span.body{color: #333;width: calc(100% - 80px); font-size: 13pt;}
 /* ============ 채용디테일 끝 ============ */
 
 
+/* 일반회원 마이페이지 프로필 */
+.aMypage-wrap {}
+.aMypage_top{}
+.profileWrap {position:relative; float:left; width:250px;}
+.profileWrap .profile {position:relative; width:250px; height:250px; border-radius:50%; background:#eaeaea; overflow:hidden;}
+.profileWrap .profile i {position:absolute; top:42px; left:33px; font-size:210px; color:#fff; z-index:1;}
+.profileWrap .profile #imgs-wrap {position:absolute; top:0; left:0; width:100%; height:250px; z-index:2;}
+.profileWrap .profile #imgs-wrap p {width:100%; height:250px; background-size:cover !important; background-position:50% !important;}
+.profileWrap .filebox {}
+.profileWrap .filebox input[type="file"] {
+	position: absolute;
+	width: 0px;
+	height: 0px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip:rect(0,0,0,0);
+	border: 0;
+}
+.profileWrap .filebox label {
+  position:absolute; top:0; left:0; width:250px; height:250px;
+  z-index:3; background:rgba(0,0,0,0.6); font-size:65px; color:#fff;
+  text-align:center; line-height: 250px; border-radius:50%;
+  cursor:pointer; opacity:0; transition:all 0.4s ease-in-out;
+}
+.profileWrap .filebox label:hover {opacity:1;}
 
+/* imaged preview */
+.filebox .upload-display {
+  position:absolute; top:0; left:0; width:250px; height:250px;
+  z-index:2; overflow: hidden; border-radius:50%;
+}
+
+.filebox .upload-display img {
+	display: block;
+	max-width: 250px;
+	width: 100%;
+	height: 250px;
+}
+
+.aMyinfo {position:relative; float:left; width:800px; padding-left:40px; padding-top:15px;}
+.aMyinfo h4 {font-size:24px;}
+.aMyinfo p {font-size:18px; color:#333; margin-top:5px; font-weight:500;}
+.aMyinfo p input {border:none; width:100%; outline:none; color:#555; font-size:18px;}
+/* IE10 이상을 위한 css */
+.aMyinfo p input::placeholder {
+  font-size:18px; color:#999;
+  opacity: 1; /* 파이어폭스에서 뿌옇게 나오는 현상을 방지하기 위한 css */
+}
+.aMyinfo p input::-webkit-input-placeholder {
+  font-size:18px; color:#999;
+}
+/* IE */
+.aMyinfo p input:-ms-input-placeholder {
+  font-size:18px; color:#999;
+}
+/* Firefox */
+.aMyinfo p input:-mos-input-placeholder {
+  font-size:18px; color:#999;
+}
+.aMyinfo ul {}
+.aMyinfo ul li {position:relative; line-height:40px; margin-top:17px; overflow:hidden;}
+.aMyinfo ul li strong {display:block; float:left; width:50px; font-size:17px;}
+.aMyinfo ul li input {color:#555; outline:none; display:block; float:left; width:710px; border:none; height:40px; border-bottom:1px solid #ddd;}
+.aMyinfo ul li select {color:#555; outline:none; display:block; float:left; width:710px; border:none; height:40px; border-bottom:1px solid #ddd; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
+.aMyinfo ul li select::-ms-expand {display: none;}
+.aMyinfo ul li select.select_cons {width:450px;}
+.aMyinfo ul li select.select_cons#userJob01 {width:250px;}
+.aMyinfo ul li:first-child:before{
+    content: "";
+    top:50%;
+    right:480px;
+    position: absolute;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    border-top: 6px solid #999;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+.aMyinfo ul li:after{
+    content: "";
+    top:50%;
+    right:20px;
+    position: absolute;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    border-top: 6px solid #999;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+}
+.aMyinfo .aMyBtn {position:absolute; top:0; right:0; width:150px; padding:10px 0; border:1px solid #ddd; text-align:center;}
+.aMyinfo .aMyBtn a {display:block; width:100%; height:100%;}
+
+.aMycont {margin-top:40px;}
+.aMycont h5 {font-size:17px; margin-top:20px;}
+.aMycont p {font-size:15px; margin:3px 0 10px; color:#999;}
+.aMycont textarea {color:#555; outline:none; display:block; width:100%; height:200px; padding:20px; border:1px solid #ddd;}
+.aMycont .inhash {width:100%;}
+.aMycont .inhash button.hashbtn{
+    background-color: rgb(119, 119, 119);
+    color: #fff;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 3px;
+
+}
+.aMycont .hashtagWrap {width:100%; overflow:hidden; margin-top: 10px;}
+.aMycont .hashtagWrap input {display:block; float:left; color:#555; width:950px; height:40px; padding:0 20px; border:1px solid #ddd; outline:none;}
+.aMycont .hashtagWrap button {display:block; float:left; width:100px; height:40px; background:#333; border:1px solid #333; color:#fff; outline:none;}
+.aMycont .inhash .hashbtn i.fas{margin-left:5px;}
+.aMycont > button {position:relative; display:block; width:200px; height:50px; margin:40px auto 0; background:#4f6eff;color:#fff;}
+
+/* 이력서 관리 */
+#resumeListWrap{}
+.resume-list {}
+.resume-list > div {float:left; width:247.5px; height:200px; border:1px solid #ddd; margin-right:20px; margin-top:20px;}
+.resume-list > div:nth-child(4n) {margin-right:0;}
+.resume-list > div:nth-child(4-n) {margin-top:0;}
+.resume-list .resume-item {}
+.resume-list .resume-item a.new_resume {display:block; width:100%; height:198px;}
+.resume-list .resume-item a.new_resume > div {display:table-cell; width:245.5px; height:198px; vertical-align:middle; text-align:center;}
+.resume-list .resume-item a.new_resume i {padding:18px 0 0 3px; color:#fff; font-size:41px; position:relative; display:inline-block; width:100%; height:74px; z-index:1;}
+.resume-list .resume-item a.new_resume i:after {position:absolute; top:0; left:50%; margin-left:-40px; width:80px; height:80px; content:''; background:#304edf; border-radius:50%; z-index:-1;}
+.resume-list .resume-item a.new_resume span {display:inline-block; margin-top:18px; font-size:17px;}
+
+.resume-list .resume-item .dropZone {width:100%; height:198px; cursor:pointer;}
+.resume-list .resume-item .dropZone > div {display:table-cell; width:245.5px; height:198px; vertical-align:middle; text-align:center;}
+.resume-list .resume-item .dropZone i {padding:18px 0 0 3px; color:#757575; font-size:41px; position:relative; display:inline-block; width:100%; height:74px; z-index:1;}
+.resume-list .resume-item .dropZone i:after {position:absolute; top:0; left:50%; margin-left:-40px; width:80px; height:80px; content:''; background:#eaeaea; border-radius:50%; z-index:-1;}
+.resume-list .resume-item .dropZone span {display:inline-block; margin-top:18px; font-size:17px;}
+.resume-list .resume-item .dropZone input {display:none;}
+
+.resume-list .resume-preview {height:160px;}
+.resume-list .resume-preview a {display:block; width:100%; height:100%; padding:13px 20px;}
+.resume-choice {text-align:right;}
+.resume-choice label {display: inline-block;}
+.resume-choice label input {width:0; height:0; overflow:none;}
+.resume-choice label i{cursor:pointer;}
+.resume-choice label i.fa-square-o {color:#ddd;}
+.resume-choice label i.fa-check-square-o {color:#4f6eff;}
+label.radioBtn i.fa-square-o {display:inline-block;}
+label.radioBtn i.fa-check-square-o {display: none;}
+label.radioBtn.active i.fa-square-o {display:none;}
+label.radioBtn.active i.fa-check-square-o {display: inline-block;}
+
+.resume-list .resume-preview h3 {font-size:18px; margin-top:8px; color:#999; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.resume-list .resume-preview p {color:#999; font-size:15px; margin-top:5px; font-weight:bold;}
+.resume-item.complete h3, .resume-item.complete p {color:#333;}
+
+.resume-info {width:100%; height:38px; padding:0 15px 0 20px; border-top:1px solid #ddd;}
+.resume-info p {color:#999; float:left; font-size:14px; line-height:37px; font-weight:bold;}
+.resume-info .resume-menu {position:relative; float:right; padding:7px 0; cursor:pointer;}
+.resume-info .resume-menu .resume-menuBtn {text-align:center; transform:rotate(90deg);}
+
+
+.resume-info .resume-menu .resume-menuBtn span {display:inline-block; width:4px; height:4px; border-radius:50%; background:#bbb;}
+.resume-info .resume-menu .resume-menuBtn span:first-child {}
+.resume-menu ul {display:none; position:absolute; top:25px; left:-120px; width:150px; height:84px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3);}
+.resume-menu ul li {line-height:28px; font-size:13px;}
+.resume-menu ul li a {display:block; width: 100%; height:100%; padding:0 15px; transition:all 0.1s ease-in-out;}
+.resume-menu ul li:hover a {background:#4f6eff; color:#fff;}
+
+/* 이력서 작성 및 수정 */
+#resumeWrite_Wrap {}
+.rsm_top {position:relative;}
+.rsm_top .rsm-downBtn {position:absolute; top:0; right:0;}
+.rsm_top .rsm-downBtn button {display:block; width:50px; padding:10px 0; border:1px solid #ddd; outline:none;}
+.rsm_top h3 {font-size:30px; margin-bottom:30px; font-weight:500;}
+.rsm_top input {border:none; width:100%; height:30px; font-size:16px; margin-top:5px; outline:none; color:#555;}
+.rsm_top textarea {width:100%; height:100px; margin-top:10px; margin-top:30px; border:none; color:#555; outline:none; resize:none;}
+.rsm_top input::placeholder {color:#999;}
+.rsm_top textarea::placeholder {color:#999;}
+
+.rsmCont {margin-top:20px;}
+.rsmCont h4 {width:100%; font-size:17px; padding:30px 0 10px; font-weight:normal; border-bottom:1px solid #bbb;}
+.rsmCont .rsm_addBtn {color:#176fd8; font-size:18px; height:86px; line-height:85px; border-bottom:1px solid #eaeaea; cursor:pointer;}
+.rsmCont .rsm_add {}
+.rsm_addCont {display:none; position:relative; width:100%; padding:30px; color:#555;}
+.rsm_addCont:hover{background:#f7f7f7;}
+.rsm_addCont .rsm_left {float:left; width:280px;}
+.rsm_addCont .rsm_left .rsm_date {height:30px;}
+.rsm_date input {display:inline-block; width:34px; color:#555; background:none; border:none; outline:none;}
+.rsm_date span {display:inline-block; margin-right:3px;}
+.rsm_date span:nth-of-type(2) {vertical-align:-6px; margin-left:-7px;}
+.rsm_date span.lang:nth-of-type(2) {vertical-align:0; margin-left:-7px;}
+.rsm_date input::placeholder {color:#999;}
+.rsm_addCont .rsm_left  p {margin-top:5px;}
+.rsm_addCont .rsm_left  p label {cursor:pointer;}
+.rsm_addCont .rsm_left  p input {margin-right:5px; vertical-align: middle;}
+.rsm_addCont .rsm_right {float:left; width:710px; padding-right:30px;}
+.rsm_addCont .rsm_right input {display:block; width:100%; color:#555; background:none; outline:none; border:none;}
+.rsm_addCont .rsm_right input::placeholder {color:#999;}
+.rsm_addCont .rsm_right input.tit {font-size:20px; font-weight:bold;}
+.rsm_addCont .rsm_right input.desc {margin-top:5px;}
+.rsm_addCont .rsm_delete {position:absolute; top:30px; right:30px; color:#999; font-size:20px; line-height:1;}
+.rsm_addCont .rsm_delete i {cursor:pointer;}
+
+.rsm_addCont input[type="radio"], .rsm_addCont input[type="checkbox"] {display:none;}
+.rsm_addCont label input[type="radio"] + span, .rsm_addCont label input[type="checkbox"] + span  {
+	display: inline-block;
+  width:14px; height:14px; border-radius:50%;
+  vertical-align:-1px; margin-right:7px;
+  border:1px solid #b7b7b7;
+  transition: all 0.2s ease-in-out;
+}
+.rsm_addCont label input[type="checkbox"] + span  {
+  vertical-align:-1px; border-radius:0;
+}
+.rsm_addCont label input[type="radio"]:checked + span, .rsm_addCont label input[type="checkbox"]:checked + span   {
+  border:5px solid #4f6eff;
+}
+
+.rsm_addCont h5{font-size:18px; font-weight:normal; line-height:1; color:#555; margin-bottom:10px;}
+.rsm_addCont .lang {}
+.rsm_addCont .lang label {margin-right:30px; cursor:pointer;}
+.rsm_addCont .lang label input{margin-right:10px;}
+.rsm_addCont .lang label span{color:#555;}
+
+.rsm_addCont .level {margin-top:30px;}
+.rsm_addCont .level label {margin-right:20px; cursor:pointer;}
+.rsm_addCont .level label input{margin-right:10px;}
+.rsm_addCont .level label span{color:#555;}
+
+.rsm_addCont .lang_testBtn {color:#176fd8; font-size:16px; padding:30px 0 0; cursor:pointer; font-weight:normal;}
+.rsm_addCont .lang_test {margin-top:20px;}
+.rsm_addCont .lang_test input.desc {display:block; width:100%; color:#555; background:none; outline:none; border:none;}
+.rsm_addCont .lang_test input::placeholder {color:#999;}
+.rsm_addCont .lang_test input.tit {font-size:20px; font-weight:bold;}
+.rsm_addCont .lang_test input.desc {margin-top:5px;}
+.rsm_addCont .lang_test span {color:#555;}
+
+.resumeBtnWrap {width:100%; text-align:center; font-size:0; margin-top:40px;}
+.resumeBtnWrap button {display:inline-block; font-size:15px; margin:0 5px; width:200px; height:50px; background:#4f6eff; border:1px solid #4f6eff; color:#fff; transition:all 0.2s ease-in-out; outline:none;}
+.resumeBtnWrap button:hover {}
 
 
 

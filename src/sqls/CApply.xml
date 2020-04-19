@@ -13,6 +13,7 @@
 	FROM cv_request , a_member ,  C_MEMBER 
 	WHERE cv_request.cseq = #{c_seq} AND cv_request.del = 0 AND cv_request.cancel = 0 AND a_member.seq = cv_request.pseq
 		  AND cv_request.cseq =C_MEMBER.SEQ 
+
 	ORDER BY CV_REQUEST.RDATE DESC
 ]]>
 </select>
@@ -38,14 +39,19 @@
 	
 <select id="requestLike" resultType="model.CvRequestDto">
 <![CDATA[	
-	select cv_request.seq, a_member.seq as pseq, a_member.name, comment, accept, state, cv_request.del
+	select cv_request.seq, a_member.seq as pseq, a_member.name, comment, accept, state, cv_request.del, c_member.email
 		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
 	from cv_request , a_member , c_member , favorite
-	where cv_request.cseq = #{c_seq} and cv_request.del = 0 and a_member.seq = cv_request.pseq AND cv_request.cancel = 0
+	where cv_request.cseq = #{toSeq} and cv_request.del = 0 and a_member.seq = cv_request.pseq AND cv_request.cancel = 0
 		  and cv_request.cseq =c_member.seq and favorite.id = c_member.email and favorite.likepickseq = cv_request.pseq
-	ORDER BY CV_REQUEST.RDATE DESC
 ]]>
+	<if test="sKeyword != null and sKeyword !=''">
+		AND a_member.name LIKE CONCAT('%', #{sKeyword}, '%')
+	</if>
+	ORDER BY cv_request.rdate DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
 </select>
+
 
 <select id="getTotalRecordCount" parameterType="model.MessageParam" resultType="int">
  	SELECT COUNT(*)
@@ -55,6 +61,17 @@
 	AND a.name LIKE CONCAT('%', #{sKeyword}, '%');
 	</if>
 </select>
+
+
+<select id="getLikeTotalRecordCount" parameterType="model.MessageParam" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM cv_request r, a_member a, c_member c, favorite f
+	WHERE r.cseq = #{toSeq} AND r.del = 0 AND r.cancel = 0 AND a.seq = r.pseq AND r.cseq =c.seq AND f.id = c.email and f.likepickseq = r.pseq
+	<if test="sKeyword != null and sKeyword !=''">
+	AND a.name LIKE CONCAT('%', #{sKeyword}, '%');
+	</if>
+</select>
+
 
 
 
@@ -81,6 +98,63 @@
 	SET CANCEL = 1
 	WHERE SEQ = #{cv_seq}
 </update>
+
+
+
+
+
+
+
+
+<!-- 메시지함 -->
+<select id="rcvMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
+	
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, a.NAME
+	FROM (SELECT * FROM MESSAGE WHERE `TO`=#{toSeq}) m, A_MEMBER a
+	WHERE m.FROM = a.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+	
+	<if test="sKeyword != null and sKeyword !=''">
+		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+	ORDER BY m.SDATE DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+	
+</select>
+
+
+
+<select id="getTotalMsgCount" parameterType="model.MessageParam" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM (SELECT * FROM MESSAGE WHERE `TO`=#{toSeq}) m, A_MEMBER a
+ 	WHERE  m.FROM = a.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+	<if test="sKeyword != null and sKeyword !=''">
+	 	AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+</select>
+
+<select id="unreadCount" parameterType="int" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM MESSAGE 
+ 	WHERE `TO` = #{c_seq} AND OPEN = 0 AND DEL = 0 AND DISTINGUISH = 'mem'
+</select>
+
+
+<select id="rMsgDetail" parameterType="int" resultType="model.MessageDto">
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, a.NAME
+	FROM MESSAGE m, A_MEMBER a
+	WHERE m.FROM = a.SEQ AND m.SEQ = #{msgSeq}
+	
+</select>
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -15,7 +15,7 @@ public class LoginDao {
 	SqlSession sqlSession;
 	String namespace = "Login.";
 	
-	// 일반+기업 회원가입 이메일 찾기 
+	// 일반 + 기업 회원가입 이메일 찾기 
 	public String emailCheck(String email) {
 		CMemberDto dto1 = sqlSession.selectOne( namespace + "emailCheckC", new CMemberDto(email));
 		AMemberDto dto2 = sqlSession.selectOne( namespace + "emailCheckA", new AMemberDto(email));
@@ -67,6 +67,11 @@ public class LoginDao {
 	// 기업회원 인증받기
 	public void emailValidateC(CMemberDto member) {
 		sqlSession.update(namespace + "CMemberValidate", member);
+	}
+	
+	// 일반회원 비밀번호 변경시 현재 비밀번호 입력
+	public void amemberChangePwd(AMemberDto member) {
+		
 	}
 	
 }

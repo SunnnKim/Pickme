@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 	
+	`SEQ`          INT              NOT NULL    AUTO_INCREMENT COMMENT '시퀀스 번호', 
+    `EMAIL`        VARCHAR(500)     NULL        COMMENT '이메일', 
+    `NAME`         VARCHAR(100)     NULL        COMMENT '이름', 
+    `PASSWORD`     VARCHAR(100)     NULL        COMMENT '비밀번호', 
+    `PHONE`        VARCHAR(100)     NULL        COMMENT '연락처', 
+    `PROFILEPATH`  VARCHAR(100)     NULL        COMMENT '프로필 사진 경로', 
+    `PROFILENAME`  VARCHAR(300)     NULL        COMMENT '프로필 사진명', 
+    `INTRODUCE`    VARCHAR(500)     NULL        COMMENT '자기소개', 
+    `JOB`          VARCHAR(200)     NULL        COMMENT '직무', 
+    `CAREER`       VARCHAR(2000)    NULL        COMMENT '총 경력사항', 
+    `HASHTAG`      VARCHAR(2000)    NULL        COMMENT '관심사', 
+    `MAINRESUME`   INT              NULL        COMMENT '대표이력서번호', 
+    `DEL`          INT              NULL        COMMENT '탈퇴여부(0/1탈퇴)', 
+    `SIGNDATE`     DATE             NULL        COMMENT '가입일자', 
+    PRIMARY KEY (SEQ)
+    
+    
+    private int seq; 
+	private String email;		// 이메일
+	private String name;		// 이름 
+	private String password;	// 패스워드 
+	private String phone;		// 핸드폰번호 
+	private String profilePath;	// 프로필이미지 경로 
+	private String profileName;	// 프로필이미지 이름 
+	private String introduce;	// 자기 소개 
+	private String job;			// 직군/직업
+	private String career;		// 경력 
+	private String hashtag;		// 해시태그
+	private int mainResume;  	// 대표 이력서
+	private int del;			// 삭제 여부 
+	private String signDate;
+ -->
+<mapper namespace="Amember">
+	<!-- 프로필 정보 업로드 -->
+	<update id="profileUpdate" parameterType="model.AMemberDto">
+		UPDATE A_MEMBER 
+		SET PHONE=#{phone}, PROFILEPATH=#{profilePath}, PROFILENAME=#{profileName},
+			INTRODUCE=#{introduce}, JOB=#{job}, CAREER=#{career}, HASHTAG=#{hashtag}
+		WHERE SEQ=#{seq}
+	</update>
+	
+	<!-- 프로필 정보 뿌려주기 -->
+	
+
+
+</mapper>

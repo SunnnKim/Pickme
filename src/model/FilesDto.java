@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+
+import org.apache.ibatis.type.Alias;
 /*
  CREATE TABLE FILES
 (
@@ -16,6 +18,7 @@ import java.io.Serializable;
     PRIMARY KEY (SEQ)
 ); 
   */
+
 public class FilesDto implements Serializable {
 	private int seq;
 	private String usetable;
@@ -52,8 +55,27 @@ public class FilesDto implements Serializable {
 		this.step = step;
 		this.filetype = filetype;
 	}
+	
+	
+	public FilesDto(String originname, String newname, String path, int ref, int step, String filetype) {
+		super();
+		this.originname = originname;
+		this.newname = newname;
+		this.path = path;
+		this.ref = ref;
+		this.step = step;
+		this.filetype = filetype;
+	}
+	
 
-
+	public FilesDto(String originname, String newname, int ref, int step, String filetype) {
+		super();
+		this.originname = originname;
+		this.newname = newname;
+		this.ref = ref;
+		this.step = step;
+		this.filetype = filetype;
+	}
 
 
 	public int getSeq() {

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Notice">
+<!-- 새로운 공지사항 등록 -->
+<insert id="insertNotice" parameterType="model.NoticeDto">
+	INSERT INTO NOTICE ( TITLE, CONTENT, TYPE, WDATE, DEL, FILES, READCOUNT )
+	VALUES ( #{ title }, #{ content }, #{ type }, SYSDATE(), 0, #{ files }, 0 )
+</insert>
+<!-- 마지막 시퀀스 뽑아내기 -->
+<select id="getLastSeq" resultType="int">
+SELECT  LAST_INSERT_ID()
+</select>
+<!-- 첨부파일있는경우 file 테이블에 집어넣기 -->
+<insert id="insertFiles" parameterType="model.FilesDto">
+INSERT INTO FILES ( USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE )
+VALUES ( 'NOTICE', #{ originname }, #{ newname }, #{path} , 0, #{ref} , #{step}, #{filetype} )
+</insert>
+<!-- 모든 공지사항 불러오기 -->
+<select id="getAllNotice" resultType="model.NoticeDto">
+SELECT * FROM NOTICE 
+WHERE DEL != 1 
+ORDER BY SEQ DESC
+</select>
+<!-- 공지사항 리스트 + 페이징 -->
+<select id="getAllNoticePaging" parameterType="int" resultType="model.NoticeDto">
+SELECT * 
+FROM ( SELECT * FROM NOTICE 
+		WHERE DEL != 1
+		ORDER BY SEQ DESC ) NOTICE 
+LIMIT 10 OFFSET ${pageNumber}
+</select>
+<!-- 볼수 있는 전체 글의 개수 구하기  -->
+<select id="countAllContent" resultType="int">
+SELECT COUNT(*) FROM NOTICE
+WHERE DEL != 1
+</select>
+<!-- 공지사항 디테일 불러오기 -->
+<select id="getNoticeDetail" parameterType="int" resultType="model.NoticeDto">
+SELECT * FROM NOTICE
+WHERE SEQ = ${seq}
+</select>
+<!-- 공지사항 첨부파일 불러오기 -->
+<select id="getNoticeFiles" parameterType="int" resultType="model.FilesDto">
+SELECT * FROM FILES
+WHERE REF = ${ref} AND USETABLE = 'NOTICE'
+</select>
+<!-- 공지사항 조회수 올리기  -->
+<update id="updateReadcount" parameterType="int">
+UPDATE NOTICE
+SET READCOUNT = READCOUNT + 1
+WHERE SEQ = ${seq}
+</update>
+<!--  공지사항 수정하기  --> 
+<update id="updateNotice" parameterType="model.NoticeDto">
+UPDATE NOTICE
+SET TYPE = #{type}, TITLE = #{title}, CONTENT = #{content}, FILES = ${files}, WDATE = NOW()
+WHERE SEQ = ${seq}
+</update>
+<!-- 공지사항 파일 디비데이터 삭제하기 -->
+<delete id="deleteNoticeFiles" parameterType="int">
+DELETE FROM FILES
+WHERE REF = ${ref} 
+</delete>
+<!-- 공지사항 삭제하기 -->
+<update id="deleteNoticeList" parameterType="int">
+UPDATE NOTICE 
+SET DEL = 1
+WHERE SEQ = ${seq}
+</update>
+
+</mapper>
+
+
+

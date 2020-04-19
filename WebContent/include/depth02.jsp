@@ -1,23 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%
 String durl = request.getServletPath();  
 System.out.println("durl:"+durl);
 %>
 
 
-<!-- c_apply -->
+<!-- 기업_지원현황 -->
 
 <% if (durl.contains("c_apply")){ %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("recruitList.jsp") ? " on" :" "%>>
 		<a href="">지원자 관리</a>
 	</li>
-	<li class=<%= durl.contains("c_message.jsp") ? " on" :" "%>>
-		<a href="c_message.do">메시지함</a>
+	<li class=<%= durl.contains("cRcvMsg") || durl.contains("cSendMsg") ? " on" :" "%>>
+		<a href="cRcvMsg.do">메시지함</a>
 	</li>
-	<li class=<%= durl.contains("requestList.jsp") || durl.contains("requestLike.jsp") ? " on" :" "%>>
+	<li class=<%= durl.contains("requestList") || durl.contains("requestLike") ? " on" :" "%>>
 		<a href="getRequestList.do">이력서 열람 요청</a>
 	</li>
 </ul>
@@ -84,6 +84,22 @@ if (durl.contains("c_mypage")) {
 	<% }
 } %>
 
+<!-- 일반 마이페이지 -->
+<% if (durl.contains("a_mypage")){ %>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("profile.jsp") ? " on" :" "%>>
+		<a href="/Pickme/a_mypage/profile.do">프로필</a>
+	</li>
+	<li class=<%= durl.contains("123") ? " on" :" "%>>
+		<a href="">비밀번호수정</a>
+	</li>
+	<li class=<%= durl.contains("1232") ? " on" :" "%>>
+		<a href="">탈퇴</a>
+	</li>
+</ul>
+<%
+}	
+%>	
 
 
 <!-- apply  -->
@@ -114,37 +130,91 @@ if( durl.contains("e_apply")){
           </div><!-- .detailTop-left -->
           <div class="detailTop-right">
             <section class="section-controller">
-              <button type="button"><i class="fas fa-edit"></i>지원하기</button>
-              <button type="button"><i class="fas fa-envelope"></i>쪽지보내기</button>
+              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>지원하기</button>
+              <button type="button" id="recruitDetailButton2"><i class="fas fa-envelope"></i>쪽지보내기</button>
+            </section>
+          </div><!-- .detailTop-right -->
+        </div><!-- .recDetailTop -->
+<% } %>
+
+<!-- 채용관리에서. 공고 detail -->
+<% if(durl.contains("/recruit/myRecDetail")){ %>
+<div class="recDetailTop clfix">
+          <div class="detailTop-left">
+            <h1 class="recTit"></h1>
+            <h3 class="recSubTit"></h3>
+          </div><!-- .detailTop-left -->
+          <div class="detailTop-right">
+            <section class="section-controller">
+              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>수정하기</button>
+              <button type="button" id="recruitDetailButton2"><i class="fas fa-stopwatch"></i>마감하기</button>
             </section>
           </div><!-- .detailTop-right -->
         </div><!-- .recDetailTop -->
 <% } %>
 
 <!-- recruit. 채용관리 -->
-<% if(durl.contains("/recruit")){ 
+<% if(durl.contains("/recruit") && !durl.contains("/recruit/myRecDetail")){ 
 	%>
 	  <ul class="depth02 clfix">
 	  <li class=<%= durl.contains("recNow") ? " on" :" "%>>
-			<a href="/Pickme/recruit/recNow.do">현재공고보기</a>
+			<a href="javascript:goPageRec('now');">현재공고보기</a>
 		</li>
 		<li class=<%= durl.contains("recPast") ? " on" :" "%>>
-			<a href="/Pickme/recruit/recPast.do">지난공고보기</a>
+			<a href="javascript:goPageRec('past');">지난공고보기</a>
 		</li>
 		<li class=<%= durl.contains("recInsert") ? " on" :" "%>>
-			<a href="/Pickme/recruit/recInsert.do">공고등록하기</a>
+			<a href="javascript:goPageRec('insert');">공고등록하기</a>
 		</li>
 	 </ul><!-- // depth02 -->
+	 
+	 
 <% } %>
+<!-- 현재공고/지난공고 볼때  로그인한 기업 seq 넘기기 -->
+<form name="seqFrm">
+	 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
+</form>
+<script>
+function goPageRec(str) {
+    var f = document.seqFrm;
 
+    if(str==="now"){
+	    f.action = "/Pickme/recruit/recNow.do";
+    } else if(str==="past"){
+    	f.action = "/Pickme/recruit/recPast.do";
+    } else if(str==="insert"){
+		f.action = "/Pickme/recruit/recInsert.do";
+    }
+    // 전송 방식 : post
+    f.method = "post";
+    f.submit();
+  };
+</script>
 
 <!-- searchJob. 채용탐색 -->
 <% if(durl.contains("/searchJob/recSearch")){ %>
  <ul class="jobs_list clfix" id="joblist">
-          </ul>
+ </ul>
 <% } %>
 
 
-
+<!-- 고객센터  -->
+<% 
+if (durl.contains("customer/")){
+%>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("notice") ? " on" :" "%>>
+		<a href="/Pickme/customer/noticeList.do">공지사항</a>
+	</li>
+	<li class=<%= durl.contains("customerQuestion") ? " on" :" "%>>
+		<a href="/Pickme/customer/customerQuestion.do">자주하는질문</a>
+	</li>
+	<li class=<%= durl.contains("customerService.jsp") ? " on" :" "%>>
+		<a href="/Pickme/customer/customerService">문의하기</a>
+	</li>
+</ul>
+<%
+}	
+%>	
 
 

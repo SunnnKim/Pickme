@@ -1,5 +1,9 @@
 package pickme.com.a.a_mypage.dao;
 
-public interface AMypageDao {
+import model.AMemberDto;
 
+public interface AMypageDao {
+	
+	public boolean profileUpdate(AMemberDto dto);
+	
 }

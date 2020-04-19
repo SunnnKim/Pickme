@@ -8,7 +8,7 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 <!-- c_apply - 구인 현황  -->
 <% if (ifurl.contains("c_apply")){ %>
-구인 현황
+지원현황
 <% } %>	
 
 <!-- 일반로그인 서비스 -->
@@ -28,10 +28,17 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 회원인증
 <% } %>	
 
+<!-- 일반 mypage -->
+<% if(ifurl.contains("/a_mypage/profile")){%>
+프로필
+<% }%>
+
+
 <!--  apply - 지원 현황 -->
 <% if(ifurl.contains("e_apply")){%>
-	지원현황
+지원현황
 <% }%>
+
 
 <!--  recruit - 채용관리 -->
 <% if(ifurl.contains("/recruit")){
@@ -47,7 +54,7 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 <!--  searchJob - 채용탐색 -->
 <% if(ifurl.contains("/searchJob/recSearch")){%>
-	채용탐색
+채용탐색
 <% }%>
 
 <!--  c_mypage 기업 마이페이지  -->
@@ -58,3 +65,15 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<% }else{%>
 		마이페이지
 <% }}%>
+<<<<<<< HEAD
+=======
+
+<!-- 기업 페이지 디테일   -->
+<%%>
+
+
+<!-- 고객센터  -->
+<% if(ifurl.contains("/customer/")){%>
+고객센터
+<% }%>
+>>>>>>> 79e5744b9cd9af78ae96d23d281465365d268717

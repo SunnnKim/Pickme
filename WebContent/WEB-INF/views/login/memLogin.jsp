@@ -13,7 +13,7 @@ if(request.getParameter("fail") != null ){
 			  icon: 'error',
 			  text:'아이디 또는 비밀번호가 틀렸습니다!',
 			  showConfirmButton: false,
-			  timer: 1500
+			  timer: 1500 
 		});
 	</script>
 <%
@@ -61,39 +61,6 @@ document.querySelector('#com-login-btn').onclick = ()=>{
 	}
 	document.querySelector('#frm').submit();
 }
-</script>
-
-<script>
-
-
-/* $('#com-login-btn').submit(function(e){
-	
-	e.preventDefault();
-	
-	if(조건 1) {
-		return false;
-	}
-	...
-	return true;
-    alert('로그인');
-    var login = {
-        email:$("input[name=email").val(),
-        pwd: $('input[name=pwd').val()
-    }
-    $.ajax({
-        url:'/login/logincheck.do',
-        type:'post',
-        data:login,
-        success: function( data ){
-            alert('success')
-        }, error: function ( err ){
-            alert('로그인에 실패했습니다.');
-        }
-
-    });
-})
- */
-
 </script>
 
 <%@include file ="../../../include/footer.jsp" %>
