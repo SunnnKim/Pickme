@@ -16,4 +16,20 @@ public interface CMypageDao {
 
 	// 기업 탈퇴페이지 이동
 	public void goWithdrawal(CMemberDto dto);
+	
+	// 기업 정보 수정
+	public void update(CMemberDto dto);	
+	
+	// 주소 불러오기
+	public CMemberDto showAddress(CMemberDto dto);
+	
+	// 연락처 불러오기
+	public CMemberDto showTel(CMemberDto dto);
+
+	// 수정 페이지 데이터 담기
+	public CMemberDto select(int seq);
+	
+	
+	
+	
 }

@@ -81,16 +81,16 @@
 				 <nav class="gnb">
 					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
 					<a href="/Pickme/c_apply/getRequestList.do">지원현황</a><!-- 기업 회원 지원현황  -->
-					<a href="javascript:goPage('now');">채용관리</a><!-- 채용공고   -->
+					<a href="javascript:goPageRec('now');">채용관리</a><!-- 채용공고   -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
 				</nav>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
 					<li>
-						[기업] <%=userName %> 
+						<!-- 기업회원 마이페이지 -->
+						<a href="/Pickme/c_mypage/goCMypage.do">[기업] <%=userName %> </a>
 					</li>
-					<!-- 기업회원 마이페이지 -->
 					<li><a href="/Pickme/login/company/logout.do">로그아웃</a></li>
 				</ul>
 				 <%

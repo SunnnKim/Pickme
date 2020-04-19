@@ -33,7 +33,7 @@ SELECT SEQ, EMAIL, NAME, PRESIDENT, PASSWORD, DEL
 FROM C_MEMBER
 WHERE EMAIL = #{email} AND DEL != 1
  </select>
-<!-- 기업	 회원가입  -->
+<!-- 기업    회원가입  -->
  <insert id="companyJoin" parameterType="model.CMemberDto">
  INSERT INTO C_MEMBER ( EMAIL, PASSWORD, PRESIDENT, NAME, DEPARTMENT, TYPE, NUMBER, TEL, DEL, SIGNDATE )
  VALUES ( #{email}, #{password}, #{president}, #{name}, #{department}, #{type}, #{number}, #{tel}, -1, SYSDATE() )
@@ -50,8 +50,39 @@ UPDATE C_MEMBER
 SET DEL = 0 
 WHERE EMAIL = #{email}
 </update>
- 
-</mapper>
 
+<!-- 일반회원 비밀번호 불러오기 -->
+ <select id="getPasswordA" parameterType="int" resultType="String" >
+ SELECT PASSWORD 
+ FROM A_MEMBER
+ WHERE SEQ = ${seq}
+ </select>
+ 
+<!-- 기업회원 비밀번호 불러오기 -->
+ <select id="getPasswordC" parameterType="int" resultType="String" >
+ SELECT PASSWORD 
+ FROM C_MEMBER
+ WHERE SEQ = ${seq}
+ </select>
+ <!-- 일반회원 비밀번호 변경하기 -->
+ <update id="updatePasswordA" parameterType="model.AMemberDto">
+ UPDATE A_MEMBER
+ SET PASSWORD = #{password}
+ WHERE SEQ = ${seq}
+ </update>
+ <!-- 기업회원 비밀번호 변경하기 -->
+ <update id="updatePasswordC" parameterType="model.CMemberDto">
+ UPDATE C_MEMBER
+ SET PASSWORD = #{password}
+ WHERE SEQ = ${seq}
+ </update>
+ <!-- 일반회원 탈퇴하기  -->
+ <!-- 기업회원 탈퇴하기  -->
+ <update id="withdrawMemberC" parameterType="int">
+ UPDATE C_MEMBER
+ SET DEL = 1, SIGNDATE = NOW()
+ WHERE SEQ = ${seq}
+ </update>
+</mapper>
 
 

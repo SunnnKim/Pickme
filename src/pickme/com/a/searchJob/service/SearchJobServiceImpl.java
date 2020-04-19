@@ -9,6 +9,7 @@ import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeDto;
 import pickme.com.a.searchJob.dao.SearchJobDao;
 
 @Service
@@ -40,6 +41,10 @@ public class SearchJobServiceImpl implements SearchJobService{
 	@Override
 	public CMemberDto getAddr(int seq) {
 		return dao.getAddr(seq);
+	}
+	@Override
+	public List<ResumeDto> getMyResumes(int seq) {
+		return dao.getMyResumes(seq);
 	}
 	
 	

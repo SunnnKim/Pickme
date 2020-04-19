@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import model.AMemberDto;
+import model.CMemberDto;
 import pickme.com.a.login.dao.LoginDao;
 
 @Service
@@ -49,5 +50,6 @@ public class CustomUserDetailsService implements LoginService, UserDetailsServic
 	public AMemberDto updateSession(String email) {
 		return dao.getMemberByEmail(email);
 	}
+
 
 }

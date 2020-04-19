@@ -5,39 +5,25 @@
   
   <mapper namespace = "cMember">
   
-  <select id = "TestAll" resultType = "model.CMemberDto">
-  	SELECT PAYDATE, REQUEST_DATE, REFUND_DATE
-  	FROM PAYMENT
+  <!-- 수정 페이지 데이터 담기 -->
+  <select id = "select" parameterType = "java.lang.Integer" resultType = "model.CMemberDto">
+  	SELECT SEQ, EMAIL, PRESIDENT, NAME, TEL, DEPARTMENT, TYPE, ADDRESS, INTRODUCE, DEL, HASHTAG, NUMBER, LOGOPATH, LOGONAME
+  	FROM C_MEMBER
+  	WHERE SEQ= #{seq} 
   </select>
-  
-<!--   <select id = "">
-  	SELECT
-  	FROM
-  	WHERE 
-  </select> -->
   
   <!-- 기업정보 이동 -->
   <select id = "goCMypage" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
   	SELECT DEPARTMENT, TYPE, PRESIDENT, TEL, EMAIL, ADDRESS, HASHTAG, INTRODUCE
   	FROM C_MEMBER
-  	WHERE SEQ=#{seq}
   </select>
   
   <!-- 기업정보 수정 이동 -->
   <select id = "goUpdate" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
-  	SELECT *
+  	SELECT SEQ, EMAIL, PASSWORD, PRESIDENT, NAME, TEL, DEPARTMENT, TYPE, ADDRESS, INTRODUCE, DEL, HASHTAG, NUMBER, LOGOPATH, LOGONAME
   	FROM C_MEMBER
   	WHERE SEQ=#{seq}
   </select>
-  
-  <!-- 기업정보 수정 -->
-  <update id = "update" parameterType = "model.CMemberDto">
-  	UPDATE C_MEMBER
-  	SET PASSWORD=#{password}, PRESIDENT=#{president}, DEPARTMENT=#{department}, 
-  	TYPE=#{type}, ADDRESS=#{address}, TEL=#{tel}, NUMBER=#{number}, 
-  	HASHTAG=#{hashTag}, INTRODUCE=#{introduce}
-  	WHERE SEQ=#{seq}
-  </update>
   
   <!-- 기업회원 탈퇴 페이지 이동 -->
   <select id = "goWithdrawal" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
@@ -46,12 +32,43 @@
   	WHERE SEQ=#{seq}
   </select>
   
+  <!-- 기업 정보 수정 -->
+  <update id = "update" parameterType = "model.CMemberDto">
+  	UPDATE C_MEMBER
+  	SET	PRESIDENT=#{president}, DEPARTMENT=#{department}, TYPE=#{type},
+  		NUMBER=#{number}, TEL=#{tel}, HASHTAG=#{hashTag}, INTRODUCE=#{introduce}
+  	WHERE SEQ=#{seq}
+  </update>
+  
   <!-- 기업회원 탈퇴 -->
-  <update id = "withdrawal" parameterType = "model.CMemberDto">
+ <!--  <update id = "withdrawal" parameterType = "model.CMemberDto">
   	UPDATE C_MEMBER
   	SET DEL = 1
-  	WHERE SEQ=#{seq} AND PASSWORD=#{password}
-  </update>
+  	WHERE EMAIL=#{email} AND PASSWORD=#{password}
+  </update> -->
+  
+  <!-- 탈퇴를 위해 비밀번호 체크 -->
+ <!--  <select id = "checkPassword" parameterType = "model.CMemberDto" resultType = "java.lang.Integer">
+  	SELECT COUNT(*)
+  	FROM C_MEMBER
+  	WHERE EMAIL=#{email} AND PASSWORD=#{password}
+  </select> -->
+  
+  <!-- 주소 불러오기 -->
+ <!--  <select id = "showAddress" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
+  	SELECT ADDRESS
+  	FROM C_MEMBER
+  	WHERE SEQ=#{seq}
+  </select> -->
+  
+  <!-- 연락처 불러오기 -->
+  <!-- <select id = "showTel" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
+  	SELECT TEL
+  	FROM C_MEMBER
+  	WHERE SEQ=#{seq}
+  </select> -->
+  
+  
   
   </mapper>
   

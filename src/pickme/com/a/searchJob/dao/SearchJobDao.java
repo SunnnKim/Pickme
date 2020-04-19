@@ -6,6 +6,7 @@ import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeDto;
 
 public interface SearchJobDao {
 
@@ -27,5 +28,8 @@ public interface SearchJobDao {
 	// 기업 주소,분야 뽑아오기
 	public CMemberDto getAddr(int seq);
 	
+	// @@@@@ 지원하기 @@@@@
+	// 나의 이력서 불러오기 
+	public List<ResumeDto> getMyResumes(int seq);
 	
 }

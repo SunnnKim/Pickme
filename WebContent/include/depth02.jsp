@@ -68,8 +68,11 @@ if (durl.contains("c_mypage")) {
 	if ( !durl.contains("c_mypage/myPage.jsp")) {
 		%>
 		<ul class = "depth02 clfix">
+			<li class = <%= durl.contains("passwordUpdate.jsp") ? " on" :" " %>>
+				<a href="goPasswordUpdate.do">비밀번호 변경</a>
+			</li>
 			<li class = <%= durl.contains("update.jsp") ? " on" :" " %>>
-				<a href="goCMypage.do">기업정보 수정 · 등록</a>
+				<a href="goUpdate.do">기업정보 수정 · 등록</a>
 			</li>
 			<li class = <%= durl.contains("payment.jsp") ? " on" :" " %>>
 				<a href="goPayment.do">결제</a>
@@ -127,47 +130,63 @@ if( durl.contains("e_apply")){
           </div><!-- .detailTop-left -->
           <div class="detailTop-right">
             <section class="section-controller">
-              <button type="button" id="detailApply"><i class="fas fa-edit"></i>지원하기</button>
-              <button type="button" id="sendMsg"><i class="fas fa-envelope"></i>쪽지보내기</button>
+              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>지원하기</button>
+              <button type="button" id="recruitDetailButton2"><i class="fas fa-envelope"></i>쪽지보내기</button>
+            </section>
+          </div><!-- .detailTop-right -->
+        </div><!-- .recDetailTop -->
+<% } %>
+
+<!-- 채용관리에서. 공고 detail -->
+<% if(durl.contains("/recruit/myRecDetail")){ %>
+<div class="recDetailTop clfix">
+          <div class="detailTop-left">
+            <h1 class="recTit"></h1>
+            <h3 class="recSubTit"></h3>
+          </div><!-- .detailTop-left -->
+          <div class="detailTop-right">
+            <section class="section-controller">
+              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>수정하기</button>
+              <button type="button" id="recruitDetailButton2"><i class="fas fa-stopwatch"></i>마감하기</button>
             </section>
           </div><!-- .detailTop-right -->
         </div><!-- .recDetailTop -->
 <% } %>
 
 <!-- recruit. 채용관리 -->
-<% if(durl.contains("/recruit")){ 
+<% if(durl.contains("/recruit") && !durl.contains("/recruit/myRecDetail")){ 
 	%>
 	  <ul class="depth02 clfix">
 	  <li class=<%= durl.contains("recNow") ? " on" :" "%>>
-			<a href="javascript:goPage('now');">현재공고보기</a>
+			<a href="javascript:goPageRec('now');">현재공고보기</a>
 		</li>
 		<li class=<%= durl.contains("recPast") ? " on" :" "%>>
-			<a href="javascript:goPage('past');">지난공고보기</a>
+			<a href="javascript:goPageRec('past');">지난공고보기</a>
 		</li>
 		<li class=<%= durl.contains("recInsert") ? " on" :" "%>>
-			<a href="javascript:goPage('insert');">공고등록하기</a>
+			<a href="javascript:goPageRec('insert');">공고등록하기</a>
 		</li>
 	 </ul><!-- // depth02 -->
 	 
-	 <form name="seqFrm">
-	 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
-	 </form>
+	 
 <% } %>
-
 <!-- 현재공고/지난공고 볼때  로그인한 기업 seq 넘기기 -->
+<form name="seqFrm">
+	 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
+</form>
 <script>
-function goPage(str) {
+function goPageRec(str) {
     var f = document.seqFrm;
 
     if(str==="now"){
-	    f.action = "/Pickme/recruit/recNow.do"
+	    f.action = "/Pickme/recruit/recNow.do";
     } else if(str==="past"){
-    	f.action = "/Pickme/recruit/recPast.do"
+    	f.action = "/Pickme/recruit/recPast.do";
     } else if(str==="insert"){
-		f.action = "/Pickme/recruit/recInsert.do"
+		f.action = "/Pickme/recruit/recInsert.do";
     }
     // 전송 방식 : post
-    f.method = "post"
+    f.method = "post";
     f.submit();
   };
 </script>

@@ -50,4 +50,19 @@ public class CustomUserDetailsServiceForCompany implements LoginServiceForCompan
 		return dao.getMemberByEmailForCompany(email);
 	}
 
+	@Override
+	public boolean checkPasswordC(CMemberDto companyDto) {
+		return dao.checkPasswordC(companyDto);
+	}
+
+	@Override
+	public boolean updatePasswordC(CMemberDto companyDto) {
+		return dao.updatePasswordC(companyDto);
+	}
+
+	@Override
+	public boolean withdrawMemberC(int seq) {
+		return dao.withdrawMemberC(seq);
+	}
+
 }

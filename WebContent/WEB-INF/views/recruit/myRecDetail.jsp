@@ -5,9 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- 헤더호출 -->
 <c:import url="../../../include/header.jsp"/> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!--font-awesome-->
-<script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
   <form method="post">
   	<input type="hidden" name="seq" value="${recDto.seq }">
   	<input type="hidden" name="comSeq" value="${recDto.comSeq }">
@@ -118,13 +115,15 @@
 			 <div id="map" style="width:100%;height:400px; margin-top:10px;"></div>
         </div><!-- rec-location -->
        
-<!-- Kakao Map Api -->
-<%@include file="../../../../api/kakaoMap.jsp" %>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9659e321755104e19052e54a7fbe78a4&libraries=services"></script>
 <script>
 	
+	$("#recruitDetailButton1").on("click", function(){
+		alert("수정하기 버튼");
+	});
 
 	$("#recruitDetailButton2").on("click", function(){
-		alert("메시지보내기 클릭");
+		alert("마감하기 클릭");
 	});
 
 	$(".btnleft").on("click", function(){
@@ -277,4 +276,3 @@
 </script>
 
 <c:import url="../../../include/footer.jsp"/> 
-<%@include file="../../../include/applyModal.jsp"%> 

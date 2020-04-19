@@ -105,6 +105,42 @@ public class RecruitController {
 
 		return "recruit/recPast";
 	}
+	
+	@RequestMapping(value = "myRecDetail.do")
+	public String recDetail(int seq, Model model,HttpSession session) {
+		RecruitDto dto = serv.getRecruitDetail(seq);
+		//System.out.println("detail dto : "+ dto.toString());
+		
+		//hashtag 빼오기
+		System.out.println("해쉬태그 : "+ dto.getHashTag());
+		String hashs = dto.getHashTag().replace("\"", " ");
+		System.out.println("hashs : "+ hashs);
+		int firstBrackets = hashs.indexOf("[");
+		int lastBrackets = hashs.indexOf("]");
+		String[] hashStr = hashs.substring(firstBrackets+1,lastBrackets).split(",");
+		for (int i = 0; i < hashStr.length; i++) {
+			System.out.println(i+"번째 hashStr : "+ hashStr[i]);
+		}
+		
+		//첨부한 파일 넘기기
+		List<FilesDto> fileslist = serv.getRecFile(seq);
+		/*
+		System.out.println("detail file count : "+fileslist.size());
+		for (int i = 0; i < fileslist.size(); i++) {
+			System.out.println("이미지 : "+ fileslist.get(i).getNewname());			
+		}/**/
+		CMemberDto cmemdto = serv.getAddr(dto.getComSeq());
+		
+		//주소 제대로 들어오면 지우기
+		cmemdto.setAddress("서울 강남구 테헤란로5길 11 YBM빌딩 2층");
+		
+		model.addAttribute("recDto", dto);
+		model.addAttribute("cmem",cmemdto);
+		//model.addAttribute("comAddr", comAddr);
+		model.addAttribute("filesList", fileslist);
+		model.addAttribute("hashTag",hashStr);
+		return "recruit/myRecDetail";
+	}
 
 	
 	@ResponseBody

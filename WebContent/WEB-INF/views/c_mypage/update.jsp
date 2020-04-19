@@ -1,22 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>index</title>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@include file ="../../../include/header.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="https://cdn.ckeditor.com/4.14.0/basic/ckeditor.js"></script> 
-<!----- [ 디자인 CSS 영역 ] ----->
-<link rel="stylesheet" href="./css/reset.css" type="text/css"> <!-- 리셋 CSS -->
-<link rel="stylesheet" href="./css/style.css" type="text/css"> <!-- 디자인 CSS -->
-
+  <script src="https://cdn.ckeditor.com/4.14.0/basic/ckeditor.js"></script>
+  
 <style>
-
 /* 컬럼 이름 */
-div p.collumName {
+div p.column {
   font-size : 13pt;
 }
 
@@ -26,7 +22,7 @@ div label.star {
 }
 
 /* 컬럼 설명 */
-div.input-box p.collumName label.message {
+div.input-box p.column label.message {
   color: #757474;
   font-size: 10pt;
 }
@@ -42,13 +38,14 @@ div input[type=text] {
 }
 
 /* input password */
-div input[type=password] {
+div.input-box input[type=password] {
   padding-left: 20px;
   margin-top:5px;
   border: 1px solid rgb(176, 176, 176);
   width : 100%;
   height : 40px;
   font-size: 13pt;
+  background-color:#fff
 }
 
 /* 기업 소개 텍스트 에디터 영역 */
@@ -61,7 +58,7 @@ div.input-box input.address_basic {
   padding-left : 20px;
   border : 1px solid rgb(176, 176, 176);
   font-size : 13pt;
-  width : 480px;
+  width : 723px;
   height : 40px;
 }
 
@@ -70,14 +67,19 @@ div.input-box input.address_specific {
   padding-left : 20px;
   border : 1px solid rgb(176, 176, 176);
   font-size : 13pt;
-  width : 869px;
+  width : 100%;
   height : 40px;
+}
+
+/* 기업 우편번호 */
+div.input-box input.address_zipcode {
+	width:200px;
 }
 
 /* 주소찾기 버튼 */
 div.input-box input.btn {
   margin-top:4px;
-  margin-left: 20px;
+  margin-right:20px;
   width:100px;
   height:40px;
   color: #fff;
@@ -143,25 +145,33 @@ div.input-box div.img3 {
   margin-top:30px;
 }
 
+
 div.input-box div.img1 img {
   width : auto;
   height : auto;
   overflow : hidden;
 }
 
-div.input-box div.gallery {
-  overflow: hidden;
-  text-align: center;
-  justify-content: center;
-  align-content: center;
+.c-fileBtn {margin-top:15px;}
+.c-fileBtn input {display:block; float:left; width:33.3333%;}
+
+div.input-box div.c-gallery {
+	width:100%;
+	margin-top:40px;
 }
 
-div.input-box form div.gallery img {
-  margin-top: 50px;
-  margin-bottom : 10px;
-  max-width : 60%;
-  height : auto;
-  text-align: center;
+
+
+div.c-gallery img {
+  display:block;
+  width:330px;
+  height:330px;
+  float:left;
+  margin-left:30px;
+}
+
+div.c-gallery img:first-child {
+	margin-left:0;
 }
 
 /* 로고 영역 버튼 테두리 숨기기 */
@@ -184,7 +194,7 @@ div div.logo-img input.btTextW {
     margin-top: 50px;
   }
 
-  .update-logo .logo-img {
+  /* .update-logo .logo-img {
     line-height: 150px; 
     text-align: center; 
     border: 1px solid #eaeaea; 
@@ -202,14 +212,14 @@ div div.logo-img input.btTextW {
     display : flex;
     align-items: center;
     justify-content : center;
-  }
+  } */
 
   
-  div.input-box p.collumName button.btn {
+  div.input-box p.column button.btn {
     border: 1px solid rgb(176, 176, 176);
     padding : 7px 7px 7px 7px;
   }
-
+  
   #password_incorrect {
     font-size: 11pt;
     padding-left:40px;
@@ -240,55 +250,11 @@ div div.logo-img input.btTextW {
     border-radius: 5px 5px 5px 5px;
   }
   
-</style>
+</style>    
 
-
-</head>
-<body>
-<div id="wrap">
-  <header>
-    <div class="inner clfix">
-      <strong class="logo"><a href="#none">PICK ME</a></strong>
-      <nav class="gnb">
-        <a href="#none">채용탐색</a>
-        <a href="#none">이력서</a>
-        <a href="#none">지원현황</a>
-        <a href="#none">고객센터</a>
-      </nav><!-- // gnb -->
-      <ul class="header_infoBtn clfix">
-        <li><button type="button" id="searchBtn"></button></li>
-        <li><span><a href="#none">로그인</a> / <a href="#none">회원가입</a></span></li>
-        <li><a href="#none">기업서비스</a></li>
-      </ul>
-    </div><!-- // inner -->
-  </header><!-- // header -->
-
-  <div id="sub-container">
-    <div class="inner">
-      <div class="subTit">
-        <h2 class="pageTit">마이페이지</h2>
-        <div class="location">
-          <span>홈</span>
-          <span>></span>
-          <span>마이페이지</span>
-          <span>></span>
-          <span>기업정보 수정 · 등록</span>
-        </div>
-        <ul class="depth02 clfix">
-          <li class="on"><a href="#none">기업정보 수정 · 등록</a></li>
-          <li><a href="#none">결제</a></li>
-          <li><a href = "#none">회원탈퇴</a></li>
-        <!--<li><a href="#none">depth02-C</a></li>-->
-        </ul><!-- // depth02 -->
-      </div><!-- // subTit -->
-
-      <div class="subCont">
-
-        <!-- 본문 시작!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-
-      <form>
-
-      <div style = "margin-top:50px; padding-left:90px; padding-right:90px;">
+<form action = "update.do" method = "post" id = "frm">
+<input type="hidden" name="seq" value="${dto.seq}"/>
+      <div style = "">
           
         <div class="update-logo">
           <div class="logo-text">
@@ -300,62 +266,63 @@ div div.logo-img input.btTextW {
               </p>
             </span>
           </div>
-          <div class="logo-img">
-            <input type = "button" class = "btTextW" value = "로고" onclick = document.all.file.click();>
-            <input type = "file" name = "file" id = "file" style = "display: none;" accept="image/*"/>
-          </div>
+
+
+
+			<div class="profileWrap">
+				<div class="profile">
+					<i class="fas fa-user"></i>
+					<div class="imgs-wrap" id="imgs-wrap"></div>
+				</div>
+				<div class="filebox preview-image">
+					<label for="input_file"><i class="fas fa-camera"></i></label> <input
+						type="file" id="input_file" class="upload-hidden"> <input
+						type="hidden" class="upload-name" name="_profileName">
+				</div>
+			</div>
+
+
+			<!-- <div class="logo-img">
+              <input type = "button" class = "btTextW" value = "로고" onclick = document.all.file.click();>
+              <input type = "file" name = "file" id = "file" style = "display: none;" accept="image/*"/>
+            </div> -->
         </div>
 
         <div class="input-box clfix">
-          <p class = "collumName"> 이메일 
+          <p class = "column"> 이메일 
             <label class = "star" style = "color:#ff0000"> * </label> 
           </p>
-          <input type = "text" value = "adf@naver.com" style = "background: #f4f4f4;border: none;"readonly>
+          <input type = "text" value = "${dto.email}" style = "background: #f4f4f4;border: none;"readonly>
         </div>
-        
+       
         <div class="input-box">
-          <p class = "collumName"> 기존 비밀번호 </p>
-          <input type = "password">
-        </div>
-
-        <div class="input-box">
-          <p class = "collumName"> 새 비밀번호 <label id="password_incorrect"> 비밀번호가 적합하지 않습니다. </label></p>
-          <input type = "password" id = "newPassword">
+          <p class = "column"> 기업명 
+          <label class = "star" style = "color:#ff0000"> * </label>
+          </p>
+          <input type = "text" value = "원티드" value = "${dto.name }" style = "background: #f4f4f4;border: none;" readonly>
         </div>
 
         <div class = "input-box">
-          <p class = "collumName"> 새 비밀번호 확인 <label id="password_inconsistency"> 비밀번호가 일치하지 않습니다. </label></p>
-          <input type = "password" id = "newPassword_confirm">
-        </div>
-
-        <div class="input-box">
-          <p class = "collumName"> 기업명 
-          <label class = "star" style = "color:#ff0000"> * </label>
-          </p>
-          <input type = "text" value = "원티드" style = "background: #f4f4f4;border: none;" readonly>
-        </div>
-
-        <div class="input-box">
-          <p class = "collumName"> 대표자명 
+          <p class = "column"> 대표자명 
             <label class = "star" style = "color:#ff0000"> * </label>
           </p>
-          <input type = "text">
+          <input type = "text" name = "president" id = "president" value = "${dto.president }">
         </div>
 
         <div class="input-box">
-          <p class = "collumName"> 기업 분야 
+          <p class = "column"> 기업 분야 
             <label class = "star" style = "color:#ff0000"> * </label>
           </p>
-          <select id = "c_department">
+          <select id = "c_department" name = "department" sel = "${dto.department }">
             <option value="none"> 기업 분야를 선택해주세요 </option>
           </select>
         </div>
-
+       
         <div class="input-box">
-          <p class = "collumName"> 기업 형태 
+          <p class = "column"> 기업 형태
             <label class = "star" style = "color:#ff0000"> * </label>
           </p>
-          <select>
+          <select id = "type" name = "type" sel = "${dto.type }">
             <option value = "none"> 기업 형태를 선택해주세요 </option>
             <option value = "대기업"> 대기업 </option>
             <option value = "대기업 계열사, 자회사"> 대기업 계열사, 자회사 </option>
@@ -370,39 +337,73 @@ div div.logo-img input.btTextW {
         </div>
 
         <div class="input-box">
-          <p class = "collumName"> 기업 주소 
+          <p class = "column"> 기업 주소 
             <label class = "star" style="color:#ff0000"> * </label> &nbsp;&nbsp;&nbsp;&nbsp; 
           </p>
+          
+          	<input type = "button" class = "btn" onclick="sample6_execDaumPostcode()" value="주소찾기">
+          	
+            <!-- 우편번호 -->
+            <input type= "text" class = "address_zipcode" id="sample6_postcode" placeholder="우편번호">
+            
             <!-- 기본주소 -->
             <input type = "text" class = "address_basic" id="sample6_address" placeholder="기본주소">
-            <input type = "button" class = "btn" onclick="sample6_execDaumPostcode()" value="주소찾기">
-
-            <!-- 우편번호 -->
-            <input type= "hidden" id="sample6_postcode">
-
-            <!-- 상세주소 -->
-            <input type = "text" class = "address_specific" placeholder="상세주소를 입력해주세요." id="sample6_detailAddress">
-              
+            	<input type="hidden" name="address"><!-- 이 부분은 우편번호'기본주소'상세주소 이런식으로 들어가도록 스크립트에서 작업 -->
+            	<br>
             <!-- 참고항목 -->
-            <input type = "hidden" id="sample6_extraAddress">
+            <input type = "hidden" class = "address_reference" id="sample6_extraAddress">
+            
+            <!-- 상세주소 -->
+            <input type = "text" style= "background-color:#ffffff" class = "address_specific" placeholder="상세주소를 입력해주세요." id="sample6_detailAddress">
+             <input type = "text" value = "${dto.address }">
+        
         </div>
+        
+        <div class="input-box">
+          <p class = "column"> 사업자 등록 번호 </p> 
+          <input type = "text" id="number" name="number" value="${dto.number }" style = "background: #f4f4f4;border: none;" readonly>
+        </div>
+        <div class="input-box">
+          <p class = "column"> 대표 연락처 <label class = "star" style="color: #ff0000;"> * </label> <label class = "message"> '-' 포함하여 숫자 10~11자로 입력해주세요. 예) 010-1234-5678 </label></p>
+          <input type = "text" id="tel" name = "tel" value="${dto.tel }" maxlength="11">
+        </div>
+        
+        <script>
+			var telNumber = document.getElementById("tel");
+			telNumber.onkeyup = function(event) {
+				event = event || window.event;
+				var _val = this.value.trim();
+				this.value = autoHypen(_val);
+			}
+
+			function autoHypen(str) {
+				str = str.replace(/[^0-9]/g, '');
+				var tmp = '';
+				if( str.length < 4 ) {
+					return str;
+				}
+				else if ( str.length < 7 || str.length < 8 ) {
+					tmp += str.substr(0, 4);
+					tmp += '-';
+					tmp += str.substr(4, 4);
+					return tmp;
+				} else if ( str.length < 12 ) {
+					tmp += str.substr(0, 4);
+					tmp += '-';
+					tmp += str.substr(4, 4);
+					tmp += '-';
+					tmp += str.substr(8, 4);
+					return tmp;
+				} else if ( str.length < 1)
+			}
+        </script>
 
         <div class="input-box">
-          <p class = "collumName"> 사업자 등록 번호 <label class = "message"> '-' (하이픈) 구분없이 숫자로만 입력해주세요. </label> </p> 
-          <input type = "text">
-        </div>
-
-        <div class="input-box">
-          <p class = "collumName"> 대표 연락처 <label class = "star" style="color: #ff0000;"> * </label> <label class = "message"> '-' (하이픈) 구분없이 숫자 10~11자로 입력해주세요. </label></p>
-          <input type = "text">
-        </div>
-
-        <div class="input-box">
-          <p class = "collumName"> 해시태그 
+          <p class = "column"> 해시태그 
             <label class = "star" style = "color: #ff0000;"> * </label> 
-            <label class = "message"> 태그는 최대 3개까지 입력 가능하며, 등록된 태그를 클릭하면 삭제됩니다. </label>
+            <label class = "message"> 한글, 영문, 숫자만 가능하며, 등록된 태그를 클릭하면 삭제됩니다. </label>
           </p>
-          <input type = "text" id = "hashId">
+          <input type = "text" id = "hashId" class = "hashId" name="hashTag" placeholder="해시태그는 최대 3개까지 등록 가능합니다."/>
           <ul id = "hashUl">
             
           </ul>
@@ -410,54 +411,45 @@ div div.logo-img input.btTextW {
         </div>
 
         <div class="input-box" style="margin-top:20px;">
-          <p class = "collumName"> 기업 소개 
+          <p class = "column"> 기업 소개 
             <label class = "star" style = "color:#ff0000"> * </label>
             <label class = "message"> 기업에 대해 자유롭게 소개해주세요. </label>
           </p>
             <div class = "textarea">
-              <textarea name="content" cols="30" rows="30">
+              <textarea name="introduce" cols="30" rows="30" id="introduce">
               </textarea>
             </div>
         </div>
-
+ </form>
+ 
         <div class="input-box">
-          <p class = "collumName"> 기업 이미지 
+          <p class = "column"> 기업 이미지
             <label class = "star" style = "color:#ff0000"> * </label>
             <label class = "message"> 최대 3장까지 등록 가능하며, 해당 이미지를 클릭하면 삭제됩니다. </label>
           </p>
-          <p style = "margin-top:30px;float: right;">
           <form>
-              <input type = "file" id = "image1" class = "photo-add" name = "images[]">
-              <input type = "file" id = "image2" class = "photo-add" name = "images[]">
-              <input type = "file" id = "image3" class = "photo-add" name = "images[]">
-            <div class = "gallery" style = "margin-top:80px"></div>
-
-            </div>
+	          <div class="cmypage-fileWrap clfix">
+	           	 <div class="c-fileBtn clfix">
+	             	<input type = "file" class="photo-add" id = "image1" name="images[]" accept="image/*">
+	             	<input type = "file" class="photo-add" id = "image2" name="images[]" accept="image/*">
+	             	<input type = "file" class="photo-add" id = "image3" name="images[]" accept="image/*">
+	             </div>
+	            <div class = "c-gallery clfix" style="width:1052px; height:332px;border:1px solid rgb(176, 176, 176)">
+	            </div>
+	          </div>
           </form>
-          </p>
         </div>
 
-        <div style = "margin-top: 100px; margin-bottom:70px">
-        </div>
+        <!-- <div style = "margin-top: 100px;">
+        </div> -->
 
         <div class="update-btn" style = "text-align:center">
             <button type = "button" id = "completeBtn" onclick = "updateComplete()"> 완료 </button>
+        		<!-- <button onclick = "sunny()"> 확인 </button> -->
         </div>
-          
-      </div>
-
-      </form>
-        <!-- 본문 끝!!!!!!!!!!!!!!!! !!!!!!!! -->
-
-      </div><!-- // subCont -->
-    </div><!-- // inner -->
-  </div><!-- // sub-container -->
-
-  <footer>
-    <p class="copyright">Copyright by Up All Rights Reserved.</p>
-  </footer><!-- // footer -->
-
-</div><!-- // wrap -->
+  
+     
+<!------------------------------------ 본문 영역 끝 --------------------------------------------->
 
 
 
@@ -468,8 +460,198 @@ div div.logo-img input.btTextW {
 <!------------------------------------ 스크립트 영역 ----------------------------------------->
 
 <script>
-  // 새 비밀번호 유효성 검사
+window.onload = function () {
 
+	var temp = $("select#c_department").attr("sel");
+	
+//	$('select#c_department option[value=' + temp + ']').attr('selected', 'selected');
+	$('select#c_department option[value="'+temp+'"]').attr('selected', 'selected');
+	
+}
+</script>
+
+
+<script>
+//프로필 사진 등록
+var fileTarget = $('.filebox .upload-hidden');
+
+fileTarget.on('change', function () {
+  if (window.FileReader) {
+    // 파일명 추출
+    var filename = $(this)[0].files[0].name;
+  } else {
+    // Old IE 파일명 추출
+    var filename = $(this).val().split('/').pop().split('\\').pop();
+  };
+
+  $(this).siblings('.upload-name').val(filename);
+
+});
+
+//preview image
+var imgTarget = $('.preview-image .upload-hidden');
+
+imgTarget.on('change', function () {
+  var parent = $(this).parent();
+  parent.children('.upload-display').remove();
+
+  if (window.FileReader) {
+    //image 파일만
+    if (!$(this)[0].files[0].type.match(/image\//)) {
+      alert("이미지파일만 가능");
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var src = e.target.result;
+      parent.prepend('<div class="upload-display"><img src="' + src + '" class="upload-thumb"></div>');
+    };
+    reader.readAsDataURL($(this)[0].files[0]);
+  } else
+
+  {
+    $(this)[0].select();
+    $(this)[0].blur();
+    var imgSrc = document.selection.createRange().text;
+    parent.prepend('<div class="upload-display"><img class="upload-thumb"></div>');
+
+    var img = $(this).siblings('.upload-display').find('img');
+    img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\"" + imgSrc + "\")";
+  }
+});
+</script>
+
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+
+// 주소 합치기 ! 
+var addressStr = '';
+addressStr += "[" + $('#sample6_postcode').val() + "] ";	// 우편번호
+addressStr += $('#sample6_address').val() + " ";			// 기본주소
+addressStr += $('#sample6_extraAddress').val();				// 상세주소
+alert(addressStr);
+$('input[name=address]').val(addressStr);
+
+	
+// 정보 유효성 검사
+
+var presidentCheck = false;		// 대표자명
+var departmentCheck = false;	// 기업분야
+var typeCheck = false;			// 기업규모
+var telCheck = false;			// 연락처
+
+var addressCheck = false;		// 주소
+var hashTagCheck = false;		// 해시태그
+var introduceCheck = false;		// 소개
+
+// input 값
+var president = document.querySelector("#president");		// 대표자명
+var department = document.querySelector("#c_department");	// 기업분야
+var type = document.querySelector("#type");					// 규모
+var tel = document.querySelector("#tel");					// 연락처
+	
+var address = document.querySelector("#address");			// 주소
+var hashTag = document.querySelector("#hashTag");			// 해시태그
+var introduce = document.querySelector("#introduce");		// 소개
+
+		
+		// 1. 대표자명
+		var regPresident = /^[가-힣a-zA-Z]*$/;
+
+		if( president.onkeyup = () => {
+			if( president.value.length >=2 && regPresident.test( president.value )) {
+				presidentCheck = true;
+			} else {
+				alert("이름이 적합하지 않습니다.");
+				presidentCheck = false;
+			}
+		});
+
+		
+		// 2. 기업분야
+		if(department.onchange = () => {
+			if( department.value == '0' ) {
+				alert("분야를 선택해주세요.");
+				departmentCheck = false;
+			} else {
+				departmentCheck = true;
+			}
+		});
+
+		// 3. 규모
+		if(type.onchange = () => {
+			if( type.value == '0' ) {
+				alert("규모를 선택해주세요.");
+				typeCheck = false;
+			} else {
+				typeCheck = true;
+			}
+		});
+
+
+		// 4. 대표연락처
+		var regTel = /^\d{2,3}-\d{3,4}-\d{4}$/;
+		if( tel.onkeyup = () => {
+			if( regTel.test(tel.value) ) {
+				telCheck = true;
+			} else {
+				alert("연락처 형식이 적합하지 않습니다.");
+				telCheck = false;
+			}
+		});
+
+		// 5. 주소
+		
+		
+		// 6. 해시태그
+		
+		// 7. 소개
+
+
+// 완료버튼 누름
+updateComplete = () => {
+
+	// 대표자명 잘못 입력
+	if( presidentCheck == false ) {
+		president.focus();
+		alert("대표자명을 다시 한 번 확인해주십시오.");
+		return false;
+	}
+
+	// 기업분야 잘못 선택
+	if( departmentCheck == false ) {
+		department.focus();
+		alert("기업분야를 다시 한 번 확인해주십시오.");
+		return false;
+	}
+
+	// 전화번호 잘못 입력
+	if( telCheck == false ) {
+		tel.focus();
+		alert("전화번호를 다시 한 번 확인해주십시오.");
+		return false;
+	}
+
+
+	// submit
+	/* Swal.fire({
+		position: 'center',
+		icon: 'success',
+		text: '성공적으로 수정되었습니다!',
+		showConfirmButton: false,
+		timer: 1500
+	}).then ( (result) => {
+		document.querySelector('#frm').submit();
+	}) */
+	
+}
+
+});
 </script>
 
 
@@ -506,41 +688,63 @@ div div.logo-img input.btTextW {
   })
 </script>
 
+<!----------------------- 해시태그 -------------------------->
 
 <script>
-// 해시태그 스크립트
+   // 해시태그 추가
 
-var index = 0;
-$("#hashId").focusout(function() {
-    // 태그 개수
-    var count = $("ul#hashUl li").length;
+   var index = 0;
+   $("#hashId").focusout(function() {
+       // 태그 개수
+       var count = $("ul#hashUl li").length;
 
-    // 해시태그 내용
-    var hashtag = $("#hashId").val();
+       // 해시태그 내용
+       var hashtag = $("#hashId").val();
 
-    // 태그는 3개까지 허용하며, 빈 칸인 경우 추가하지 않는다.
-    if (count < 3 && hashtag != '') {
-        $("#hashUl").append("<li>" + "#" + hashtag + "</li>");
+       // 해시태그 유효성 (한글, 영어, 숫자만 허용)
+       var hashtagCheck = /^[가-힣a-zA-Z0-9]*$/;
 
-        // 새로 추가될 때마다 입력창을 비운다.
-        $("#hashId").val('');
+       // 태그는 3개까지 허용하며, 빈 칸인 경우 추가하지 않는다.
+       if (count < 3 && hashtag != '') {
+           if(hashtagCheck.test(hashtag)) {
+		   	  // 추가 성공
+        	  $("#hashUl").append("<li>" + "#" + hashtag + "</li>");
 
-        // 삭제하고자 하는 태그를 클릭 시 삭제된다.
-        $("ul#hashUl li").click(function() {
-            console.log(this);
-            $(this).remove();
-        });
+        	  // 새로 추가될 때마다 입력창을 비운다.
+              $("#hashId").val('');
+              removeScript();
+           } else {
+              // 추가 실패(형식 에러)
+        	   Swal.fire({
+        			position: 'center',
+        			icon: 'error',
+        			title: '형식이 올바르지 않습니다!',
+        			text: '한글, 영문, 숫자만 가능합니다',
+        			showConfirmButton: false,
+        			timer: 2000
+        		}).then ( (result) => {
+        			$("#hashId").val('');
+        		})
+           }
+           
 
-    } else if (count > 2 && hashtag != '') {
-        alert("더 이상 추가할 수 없습니다.");
-        $("#hashId").val('');
-    }
+       } else if (count > 2 && hashtag != '') {
+           alert("해시태그는 3개까지만 추가할 수 있습니다.");
+           $("#hashId").val('');
+       }
 
-})
+   });
+
+   function removeScript() {
+       $("ul#hashUl li").click(function() {
+           console.log(this);
+           $(this).remove();
+       });
+   }
+    
 </script>
 
-
-
+<!---------------------- 이미지 다중 썸네일 --------------------------->
 
 <script>
   $(function() {
@@ -580,39 +784,53 @@ $("#hashId").focusout(function() {
     e.unwrap();
   }
 
-  $('div.gallery').on('click', 'img', function() {
+  $('div.c-gallery').on('click', 'img', function() {
     var id = $(this).attr("data-id");
     reset($('#' + id));
     $(this).remove();
   });
 
   $('.photo-add').on('change', function() {
-    imagesPreview('div.gallery');
+    imagesPreview('div.c-gallery');
   });
 });
 </script>
 
+<!---------------- 텍스트 에디터 ----------------->
+
 <script>
   // 텍스트 에디터 스크립트
-  CKEDITOR.replace('content', {
-    width : 874,
+  CKEDITOR.replace('introduce', {
+    width : 1047,
     height : 330,
   });
 </script>
 
+<!--------------- 기업 형태 값 셋팅 ----------------->
+
 <script>
-  // 기업분야 셀렉트 박스 초기화 
-  var department = [
+  
+   $(document).ready(function() {
+      // select id=type 의 어트리뷰트 sel
+      var temp = $('select#type').attr('sel');
+      $('select#type option[value=' + temp + ']').attr('selected', 'selected');         
+   })      
+</script>
+
+<!--------------- 기업 분야 select 초기화 --------------->
+
+<script>
+  var department1 = [
     "가사, 가정",'건설', '공공행정, 국방', '광업', '교육서비스', '국제, 외교기관', '금융', '기타 서비스업', '농림, 어업', '물류, 운송업',
     '보건, 사회복지', '부동산', '사업지원', '상수도, 환경', '숙박, 음식점', '예술, 스포츠, 여가','전기, 가스', '전문, 과학기술',
     'IT, 컨텐츠, 네트워크', '제조', '판매, 유통'
   ];
-  for( arr of department){
+  for( arr of department1){
     document.querySelector('#c_department').innerHTML += '<option value="'+ arr +'">'+arr+'</option>';
   }
 </script>
 
-
+<!---------------- 주소찾기 api 스크립트 ------------------>
 <script>
   // 주소찾기 스크립트
   function sample6_execDaumPostcode() {
@@ -664,6 +882,7 @@ $("#hashId").focusout(function() {
   }
 </script>
 
+<!--------------- 이미지 단일 썸네일 ------------------>
 <script>
   var sel_file;
 
@@ -691,16 +910,50 @@ $("#hashId").focusout(function() {
   }
 </script>
 
+<!-- ================================================================================ -->
+
+<style>
+          .profileWrap {position:relative; float:right; width:250px;}
+.profileWrap .profile {position:relative; width:250px; height:250px; border-radius:50%; background:#eaeaea; overflow:hidden;}
+.profileWrap .profile i {position:absolute; top:42px; left:33px; font-size:210px; color:#fff; z-index:1;}
+.profileWrap .profile #imgs-wrap {position:absolute; top:0; left:0; width:100%; height:250px; z-index:2;}
+.profileWrap .profile #imgs-wrap p {width:100%; height:250px; background-size:cover !important; background-position:50% !important;}
+.profileWrap .filebox {}
+.profileWrap .filebox input[type="file"] {
+   position: absolute;
+   width: 0px;
+   height: 0px;
+   padding: 0;
+   margin: -1px;
+   overflow: hidden;
+   clip:rect(0,0,0,0);
+   border: 0;
+}
+.profileWrap .filebox label {
+  position:absolute; top:0; left:0; width:250px; height:250px;
+  z-index:3; background:rgba(0,0,0,0.6); font-size:65px; color:#fff;
+  text-align:center; line-height: 250px; border-radius:50%;
+  cursor:pointer; opacity:0; transition:all 0.4s ease-in-out;
+}
+.profileWrap .filebox label:hover {opacity:1;}
+
+/* imaged preview */
+.filebox .upload-display {
+  position:absolute; top:0; left:0; width:250px; height:250px;
+  z-index:2; overflow: hidden; border-radius:50%;
+}
+
+.filebox .upload-display img {
+   display: block;
+   max-width: 250px;
+   width: 100%;
+   height: 250px;
+   
+</style>
+
+<%@include file ="../../../include/footer.jsp" %>
 
 
-<!-- 완료 하는 스크립트 -->
-<script>
-  function update() {
-
-  }
-</script>
 
 
 
-</body>
-</html>

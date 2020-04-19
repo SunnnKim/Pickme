@@ -150,4 +150,70 @@ public class LoginController {
 		
 	}
 	
+	
+	// 일반 비밀번호 변경 전 비밀번호 체크 
+	@ResponseBody
+	@RequestMapping(value="checkPasswordA.do", method=RequestMethod.POST)
+	public String checkPasswordA ( AMemberDto memberDto ) {
+		//boolean success = aMember.checkPasswordC(companyDto);
+		//return success + "";
+		return false+"";
+	}
+	
+	// 기업 비밀번호 변경 전 비밀번호 체크 
+	@ResponseBody
+	@RequestMapping(value="checkPasswordC.do", method=RequestMethod.POST)
+	public String changePwdView ( CMemberDto companyDto ) {
+		boolean success = cMember.checkPasswordC(companyDto);
+		return success + "";
+	}
+	
+	// 일반 비밀번호 변경하기
+	@RequestMapping(value="changePasswordA.do", method=RequestMethod.POST)
+	public String changePasswordA(AMemberDto memberDto, Model model) {
+		System.out.println(memberDto);
+		memberDto.setPassword(new BCryptPasswordEncoder().encode(memberDto.getPassword()));
+		//boolean success = cMember.updatePasswordC(memberDto);
+//		if(success) {
+//			return "redirect:/c_mypage/goUpdate.do";
+//		}
+		// 실패시 
+		return "redirect:/c_mypage/update.do";
+	}
+	
+	// 기업 비밀번호 변경하기
+	@RequestMapping(value="changePasswordC.do", method=RequestMethod.POST)
+	public String changePasswordC(CMemberDto companyDto, Model model) {
+		System.out.println(companyDto);
+		companyDto.setPassword(new BCryptPasswordEncoder().encode(companyDto.getPassword()));
+		boolean success = cMember.updatePasswordC(companyDto);
+		if(success) {
+			return "redirect:/c_mypage/goUpdate.do";
+		}
+		// 실패시 
+		return "redirect:/c_mypage/update.do";
+	}
+	
+	
+	// 일반회원 탈퇴신청
+	@RequestMapping(value="memberWithdrawal.do", method=RequestMethod.POST)
+	public String memberWithdrawal( HttpSession session ) {
+		int seq = ((AMemberDto)session.getAttribute("loginuser")).getSeq();
+		//boolean success = aMember.withdrawMemberA(seq);
+//		if(success) {
+//			return "redirect:/login/company/logout.do";
+//		}
+		return "";
+	}
+	// 기업회원 탈퇴신청
+	@RequestMapping(value="companyWithdrawal.do", method=RequestMethod.POST)
+	public String companyWithdrawal( HttpSession session ) {
+		int seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+		boolean success = cMember.withdrawMemberC(seq);
+		if(success) {
+			return "redirect:/login/company/logout.do";
+		}
+		return "redirect:/c_mypage/goWithdrawal.do";
+	}
+	
 }
