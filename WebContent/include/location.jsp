@@ -194,7 +194,6 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 </div>
 <% } %>
 
-<<<<<<< HEAD
 <!-- 기업 정보 수정 -->
 <% if (lourl.contains("update.jsp")) { %>
 <div class="location">

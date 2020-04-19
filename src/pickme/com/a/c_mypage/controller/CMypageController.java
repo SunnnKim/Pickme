@@ -59,15 +59,12 @@ public class CMypageController {
 	
 	// 기업 마이페이지 이동
 	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String goCMyPage(CMemberDto dto, Model model) {
+	public String goCMyPage(Model model, HttpSession session) {
 		System.out.println("test go ");
-		service.goCMypage(dto);
-		
-		String tel = dto.getTel();
-		
-		model.addAttribute("tel", tel);
-		System.out.println(tel);
-		
+		// 기업 고유 시퀀스 
+		int seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq() ;
+		CMemberDto cMember = service.select(seq);
+		model.addAttribute("cMember", cMember);
 		return "c_mypage/myPage";
 	}
 	
@@ -121,24 +118,6 @@ public class CMypageController {
 	
 	
 	
-	
-	// 기업회원 탈퇴
-	@RequestMapping(value = "withdrawal.do", method = {RequestMethod.POST})
-	public String withdrawal(@RequestParam String email, @RequestParam String password, CMemberDto dto) throws Exception {
-		
-		boolean result = service.checkPassword(email, password);
-		System.out.println("result = " + result);
-		
-		if(result == true) {
-			service.withdrawal(dto);
-			System.out.println("탈퇴 성공");
-			return "main/main";
-			
-		} else {
-			System.out.println("탈퇴 실패");
-			return "c_mypage/withdrawal";
-		}
-	}
 	
 	
 	// 

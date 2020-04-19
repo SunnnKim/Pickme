@@ -2,6 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<!-- 기업회원 정보 불러오기  --> 
+<%
+	// 컨트롤러에서 받아온 기업회원 정보 부분 
+	CMemberDto memberInfo = (CMemberDto) request.getAttribute("cMember");
+
+%>  
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
 <style>
@@ -124,7 +130,7 @@
             </div>  <!-- // c_introSlider -->
             <div class="c_introInfo">
                 <div class="tit">
-                  <h3><img src="https://static.wanted.co.kr/images/wdes/0_4.ce4fd8b1.jpg" alt="logo"> <%=company.getName() %></h3>
+                  <h3><img src="https://static.wanted.co.kr/images/wdes/0_4.ce4fd8b1.jpg" alt="logo"> <%=memberInfo.getName() %></h3>
                 </div>
                 <ul>
                 
@@ -132,19 +138,19 @@
                   <!-- <li><button onclick = "location.href='slide.do'">슬라이드 테스트</button></li> -->
                 
                 
-                  <li><span>기업분야</span><%=company.getDepartment() %></li>
-                  <li><span>규모</span><%=company.getType() %></li>
-                  <li><span>대표자 성명</span><%=company.getPresident() %></li>
-                  <li><span>전화번호</span><%=company.getTel() %></li>
-                  <li><span>이메일</span><%=company.getEmail() %></li>
-                  <li><span>주소</span><%=company.getAddress() %></li>
+                  <li><span>기업분야</span><%=memberInfo.getDepartment() %></li>
+                  <li><span>규모</span><%=memberInfo.getType() %></li>
+                  <li><span>대표자 성명</span><%=memberInfo.getPresident() %></li>
+                  <li><span>전화번호</span><%=memberInfo.getTel() %></li>
+                  <li><span>이메일</span><%=memberInfo.getEmail() %></li>
+                  <li><span>주소</span><%=memberInfo.getAddress() == null? "": memberInfo.getAddress()%></li>
                 </ul>
                 <div class="followBtnWrap">
                   <label>
                     <% if(member != null) { %>
-                    <span>팔로우<i class="fas fa-check"></i> <input type="checkbox"></span>
-                    <% } else if(company != null) { %>
-                    <span><i class="fas fa-check"></i> <a href="goUpdate.do?seq=<%=company.getSeq() %>">수정</a></span>
+                    	<span>팔로우<i class="fas fa-check"></i> <input type="checkbox"></span>
+                    <% } else if(memberInfo != null) { %>
+                   		<span><i class="fas fa-check"></i> <a href="goUpdate.do?seq=<%=memberInfo.getSeq() %>">수정</a></span>
                     <% } %>
                   </label>
                 </div>
@@ -155,9 +161,17 @@
           
           <!--  ★★★★★★★★★★★★★★★★★★ DB 에서 해시태그 걸어야함 ★★★★★★★★★★★★★★★★ -->
           
-            <h4>회사소개 <span><span>#자유로운</span><span>#간식비지원</span><span>#수평적인</span></span></h4>
+            <h4>회사소개 
+            	<span id="hashTags">
+	            	<!-- 
+	            	<span>#자유로운</span>
+	            	<span>#간식비지원</span>
+	            	<span>#수평적인</span> 
+	            	-->
+            	</span>
+	        </h4>
             <div class="cont">
-              	<%=company.getIntroduce() %>
+	            <%=memberInfo.getIntroduce() == null ? "기업정보를 등록해주세요": memberInfo.getIntroduce()%>
             </div>
           </div> <!-- // c_introBtm -->
 
@@ -165,7 +179,7 @@
         </div> <!-- // c_introWrap -->
 
 
-        <script>
+    <script>
           $(".followBtnWrap input[type='checkbox']").click(function(){
             if($(this).is(":checked")){
              $('.followBtnWrap span i').show();
@@ -176,9 +190,37 @@
           });
 			<%-- var c_title = '<%= company.getName()%>';
           $('#company-logo').append('<span>'+c_title+'</span>') --%>
+
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@ 해쉬태그 @@@@@@@@@@@@@
+
+		// 해쉬태그 json 가져오기
+		var hashTag = <%=memberInfo.getHashTag()%>;
+	
+		// 해쉬태그가 없는경우
+		if(hashTag == 'null'){
+			$('#hashTags').html('태그를 설정해주세요')
+		}
+		// 태그가 있는 경우
+		else{
+			$('#hashTags').html('')
+			// 화면에 뿌리기  
+			for( key in hashTag ){
+				
+				// 태그 배열 뽑아오기 
+				// console.log(hashTag[key])
+				var arr = hashTag[key];
+	
+				// for 문으로 배열 데이터(태그) 모두 뽑기 
+				for( i in arr){
+					// console.log(arr[i])
+					$('#hashTags').append('<span>#' + arr[i] + '</span>')
+				}
+			}
+			//$('#hashTags').html('<span>' +  + '</span>')
+		}
         </script>
-
-
 
 
 

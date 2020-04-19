@@ -150,4 +150,13 @@ public class LoginController {
 		
 	}
 	
+	
+	// @@@@@@@@@@@@ 테스트 @@@@@@@@@@@@@@
+	// 비밀번호 변경 테스트 페이지 
+	@RequestMapping(value="changePwdView.do", method=RequestMethod.GET)
+	public String changePwdView ( ) {
+		return "login/samplePwd";
+	}
+	
+	
 }

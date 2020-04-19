@@ -7,9 +7,9 @@
   
   <!-- 수정 페이지 데이터 담기 -->
   <select id = "select" parameterType = "java.lang.Integer" resultType = "model.CMemberDto">
-  	SELECT SEQ, EMAIL, PASSWORD, PRESIDENT, NAME, TEL, DEPARTMENT, TYPE, ADDRESS, INTRODUCE, DEL, HASHTAG, NUMBER, LOGOPATH, LOGONAME
+  	SELECT SEQ, EMAIL, PRESIDENT, NAME, TEL, DEPARTMENT, TYPE, ADDRESS, INTRODUCE, DEL, HASHTAG, NUMBER, LOGOPATH, LOGONAME
   	FROM C_MEMBER
-  	WHERE SEQ=#{seq} 
+  	WHERE SEQ= #{seq} 
   </select>
   
   <!-- 기업정보 이동 -->
@@ -41,32 +41,34 @@
   </update>
   
   <!-- 기업회원 탈퇴 -->
-  <update id = "withdrawal" parameterType = "model.CMemberDto">
+ <!--  <update id = "withdrawal" parameterType = "model.CMemberDto">
   	UPDATE C_MEMBER
   	SET DEL = 1
   	WHERE EMAIL=#{email} AND PASSWORD=#{password}
-  </update>
+  </update> -->
   
   <!-- 탈퇴를 위해 비밀번호 체크 -->
-  <select id = "checkPassword" parameterType = "model.CMemberDto" resultType = "java.lang.Integer">
+ <!--  <select id = "checkPassword" parameterType = "model.CMemberDto" resultType = "java.lang.Integer">
   	SELECT COUNT(*)
   	FROM C_MEMBER
   	WHERE EMAIL=#{email} AND PASSWORD=#{password}
-  </select>
+  </select> -->
   
   <!-- 주소 불러오기 -->
-  <select id = "showAddress" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
+ <!--  <select id = "showAddress" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
   	SELECT ADDRESS
   	FROM C_MEMBER
   	WHERE SEQ=#{seq}
-  </select>
+  </select> -->
   
   <!-- 연락처 불러오기 -->
-  <select id = "showTel" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
+  <!-- <select id = "showTel" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
   	SELECT TEL
   	FROM C_MEMBER
   	WHERE SEQ=#{seq}
-  </select>
+  </select> -->
+  
+  
   
   </mapper>
   
