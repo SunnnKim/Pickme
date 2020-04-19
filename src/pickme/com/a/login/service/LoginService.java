@@ -7,4 +7,5 @@ public interface LoginService {
    public void signup(AMemberDto member);
    public void emailValidateA(AMemberDto member);
    public AMemberDto updateSession(String email);
+ 
 }

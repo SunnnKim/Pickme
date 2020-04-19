@@ -2,6 +2,7 @@ package pickme.com.a.login.dao;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,9 @@ public class LoginDao {
 	@Autowired
 	SqlSession sqlSession;
 	String namespace = "Login.";
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	// 일반 + 기업 회원가입 이메일 찾기 
 	public String emailCheck(String email) {
@@ -69,9 +73,33 @@ public class LoginDao {
 		sqlSession.update(namespace + "CMemberValidate", member);
 	}
 	
-	// 일반회원 비밀번호 변경시 현재 비밀번호 입력
-	public void amemberChangePwd(AMemberDto member) {
-		
+//	// 일반회원 비밀번호 변경시 현재 비밀번호 입력
+//	public boolean amemberChangePwd(AMemberDto member) {
+//		String rawPassword = member.getPassword();
+//		int seq = member.getSeq();
+//		String encodePassword = sqlSession.selectOne(namespace + "getPassword", seq);
+//		boolean match = bCryptPasswordEncoder.matches(rawPassword, encodePassword);
+//		return match;
+//	}
+	
+	// 기업회원 비밀번호 변경시 현재 비밀번호 입력
+	public boolean checkPasswordC(CMemberDto companyDto) {
+		String rawPassword = companyDto.getPassword();
+		int seq = companyDto.getSeq();
+		System.out.println("rawPassword : "+ rawPassword);
+		System.out.println("seq : "+ seq);
+		String encodePassword = sqlSession.selectOne(namespace + "getPasswordC", seq);
+		System.out.println(encodePassword);
+		boolean match = bCryptPasswordEncoder.matches(rawPassword, encodePassword);
+		return match;
 	}
 	
+	// 기업회원 비밀번호 변경하기 
+	public boolean updatePasswordC(CMemberDto companyDto) {
+		return sqlSession.update(namespace + "updatePasswordC", companyDto)>0? true:false;
+	}
+	// 기업회원 탈퇴하기
+	public boolean withdrawMemberC(int seq) {
+		return sqlSession.update(namespace + "withdrawMemberC", seq) > 0 ? true:false;
+	}
 }

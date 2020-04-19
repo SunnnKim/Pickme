@@ -61,51 +61,75 @@ button {
 }
 
 </style>
-	<form action = "withdrawal.do" method = "post">
+	<form action = "/Pickme/login/companyWithdrawal.do" method = "post" id="frm">
 	  <div class="subCont_div" align = "center">
         <p style = "font-size:22pt">기업회원 탈퇴하기</p>
-        <br><br>
-        <div align = "center" style = "font-size:13pt">
+        <div align = "center" style = "font-size:13pt;margin-top: 80px;">
         		계속하시려면 비밀번호를 입력해주세요.
         	</div>
-        <br>
-        <input type="password" id="input_password" name = "password" style="width:200px;margin-top:10px;padding-left:5px;text-align:center;font-size:20pt"/>
-        <br><br><br><br><br><br><br><br>
-        <input type = "hidden" name = "email" value = "<%=company.getEmail() %>">
-        <div align="center" style = "font-size:13pt; color:#ff0000"> 계정 삭제 시 저장된 정보는 다시 복구하실 수 없습니다. <br> 그래도 진행하시겠습니까? </div>
+        <input type="password" id="input_password" name = "password" style="width:300px;margin:30px;padding-left:5px;text-align:center;font-size:20pt"/>
+        <div align="center" style = "font-size:13pt; color:#ff0000; margin-top: 100px;"> 계정 삭제 시 저장된 정보는 다시 복구하실 수 없습니다. <br> 그래도 진행하시겠습니까? </div>
         <br><br>
-        <button type = "submit" class="btn btn-light" 
-        		style = "font-size: 12pt; margin-top:100px;"> 모든 주의사항을 확인하였으며, 탈퇴하겠습니다. 
-        	</button>
+        <button type = "button" class="btn btn-light" id="withdrawBtn" style = "font-size: 12pt; margin-top:100px;"> 
+        	모든 주의사항을 확인하였으며, 탈퇴하겠습니다. 
+       	</button>
       </div><!-- // subCont -->
 	</form>
 
-<%@include file ="../../../include/footer.jsp" %>
 
-
-
-
-<%-- <script>
-// 마지막으로 사용자가 입력한 비밀번호가 세션의 비밀번호와 일치하는지 확인
-
-function withdrawal() {
-
-	var input_password = $("#input_password").val();
-	var db_password = <%=company.getPassword() %>;
-	alert(input_password);
+<script>
+$('#withdrawBtn').click(function(){
+	if( $('input[name=password]').val().trim() == ''){
+		$('input[name=password]').focus();
+		Swal.fire({
+			  position: 'center',
+			  icon: 'error',
+			  text: '현재 비밀번호를 입력하세요.',
+			  showConfirmButton: false,
+			  timer: 1500
+		})
+		return false;
+	}
 	
-	if ( db_password != $("#input_password").val() ) {
-		// 비밀번호 틀림!
-		alert("비밀번호가 일치하지 않습니다.");
-		location.href = "goWithdrawal.do";
-} else {
-	// 비밀번호 일치했고, 동의했으니 탈퇴 처리
-	alert("탈퇴 처리되었습니다. 이용해주셔서 감사합니다.");
-	location.href = "withdrawal.do"; }
-}
+	$.ajax({
+		url:'/Pickme/login/checkPasswordC.do',
+		data:{
+			seq:<%=company.getSeq()%>,
+			password:$('input[name=password]').val()
+		},
+		type:'post',
+		success: function(data){
+			if( data == 'false' ){
+				Swal.fire({
+					  position: 'center',
+					  icon: 'error',
+					  text: '비밀번호를 잘못 입력했습니다.',
+					  showConfirmButton: false,
+					  timer: 1500
+				})
+				return false;
+			}else{
+				 Swal.fire({
+					  position: 'center',
+					  icon: 'warning',
+					  title: '지금까지 Pick me를 이용해주셔서 감사합니다.',
+					  showConfirmButton: false,
+					  timer: 1800
+				}).then( (result) =>{
+			 		document.querySelector('#frm').submit();
+				})
+			}
+		}, error: function(err){
+			alert('error');
+			console.log(err)
+		}
+	})
+	
+})
+</script>
 
 
-</script> --%>
+<%@include file ="../../../include/footer.jsp" %>
 
 
 
