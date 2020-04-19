@@ -168,3 +168,54 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>전체보기</span>
 </div>
 <% } %>
+
+<!-- 기업 정보 수정 -->
+<% if (lourl.contains("update.jsp")) { %>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>마이페이지</span>
+	<span>></span>
+	<span>기업정보 수정 · 등록</span>
+</div>
+<% } %>
+
+<!-- 기업 결제 -->
+<% if (lourl.contains("payment.jsp")) { %>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>마이페이지</span>
+	<span>></span>
+	<span>결제</span>
+</div>
+<% } %>
+
+<!-- 기업 정보 (기업 마이페이지) -->
+<% if (lourl.contains("myPage.jsp")) { %>
+<div class="location">
+</div>
+<% } %>
+
+
+<!-- 기업 탈퇴 -->
+<% if (lourl.contains("withdrawal.jsp")) { %>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>마이페이지</span>
+	<span>></span>
+	<span>탈퇴</span>
+</div>
+<% } %>
+
+<!-- 기업 비밀번호 수정 -->
+<% if (lourl.contains("passwordUpdate.jsp")) { %>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>마이페이지</span>
+	<span>></span>
+	<span>비밀번호 변경</span>
+</div>
+<% } %>

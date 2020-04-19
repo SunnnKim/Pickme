@@ -54,10 +54,7 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 <% if(ifurl.contains("c_mypage")){
 	 if(ifurl.contains("myPage.jsp")){%>
 	<!-- <div id="company-logo"></div> -->
-	회사 정보
+	Corporation Information
 	<% }else{%>
 		마이페이지
 <% }}%>
-
-<!-- 기업 페이지 디테일   -->
-<%%>

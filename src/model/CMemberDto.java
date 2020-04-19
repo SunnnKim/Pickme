@@ -170,7 +170,7 @@ public class CMemberDto implements UserDetails {
 	}
 
 	public void setAddress(String address) {
-		this.address = address;
+		this.address = address == null ? "" : address;
 	}
 
 	public String getIntroduce() {
@@ -178,7 +178,7 @@ public class CMemberDto implements UserDetails {
 	}
 
 	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
+		this.introduce = introduce == null ? "" : introduce;
 	}
 
 	public int getDel() {
@@ -194,7 +194,7 @@ public class CMemberDto implements UserDetails {
 	}
 
 	public void setHashTag(String hashTag) {
-		this.hashTag = hashTag;
+		this.hashTag = hashTag == null ? "" : hashTag;
 	}
 
 	public int getNumber() {

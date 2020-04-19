@@ -68,8 +68,11 @@ if (durl.contains("c_mypage")) {
 	if ( !durl.contains("c_mypage/myPage.jsp")) {
 		%>
 		<ul class = "depth02 clfix">
+			<li class = <%= durl.contains("passwordUpdate.jsp") ? " on" :" " %>>
+				<a href="goPasswordUpdate.do">비밀번호 변경</a>
+			</li>
 			<li class = <%= durl.contains("update.jsp") ? " on" :" " %>>
-				<a href="goCMypage.do">기업정보 수정 · 등록</a>
+				<a href="goUpdate.do">기업정보 수정 · 등록</a>
 			</li>
 			<li class = <%= durl.contains("payment.jsp") ? " on" :" " %>>
 				<a href="goPayment.do">결제</a>

@@ -88,9 +88,9 @@
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
 					<li>
-						[기업] <%=userName %> 
+						<!-- 기업회원 마이페이지 -->
+						<a href="/Pickme/c_mypage/goCMypage.do">[기업] <%=userName %> </a>
 					</li>
-					<!-- 기업회원 마이페이지 -->
 					<li><a href="/Pickme/login/company/logout.do">로그아웃</a></li>
 				</ul>
 				 <%
