@@ -102,7 +102,7 @@
 		WHERE SEQ=#{seq}
 	</update>
 	<!-- file update -->
-	<update id="recUpdate" parameterType="model.FilesDto">
+	<update id="recFileUpdate" parameterType="model.FilesDto">
 		UPDATE FILES
 		SET ORIGINNAME= #{originname}, NEWNAME= #{newname}, STEP=#{step}, FILETYPE=#{filetype}
 		WHERE USETABLE='RECRUIT' AND REF=#{ref}
