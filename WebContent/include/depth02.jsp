@@ -104,6 +104,20 @@ if (durl.contains("c_mypage")) {
 }	
 %>	
 
+<!-- 일반 마이페이지 -->
+<% if (durl.contains("resume")){ %>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("resume.jsp") ? " on" :" "%>>
+		<a href="/Pickme/resume/resume.do">이력서</a>
+	</li>
+	<li class=<%= durl.contains("resumeWrite.jsp") ? " on" :" "%>>
+		<a href="/Pickme/resume/resumeWrite.do">이력서 작성</a>
+	</li>
+</ul>
+<%
+}	
+%>	
+
 
 <!-- apply  -->
 <%

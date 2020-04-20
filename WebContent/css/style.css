@@ -1116,8 +1116,8 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_top .rsm-downBtn {position:absolute; top:0; right:0;}
 .rsm_top .rsm-downBtn button {display:block; width:50px; padding:10px 0; border:1px solid #ddd; outline:none;}
 .rsm_top h3 {font-size:30px; margin-bottom:30px; font-weight:500;}
-.rsm_top input {border:none; width:100%; height:30px; font-size:16px; margin-top:5px; outline:none; color:#555;}
-.rsm_top textarea {width:100%; height:100px; margin-top:10px; margin-top:30px; border:none; color:#555; outline:none; resize:none;}
+.rsm_top input {border:none; width:100%; height:30px; font-size:17px; margin-top:5px; outline:none; color:#555;}
+.rsm_top textarea {font-size:17px; width:100%; height:100px; margin-top:10px; margin-top:30px; border:none; color:#555; outline:none; resize:none;}
 .rsm_top input::placeholder {color:#999;}
 .rsm_top textarea::placeholder {color:#999;}
 
@@ -1125,7 +1125,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsmCont h4 {width:100%; font-size:17px; padding:30px 0 10px; font-weight:normal; border-bottom:1px solid #bbb;}
 .rsmCont .rsm_addBtn {color:#176fd8; font-size:18px; height:86px; line-height:85px; border-bottom:1px solid #eaeaea; cursor:pointer;}
 .rsmCont .rsm_add {}
-.rsm_addCont {display:none; position:relative; width:100%; padding:30px; color:#555;}
+.rsm_addCont {/*display:none;*/ position:relative; width:100%; padding:30px; color:#555;}
 .rsm_addCont:hover{background:#f7f7f7;}
 .rsm_addCont .rsm_left {float:left; width:280px;}
 .rsm_addCont .rsm_left .rsm_date {height:30px;}
@@ -1138,12 +1138,16 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_addCont .rsm_left  p label {cursor:pointer;}
 .rsm_addCont .rsm_left  p input {margin-right:5px; vertical-align: middle;}
 .rsm_addCont .rsm_right {float:left; width:710px; padding-right:30px;}
+.rsm_addCont .rsm_right.link {float:none; width:100%;}
 .rsm_addCont .rsm_right input {display:block; width:100%; color:#555; background:none; outline:none; border:none;}
 .rsm_addCont .rsm_right input::placeholder {color:#999;}
 .rsm_addCont .rsm_right input.tit {font-size:20px; font-weight:bold;}
 .rsm_addCont .rsm_right input.desc {margin-top:5px;}
+.rsm_addCont .rsm_right textarea {margin-top:5px; display:block; width:100%; color:#555; background:none; outline:none; border:none; resize:none;}
+.rsm_addCont .rsm_right textarea::placeholder {color:#999;}
 .rsm_addCont .rsm_delete {position:absolute; top:30px; right:30px; color:#999; font-size:20px; line-height:1;}
 .rsm_addCont .rsm_delete i {cursor:pointer;}
+.rsm_addCont .rsm_delete i:hover {color:#304edf;}
 
 .rsm_addCont input[type="radio"], .rsm_addCont input[type="checkbox"] {display:none;}
 .rsm_addCont label input[type="radio"] + span, .rsm_addCont label input[type="checkbox"] + span  {
@@ -1172,12 +1176,14 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_addCont .level label span{color:#555;}
 
 .rsm_addCont .lang_testBtn {color:#176fd8; font-size:16px; padding:30px 0 0; cursor:pointer; font-weight:normal;}
-.rsm_addCont .lang_test {margin-top:20px;}
-.rsm_addCont .lang_test input.desc {display:block; width:100%; color:#555; background:none; outline:none; border:none;}
+.rsm_addCont .lang_test {position:relative; margin-top:20px; padding:20px 60px 20px 30px;}
+.rsm_addCont .lang_test:hover {background:#fff;}
+.rsm_addCont .lang_test::before {position:absolute; top:34px; left:15px; content:''; width:4px; height:4px; border-radius:50%; background:#333;}
+.rsm_addCont .lang_test input.desc {margin-top:5px; display:block; width:100%; color:#555; background:none; outline:none; border:none;}
 .rsm_addCont .lang_test input::placeholder {color:#999;}
-.rsm_addCont .lang_test input.tit {font-size:20px; font-weight:bold;}
-.rsm_addCont .lang_test input.desc {margin-top:5px;}
 .rsm_addCont .lang_test span {color:#555;}
+.rsm_addCont .lang_test .rsm_date span:nth-of-type(2) {vertical-align:0;}
+.rsm_addCont .lang_test .rsm_delete  {top:20px; right:30px;}
 
 .resumeBtnWrap {width:100%; text-align:center; font-size:0; margin-top:40px;}
 .resumeBtnWrap button {display:inline-block; font-size:15px; margin:0 5px; width:200px; height:50px; background:#4f6eff; border:1px solid #4f6eff; color:#fff; transition:all 0.2s ease-in-out; outline:none;}

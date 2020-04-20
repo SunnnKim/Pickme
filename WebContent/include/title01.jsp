@@ -48,6 +48,16 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 탈퇴
 <% }%>
 
+<!-- 이력서 관리-->
+<% if(ifurl.contains("/resume/resume.jsp")){%>
+이력서
+<% }%>
+
+<!-- 이력서 작성 -->
+<% if(ifurl.contains("/resume/resumeWrite.jsp")){%>
+이력서 작성
+<% }%>
+
 
 <!--  apply - 지원 현황 -->
 <% if(ifurl.contains("e_apply")){%>
