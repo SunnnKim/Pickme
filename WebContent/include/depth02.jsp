@@ -12,7 +12,7 @@ System.out.println("durl:"+durl);
 <% if (durl.contains("c_apply")){ %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("recruitList.jsp") ? " on" :" "%>>
-		<a href="">지원자 관리</a>
+		<a href="cApplyList.do">지원자 관리</a>
 	</li>
 	<li class=<%= durl.contains("c_apply") && durl.contains("Msg")? " on" :" "%>>
 		<a href="cRcvMsg.do">메시지함</a>

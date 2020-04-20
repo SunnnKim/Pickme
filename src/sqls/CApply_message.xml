@@ -147,7 +147,34 @@
 </select>  
 
 
+<select id="getSendMsgList" parameterType="model.MessageParam" resultType="model.MessageDto">
+ 	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, a.NAME
+ 	, <![CDATA[ IF(DATE(m.SDATE) < DATE(SYSDATE()), DATE_FORMAT(m.SDATE, '%Y-%m-%d'), DATE_FORMAT(m.SDATE, '%H : %i')) as SDATE ]]>
+	FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m, A_Member a
+	WHERE m.TO = a.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
+	<if test="sKeyword != null and sKeyword !=''">
+	AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+	ORDER BY m.SDATE DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+	 
+</select>
 
+
+ <select id="getSendCount" parameterType="model.MessageParam" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m, A_Member a
+ 	WHERE m.TO = a.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
+	<if test="sKeyword != null and sKeyword !=''">
+	 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+</select>
+
+<select id="sendMsgDetail" parameterType="int" resultType="model.MessageDto">
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, a.NAME
+	FROM MESSAGE m, A_Member a
+	WHERE m.TO = a.SEQ AND m.SEQ = ${msgSeq}
+</select>
 
 
 

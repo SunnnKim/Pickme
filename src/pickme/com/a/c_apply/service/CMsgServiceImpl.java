@@ -90,6 +90,21 @@ public class CMsgServiceImpl implements CMsgService{
 	public List<MessageDto> getImpoUnreadMsgCount(MessageParam param) {
 		return cMsgDao.getImpoUnreadMsgCount(param);
 	}
+
+	@Override
+	public List<MessageDto> getSendMsgList(MessageParam param) {
+		return cMsgDao.getSendMsgList(param);
+	}
+
+	@Override
+	public int getSendMsgCount(MessageParam param) {
+		return cMsgDao.getSendMsgCount(param);
+	}
+
+	@Override
+	public MessageDto sendMsgDetail(int msgSeq) {
+		return cMsgDao.sendMsgDetail(msgSeq);
+	}
 	
 
 	
