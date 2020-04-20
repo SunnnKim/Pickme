@@ -33,7 +33,7 @@ public class CApplyDaoImpl implements CApplyDao{
 	
 	@Override
 	public int requestDelete(String seq) {
-		System.out.println("seq : " + seq);
+		System.out.println("requestDelete seq : " + seq);
 		return sqlSession.update(ns+"requestDelete", seq);		
 	}
 	
@@ -87,29 +87,5 @@ public class CApplyDaoImpl implements CApplyDao{
 	
 	
 	
-	
-	@Override
-	public List<MessageDto> rcvMsgList(MessageParam param) {
-		List<MessageDto> list = sqlSession.selectList(ns + "rcvMsgList", param);
-		return list;
-	}
-
-	@Override
-	public int getTotalMsgCount(MessageParam param) {
-		int totalMsgCount = sqlSession.selectOne(ns + "getTotalMsgCount",param);
-		return totalMsgCount;
-	}
-
-	@Override
-	public int unreadCount(int c_seq) {
-		int unreadCount = sqlSession.selectOne(ns + "unreadCount", c_seq);
-		return unreadCount;
-	}
-
-	@Override
-	public MessageDto rMsgDetail(int msgSeq) {
-		return sqlSession.selectOne(ns + "rMsgDetail" , msgSeq);
-	}
-
 	
 }

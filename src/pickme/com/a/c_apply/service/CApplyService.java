@@ -30,10 +30,6 @@ public interface CApplyService {
 	
 	
 	
-	public List<MessageDto> rcvMsgList(MessageParam param);
-	public int getTotalMsgCount(MessageParam param);
-	public int unreadCount(int c_seq);
-	public MessageDto rMsgDetail(int msgSeq);
 
 	
 }

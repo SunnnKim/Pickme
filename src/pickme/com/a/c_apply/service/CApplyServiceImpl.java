@@ -84,25 +84,6 @@ public class CApplyServiceImpl implements CApplyService{
 	
 	
 	
-	@Override
-	public List<MessageDto> rcvMsgList(MessageParam param) {
-		return cApplyDao.rcvMsgList(param);
-	}
-
-	@Override
-	public int getTotalMsgCount(MessageParam param) {
-		return cApplyDao.getTotalMsgCount(param);
-	}
-
-	@Override
-	public int unreadCount(int c_seq) {
-		return cApplyDao.unreadCount(c_seq);
-	}
-
-	@Override
-	public MessageDto rMsgDetail(int msgSeq) {
-		return cApplyDao.rMsgDetail(msgSeq); 
-	}
 	
 	
 	

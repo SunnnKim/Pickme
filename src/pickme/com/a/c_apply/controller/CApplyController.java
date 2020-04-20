@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import model.AMemberDto;
 import model.CMemberDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
@@ -149,67 +150,6 @@ public class CApplyController {
 	}
 	
 	
-	/*============== 받은 메세지함 호출 ==============*/
-	@RequestMapping(value = "cRcvMsg.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String cRcvMsg(Model model, HttpSession session, MessageParam param) {
-		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq(); 
-		param.setToSeq(c_seq);
-		//System.out.println(">>>>> cRcvMsg.do < c_seq > : " + c_seq);
-		
-		int pn = param.getPageNumber(); // 현재페이지넘버
-		int start = pn * param.getRecordCountPerPage(); // 1, 11, 21
-		int end = (pn + 1) * param.getRecordCountPerPage(); // 10, 20, 30
-		//System.out.println("pn: " + pn + " start: " + start + " end: " +end);
-		
-		param.setStart(start);
-		param.setEnd(end);
-		System.out.println(">>>>> cRcvMsg.do < param > : " + param.toString());
-		
-		
-		List<MessageDto> list = cApplyService.rcvMsgList(param);
-		
-		
-		int totalMsgCount = cApplyService.getTotalMsgCount(param);
-		System.out.println(">>>>> totalRecordCount:: " + totalMsgCount);
-
-		int unreadCount = cApplyService.unreadCount(c_seq);
-		System.out.println(">>>>> unreadCount:: " + unreadCount);
-		
-		
-		model.addAttribute("unreadCount", unreadCount);
-		
-		model.addAttribute("totalMsgCount", totalMsgCount);
-		model.addAttribute("pageNumber", pn);
-		model.addAttribute("pageCountPerScreen", 10);
-		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
-		model.addAttribute("sKeyword", param.getsKeyword());
-	    
-	    model.addAttribute("rcvMsgList", list);
-		return "c_apply/cRcvMsg";
-	}
-
-	@RequestMapping(value="msgDetail.do", method= {RequestMethod.GET})
-	public String msgDetail(Model model, HttpSession session, int msgSeq, String page, int unread, int pageNumber) {
-		System.out.println("msgSeq : " + msgSeq);
-		MessageDto msg = null;
-		
-		
-		msg = cApplyService.rMsgDetail(msgSeq);
-		
-		/*
-		 * if(page.equals("sendMsg")) { //sg = cApplyService.sMsgDetail(seq); } else {
-		 * msg = cApplyService.rMsgDetail(msgSeq); }
-		 */
-		model.addAttribute("unread", unread);
-		model.addAttribute("pageNumber", pageNumber);
-		model.addAttribute("page", page);
-		model.addAttribute("msgDetail", msg);
-		
-		
-		
-		
-		return "c_apply/msgDetail";
-	}
 	
 	
 	
@@ -218,12 +158,23 @@ public class CApplyController {
 	
 	
 	
-	/*============== 보낸 메세지함 호출 ==============*/
-	@RequestMapping(value = "cSendMsg.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String cSendMsg() {
-		return "c_apply/cSendMsg";
-	}
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

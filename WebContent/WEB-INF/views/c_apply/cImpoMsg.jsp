@@ -13,9 +13,9 @@
 
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
-	<li id="rcvMsg" class="active"><a href="cRcvMsg.do">받은 메시지</a></li>
+	<li id="rcvMsg"><a href="cRcvMsg.do">받은 메시지</a></li>
 	<li id="sendMsg"><a href="cSendMsg.do">보낸 메시지</a></li>
-	<li id="impoMsg"><a href="cImpoMsg.do">중요 메시지</a></li>
+	<li id="impoMsg" class="active"><a href="cImpoMsg.do">중요 메시지</a></li>
 </ul>
 
 <div id="allList" data-tab-content="" class="active">
@@ -31,10 +31,10 @@
 	</div>
 	<div class="bbs-infoWrap clfix mt30">
 		<div class="bbs-lt"> 
-			총 <span>${totalMsgCount }</span>개
+			총 <span>${totalRecordCount }</span>개
 		</div>
 		<div class="bbs-rt">
-			<a href="unread.do?page=cRcvMsg"><p class="unread">안읽은메시지 ${unreadCount }</p></a>
+			<a href="unread.do?page=cImpoMsg"><p class="unread">안읽은메시지 ${unreadCount }</p></a>
 		</div>
 	</div>
 
@@ -59,7 +59,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${empty rcvMsgList }">
+				<c:if test="${empty impoMsglist }">
 					<tr>
 						<c:if test="${unreadCount == 0 && isUnread != null}">
 							<td colspan="5">안읽으신 메시지가 없습니다</td>
@@ -73,43 +73,43 @@
 					</tr>
 				</c:if>
 
-				<c:forEach items="${rcvMsgList }" var="rcvMsg" varStatus="vs">
-					<c:set var="content" value="${rcvMsg.content }" />
+				<c:forEach items="${impoMsglist }" var="cImpoMsg" varStatus="vs">
+					<c:set var="content" value="${cImpoMsg.content }" />
 					<tr>
 						<!-- 중요메시지 표시 -->
 						<td class="star-td">
-							<c:if test="${ rcvMsg.important == 0 }">
+							<c:if test="${ cImpoMsg.important == 0 }">
 								<i class="fas fa-star"> 
-									<input type="hidden" value="${rcvMsg.seq }">
+									<input type="hidden" value="${cImpoMsg.seq }">
 								</i>
 							</c:if> 
 							
-							<c:if test="${ rcvMsg.important == 1 }">
+							<c:if test="${ cImpoMsg.important == 1 }">
 								<i class="fas fa-star on"> 
-									<input type="hidden" value="${rcvMsg.seq }">
+									<input type="hidden" value="${cImpoMsg.seq }">
 								</i>
 							</c:if>
 						</td>
 						<!-- 메시지내용 안읽은경우 굵은글씨 -->
 						<td>
-							<c:if test="${ rcvMsg.open == 0 }">
+							<c:if test="${ cImpoMsg.open == 0 }">
 								<c:if test="${isUnread != null }">
-									<a href="msgDetail.do?msgSeq=${rcvMsg.seq }&page=cRcvMsg&pageNumber=${pageNumber}&unread=1">
+									<a href="msgDetail.do?msgSeq=${cImpoMsg.seq }&page=cImpoMsg&pageNumber=${pageNumber}&unread=1">
 										<span class="unread-msg">
 											<%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%>
 										</span>
 									</a>
 								</c:if>
 								<c:if test="${isUnread == null }">
-									<a href="msgDetail.do?msgSeq=${rcvMsg.seq }&page=cRcvMsg&pageNumber=${pageNumber}&unread=0">
+									<a href="msgDetail.do?msgSeq=${cImpoMsg.seq }&page=cImpoMsg&pageNumber=${pageNumber}&unread=0">
 										<span class="unread-msg">
 											<%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%>
 										</span>
 									</a>
 								</c:if>
 							</c:if> 
-							<c:if test="${rcvMsg.open == 1 }">
-								<a href="msgDetail.do?msgSeq=${rcvMsg.seq }&page=cRcvMsg&pageNumber=${pageNumber}&unread=0">
+							<c:if test="${cImpoMsg.open == 1 }">
+								<a href="msgDetail.do?msgSeq=${cImpoMsg.seq }&page=cImpoMsg&pageNumber=${pageNumber}&unread=0">
 									<span class="read-msg">
 										<%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%>
 									</span>
@@ -117,12 +117,12 @@
 							</c:if>
 						</td>
 						
-						<td>${rcvMsg.name } 
-							<input type="hidden" id="_seq" value="${rcvMsg.seq }">
+						<td>${cImpoMsg.name } 
+							<input type="hidden" id="_seq" value="${cImpoMsg.seq }">
 						</td>
 						<%-- <td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td> --%>
-						<td>${rcvMsg.sdate }</td>
-						<td><input type="checkbox" name="checkRow" value="${rcvMsg.seq }"></td>
+						<td>${cImpoMsg.sdate }</td>
+						<td><input type="checkbox" name="checkRow" value="${cImpoMsg.seq }"></td>
 
 					</tr>
 				</c:forEach>
@@ -137,7 +137,7 @@
 	<!-- 페이징 -->
 	<div id="paging_wrap">
 		<jsp:include page="/WEB-INF/views/c_apply/paging.jsp" flush="false">
-			<jsp:param name="totalRecordCount" value="${totalMsgCount }" />
+			<jsp:param name="totalRecordCount" value="${totalRecordCount }" />
 			<jsp:param name="pageNumber" value="${pageNumber }" />
 			<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
 			<jsp:param name="recordCountPerPage" value="${recordCountPerPage }" />
@@ -201,6 +201,7 @@
 		 			success: function(data){
 		 				
 		 				if(data != null){
+		 					location.href="cImpoMsg.do"
 		 					//alert("중요메시지에서 삭제되었습니다 ");
 		 				}
 		 			},
@@ -268,7 +269,7 @@
 								var sKeyword = '<c:out value="${sKeyword}"/>';
 								var pn = <c:out value="${pageNumber}"/>;
 
-								var totalRecordCount = <c:out value="${totalMsgCount }"/>;
+								var totalRecordCount = <c:out value="${totalRecordCount }"/>;
 								var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
 								var screenEndPageIndex = $('.paging > ul > li').last().text();
 								//alert(screenEndPageIndex)
@@ -291,7 +292,7 @@
 								      deleteCount +'개의 항목이 삭제 되었습니다.',
 								      'success'
 								    ).then( (result) => {
-								    	location.href="cRcvMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+								    	location.href="cImpoMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
 								    })
 								}
 							}
@@ -343,12 +344,12 @@ function goPage(pn){
 	  //alert("확인 " + isUnread);
 
 	  if(isUnread == 'yes'){
-		  location.href="unread.do?page=cRcvMsg&pageNumber=" + pn;
+		  location.href="unread.do?page=cImpoMsg&pageNumber=" + pn;
 
 
 	 }else{	
 	
-	  location.href="cRcvMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
+	  location.href="cImpoMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 		
 	}
 }
@@ -374,7 +375,7 @@ function goPage(pn){
 		if(sKeyword == null || sKeyword == ""){
 			alert("검색어를 입력해주세요.");
 		}else{
-		 location.href="cRcvMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
+		 location.href="cImpoMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
 		}	
 	}
 	
