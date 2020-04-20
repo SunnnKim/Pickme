@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="eApplyCvRequest">
+ 
+	<!-- 현재 이력서 열람요청내역 불러오기 --> 
+ 	<select id="getCvReqList" parameterType="model.CvReqParam" resultType="model.CvReqDto">
+ 		SELECT v.SEQ, v.PSEQ, v.CSEQ, v.RDATE, v.COMMENT, v.ACCEPT, v.DEL, v.CANCEL, v.CVSEQ, c.NAME
+ 		FROM (SELECT * FROM CV_REQUEST WHERE PSEQ = #{loginSeq}) v
+ 		INNER JOIN C_MEMBER c
+ 		ON v.CSEQ = c.SEQ
+		WHERE v.ACCEPT = 0 AND v.DEL = 0 
+		<!-- 검색 -->
+		<if test="sKeyword != null and sKeyword !=''">
+		AND( v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
+		</if>
+		ORDER BY v.RDATE DESC
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+ 	</select>	
+ 	
+ 	<!-- 현재이력서 열람요청 갯수 구하기 -->
+ 	<select id="getReqTotalCount" parameterType="model.CvReqParam" resultType="int">
+ 		SELECT COUNT(*)
+ 		FROM (SELECT * FROM CV_REQUEST  WHERE PSEQ = #{loginSeq}) v
+ 		INNER JOIN C_MEMBER c
+ 		ON v.CSEQ = c.SEQ
+		WHERE  v.ACCEPT = 0  AND v.DEL = 0 
+		<if test="sKeyword != null and sKeyword !=''">
+		AND( v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
+		</if>
+ 	</select>
+ 	
+ 	<!-- 요청 수락한것으로 표시 -->
+ 	<update id="doAccept" parameterType="int">
+ 		UPDATE CV_REQUEST
+ 		SET ACCEPT = 1
+ 		WHERE SEQ = #{seq}
+ 	</update>
+ 	
+ 	<!-- 다중수락시 수락할 메인 이력서 가져오기 -->
+ 	<select id="getMainResumeSeq" parameterType="int" resultType="model.CvCompanyDto">
+ 		SELECT MEMEMAIL, USERNAME, PHONE, NAME, INTRODUCE, CAREER, EDUCATION, AWARDSETC, LANGUAGE, LINK, WDATE, FILEPATH, FILEORIGINAL, FILESTORED
+ 		FROM RESUME
+ 		WHERE MEMSEQ = ${pseq} AND MAINRESUME = 1 	
+ 	</select>
+ 	
+ 	<!-- 수락할이력서를 cv_company(기업에 제출한이력서 담는 테이블)에 넣기 -->
+ 	<insert id="sendResume" parameterType="model.CvCompanyDto">
+ 		INSERT INTO CV_COMPANY
+ 		VALUES(SEQ, #{comseq}, #{memEmail}, #{userName}, #{phone}, #{name}, #{introduce}, #{career}, #{education}, #{awardsEtc}, #{language}, #{link}, #{wDate}, #{filePath}, #{ fileOriginal}, #{fileStored}, 0)
+ 	</insert>
+ 	
+ 	<!-- cv_company 테이블에 넣은 마지막 항목의 auto increment된 seq를 가져오기 -->
+ 	<select id="getLastId" resultType="int">
+ 		SELECT LAST_INSERT_ID()
+ 	</select>
+ 	
+ 	<!-- 위에서 가져온 시퀀스 넘버를 cv_request테이블의 수락할 요청 항목안에 cvseq컬럼에 넣기  -->
+ 	<update id="putCvSeq" parameterType="map">
+ 		UPDATE CV_REQUEST
+ 		SET  CVSEQ = #{cvSeq} 
+ 		WHERE SEQ = #{seq}
+ 	</update>
+ 	
+ 	<!-- 수락여부를 결정한 요청들 불러오기 / 지난요청 -->
+ 	<select id="getPastCvReqList" parameterType="model.CvReqParam" resultType="model.CvReqDto">
+ 		SELECT v.SEQ, v.PSEQ, v.CSEQ, v.RDATE, v.COMMENT, v.ACCEPT, v.DEL, v.CANCEL, v.CVSEQ, c.NAME, y.STATUS
+ 		FROM (SELECT * FROM CV_REQUEST WHERE PSEQ = #{loginSeq}) v
+ 		INNER JOIN C_MEMBER c
+ 		ON v.CSEQ = c.SEQ
+ 		INNER JOIN CV_COMPANY y
+ 		ON v.CVSEQ = y.SEQ
+ 		WHERE (v.ACCEPT = 1 OR v.ACCEPT = 2) AND v.DEL = 0 
+		<if test="sKeyword != null and sKeyword !=''">
+			AND (c.NAME = #{sKeyword} OR v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%'))
+		</if>
+		ORDER BY v.RDATE DESC
+		LIMIT #{recordCountPerPage} OFFSET #{start}
+ 	</select>
+ 	
+ 	<!-- 지난요청 갯수 구하기 -->
+ 	<select id="getPastReqTotalCount" parameterType="model.CvReqParam" resultType="int">
+ 		SELECT COUNT(*)
+ 		FROM (SELECT * FROM CV_REQUEST  WHERE PSEQ = #{loginSeq}) v
+ 		INNER JOIN C_MEMBER c
+ 		ON v.CSEQ = c.SEQ
+		WHERE (v.ACCEPT = 1 OR ACCEPT = 2) AND v.DEL = 0 
+		<if test="sKeyword != null and sKeyword !=''">
+		AND (c.NAME = #{sKeyword} OR v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%'))
+		</if>
+ 	</select>
+ 	
+ 	<!-- 요청 거절 -->
+ 	<update id="cvReqReject" parameterType="int">
+ 		UPDATE CV_REQUEST
+ 		SET ACCEPT = 2
+ 		WHERE SEQ = #{seq}
+ 	</update>
+
+	<!-- 개별 요청 수락시 이력서 선택할 수 있도록 이력서 리스트 가져오기 -->
+ 	<select id="getResumeList" parameterType="int" resultType="model.CvCompanyDto">
+ 		SELECT SEQ, NAME
+ 		FROM RESUME
+ 		WHERE MEMSEQ = #{loginSeq}
+ 	</select>
+ 
+    <!-- 지난요청 내역 삭제하기 --> 
+ 	<update id="deletePastReq" parameterType="int">
+ 		UPDATE CV_REQUEST
+ 		SET DEL = 1
+ 		WHERE SEQ = #{seq}
+ 	
+ 	</update>
+ 
+ </mapper> 
