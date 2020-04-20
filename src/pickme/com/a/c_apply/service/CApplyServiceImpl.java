@@ -1,8 +1,12 @@
 package pickme.com.a.c_apply.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.RecruitDto;
+import model.RecruitParam;
 import pickme.com.a.c_apply.dao.CApplyDao;
 
 @Service
@@ -10,6 +14,16 @@ public class CApplyServiceImpl implements CApplyService {
 
 	@Autowired
 	CApplyDao cApplyDao;
+
+	@Override
+	public int getComRecCount(int seq) {
+		return cApplyDao.getComRecCount(seq);
+	}
+
+	@Override
+	public List<RecruitDto> myCurrentRecList(RecruitParam param) {
+		return cApplyDao.myCurrentRecList(param);
+	}
 	
 	
 }

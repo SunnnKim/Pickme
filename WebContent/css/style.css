@@ -47,6 +47,9 @@ header nav.gnb a:first-child {margin-left:0;}
 .pmList li .img {position:relative; width:100%; height:175px; border:1px solid #ddd; border-radius:4px; overflow:hidden;}
 .pmList li .img img {width:100%; transition:all 0.5s ease-in-out;}
 .pmList li:hover .img img {transform:scale(1.1);}
+.pmList.capplyList {}
+.pmList.capplyList li:hover .img img {transform:none;}
+.pmList.capplyList li .img:hover img {transform:scale(1.1);}
 .pmList li button{
     width: 65px;
     height: 32px;
