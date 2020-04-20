@@ -7,8 +7,8 @@ public class EApplyUtil {
 	public static String dots(String msg) {
 		
 		String str = "";
-		if(msg.length() >= 25){
-			str = msg.substring(0, 25);
+		if(msg.length() >= 35){
+			str = msg.substring(0, 35);
 			str += "..."; 
 		}else{
 			str = msg.trim();	

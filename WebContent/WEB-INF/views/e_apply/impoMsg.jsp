@@ -25,8 +25,14 @@
 	<!-- 검색창 -->
 	<div class="bbs-top">
 		<div class="form-search">
-			<input type="text" id="_keyword" name="sKeyWord" title="검색어 입력"
+			<c:if test="${not empty sKeyword}">
+			<input type="text" id="_keyword" name="keyWord" title="검색어 입력"
+				placeholder="" value="${sKeyword }">
+			</c:if>
+			<c:if test="${empty sKeyword}">
+			<input type="text" id="_keyword" name="keyWord" title="검색어 입력"
 				placeholder="검색어를 입력해주세요." value="">
+			</c:if>
 			<button type="button" class="btn-search" onclick="searchAction()">
 				<span>검색</span>
 			</button>
@@ -66,11 +72,12 @@
 				<c:if test="${unreadCount == 0 && isUnread != null }">
 					<td colspan="5">안읽으신 메시지가 없습니다</td>
 				</c:if>
-				<c:if test="${sKeyword != null }">
-					<td colspan="5">찾으시는 메시지가 없습니다</td>
-				</c:if>
-				<c:if test="${sKeyword == null && isUnread == null}">
+
+				<c:if test="${(sKeyword eq null || (empty sKeyword) ) && isUnread == null }">
 					<td colspan="5">중요 메시지가 없습니다</td>
+				</c:if>
+				<c:if test="${!sKeyword eq null || (not empty sKeyword)}">
+					<td colspan="5"> 찾으시는 메시지가 없습니다</td>
 				</c:if>
 			</tr>
 				
@@ -245,16 +252,12 @@
 		$("input[name='checkRow']:checked").each(function() {
 			// 배열에 집어넣기
 			seqArray.push($(this).val());
-			
-			//checkRow = checkRow + $(this).val() + ",";
 		});
-		// checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
 		
 		if (seqArray == null) {
 			alert("삭제 할 대상을 선택하세요.");
 			return false;
 		}
-		// console.log("### checkRow => {}" + checkRow);
 		
 		// alert(seqArray.length);
 
@@ -262,31 +265,49 @@
 			alert("삭제하실 내역이 없습니다");
 			return false;
 		}
-		
-		if (confirm("정보를 삭제 하시겠습니까?")) {
-			//삭제처리 후 다시 불러올 리스트 url      
-			$.ajax({
-				url        : "deleteMsg.do",
-				dataType   : "json",
-				type       : "post",
-			    traditional: true, // array보낼때 필요
-				data       : {"seqArray" : seqArray },
-				success    : function(data){
-					
-					if(data != null){
-						
-						  var sKeyword = '<c:out value="${sKeyword}"/>';
-						  var pn = '<c:out value="${pageNumber}"/>'
-						
-						location.href="impoMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
-						
-					}
+
+		Swal.fire({
+			  title: '선택하신 메시지를 삭제하시겠습니까?',
+			  text: "",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText:'취소',
+			  confirmButtonText: '삭제'
+			}).then((result) =>{
+			  if (result.value) {
+					$.ajax({
+						url        : "deleteMsg.do",
+						dataType   : "json",
+						type       : "post",
+					    traditional: true, // array보낼때 필요
+						data       : {"seqArray" : seqArray },
+						success    : function(data){
+
+							if(data != null){
+									
+								 Swal.fire(
+								      '삭제되었습니다',
+								      '',
+								      'success'
+							    ).then((reslut)=>{
+
+							    	  var sKeyword = '<c:out value="${sKeyword}"/>';
+									  var pn = '<c:out value="${pageNumber}"/>'
+									
+									location.href="impoMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+							    });		
+
+							}	 	   	    	
 				},
 				error      : function(request, status, error){
 					alert("error");
 				}
 			});
 		}
+	});
+
 	}
 	/* 페이지 이동 */
 	function goPage(pn){

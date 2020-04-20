@@ -3,21 +3,22 @@ package pickme.com.a.e_apply.service;
 import java.util.List;
 
 import model.EApplyDto;
-import model.MessageParam;
+import model.EApplyParam;
+
 
 public interface EApplyService {
 	
-	public List<EApplyDto> getCurAList(MessageParam param);
+	public List<EApplyDto> getCurAList(EApplyParam param);
 	
-	public int getTotalRecordCount(MessageParam param);
+	public int getTotalRecordCount(EApplyParam param);
 	
 	
 	public int cancelApply(int seq);
 	
-	public int[] deleteApply(int[] seqArray);
+	public int deleteApply(int seqArray);
 	
-	public List<EApplyDto> getPastAList(MessageParam param);
+	public List<EApplyDto> getPastAList(EApplyParam param);
 	
-	public int getTotalPastCount(MessageParam param);
+	public int getTotalPastCount(EApplyParam param);
 	
 }

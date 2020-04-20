@@ -4,10 +4,13 @@
   "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="eApplyMessage">
   
+  <!--받은메시지 불러오기 -->
 	<select id="getInMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
-		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m, C_Member c
-		WHERE m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
+		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m
+		INNER JOIN C_MEMBER c
+		ON m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
+		<!-- 검색 -->
 		<if test="sKeyword != null and sKeyword !=''">
 		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
@@ -15,143 +18,152 @@
 		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
  	 </select>
 
+ 	<!-- 받은메시지 갯수 불러오기 -->
  	 <select id="getTotalRecordCount" parameterType="model.MessageParam" resultType="int">
  	 	SELECT COUNT(*)
- 	 	FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m, C_Member c
- 	 	WHERE  m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
+ 	 	FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m
+ 	 	INNER JOIN C_Member c
+ 	 	ON  m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
  	 </select>
 
+	<!-- 중요메시지표시 -->
 	<update id="addStar" parameterType="int">
 	   UPDATE MESSAGE
 	   SET IMPORTANT = 1
 	   WHERE SEQ = ${seq}
-	
 	</update>
 	
+	<!-- 중요메시지 취소 -->
 	<update id="removeStar" parameterType="int">
 	   UPDATE MESSAGE
 	   SET IMPORTANT = 0
 	   WHERE SEQ = ${seq}
-	
 	</update>
 	
+	<!-- 받은메시지 자세히보기 -->
 	<select id="getMsgDetail" parameterType="int" resultType="model.MessageDto">
 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, c.NAME
 		FROM MESSAGE m, C_Member c
 		WHERE m.FROM = c.SEQ AND m.SEQ = ${seq}
-		
 	</select>
 	
+	<!-- 보낸메시지 자세히보기  -->
 	<select id="getSMsgDetail" parameterType="int" resultType="model.MessageDto">
 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, c.NAME
 		FROM MESSAGE m, C_Member c
 		WHERE m.TO = c.SEQ AND m.SEQ = ${seq}
-		
 	</select>
 	
-	
-	
- 	 
- 	 <select id="getImpoMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
+	<!-- 중요메시지 불러오기 -->
+ 	<select id="getImpoMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
-		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m, C_Member c
-		WHERE m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0
+		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m
+		INNER JOIN C_Member c
+		ON m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
 		ORDER BY m.SDATE DESC
 		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
-
  	 </select>
  	 
+ 	 <!-- 중요메시지 갯수 불러오기 -->
  	 <select id="getImpoCount" parameterType="model.MessageParam" resultType="int">
  	 	SELECT COUNT(*)
- 	 	FROM (SELECT * FROM MESSAGE WHERE `TO` =  #{toSeq}) m, C_Member c
- 	 	WHERE m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0
+ 	 	FROM (SELECT * FROM MESSAGE WHERE `TO` =  #{toSeq}) m
+ 	 	INNER JOIN C_Member c
+ 	 	ON m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
  	 </select>
  	 
+ 	 <!-- 메시지 삭제 -->
  	 <update id="deleteMsg" parameterType="int">
  	 	UPDATE MESSAGE 
  	 	SET DEL = 1
  	 	WHERE SEQ = ${seq}
- 	 
  	 </update>
  	 
+ 	<!-- 보낸메시지 불러오기 -->
  	 <select id="getOutMsgList" parameterType="model.MessageParam" resultType="model.MessageDto">
  	 	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
-		FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m, C_Member c
-		WHERE m.TO = c.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+		FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m
+		INNER JOIN C_Member c
+		ON m.TO = c.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
 		ORDER BY m.SDATE DESC
 		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
- 	 
  	 </select>
  	 
+ 	 <!-- 보낸메시지 갯수 불러오기 -->
  	 <select id="getSendCount" parameterType="model.MessageParam" resultType="int">
  	 	SELECT COUNT(*)
- 	 	FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m, C_Member c
- 	 	WHERE m.TO = c.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+ 	 	FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m
+ 	 	INNER JOIN C_Member c
+ 	 	ON m.TO = c.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
  	 </select>
  	 
+ 	 <!-- 메시지 확인한 경우 표시 -->
  	 <update id="msgOpen" parameterType="int">
  	 	UPDATE MESSAGE
  	 	SET OPEN = 1
  	 	WHERE SEQ = #{seq}
- 	 
  	 </update>
  	 
+ 	 <!-- 메시지 보내기 -->
  	 <insert id="sendMsg" parameterType="model.MessageDto">
  	 	INSERT INTO MESSAGE
  	 	VALUES(SEQ, #{content}, #{from}, #{to} , NOW(), 0, 0, 0, "mem")
- 	 
  	 </insert>
  	 
+ 	  <!-- 받은 메시지 중 안읽음 리스트 불러오기 -->
+ 	 <select id="getUnreadMsgCount" parameterType="model.MessageParam" resultType="model.MessageDto">
+ 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
+		FROM (SELECT * FROM MESSAGE WHERE `TO` =  #{toSeq}) m
+		INNER JOIN C_Member c
+		ON m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0 AND m.OPEN = 0
+		<if test="sKeyword != null and sKeyword !=''">
+		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
+		</if>
+		ORDER BY m.SDATE DESC
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+ 	 </select> 
+ 	 
+ 	 <!-- 받은메시지 중 안읽은 메시지 갯수 -->
  	 <select id="unreadCount" parameterType="int" resultType="int">
  	 	SELECT COUNT(*)
  	 	FROM MESSAGE 
  	 	WHERE `TO` = #{seq} AND OPEN = 0 AND DEL = 0 AND DISTINGUISH = 'com'
  	 </select>
 	
-	<select id="impoUnreadCount" parameterType="int" resultType="int">
+	 <!-- 중요메시지 중 안읽음 리스트 불러오기  -->
+	 <select id="getImpoUnreadMsgCount" parameterType="model.MessageParam" resultType="model.MessageDto">
+ 				SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
+		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m
+		INNER JOIN C_Member c
+		ON m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0 AND m.OPEN = 0
+		<if test="sKeyword != null and sKeyword !=''">
+		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
+		</if>
+		ORDER BY m.SDATE DESC
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+ 	
+ 	 </select> 	
+	 
+	 <!-- 중요메시지 중 안읽은 메시지 갯수  -->
+	 <select id="impoUnreadCount" parameterType="int" resultType="int">
  	 	SELECT COUNT(*)
  	 	FROM MESSAGE 
  	 	WHERE `TO` = #{seq} AND OPEN = 0 AND DEL = 0 AND IMPORTANT = 1 AND DISTINGUISH = 'com'
  	 </select>
- 	
- 	<select id="getUnreadMsgCount" parameterType="model.MessageParam" resultType="model.MessageDto">
- 		SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
-		FROM (SELECT * FROM MESSAGE WHERE `TO` =  #{toSeq}) m, C_Member c
-		WHERE m.FROM = c.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0 AND m.OPEN = 0
-		<if test="sKeyword != null and sKeyword !=''">
-		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
-		</if>
-		ORDER BY m.SDATE DESC
-		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
- 	
- 	</select> 
- 	
- 	<select id="getImpoUnreadMsgCount" parameterType="model.MessageParam" resultType="model.MessageDto">
- 				SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, c.NAME
-		FROM (SELECT * FROM MESSAGE WHERE `TO` =   #{toSeq}) m, C_Member c
-		WHERE m.FROM = c.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'com' AND m.DEL = 0 AND m.OPEN = 0
-		<if test="sKeyword != null and sKeyword !=''">
-		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
-		</if>
-		ORDER BY m.SDATE DESC
-		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
- 	
- 	</select>  
- 	 
- 	 
+ 
   </mapper>
