@@ -139,9 +139,35 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 
 
+
+
+<!-- 기업_지원자 관리 -->
+
+<% if ( lourl.contains("cApplyList") ) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>지원 현황</span>
+	<span>></span>
+	<span>지원자 관리</span>
+</div>
+<% } %>
+
+<!-- 기업_메세지함-->
+<% if ( lourl.contains("c_apply") && lourl.contains("Msg") ) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>지원 현황</span>
+	<span>></span>
+	<span>메시지함</span>
+</div> 
+<% } %>
+
+
 <!-- 기업_이력서 열람요청 -->
 
-<% if (lourl.contains("requestList") || lourl.contains("requestLike")) {%>
+<% if ( lourl.contains("c_apply") && lourl.contains("request") ) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>
@@ -151,16 +177,6 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 </div>
 <% } %>
 
-<!-- 기업_메세지함-->
-<% if (lourl.contains("cRcvMsg") || lourl.contains("cSendMsg")) {%>
-<div class="location">
-	<span>홈</span>
-	<span>></span>
-	<span>지원 현황</span>
-	<span>></span>
-	<span>메세지함</span>
-</div> 
-<% } %>
 
 
 

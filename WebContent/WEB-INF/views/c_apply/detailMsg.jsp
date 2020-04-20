@@ -44,22 +44,26 @@
           </div><!--// msg-content -->
           <div class="messageBtn" id="msgBtn">
               <button onclick="delcheck()">삭제하기</button>  
-              <button id="_reply" onclick="reply()">답장하기</button> 
+             
            
               
           <c:if test="${page eq 'cRcvMsg'}">
           	  <c:if test="${unread == 0 }">
+          	   	  <button id="_reply" onclick="reply()">답장하기</button> 
           		  <a href="cRcvMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
           	  </c:if> 
           	  <c:if test="${unread == 1 }">
+          	    <button id="_reply" onclick="reply()">답장하기</button> 
               	<a href="unread.do?page=cRcvMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
          	</c:if>
           </c:if>
 		 <c:if test="${page eq 'cImpoMsg'}">
 		 	<c:if test="${unread == 0 }">
+		 		 <button id="_reply" onclick="reply()">답장하기</button> 
 		 		 <a href="cImpoMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
 		 	</c:if>
 		 	<c:if test="${unread == 1 }">
+		 		 <button id="_reply" onclick="reply()">답장하기</button> 
 		 		 <a href="unread.do?page=cImpoMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
 		 	</c:if>
         </c:if>

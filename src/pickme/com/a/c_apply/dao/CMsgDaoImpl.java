@@ -90,6 +90,21 @@ public class CMsgDaoImpl implements CMsgDao {
 	public List<MessageDto> getImpoUnreadMsgCount(MessageParam param) {
 		return sqlSession.selectList(ns + "getImpoUnreadMsgCount", param);
 	}
+
+	@Override
+	public List<MessageDto> getSendMsgList(MessageParam param) {
+		return sqlSession.selectList(ns + "getSendMsgList", param);
+	}
+
+	@Override
+	public int getSendMsgCount(MessageParam param) {
+		return sqlSession.selectOne(ns + "getSendCount", param);
+	}
+
+	@Override
+	public MessageDto sendMsgDetail(int msgSeq) {
+		return sqlSession.selectOne(ns + "sendMsgDetail", msgSeq);
+	}
 	
 	
 }

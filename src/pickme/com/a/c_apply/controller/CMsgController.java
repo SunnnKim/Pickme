@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import model.AMemberDto;
 import model.CMemberDto;
 import model.MessageDto;
 import model.MessageParam;
-import pickme.com.a.c_apply.service.CApplyService;
 import pickme.com.a.c_apply.service.CMsgService;
 
 @Controller
@@ -76,9 +74,9 @@ public class CMsgController {
 
 		MessageDto msg = null;
 		
-		if(page.equals("sendMsg")) { 
+		if(page.equals("cSendMsg")) { 
 			// 보낸 메시지 중에서 메시지 디테일 불러오기(기업명이 다른테이블에 있어서 나눠서 불러와야함)
-			//sg = cApplyService.sMsgDetail(seq); 
+			msg = cMsgService.sendMsgDetail(msgSeq); 
 		} else {
 			// 받은 메시지 중에서 메시지 디테일 불러오기
 			int n = cMsgService.msgOpen(msgSeq);
@@ -299,7 +297,39 @@ public class CMsgController {
 	
 	/*============== 보낸 메시지함 호출 ==============*/
 	@RequestMapping(value = "cSendMsg.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String cSendMsg() {
+	public String cSendMsg(Model model, HttpSession session, MessageParam param) {
+		// session에서 login seq 받아오기 
+		int toSeq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+		
+		param.setToSeq(toSeq);
+		
+		int pn = param.getPageNumber(); // 현재페이지넘버
+		int start = pn * param.getRecordCountPerPage(); // 1, 11, 21
+		int end = (pn + 1) * param.getRecordCountPerPage(); // 10, 20, 30
+		
+		System.out.println("pn: " + pn + " start: " + start + " end: " +end);
+		
+		param.setStart(start);
+		param.setEnd(end);
+		
+		List<MessageDto> msg = cMsgService.getSendMsgList(param); 
+		System.out.println("messageListSize:" + msg.size());
+		
+		
+		
+		int totalRecordCount = cMsgService.getSendMsgCount(param);
+		System.out.println("totalRecordCount : " + totalRecordCount);
+		
+		
+		
+		model.addAttribute("sendMsglist", msg);
+		model.addAttribute("totalRecordCount", totalRecordCount);
+		model.addAttribute("pageCountPerScreen", 10);
+		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
+		model.addAttribute("pageNumber", pn);
+		model.addAttribute("sKeyword", param.getsKeyword());
+		
+		
 		return "c_apply/cSendMsg";
 	}
 

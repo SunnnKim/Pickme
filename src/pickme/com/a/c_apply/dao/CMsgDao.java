@@ -36,4 +36,10 @@ public interface CMsgDao {
 
 	public List<MessageDto> getImpoUnreadMsgCount(MessageParam param);
 
+	public List<MessageDto> getSendMsgList(MessageParam param);
+
+	public int getSendMsgCount(MessageParam param);
+
+	public MessageDto sendMsgDetail(int msgSeq);
+
 }
