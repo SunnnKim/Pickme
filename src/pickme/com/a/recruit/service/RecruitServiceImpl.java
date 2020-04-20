@@ -67,7 +67,10 @@ public class RecruitServiceImpl implements RecruitService{
 	public CMemberDto getAddr(int seq) {
 		return dao.getAddr(seq);
 	}
-	
+	@Override
+	public int delRecruit(int seq) {
+		return dao.delRecruit(seq);
+	}
 
 	
 	

@@ -5,10 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- 헤더호출 -->
 <c:import url="../../../include/header.jsp"/> 
-  <form method="post">
-  	<input type="hidden" name="seq" value="${recDto.seq }">
-  	<input type="hidden" name="comSeq" value="${recDto.comSeq }">
-  </form>
+  <input type="hidden" name="recSeq" id="recSeq" value="${recDto.seq }">
   <div class="recTop clfix">
           <div class="infoImg">
             <div class="slider">
@@ -115,15 +112,57 @@
 			 <div id="map" style="width:100%;height:400px; margin-top:10px;"></div>
         </div><!-- rec-location -->
        
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9659e321755104e19052e54a7fbe78a4&libraries=services"></script>
+<!-- Kakao Map Api -->
+<%@include file="../../../../api/kakaoMap.jsp" %>
 <script>
 	
 	$("#recruitDetailButton1").on("click", function(){
-		alert("수정하기 버튼");
+		//alert("수정하기 버튼");
+		//location.href="updateRec.do";
+		  var form = document.createElement("form");
+	         form.setAttribute("method", "Post");  //Post 방식
+	         form.setAttribute("action", "updateRec.do"); //요청 보낼 주소
+	      var hiddenField = document.getElementById("recSeq");
+	      form.appendChild(hiddenField);
+	      document.body.appendChild(form);
+	      form.submit();
 	});
 
 	$("#recruitDetailButton2").on("click", function(){
-		alert("마감하기 클릭");
+		Swal.fire({
+		  title: '공고를 정말 마감하시겠습니까?',
+		  text: "마감된 공고는 수정이 불가능합니다.",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+				 url:"delRecruit.do",
+				 type:"post",
+				 data:{"seq":$("input[name=recSeq]").val()},
+				 success:function(data){
+					 //alert("data:"+data);
+					 if(data==true){
+						 Swal.fire({
+						      title:'Deleted!',
+						      content:'정상적으로 마감되었습니다.',
+						      icon:'success'
+						}).then((result) =>{
+							goPageRec('now');
+						})
+						
+					 }
+				}//success
+			
+			});//ajax
+		  
+		    
+		  }//if
+		})//Swal.
+		
 	});
 
 	$(".btnleft").on("click", function(){

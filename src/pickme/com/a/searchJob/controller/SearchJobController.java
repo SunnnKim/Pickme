@@ -69,6 +69,10 @@ public class SearchJobController {
 	
 	@RequestMapping(value = "recDetail.do")
 	public String recDetail(int seq, Model model,HttpSession session) {
+		
+		//조회수 업데이트
+		serv.readCountUp(seq);
+		
 		RecruitDto dto = serv.getRecruitDetail(seq);
 		//System.out.println("detail dto : "+ dto.toString());
 		

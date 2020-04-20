@@ -45,6 +45,9 @@ public interface RecruitService {
 		//(기업) 지난공고 글 수
 		public int getComPastCount(int seq);
 		
+		// 공고 마감
+		public int delRecruit(int seq);
+		
 		
 	
 }

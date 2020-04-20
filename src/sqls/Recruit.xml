@@ -66,6 +66,12 @@
 		FROM RECRUIT 
 		WHERE SEQ=#{seq}
 	</select> 
+	<!-- readcount ++ -->
+	<update id="readCountUp" parameterType="int">
+		UPDATE RECRUIT
+		SET READCOUNT = READCOUNT+1
+		WHERE SEQ=#{seq}
+	</update>
 	<!-- 기업 주소 가져오는 함수 -->
 	<select id="getAddr" parameterType="int" resultType="model.CMemberDto">
 		SELECT DEPARTMENT, ADDRESS FROM C_MEMBER
@@ -81,6 +87,31 @@
 	<select id="countFiles" parameterType="int" resultType="int">
 		SELECT COUNT(*) FROM FILES WHERE REF=#{ref}
 	</select>
+	<!-- 공고 마감하기 -->
+	<update id="delRecruit" parameterType="int">
+		UPDATE RECRUIT
+		SET DEL=1
+		WHERE SEQ=#{seq}
+	</update>
+	<!-- 공고 update -->
+	<update id="recUpdate" parameterType="model.RecruitDto">
+		UPDATE RECRUIT
+		SET TITLE=#{title}, COMJOB=#{comJob}, COMJOBTYPE=#{comJobType},
+		 MAINTASK=#{mainTask}, WORKINGFORM=#{workingForm}, REQUIREMENTS= #{requirements},
+		 SALARY=#{salary}, CONTENT=#{content}, HASHTAG=#{hashTag}, EDATE=#{edate}, IMAGENAME=#{imagename}
+		WHERE SEQ=#{seq}
+	</update>
+	<!-- file update -->
+	<update id="recUpdate" parameterType="model.FilesDto">
+		UPDATE FILES
+		SET ORIGINNAME= #{originname}, NEWNAME= #{newname}, STEP=#{step}, FILETYPE=#{filetype}
+		WHERE USETABLE='RECRUIT' AND REF=#{ref}
+	</update>
+	<!-- 해야할것 : (통계)해당 채용게시물에 지원자수 count -->
+	<!-- 해야할것 : (통계)해당 게시물 좋아요수 count -->
+	<!-- 해야할것 : (검색) -->
+	<!-- 해야할것 : (필터) -->
+	
 	
 	
 	
