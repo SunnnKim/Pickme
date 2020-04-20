@@ -49,9 +49,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int countNewACMember() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int countNewCMember() {
+		return dao.countNewCMember();
 	}
 
 	

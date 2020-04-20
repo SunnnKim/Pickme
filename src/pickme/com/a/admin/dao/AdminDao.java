@@ -12,7 +12,7 @@ public interface AdminDao {
 	public List<AMemberDto> aMemberAll();
 	public List<CMemberDto> cMemberAll();
 	public int countNewAMember();
-	public int countNewACMember();
+	public int countNewCMember();
 	public int countAmember();
 	public int countCmember();
 }
