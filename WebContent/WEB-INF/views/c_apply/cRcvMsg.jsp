@@ -23,7 +23,7 @@
 	<!-- 검색창 -->
 	<div class="bbs-top">
 		<div class="form-search">
-			<input type="text" id="_keyword" name="sKeyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value="">
+			<input type="text" id="_keyword" name="sKeyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value=${sKeyword }>
 			<button type="button" class="btn-search" onclick="searchAction()">
 				<span>검색</span>
 			</button>
@@ -75,8 +75,6 @@
 
 				<c:forEach items="${rcvMsgList }" var="rcvMsg" varStatus="vs">
 					<c:set var="content" value="${rcvMsg.content }" />
-					<c:set var="sdate" value="${rcvMsg.sdate }" />
-					<!-- 오늘 날짜 시간으로 표시위해 설정 -->
 					<tr>
 						<!-- 중요메시지 표시 -->
 						<td class="star-td">
@@ -88,7 +86,7 @@
 							
 							<c:if test="${ rcvMsg.important == 1 }">
 								<i class="fas fa-star on"> 
-									<input type="hidden"	value="${rcvMsg.seq }">
+									<input type="hidden" value="${rcvMsg.seq }">
 								</i>
 							</c:if>
 						</td>
@@ -97,26 +95,33 @@
 							<c:if test="${ rcvMsg.open == 0 }">
 								<c:if test="${isUnread != null }">
 									<a href="msgDetail.do?msgSeq=${rcvMsg.seq }&page=cRcvMsg&pageNumber=${pageNumber}&unread=1">
-										<span class="unread-msg"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span>
+										<span class="unread-msg">
+											<%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%>
+										</span>
 									</a>
 								</c:if>
 								<c:if test="${isUnread == null }">
 									<a href="msgDetail.do?msgSeq=${rcvMsg.seq }&page=cRcvMsg&pageNumber=${pageNumber}&unread=0">
-										<span class="unread-msg"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span>
+										<span class="unread-msg">
+											<%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%>
+										</span>
 									</a>
 								</c:if>
 							</c:if> 
 							<c:if test="${rcvMsg.open == 1 }">
-								<a href="msgDetail.do?seq=${rcvMsg.seq }&page=cRcvMsg&pageNumber=${pageNumber}&unread=0">
-									<span class="read-msg"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span>
+								<a href="msgDetail.do?msgSeq=${rcvMsg.seq }&page=cRcvMsg&pageNumber=${pageNumber}&unread=0">
+									<span class="read-msg">
+										<%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%>
+									</span>
 								</a>
 							</c:if>
 						</td>
 						
-						<td>${ rcvMsg.name } 
-							<input type="hidden" id="_seq" value="${ rcvMsg.seq}">
+						<td>${rcvMsg.name } 
+							<input type="hidden" id="_seq" value="${rcvMsg.seq }">
 						</td>
-						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td>
+						<%-- <td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td> --%>
+						<td>${rcvMsg.sdate }</td>
 						<td><input type="checkbox" name="checkRow" value="${rcvMsg.seq }"></td>
 
 					</tr>
@@ -125,11 +130,10 @@
 		</table>
 	</div>
 
-	<div class="btn-message">
-		<button type="button" onclick="writeAction()">메시지 작성</button>
-		<button type="button" style="float: right;" onclick="deleteAction()">선택삭제</button>
+	<div class="btn-message" style="text-align: right;">
+		<button type="button" onclick="deleteAction()">선택삭제</button>
 	</div>
-
+	
 	<!-- 페이징 -->
 	<div id="paging_wrap">
 		<jsp:include page="/WEB-INF/views/c_apply/paging.jsp" flush="false">
@@ -142,7 +146,6 @@
 	<!-- // paging_wrap -->
 </div>
 <!-- // allList -->
-
 
 
 
@@ -198,7 +201,7 @@
 		 			success: function(data){
 		 				
 		 				if(data != null){
-		 					alert("중요메시지에서 삭제되었습니다 ");
+		 					//alert("중요메시지에서 삭제되었습니다 ");
 		 				}
 		 			},
 		 			error: function(){
@@ -214,29 +217,97 @@
 	/* 선택 삭제(체크박스된 것 전부) */
 	function deleteAction() {
 		// 삭제할 seq 넣을 배열 선언
-		var seqArray = [];
+		var checkRow = "";
 		$("input[name='checkRow']:checked").each(function() {
-			// 배열에 집어넣기
-			seqArray.push($(this).val());
-			
-			//checkRow = checkRow + $(this).val() + ",";
+			checkRow = checkRow + $(this).val() + ",";
 		});
-		// checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
+		checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
 		
-		if (seqArray == null) {
-			alert("삭제 할 대상을 선택하세요.");
+		if (checkRow == '') {
+			//alert("삭제 할 대상을 선택하세요.");
+			Swal.fire({
+			  icon : 'question',
+			  text : '삭제 할 대상을 선택하세요',
+			  confirmButtonColor: '#4f6eff'
+			})
 			return false;
 		}
 		// console.log("### checkRow => {}" + checkRow);
 		
 		// alert(seqArray.length);
-
-		if(seqArray.length == 0){
+		
+		/* 
+		if(checkRow.length == 0){
 			alert("삭제하실 내역이 없습니다");
 			return false;
 		}
+ 		*/
 
-		
+ 		Swal.fire({
+			  //title: '선택 된 메시지를 삭제 합니다',
+			  text : '선택 된 메시지를 삭제 합니다',
+			  //text: "* 주의 : 요청 목록도 함께 삭제 됩니다",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#4f6eff',
+			  cancelButtonColor: '#ff7373',
+			  confirmButtonText: '확인',
+			  cancelButtonText: '취소'
+			}).then((result) => {
+				if(result.value) {
+
+					$.ajax({
+						url : 'deleteMsg.do',
+						type : 'POST',
+						data : { "checkRow" : checkRow },
+						/* dataType  : "String", */
+						success : function(deleteCount) {
+							//alert("success : " + result );
+							if(deleteCount != null) {
+								//alert(deleteCount + "개가 삭제 되었습니다");
+								var sKeyword = '<c:out value="${sKeyword}"/>';
+								var pn = <c:out value="${pageNumber}"/>;
+
+								var totalRecordCount = <c:out value="${totalMsgCount }"/>;
+								var recordCountPerPage = <c:out value="${recordCountPerPage }"/>;
+								var screenEndPageIndex = $('.paging > ul > li').last().text();
+								//alert(screenEndPageIndex)
+								
+								/* 마지막 페이지에 글이 하나일때, 그 글을 삭제하면 앞페이지로 전송 */
+								if( (pn+1) == screenEndPageIndex ) {	// 현재 페이지가 마지막 페이지 일 때 
+									//alert('totalRecordCount % recordCountPerPage:'+totalRecordCount % recordCountPerPage)
+									if( deleteCount == (totalRecordCount % recordCountPerPage)){
+										pn = pn - 1;
+									}else if( (totalRecordCount % recordCountPerPage) == 0 && deleteCount == 10 ){
+										pn = pn - 1;
+									}
+								}
+								if (pn < 0) pn = 0;
+								//alert("pn  : "  + pn);
+								
+								if (result.value) {
+								    Swal.fire(
+								      '삭제 완료',
+								      deleteCount +'개의 항목이 삭제 되었습니다.',
+								      'success'
+								    ).then( (result) => {
+								    	location.href="cRcvMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+								    })
+								}
+							}
+						},
+						error:function(request,status,error){ 
+							alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+						}
+					})
+				} else {
+					/* 취소 했을 때 */					
+				}
+			}) /* Swal.fire end */
+	
+
+
+		/*
 		if (confirm("정보를 삭제 하시겠습니까?")) {
 		   
 			$.ajax({
@@ -260,6 +331,7 @@
 				}
 			});
 		}
+		*/
 	}
 
 	/* 페이지 이동 */
@@ -268,7 +340,7 @@ function goPage(pn){
 	//  alert("sKeyword: " + sKeyword);	
 
 	  var isUnread = '<c:out value="${isUnread}"/>';
-	  alert("확인 " + isUnread);
+	  //alert("확인 " + isUnread);
 
 	  if(isUnread == 'yes'){
 		  location.href="unread.do?page=cRcvMsg&pageNumber=" + pn;

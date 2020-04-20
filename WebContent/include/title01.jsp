@@ -28,9 +28,34 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 회원인증
 <% } %>	
 
-<!-- 일반 mypage -->
+<!-- 일반 마이페이지 프로필 -->
 <% if(ifurl.contains("/a_mypage/profile")){%>
 프로필
+<% }%>
+
+<!-- 일반 마이페이지 비밀번호 변경 -->
+<% if(ifurl.contains("/a_mypage/changePassword")){%>
+비밀번호 변경
+<% }%>
+
+<!-- 일반 마이페이지 문의내역 -->
+<% if(ifurl.contains("/a_mypage/inquiry")){%>
+문의내역
+<% }%>
+
+<!-- 일반 마이페이지 탈퇴 -->
+<% if(ifurl.contains("/a_mypage/withdrawal")){%>
+탈퇴
+<% }%>
+
+<!-- 이력서 관리-->
+<% if(ifurl.contains("/resume/resume.jsp")){%>
+이력서
+<% }%>
+
+<!-- 이력서 작성 -->
+<% if(ifurl.contains("/resume/resumeWrite.jsp")){%>
+이력서 작성
 <% }%>
 
 

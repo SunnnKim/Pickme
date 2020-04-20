@@ -30,7 +30,7 @@
 				<h4>${sessionScope.loginuser.name}</h4>
 				<p>${sessionScope.loginuser.email}</p>
 				<p>
-					<input type="text" name="phone" placeholder="연락처를 입력해주세요" maxlength="11" value="${dto.phone }" />
+					<input type="text" name="phone" placeholder="연락처를 입력해주세요" maxlength="13" value="${dto.phone }" />
 				</p>
 				<ul>
 					<li>
@@ -67,7 +67,7 @@
 		<div class="aMycont">
 			<h5>간단 소개글</h5>
 			<p>직무 내용, 경험, 목표 등을 추가해서 더욱 멋진 소개글을 작성해보세요.</p>
-			<textarea name="introduce">${dto.introduce }</textarea>
+			<textarea name="introduce"><c:out value="${dto.introduce }" /></textarea>
 			<h5 class="block">관심분야를 태그해주세요</h5>
 			<div class="hashtagWrap">
 				<input type="text" id="hashtag" placeholder="태그는 최대 3개까지 입력가능합니다.">
@@ -84,10 +84,64 @@
 <script>
 
 	// 연락처 숫자만 입력
-    $("input[name=phone]").keyup(function(event){
+   /*  $("input[name=phone]").keyup(function(event){
       	var inputVal = $(this).val();        
     	$(this).val(inputVal.replace(/[^0-9]/gi,''));      	
- 	});
+ 	}); */
+
+
+    $("input[name=phone]").on('keydown', function(e){
+	    // 숫자만 입력받기
+	    var trans_num = $(this).val().replace(/-/gi,'');
+		var k = e.keyCode;
+	 				
+	 	if(trans_num.length >= 11 && ((k >= 48 && k <=126) || (k >= 12592 && k <= 12687 || k==32 || k==229 || (k>=45032 && k<=55203)) ))
+	 	{
+	   	    e.preventDefault();
+	 	}
+    }).on('blur', function(){ // 포커스를 잃었을때 실행
+         if($(this).val() == '') return;
+
+         // 기존 번호에서 - 를 삭제.
+         var trans_num = $(this).val().replace(/-/gi,'');
+       
+         // 입력값이 있을때만 실행
+         if(trans_num != null && trans_num != '')
+         {
+             // 총 핸드폰 자리수는 11글자이거나, 10자
+             if(trans_num.length==11 || trans_num.length==10) 
+             {   
+                 // 유효성 체크
+                 var regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
+                 if(regExp_ctn.test(trans_num))
+                 {
+                     // 유효성 체크에 성공하면 하이픈을 넣고 값을 바꿔줍니다.
+                     trans_num = trans_num.replace(/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?([0-9]{3,4})-?([0-9]{4})$/, "$1-$2-$3");                  
+                     $(this).val(trans_num);
+                 }
+                 else
+                 {
+                     //alert("유효하지 않은 전화번호 입니다.");
+                     Swal.fire({
+						  icon: 'error',
+						  text: '유효하지 않은 전화번호 입니다'
+					 });
+                     $(this).val("");
+                     $(this).focus();
+                 }
+             }
+             else 
+             {
+                 // alert("유효하지 않은 전화번호 입니다.");
+                 Swal.fire({
+					  icon: 'error',
+					  text: '유효하지 않은 전화번호 입니다'
+				 });
+                 $(this).val("");
+                 $(this).focus();
+             }
+       }
+   });
 
  	// 프로필 이미지 미리보기
     function readURL(input) {
@@ -111,8 +165,7 @@
 	    if(pfImg == "") {
 	    	 $('img#uploadThumb').hide();
 	    }
-    });
-    
+    });    
 	
 
 	// 직군 , 직무 선택
@@ -179,9 +232,7 @@
        	  // alert(jobuser02);
        
        
-    });
-
-    
+    });   
 
     
       function changeOcc( onedepth ){
@@ -200,8 +251,8 @@
               }
           }
         }        
+        
       }
-
   	 
 
  	// 경력 선택
@@ -233,7 +284,11 @@
 	   if($(this).val().trim() !=""){
 	     tagappend();
 	   } else {
-	     alert("태그를 입력해주세요.");
+	     // alert("태그를 입력해주세요.");
+	     Swal.fire({
+			  icon: 'error',
+			  text: '태그를 입력해주세요'
+		 });
 	   }
 	 });
 
@@ -276,9 +331,13 @@
 	    hashTagCount();
 
    } else {
-     alert("태그를 입력해주세요.");
+     // alert("태그를 입력해주세요.");
+	 Swal.fire({
+		  icon: 'error',
+		  text: '태그를 입력해주세요'
+	 });
    }
- 	alert(element_count);
+ 	//alert(element_count);
   }
 
   function remove( element ){
@@ -306,7 +365,7 @@
 
  	// 작성완료 버튼 눌렀을 때
   	$("#pSaveBtn").on("click",function(){
-	 alert("클릭");
+	 //alert("클릭");
      //hash tag
   	var taglen = $("input[name='hashTag']").length;
   	var tags = new Array(taglen);
@@ -385,8 +444,15 @@
       async : false,
       enctype: 'multipart/form-data',
       success: function (data) { 
-			alert('success');
-			location.href="profile.do";
+			//alert('success');
+			Swal.fire({
+				  icon: 'success',
+				  title: '프로필 작성이 완료됐습니다',
+				  timer: 1500
+			}).then(function(result){
+				location.href="profile.do";
+			});
+			
 	     }
         
     });

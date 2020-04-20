@@ -47,6 +47,9 @@ header nav.gnb a:first-child {margin-left:0;}
 .pmList li .img {position:relative; width:100%; height:175px; border:1px solid #ddd; border-radius:4px; overflow:hidden;}
 .pmList li .img img {width:100%; transition:all 0.5s ease-in-out;}
 .pmList li:hover .img img {transform:scale(1.1);}
+.pmList.capplyList {}
+.pmList.capplyList li:hover .img img {transform:none;}
+.pmList.capplyList li .img:hover img {transform:scale(1.1);}
 .pmList li button{
     width: 65px;
     height: 32px;
@@ -353,6 +356,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 
 /* .bbs-delete {color: #fff; background-color: #17a2b8; border-color: #17a2b8;} */
 
+.btn-message{display:block; text-align:right;}
 .btn-message button {width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: inline-block; font-size: 15px; margin-top: 15px; cursor: pointer;}
 .btn-message button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
 
@@ -462,6 +466,15 @@ span.read-msg{text-align:left;color:#777;}
 
 
 /* apply - applyList */
+
+
+.btn-sort-wrap button{background:#4f6eff; border-radius:10; padding:5px; color: #fff; font-weight: 400px; font-size:13px;}
+.apply-totalCount{display:inline-block; margin-right:15px;}
+.apply-filter{margin: 0 10px;}
+.arrow-sort-wrap{display:inline-block; margin:0 2px;}
+.arrow-sort-wrap i.fas.fa-arrow-up{margin-right: 4px}
+.arrow-sort-wrap i.fas.active{color:#4f6eff;}
+.arrow-sort-wrap i.fas{color:#aaa; cursor:pointer;}
 .btn-apply{width:100%; height:50px;}
 .btn-apply button{width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: block; font-size: 15px; margin-top: 15px; cursor: pointer;}
 .btn-apply button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
@@ -1039,6 +1052,18 @@ span.body{color: #333;width: calc(100% - 80px); font-size: 13pt;}
 .aMycont .inhash .hashbtn i.fas{margin-left:5px;}
 .aMycont > button {position:relative; display:block; width:200px; height:50px; margin:40px auto 0; background:#4f6eff;color:#fff;}
 
+/* 일반회원 마이페이지 비밀번호 변경 */
+.amemChangePw {}
+.amemChangePw strong {display:block; font-size:23px; font-weight:500; color:#304edf;}
+.amemChangePw p {font-size:17px; margin-top:20px;}
+table.aMypageTbl {width:100%; border:1px solid #ddd; margin-top:30px;}
+.aMypageTbl th {padding:20px 30px; border-right:1px solid #ddd; border-top:1px solid #ddd; background:#f7f7f7;}
+.aMypageTbl td {padding:20px 30px; border-top:1px solid #ddd;}
+.aMypageTbl td input {width:100%; height:30px; border:1px solid #ddd; outline:none; padding:0 10px;}
+.amemChangeBtnWrap {width:100%; text-align:center; margin-top:50px; font-size:0;}
+.amemChangeBtnWrap button {display:inline-block; width:180px; height:55px; font-size:17px; margin:0 5px; border:1px solid #304edf; color:#304edf; outline:none;}
+.amemChangeBtnWrap button:first-child {border:1px solid #304edf; background:#304edf; color:#fff;}
+
 /* 이력서 관리 */
 #resumeListWrap{}
 .resume-list {}
@@ -1095,8 +1120,8 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_top .rsm-downBtn {position:absolute; top:0; right:0;}
 .rsm_top .rsm-downBtn button {display:block; width:50px; padding:10px 0; border:1px solid #ddd; outline:none;}
 .rsm_top h3 {font-size:30px; margin-bottom:30px; font-weight:500;}
-.rsm_top input {border:none; width:100%; height:30px; font-size:16px; margin-top:5px; outline:none; color:#555;}
-.rsm_top textarea {width:100%; height:100px; margin-top:10px; margin-top:30px; border:none; color:#555; outline:none; resize:none;}
+.rsm_top input {border:none; width:100%; height:30px; font-size:17px; margin-top:5px; outline:none; color:#555;}
+.rsm_top textarea {font-size:17px; width:100%; height:100px; margin-top:10px; margin-top:30px; border:none; color:#555; outline:none; resize:none;}
 .rsm_top input::placeholder {color:#999;}
 .rsm_top textarea::placeholder {color:#999;}
 
@@ -1104,7 +1129,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsmCont h4 {width:100%; font-size:17px; padding:30px 0 10px; font-weight:normal; border-bottom:1px solid #bbb;}
 .rsmCont .rsm_addBtn {color:#176fd8; font-size:18px; height:86px; line-height:85px; border-bottom:1px solid #eaeaea; cursor:pointer;}
 .rsmCont .rsm_add {}
-.rsm_addCont {display:none; position:relative; width:100%; padding:30px; color:#555;}
+.rsm_addCont {/*display:none;*/ position:relative; width:100%; padding:30px; color:#555;}
 .rsm_addCont:hover{background:#f7f7f7;}
 .rsm_addCont .rsm_left {float:left; width:280px;}
 .rsm_addCont .rsm_left .rsm_date {height:30px;}
@@ -1117,12 +1142,16 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_addCont .rsm_left  p label {cursor:pointer;}
 .rsm_addCont .rsm_left  p input {margin-right:5px; vertical-align: middle;}
 .rsm_addCont .rsm_right {float:left; width:710px; padding-right:30px;}
+.rsm_addCont .rsm_right.link {float:none; width:100%;}
 .rsm_addCont .rsm_right input {display:block; width:100%; color:#555; background:none; outline:none; border:none;}
 .rsm_addCont .rsm_right input::placeholder {color:#999;}
 .rsm_addCont .rsm_right input.tit {font-size:20px; font-weight:bold;}
 .rsm_addCont .rsm_right input.desc {margin-top:5px;}
+.rsm_addCont .rsm_right textarea {margin-top:5px; display:block; width:100%; color:#555; background:none; outline:none; border:none; resize:none;}
+.rsm_addCont .rsm_right textarea::placeholder {color:#999;}
 .rsm_addCont .rsm_delete {position:absolute; top:30px; right:30px; color:#999; font-size:20px; line-height:1;}
 .rsm_addCont .rsm_delete i {cursor:pointer;}
+.rsm_addCont .rsm_delete i:hover {color:#304edf;}
 
 .rsm_addCont input[type="radio"], .rsm_addCont input[type="checkbox"] {display:none;}
 .rsm_addCont label input[type="radio"] + span, .rsm_addCont label input[type="checkbox"] + span  {
@@ -1151,12 +1180,14 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_addCont .level label span{color:#555;}
 
 .rsm_addCont .lang_testBtn {color:#176fd8; font-size:16px; padding:30px 0 0; cursor:pointer; font-weight:normal;}
-.rsm_addCont .lang_test {margin-top:20px;}
-.rsm_addCont .lang_test input.desc {display:block; width:100%; color:#555; background:none; outline:none; border:none;}
+.rsm_addCont .lang_test {position:relative; margin-top:20px; padding:20px 60px 20px 30px;}
+.rsm_addCont .lang_test:hover {background:#fff;}
+.rsm_addCont .lang_test::before {position:absolute; top:34px; left:15px; content:''; width:4px; height:4px; border-radius:50%; background:#333;}
+.rsm_addCont .lang_test input.desc {margin-top:5px; display:block; width:100%; color:#555; background:none; outline:none; border:none;}
 .rsm_addCont .lang_test input::placeholder {color:#999;}
-.rsm_addCont .lang_test input.tit {font-size:20px; font-weight:bold;}
-.rsm_addCont .lang_test input.desc {margin-top:5px;}
 .rsm_addCont .lang_test span {color:#555;}
+.rsm_addCont .lang_test .rsm_date span:nth-of-type(2) {vertical-align:0;}
+.rsm_addCont .lang_test .rsm_delete  {top:20px; right:30px;}
 
 .resumeBtnWrap {width:100%; text-align:center; font-size:0; margin-top:40px;}
 .resumeBtnWrap button {display:inline-block; font-size:15px; margin:0 5px; width:200px; height:50px; background:#4f6eff; border:1px solid #4f6eff; color:#fff; transition:all 0.2s ease-in-out; outline:none;}

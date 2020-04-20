@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.EApplyDto;
-import model.MessageParam;
+import model.EApplyParam;
 
 @Repository
 public class EApplyDaoImpl implements EApplyDao{
@@ -18,13 +18,13 @@ public class EApplyDaoImpl implements EApplyDao{
 	String ns = "eApplyApply.";
 	
 	@Override
-	public List<EApplyDto> getCurAList(MessageParam param) {
+	public List<EApplyDto> getCurAList(EApplyParam param) {
 	
 		return sqlSession.selectList(ns + "getCurAList", param);
 	}
 
 	@Override
-	public int getTotalRecordCount(MessageParam param) {
+	public int getTotalRecordCount(EApplyParam param) {
 		
 		return sqlSession.selectOne(ns + "getTotalRecordCount", param);
 	}
@@ -36,30 +36,25 @@ public class EApplyDaoImpl implements EApplyDao{
 	}
 
 	@Override
-	public int[] deleteApply(int[] seqArray) {
+	public int deleteApply(int seq) {
+
 		
-		int seq = 0;
-		int[]result = new int[seqArray.length]; 
-		for (int i = 0; i < seqArray.length; i++) {
+		int result =sqlSession.delete(ns + "deleteApply", seq);
 			
-			seq = seqArray[i];
-					
-			result[i]=sqlSession.delete(ns + "deleteApply", seq);
-			
-		}
+	
 		
 		return result;
 		
 	}
 
 	@Override
-	public List<EApplyDto> getPastAList(MessageParam param) {
+	public List<EApplyDto> getPastAList(EApplyParam param) {
 		
 		return sqlSession.selectList(ns + "getPastAList", param);
 	}
 
 	@Override
-	public int getTotalPastCount(MessageParam param) {
+	public int getTotalPastCount(EApplyParam param) {
 		
 		return sqlSession.selectOne(ns + "getTotalPastCount", param);
 	}

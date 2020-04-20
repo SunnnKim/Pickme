@@ -11,10 +11,10 @@ System.out.println("durl:"+durl);
 
 <% if (durl.contains("c_apply")){ %>
 <ul class="depth02 clfix">
-	<li class=<%= durl.contains("recruitList.jsp") ? " on" :" "%>>
-		<a href="">지원자 관리</a>
+	<li class=<%= durl.contains("cApply") ? " on" :" "%>>
+		<a href="cApplyList.do">지원자 관리</a>
 	</li>
-	<li class=<%= durl.contains("cRcvMsg") || durl.contains("cSendMsg") ? " on" :" "%>>
+	<li class=<%= durl.contains("c_apply") && durl.contains("Msg")? " on" :" "%>>
 		<a href="cRcvMsg.do">메시지함</a>
 	</li>
 	<li class=<%= durl.contains("requestList") || durl.contains("requestLike") ? " on" :" "%>>
@@ -90,11 +90,28 @@ if (durl.contains("c_mypage")) {
 	<li class=<%= durl.contains("profile.jsp") ? " on" :" "%>>
 		<a href="/Pickme/a_mypage/profile.do">프로필</a>
 	</li>
-	<li class=<%= durl.contains("123") ? " on" :" "%>>
-		<a href="">비밀번호수정</a>
+	<li class=<%= durl.contains("changePassword.jsp") ? " on" :" "%>>
+		<a href="/Pickme/a_mypage/changePassword.do">비밀번호 변경</a>
 	</li>
-	<li class=<%= durl.contains("1232") ? " on" :" "%>>
-		<a href="">탈퇴</a>
+	<li class=<%= durl.contains("inquiry.jsp") ? " on" :" "%>>
+		<a href="/Pickme/a_mypage/inquiry.do">문의내역</a>
+	</li>
+	<li class=<%= durl.contains("withdrawal.jsp") ? " on" :" "%>>
+		<a href="/Pickme/a_mypage/withdrawal.do">탈퇴</a>
+	</li>
+</ul>
+<%
+}	
+%>	
+
+<!-- 일반 마이페이지 -->
+<% if (durl.contains("resume")){ %>
+<ul class="depth02 clfix">
+	<li class=<%= durl.contains("resume.jsp") ? " on" :" "%>>
+		<a href="/Pickme/resume/resume.do">이력서</a>
+	</li>
+	<li class=<%= durl.contains("resumeWrite.jsp") ? " on" :" "%>>
+		<a href="/Pickme/resume/resumeWrite.do">이력서 작성</a>
 	</li>
 </ul>
 <%
@@ -108,7 +125,7 @@ if( durl.contains("e_apply")){
 %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("CvReq")? " on" : " " %>>
-		<a href="curCvReq.do">열람요청보기</a>
+		<a href="curCvReq.do">이력서열람요청</a>
 	</li>
 	<li class=<%= durl.contains("Msg") ? " on" :" "%>>
 		<a href="inMsg.do">메시지함</a>

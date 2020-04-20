@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="CMsg">
+
+
+<!-- 메시지함 -->
+<select id="rcvMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
+	
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, a.NAME
+	, <![CDATA[ IF(DATE(m.SDATE) < DATE(SYSDATE()), DATE_FORMAT(m.SDATE, '%Y-%m-%d'), DATE_FORMAT(m.SDATE, '%H : %i')) as SDATE ]]>
+	FROM (SELECT * FROM MESSAGE WHERE `TO`=#{toSeq}) m, A_MEMBER a
+	WHERE m.FROM = a.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+	
+	<if test="sKeyword != null and sKeyword !=''">
+		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+	ORDER BY m.SDATE DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+	
+</select>
+
+
+
+<select id="getTotalMsgCount" parameterType="model.MessageParam" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM (SELECT * FROM MESSAGE WHERE `TO`=#{toSeq}) m, A_MEMBER a
+ 	WHERE  m.FROM = a.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+	<if test="sKeyword != null and sKeyword !=''">
+	 	AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+</select>
+
+<select id="unreadCount" parameterType="int" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM MESSAGE 
+ 	WHERE `TO` = #{c_seq} AND OPEN = 0 AND DEL = 0 AND DISTINGUISH = 'mem'
+</select>
+
+<select id="getUnreadMsgCount" parameterType="model.MessageParam" resultType="model.MessageDto">
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, a.NAME
+	, <![CDATA[ IF(DATE(m.SDATE) < DATE(SYSDATE()), DATE_FORMAT(m.SDATE, '%Y-%m-%d'), DATE_FORMAT(m.SDATE, '%H : %i')) as SDATE ]]>
+	FROM (SELECT * FROM MESSAGE WHERE `TO`=#{toSeq}) m, A_MEMBER a
+	WHERE m.FROM = a.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0 AND m.OPEN = 0
+	<if test="sKeyword != null and sKeyword !=''">
+		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+	ORDER BY m.SDATE DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+</select> 
+
+
+
+
+<select id="rcvMsgDetail" parameterType="int" resultType="model.MessageDto">
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, a.NAME
+	FROM MESSAGE m, A_MEMBER a
+	WHERE m.FROM = a.SEQ AND m.SEQ = #{msgSeq}
+</select>
+
+
+<update id="msgOpen" parameterType="int" >
+	UPDATE MESSAGE
+ 	SET OPEN = 1
+ 	WHERE SEQ = #{msgSeq}
+</update>
+
+<update id="deleteMsg" parameterType="String">
+	UPDATE MESSAGE
+	SET DEL = 1
+	WHERE SEQ = #{seq}
+</update>
+
+<insert id="sendMsg" parameterType="model.MessageDto">
+ 	INSERT INTO MESSAGE
+ 	VALUES(SEQ, #{content}, #{from}, #{to} , NOW(), 0, 0, 0, "com")
+</insert>
+
+
+<update id="addStar" parameterType="int">
+   UPDATE MESSAGE
+   SET IMPORTANT = 1
+   WHERE SEQ = ${seq}
+
+</update>
+
+<update id="removeStar" parameterType="int">
+   UPDATE MESSAGE
+   SET IMPORTANT = 0
+   WHERE SEQ = ${seq}
+
+</update>
+
+
+<select id="getImpoMsgList" parameterType="model.MessageParam" resultType="model.MessageDto">
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, a.NAME
+	, <![CDATA[ IF(DATE(m.SDATE) < DATE(SYSDATE()), DATE_FORMAT(m.SDATE, '%Y-%m-%d'), DATE_FORMAT(m.SDATE, '%H : %i')) as SDATE ]]>
+	FROM (SELECT * FROM MESSAGE WHERE `TO` = #{toSeq}) m, A_Member a
+	WHERE m.FROM = a.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+	<if test="sKeyword != null and sKeyword !=''">
+		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+	ORDER BY m.SDATE DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+</select>
+
+
+<select id="getImpoCount" parameterType="model.MessageParam" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM (SELECT * FROM MESSAGE WHERE `TO` =  #{toSeq}) m, A_Member a
+ 	WHERE m.FROM = a.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'mem' AND m.DEL = 0
+	<if test="sKeyword != null and sKeyword !=''">
+	 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+</select>
+
+
+
+
+
+
+<select id="impoUnreadCount" parameterType="int" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM MESSAGE 
+ 	WHERE `TO` = #{seq} AND OPEN = 0 AND DEL = 0 AND IMPORTANT = 1 AND DISTINGUISH = 'mem'
+ </select>
+
+
+
+
+
+
+
+<select id="getImpoUnreadMsgCount" parameterType="model.MessageParam" resultType="model.MessageDto">
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, a.NAME
+	, <![CDATA[ IF(DATE(m.SDATE) < DATE(SYSDATE()), DATE_FORMAT(m.SDATE, '%Y-%m-%d'), DATE_FORMAT(m.SDATE, '%H : %i')) as SDATE ]]>
+	FROM (SELECT * FROM MESSAGE WHERE `TO`=#{toSeq}) m, A_Member a
+	WHERE m.FROM = a.SEQ AND m.IMPORTANT = 1 AND m.DISTINGUISH = 'mem' AND m.DEL = 0 AND m.OPEN = 0
+	<if test="sKeyword != null and sKeyword !=''">
+	AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+	ORDER BY m.SDATE DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+	
+</select>  
+
+
+<select id="getSendMsgList" parameterType="model.MessageParam" resultType="model.MessageDto">
+ 	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, a.NAME
+ 	, <![CDATA[ IF(DATE(m.SDATE) < DATE(SYSDATE()), DATE_FORMAT(m.SDATE, '%Y-%m-%d'), DATE_FORMAT(m.SDATE, '%H : %i')) as SDATE ]]>
+	FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m, A_Member a
+	WHERE m.TO = a.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
+	<if test="sKeyword != null and sKeyword !=''">
+	AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+	ORDER BY m.SDATE DESC
+	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+	 
+</select>
+
+
+ <select id="getSendCount" parameterType="model.MessageParam" resultType="int">
+ 	SELECT COUNT(*)
+ 	FROM (SELECT * FROM MESSAGE WHERE `FROM` =  #{toSeq}) m, A_Member a
+ 	WHERE m.TO = a.SEQ AND m.DISTINGUISH = 'com' AND m.DEL = 0
+	<if test="sKeyword != null and sKeyword !=''">
+	 AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
+	</if>
+</select>
+
+<select id="sendMsgDetail" parameterType="int" resultType="model.MessageDto">
+	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, a.NAME
+	FROM MESSAGE m, A_Member a
+	WHERE m.TO = a.SEQ AND m.SEQ = ${msgSeq}
+</select>
+
+
+
+
+</mapper>

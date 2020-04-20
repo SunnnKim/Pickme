@@ -80,10 +80,10 @@ public class RecruitController {
 	}
 	
 	@RequestMapping(value = "recPast.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String recPast(Integer seq,RecruitParam param, Model model, HttpServletRequest req) {
+	public String recPast(int seq,RecruitParam param, Model model, HttpServletRequest req) {
 
-		if( seq == null ) {
-			 seq = (Integer)req.getAttribute("seq"); 
+		if( seq == 0 ) {
+			 seq = (int)req.getAttribute("seq"); 
 		}
 		param.setComSeq(seq);
 		int nowPage = param.getPageNumber(); // 현재페이지넘버

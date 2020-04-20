@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="CApply">
+
+<!-- (기업) 현재 공고중인 게시글 수 count -->
+<select id="getComRecCount" resultType="int">
+	SELECT IFNULL(COUNT(*),0) AS CNT FROM RECRUIT WHERE COMSEQ=#{comSeq} AND DEL=0
+</select>
+
+
+<!-- 기업만 볼수있는 채용공고 list (현재공고) -->
+<select id="myCurrentRecList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
+	SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE, EDATE, REF, READCOUNT, IMAGENAME
+	FROM ( SELECT * FROM RECRUIT WHERE COMSEQ=#{comSeq} AND DEL=0 ORDER BY SEQ DESC) R
+	LIMIT #{recordCountPerPage} OFFSET #{start}
+</select> 
+
+</mapper>

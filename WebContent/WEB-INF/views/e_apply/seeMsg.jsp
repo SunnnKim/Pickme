@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
+	
 
 <!-- 헤더 호출  -->
 <%@include file="/include/header.jsp"%>
@@ -35,12 +39,10 @@
               <span>${ msgDetail.sdate}</span><!-- 메시지 보낸 날짜 불러오기-->
           </div><!-- // title-->
           <div class="from">             
-             <a href="클릭시 기업정보페이지가기"><span class=msgFrom>  언리드: ${unread } ) ${msgDetail.name } </span></a>
+             <a href="클릭시 기업정보페이지가기"><span class=msgFrom>보낸이: <strong>${msgDetail.name }</strong> </span></a>
           </div>
           <div class="msg-content" >
-            <p>
-              ${msgDetail.content }
-            </p>
+            <pre><c:out value="${msgDetail.content }" /></pre>
 
           </div><!--// msg-content -->
           <div class="messageBtn" id="msgBtn">
@@ -52,7 +54,7 @@
           	  <c:if test="${unread == 0 }">
           		  <a href="inMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
           	  </c:if> 
-          	  <c:if test="${unread == 1 }">
+         	  <c:if test="${unread == 1 }">
               	<a href="unread.do?page=inMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
          	</c:if>
           </c:if>
@@ -70,7 +72,7 @@
           </div><!-- // messageBtn-->
         </div><!--// comeMsg-->
         
-        
+        <!-- 메시지 답장보내기 -->
         <form id="frm" action="" method="post">
         <div class="messageBox" id="app"> 
             <div class="messageCont">
@@ -84,8 +86,8 @@
                     <textarea id="repl-cont" name="content" placeholder=""></textarea>
                 </div><!-- // mesageText-->
                <div class="messageBtn">
-                    <button onclick="send()">보내기</button>
-                    <button onclick="hideThis()">닫기</button>
+                    <button type="button" onclick="send()">보내기</button>
+                    <button type="button" onclick="hideThis()">닫기</button>
                 </div><!--//  messageBtn -->
             </div><!-- // messageCont-->
       </div><!-- // messageBox -->
@@ -109,15 +111,15 @@ $(document).ready(function(){
 		$("#_reply").hide();
 		
 	}
-	
+
+	$(".messageBox").hide();
 });
 
- $(".messageBox").hide();
+ 
    
 // 답장하기 버튼 누른 경우
-
 function reply(){
-	
+
     $(".messageBox").show();
     $(".messageBox input").focus(function(){ $(".messageBox").css('box-shadow', '0px 0px 5px  rgba(0,0,0,0.2)');});
     $("#repl-cont").focus(function(){ $(".messageBox").css('box-shadow', '0px 0px 5px  rgba(0,0,0,0.2)');});
@@ -125,20 +127,17 @@ function reply(){
     $("#repl-cont").blur(function(){ $(".messageBox").css('box-shadow', '');});
    
     var offset = $('.messageBox').offset(); //선택한 태그의 위치를 반환
-
-          //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
-
-    $('html').animate({scrollTop : offset.top}, 400);  
+    //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
+    $("html body").animate({scrollTop : offset.top}, 400);  
     $("#msgBtn").hide();
     
 }
 
 // 답장 닫기
 function hideThis(){
-    $("#recipient").val("보낸이 불러서 넣기") // 수신자 수정 가능하게 했을경우 
-    $("#repl-title").val("");
     $("#repl-cont").val("");
     $(".messageBox").hide();
+    $("#msgBtn").show();
   
 }
 
@@ -167,11 +166,17 @@ function delcheck(){
 				    traditional: true, // array보낼때 필요
 					data       : {"seqArray" : seqArray },
 					success    : function(data){
-						
-						  alert("삭제되었습니다")
-						
+												
 						
 						if(data != null){
+
+							 Swal.fire(
+								      '삭제되었습니다',
+								      '',
+								      'success'
+							    ).then((reslut)=>{
+							
+							
 							var goPage = '<c:out value="${page}"/>'
 								//alert("goPage: " + goPage);
 							if(goPage == 'impoMsg'){
@@ -182,7 +187,8 @@ function delcheck(){
 								location.href="outMsg.do";
 								
 							}	
-							
+
+							});
 						}	
 
 					},
@@ -197,33 +203,46 @@ function delcheck(){
 
 } 
 
-function send(){
-	
-	var formData = $("#frm").serialize();
-	if ($("#repl-cont").val() == null || $("#repl-cont").val() == ""){
-		alert("메시지 내용을 입력해주세요");
-		
-		return false;
-		 
-	}else{
-		$.ajax({
-			url   :"sendMsg.do",
-			type  :"post",
-			data  :formData,
-			success:function(result){
-				if(result != 0){
-					alert("메시지가 성공적으로 보내졌습니다");
-					$("#repl-cont").val("");
-					$(".messageBox").hide();
+
+	function send(){
+
+		var formData = $("#frm").serialize();
+		if (($("#repl-cont").val()).trim()  == null || ($("#repl-cont").val()).trim() == ""){
+			Swal.fire({
+				  position: 'center',
+				  icon: 'warning',
+				  title: '메시지를 입력해주세요.',
+				  showConfirmButton: false,
+				  timer: 1500
+			}) 		 
+		}else{
+		  $.ajax({
+				url   :"sendMsg.do",
+				type  :"post",
+				data  :formData,
+				dataType: "json",
+				success:function(result){
+					if(result == 1){
+						Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  text: '메시지가 성공적으로 보내졌습니다',
+							  showConfirmButton: false,
+							  timer: 1500
+							})					
+						
+						$("#repl-cont").val("");
+						$(".messageBox").hide();
+						$("#msgBtn").show();
+					}	
+				},
+				error: function(){
+					
 				}	
-			},
-			error: function(){
-				
-			}	
-		});
+			}); 
+		}
+	
 	}
-	 return false; 
-}
 
 function searchAction() {
 	alert("검색 버튼 클릭");
