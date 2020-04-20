@@ -127,7 +127,6 @@
 	</div>
 
 	<div class="btn-message">
-		<button type="button" onclick="writeAction()">메시지 작성</button>
 		<button type="button" style="float: right;" onclick="deleteAction()">선택삭제</button>
 	</div>
 
@@ -143,38 +142,6 @@
 
 </div>
 <!-- // allList -->
-
-
-<!-- 메시지 보내는것은 기업창 상세페이지로 넣어두기 -->
-
-
-<!-- 메시지작성 팝업 -->
- <div class="messenger-wrap">
-     <form id="_frm" action="msgSend.do" method="post">
-         <div class="msgBox">
-                <div class="msg-bar">
-                    <h4>메세지 보내기</h4>
-                </div><!-- // message-bar-->
-                <div class="msgCont">
-                    <div class="msgTo"><!--검색기능 jquery-ui, ajax사용-->
-                        <!--https://jqueryui.com/autocomplete/ 
-                            https://hellogk.tistory.com/74
-                            참고하면 될듯해요-->
-                        <input type="text"  placeholder="To">
-                    </div><!-- // messageTo-->
-
-                    <div class="msgText">
-                        <textarea id="content" placeholder=""></textarea>
-                    </div><!-- // messageText-->
-                    <div class="msgBtn">
-                        <button onclick="send()">보내기</button>
-                        <button class="close_window">닫기</button>
-                    </div><!-- // messageBtn-->
-                </div><!-- // messageCont-->
-          </div><!-- // messageBox-->
- 	 </form>
-</div><!-- //messenger-wrap -->
-      
 
 <script>
 	$(document).ready(function() {

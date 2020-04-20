@@ -353,6 +353,7 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 
 /* .bbs-delete {color: #fff; background-color: #17a2b8; border-color: #17a2b8;} */
 
+.btn-message{display:block; text-align:right;}
 .btn-message button {width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: inline-block; font-size: 15px; margin-top: 15px; cursor: pointer;}
 .btn-message button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
 

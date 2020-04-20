@@ -159,8 +159,6 @@
 
 var sort = '<c:out value="${sort}"/>';
 var filter = '<c:out value="${filter}"/>';
-	
-
 
 	// 지원취소 
 	function cancelApply(seq){
@@ -206,9 +204,6 @@ var filter = '<c:out value="${filter}"/>';
 		});
 		
 	}
-
-	
-
 	
 		/* 페이지 이동 */
 	function goPage(pn){
@@ -243,7 +238,6 @@ var filter = '<c:out value="${filter}"/>';
 		location.href="curAList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
 		
 	});
-	
 
     /* 정렬 */		
     function sorting(sort){

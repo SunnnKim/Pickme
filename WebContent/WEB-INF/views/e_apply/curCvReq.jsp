@@ -250,7 +250,7 @@
 		});
 	}
 
-	//요청 수락 
+	//요청 수락 (이력서 선택)
 	function singleAccept(seq, cSeq){
 
 		$.ajax({
@@ -258,6 +258,18 @@
 			url		: "getResumeList.do",
 			dataType: "json",
 			success : function(data){
+				// 작성된 이력서 없을 때
+				if(data == ""){
+					Swal.fire({
+							  icon: 'error',
+							  title: '수락하실 이력서가 없습니다',
+							  text: '이력서를 먼저 작성해주세요.',
+							  
+							})
+						return false;
+				}		
+											
+				
 				// ajax로 받아온 이력서 리스트 배열에 넣기 
 			    var optionArray = new Array();		
 				$.each(data, function(index, resume){
@@ -331,12 +343,14 @@
 						   });
 						}	
 					})()	 
-				}	  	
+				}	
+					 	
 			},
 			error : function(){
 				
 			}	
 		});
+						
 	}
 
 

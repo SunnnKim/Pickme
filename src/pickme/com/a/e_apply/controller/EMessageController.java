@@ -339,6 +339,12 @@ public class EMessageController {
 		
 	}
 	
+	@RequestMapping(value="sendMsgPgOpen.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String sendMsgPgOpen () {
+		
+		
+		return "include/sendMsg.jsp";
+	}
 	
 }
 

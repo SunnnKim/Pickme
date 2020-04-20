@@ -120,13 +120,14 @@
        
 <!-- Kakao Map Api -->
 <%@include file="../../../../api/kakaoMap.jsp" %>
+<%@include file="../../../include/sendMsg.jsp" %>
 <script>
 	
 
-	$("#recruitDetailButton2").on("click", function(){
+/* 	$("#recruitDetailButton2").on("click", function(){
 		alert("메시지보내기 클릭");
 	});
-
+ */
 	$(".btnleft").on("click", function(){
 		alert("기업정보 바로가기 클릭");
 	});
