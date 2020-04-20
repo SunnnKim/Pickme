@@ -106,45 +106,6 @@
 
 
 
-<!-- 메시지함 -->
-<select id="rcvMsgList"   parameterType="model.MessageParam" resultType="model.MessageDto">
-	
-	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, m.DISTINGUISH, a.NAME
-	FROM (SELECT * FROM MESSAGE WHERE `TO`=#{toSeq}) m, A_MEMBER a
-	WHERE m.FROM = a.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
-	
-	<if test="sKeyword != null and sKeyword !=''">
-		AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
-	</if>
-	ORDER BY m.SDATE DESC
-	LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
-	
-</select>
-
-
-
-<select id="getTotalMsgCount" parameterType="model.MessageParam" resultType="int">
- 	SELECT COUNT(*)
- 	FROM (SELECT * FROM MESSAGE WHERE `TO`=#{toSeq}) m, A_MEMBER a
- 	WHERE  m.FROM = a.SEQ AND m.DISTINGUISH = 'mem' AND m.DEL = 0
-	<if test="sKeyword != null and sKeyword !=''">
-	 	AND( m.CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR  a.NAME = #{sKeyword})
-	</if>
-</select>
-
-<select id="unreadCount" parameterType="int" resultType="int">
- 	SELECT COUNT(*)
- 	FROM MESSAGE 
- 	WHERE `TO` = #{c_seq} AND OPEN = 0 AND DEL = 0 AND DISTINGUISH = 'mem'
-</select>
-
-
-<select id="rMsgDetail" parameterType="int" resultType="model.MessageDto">
-	SELECT m.SEQ, m.CONTENT, m.FROM, m.TO, m.SDATE, m.OPEN, m.DEL, m.IMPORTANT, a.NAME
-	FROM MESSAGE m, A_MEMBER a
-	WHERE m.FROM = a.SEQ AND m.SEQ = #{msgSeq}
-	
-</select>
 
 
 

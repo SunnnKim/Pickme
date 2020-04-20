@@ -11,9 +11,9 @@
  
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
-	<li id="inMsg"><a href="inMsg.do" >받은 메시지</a></li>
-	<li id="outMsg"><a href="outMsg.do" >보낸 메시지</a></li>
-	<li id="impoMsg"><a href="impoMsg.do" >중요 메시지</a></li>
+	<li id="rcvMsg"><a href="cRcvMsg.do">받은 메시지</a></li>
+	<li id="sendMsg"><a href="cSendMsg.do">보낸 메시지</a></li>
+	<li id="impoMsg"><a href="cImpoMsg.do">중요 메시지</a></li>
 </ul>
 
 <div id="allList" data-tab-content="" class="active">
@@ -21,8 +21,7 @@
 	<!-- 검색창 -->
 	<div class="bbs-top">
 		<div class="form-search">
-			<input type="text" id="_keyword" name="keyWord" title="검색어 입력"
-				placeholder="검색어를 입력해주세요." value="">
+			<input type="text" id="_keyword" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value="">
 			<button type="button" class="btn-search" onclick="searchAction()">
 				<span>검색</span>
 			</button>
@@ -48,24 +47,24 @@
               <button id="_reply" onclick="reply()">답장하기</button> 
            
               
-          <c:if test="${page eq 'inMsg'}">
+          <c:if test="${page eq 'cRcvMsg'}">
           	  <c:if test="${unread == 0 }">
-          		  <a href="inMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+          		  <a href="cRcvMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
           	  </c:if> 
           	  <c:if test="${unread == 1 }">
-              	<a href="unread.do?page=inMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
+              	<a href="unread.do?page=cRcvMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
          	</c:if>
           </c:if>
-		 <c:if test="${page eq 'impoMsg'}">
+		 <c:if test="${page eq 'cImpoMsg'}">
 		 	<c:if test="${unread == 0 }">
-		 		 <a href="impoMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+		 		 <a href="cImpoMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
 		 	</c:if>
 		 	<c:if test="${unread == 1 }">
-		 		 <a href="unread.do?page=impoMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
+		 		 <a href="unread.do?page=cImpoMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
 		 	</c:if>
         </c:if>
-        <c:if test="${page eq 'outMsg' }" >  
-         		 <a href="outMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a> 
+        <c:if test="${page eq 'cSendMsg' }" >  
+         		 <a href="cSendMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a> 
          </c:if>
           </div><!-- // messageBtn-->
         </div><!--// comeMsg-->
@@ -104,7 +103,7 @@ $(document).ready(function(){
 	// messageDetail 들어오기 직전 탭 지정하기
 	document.getElementById(page).setAttribute('class', 'active');
 	
-	if(page == 'outMsg'){
+	if(page == 'cSendMsg'){
 		
 		$("#_reply").hide();
 		
@@ -165,7 +164,7 @@ function delcheck(){
 					dataType   : "json",
 					type       : "post",
 				    traditional: true, // array보낼때 필요
-					data       : {"seqArray" : seqArray },
+					data       : {"checkRow" : seq },
 					success    : function(data){
 						
 						  alert("삭제되었습니다")
@@ -174,17 +173,14 @@ function delcheck(){
 						if(data != null){
 							var goPage = '<c:out value="${page}"/>'
 								//alert("goPage: " + goPage);
-							if(goPage == 'impoMsg'){
-								location.href="impoMsg.do";
-							}else if(goPage == 'inMsg'){
-								location.href="inMsg.do";
-							}else if(goPage == 'outMsg'){
-								location.href="outMsg.do";
-								
+							if(goPage == 'cImpoMsg'){
+								location.href="cImpoMsg.do";
+							}else if(goPage == 'cRcvMsg'){
+								location.href="cRcvMsg.do";
+							}else if(goPage == 'cSendMsg'){
+								location.href="cSendMsg.do";
 							}	
-							
 						}	
-
 					},
 					error      : function(request, status, error){
 						alert("error");
@@ -212,7 +208,7 @@ function send(){
 			data  :formData,
 			success:function(result){
 				if(result != 0){
-					alert("메시지가 성공적으로 보내졌습니다");
+					alert("메시지를 전송하였습니다");
 					$("#repl-cont").val("");
 					$(".messageBox").hide();
 				}	
@@ -234,14 +230,14 @@ function searchAction() {
 		alert("검색어를 입력해주세요.");
 	}else{
 		var page = '<c:out value="${page}"/>'
-		if(page == 'inMsg'){
-		 	location.href="inMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
-		}else if(page =='outMsg'){
-			location.href="outMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";	
+		if(page == 'cRcvMsg'){
+		 	location.href="cRcvMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
+		}else if(page =='cSendMsg'){
+			location.href="cSendMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";	
 			
-		}else if(page == 'impoMsg'){
+		}else if(page == 'cImpoMsg'){
 			
-			location.href="impoMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
+			location.href="cImpoMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
 		}
 	}
 }	

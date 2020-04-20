@@ -1,0 +1,26 @@
+package pickme.com.a.c_apply.service;
+
+import java.util.List;
+
+import model.MessageDto;
+import model.MessageParam;
+
+public interface CMsgService {
+
+
+	public List<MessageDto> rcvMsgList(MessageParam param);
+	public int getTotalMsgCount(MessageParam param);
+	public int unreadCount(int c_seq);
+	public MessageDto rcvMsgDetail(int msgSeq);
+
+	public List<MessageDto> getUnreadMsgCount(MessageParam param);
+	public int msgOpen(int msgSeq);
+	public int deleteMsg(String checkRow);
+	public int sendMsg(MessageDto dto);
+	public int addStar(int seq);
+	public int removeStar(int seq);
+	public List<MessageDto> getImpoMsgList(MessageParam param);
+	public int getImpoCount(MessageParam param);
+	public int impoUnreadCount(int c_seq);
+	public List<MessageDto> getImpoUnreadMsgCount(MessageParam param);
+}
