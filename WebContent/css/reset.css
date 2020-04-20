@@ -87,6 +87,12 @@ label.invisible{*position:Absolute;}
 * html .clfix {height:1%;} /* Hides from IE-mac */
 .clfix {zoom:1;} /*for IE 5.5-7*/
 
+/* sweetalert2 */
+.swal2-container, .swal2-shown {
+   padding:0 !important;
+   margin:0 !important;
+}
+
 
 /* padding, margin setting */
 .pt00 {padding-top: 0px !important;}
