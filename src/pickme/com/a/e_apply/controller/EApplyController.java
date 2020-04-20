@@ -2,6 +2,8 @@ package pickme.com.a.e_apply.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import model.AMemberDto;
 import model.EApplyDto;
-import model.MessageParam;
+import model.EApplyParam;
 import pickme.com.a.e_apply.service.EApplyService;
 
 @Controller
@@ -20,15 +23,19 @@ public class EApplyController {
 	@Autowired
 	EApplyService eservice;
 	@RequestMapping(value="curAList.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String getCurAList(Model model, MessageParam param) {
+	public String getCurAList(Model model, HttpSession session, EApplyParam param) {
+		
+		// session에서 login seq 받아오기 
+		int loginSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
+				
+		// 받은 사람(원래는 보낸사람 seq로 해야하는데 param에 toSeq밖에 없어 그냥 통용하기)seq 를 수신인 seq로 셋팅 
+		param.setLoginSeq(loginSeq);
 		
 		int pn = param.getPageNumber(); // 현재페이지넘버
 		int start = pn * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (pn + 1) * param.getRecordCountPerPage(); // 10, 20, 30
 		
-		System.out.println("pn: " + pn + " start: " + start + " end: " +end);
-		
-		
+		System.out.println("pn: " + pn + " start: " + start + " end: " +end + "sort: " + param.getSort() + "filter" + param.getFilter());
 		
 		param.setStart(start);
 		param.setEnd(end);
@@ -43,7 +50,8 @@ public class EApplyController {
 		
 		System.out.println("totalRecordCount: " + totalRecordCount);
 		
-		
+		model.addAttribute("sort", param.getSort());
+		model.addAttribute("filter", param.getFilter());
 		model.addAttribute("myApplyList", myApplyList);
 		model.addAttribute("totalRecordCount", totalRecordCount);
 		model.addAttribute("pageCountPerScreen", 10);
@@ -55,7 +63,13 @@ public class EApplyController {
 	}
 	
 	@RequestMapping(value="pastAList.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String getPastAList(Model model, MessageParam param) {
+	public String getPastAList(Model model, HttpSession session, EApplyParam param) {
+		
+		// session에서 login seq 받아오기 
+		int loginSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
+						
+		// 받은 사람(원래는 보낸사람 seq로 해야하는데 param에 toSeq밖에 없어 그냥 통용하기)seq 를 수신인 seq로 셋팅 
+		param.setLoginSeq(loginSeq);
 		
 		int pn = param.getPageNumber(); // 현재페이지넘버
 		int start = pn * param.getRecordCountPerPage(); // 1, 11, 21
@@ -103,11 +117,13 @@ public class EApplyController {
 	
 	@ResponseBody
 	@RequestMapping(value="delApply.do" , method= {RequestMethod.GET, RequestMethod.POST})
-	public int[] delApply(int[] seqArray) {
+	public int delApply(int[] seqArray) {
 		System.out.println("seqArray: " + seqArray.length);
-		
-		
-		int[] result = eservice.deleteApply(seqArray);
+		int result = 0;
+		for (int i = 0; i < seqArray.length; i++) {
+			System.out.println("seq: " + seqArray[i]);
+			result = eservice.deleteApply(seqArray[i]);
+		}
 		
 		return result;
 	}

@@ -35,7 +35,7 @@
               <span>${ msgDetail.sdate}</span><!-- 메시지 보낸 날짜 불러오기-->
           </div><!-- // title-->
           <div class="from">             
-             <a href="클릭시 기업정보페이지가기"><span class=msgFrom>  언리드: ${unread } ) ${msgDetail.name } </span></a>
+             <a href="클릭시 기업정보페이지가기"><span class=msgFrom>${msgDetail.name } </span></a>
           </div>
           <div class="msg-content" >
             <p>
@@ -52,7 +52,7 @@
           	  <c:if test="${unread == 0 }">
           		  <a href="inMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
           	  </c:if> 
-          	  <c:if test="${unread == 1 }">
+         	  <c:if test="${unread == 1 }">
               	<a href="unread.do?page=inMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
          	</c:if>
           </c:if>
@@ -70,7 +70,7 @@
           </div><!-- // messageBtn-->
         </div><!--// comeMsg-->
         
-        
+        <!-- 메시지 답장보내기 -->
         <form id="frm" action="" method="post">
         <div class="messageBox" id="app"> 
             <div class="messageCont">
@@ -167,11 +167,17 @@ function delcheck(){
 				    traditional: true, // array보낼때 필요
 					data       : {"seqArray" : seqArray },
 					success    : function(data){
-						
-						  alert("삭제되었습니다")
-						
+												
 						
 						if(data != null){
+
+							 Swal.fire(
+								      '삭제되었습니다',
+								      '',
+								      'success'
+							    ).then((reslut)=>{
+							
+							
 							var goPage = '<c:out value="${page}"/>'
 								//alert("goPage: " + goPage);
 							if(goPage == 'impoMsg'){
@@ -182,7 +188,8 @@ function delcheck(){
 								location.href="outMsg.do";
 								
 							}	
-							
+
+							});
 						}	
 
 					},

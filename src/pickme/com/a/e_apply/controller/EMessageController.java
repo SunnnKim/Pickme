@@ -26,9 +26,8 @@ public class EMessageController {
 	// 받은 메시지 페이지 불러오기
 	@RequestMapping(value="inMsg.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getInMsgList(Model model, HttpSession session, MessageParam param) {
-		
-		System.out.println("param: " + param.toString());
-		
+	
+	
 		// session에서 login seq 받아오기 
 		int toSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
 		
@@ -51,9 +50,6 @@ public class EMessageController {
 		List<MessageDto> msg = (List<MessageDto>)eservice.getInMsgList(param); 
 		System.out.println("messageListSize:: " + msg.size());
 		
-		// System.out.println("msg확인: " + msg.get(0).toString());
-		
-		
 		// 총 메시지 갯수
 
 		int totalRecordCount = eservice.getTotalRecordCount(param);
@@ -71,6 +67,8 @@ public class EMessageController {
 		model.addAttribute("pageCountPerScreen", 10);
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
 		model.addAttribute("pageNumber", pn);
+		
+		System.out.println("keyword : " + param.getsKeyword());
 		model.addAttribute("sKeyword", param.getsKeyword());
 		
 		return "e_apply/inMsg";
@@ -136,6 +134,8 @@ public class EMessageController {
 	@RequestMapping(value="outMsg.do", method={RequestMethod.GET, RequestMethod.POST})
 	public String getOutMsgList(Model model,  HttpSession session, MessageParam param){
 		
+		System.out.println("keyword" + param.getsKeyword());
+		
 		// session에서 login seq 받아오기 
 		int toSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
 		
@@ -167,6 +167,8 @@ public class EMessageController {
 		model.addAttribute("pageCountPerScreen", 10);
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
 		model.addAttribute("pageNumber", pn);
+		
+		System.out.println("skeword: " + param.getsKeyword());
 		model.addAttribute("sKeyword", param.getsKeyword());
 		
 		

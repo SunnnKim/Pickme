@@ -69,6 +69,7 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 <% } %>
 <!-- apply - message -->
 <% if (lourl.contains("e_apply") && lourl.contains("Msg")) {%>
+
 <div class="location">
 	<span>홈</span>
 	<span>></span>

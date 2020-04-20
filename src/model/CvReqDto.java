@@ -2,134 +2,133 @@ package model;
 
 public class CvReqDto {
 
-	
 	private int seq;
-	private int jobSeq;
-	private int memSeq;
-	private String adate;
-	private int open;
+	private int pSeq;
+	private int cSeq;
+	private String rdate;
+	private String comment;
+	private int accept;
+	private int del;
 	private int cancel;
-	private String resumePath;
-	private String resumeName;
-	private int mainResume;
-	
+	private int cvSeq;
+	private String name;
+	private int status; // 요청 수락한 이력서 오픈 상태
 	
 	public CvReqDto() {
 		
 	}
 
-
-	public CvReqDto(int seq, int jobSeq, int memSeq, String adate, int open, int cancel, String resumePath,
-			String resumeName, int mainResume) {
+	public CvReqDto(int seq, int pSeq, int cSeq, String rdate, String comment, int accept, int del, int cancel,
+			int cvSeq, String name, int status) {
 		super();
 		this.seq = seq;
-		this.jobSeq = jobSeq;
-		this.memSeq = memSeq;
-		this.adate = adate;
-		this.open = open;
+		this.pSeq = pSeq;
+		this.cSeq = cSeq;
+		this.rdate = rdate;
+		this.comment = comment;
+		this.accept = accept;
+		this.del = del;
 		this.cancel = cancel;
-		this.resumePath = resumePath;
-		this.resumeName = resumeName;
-		this.mainResume = mainResume;
+		this.cvSeq = cvSeq;
+		this.name = name;
+		this.status = status;
 	}
-
 
 	public int getSeq() {
 		return seq;
 	}
 
-
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 
-
-	public int getJobSeq() {
-		return jobSeq;
+	public int getpSeq() {
+		return pSeq;
 	}
 
-
-	public void setJob_seq(int jobSeq) {
-		this.jobSeq = jobSeq;
+	public void setpSeq(int pSeq) {
+		this.pSeq = pSeq;
 	}
 
-
-	public int getMemSeq() {
-		return memSeq;
+	public int getcSeq() {
+		return cSeq;
 	}
 
-
-	public void setMem_seq(int memSeq) {
-		this.memSeq = memSeq;
+	public void setcSeq(int cSeq) {
+		this.cSeq = cSeq;
 	}
 
-
-	public String getAdate() {
-		return adate;
+	public String getRdate() {
+		return rdate;
 	}
 
-
-	public void setAdate(String adate) {
-		this.adate = adate;
+	public void setRdate(String rdate) {
+		this.rdate = rdate;
 	}
 
-
-	public int getOpen() {
-		return open;
+	public String getComment() {
+		return comment;
 	}
 
-
-	public void setOpen(int open) {
-		this.open = open;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
+	public int getAccept() {
+		return accept;
+	}
+
+	public void setAccept(int accept) {
+		this.accept = accept;
+	}
+
+	public int getDel() {
+		return del;
+	}
+
+	public void setDel(int del) {
+		this.del = del;
+	}
 
 	public int getCancel() {
 		return cancel;
 	}
 
-
 	public void setCancel(int cancel) {
 		this.cancel = cancel;
 	}
 
-
-	public String getResumePath() {
-		return resumePath;
+	public int getCvSeq() {
+		return cvSeq;
 	}
 
-
-	public void setResumePath(String resumePath) {
-		this.resumePath = resumePath;
+	public void setCvSeq(int cvSeq) {
+		this.cvSeq = cvSeq;
 	}
 
-
-	public String getResumeName() {
-		return resumeName;
+	public String getName() {
+		return name;
 	}
 
-
-	public void setResumeName(String resumeName) {
-		this.resumeName = resumeName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-
-	public int getMainResume() {
-		return mainResume;
+	public int getStatus() {
+		return status;
 	}
 
-
-	public void setMainResume(int mainResume) {
-		this.mainResume = mainResume;
+	public void setStatus(int status) {
+		this.status = status;
 	}
-
 
 	@Override
 	public String toString() {
-		return "CvReqDto [seq=" + seq + ", jobSeq=" + jobSeq + ", memSeq=" + memSeq + ", adate=" + adate + ", open="
-				+ open + ", cancel=" + cancel + ", resumePath=" + resumePath + ", resumeName=" + resumeName
-				+ ", mainResume=" + mainResume + "]";
+		return "CvReqDto [seq=" + seq + ", pSeq=" + pSeq + ", cSeq=" + cSeq + ", rdate=" + rdate + ", comment="
+				+ comment + ", accept=" + accept + ", del=" + del + ", cancel=" + cancel + ", cvSeq=" + cvSeq
+				+ ", name=" + name + ", status=" + status + "]";
 	}
+
 	
-	
+
 }

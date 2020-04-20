@@ -108,7 +108,7 @@ if( durl.contains("e_apply")){
 %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("CvReq")? " on" : " " %>>
-		<a href="curCvReq.do">열람요청보기</a>
+		<a href="curCvReq.do">이력서열람요청</a>
 	</li>
 	<li class=<%= durl.contains("Msg") ? " on" :" "%>>
 		<a href="inMsg.do">메시지함</a>
