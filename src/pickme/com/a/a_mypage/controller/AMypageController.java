@@ -37,7 +37,7 @@ public class AMypageController {
 	@Autowired
 	LoginService loginService;
 	
-	// 프로필
+	// 프로필 페이지 이동
 	@RequestMapping(value = "profile.do")
 	public String profileView(Model model, HttpSession session) {
 		
@@ -48,6 +48,29 @@ public class AMypageController {
 		
 		return "a_mypage/profile";
 	}
+	
+	// 비밀번호 수정 페이지 이동
+	@RequestMapping(value = "changePassword.do")
+	public String changePasswordView() {		
+		
+		return "a_mypage/changePassword";
+	}
+	
+	// 문의내역 페이지 이동
+	@RequestMapping(value = "inquiry.do")
+	public String inquiry() {		
+		
+		return "a_mypage/inquiry";
+	}
+	
+	// 탈퇴 페이지 이동
+	@RequestMapping(value = "withdrawal.do")
+	public String withdrawalView() {		
+		
+		return "a_mypage/withdrawal";
+	}
+	
+	
 	
 	// 프로필 수정
 	@ResponseBody
@@ -97,7 +120,7 @@ public class AMypageController {
 		
 	}
 	
-	// 파일 뿌리기
+	// 프로필 사진 보여주기
 	@RequestMapping(value="imageDownload.do")
 	 protected void imageDownload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			   

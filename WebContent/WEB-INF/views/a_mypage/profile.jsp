@@ -232,9 +232,7 @@
        	  // alert(jobuser02);
        
        
-    });
-
-    
+    });   
 
     
       function changeOcc( onedepth ){
@@ -253,8 +251,8 @@
               }
           }
         }        
+        
       }
-
   	 
 
  	// 경력 선택
@@ -453,7 +451,8 @@
 				  timer: 1500
 			}).then(function(result){
 				location.href="profile.do";
-			})
+			});
+			
 	     }
         
     });

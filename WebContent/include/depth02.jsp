@@ -90,11 +90,14 @@ if (durl.contains("c_mypage")) {
 	<li class=<%= durl.contains("profile.jsp") ? " on" :" "%>>
 		<a href="/Pickme/a_mypage/profile.do">프로필</a>
 	</li>
-	<li class=<%= durl.contains("123") ? " on" :" "%>>
-		<a href="">비밀번호수정</a>
+	<li class=<%= durl.contains("changePassword.jsp") ? " on" :" "%>>
+		<a href="/Pickme/a_mypage/changePassword.do">비밀번호 변경</a>
 	</li>
-	<li class=<%= durl.contains("1232") ? " on" :" "%>>
-		<a href="">탈퇴</a>
+	<li class=<%= durl.contains("inquiry.jsp") ? " on" :" "%>>
+		<a href="/Pickme/a_mypage/inquiry.do">문의내역</a>
+	</li>
+	<li class=<%= durl.contains("withdrawal.jsp") ? " on" :" "%>>
+		<a href="/Pickme/a_mypage/withdrawal.do">탈퇴</a>
 	</li>
 </ul>
 <%

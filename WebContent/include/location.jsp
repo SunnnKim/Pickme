@@ -16,6 +16,39 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 </div> 
 <% } %>
 
+<!-- 마이페이지 일반회원 - 비밀번호 수정  -->
+<% if (lourl.contains("/a_mypage/changePassword")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>마이페이지</span>
+	<span>></span>
+	<span>비밀번호 변경</span>
+</div> 
+<% } %>
+
+<!-- 마이페이지 일반회원 - 문의내역  -->
+<% if (lourl.contains("/a_mypage/inquiry")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>마이페이지</span>
+	<span>></span>
+	<span>문의내역</span>
+</div> 
+<% } %>
+
+<!-- 마이페이지 일반회원 - 탈퇴  -->
+<% if (lourl.contains("/a_mypage/withdrawal")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>마이페이지</span>
+	<span>></span>
+	<span>탈퇴</span>
+</div> 
+<% } %>
+
 
 <!-- 일반 로그인 페이지  -->
 <% if (lourl.contains("/login/mem")) {%>

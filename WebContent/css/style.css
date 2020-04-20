@@ -1039,6 +1039,18 @@ span.body{color: #333;width: calc(100% - 80px); font-size: 13pt;}
 .aMycont .inhash .hashbtn i.fas{margin-left:5px;}
 .aMycont > button {position:relative; display:block; width:200px; height:50px; margin:40px auto 0; background:#4f6eff;color:#fff;}
 
+/* 일반회원 마이페이지 비밀번호 변경 */
+.amemChangePw {}
+.amemChangePw strong {display:block; font-size:23px; font-weight:500; color:#304edf;}
+.amemChangePw p {font-size:17px; margin-top:20px;}
+table.aMypageTbl {width:100%; border:1px solid #ddd; margin-top:30px;}
+.aMypageTbl th {padding:20px 30px; border-right:1px solid #ddd; border-top:1px solid #ddd; background:#f7f7f7;}
+.aMypageTbl td {padding:20px 30px; border-top:1px solid #ddd;}
+.aMypageTbl td input {width:100%; height:30px; border:1px solid #ddd; outline:none; padding:0 10px;}
+.amemChangeBtnWrap {width:100%; text-align:center; margin-top:50px; font-size:0;}
+.amemChangeBtnWrap button {display:inline-block; width:180px; height:55px; font-size:17px; margin:0 5px; border:1px solid #304edf; color:#304edf; outline:none;}
+.amemChangeBtnWrap button:first-child {border:1px solid #304edf; background:#304edf; color:#fff;}
+
 /* 이력서 관리 */
 #resumeListWrap{}
 .resume-list {}
