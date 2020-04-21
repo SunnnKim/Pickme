@@ -21,6 +21,25 @@
 <!-- 메뉴 -->
 <script>
 $(document).ready(function(){
+	// input value length ->css변경
+
+	 if($("input[name=title]").val().length>1){
+		$("input[name=title]").next("i").css("color","green");
+	    b_title=true;
+	 }
+	 if($("input[name=mainTask]").val().length>10){
+		 $("input[name=mainTask]").next("i").css("color","green");
+	   b_main_task=true;
+	 }
+	 if($("input[name=requirements]").val().length>10){
+		 $("input[name=requirements]").next("i").css("color","green");
+	   b_requirements=true;
+	 }
+	 if($("input[name=salary]").val().length>3){
+		$("input[name=salary]").next("i").css("color","green");
+	   b_salary=true;
+	 }
+	
 	//db에서 파일 list 받아오기
 	var filelist = new Array();
 	<c:forEach items="${fileslist}" var="dto"> 
@@ -28,14 +47,30 @@ $(document).ready(function(){
 	</c:forEach>
 	var listlen = filelist.length;
 	//console.log("listlen:"+listlen);
+	var input = new Array(listlen);
 	if(filelist != null){
 		for(var i=0; i<listlen; i++){
-			$("#img"+(i+1)).attr("title", filelist[0]);
+			$("#img"+(i+1)).attr("title", filelist[i]);
 			$("label[for=img"+(i+1)+"]").css("background-image", "url(filedownload.do?filename="+filelist[i]+"&filepath=/upload/recruit/)");
-		}
+			//$("input[name=originfile]").eq(i).(filelist[i]);
+			console.log("filelist::: "+filelist[i]);
+
+			input[i] = document.createElement("input");
+			input[i].type="hidden";
+			input[i].name="originalImg";
+			input[i].value=filelist[i];
+			/* input.setAttribute("type","hidden");
+			input.setAttribute("name","originalImg");
+			input.setAttribute("value",filelist[i]); */
+			var fileform = document.getElementById("fileform");
+			fileform.appendChild(input[i]);
+
+			//console.log("originalImg::"+$("input[name=originalImg]").val());
+	}
 		
 	} 
-	
+
+
 });
 </script>
         <div class="rec-wrapper">
@@ -53,17 +88,10 @@ $(document).ready(function(){
           <div class="rec-conatainer">
             <div class="rec-info">
               <h3 class="tit">채용등록정보</h3>
-              	<form id="fileform" method="post" action="recfileup.do" enctype="multipart/form-data">
+              	<form id="fileform" method="post" action="recfileChange.do" enctype="multipart/form-data">
+                  <input type="hidden" name="ref" value="${recDto.ref}"> 
                   <h4>대표이미지등록<span class="ess">*</span></h4>
                   <div class="cont">
-                     
-      			<%--<c:forEach var="dto" items="${fileslist}" varStatus="rs">
-            	 	 <i class="file-image">
-					 <input id="img${rs.count }" name="originfile" type="file" onchange="readImage(this)" title="${dto.newname }" accept=".jpg, .png"/>
-					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
-					<label for="img${rs.count }" class="image" style="background-image: url('filedownload.do?filename=${dto.newname }&filepath=/upload/recruit/')"></label> 
-					</i>
-   	  			</c:forEach> --%>
                 <i class="file-image">
 					 <input id="img1" name="originfile" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
 					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
@@ -82,9 +110,8 @@ $(document).ready(function(){
 				</div>
               	</form>     
               	<form id="frm"> 
-              	 <input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
-              	 <input type="hidden" name="comName" value="${sessionScope.logincompany.name}">
-              	 <input type="hidden" name="ref" value="${ref}"> 
+              	<input type="hidden" name="seq" value="${recDto.seq}">
+              	
                <h4>제목<span class="ess">*</span></h4>
               <div class="cont">
                 <input type="text" name="title" required placeholder="제목을 입력해주세요." maxlength="40" value="${recDto.title }">
@@ -158,10 +185,10 @@ $(document).ready(function(){
 	                <c:forEach items="${hashTag }" var="str" varStatus="vs">
 	                	<span>
 	                	 <button type="button" class="hashbtn" name="hashtag" style="margin-right:8px;">
-	                      #${str }
+	                      #${str}
 	                      <i class="fas fa-times close" onclick="remove(this)"></i>
 	                     </button>
-	                     <input type="hidden" name="hashTag" value="${str }">
+	                     <input type="hidden" name="hashTag" value="${str}">
 	                	</span>
 	                 </c:forEach>
                 </div>
@@ -211,11 +238,7 @@ $(document).ready(function(){
 		}
 		return true;
 	});
-	
 	//파일업로드
-
-
-
 	function resetImage(input) {
 	  input.value = '';
 	  input.onchange();
@@ -232,10 +255,8 @@ $(document).ready(function(){
 	  }
 	  else receiver.style.backgroundImage = 'none';
 	}
-
-
-
-  
+	
+	
 	// datepicker
 	$("#datepicker").datepicker({
 			minDate : 0,
@@ -267,8 +288,8 @@ $(document).ready(function(){
 
         var selOcc ="${occ}";
         var selJob = "${job}";
-        console.log("selOcc:"+selOcc);
-        console.log("selJob:"+selJob);
+        //console.log("selOcc:"+selOcc);
+        //console.log("selJob:"+selJob);
         
         // selected 되어있을 때 2차 분류 뿌리기   
        	$('#com_job1 option').each(function(){
@@ -316,11 +337,13 @@ $(document).ready(function(){
 
     
 
-    // v 체크 불 들어오게
+    // 아이콘 v css 변경하기
     var i_title = $("input[name='title']");
    var i_main_task = $("input[name='mainTask']");
    var i_requirements = $("input[name='requirements']");
    var i_salary = $("input[name='salary']");
+
+   
 
     //boolean
   var b_title;
@@ -329,11 +352,12 @@ $(document).ready(function(){
   var b_salary;
 
 
+  
 
 	//경력
 	  $(i_title).keyup(function(){
 	   var inputLength = $(this).val().length;
-	  console.log(inputLength);
+	 // console.log(inputLength);
 	  if(inputLength>1){
 	    $(this).next("i").css("color","green");
 	    b_title=true;
@@ -345,7 +369,7 @@ $(document).ready(function(){
     //주요업무
     $(i_main_task).keyup(function(){
      var inputLength = $(this).val().length;
-    console.log(inputLength);
+    //console.log(inputLength);
     if(inputLength>10){
       $(this).next("i").css("color","green");
       b_main_task=true;
@@ -357,8 +381,8 @@ $(document).ready(function(){
     //자격요건
     $(i_requirements).keyup(function(){
      var inputLength = $(this).val().length;
-    console.log(inputLength);
-    if(inputLength>20){
+    //console.log(inputLength);
+    if(inputLength>10){
       $(this).next("i").css("color","green");
       b_requirements=true;
       } else {
@@ -368,7 +392,7 @@ $(document).ready(function(){
     //급여
     $(i_salary).keyup(function(){
      var inputLength = $(this).val().length;
-    console.log(inputLength);
+    //console.log(inputLength);
     if(inputLength>3){
       $(this).next("i").css("color","green");
       b_salary=true;
@@ -380,24 +404,25 @@ $(document).ready(function(){
 
     //hashtag append 
     var element_count = document.getElementsByTagName('hashtag').length+"${hashlength}";
-  // alert("element_count:"+element_count);
+    hashTagCount();
+  //alert("element_count:"+element_count);
     function tagappend(){
-	     var hashtext = document.getElementById('hashtag').value;
-	     var text_len =  document.getElementById('hashtag').value.length;
+	     var hashtext = document.getElementById('hashtag').value.trim();
+	     var text_len =  document.getElementById('hashtag').value.trim().length;
 	     const str = "<span><button type='button' class='hashbtn' name='hashbtn' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashtext+"'></span>";
-	     if(hashtext.trim() != "" && text_len>=2 ){
+	     if(hashtext != "" && text_len>=2 ){
 	      $(".inhash").append(str);
 	    
 	      document.getElementById('hashtag').value="";
 	      element_count++;
 	      hashTagCount();
-	     } else if(text_len > 1 && text_len < 2){
+	     } else if(text_len < 2){
 	    	 Swal.fire({
 				  icon: 'error',
 				  text: '태그를 2자이상입력해주세요.'
 			})
 
-	     } else if(hashtext.trim() == ""){
+	     } else if(hashtext == ""){
 	    	 Swal.fire({
 				  icon: 'error',
 				  text: '태그를 입력해주세요.'
@@ -409,10 +434,12 @@ $(document).ready(function(){
 
 	//태그 입력
    $("#hashtag").keyup(function(e){
+	   hashTagCount();
 	   if(e.keyCode == 13) {
-		   if( $(this).val().length >= 2 ) {
+		   if( $(this).val().trim().length >= 2 ) {
 			 tagappend();
-		   } else if ( $(this).val().length > 1 && $(this).val().length < 2){
+			 
+		   } else if ( $(this).val().trim().length < 2){
 			   Swal.fire({
 					  icon: 'error',
 					  text: '태그를 2자이상입력해주세요.'
@@ -433,9 +460,10 @@ $(document).ready(function(){
         $(this).parent('button').parent('span').remove();
      });
 
+    //hashtag 갯수
     function hashTagCount(){
-      if(element_count >= 3){
-         $("#hashtag").attr("readonly","readonly");
+      if(element_count > 2){
+         $("#hashtag").prop("readonly","readonly");
          $("#hashadd").attr("disabled",true);
       } else {
         $("#hashtag").removeAttr("readonly");
@@ -454,11 +482,11 @@ $(document).ready(function(){
 
        	for(var i=0; i < taglen;i++){
            	tags[i] = $("input[name='hashTag']").eq(i).val();
-    		console.log("tags:"+tags);
+    		//console.log("tags:"+tags);
     	}
 		//var jsondata = JSON.parse(tags);
 		jsondata = JSON.stringify(tags)
-    	console.log( jsondata)
+    	//console.log( jsondata)
 	
 	/*  
 		String 데이터를 Json데이터로 바꾸는 방법
@@ -473,7 +501,7 @@ $(document).ready(function(){
 				  icon: 'error',
 				  text: '제목을 등록해주세요'
 				})
-		} else if ( $("input[name='originfile']").val() == ""){
+		} else if ( $("input[name=originalImg]").val()==""&& $("input[name='originfile']").val() == ""){
 			Swal.fire({
 				  icon: 'error',
 				  text: '대표이미지를 등록해주세요'
@@ -527,10 +555,14 @@ $(document).ready(function(){
 			/* var queryString = $("#frm").serialize(); */
 			 //페이지 이동 확인창 false
 			 checkUnload=false;
-		 		var comSeq = $("input[name=comSeq]").val();
-		 		var comName = $("input[name=comName]").val();
+				
+			 	var seq = $("input[name=seq]").val();
+		 		//var comSeq = $("input[name=comSeq]").val();
+		 		//var comName = $("input[name=comName]").val();
 				var ref = $("input[name=ref]").val();
-				var originfile = $("input[name=originfile]").val();
+				//var originfile = $("input[name=originfile]").val();
+				var originfile = $("input[name=originfile]").val(); //첨부파일
+				var originalImg = $("input[name=originalImg]").val();//기존 저장된 파일
 				var title = $("input[name=title]").val();
 				var edate =  $("input[name=edate]").val();
 				var comJob = $("#com_job1 option:selected").text()+","+$("#com_job2 option:selected").text();	//직군, 직무;
@@ -543,15 +575,16 @@ $(document).ready(function(){
 				
 				//CKEDITOR.instances.content.getData()
 				var hashTag = jsondata;
-		
-				console.log( {'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
-					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName });
+				console.log("originfile: "+originfile);
+				console.log("originalImg"+originalImg);
+				//console.log( {'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
+				//'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName });
 			  
-			  $.ajax({
-				url:"recUpdateAf.do",
+			   $.ajax({
+				url:"updateRecAf.do",
 				type:"post",
 				datatype:'json',
-				data:{'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
+				data:{'seq':seq,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
 					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName },
 				success: function(data){
 					//alert("넘어온 seq: "+data);
@@ -562,7 +595,7 @@ $(document).ready(function(){
 							  timer: 1500
 						}).then( (result) =>{
 							$("#fileform").submit();
-						})
+						}) 
 					
 						
 					} else {
@@ -573,7 +606,7 @@ $(document).ready(function(){
 						
 					}
 				}
-			}); //ajax
+			}); //ajax 
 				 
 			
 		}
@@ -587,5 +620,5 @@ $(document).ready(function(){
 
 <!-- subCont 끝 -->
 <c:import url="../../../include/footer.jsp"/> 
-<%-- <%@include file="/include/footer.jsp"%> --%>
+
 

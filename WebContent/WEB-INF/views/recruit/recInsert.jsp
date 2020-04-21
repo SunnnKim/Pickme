@@ -292,7 +292,7 @@
     $(i_requirements).keyup(function(){
      var inputLength = $(this).val().length;
     console.log(inputLength);
-    if(inputLength>20){
+    if(inputLength>10){
       $(this).next("i").css("color","green");
       b_requirements=true;
       } else {
@@ -478,11 +478,12 @@
 				
 				//CKEDITOR.instances.content.getData()
 				var hashTag = jsondata;
-		
+
+				console.log("이미지:"+originfile);
 				console.log( {'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
 					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName });
 			  
-			  $.ajax({
+			   $.ajax({
 				url:"recInsertAf.do",
 				type:"post",
 				datatype:'json',
@@ -508,7 +509,7 @@
 						
 					}
 				}
-			}); //ajax
+			}); //ajax 
 				 
 			
 		}

@@ -38,7 +38,7 @@ public class RecruitDaoImpl implements RecruitDao{
 
 	@Override
 	public boolean insertRecFile(List<FilesDto> list) {
-	// 등록한 첨부파일목록을 디비에 넣기 
+		// 등록한 첨부파일목록을 디비에 넣기 
 		for( int i = 0; i < list.size(); i++) {
 			FilesDto file = list.get(i);
 			if(file.getOriginname().trim() != "") {
@@ -102,6 +102,21 @@ public class RecruitDaoImpl implements RecruitDao{
 	public int delRecruit(int seq) {
 		return sqlSession.update(ns+"delRecruit", seq);
 	}
+
+
+	@Override
+	public int recUpdate(RecruitDto dto) {
+		return sqlSession.update(ns+"recUpdate",dto);
+	}
+
+
+	@Override
+	public boolean delRecFile(int ref) {
+		return sqlSession.delete(ns+"delRecFile",ref)>0?true:false;
+	}
+
+
+	
 
 
 
