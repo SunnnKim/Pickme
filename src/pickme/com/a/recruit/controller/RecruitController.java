@@ -59,6 +59,10 @@ public class RecruitController {
 			comSeq = (Integer)req.getAttribute("comSeq"); 
 		}
 		param.setComSeq(comSeq);
+		
+		//마감날짜 지나면 del=1 update
+		serv.dayUpdateDel();
+		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
@@ -304,20 +308,11 @@ public class RecruitController {
 		return "recruit/recUpdate";
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "fileDel.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String fileDel(int ref, HttpServletRequest request) {
-		String path = request.getServletContext().getRealPath("/upload/recruit/");
-		File file = new File(path);
-		if(file.exists() == true) file.delete();
-		
-		/* if(file.delete())? "redirect:updateRecAf.do"; */
-		return "";
-	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "updateRecAf.do",method = RequestMethod.POST)
 	public int updateRecAf(RecruitDto dto) {
+		
 		System.out.println(dto.toString());
 		int count = serv.recUpdate(dto);
 		System.out.println("update success : " + count);
@@ -330,28 +325,6 @@ public class RecruitController {
 		// ref(그룹번호) 불러오기  
 		int ref = recdto.getRef();
 		
-		//기존파일
-		for (int i = 0; i < originalImg.length; i++) {
-			System.out.println("==================================originalImg"+originalImg[i]);			
-		}
-		// 수정전 파일들 삭제
-		String filePath = req.getSession().getServletContext().getRealPath("/upload/recruit/");
-		if(originfile.length > 0) {	// 첨부파일이 있을 경우 
-			for (int i = 0; i < originalImg.length; i++) {
-				File originImg = new File(filePath+originalImg[i]);
-				try {
-					while(originImg.exists()) {
-						File[] filelist = originImg.listFiles(); //파일리스트얻어오기
-						for (int j = 0; j < filelist.length; j++) {
-							filelist[j].delete();
-							System.out.println("file list delete");
-						}
-					}
-				} catch (Exception e) {
-					e.getStackTrace();
-				}
-			}
-		}
 		//db에서 파일 삭제
 		serv.delRecFile(ref);
 		
@@ -395,16 +368,8 @@ public class RecruitController {
 			
 			}//.for
 			
-		} else {
-			//새로운 파일이 없고 기존 이미지일때
-			for (int i = 0; i < originalImg.length; i++) {
-				/*
-				 * String newname = FUpUtil.getNewFileName(originName); FilesDto dto = new
-				 * FilesDto(originalImg, newname, ref, i, type); list.add(e)
-				 */
-			}
-			
-		}
+		}//.if
+		
 		// 파일 디비에 넣기
 		result = serv.insertRecFile(list);
 		// recruit 테이블 imagename newname으로 바꾸기

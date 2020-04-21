@@ -136,7 +136,7 @@
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
 		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Yes, delete it!'
+		  confirmButtonText: 'Yes'
 		}).then((result) => {
 		  if (result.value) {
 			  $.ajax({
@@ -147,8 +147,7 @@
 					 //alert("data:"+data);
 					 if(data==true){
 						 Swal.fire({
-						      title:'Deleted!',
-						      content:'정상적으로 마감되었습니다.',
+						      title:'정상적으로 마감되었습니다.',
 						      icon:'success'
 						}).then((result) =>{
 							goPageRec('now');

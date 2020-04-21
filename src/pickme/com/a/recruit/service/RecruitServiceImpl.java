@@ -79,6 +79,10 @@ public class RecruitServiceImpl implements RecruitService{
 	public boolean delRecFile(int ref) {
 		return dao.delRecFile(ref);
 	}
+	@Override
+	public void dayUpdateDel() {
+		dao.dayUpdateDel();
+	}
 	
 
 	

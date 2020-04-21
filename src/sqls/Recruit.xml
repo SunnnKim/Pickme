@@ -102,8 +102,11 @@
 		DELETE FROM FILES
 		WHERE USETABLE='RECRUIT' AND REF = #{ref} 
 	</delete>
+	<!-- 마감일이 오늘날짜보다 지났을때 공고마감 del=1  -->
+	<update id="dayUpdateDel">
+		UPDATE RECRUIT SET DEL=1 WEHRE NOW()>EDATE
+	</update>
 
-	<!-- 해야할것 : (통계)해당 채용게시물에 지원자수 count -->
 	<!-- 해야할것 : (통계)해당 게시물 좋아요수 count -->
 	<!-- 해야할것 : (검색) --> 
 	<!-- 해야할것 : (필터) -->

@@ -57,5 +57,10 @@ public class SearchJobDaoImpl implements SearchJobDao{
 		sqlSession.update(ns+"readCountUp",seq);
 	}
 
+	@Override
+	public void dayUpdateDel() {
+		sqlSession.update(ns+"dayUpdateDel");
+	}
+
 
 }

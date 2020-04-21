@@ -13,7 +13,7 @@
 
 	<div class="rsmCont">
 		<h4>경력</h4>
-		<div class="rsm_addBtn careerBtn">+ 추가</div>
+		<div class="rsm_addBtn">+ 추가</div>
 		<div class="rsm_add">
 			<div class="rsm_addCont clfix" id="career">
 				<div class="rsm_left">
@@ -156,14 +156,6 @@
 $('.rsm_date input[type=text]').keyup(function(event){
   var inputVal = $(this).val();
   $(this).val(inputVal.replace(/[^0-9]/gi,''));
-});
-
-// 현재 재직중 체크했을 때 
-$()
-
-// prepend
-$('careerBtn').click(function(){
-	$(this).children('rsm_add').hide();
 });
 
 
