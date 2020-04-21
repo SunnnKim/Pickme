@@ -89,7 +89,7 @@ color: #4f6eff;
 			</ul>
 			<!-- 페이징 -->
 			<div id="paging_wrap">
-				<jsp:include page="/WEB-INF/views/recruit/paging.jsp" flush="false">
+				<jsp:include page="/WEB-INF/views/c_apply/paging.jsp" flush="false">
 					<jsp:param name="totalRecCount" value="${totalRecCount }" />
 					<jsp:param name="pageNumber" value="${pageNumber }" />
 					<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
