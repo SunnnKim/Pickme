@@ -45,6 +45,10 @@ public class SearchJobController {
 
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
+		
+		//마감날짜가 지나면 del update
+		serv.dayUpdateDel();
+		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30

@@ -46,6 +46,10 @@ public class SearchJobServiceImpl implements SearchJobService{
 	public void readCountUp(int seq) {
 		dao.readCountUp(seq);
 	}
+	@Override
+	public void dayUpdateDel() {
+		dao.dayUpdateDel();
+	}
 	
 
 	
