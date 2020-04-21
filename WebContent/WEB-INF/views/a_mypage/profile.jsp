@@ -290,6 +290,7 @@
 			  text: '태그를 입력해주세요'
 		 });
 	   }
+	   e.preventDefalt();
 	 });
 
   	// db에 있는 hashtag append시키기 
