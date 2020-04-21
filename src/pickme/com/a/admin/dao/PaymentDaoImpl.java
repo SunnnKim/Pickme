@@ -24,4 +24,9 @@ public class PaymentDaoImpl implements PaymentDao{
 	public List<PremierServiceDto> getPremierService() {
 		return sqlSession.selectList(namespace + "getPremierService");
 	}
+
+	@Override
+	public boolean insertService(PremierServiceDto serviceDto) {
+		return sqlSession.insert(namespace + "insertService", serviceDto) > 0 ? true:false;
+	}
 }

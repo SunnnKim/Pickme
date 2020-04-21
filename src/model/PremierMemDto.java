@@ -4,6 +4,7 @@ public class PremierMemDto {
 
 	private int seq;
 	private int userSeq;
+	private int serviceSeq;
 	private String name;
 	private String serviceName;
 	private String startDate;
@@ -13,11 +14,13 @@ public class PremierMemDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PremierMemDto(int seq, int userSeq, String userName, String serviceName, String startDate, String endDate) {
+	public PremierMemDto(int seq, int userSeq, int serviceSeq, String name, String serviceName, String startDate,
+			String endDate) {
 		super();
 		this.seq = seq;
 		this.userSeq = userSeq;
-		this.name = userName;
+		this.serviceSeq = serviceSeq;
+		this.name = name;
 		this.serviceName = serviceName;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -39,12 +42,20 @@ public class PremierMemDto {
 		this.userSeq = userSeq;
 	}
 
+	public int getServiceSeq() {
+		return serviceSeq;
+	}
+
+	public void setServiceSeq(int serviceSeq) {
+		this.serviceSeq = serviceSeq;
+	}
+
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String userName) {
-		this.name = userName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getServiceName() {
@@ -73,8 +84,8 @@ public class PremierMemDto {
 
 	@Override
 	public String toString() {
-		return "PremierMemDto [seq=" + seq + ", userSeq=" + userSeq + ", userName=" + name + ", serviceName="
-				+ serviceName + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+		return "PremierMemDto [seq=" + seq + ", userSeq=" + userSeq + ", serviceSeq=" + serviceSeq + ", name=" + name
+				+ ", serviceName=" + serviceName + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
 	

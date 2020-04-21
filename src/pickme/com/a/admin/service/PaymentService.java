@@ -9,4 +9,5 @@ public interface PaymentService {
 
 	public List<PremierMemDto> getPremierMember();
 	public List<PremierServiceDto> getPremierService();
+	public boolean insertService(PremierServiceDto serviceDto);
 }

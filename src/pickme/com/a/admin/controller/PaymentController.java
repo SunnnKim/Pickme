@@ -1,15 +1,33 @@
 package pickme.com.a.admin.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import model.PremierMemDto;
 import model.PremierServiceDto;
 import pickme.com.a.admin.service.PaymentService;
+import pickme.com.a.util.FUpUtil;
 
 @RequestMapping(value="/admin/payment")
 @Controller
@@ -45,6 +63,134 @@ public class PaymentController {
 	@RequestMapping(value="managePayment.do")
 	public String managePayment(Model model) {
 		return "admin/payment/managePayment";
-		
 	}
+	
+	// 서비스 디테일보기 
+	@RequestMapping(value="getServiceDetail.do")
+	public String getServiceDetail() {
+		return "";
+	}
+	
+	
+	// 공지사항 텍스트 에디터에 이미지 넣어서 파일로 변환하는 부분
+	@ResponseBody
+	@RequestMapping(value="serviceContentImg.do", method=RequestMethod.POST)
+	public Map<String, String> noticeContentImg( MultipartFile file, HttpServletRequest request ) {
+		// 저장 경로 불러오기 
+		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/temp");
+		// 파일이름 설정
+		String originalName = file.getOriginalFilename();
+		// 바꿀이름
+		String newFilename = FUpUtil.getNewFileName(originalName);
+		System.out.println(newFilename);
+		
+		// 파일 실제로 업로드 하부분
+		File uploadFile = new File(uploadPath + "/" + newFilename);
+		
+		try {
+			// 실제 파일을 지정 폴더에 업로드 함 
+			FileUtils.writeByteArrayToFile(uploadFile, file.getBytes());
+			
+		} catch (IOException e) {
+			e.getMessage();
+			return null;
+		}
+		Map<String, String> map = new HashMap<>();
+		map.put("filename", newFilename);
+		map.put("filepath", "/upload/temp/");
+		return map;
+	}
+		
+		// 텍스트 에디터창에 이미지 불러오기 (다운로드)
+		@RequestMapping(value="imgDownload.do", method= {RequestMethod.GET,RequestMethod.POST})
+		public void imgDownload( String filename, String filepath,
+				HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+				// 인코딩 설정 
+				request.setCharacterEncoding("utf-8");
+				response.setCharacterEncoding("utf-8");
+				response.setContentType("text/html; charset=utf-8");
+				
+				// 파일이름 및 경로 확인 
+				System.out.println("file download connected");
+				System.out.println("download serv filepath :"+filepath);
+				System.out.println("download serv filename :"+filename);
+		      
+				// 불러올 파일 루트 확인
+				String uploadRoot = request.getSession().getServletContext().getRealPath(filepath);
+				System.out.println("uploadRoot:"+uploadRoot);
+				
+				// 전송할 파일 객체 준비  
+				File f = new File(uploadRoot + filename);
+
+				response.setHeader("Content-Type", "image/jpg");
+				
+				// 파일을 읽고 사용자에게 전송
+				FileInputStream fis;
+				try {
+					fis = new FileInputStream(f);
+					BufferedInputStream bis = new BufferedInputStream(fis);
+					OutputStream out = response.getOutputStream();
+					BufferedOutputStream bos = new BufferedOutputStream(out);
+					
+					while (true) {
+						int ch = bis.read();
+						if (ch == -1)
+							break;
+						bos.write(ch);
+					}
+					
+					bis.close();
+					fis.close();
+					bos.close();
+					out.close();
+					
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+				System.out.println("filedownload error:" + e.getMessage());
+				}
+		}
+		
+		// 텍스트에디터 사진 업로드하기
+		@ResponseBody
+		@RequestMapping(value="editorImageUpload.do",method=RequestMethod.POST )
+		public String editorImageUpload(  MultipartFile[] file, String filename, HttpServletRequest request ) {
+			// 저장 경로 불러오기 
+			String tempPath = request.getSession().getServletContext().getRealPath("/upload/temp");
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/paidService");
+			
+			
+			// 파일 실제로 업로드 하부분
+			for( int i = 0; i < file.length; i++ ) {
+				// 파일이름 설정
+				String newFilename = filename.split(",")[i];
+				File uploadFile = new File(uploadPath + "/" + newFilename);
+				try {
+					// 실제 파일을 지정 폴더에 업로드 함 
+					FileUtils.writeByteArrayToFile(uploadFile, file[i].getBytes());
+				} catch (IOException e) {
+					e.getMessage();
+					return "fail";
+				}
+				File tempFile = new File(tempPath + "/" + newFilename);
+				if(tempFile.exists()) {
+					if( !tempFile.isDirectory() ) {
+						tempFile.delete();
+					}
+				}
+			}
+			
+			return "success";
+		}
+	
+	@RequestMapping(value="insertPaidService.do", method=RequestMethod.POST)
+	public String insertPaidService( PremierServiceDto serviceDto ) {
+		System.out.println("serviceDto : " + serviceDto);
+		// insert to Database
+		boolean success = service.insertService(serviceDto);
+		if(success) return "redirect:/admin/payment/paidServiceView.do";
+		return "redirect:/admin/payment/writePaidService.do?fail=true";
+	}
+	
+	
 }

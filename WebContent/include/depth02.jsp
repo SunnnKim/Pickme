@@ -235,6 +235,16 @@ if (durl.contains("customer/")){
 	<li class=<%= durl.contains("customerService.jsp") ? " on" :" "%>>
 		<a href="/Pickme/customer/customerService">문의하기</a>
 	</li>
+	<%	
+		// 기업에만 보이는 유료서비스페이지
+		if(session.getAttribute("logincompany") != null){
+			%>
+			<li class=<%= durl.contains("paidService") ? " on" :" "%>>
+				<a href="/Pickme/customer/paidService.do">[기업] 유료서비스</a>
+			</li>
+			<%
+		}
+	%>
 </ul>
 <%
 }	

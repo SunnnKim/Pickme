@@ -11,5 +11,6 @@ public interface PaymentDao {
 	public List<PremierMemDto> getPremierMember();
 	// 유료 서비스 목록 불러오기
 	public List<PremierServiceDto> getPremierService();
-	
+	// 유료 서비스 등록하기 
+	public boolean insertService(PremierServiceDto serviceDto);
 }
