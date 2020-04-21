@@ -48,6 +48,12 @@ public interface RecruitDao {
 	// 공고 마감
 	public int delRecruit(int seq);
 	
+	// (공고 수정) RECRUIT UPDATE
+	public int recUpdate(RecruitDto dto);
+	
+	// (공고 수정 ) FILES DELETE
+	public boolean delRecFile(int ref);
+	
 	
 	
 	

@@ -53,19 +53,19 @@ public class RecruitController {
 	}
 	
 	@RequestMapping(value = "recNow.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String recNow(Integer seq, RecruitParam param, Model model, HttpServletRequest req) {
+	public String recNow(Integer comSeq, RecruitParam param, Model model, HttpServletRequest req) {
 		
-		if( seq == null ) {
-			 seq = (Integer)req.getAttribute("seq"); 
+		if( comSeq == null ) {
+			comSeq = (Integer)req.getAttribute("comSeq"); 
 		}
-		param.setComSeq(seq);
+		param.setComSeq(comSeq);
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
 		
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
-		int totalRecCount = serv.getComRecCount(seq);
+		int totalRecCount = serv.getComRecCount(comSeq);
 		
 		param.setStart(start);
 		param.setEnd(end);
@@ -80,19 +80,19 @@ public class RecruitController {
 	}
 	
 	@RequestMapping(value = "recPast.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String recPast(int seq,RecruitParam param, Model model, HttpServletRequest req) {
+	public String recPast(int comSeq,RecruitParam param, Model model, HttpServletRequest req) {
 
-		if( seq == 0 ) {
-			 seq = (int)req.getAttribute("seq"); 
+		if( comSeq == 0 ) {
+			comSeq = (int)req.getAttribute("comSeq"); 
 		}
-		param.setComSeq(seq);
+		param.setComSeq(comSeq);
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
 		
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
-		int totalRecCount = serv.getComPastCount(seq);
+		int totalRecCount = serv.getComPastCount(comSeq);
 		
 		param.setStart(start);
 		param.setEnd(end);
@@ -205,9 +205,9 @@ public class RecruitController {
 			
 		}
 		CMemberDto cmem = (CMemberDto) session.getAttribute("logincompany");
-		req.setAttribute("seq", cmem.getSeq());
+		req.setAttribute("comSeq", cmem.getSeq());
 
-		return result ? "forward:/recruit/recNow.do":"redirect:/recruit/recInsert.do";
+		return result ? "forward:/recruit/recNow.do":"";
 	}
 	
 	@RequestMapping("/filedownload.do")
@@ -282,6 +282,7 @@ public class RecruitController {
 		//System.out.println("occ: "+occ+" job: "+job);
 		
 		//System.out.println("myRec: "+dto.toString());
+		
 		//hashtag 빼오기
 		//System.out.println("해쉬태그 : "+ dto.getHashTag());
 		String hashs = dto.getHashTag().replace("\"", " ");
@@ -301,6 +302,118 @@ public class RecruitController {
 		model.addAttribute("hashlength",hashStr.length);
 		model.addAttribute("fileslist",fileslist);
 		return "recruit/recUpdate";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "fileDel.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String fileDel(int ref, HttpServletRequest request) {
+		String path = request.getServletContext().getRealPath("/upload/recruit/");
+		File file = new File(path);
+		if(file.exists() == true) file.delete();
+		
+		/* if(file.delete())? "redirect:updateRecAf.do"; */
+		return "";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "updateRecAf.do",method = RequestMethod.POST)
+	public int updateRecAf(RecruitDto dto) {
+		System.out.println(dto.toString());
+		int count = serv.recUpdate(dto);
+		System.out.println("update success : " + count);
+
+		return count;
+	}
+	
+	@RequestMapping(value = "recfileChange.do",method = RequestMethod.POST)
+	public String recfileChange(RecruitDto recdto, String[] originalImg, MultipartFile [] originfile,HttpServletRequest req, HttpSession session) {
+		// ref(그룹번호) 불러오기  
+		int ref = recdto.getRef();
+		
+		//기존파일
+		for (int i = 0; i < originalImg.length; i++) {
+			System.out.println("==================================originalImg"+originalImg[i]);			
+		}
+		// 수정전 파일들 삭제
+		String filePath = req.getSession().getServletContext().getRealPath("/upload/recruit/");
+		if(originfile.length > 0) {	// 첨부파일이 있을 경우 
+			for (int i = 0; i < originalImg.length; i++) {
+				File originImg = new File(filePath+originalImg[i]);
+				try {
+					while(originImg.exists()) {
+						File[] filelist = originImg.listFiles(); //파일리스트얻어오기
+						for (int j = 0; j < filelist.length; j++) {
+							filelist[j].delete();
+							System.out.println("file list delete");
+						}
+					}
+				} catch (Exception e) {
+					e.getStackTrace();
+				}
+			}
+		}
+		//db에서 파일 삭제
+		serv.delRecFile(ref);
+		
+		// 첨부파일용 파일 테이블에 저장할 리스트 만들기 
+		boolean result = true;
+		System.out.println("num of files : " + originfile.length);
+		List<FilesDto> list = new ArrayList<>();
+
+		//새로운 첨부파일이 있는지 확인
+		if(originfile.length > 0) {	
+			//List<FilesDto> list = new ArrayList<>();
+			for( int i = 0; i < originfile.length; i++ ) {
+				// 파일 새이름 등록 
+				String originName = originfile[i].getOriginalFilename();
+				if( !originName.equals("") ) {
+				System.out.println("오리지날 이름: "+originName);
+				String newname = FUpUtil.getNewFileName(originName);
+				String path = "/upload/recruit/";
+				String type = originfile[i].getContentType();
+				FilesDto dto = new FilesDto(originName, newname, ref, i, type);
+				
+				// 리스트에 담기 
+				list.add(dto);
+				
+				System.out.println("list["+i+"] : " + list.get(i));
+			
+				// 경로 및 파일이름 지정  
+				String uploadPath = req.getSession().getServletContext().getRealPath(path);
+				File uploadFile = new File(uploadPath + "/" + newname);
+				System.out.println("upload : "+ uploadFile.toString());
+				// 서버에 파일 업로드하기 
+				try {
+					// 실제 파일을 지정 폴더에 업로드 함 
+					FileUtils.writeByteArrayToFile(uploadFile, originfile[i].getBytes());
+				} catch (IOException e) {
+					e.getMessage();
+					return "redirect:/recruit/recUpdate.do";
+				}
+					
+				} else break;
+			
+			}//.for
+			
+		} else {
+			//새로운 파일이 없고 기존 이미지일때
+			for (int i = 0; i < originalImg.length; i++) {
+				/*
+				 * String newname = FUpUtil.getNewFileName(originName); FilesDto dto = new
+				 * FilesDto(originalImg, newname, ref, i, type); list.add(e)
+				 */
+			}
+			
+		}
+		// 파일 디비에 넣기
+		result = serv.insertRecFile(list);
+		// recruit 테이블 imagename newname으로 바꾸기
+		serv.updateImgName(ref);
+		
+		CMemberDto cmem = (CMemberDto) session.getAttribute("logincompany");
+		req.setAttribute("comSeq", cmem.getSeq());
+
+		return result ? "forward:/recruit/recNow.do":"redirect:/recruit/recUpdate.do";
 	}
 	
 	

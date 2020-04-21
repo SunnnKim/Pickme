@@ -195,7 +195,7 @@ if( durl.contains("e_apply")){
 <% } %>
 <!-- 현재공고/지난공고 볼때  로그인한 기업 seq 넘기기 -->
 <form name="seqFrm">
-	 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
+	 	<input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
 </form>
 <script>
 function goPageRec(str) {

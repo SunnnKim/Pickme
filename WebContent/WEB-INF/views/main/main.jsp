@@ -82,7 +82,7 @@
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
 				</nav>
 				 <form name="seqFrm">
-				 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
+				 	<input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
 				 </form>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
