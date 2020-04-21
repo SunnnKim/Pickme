@@ -24,4 +24,9 @@ public class PaymentServiceImpl implements PaymentService {
 	public List<PremierServiceDto> getPremierService() {
 		return dao.getPremierService();
 	}
+
+	@Override
+	public boolean insertService(PremierServiceDto serviceDto) {
+		return dao.insertService(serviceDto);
+	}
 }

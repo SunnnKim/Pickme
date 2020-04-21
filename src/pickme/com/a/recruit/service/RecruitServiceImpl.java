@@ -71,6 +71,19 @@ public class RecruitServiceImpl implements RecruitService{
 	public int delRecruit(int seq) {
 		return dao.delRecruit(seq);
 	}
+	@Override
+	public int recUpdate(RecruitDto dto) {
+		return dao.recUpdate(dto);
+	}
+	@Override
+	public boolean delRecFile(int ref) {
+		return dao.delRecFile(ref);
+	}
+	@Override
+	public void dayUpdateDel() {
+		dao.dayUpdateDel();
+	}
+	
 
 	
 	

@@ -358,3 +358,14 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>문의하기</span>
 </div>
 <% } %>
+
+<!-- 고객센터 - 기업유료서비스보기 -->
+<% if (lourl.contains("customer/paidService")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>고객센터</span>
+	<span>></span>
+	<span>기업유료서비스</span>
+</div>
+<% } %>

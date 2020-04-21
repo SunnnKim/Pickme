@@ -35,10 +35,6 @@ public class SearchJobServiceImpl implements SearchJobService{
 		return dao.getRecFile(ref);
 	}
 	@Override
-	public int countFiles(int ref) {
-		return dao.countFiles(ref);
-	}
-	@Override
 	public CMemberDto getAddr(int seq) {
 		return dao.getAddr(seq);
 	}
@@ -49,6 +45,10 @@ public class SearchJobServiceImpl implements SearchJobService{
 	@Override
 	public void readCountUp(int seq) {
 		dao.readCountUp(seq);
+	}
+	@Override
+	public void dayUpdateDel() {
+		dao.dayUpdateDel();
 	}
 	
 

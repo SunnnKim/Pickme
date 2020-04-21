@@ -77,12 +77,12 @@
 				 %>
 				 <nav class="gnb">
 					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
-					<a href="/Pickme/c_apply/cApplyList.do">지원현황</a><!-- 기업회원 지원현황  -->
+					<a href="/Pickme/c_apply/cApplyMain.do">지원현황</a><!-- 기업회원 지원현황  -->
 					<a href="javascript:goPage('now');">채용관리</a><!-- 기업회원 채용현황  -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
 				</nav>
 				 <form name="seqFrm">
-				 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
+				 	<input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
 				 </form>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">

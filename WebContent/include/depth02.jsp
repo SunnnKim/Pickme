@@ -12,7 +12,7 @@ System.out.println("durl:"+durl);
 <% if (durl.contains("c_apply")){ %>
 <ul class="depth02 clfix">
 	<li class=<%= durl.contains("cApply") ? " on" :" "%>>
-		<a href="cApplyList.do">지원자 관리</a>
+		<a href="cApplyMain.do">지원자 관리</a>
 	</li>
 	<li class=<%= durl.contains("c_apply") && durl.contains("Msg")? " on" :" "%>>
 		<a href="cRcvMsg.do">메시지함</a>
@@ -68,11 +68,14 @@ if (durl.contains("c_mypage")) {
 	if ( !durl.contains("c_mypage/myPage.jsp")) {
 		%>
 		<ul class = "depth02 clfix">
+			<li class = <%= durl.contains("update.jsp") ? " on" :" " %>>
+				<a href="goUpdate.do">기업정보 수정 · 등록</a>
+			</li>
 			<li class = <%= durl.contains("passwordUpdate.jsp") ? " on" :" " %>>
 				<a href="goPasswordUpdate.do">비밀번호 변경</a>
 			</li>
-			<li class = <%= durl.contains("update.jsp") ? " on" :" " %>>
-				<a href="goUpdate.do">기업정보 수정 · 등록</a>
+			<li class = "none">
+				<a href="#none">문의내역</a>
 			</li>
 			<li class = <%= durl.contains("payment.jsp") ? " on" :" " %>>
 				<a href="goPayment.do">결제</a>
@@ -195,7 +198,7 @@ if( durl.contains("e_apply")){
 <% } %>
 <!-- 현재공고/지난공고 볼때  로그인한 기업 seq 넘기기 -->
 <form name="seqFrm">
-	 	<input type="hidden" name="seq" value="${sessionScope.logincompany.seq}"> 
+	 	<input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
 </form>
 <script>
 function goPageRec(str) {
@@ -235,6 +238,16 @@ if (durl.contains("customer/")){
 	<li class=<%= durl.contains("customerService.jsp") ? " on" :" "%>>
 		<a href="/Pickme/customer/customerService">문의하기</a>
 	</li>
+	<%	
+		// 기업에만 보이는 유료서비스페이지
+		if(session.getAttribute("logincompany") != null){
+			%>
+			<li class=<%= durl.contains("paidService") ? " on" :" "%>>
+				<a href="/Pickme/customer/paidService.do">[기업] 유료서비스</a>
+			</li>
+			<%
+		}
+	%>
 </ul>
 <%
 }	

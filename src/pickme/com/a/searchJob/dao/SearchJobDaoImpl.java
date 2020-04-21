@@ -40,10 +40,6 @@ public class SearchJobDaoImpl implements SearchJobDao{
 		return sqlSession.selectList(ns+"getRecFile", ref);
 	}
 
-	@Override
-	public int countFiles(int ref) {
-		return sqlSession.selectOne(ns+"countFiles", ref);
-	}
 
 	@Override
 	public CMemberDto getAddr(int seq) {
@@ -59,6 +55,11 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	@Override
 	public void readCountUp(int seq) {
 		sqlSession.update(ns+"readCountUp",seq);
+	}
+
+	@Override
+	public void dayUpdateDel() {
+		sqlSession.update(ns+"dayUpdateDel");
 	}
 
 

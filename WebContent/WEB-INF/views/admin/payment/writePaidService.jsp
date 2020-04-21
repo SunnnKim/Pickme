@@ -3,29 +3,28 @@
 <!-- Header -->
 <%@include file="../include/adminHeader.jsp" %>
 <!-- resource -->
-	<!-- summernote -->
-	<!-- include libraries(jQuery, bootstrap) -->
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
-	<!-- include summernote css/js -->
-	<link href="/Pickme/js/summernote/summernote.min.css" rel="stylesheet" crossorigin="anonymous">
-	<script src="/Pickme/js/summernote/summernote.js"></script>
-	<!-- //summernote -->
-	<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
-	<!-- JQuery -->
+<!-- summernote -->
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- include summernote css/js -->
+<link href="/Pickme/js/summernote/summernote.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="/Pickme/js/summernote/summernote.js"></script>
+<!-- //summernote -->
 
 <!-- HTML -->
 <div class="profile-wrap">
-<form action="" method="POST">
+<form action="insertPaidService.do" id="frm" method="POST">
   <div class="content-wrap">
     <div class="contents-box">
       <span>서비스명</span>
       <input type="text" name="serviceName">
       <span>가격</span>
-      <input type="text" autocomplete="" name="price" numberOnly maxlength="8" style="text-align: right; padding-right: 10px;">
+      <input type="text" autocomplete="" name="price" numberOnly maxlength="8" style="text-align: right; padding-right: 10px;" onkeyup="inputNumberAutoComma(this)">
     </div>
-    <textarea id="summernote" name="content"></textarea>
+    <textarea id="summernote"></textarea>
+    <input type="hidden" name="content" >
     <div class="submit-btn">
       <button type="button" id="submitBtn">서비스등록</button>
     </div>
@@ -47,34 +46,59 @@
         <span class="serviceName servicePrice">zzz</span>
       </div>
       <div style="height: 80px; text-align: center; line-height: 80px;font-size: 18px;">정말로 등록하시겠습니까?</div>
-      <div id="submitBtn">등록하기</div>
+      <div id="submitModal">등록하기</div>
     </div>
 </div>
 
 <!-- Javascript -->
 <script>
-	$(document).ready(function() {
-	  $('#summernote').summernote({
-	  height: 300,                 // set editor height
-	  minHeight: null,             // set minimum height of editor
-	  maxHeight: null,             // set maximum height of editor
-	  focus: true                  // set focus to editable area after initializing summernote
-	});
-	// 가격은 숫자만 
-	$("input:text[numberOnly]").on("keyup", function() {
-	    $(this).val($(this).val().replace(/[^0-9]/g,""));
-	    if($(this).length == 1 && $(this).val() == '0'){
-	      $(this).val($(this).val().replace(/[^1-9]/g,""));
-	    }
-	  });
-	
+$(document).ready(function() {
+	// summernote Image Upload
+	  	let fileArray = [];
+		let keyCnt = 0;
+		$('#summernote').summernote({
+		height: 400,
+		callbacks: {
+            onImageUpload: function (files, editor, welEditable) {
+                sendFile(files[0], editor, welEditable);
+     	      }
+     	   }
+		});
+		//이미지 업로드 시 temp 폴더에 저장 후 불러옴 
+		function sendFile(file, editor, welEditable) {
+			   let data = new FormData();
+			   data.append("file", file); 
+
+			    $.ajax({
+			      data: data,
+			      type: 'POST',
+			      url: "serviceContentImg.do",
+			      cache: false,
+			      contentType: false,
+			      processData: false,
+			      enctype: 'multipart/form-data',
+			      success: function (url) { 
+			         var key = ('img_' + keyCnt);
+			    	 fileArray.push({
+			    		'key': key,
+			    		'filename': url.filename,
+			    		'filepath': url.filepath,
+			    		'file': file
+			    	});
+			    	// 에디터창에 넣기
+			    	var downloadUrl = '/Pickme/admin/payment/imgDownload.do?filename=' + url.filename + '&filepath=' + url.filepath;
+		         	$("#summernote").summernote('editor.insertImage', downloadUrl, ('img_' + keyCnt));
+			        keyCnt++;
+			      }
+			   });
+			}	
 	// 등록버튼 눌렀을때 
 	$('#submitBtn').click(function(){
 	
 	  // 변수 
 	  var serviceName = $('input[name=serviceName]');
 	  var price = $('input[name=price]');
-	  var content = $('textarea[name=content]');
+	  var content = $('#summernote');
 	
 	  // 빈칸 검사 
 	  if(serviceName.val().trim() == ''){
@@ -94,17 +118,102 @@
 	  }
 	  // 모달열기 
 	  $('.serviceName').html(serviceName.val())
-	  $('.servicePrice').html(price.val())
+	  $('.servicePrice').html(changeValue(price.val()) + " 원");
 	  $('.check-modal').css('display', 'block');
-	
-	  
-	})
-	
 	});
-	// clossBtn 
-	$('#clossBtn').click(function(){
-	  $('.check-modal').css('display', 'none');
-	})
+	
+	// submitModal
+	$('#submitModal').click(function(){
+		
+		// 텍스트에디터에 있는 사진 비교하기 
+		var contentHtml = $('#summernote').val();
+		var splitArr = contentHtml.split('<img ');
+		var uploadArr = [];	// 텍스트에디터 안에 있는 소스코드부분 배열에 담기 
+
+		// hidden에 content 값 넣기 
+		$('input[name=content]').val(contentHtml);
+		
+		
+		// 텍스트에디터 안에 있는 소스만 배열로 옮기기 
+		for( i = 1; i < splitArr.length; i++ ) {
+			var arr = splitArr[i];
+			if( !arr.includes('src') ) continue;	// 소스코드가 없는 태그들 빼기 
+			arr = arr.split('>')[0];
+			// 소스부분 잘라서 비교할 배열에 넣기 
+			var temp1 = arr.split('filename=')[1];
+			var temp2 = arr.split('id="')[1];
+		
+			var obj = {};
+			var nameAndPath = temp1.substring(0, temp1.indexOf('\"')).split('&amp;filepath=');
+			obj.key = temp2.substring(0, temp2.indexOf('\"'));
+			obj.filename = nameAndPath[0];
+			obj.filepath = nameAndPath[1];
+			
+			uploadArr.push(obj);	// 비교할 데이터를 배열에 담기
+		}
+
+		// 폼에 넣기 
+		
+		// 파일데이터를 담을 formData
+		let data = new FormData;
+			
+		// 탐색하기
+		for( arr of uploadArr ){
+			for( fileArr of fileArray ){
+				if( arr.key == fileArr.key ){
+					console.log('fileArr:')
+					console.log(fileArr)
+					data.append('file', fileArr.file)
+					data.append('filename', fileArr.filename)
+					$("#frm").append("<input type='hidden' name='contentfilename' value='"+fileArr.filename+"'>");
+					break;
+				}
+			}
+		}
+		
+		// ajax로 콘텐츠 사진부터 업로드하기 
+		$.ajax({
+	      data: data,
+	      type: 'POST',
+	      url: "editorImageUpload.do",
+	      cache: false,
+	      contentType: false,
+	      processData: false,
+	      enctype: 'multipart/form-data',
+	      success: function (data) { 
+			if(data == 'success'){
+				// 텍스트에디터 경로 모두 바꾸기 
+				var modifiedContent = contentHtml.replace(/\/upload\/temp/gi, '/upload/paidService');
+				console.log(modifiedContent);
+				$('input[name=content]').val(modifiedContent);
+				$("#frm").submit(); 
+			}else{
+				alert('fail to upload editor images!')
+			}	    	
+	     }
+	   });
+	});
+});
+</script>
+<script>
+// 기능함수
+// clossBtn 
+$('#clossBtn').click(function(){
+  $('.check-modal').css('display', 'none');
+})	
+// 가격은 숫자만 
+$("input:text[numberOnly]").on("keyup", function() {
+    $(this).val($(this).val().replace(/[^0-9]/g,""));
+    if($(this).length == 1 && $(this).val() == '0'){
+      $(this).val($(this).val().replace(/[^1-9]/g,""));
+    }
+  });
+// 세자리 이상 숫자에 , 붙이기 
+function changeValue( number ){
+	number = String(number);
+    return number.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+}
+
 </script>
 
 <!-- CSS -->
@@ -123,7 +232,7 @@
 .check-modal .modal-form .title { margin: 30px; height: 50px; padding: 0 10px; line-height: 50px;}
 .check-modal .modal-form .title > .service-title{text-align: center; float: left; color: #fff;display: block; width: 120px; font-size: 15px; background: #bbb;}
 .check-modal .modal-form .title > .serviceName{ border: 1px solid #eaeaea; display: inline-block; margin-left: 20px; width: 250px; padding: 0 20px }
-#submitBtn{ cursor: pointer; background: #4356b3; color:#fff; width: 200px; text-align: center; height: 40px; line-height: 40px; margin: 0 auto;}
+#submitModal{ cursor: pointer; background: #4356b3; color:#fff; width: 200px; text-align: center; height: 40px; line-height: 40px; margin: 0 auto;}
 </style>
 
 <!-- footer -->

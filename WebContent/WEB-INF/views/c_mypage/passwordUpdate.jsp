@@ -13,10 +13,7 @@
 .pre-pwd-wrap-title {margin-top:50px;text-align:center;font-size:13pt;}
 
 /* 기존 비밀번호 input */
-.pre-pwd {margin-top:50px;width: 330px;border:none;border-bottom:1px solid #888;font-size:20px;text-align:center;}
-
-/* 기존 비밀번호 input 클릭했을 때 */
-.pre-pwd:focus {outline:none;border-bottom-width:2px;border-color:#2d2d2d;}
+.pre-pwd {margin-top:50px;width: 330px;height:40px;border:1px solid #888;font-size:20px;text-align:center;}
 
 /* 기존 비밀번호 틀렸을 때 경고문 */
 .pre-pwd-incorrect {font-size:19px;color:#fff;}
@@ -25,10 +22,7 @@
 .new-pwd-wrap-title1 {margin-top:50px;text-align:center;font-size:13pt;}
 
 /* 새 비밀번호 input */
-.new-pwd1 {margin-top:30px;width: 330px;border:none;border-bottom:1px solid #888;font-size:20px;text-align:center;}
-
-/* 새 비밀번호 input 클릭했을 때 */
-.new-pwd1:focus {outline:none;border-bottom-width:2px;border-color:#2d2d2d;}
+.new-pwd1 {margin-top:30px;width: 330px;height:40px;border:1px solid #888;font-size:20px;text-align:center;}
 
 /* 새 비밀번호가 형식에 적합하지 않을 때 경고문 */
 .new-pwd-incorrect1{font-size:19px;color:#fff;}
@@ -37,10 +31,7 @@
 .new-pwd-wrap-title2 {margin-top:50px;text-align:center;font-size:13pt;}
 
 /* 새 비밀번호 확인 input */
-.new-pwd2 {margin-top:30px;width: 330px;border:none;border-bottom:1px solid #888;font-size:20px;text-align:center;}
-
-/* 새 비밀번호 확인 input 클릭했을 때 */
-.new-pwd2:focus {outline:none;border-bottom-width:2px;border-color:#2d2d2d;}
+.new-pwd2 {margin-top:30px;width: 330px;height : 40px;border:1px solid #888;font-size:20px;text-align:center;}
 
 /* 새 비밀번호 확인이 일치하지 않을 때 경고문 */
 .new-pwd-incorrect2{font-size:19px;color:#fff;}

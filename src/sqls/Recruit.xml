@@ -81,12 +81,8 @@
 	<select id="getRecFile" parameterType="int" resultType="model.FilesDto">
 		SELECT SEQ, USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE
 		FROM FILES 
-		WHERE USETABLE='RECRUIT' AND REF=#{ref}
+		WHERE USETABLE='RECRUIT' AND REF=${ref}
 	</select> 
-	<!-- 해당 게시물 첨부파일 갯수 알아오기 -->
-	<select id="countFiles" parameterType="int" resultType="int">
-		SELECT COUNT(*) FROM FILES WHERE REF=#{ref}
-	</select>
 	<!-- 공고 마감하기 -->
 	<update id="delRecruit" parameterType="int">
 		UPDATE RECRUIT
@@ -101,15 +97,18 @@
 		 SALARY=#{salary}, CONTENT=#{content}, HASHTAG=#{hashTag}, EDATE=#{edate}, IMAGENAME=#{imagename}
 		WHERE SEQ=#{seq}
 	</update>
-	<!-- file update -->
-	<update id="recFileUpdate" parameterType="model.FilesDto">
-		UPDATE FILES
-		SET ORIGINNAME= #{originname}, NEWNAME= #{newname}, STEP=#{step}, FILETYPE=#{filetype}
-		WHERE USETABLE='RECRUIT' AND REF=#{ref}
+	<!-- 공고 UPDATE 할때 파일 테이블 DELETE -->
+	<delete id="delRecFile" parameterType="int">
+		DELETE FROM FILES
+		WHERE USETABLE='RECRUIT' AND REF = #{ref} 
+	</delete>
+	<!-- 마감일이 오늘날짜보다 지났을때 공고마감 del=1  -->
+	<update id="dayUpdateDel">
+		UPDATE RECRUIT SET DEL=1 WEHRE NOW()>EDATE
 	</update>
-	<!-- 해야할것 : (통계)해당 채용게시물에 지원자수 count -->
+
 	<!-- 해야할것 : (통계)해당 게시물 좋아요수 count -->
-	<!-- 해야할것 : (검색) -->
+	<!-- 해야할것 : (검색) --> 
 	<!-- 해야할것 : (필터) -->
 	
 	

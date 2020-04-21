@@ -8,7 +8,9 @@ import model.RecruitDto;
 import model.RecruitParam;
 
 public interface RecruitDao {
-
+	//날짜 지나면 DEL=1로 바꾸기
+	public void dayUpdateDel();
+	
 	//마지막 ref+1 받아오기
 	public int getRef();									
 	
@@ -47,6 +49,12 @@ public interface RecruitDao {
 	
 	// 공고 마감
 	public int delRecruit(int seq);
+	
+	// (공고 수정) RECRUIT UPDATE
+	public int recUpdate(RecruitDto dto);
+	
+	// (공고 수정 ) FILES DELETE
+	public boolean delRecFile(int ref);
 	
 	
 	
