@@ -60,8 +60,7 @@ color: #4f6eff;
 
 	<c:choose>
 		<c:when test="${empty comCurrentRecList }">
-			<div
-				style="text-align: center; position: relative; margin-top: 4wndl0px;">
+			<div style="text-align: center; position: relative; margin-top: 4wndl0px;">
 				<p style="position: absolute; top: 0; left: 0; width: 100%; font-size: 30px;">등록된 공고가 없습니다.</p>
 				<img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width: 60%;">
 			</div>
