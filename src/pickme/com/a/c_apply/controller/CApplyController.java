@@ -32,8 +32,8 @@ public class CApplyController {
 	@Autowired
 	CApplyService cApplyService;
 	
-	@RequestMapping(value = "cApplyList.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String cApplyList(RecruitParam param, Model model, HttpSession session) {
+	@RequestMapping(value = "cApplyMain.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String cApplyMain(RecruitParam param, Model model, HttpSession session) {
 		
 		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq(); 
 		param.setComSeq(c_seq);
@@ -45,7 +45,7 @@ public class CApplyController {
 		
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
-		int totalRecCount = cApplyService.getComRecCount(c_seq);
+		int totalRecordCount = cApplyService.getComRecCount(c_seq);
 		
 		param.setStart(start);
 		param.setEnd(end);
@@ -54,11 +54,33 @@ public class CApplyController {
 		model.addAttribute("comCurrentRecList", list);
 		model.addAttribute("pageNumber", nowPage);	//현재페이지
 		model.addAttribute("pageCountPerScreen", 10);
-		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
-		model.addAttribute("totalRecCount", totalRecCount);
+		model.addAttribute("recordCountPerPage", 8);	//한페이지에 보일 게시물 수
+		model.addAttribute("totalRecordCount", totalRecordCount);
+		
+		return "c_apply/cApplyMain";
+	}
+	
+	
+	@RequestMapping(value = "cApplyList.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String cApplyList(RecruitParam param, Model model, HttpSession session) {
+		
+		
 		
 		return "c_apply/cApplyList";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

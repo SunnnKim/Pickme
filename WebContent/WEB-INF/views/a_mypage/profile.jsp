@@ -279,18 +279,40 @@
    console.log("해쉬태그2: " + hashdb02);
    console.log("해쉬태그3: " + hashdb03);
 
+
+   const intervalCall1000 = intervalCall(1000)
 	/* hashtag */
-	 $("#hashtag").keyup(function(e){if(e.keyCode == 13)
-	   if($(this).val().trim() !=""){
-	     tagappend();
-	   } else {
-	     // alert("태그를 입력해주세요.");
-	     Swal.fire({
-			  icon: 'error',
-			  text: '태그를 입력해주세요'
-		 });
-	   }
+	 $("#hashtag").keyup(function(e){ 
+		 if(e.keyCode == 13){
+			// 인터벌 함수 실행 
+			 intervalCall1000(() => {
+			 	// 태그삽입
+			   if($(this).val().trim() !=""){
+			     tagappend();
+			   } else {
+			 	// 태그 미입력시
+			     // alert("태그를 입력해주세요.");
+			     Swal.fire({
+					  icon: 'error',
+					  text: '태그를 입력해주세요'
+				 });
+			   }
+		    })
+		}
 	 });
+   // enter 중복클릭 방지
+   // interval 시간 안에 다시 호출된 함수 콜은 무시한다
+   function intervalCall(interval){
+	   let elapsed = true
+	   return (fn) => {
+	     if(!elapsed){
+	       return    // 마지막 호출 후 제한된 경과시간이 지나지 않은 경우 리턴
+	     }
+	     elapsed = false
+	     fn()
+	     setTimeout(() => {elapsed = true}, interval)
+	   }
+	 }
 
   	// db에 있는 hashtag append시키기 
 	$(function(){		

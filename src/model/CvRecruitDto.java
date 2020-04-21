@@ -18,17 +18,16 @@ public class CvRecruitDto {
 	private String filePath;	// 이력서 파일로 저장할 때 : 경로 
 	private String fileOriginal; // 이력서 파일로 저장할 때 : 파일원본이름 
 	private String fileStored;	 // 이력서 파일로 저장할 때 : 저장한 이름 
-	private int status;			// 열람 및 삭제여부 
+	//private int status;		// 열람 및 삭제여부 
 
 	
 	public CvRecruitDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public CvRecruitDto(int seq, int recruitSeq, String memEmail, String userName, String phone, String name,
 			String introduce, String career, String education, String awardsEtc, String language, String link,
-			String wDate, String filePath, String fileOriginal, String fileStored, int status) {
+			String wDate, String filePath, String fileOriginal, String fileStored) {
 		super();
 		this.seq = seq;
 		this.recruitSeq = recruitSeq;
@@ -46,8 +45,9 @@ public class CvRecruitDto {
 		this.filePath = filePath;
 		this.fileOriginal = fileOriginal;
 		this.fileStored = fileStored;
-		this.status = status;
 	}
+
+
 
 
 	public int getSeq() {
@@ -210,14 +210,6 @@ public class CvRecruitDto {
 	}
 
 
-	public int getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
 
 
 	@Override
@@ -226,8 +218,8 @@ public class CvRecruitDto {
 				+ userName + ", phone=" + phone + ", name=" + name + ", introduce=" + introduce + ", career=" + career
 				+ ", education=" + education + ", awardsEtc=" + awardsEtc + ", language=" + language + ", link=" + link
 				+ ", wDate=" + wDate + ", filePath=" + filePath + ", fileOriginal=" + fileOriginal + ", fileStored="
-				+ fileStored + ", status=" + status + "]";
+				+ fileStored + "]";
 	}
-	
+
 	
 }
