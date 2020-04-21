@@ -170,7 +170,7 @@ public class CMemberDto implements UserDetails {
 	}
 
 	public void setAddress(String address) {
-		this.address = address == null ? "" : address;
+		this.address = address == null ? "등록된 주소가 없습니다." : address;
 	}
 
 	public String getIntroduce() {
@@ -178,7 +178,7 @@ public class CMemberDto implements UserDetails {
 	}
 
 	public void setIntroduce(String introduce) {
-		this.introduce = introduce == null ? "" : introduce;
+		this.introduce = introduce == null ? "등록된 소개가 없습니다." : introduce;
 	}
 
 	public int getDel() {

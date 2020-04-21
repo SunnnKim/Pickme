@@ -41,12 +41,6 @@
 #visual li.active-slide .visual-box {opacity:1;}
 </style>
 <body>
-
-  <!-- <div class="slider">
-    <div><img src="https://media.istockphoto.com/vectors/business-structure-and-hierarchy-of-company-vector-illustration-vector-id629430832" alt="logo"></div>
-    <div><img src="https://images.squarespace-cdn.com/content/v1/520eab84e4b02d5660581bbb/1560950545124-RA8X0JEJ1322MT58RTBV/ke17ZwdGBToddI8pDm48kDrQ9tfdcvPUv7NgXGP4R2R7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0tHiaqsqouPVNG_Mau68mb24AXa1DCoAkA2XPh-N3Ki5_LISWs8tvJBRBjmXVtiTuA/matt-anderson-illustration-ecosystems-animation-keyframes-abc-company.png?format=2500w"></div>
-  </div> -->
-  
   
   <div id="visual_wrap">
 		<link rel="stylesheet" href="/Pickme/css/bxslider.css" type="text/css" />
