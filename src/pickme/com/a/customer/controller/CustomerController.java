@@ -81,7 +81,14 @@ public class CustomerController {
 			model.addAttribute("downloadFile", downloadFile);
 			
 			return "downloadView";	// 다른 뷰로 이동하는 것이 아니고 다운로드만 됨
-		}
+	}
+	
+	
+	// 기업 유료서비스 뷰로 이동하기
+	@RequestMapping(value="paidService.do", method=RequestMethod.GET)
+	public String paidService(Model model) {
+		return "customer/paidService/paidService";
+	}
 	
 	
 	

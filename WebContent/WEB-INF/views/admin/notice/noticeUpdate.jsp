@@ -72,8 +72,8 @@ List<FilesDto> files = (List<FilesDto>) request.getAttribute("files");
 <script type="text/javascript">
 
 // 데이터 초기화
-$('input[name=content]').val('<%=detail.getContent()%>');	// 내용 불러오기 (데이터에 저장)
-$('#summernote').html('<%=detail.getContent()%>');			// 내용 불러오기 (에디터에 반환)
+$('input[name=content]').val(`<%=detail.getContent()%>`);	// 내용 불러오기 (데이터에 저장)
+$('#summernote').html(`<%=detail.getContent()%>`);			// 내용 불러오기 (에디터에 반환)
 var noticeFiles = [];	// 기존에 업로드한 파일들 
 <% for(int i = 0; i < files.size(); i++){
 		FilesDto file = files.get(i);

@@ -18,4 +18,9 @@ if( ifurl.contains("company")){
 if( ifurl.contains("notice")){
 	%>공지사항 관리	<%
 }%>
+
+<%
+if( ifurl.contains("/payment/")){
+	%>유료서비스<%
+}%>
   

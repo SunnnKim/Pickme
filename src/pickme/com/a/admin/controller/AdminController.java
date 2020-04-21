@@ -62,7 +62,7 @@ public class AdminController {
 	public String adminCompany( Model model ) {
 		// 기업회원 데이터 모두 가져오기
 		List<CMemberDto> list = service.cMemberAll();
-		int newMember = service.countNewAMember();
+		int newMember = service.countNewCMember();
 		int aMemberAll = service.countAmember();
 		int cMemberAll = service.countCmember();
 		model.addAttribute("list", list);	// 전체 회원리스트 

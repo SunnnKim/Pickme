@@ -10,6 +10,9 @@
 %>  
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 <style>
         .c_introWrap {
 
@@ -24,7 +27,7 @@
           width: 600px;
           height: 480px;
           background: #ccc;
-          background: url("../images/sub/c_company.jpg") no-repeat center / cover;
+          background: url("https://www.venturesquare.net/wp-content/uploads/2019/07/2019-0702-wanted-751x522.png") no-repeat center / cover;
         }
 
         .c_introTop .c_introInfo {
@@ -66,9 +69,9 @@
           left:0;
           font-weight: bold;
         }
-
+	
         .followBtnWrap {
-          margin-top: 50px;
+          margin-top: 21px;
         }
 
         .followBtnWrap span {
@@ -119,6 +122,12 @@
           margin-top: 20px;
           font-size: 18px;
         }
+        	
+        	/* 수정버튼 */
+        	.updateBtn { font-size: 22px;padding-bottom: 8px;color: #fff; }
+        	
+        	/* 수정 버튼 눌렀을 때 */
+        	.updateBtn:focus { outline:none; }
 
       </style>
       
@@ -130,7 +139,7 @@
             </div>  <!-- // c_introSlider -->
             <div class="c_introInfo">
                 <div class="tit">
-                  <h3><img src="https://static.wanted.co.kr/images/wdes/0_4.ce4fd8b1.jpg" alt="logo"> <%=memberInfo.getName() %></h3>
+                  <h3><img src="https://image.rocketpunch.com/company/4084/wanted_logo_1519203285.jpg?s=400x400&t=inside" alt="logo"> <%=memberInfo.getName() %></h3>
                 </div>
                 <ul>
                 
@@ -150,8 +159,8 @@
                     <% if(member != null) { %>
                     	<span>팔로우<i class="fas fa-check"></i> <input type="checkbox"></span>
                     <% } else if(memberInfo != null) { %>
-                   		<span><i class="fas fa-check"></i> <a href="goUpdate.do?seq=<%=memberInfo.getSeq() %>">수정</a></span>
-                    <% } %>
+                   		<span><i class="fas fa-check"></i><button type = "button" class="updateBtn" onclick = "location.href='goUpdate.do?seq=<%=memberInfo.getSeq()%>'"> 수정 </button></span>
+                    <% } %>										
                   </label>
                 </div>
             </div>  <!-- // c_introInfo -->
@@ -171,12 +180,37 @@
             	</span>
 	        </h4>
             <div class="cont">
-	            <%=memberInfo.getIntroduce() == null ? "기업정보를 등록해주세요": memberInfo.getIntroduce()%>
+	            <%=memberInfo.getIntroduce() == null ? "기업정보를 등록해주세요.": memberInfo.getIntroduce()%>
             </div>
           </div> <!-- // c_introBtm -->
 
 
         </div> <!-- // c_introWrap -->
+        
+        
+        
+        
+        
+        <!----------------------------- 스크립트 영역 ------------------------------->
+        
+        <script type="text/javascript">
+	$(document).ready(function(){
+	$('#visual').bxSlider({
+		//mode:'fade',
+      pause:2500,
+	  pager: false,
+	  auto:true,
+		onSliderLoad: function(currentIndex) {
+		  $('#visual_wrap').find('.bx-viewport').find('ul').children().eq(currentIndex).addClass('active-slide');
+ 			$('#visual_wrap').find('.bx-viewport').find('ul').children().eq(1).addClass('active-slide').css('transition', 'all 0.1 ease-in-out');
+		},
+		onSlideBefore: function($slideElement){
+		  $('#visual_wrap').find('.bx-viewport').find('ul').children().removeClass('active-slide');
+		  $slideElement.addClass('active-slide');
+		}
+		});
+	});
+	</script>
 
 
     <script>
@@ -196,7 +230,9 @@
 // @@@@@@@@@@@@@ 해쉬태그 @@@@@@@@@@@@@
 
 		// 해쉬태그 json 가져오기
-		var hashTag = <%=memberInfo.getHashTag()%>;
+		var hashTag = "<%=memberInfo.getHashTag()%>";
+		alert(hashTag);
+		
 	
 		// 해쉬태그가 없는경우
 		if(hashTag == 'null'){
@@ -211,10 +247,11 @@
 				// 태그 배열 뽑아오기 
 				// console.log(hashTag[key])
 				var arr = hashTag[key];
+				/* console.log(arr); */
 	
 				// for 문으로 배열 데이터(태그) 모두 뽑기 
 				for( i in arr){
-					// console.log(arr[i])
+					console.log(arr[i])
 					$('#hashTags').append('<span>#' + arr[i] + '</span>')
 				}
 			}

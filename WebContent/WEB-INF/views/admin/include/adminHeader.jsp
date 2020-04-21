@@ -12,8 +12,8 @@
 <link rel="stylesheet" href="/Pickme/css/style.css" type="text/css"> <!-- 디자인 CSS -->
 <link rel="stylesheet" href="/Pickme/css/adminmember.css" type="text/css"> <!-- 디자인 CSS -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" crossorigin="anonymous">
-    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-    <script src="https://kit.fontawesome.com/e11681bffc.js" crossorigin="anonymous"></script><!-- font-awesome -->
+<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<script src="https://kit.fontawesome.com/e11681bffc.js" crossorigin="anonymous"></script><!-- font-awesome -->
    <!-- kendo --> 
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.1.406/styles/kendo.default-v2.min.css" crossorigin="anonymous"/>
 <script src="https://code.jquery.com/jquery-1.12.3.min.js" crossorigin="anonymous"></script>
@@ -36,7 +36,7 @@
         <a href="/Pickme/admin/adminMember.do">회원관리</a>
         <a href="/Pickme/admin/adminCompany.do">기업관리</a>
         <a href="/Pickme/admin/notice/noticeList.do">공지사항</a>
-        <a href="#none">유료서비스</a>
+        <a href="/Pickme/admin/payment/paidServiceView.do">유료서비스</a>
         <a href="#none">문의내역</a>
         <a href="#none">이력서관리</a>
         <a href="#none">공고관리</a>

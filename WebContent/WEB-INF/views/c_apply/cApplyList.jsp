@@ -60,8 +60,7 @@ color: #4f6eff;
 
 	<c:choose>
 		<c:when test="${empty comCurrentRecList }">
-			<div
-				style="text-align: center; position: relative; margin-top: 4wndl0px;">
+			<div style="text-align: center; position: relative; margin-top: 4wndl0px;">
 				<p style="position: absolute; top: 0; left: 0; width: 100%; font-size: 30px;">등록된 공고가 없습니다.</p>
 				<img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width: 60%;">
 			</div>
@@ -89,7 +88,7 @@ color: #4f6eff;
 			</ul>
 			<!-- 페이징 -->
 			<div id="paging_wrap">
-				<jsp:include page="/WEB-INF/views/recruit/paging.jsp" flush="false">
+				<jsp:include page="/WEB-INF/views/c_apply/paging.jsp" flush="false">
 					<jsp:param name="totalRecCount" value="${totalRecCount }" />
 					<jsp:param name="pageNumber" value="${pageNumber }" />
 					<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
