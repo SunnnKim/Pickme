@@ -73,6 +73,8 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	현재공고
 <% } else if(ifurl.contains("recPast.jsp")){ %>
 	지난공고
+<% } else if(ifurl.contains("recUpdate.jsp")){ %>
+	공고수정
 <% } 
 }%>
 

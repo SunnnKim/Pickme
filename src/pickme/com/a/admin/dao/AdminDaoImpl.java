@@ -35,7 +35,7 @@ public class AdminDaoImpl implements AdminDao {
 	// 3일간 가입한 신규 회원 수  
 	@Override
 	public int countNewAMember() {
-		return sqlSession.selectOne(namespace + "countAllAMember");
+		return sqlSession.selectOne(namespace + "countNewAMember");
 	}
 
 	@Override
@@ -54,9 +54,8 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int countNewACMember() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int countNewCMember() {
+		return sqlSession.selectOne(namespace + "countNewCMember");
 	}
 
 	

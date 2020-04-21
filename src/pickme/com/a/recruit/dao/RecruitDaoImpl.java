@@ -98,4 +98,12 @@ public class RecruitDaoImpl implements RecruitDao{
 	}
 
 
+	@Override
+	public int delRecruit(int seq) {
+		return sqlSession.update(ns+"delRecruit", seq);
+	}
+
+
+
+
 }

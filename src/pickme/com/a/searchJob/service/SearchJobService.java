@@ -25,6 +25,11 @@ public interface SearchJobService {
 	// 기업 분야,주소 받아오기
 	public CMemberDto getAddr(int seq);
 	
+
+	// readcount up
+	public void readCountUp(int seq);
+	
+	
 	// @@@@@ 지원하기 @@@@@
 	// 나의 이력서 불러오기 
 	public List<ResumeDto> getMyResumes(int seq);

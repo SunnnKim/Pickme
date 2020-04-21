@@ -54,6 +54,12 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	public List<ResumeDto> getMyResumes(int seq) {
 		return sqlSession.selectList(ns + "getMyResumes", seq);
 	}
+	
+
+	@Override
+	public void readCountUp(int seq) {
+		sqlSession.update(ns+"readCountUp",seq);
+	}
 
 
 }

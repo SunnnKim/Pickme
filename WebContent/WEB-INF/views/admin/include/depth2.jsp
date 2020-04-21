@@ -39,8 +39,24 @@ System.out.println("durl:"+durl);
 			<li class=<%= durl.contains("noticeList.jsp") ? " on" :" "%>> 
 				<a href="noticeList.do">공지목록</a>
 			</li>
-			<li class=<%= durl.contains("noticeWrite.jsp") ? " on" :" "%>> 
+			<li class= <%= durl.contains("noticeWrite.jsp") ||  durl.contains("noticeUpdate.jsp") ? " on" :" "%>> 
 				<a href="noticeWrite.do">공지등록</a>
+	        </li>
+		</ul><!-- // depth02 -->
+<% } %>
+
+<!-- 유료서비스  -->
+<% if( durl.contains("/payment") ){
+	%>
+		<ul class="depth02 clfix">
+			<li class=<%= durl.contains("paidService.jsp") ? " on" :" "%>> 
+				<a href="paidServiceView.do">서비스관리</a>
+			</li>
+			<li class=<%= durl.contains("managePayment.jsp") ? " on" :" "%>> 
+				<a href="managePayment.do">결제관리</a>
+	        </li>
+			<li class=<%= durl.contains("writePaidService.jsp") || durl.contains("updatePaidService.jsp") ? " on" :" "%>> 
+				<a href="writePaidService.do">서비스등록</a>
 	        </li>
 		</ul><!-- // depth02 -->
 <% } %>

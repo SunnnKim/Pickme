@@ -109,18 +109,20 @@ public class RecruitController {
 	@RequestMapping(value = "myRecDetail.do")
 	public String recDetail(int seq, Model model,HttpSession session) {
 		RecruitDto dto = serv.getRecruitDetail(seq);
-		//System.out.println("detail dto : "+ dto.toString());
+		//System.out.println("myRec: "+dto.toString());
+
 		
 		//hashtag 빼오기
-		System.out.println("해쉬태그 : "+ dto.getHashTag());
+		//System.out.println("해쉬태그 : "+ dto.getHashTag());
 		String hashs = dto.getHashTag().replace("\"", " ");
-		System.out.println("hashs : "+ hashs);
+		//System.out.println("hashs : "+ hashs);
 		int firstBrackets = hashs.indexOf("[");
 		int lastBrackets = hashs.indexOf("]");
 		String[] hashStr = hashs.substring(firstBrackets+1,lastBrackets).split(",");
-		for (int i = 0; i < hashStr.length; i++) {
-			System.out.println(i+"번째 hashStr : "+ hashStr[i]);
-		}
+		/*
+		 * for (int i = 0; i < hashStr.length; i++) {
+		 * System.out.println(i+"번째 hashStr : "+ hashStr[i]); }
+		 */
 		
 		//첨부한 파일 넘기기
 		List<FilesDto> fileslist = serv.getRecFile(seq);
@@ -257,6 +259,48 @@ public class RecruitController {
 			System.out.println("filedownload error:" + e.getMessage());
 		}
 	
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "delRecruit.do",method = RequestMethod.POST)
+	public boolean delRecruit(int seq) {
+		//System.out.println("del seq:"+seq);
+		int count = serv.delRecruit(seq);
+		
+		if (count>0) return true;
+		else return false;
+	}
+	
+	@RequestMapping(value = "updateRec.do",method = RequestMethod.POST)
+	public String updateRec(int recSeq,Model model) {
+		//System.out.println("update seq:"+recSeq);
+		RecruitDto dto = serv.getRecruitDetail(recSeq);
+	
+		String[] comJob = dto.getComJob().split(",");
+		String occ = comJob[0];	 //직군
+		String job = comJob[1];//직무
+		//System.out.println("occ: "+occ+" job: "+job);
+		
+		//System.out.println("myRec: "+dto.toString());
+		//hashtag 빼오기
+		//System.out.println("해쉬태그 : "+ dto.getHashTag());
+		String hashs = dto.getHashTag().replace("\"", " ");
+		//System.out.println("hashs : "+ hashs);
+		int firstBrackets = hashs.indexOf("[");
+		int lastBrackets = hashs.indexOf("]");
+		String[] hashStr = hashs.substring(firstBrackets+1,lastBrackets).split(",");
+		System.out.println("hashStr size"+ hashStr.length);
+		
+		//첨부한 파일 넘기기
+		List<FilesDto> fileslist = serv.getRecFile(recSeq);
+		
+		model.addAttribute("recDto",dto);
+		model.addAttribute("occ",occ);
+		model.addAttribute("job",job);
+		model.addAttribute("hashTag",hashStr);
+		model.addAttribute("hashlength",hashStr.length);
+		model.addAttribute("fileslist",fileslist);
+		return "recruit/recUpdate";
 	}
 	
 	

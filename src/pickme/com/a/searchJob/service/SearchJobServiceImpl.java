@@ -46,7 +46,12 @@ public class SearchJobServiceImpl implements SearchJobService{
 	public List<ResumeDto> getMyResumes(int seq) {
 		return dao.getMyResumes(seq);
 	}
+	@Override
+	public void readCountUp(int seq) {
+		dao.readCountUp(seq);
+	}
 	
+
 	
 	
 }

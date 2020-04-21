@@ -45,5 +45,10 @@ public interface RecruitDao {
 	// (기업) 로그인한 기업이 볼 수 있는 현재공고 게시글 수
 	public int getComPastCount(int seq);
 	
+	// 공고 마감
+	public int delRecruit(int seq);
+	
+	
+	
 	
 }

@@ -163,8 +163,14 @@ if( durl.contains("e_apply")){
           </div><!-- .detailTop-left -->
           <div class="detailTop-right">
             <section class="section-controller">
-              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>수정하기</button>
-              <button type="button" id="recruitDetailButton2"><i class="fas fa-stopwatch"></i>마감하기</button>
+             <c:if test="${recDto.del eq 0 }">
+	              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>수정하기</button>
+	              <button type="button" id="recruitDetailButton2"><i class="fas fa-stopwatch"></i>마감하기</button>
+              </c:if>
+              <c:if test="${recDto.del eq 1 }">
+	              <button type="button" id="recruitDetailButton1" disabled="disabled" style="cursor: default;background-color: #ccc;"><i class="fas fa-edit"></i>수정하기</button>
+	              <button type="button" id="recruitDetailButton2" disabled="disabled" style="cursor: default;background-color: #ccc;"><i class="fas fa-stopwatch"></i>마감하기</button>
+              </c:if>
             </section>
           </div><!-- .detailTop-right -->
         </div><!-- .recDetailTop -->
