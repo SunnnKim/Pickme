@@ -65,6 +65,9 @@ public class CMypageController {
 		int seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq() ;
 		CMemberDto cMember = service.select(seq);
 		model.addAttribute("cMember", cMember);
+		
+		System.out.println("해시태그 = " + cMember.getHashTag());
+		
 		return "c_mypage/myPage";
 	}
 	
@@ -109,11 +112,14 @@ public class CMypageController {
 	
 	// 기업 정보 수정 
 	@RequestMapping(value = "update.do", method = {RequestMethod.POST})
-	public String update(CMemberDto dto, Model model, String oldPassword, String newPassword) throws Exception {
+	public String update(CMemberDto dto, Model model) throws Exception {
 		
 		service.update(dto);
+		System.out.println("수정된 기업정보 dto = " + dto.toString());
 		
-		return "c_mypage/update";
+//		model.getAttribute("address");
+		
+		return "redirect:/c_mypage/goCMypage.do";
 	}
 	
 	
