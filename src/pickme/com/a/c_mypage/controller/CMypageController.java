@@ -21,7 +21,7 @@ public class CMypageController {
 
 	@Autowired
 	CMypageService service;
-	
+	  
 	
 	// 슬라이드 테스트용
 	@RequestMapping(value = "slide.do", method = {RequestMethod.GET,RequestMethod.POST})
