@@ -58,7 +58,6 @@ public class RecruitController {
 		if( comSeq == null ) {
 			comSeq = (Integer)req.getAttribute("comSeq"); 
 		}
-		param.setComSeq(comSeq);
 		
 		//마감날짜 지나면 del=1 update
 		//serv.dayUpdateDel();
@@ -70,7 +69,7 @@ public class RecruitController {
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
 		int totalRecCount = serv.getComRecCount(comSeq);
-		
+		param.setComSeq(comSeq);
 		param.setStart(start);
 		param.setEnd(end);
 		List<RecruitDto> list = serv.myCurrentRecList(param);
@@ -89,7 +88,7 @@ public class RecruitController {
 		if( comSeq == 0 ) {
 			comSeq = (int)req.getAttribute("comSeq"); 
 		}
-		param.setComSeq(comSeq);
+		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
@@ -97,7 +96,7 @@ public class RecruitController {
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
 		int totalRecCount = serv.getComPastCount(comSeq);
-		
+		param.setComSeq(comSeq);
 		param.setStart(start);
 		param.setEnd(end);
 		List<RecruitDto> list = serv.myPastRecList(param);

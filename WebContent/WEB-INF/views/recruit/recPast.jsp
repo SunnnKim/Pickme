@@ -47,7 +47,7 @@
 
 var seq = '${sessionScope.logincompany.seq}';
 function paging(pn){	
-  location.href="recPast.do?seq="+seq+"&pageNumber=" + pn;
+  location.href="recPast.do?comSeq="+seq+"&pageNumber=" + pn;
 	
 }
  

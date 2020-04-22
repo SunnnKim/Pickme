@@ -15,8 +15,6 @@ public class RecruitParam {
 	public RecruitParam() {	
 	}
 
-	
-
 	public RecruitParam(int pageNumber, int recordCountPerPage, int start, int end, int comSeq) {
 		super();
 		this.pageNumber = pageNumber;
@@ -26,18 +24,13 @@ public class RecruitParam {
 		this.comSeq = comSeq;
 	}
 
-
-
 	public int getComSeq() {
 		return comSeq;
 	}
 
-
-
 	public void setComSeq(int comSeq) {
 		this.comSeq = comSeq;
 	}
-
 
 
 	public int getPageNumber() {
