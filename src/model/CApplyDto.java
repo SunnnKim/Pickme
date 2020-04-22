@@ -2,94 +2,161 @@ package model;
 
 public class CApplyDto {
 
-	private int seq;
-	private int p_seq;
-	private int c_seq;
-	private String rdate;
-	private String comment;
-	private int accept;
-	private int state;
-	private int del;
-	private String ddate;
+	private int seq;			// 시퀀스
+	private int jobSeq;			// 공고 시퀀스 
+	private int comSeq;			// 기업 시퀀스
+	private String comName;		// 기업명
+	private int memSeq;			// 지원자 시퀀스
+	private String aDate;		// 지원날짜
+	private int open;			// 인사담당자 확인여부
+	private int cancel;			// 지원취소 (0 / 1)
+	private int cvSeq;			// 지원한 이력서 시퀀스 (cv_recruit)
+	private int del;			// 지원내역 삭제 (0 / 1)
+	
+	private String memName;		// 구직자 이름
+	private String cvName;		// 이력서 제목
+	private String profilename;	// 이력서 사진
+	
 	
 	public CApplyDto() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public CApplyDto(int seq, int p_seq, int c_seq, String rdate, String comment, int accept, int state, int del,
-			String ddate) {
+	public CApplyDto(int seq, int jobSeq, int comSeq, String comName, int memSeq, String aDate, int open, int cancel,
+			int cvSeq, int del, String memName, String cvName, String profilename) {
 		super();
 		this.seq = seq;
-		this.p_seq = p_seq;
-		this.c_seq = c_seq;
-		this.rdate = rdate;
-		this.comment = comment;
-		this.accept = accept;
-		this.state = state;
+		this.jobSeq = jobSeq;
+		this.comSeq = comSeq;
+		this.comName = comName;
+		this.memSeq = memSeq;
+		this.aDate = aDate;
+		this.open = open;
+		this.cancel = cancel;
+		this.cvSeq = cvSeq;
 		this.del = del;
-		this.ddate = ddate;
+		this.memName = memName;
+		this.cvName = cvName;
+		this.profilename = profilename;
+	}
+
+
+
+	public String getProfilename() {
+		return profilename;
+	}
+
+	public void setProfilename(String profilename) {
+		this.profilename = profilename;
+	}
+
+	public String getMemName() {
+		return memName;
+	}
+
+	public void setMemName(String memName) {
+		this.memName = memName;
+	}
+
+	public String getCvName() {
+		return cvName;
+	}
+
+	public void setCvName(String cvName) {
+		this.cvName = cvName;
 	}
 
 	public int getSeq() {
 		return seq;
 	}
+
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
-	public int getP_seq() {
-		return p_seq;
+
+	public int getJobSeq() {
+		return jobSeq;
 	}
-	public void setP_seq(int p_seq) {
-		this.p_seq = p_seq;
+
+	public void setJobSeq(int jobSeq) {
+		this.jobSeq = jobSeq;
 	}
-	public int getC_seq() {
-		return c_seq;
+
+	public int getComSeq() {
+		return comSeq;
 	}
-	public void setC_seq(int c_seq) {
-		this.c_seq = c_seq;
+
+	public void setComSeq(int comSeq) {
+		this.comSeq = comSeq;
 	}
-	public String getRdate() {
-		return rdate;
+
+	public String getComName() {
+		return comName;
 	}
-	public void setRdate(String rdate) {
-		this.rdate = rdate;
+
+	public void setComName(String comName) {
+		this.comName = comName;
 	}
-	public String getComment() {
-		return comment;
+
+	public int getMemSeq() {
+		return memSeq;
 	}
-	public void setComment(String comment) {
-		this.comment = comment;
+
+	public void setMemSeq(int memSeq) {
+		this.memSeq = memSeq;
 	}
-	public int getAccept() {
-		return accept;
+
+	public String getaDate() {
+		return aDate;
 	}
-	public void setAccept(int accept) {
-		this.accept = accept;
+
+	public void setaDate(String aDate) {
+		this.aDate = aDate;
 	}
-	public int getState() {
-		return state;
+
+	public int getOpen() {
+		return open;
 	}
-	public void setState(int state) {
-		this.state = state;
+
+	public void setOpen(int open) {
+		this.open = open;
 	}
+
+	public int getCancel() {
+		return cancel;
+	}
+
+	public void setCancel(int cancel) {
+		this.cancel = cancel;
+	}
+
+	public int getCvSeq() {
+		return cvSeq;
+	}
+
+	public void setCvSeq(int cvSeq) {
+		this.cvSeq = cvSeq;
+	}
+
 	public int getDel() {
 		return del;
 	}
+
 	public void setDel(int del) {
 		this.del = del;
-	}
-	public String getDdate() {
-		return ddate;
-	}
-	public void setDdate(String ddate) {
-		this.ddate = ddate;
 	}
 
 	@Override
 	public String toString() {
-		return "RequestDto [seq=" + seq + ", p_seq=" + p_seq + ", c_seq=" + c_seq + ", rdate=" + rdate + ", comment="
-				+ comment + ", accept=" + accept + ", state=" + state + ", del=" + del + ", ddate=" + ddate + "]";
+		return "CApplyDto [seq=" + seq + ", jobSeq=" + jobSeq + ", comSeq=" + comSeq + ", comName=" + comName
+				+ ", memSeq=" + memSeq + ", aDate=" + aDate + ", open=" + open + ", cancel=" + cancel + ", cvSeq="
+				+ cvSeq + ", del=" + del + ", memName=" + memName + ", cvName=" + cvName + ", profilename="
+				+ profilename + "]";
 	}
+
+
+	
+	
 	
 	
 	
