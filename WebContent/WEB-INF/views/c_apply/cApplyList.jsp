@@ -22,10 +22,35 @@
 
 <!-- allList -->
 
-<div class="cont">
-<h1>cApplyList</h1>
+<div id="allList" data-tab-content="" class="active">
+	<!-- 리스트 -->
+	<div class="table-col table-bbs">
+		<table>
+			<caption>전체</caption>
+			<colgroup>
+				<col style="width: 20%">
+				<col style="width: 20%">
+				<col style="width: 20%">
+				<col style="width: 20%">
+				<col style="width: 20%">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>이미지</th>
+					<th>이름</th>
+					<th>이력서 제목</th>
+					<th>지원날짜</th>
+					<th>열람여부</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+	</div>
 	
 </div>
+<!-- // allList -->
 
 
 <!-- // allList -->

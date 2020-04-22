@@ -49,7 +49,7 @@ public class RecruitDto implements Serializable {
 	private int readCount;
 	private int del;
 	private String imagename;
-	
+	private int applyCount;
 	
 	public RecruitDto() {
 		
@@ -81,6 +81,32 @@ public class RecruitDto implements Serializable {
 
 	
 
+	public RecruitDto(int seq, int comSeq, String comName, String title, String comJob, String comJobType,
+			String mainTask, String workingForm, String requirements, String salary, String content, String hashTag,
+			String wdate, String edate, int ref, int readCount, int del, String imagename, int applyCount) {
+		super();
+		this.seq = seq;
+		this.comSeq = comSeq;
+		this.comName = comName;
+		this.title = title;
+		this.comJob = comJob;
+		this.comJobType = comJobType;
+		this.mainTask = mainTask;
+		this.workingForm = workingForm;
+		this.requirements = requirements;
+		this.salary = salary;
+		this.content = content;
+		this.hashTag = hashTag;
+		this.wdate = wdate;
+		this.edate = edate;
+		this.ref = ref;
+		this.readCount = readCount;
+		this.del = del;
+		this.imagename = imagename;
+		this.applyCount = applyCount;
+	}
+
+
 	public RecruitDto(int comSeq, String comName, String title, String comJob, String comJobType, String mainTask,
 			String workingForm, String requirements, String salary, String content, String hashTag, String edate,
 			int ref, String imagename) {
@@ -102,6 +128,16 @@ public class RecruitDto implements Serializable {
 	}
 
 	
+
+	public int getApplyCount() {
+		return applyCount;
+	}
+
+
+	public void setApplyCount(int applyCount) {
+		this.applyCount = applyCount;
+	}
+
 
 	public String getComName() {
 		return comName;
