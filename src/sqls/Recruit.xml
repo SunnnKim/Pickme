@@ -27,7 +27,7 @@
 	<update id="imageNameUpdate" parameterType="int">
 		UPDATE RECRUIT R
 		SET IMAGENAME=(SELECT NEWNAME FROM FILES F WHERE R.SEQ = F.REF AND USETABLE = 'RECRUIT' AND F.STEP=0 )
-		WHERE R.REF=#{ref}
+		WHERE R.SEQ=#{ref}
 	</update>
 	<!-- 채용탐색글 수 count -->
 	<select id="getCountRec" resultType="int">
