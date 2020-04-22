@@ -466,6 +466,21 @@ $(document).ready(function(){
 				  icon: 'error',
 				  text: '제목을 등록해주세요'
 				})
+		} else if( $("#img1").val()=="" &&  $("#img2").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '첫번째 이미지를 등록해주세요'
+				})
+		} else if( $("#img1").val()=="" &&  $("#img3").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '첫번째 이미지를 등록해주세요'
+				})
+		} else if( $("#img2").val()=="" &&  $("#img3").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '두번째 이미지를 등록해주세요'
+				})
 		} else if ( $("input[name='edate']").val() == "" ){
 			Swal.fire({
 				  icon: 'error',

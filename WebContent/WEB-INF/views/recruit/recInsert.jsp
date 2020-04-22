@@ -231,7 +231,7 @@
     });
     
       function changeOcc( onedepth ){
-          alert(onedepth.value);
+         // alert(onedepth.value);
         var i=0;
         console.log(onedepth.value);
         $("#com_job2").html('');
@@ -407,12 +407,22 @@
 				  icon: 'error',
 				  text: '제목을 등록해주세요'
 				})
-		} else if ( $("input[name='originfile']").val() == ""){
+		} else if( $("#img1").val()=="" &&  $("#img2").val()!= "" ){
 			Swal.fire({
 				  icon: 'error',
-				  text: '대표이미지를 등록해주세요'
+				  text: '첫번째 이미지를 등록해주세요'
 				})
-		} else if ( $("input[name='edate']").val() == "" ){
+		} else if( $("#img1").val()=="" &&  $("#img3").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '첫번째 이미지를 등록해주세요'
+				})
+		} else if( $("#img2").val()=="" &&  $("#img3").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '두번째 이미지를 등록해주세요'
+				})
+		}  else if ( $("input[name='edate']").val() == "" ){
 			Swal.fire({
 				  icon: 'error',
 				  text: '채용마감일을 등록해주세요'
@@ -462,7 +472,6 @@
 			//name value
 			 //페이지 이동 확인창 false
 	 		checkUnload=false;
-			
 		 		var comSeq = $("input[name=comSeq]").val();
 		 		var comName = $("input[name=comName]").val();
 				var ref = $("input[name=ref]").val();

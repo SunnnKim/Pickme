@@ -89,10 +89,10 @@ button.likebtn{
     height: 39px;
     border-radius: 15px;
     position: absolute;
-   /*  background: rgba(0,0,0,.4);  */
+   /*  background: rgba(0,0,0,.4); */
     color: #000;
     border: 1px solid #3b467c;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
@@ -101,6 +101,26 @@ button.likebtn{
     -ms-flex-align: center;
     align-items: center;
     display: block;
+    outline: none;
+}
+button.detailLike{
+	/* margin-top:7px; */
+    width: 71px;
+ 	/* height: 39px; */
+   /*  border-radius: 15px; */
+   /*  position: absolute; */
+   /*  background: rgba(0,0,0,.4);  */
+    color: #000;
+   /*  border: 1px solid #3b467c; */
+    font-size: 20px;
+    font-weight: 400;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+   /* display: block; */
     outline: none;
 }
 

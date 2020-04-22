@@ -30,7 +30,7 @@
 					</ul>
 					  <!-- 페이징 -->
 						<div id="paging_wrap">
-							<jsp:include page="/WEB-INF/views/recruit/paging.jsp" flush="false">
+							<jsp:include page="/WEB-INF/views/searchJob/paging.jsp" flush="false">
 								<jsp:param name="totalRecCount" value="${totalRecCount }" />
 								<jsp:param name="pageNumber" value="${pageNumber }" />
 								<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
