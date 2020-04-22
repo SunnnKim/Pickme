@@ -7,6 +7,10 @@
 	// 컨트롤러에서 받아온 기업회원 정보 부분 
 	CMemberDto memberInfo = (CMemberDto) request.getAttribute("cMember");
 
+	// 컨트롤러에서 받아온 주소 조각
+	String zipcode = (String)request.getAttribute("realAddress[0]");	// 우편번호
+	String basicAdd = (String)request.getAttribute("realAddress[1]");	// 기본주소
+	String detailAdd = (String)request.getAttribute("realAddress[2]");	// 상세주소
 %>  
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
@@ -47,11 +51,11 @@
 .followBtnWrap span i {margin-left: 10px;display: none;}
 .followBtnWrap span input width: 0;height: 0;display:none;}
 
-.c_introBtm {margin-top: 100px; margin-left:100px;}
-.c_introBtm h4 {font-size: 22px; margin-top:30px; margin-left:60px;}
-.c_introBtm h4 > span {display:inline-block;margin-left:30px;}
+.c_introBtm {margin-top: 100px;}
+.c_introBtm h4 {font-size: 22px; margin-top:30px; margin-left:40px;}
+.c_introBtm h4 > span {display:inline-block; margin-left:30px;}
 .c_introBtm h4 > span > span {display:inline-block;padding:5px 15px;font-size:15px;color:#fff;background:#999;border-radius:3px;margin-right:10px;}
-.c_introBtm .cont {margin-top: 20px;font-size: 18px; margin-left:60px;}
+.c_introBtm .cont {margin-top: 20px;font-size: 18px; /* margin-left:60px; */}
       	
 /* 수정버튼 */
 .updateBtn { font-size: 22px;padding-bottom: 8px;color: #fff;}
@@ -59,7 +63,7 @@
 /* 수정 버튼 눌렀을 때 */
 .updateBtn:focus { outline:none;}
 
-.cont {background-color:#e9e9e9; margin-left:100px;}
+.cont {background-color:#e0e0e0; /* margin-left:100px; */ padding-left:50px; padding-top: 50px; padding-right:50px; padding-bottom:50px;}
 </style>
 
 <body>
@@ -77,17 +81,17 @@
 		<script type="text/javascript" src="/Pickme/js/bxslider.js"></script>
 		<ul id="visual">
       <li>
-          <p style="background-image:url('http://bitly.kr/Bhuwi1tzO')"></p>
+          <p style="background-image:url('http://bitly.kr/Bhuwi1tzO');background-size:contain;"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
 			<li>
-		  <p style="background-image:url('http://bitly.kr/X6FdifSzE')"></p>
+		  <p style="background-image:url('http://bitly.kr/X6FdifSzE');background-size:contain;"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
       <li>
-      	  <p style="background-image:url('http://bitly.kr/urJlCXH68')"></p>
+      	  <p style="background-image:url('http://bitly.kr/urJlCXH68');background-size:contain;"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
@@ -114,7 +118,7 @@
                   <li><span>대표자 성명</span><%=memberInfo.getPresident() %></li>
                   <li><span>전화번호</span><%=memberInfo.getTel() %></li>
                   <li><span>이메일</span><%=memberInfo.getEmail() %></li>
-                  <li><span>주소</span><%=memberInfo.getAddress() == null? "": memberInfo.getAddress()%></li>
+                  <li><span>주소</span><%=memberInfo.getAddress() == null? "": zipcode+" " +basicAdd+" "+detailAdd%></li>
                 </ul>
                 <div class="followBtnWrap">
                   <label>
@@ -134,11 +138,7 @@
           
             <h4>회사소개 
             	<span id="hashTags">
-	            	<!-- 
-	            	<span>#자유로운</span>
-	            	<span>#간식비지원</span>
-	            	<span>#수평적인</span> 
-	            	-->
+	            	
             	</span>
 	        </h4>
             <div class="cont">
@@ -207,7 +207,7 @@
 			// 화면에 뿌리기  
 			for( key in hashTag ){
 				
-				// 태그 배열 뽑아오기 
+				// 태그 배열 뽑아오기
 				 console.log('배열 '+hashTag[key])
 				var arr = hashTag[key];
 				 console.log(arr);
