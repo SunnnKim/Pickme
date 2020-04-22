@@ -28,11 +28,11 @@
 		<table>
 			<caption>전체</caption>
 			<colgroup>
+				<col style="width: 15%">
+				<col style="width: 15%">
+				<col style="width: 35%">
 				<col style="width: 20%">
-				<col style="width: 20%">
-				<col style="width: 20%">
-				<col style="width: 20%">
-				<col style="width: 20%">
+				<col style="width: 15%">
 			</colgroup>
 			<thead>
 				<tr>
@@ -44,7 +44,26 @@
 				</tr>
 			</thead>
 			<tbody>
-				
+				<c:if test="${empty cApplyList }">
+					<tr>
+						<td colspan="5">지원자가 없습니다</td>
+					</tr>
+				</c:if>
+				<c:forEach items="${cApplyList }" var="dto" varStatus="vs">
+					<tr>
+						<td>
+							<a href="#none" style="text-align: center"> 
+								<img src="filedownload.do?filename=${dto.profilename }&filepath=/upload/recruit/"  style="width: 90px;"	alt="프로필사진">
+							</a>
+						</td>
+						<td><a href="#none" style="text-align: center"> ${dto.memName } </a></td>
+						<td><a href="#none" style="text-align: center"> ${dto.cvName } </a></td>
+						<c:set var="aDate" value="${dto.aDate }"/>
+						<td>${fn:substring(aDate,0,16) }</td>
+						<c:if test="${dto.open == 0 }"><td>미열람</td></c:if>
+						<c:if test="${dto.open == 1 }"><td>열람</td></c:if>		
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>

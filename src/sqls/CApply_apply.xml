@@ -30,6 +30,11 @@
 </select>
 
 
+<select id="getCApplyList" resultType="model.CApplyDto">
+	SELECT a.name as memName, p.adate, p.open, c.name as cvName, a.profilename
+	FROM APPLY p, A_MEMBER a, CV_RECRUIT c
+	WHERE p.JOBSEQ = #{jobSeq} and p.memseq = a.seq and p.cvseq = c.seq;
+</select>
 
 
 
