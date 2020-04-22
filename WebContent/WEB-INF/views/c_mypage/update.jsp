@@ -348,17 +348,17 @@ div div.logo-img input.btTextW {
           	<input type = "button" class = "btn" onclick="sample6_execDaumPostcode()" value="주소찾기">
           	
             <!-- 우편번호 -->
-            <input type= "text" class = "address_zipcode" id="sample6_postcode" placeholder="우편번호">
+            <input type= "text" class = "address_zipcode" name = "zipcode" id="sample6_postcode" value="${dto.zipcode }" placeholder="우편번호">
             
             <!-- 기본주소 -->
-            <input type = "text" class = "address_basic" id="sample6_address" placeholder="기본주소">
+            <input type = "text" class = "address_basic" name = "basicAddress" value = "${dto.basicAddress }" id="sample6_address" placeholder="기본주소">
             	<input type="hidden" name="address"><!-- 이 부분은 우편번호'기본주소'상세주소 이런식으로 들어가도록 스크립트에서 작업 -->
             	<br>
             <!-- 참고항목 -->
             <input type = "hidden" class = "address_reference" id="sample6_extraAddress">
             
             <!-- 상세주소 -->
-            <input type = "text" style= "background-color:#ffffff" class = "address_specific" placeholder="상세주소를 입력해주세요." id="sample6_detailAddress">
+            <input type = "text" style= "background-color:#ffffff" name="detailAddress" value="${dto.detailAddress }"class = "address_specific" placeholder="상세주소를 입력해주세요." id="sample6_detailAddress">
         
         </div>
         
@@ -377,9 +377,10 @@ div div.logo-img input.btTextW {
             <label class = "message"> 한글, 영문, 숫자만 가능하며, 등록된 태그를 클릭하면 삭제됩니다. </label>
           </p>
           <input type = "text" id = "hashId" class = "hashId" placeholder="해시태그는 최대 3개까지 등록 가능합니다."/>
-          <input type = "hidden" name = "hashTag" id = "hash1">
-          <input type= "hidden" name = "hashTag" id = "hash2">
-          <input type=  "hidden" name = "hashTag" id = "hash3">
+          <input type = "hidden" id = "hash1">
+          <input type= "hidden" id = "hash2">
+          <input type=  "hidden" id = "hash3">
+          <input type="hidden"  name = "hashTag" >
           <ul id = "hashUl">
           
           </ul>
@@ -637,11 +638,12 @@ var introduce = document.querySelector("#introduce");		// 소개
 updateComplete = () => {
 
 	// 주소 합치기 ! 
-	var addressStr = '';
-	addressStr += "[" + $('#sample6_postcode').val() + "] ";	// 우편번호
-	addressStr += $('#sample6_address').val() + " ";			// 기본주소
+/*	var addressStr = '';
+	addressStr += "[" + $('#sample6_postcode').val() + "] ";		// 우편번호
+	addressStr += $('#sample6_address').val() + " ";				// 기본주소
 	addressStr += $('#sample6_extraAddress').val();				// 상세주소
 	$('input[name=address]').val(addressStr);
+*/
 
 	// 대표자명 잘못 입력
 	if( presidentCheck == false ) {
@@ -698,8 +700,22 @@ updateComplete = () => {
 			return false;
 		})
 	}
+	// 해쉬태그 합치기
+	var hashTag = [];
+	for( var i=1; i <= 3; i++){
+		if( $('#hash'+i).val() != "" ){
+			hashTag.push($('#hash'+i).val());
+		}
+	}
+	console.log(hashTag)
 
-
+	//hash tag -> string
+    //var jsondata = JSON.parse(tags);
+   	jsondata = JSON.stringify(hashTag)
+//    console.log( jsondata)
+	// input 에 변환한 배열 데이터를 넣기 
+	$('input[name=hashTag]').val(jsondata)
+  
 	// submit
 	Swal.fire({
 		position: 'center',
@@ -714,15 +730,6 @@ updateComplete = () => {
 }
 
 });
-</script>
-
-<!----------------------- 주소 쪼개기 ------------------------------->
-
-<script>
-
-	var dbAddress = "${dto.address }";
-	
-
 </script>
 
 <!----------------------- 해시태그 -------------------------->
@@ -808,14 +815,15 @@ function addTag() {
 		   	  // 추가 성공
         	  $("#hashUl").append("<li>" + "#" + hashtag + "</li>");
 
-        	  if(hiddenHashtag1 == null) {
+		   	  console.log("hiddenHashtag1: " + hiddenHashtag1)
+				
+        	  if(hiddenHashtag1 == '') {
         	  	$("#hash1").val( $("#hashId").val() );
-			  } else if(hiddenHashtag2 == null) {
+			  } else if(hiddenHashtag2 == '') {
 				$("#hash2").val( $("#hashId").val() );
-			  } else if(hiddenHashtag3 == null) {
+			  } else if(hiddenHashtag3 == '') {
 				$("#hash3").val( $("#hashId").val() );
 			  }
-        	  
         	  
                 	  
         	  // 새로 추가될 때마다 입력창을 비운다.
