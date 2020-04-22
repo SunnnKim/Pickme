@@ -51,6 +51,9 @@ public class CApplyController {
 		param.setEnd(end);
 		List<RecruitDto> list = cApplyService.myCurrentRecList(param);
 		
+		//int applyCount = cApplyService.
+		
+		
 		model.addAttribute("comCurrentRecList", list);
 		model.addAttribute("pageNumber", nowPage);	//현재페이지
 		model.addAttribute("pageCountPerScreen", 10);

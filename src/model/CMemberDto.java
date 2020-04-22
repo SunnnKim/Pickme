@@ -9,14 +9,14 @@ public class CMemberDto implements UserDetails {
 	
 	
 	// 기업 회원 정보 수정
-	private int seq;			// 기업시퀀스
+	private int seq;				// 기업시퀀스
 	private String email;			// 이메일
 	private String password;		// 비밀번호
 	private String president;		// 대표자 성명
-	private String name;			// 기업명
+	private String name;				// 기업명
 	private String tel;				// 전화번호
 	private String department;		// 기업분야
-	private String type;			// 기업종류
+	private String type;				// 기업종류
 	private String address;			// 주소
 	private String introduce;		// 기업소개
 	private int del;				// 탈퇴여부 (0 등록 / 1 삭제)

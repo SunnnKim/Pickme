@@ -10,132 +10,94 @@
 %>  
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
+
+<html>
+<head>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
+</head>
+
 <style>
-        .c_introWrap {
-
-        }
-
-        .c_introTop {
-
-        }
-
-        .c_introTop .c_introSlider {
-          float: left;
-          width: 600px;
-          height: 480px;
-          background: #ccc;
-          background: url("https://www.venturesquare.net/wp-content/uploads/2019/07/2019-0702-wanted-751x522.png") no-repeat center / cover;
-        }
-
-        .c_introTop .c_introInfo {
-          float: right;
-          width: 420px;
-        }
-        .c_introInfo .tit {
-          
-        }
-
-        .c_introInfo .tit h3 {
-          line-height: 80px;
-          font-size: 23px;
-        }
-
-        /* 로고 */
-        .c_introInfo .tit h3 img {
-          width: 80px;
-          height: 80px;
-          border : 1px solid #ddd;
-          margin-right : 15px;
-        }
-
-        .c_introInfo ul {
-          margin-top: 20px;
-        }
-
-        .c_introInfo ul li {
-          font-size: 18px;
-          position: relative;
-          margin-top: 22px;
-          padding-left: 120px;
-        }
-
-        .c_introInfo ul li span {
-          display: block;
-          position: absolute;
-          top:0;
-          left:0;
-          font-weight: bold;
-        }
-	
-        .followBtnWrap {
-          margin-top: 21px;
-        }
-
-        .followBtnWrap span {
-          display: block;
-          text-align: center;
-          height: 50px;
-          background-color: #4f6eff;
-          color: #fff;
-          line-height: 50px;
-          font-size: 24px;
-          cursor: pointer;
-        }
-
-        .followBtnWrap span i {
-          margin-left: 10px;
-          display: none;
-        }
-
-        .followBtnWrap span input {
-          width: 0;
-          height: 0;
-          display:none;
-        }
+#visual_wrap {position:relative; width:100%; height:450px; overflow:hidden;}
+#visual li > p {height:480px; background-size:cover !important;}
+.visual-box {opacity:0; transition:all 0.3s ease-in-out 1.5s; position:absolute; bottom:20px; left:50%; margin-left:-525px; width:6000px; background:#fff; z-index:99;}
+.visual-box a {display:block;}
+.visual-box .tit {padding:20px;}
+.visual-box .tit strong {display:block; font-size:22px;}
+.visual-box .tit p {margin-top:3px; font-size:14px; color:#999; font-weight:bold;}
+.visual-box .more {font-size:16px; color:#4f6eff; border-top:1px solid #ddd; line-height:50px; padding:0 20px; font-weight:bold;}
+.visual-box .more i {display:inline-block; margin-left:10px;}
+#visual li.active-slide .visual-box {opacity:1;}
 
 
-        .c_introBtm {
-          margin-top: 30px;
-        }
+.c_introTop .c_introSlider {float: left;width: 600px;/* height: 480px; */background: #ccc;/* background: url("https://www.venturesquare.net/wp-content/uploads/2019/07/2019-0702-wanted-751x522.png") no-repeat center / cover; */}
+.c_introTop .c_introInfo {float: right;width: 420px;}
+.c_introInfo .tit h3 {line-height: 80px;font-size: 23px;}
 
-        .c_introBtm h4 {
-          font-size: 22px;
-        }
-        .c_introBtm h4 > span {
-          display:inline-block;
-          margin-left:30px;
-        }
-        .c_introBtm h4 > span > span {
-          display:inline-block;
-          padding:5px 15px;
-          font-size:15px;
-          color:#fff;
-          background:#999;
-          border-radius:3px;
-          margin-right:10px;
-        }
+/* 로고 */
+.c_introInfo .tit h3 img {width: 80px;height: 80px;border : 1px solid #ddd;margin-right : 15px;}
+.c_introInfo ul {margin-top: 20px;}
+.c_introInfo ul li {font-size: 18px;position: relative;margin-top: 22px;padding-left: 120px;}
+.c_introInfo ul li span {display: block;position: absolute;top:0;left:0;font-weight: bold;}
+.followBtnWrap {margin-top: 21px;}
+.followBtnWrap span {display: block;text-align: center;height: 50px;background-color: #4f6eff;color: #fff;line-height: 50px;font-size: 24px;cursor: pointer;}
+.followBtnWrap span i {margin-left: 10px;display: none;}
+.followBtnWrap span input width: 0;height: 0;display:none;}
 
-        .c_introBtm .cont {
-          margin-top: 20px;
-          font-size: 18px;
-        }
-        	
-        	/* 수정버튼 */
-        	.updateBtn { font-size: 22px;padding-bottom: 8px;color: #fff; }
-        	
-        	/* 수정 버튼 눌렀을 때 */
-        	.updateBtn:focus { outline:none; }
+.c_introBtm {margin-top: 100px; margin-left:100px;}
+.c_introBtm h4 {font-size: 22px; margin-top:30px; margin-left:60px;}
+.c_introBtm h4 > span {display:inline-block;margin-left:30px;}
+.c_introBtm h4 > span > span {display:inline-block;padding:5px 15px;font-size:15px;color:#fff;background:#999;border-radius:3px;margin-right:10px;}
+.c_introBtm .cont {margin-top: 20px;font-size: 18px; margin-left:60px;}
+      	
+/* 수정버튼 */
+.updateBtn { font-size: 22px;padding-bottom: 8px;color: #fff;}
 
-      </style>
+/* 수정 버튼 눌렀을 때 */
+.updateBtn:focus { outline:none;}
+
+.cont {background-color:#e9e9e9; margin-left:100px;}
+</style>
+
+<body>
+</body>
+</html>
       
 
 <div class="profile-wrap">
         <div class="c_introWrap">
           <div class="c_introTop clfix">
             <div class="c_introSlider">
+            
+            		<div id="visual_wrap">
+		<link rel="stylesheet" href="/Pickme/css/bxslider.css" type="text/css" />
+		<script type="text/javascript" src="/Pickme/js/bxslider.js"></script>
+		<ul id="visual">
+      <li>
+          <p style="background-image:url('http://bitly.kr/Bhuwi1tzO')"></p>
+          <div class="visual-box"><a href="#">
+          </a></div>
+      </li>
+			<li>
+		  <p style="background-image:url('http://bitly.kr/X6FdifSzE')"></p>
+          <div class="visual-box"><a href="#">
+          </a></div>
+      </li>
+      <li>
+      	  <p style="background-image:url('http://bitly.kr/urJlCXH68')"></p>
+          <div class="visual-box"><a href="#">
+          </a></div>
+      </li>
+		</ul>
+	</div>
+            
+            
+            
+            
+            
             </div>  <!-- // c_introSlider -->
             <div class="c_introInfo">
                 <div class="tit">
@@ -191,28 +153,31 @@
         
         
         
-        <!----------------------------- 스크립트 영역 ------------------------------->
+        <!--***************************** 스크립트 영역 **********************************************-->
         
+        
+        
+        <!--------------------------- 슬라이드 ------------------------------->
         <script type="text/javascript">
-	$(document).ready(function(){
-	$('#visual').bxSlider({
-		//mode:'fade',
-      pause:2500,
-	  pager: false,
-	  auto:true,
-		onSliderLoad: function(currentIndex) {
-		  $('#visual_wrap').find('.bx-viewport').find('ul').children().eq(currentIndex).addClass('active-slide');
- 			$('#visual_wrap').find('.bx-viewport').find('ul').children().eq(1).addClass('active-slide').css('transition', 'all 0.1 ease-in-out');
-		},
-		onSlideBefore: function($slideElement){
-		  $('#visual_wrap').find('.bx-viewport').find('ul').children().removeClass('active-slide');
-		  $slideElement.addClass('active-slide');
-		}
+		$(document).ready(function(){
+		$('#visual').bxSlider({
+			//mode:'fade',
+	      pause:2500,
+		  pager: false,
+		  auto:true,
+			onSliderLoad: function(currentIndex) {
+			  $('#visual_wrap').find('.bx-viewport').find('ul').children().eq(currentIndex).addClass('active-slide');
+	 			$('#visual_wrap').find('.bx-viewport').find('ul').children().eq(1).addClass('active-slide').css('transition', 'all 0.1 ease-in-out');
+			},
+			onSlideBefore: function($slideElement){
+			  $('#visual_wrap').find('.bx-viewport').find('ul').children().removeClass('active-slide');
+			  $slideElement.addClass('active-slide');
+			}
+			});
 		});
-	});
-	</script>
+		</script>
 
-
+		<!------------------------- 팔로우 버튼 -------------------------->
     <script>
           $(".followBtnWrap input[type='checkbox']").click(function(){
             if($(this).is(":checked")){
@@ -230,9 +195,7 @@
 // @@@@@@@@@@@@@ 해쉬태그 @@@@@@@@@@@@@
 
 		// 해쉬태그 json 가져오기
-		var hashTag = "<%=memberInfo.getHashTag()%>";
-		alert(hashTag);
-		
+		var hashTag = <%=memberInfo.getHashTag()%>;
 	
 		// 해쉬태그가 없는경우
 		if(hashTag == 'null'){
@@ -245,15 +208,12 @@
 			for( key in hashTag ){
 				
 				// 태그 배열 뽑아오기 
-				// console.log(hashTag[key])
+				 console.log('배열 '+hashTag[key])
 				var arr = hashTag[key];
-				/* console.log(arr); */
-	
+				 console.log(arr);
+				
 				// for 문으로 배열 데이터(태그) 모두 뽑기 
-				for( i in arr){
-					console.log(arr[i])
-					$('#hashTags').append('<span>#' + arr[i] + '</span>')
-				}
+				$('#hashTags').append('<span>#' + arr + '</span>')
 			}
 			//$('#hashTags').html('<span>' +  + '</span>')
 		}

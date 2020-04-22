@@ -7,15 +7,33 @@
 
 <!-- (기업) 현재 공고중인 게시글 수 count -->
 <select id="getComRecCount" resultType="int">
-	SELECT IFNULL(COUNT(*),0) AS CNT FROM RECRUIT WHERE COMSEQ=#{comSeq}
+	SELECT IFNULL(COUNT(*),0) AS CNT 
+	FROM RECRUIT 
+	WHERE COMSEQ=#{comSeq}
 </select>
 
 
 <!-- 기업만 볼수있는 채용공고 list (현재공고) -->
-<select id="myCurrentRecList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
+<!-- 
 	SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE, EDATE, REF, READCOUNT, IMAGENAME, DEL
 	FROM ( SELECT * FROM RECRUIT WHERE COMSEQ=#{comSeq} ORDER BY SEQ DESC) R
 	LIMIT 8 OFFSET #{start}
-</select> 
+  -->
+
+<select id="myCurrentRecList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
+	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, COUNT(A.JOBSEQ) AS applyCount
+	FROM RECRUIT R LEFT OUTER JOIN APPLY A ON R.SEQ = A.JOBSEQ
+	WHERE R.COMSEQ = #{comSeq}
+	GROUP BY R.SEQ
+	ORDER BY R.SEQ DESC
+	LIMIT 8 OFFSET #{start}
+</select>
+
+
+
+
+
+
+
 
 </mapper>
