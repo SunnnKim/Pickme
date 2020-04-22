@@ -75,10 +75,10 @@
               <div class="cont">
                 <!-- <input type="text" name="com_job" required placeholder="직무를 입력해주세요" maxlength="100" autofocus>
                 <i class="far fa-check-circle"></i> -->
-                <select class="select_cons" name="com_job1" id="com_job1" onchange="changeOcc(this)">
+                <select class="select_cons" name="comJob1" id="com_job1" onchange="changeOcc(this)">
                   <option value="0">1차분류</option>
                 </select>
-                <select class="select_cons" name="com_job2" id="com_job2">
+                <select class="select_cons" name="comJob2" id="com_job2">
                   <option value="0">2차분류</option>
                 </select>
               </div>
@@ -201,7 +201,7 @@
   
 	// datepicker
 	$("#datepicker").datepicker({
-			minDate : 0,
+			minDate : 1,
 			maxDate : "+1M 7D",
 			dateFormat : "yy-mm-dd"
 	});
@@ -231,6 +231,7 @@
     });
     
       function changeOcc( onedepth ){
+          alert(onedepth.value);
         var i=0;
         console.log(onedepth.value);
         $("#com_job2").html('');
@@ -416,7 +417,7 @@
 				  icon: 'error',
 				  text: '채용마감일을 등록해주세요'
 				})
-		} else if($("select[name='com_job1']").val()==0 || $("select[name='com_job2']").val()==0){
+		} else if($("select[name='comJob1']").val()==0 || $("select[name='comJob2']").val()==0){
 			Swal.fire({
 				  icon: 'error',
 				  text: '직군/직무를 선택해주세요.'
@@ -468,7 +469,8 @@
 				var originfile = $("input[name=originfile]").val();
 				var title = $("input[name=title]").val();
 				var edate =  $("input[name=edate]").val();
-				var comJob = $("#com_job1 option:selected").text()+","+$("#com_job2 option:selected").text();	//직군, 직무;
+				var comJob1 = $("#com_job1 option:selected").text();	//직군
+				var comJob2 = $("#com_job2 option:selected").text();	//직무
 				var comJobType = $("select[name=comJobType]").val();
 				var workingForm = $("select[name=workingForm]").val();
 				var mainTask = $("input[name=mainTask]").val();
@@ -480,14 +482,14 @@
 				var hashTag = jsondata;
 
 				console.log("이미지:"+originfile);
-				console.log( {'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
+				console.log( {'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob1':comJob1,'comJob2':comJob2,'comJobType':comJobType, 'title':title, 'requirements':requirements,
 					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName });
 			  
 			   $.ajax({
 				url:"recInsertAf.do",
 				type:"post",
 				datatype:'json',
-				data:{'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
+				data:{'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob1':comJob1,'comJob2':comJob2,'comJobType':comJobType, 'title':title, 'requirements':requirements,
 					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName },
 				success: function(data){
 					//alert("넘어온 seq: "+data);

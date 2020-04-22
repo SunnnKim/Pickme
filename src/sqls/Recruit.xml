@@ -12,10 +12,10 @@
  		SELECT IFNULL(MAX(REF),0)+1 FROM RECRUIT
  	</select>
 	<insert id="recInsert" parameterType="model.RecruitDto">
-		INSERT INTO RECRUIT(COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE,
+		INSERT INTO RECRUIT(COMSEQ, COMNAME, TITLE, COMJOB1, COMJOB2, COMJOBTYPE,
 		MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY,
  		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL, IMAGENAME)
-		VALUES (#{comSeq}, #{comName}, #{title}, #{comJob}, #{comJobType},
+		VALUES (#{comSeq}, #{comName}, #{title}, #{comJob1}, #{comJob2}, #{comJobType},
 		#{mainTask}, #{workingForm}, #{requirements}, #{salary},
 		#{content}, #{hashTag}, SYSDATE(), #{edate}, #{ref}, 0, 0, #{imagename} )
 	</insert>
@@ -62,7 +62,7 @@
 	</select> 
 	<!-- detail -->
 	<select id="getRecruitDetail" parameterType="int" resultType="model.RecruitDto">
-		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB1, COMJOB2, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
 		FROM RECRUIT 
 		WHERE SEQ=#{seq}
 	</select> 
@@ -92,7 +92,7 @@
 	<!-- 공고 update -->
 	<update id="recUpdate" parameterType="model.RecruitDto">
 		UPDATE RECRUIT
-		SET TITLE=#{title}, COMJOB=#{comJob}, COMJOBTYPE=#{comJobType},
+		SET TITLE=#{title}, COMJOB1=#{comJob1}, COMJOB2=#{comJob2}, COMJOBTYPE=#{comJobType},
 		 MAINTASK=#{mainTask}, WORKINGFORM=#{workingForm}, REQUIREMENTS= #{requirements},
 		 SALARY=#{salary}, CONTENT=#{content}, HASHTAG=#{hashTag}, EDATE=#{edate}, IMAGENAME=#{imagename}
 		WHERE SEQ=#{seq}
@@ -104,7 +104,10 @@
 	</delete>
 	<!-- 마감일이 오늘날짜보다 지났을때 공고마감 del=1  -->
 	<update id="dayUpdateDel">
-		UPDATE RECRUIT SET DEL=1 WEHRE NOW()>EDATE
+		<![CDATA[
+			UPDATE RECRUIT SET DEL=1
+			WHERE CURDATE() > DATE_FORMAT(EDATE,'%Y-%m-%d')	
+		]]>
 	</update>
 
 	<!-- 해야할것 : (통계)해당 게시물 좋아요수 count -->

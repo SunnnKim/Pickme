@@ -61,7 +61,7 @@ public class RecruitController {
 		param.setComSeq(comSeq);
 		
 		//마감날짜 지나면 del=1 update
-		serv.dayUpdateDel();
+		//serv.dayUpdateDel();
 		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
@@ -280,9 +280,6 @@ public class RecruitController {
 		//System.out.println("update seq:"+recSeq);
 		RecruitDto dto = serv.getRecruitDetail(recSeq);
 	
-		String[] comJob = dto.getComJob().split(",");
-		String occ = comJob[0];	 //직군
-		String job = comJob[1];//직무
 		//System.out.println("occ: "+occ+" job: "+job);
 		
 		//System.out.println("myRec: "+dto.toString());
@@ -300,8 +297,6 @@ public class RecruitController {
 		List<FilesDto> fileslist = serv.getRecFile(recSeq);
 		
 		model.addAttribute("recDto",dto);
-		model.addAttribute("occ",occ);
-		model.addAttribute("job",job);
 		model.addAttribute("hashTag",hashStr);
 		model.addAttribute("hashlength",hashStr.length);
 		model.addAttribute("fileslist",fileslist);

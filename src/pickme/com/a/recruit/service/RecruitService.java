@@ -2,6 +2,8 @@ package pickme.com.a.recruit.service;
 
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;

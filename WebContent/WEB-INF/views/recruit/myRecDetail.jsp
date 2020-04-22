@@ -41,7 +41,7 @@
                 <tr>
                   <td class="t-icon"><i class="fas fa-file-signature"></i></td>
                   <td class="t-label">직무</td>
-                  <td class="t-content">${recDto.comJob }</td>
+                  <td class="t-content">${recDto.comJob1 },${recDto.comJob2 }</td>
                 </tr>
                 <tr>
                   <td class="t-icon"><i class="fas fa-building"></i></td>

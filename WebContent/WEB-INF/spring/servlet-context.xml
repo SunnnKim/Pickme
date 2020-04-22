@@ -4,8 +4,10 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
@@ -77,4 +79,13 @@
  			<bean id="customInterceptor" class="pickme.com.a.login.util.CustomInterceptor" />
  		</mvc:interceptor>
  	</mvc:interceptors> 
+ 	
+ 	<!-- 4/21 scheduler -->
+ 	<!-- 스케쥴러파일이 존재하는 패키지 설정 -->
+    <context:component-scan base-package="pickme.com.a.util" />
+    <!-- 해당 태그들은 크론탭을 설정에 필요한 태그들 -->
+    <task:scheduler id="jobScheduler" pool-size="10" />
+    <task:annotation-driven scheduler="jobScheduler" />
+<!--  	<task:annotation-driven /> -->
+
 </beans>
