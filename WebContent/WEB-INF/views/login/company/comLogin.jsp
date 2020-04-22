@@ -30,9 +30,9 @@ if(request.getParameter("fail") != null ){
     <div class="com-content">
 	   	<form method="POST" action="logincheck.do" id="frm">
 	      <span>기업회원 로그인</span>
-	      <input type="text" id="email" name="email" placeholder="이메일을 입력하세요" autocomplete="off">
-	      <input type="password" id="pwd" name="password" placeholder="비밀번호 입력하세요" autocomplete="off">
-	      <button id="com-login-btn" type="button">로그인</button>
+	      <input type="text" id="email" name="email" onkeyup="enterkey()" placeholder="이메일을 입력하세요" autocomplete="off">
+	      <input type="password" id="pwd" name="password" onkeyup="enterkey()" placeholder="비밀번호 입력하세요" autocomplete="off">
+	      <button id="com-login-btn" type="button" onclick="login()">로그인</button>
 	   	</form>
     	<div class="com-href"><a href="ffd.do">아이디/비밀번호를 잊으셨나요?</a></div>
     </div>
@@ -40,7 +40,7 @@ if(request.getParameter("fail") != null ){
 </div>
 <script>
 // 로그인 버튼 
-document.querySelector('#com-login-btn').onclick = ()=>{
+login = () => {
 	var email = document.querySelector('input[name=email]');
 	var password = document.querySelector('input[name=password]');
 
@@ -60,6 +60,14 @@ document.querySelector('#com-login-btn').onclick = ()=>{
 	}
 	document.querySelector('#frm').submit();
 }
+//enter 적용
+function enterkey() {
+        if (window.event.keyCode == 13) {
+             // 엔터키가 눌렸을 때 실행할 내용
+             login();
+        }
+}
+
 </script>
 
 <%@include file ="../../../../include/footer.jsp" %>

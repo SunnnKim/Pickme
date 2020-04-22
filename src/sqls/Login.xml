@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
+  "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="Login">
 <!-- 일반회원 이메일 체크 -->
@@ -77,6 +77,11 @@ WHERE EMAIL = #{email}
  WHERE SEQ = ${seq}
  </update>
  <!-- 일반회원 탈퇴하기  -->
+ <update id="withdrawMemberA" parameterType="int">
+ UPDATE A_MEMBER
+ SET DEL = 1, SIGNDATE = NOW()
+ WHERE SEQ = ${seq}
+ </update>
  <!-- 기업회원 탈퇴하기  -->
  <update id="withdrawMemberC" parameterType="int">
  UPDATE C_MEMBER
