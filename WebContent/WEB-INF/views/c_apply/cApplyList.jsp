@@ -57,7 +57,8 @@
 							</a>
 						</td>
 						<td><a href="#none" style="text-align: center"> ${dto.memName } </a></td>
-						<td><a href="#none" style="text-align: center"> ${dto.cvName } </a></td>
+						<td><a href="#none" style="text-align: center" onclick="openResume(${dto.cvSeq})"> ${dto.cvName } </a></td>
+						
 						<c:set var="aDate" value="${dto.aDate }"/>
 						<td>${fn:substring(aDate,0,16) }</td>
 						<c:if test="${dto.open == 0 }"><td>미열람</td></c:if>
@@ -88,6 +89,13 @@ function goPage(pn){
 function cApply_list() {
 	location.href="cApplyList.do"
 }
+
+
+function openResume(cvSeq) {
+	alert("cvSeq : " + cvSeq);
+}
+
+
 
 </script>
 

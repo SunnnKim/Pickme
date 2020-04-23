@@ -70,6 +70,8 @@ public class CMypageController {
 		String addressDto = cMember.getAddress();
 		String[] realAddress = addressDto.split("'");
 		
+		System.out.println(">>>>>> " + realAddress);
+		
 		model.addAttribute("realAddress[0]", realAddress[0]);	// 우편번호
 		model.addAttribute("realAddress[1]", realAddress[1]);	// 기본주소
 		model.addAttribute("realAddress[2]", realAddress[2]);	// 상세주소

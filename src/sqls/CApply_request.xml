@@ -20,7 +20,7 @@
  -->
 <select id="getRequestList" parameterType="model.MessageParam" resultType="model.CvRequestDto">
 <![CDATA[
-	SELECT cv_request.SEQ, a_member.seq as pseq, c_member.email, a_member.name, comment, accept, state, cv_request.del
+	SELECT cv_request.SEQ, a_member.seq as pseq, c_member.email, a_member.name, comment, accept, state, cv_request.del, cv_request.cvSeq, a_member.email as pEmail
 		,(SELECT 1 FROM FAVORITE WHERE FAVORITE.ID = C_MEMBER.EMAIL AND FAVORITE.LIKEPICKSEQ = cv_request.PSEQ GROUP BY FAVORITE.LIKEPICKSEQ) AS likePick
 		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
 	FROM cv_request , a_member ,  C_MEMBER 
@@ -39,7 +39,7 @@
 	
 <select id="requestLike" resultType="model.CvRequestDto">
 <![CDATA[	
-	select cv_request.seq, a_member.seq as pseq, a_member.name, comment, accept, state, cv_request.del, c_member.email
+	select cv_request.seq, a_member.seq as pseq, a_member.name, comment, accept, state, cv_request.del, c_member.email, cv_request.cvSeq, a_member.email as pEmail
 		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
 	from cv_request , a_member , c_member , favorite
 	where cv_request.cseq = #{toSeq} and cv_request.del = 0 and a_member.seq = cv_request.pseq AND cv_request.cancel = 0
@@ -102,9 +102,13 @@
 
 
 
-
-
-
+<!-- 이력서 열람 승인시 CV_COMPANY 조회하여 이력서 가져오기 -->
+<select id="reqResumeOpen" parameterType="model.CvRequestDto" resultType="model.CvCompanyDto">
+	SELECT  COM.*
+	FROM CV_COMPANY com, CV_REQUEST req 
+	WHERE com.seq = req.cvseq AND com.mememail = #{pEmail} AND com.comseq = #{comSeq}
+</select>
+ 
 
 
 

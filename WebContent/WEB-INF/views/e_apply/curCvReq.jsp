@@ -309,9 +309,10 @@
 								url     : "pickNSendResume.do",
 								type    : "post",    
 								dataType: "text",
-								data    : {"seq"  : seq,
-										   "cSeq" :	cSeq,
-										   "rSeq" : resume	
+								data    : {
+											"seq"  : seq,
+										    "cSeq" : cSeq,
+										    "rSeq" : resume	
 								          },	
 								success : function(data){
 									console.log(data);

@@ -6,6 +6,7 @@ import javax.json.JsonObject;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.CvCompanyDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
 import model.MessageDto;
@@ -150,8 +152,40 @@ public class CRequestController {
 	}
 	
 	
-	
-	
+	/*============== 요청 승인시에 이력서 가져오기 ==============*/
+	@ResponseBody
+	@RequestMapping(value = "reqResumeOpen.do", method = { RequestMethod.POST })
+	public CvCompanyDto reqResumeOpen(CvRequestDto dto, Model model, HttpSession session) {
+		
+		//기업 세션 SEQ 가져와 CV_COMPANY COMSEQ에 사용
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+		dto.setComSeq(c_seq);
+		System.out.println(">>>>> requestLike.do < c_seq > : " + c_seq);
+		
+			
+		System.out.println(dto.getCvSeq());
+		System.out.println(dto.getpEmail());
+		
+		
+		CvCompanyDto reqResumeDto = cApplyService.reqResumeOpen(dto);
+		
+		
+		System.out.println(" reqResumeDto.toString() >>>>>>>>>> "+reqResumeDto.toString());
+		/*
+		System.out.println(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + resumeDto.toString());
+		
+		JSONObject jResume = new JSONObject();
+
+		jResume.put("memEmail", resumeDto.getMemEmail());
+		jResume.put("userName", resumeDto.getUserName());
+
+		System.out.println(" jResume.toJSONString() : " + jResume.toJSONString());
+
+		
+		return jResume.toJSONString();
+		*/ 
+		return reqResumeDto; 
+	}
 	
 	
 	
