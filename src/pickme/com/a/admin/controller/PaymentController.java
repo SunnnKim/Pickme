@@ -183,6 +183,7 @@ public class PaymentController {
 			return "success";
 		}
 	
+	// 유료 서비스 등록하기
 	@RequestMapping(value="insertPaidService.do", method=RequestMethod.POST)
 	public String insertPaidService( PremierServiceDto serviceDto ) {
 		System.out.println("serviceDto : " + serviceDto);

@@ -19,9 +19,14 @@
   <div class="content-wrap">
     <div class="contents-box">
       <span>서비스명</span>
-      <input type="text" name="serviceName">
+      <input type="text" name="serviceName" style="width: 81%">
       <span>가격</span>
-      <input type="text" autocomplete="" name="price" numberOnly maxlength="8" style="text-align: right; padding-right: 10px;" onkeyup="inputNumberAutoComma(this)">
+      <input type="text" name="price" numberOnly maxlength="8" style="text-align: right; padding-right: 10px;">
+      <span>기간</span>
+      <input type="text" name="period" style="text-align: right; padding-right: 10px;">
+      <span>요약</span>
+      <input  style="width: 81%" type="text" name="serviceInfo" style="text-align: right; padding-right: 10px;">
+    
     </div>
     <textarea id="summernote"></textarea>
     <input type="hidden" name="content" >
@@ -99,6 +104,8 @@ $(document).ready(function() {
 	  var serviceName = $('input[name=serviceName]');
 	  var price = $('input[name=price]');
 	  var content = $('#summernote');
+	  var serviceInfo = $('input[name=serviceInfo]');
+	  var period = $('input[name=period]');
 	
 	  // 빈칸 검사 
 	  if(serviceName.val().trim() == ''){
@@ -114,6 +121,16 @@ $(document).ready(function() {
 	  if(content.val().trim() == ''){
 	    alert('내용을 작성하세요')
 	    content.focus()
+	    return false;
+	  }
+	  if(serviceInfo.val().trim() == ''){
+	    alert('서비스내용요약을 작성하세요')
+	    serviceInfo.focus()
+	    return false;
+	  }
+	  if(period.val().trim() == ''){
+	    alert('서비스기간을 작성하세요')
+	    period.focus()
 	    return false;
 	  }
 	  // 모달열기 
@@ -219,10 +236,10 @@ function changeValue( number ){
 <!-- CSS -->
 <style>
 .content-wrap{ width: 900px; margin: 0 auto; }
-.content-wrap .contents-box { margin: 10px 0; height: 50px; margin-bottom: 30px;}
+.content-wrap .contents-box { margin: 10px 0; height: 160px; margin-bottom: 30px;}
 .content-wrap .contents-box > span{font-size: 20px; width: 120px; display: inline-block; text-align: center;}
-.content-wrap .contents-box  .price-tag .number { margin: 0 10px;}
-.content-wrap .contents-box > input{ width: 300px; height: 40px; padding-left: 10px; outline: none;}
+.content-wrap .contents-box .price-tag .number { margin: 0 10px;}
+.content-wrap .contents-box > input{ width: 300px; height: 40px; padding-left: 10px; outline: none; margin:10px 0;}
 .content-wrap .submit-btn{ text-align: center;}
 .content-wrap .submit-btn > button{ background-color: #304edf; color: #fff; width: 100px; height: 50px; outline: none;}
 /* modal */

@@ -24,7 +24,7 @@
                 <img src="/Pickme/images/sub/service2.png" width="100%">
             </div>
         </div>
-        <div class="service-content ">
+        <div class="service-content" id="service">
             <div class="content-title">서비스 목록</div>
             <div class="contents-wrapper clfix">
             <% for(int i = 0; i < list.size(); i ++ ){
