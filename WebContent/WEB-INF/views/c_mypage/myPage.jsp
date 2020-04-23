@@ -46,8 +46,11 @@
 .c_introInfo ul {margin-top: 20px;}
 .c_introInfo ul li {font-size: 18px;position: relative;margin-top: 22px;padding-left: 120px;}
 .c_introInfo ul li span {display: block;position: absolute;top:0;left:0;font-weight: bold;}
+
+
 .followBtnWrap {margin-top: 21px;}
 .followBtnWrap span {display: block;text-align: center;height: 50px;background-color: #4f6eff;color: #fff;line-height: 50px;font-size: 24px;cursor: pointer;}
+.followBtnWrap span:hover {background-color:#6681ff;}
 .followBtnWrap span i {margin-left: 10px;display: none;}
 .followBtnWrap span input width: 0;height: 0;display:none;}
 
@@ -118,15 +121,15 @@
                   <li><span>대표자 성명</span><%=memberInfo.getPresident() %></li>
                   <li><span>전화번호</span><%=memberInfo.getTel() %></li>
                   <li><span>이메일</span><%=memberInfo.getEmail() %></li>
-                  <li><span>주소</span><%=memberInfo.getAddress() == null? "": zipcode+" " +basicAdd+" "+detailAdd%></li>
+                  <li><span>주소</span><%=memberInfo.getAddress() == ""? "등록된 주소가 없습니다.": memberInfo.getAddress()%> </li>
                 </ul>
                 <div class="followBtnWrap">
                   <label>
-                    <% if(member != null) { %>
+                    	<% if(member != null) { %>
                     	<span>팔로우<i class="fas fa-check"></i> <input type="checkbox"></span>
                     <% } else if(memberInfo != null) { %>
                    		<span><i class="fas fa-check"></i><button type = "button" class="updateBtn" onclick = "location.href='goUpdate.do?seq=<%=memberInfo.getSeq()%>'"> 수정 </button></span>
-                    <% } %>										
+                    <% } %>					
                   </label>
                 </div>
             </div>  <!-- // c_introInfo -->
@@ -142,7 +145,7 @@
             	</span>
 	        </h4>
             <div class="cont">
-	            <%=memberInfo.getIntroduce() == null ? "기업정보를 등록해주세요.": memberInfo.getIntroduce()%>
+	            <%=memberInfo.getIntroduce() == null ? "등록된 소개가 없습니다.": memberInfo.getIntroduce()%>
             </div>
           </div> <!-- // c_introBtm -->
 
@@ -162,7 +165,7 @@
 		$(document).ready(function(){
 		$('#visual').bxSlider({
 			//mode:'fade',
-	      pause:2500,
+	      pause:4500,
 		  pager: false,
 		  auto:true,
 			onSliderLoad: function(currentIndex) {
@@ -179,7 +182,7 @@
 
 		<!------------------------- 팔로우 버튼 -------------------------->
     <script>
-          $(".followBtnWrap input[type='checkbox']").click(function(){
+          $(".followBtnWrap label input[type='checkbox']").click(function(){
             if($(this).is(":checked")){
              $('.followBtnWrap span i').show();
             }else {

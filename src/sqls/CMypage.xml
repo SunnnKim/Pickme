@@ -40,6 +40,12 @@
   	WHERE SEQ=#{seq}
   </update>
   
+  <!-- 로고 업로드 -->
+  <insert id = "uploadLogo" parameterType = "model.CMemberDto">
+  	INSERT INTO C_MEMBER(LOGOPATH, LOGONAME)
+  	VALUES(#{logoPath}, #{logoName})
+  </insert>
+  
   <!-- 기업회원 탈퇴 -->
  <!--  <update id = "withdrawal" parameterType = "model.CMemberDto">
   	UPDATE C_MEMBER

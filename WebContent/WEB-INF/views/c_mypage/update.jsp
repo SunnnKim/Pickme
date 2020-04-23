@@ -6,6 +6,7 @@
 
 <%
 	CMemberDto dto = (CMemberDto) request.getAttribute("dto");
+	String addressArr = request.getParameter("addressArr");
 %>
 
 
@@ -261,9 +262,8 @@ div div.logo-img input.btTextW {
   
 </style>    
 
-<form action = "update.do" method = "post" id = "frm" name = "frm">
+<form action = "update.do" method = "post" id = "frm" name = "frm" enctype = "multipart/form-data">
 <input type="hidden" name="seq" value="${dto.seq}"/>
-      <div style = "">
           
         <div class="update-logo">
           <div class="logo-text">
@@ -284,9 +284,9 @@ div div.logo-img input.btTextW {
 					<div class="imgs-wrap" id="imgs-wrap"></div>
 				</div>
 				<div class="filebox preview-image">
-					<label for="input_file"><i class="fas fa-camera"></i></label> <input
-						type="file" id="input_file" class="upload-hidden"> <input
-						type="hidden" class="upload-name" name="_profileName">
+					<label for="input_file"><i class="fas fa-camera"></i></label> 
+					<input type="file" name = file id="input_file" class="upload-hidden"> 
+					<input type="hidden" class="upload-name" name="_profileName">
 				</div>
 			</div>
 
@@ -596,9 +596,17 @@ var introduce = document.querySelector("#introduce");		// 소개
 		// 4. 대표연락처
 		var regTel = /^\d{2,3}-\d{3,4}-\d{4}$/;
 		
+		var beforeTelValue = $("#tel").val();
+		
+		if( beforeTelValue != null || beforeTelValue != "" ) { 
+			console.log("페이지 열릴 때 연락처 = " + beforeTelValue);
+			telCheck = true;
+		}
+		
 		if( tel.onfocusout = () => {
-		var telValue = $("#tel").val();
-
+			var telValue = $("#tel").val();
+			console.log("클릭 후 연락처 = " + telValue);
+			
 			if( telValue == "" ) {
 				telCheck = false;
 			} else if ( regTel.test(tel.value) ) {
@@ -616,16 +624,9 @@ var introduce = document.querySelector("#introduce");		// 소개
         		})
 			}
 		});
-
-		// 5. 주소
-		
-		
-		// 6. 해시태그
-		
-		
 		
 
-// 완료버튼 누름
+//============================= 완료 submit ===========================================//
 updateComplete = () => {
 
 	// 주소 합치기 ! 
@@ -694,24 +695,35 @@ updateComplete = () => {
 	}
 	// 해쉬태그 합치기
 	var hashTag = [];
+	// <input type= "hidden" name = "hashTag" id = "hashT">
 	console.log("hashVal: "+$('#hashT').val());
+
+	// name = hashTag 의 값을 json 으로 변환
 	var receivedArray = JSON.parse($('#hashT').val());
-	console.log(receivedArray.length);
+	console.log(receivedArray.length); // 길이 체크
+	
 	for( var i=1; i <= 3; i++){
 		if( $('#hash'+i).val() != "" ){
 			receivedArray[i-1] = $('#hash'+i).val();
+			// hash1 = receivedArray[0]
+			// hash2 = receivedArray[1]
+			// hash3 = receivedArray[2]
 		}
 	}
 	console.log("receivedArray: "+receivedArray);
 	console.log("receivedArray type: "+typeof(receivedArray));
 	for(var i=0; i < 3; i++){
-		if(hashTag[i] == '' && receivedArray[i] != hashTag[i]){
-hashTag[i] = receivedArray[i];
-			}
+		if(hashTag[i] == '' && receivedArray[i] != hashTag[i]) {
+			hashTag[i] = receivedArray[i];
+			// hashTag[0] = receivedArray[0]
+			// hashTag[1] = receivedArray[1]
+			// hashTag[2] = receivedArray[2]
+		}
 	}
-	
+	// receivedArray 를 String 으로 변환
 	json = JSON.stringify(receivedArray);
 	console.log(json);
+	
 	// hash tag -> string
     //var jsondata = JSON.parse(tags);
    	jsondata = JSON.stringify(hashTag);
