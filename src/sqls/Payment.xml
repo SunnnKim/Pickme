@@ -4,6 +4,28 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="Payment">
+<!-- 통계 -->
+<!-- 서비스별 이용고객 비율  -->
+<select id="getStatistics" resultType="model.PaymentParam">
+select *
+from(select count(servicename) as memberCount, servicename
+		from PREMIER_MEM
+		where enddate >= now()
+		group by servicename) a
+order by servicename
+</select>
+<!-- 신규 이용고객 -->
+<select id="getNewPremierMember" resultType="int">
+select count(*)
+from PREMIER_MEM
+where startdate + interval 3 day >= now()
+</select>
+<!-- 환불 건수 -->
+<select id="getRefundNumber" resultType="int">
+select count(*)
+from payment
+where refund = 1 and requestdate + interval 1 day >= now()
+</select>
 <!-- 유료 서비스 회원 불러오기 -->
 <select id="getPremierMember" resultType="model.PremierMemDto">
 SELECT p.SEQ,cmember.NAME, p.USERSEQ, p.SERVICENAME, p.STARTDATE, p.ENDDATE, p.SERVICESEQ, p.RESTTICKET
@@ -26,6 +48,18 @@ VALUES ( #{serviceName}, #{price}, 0, #{content}, #{period}, #{serviceInfo} )
 SELECT * FROM PREMIER_SERVICE
 WHERE SERVICESEQ = ${serviceSeq}
 </select>
+<!-- 유료 서비스 수정하기 -->
+<update id="updateService" parameterType="model.PremierServiceDto">
+UPDATE PREMIER_SERVICE
+SET SERVICENAME = #{serviceName}, PRICE = #{price}, PERIOD = #{period}, SERVICEINFO = #{serviceInfo}, CONTENT = #{content}
+WHERE SERVICESEQ = ${serviceSeq}
+</update>
+<!-- 유료 서비스 삭제하기 -->
+<update id="deleteService" parameterType="int">
+UPDATE PREMIER_SERVICE
+SET DEL = 1
+WHERE SERVICESEQ = ${serviceSeq}
+</update>
 </mapper>
 
 

@@ -8,7 +8,7 @@
 <div class="profile-wrap">
   <div class="detail-wrapper">
     <div class="detail-info clfix">
-      <div class="detail-title">Basic Package</div>
+      <div class="detail-title"><%= dto.getServiceName() %></div>
       <div class="info-box">
         <div>이용가격<span class="price"></span></div>
         <div>이용기간<span><%=dto.getPeriod() %></span></div>
