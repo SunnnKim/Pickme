@@ -8,35 +8,47 @@ import org.springframework.stereotype.Repository;
 
 import model.FilesDto;
 import model.NoticeDto;
+import model.PremierServiceDto;
 
 @Repository
 public class CustomerDaoImpl implements CustomerDao {
 
 	@Autowired
 	SqlSession sqlSession;
-	String namespace = "Notice.";
+	String Notice = "Notice.";
+	String Payment = "Payment.";
 
 	@Override
 	public List<NoticeDto> getAllNoticePage(int pageNumber) {
 		pageNumber = pageNumber * 10;
-		return sqlSession.selectList(namespace + "getAllNoticePaging", pageNumber);
+		return sqlSession.selectList(Notice + "getAllNoticePaging", pageNumber);
 	}
 
 	// 디테일 가져오기 + 조회수 증가 
 	@Override
 	public NoticeDto getNoticeDetail(int seq) {
-		sqlSession.update(namespace + "updateReadcount", seq);
-		return sqlSession.selectOne(namespace + "getNoticeDetail", seq);
+		sqlSession.update(Notice + "updateReadcount", seq);
+		return sqlSession.selectOne(Notice + "getNoticeDetail", seq);
 	}
 
 	@Override
 	public int countAllContent() {
-		return sqlSession.selectOne(namespace + "countAllContent");
+		return sqlSession.selectOne(Notice + "countAllContent");
 	}
 
 	@Override
 	public List<FilesDto> getNoticeFiles(int ref) {
-		return sqlSession.selectList(namespace + "getNoticeFiles", ref);
+		return sqlSession.selectList(Notice + "getNoticeFiles", ref);
+	}
+
+	@Override
+	public List<PremierServiceDto> getPremierService() {
+		return sqlSession.selectList(Payment + "getPremierService");
+	}
+
+	@Override
+	public PremierServiceDto getServiceDetail(int serviceSeq) {
+		return sqlSession.selectOne(Payment + "getServiceDetail", serviceSeq);
 	}
 
 	

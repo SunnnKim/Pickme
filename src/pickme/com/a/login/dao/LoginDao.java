@@ -73,14 +73,14 @@ public class LoginDao {
 		sqlSession.update(namespace + "CMemberValidate", member);
 	}
 	
-//	// 일반회원 비밀번호 변경시 현재 비밀번호 입력
-//	public boolean amemberChangePwd(AMemberDto member) {
-//		String rawPassword = member.getPassword();
-//		int seq = member.getSeq();
-//		String encodePassword = sqlSession.selectOne(namespace + "getPassword", seq);
-//		boolean match = bCryptPasswordEncoder.matches(rawPassword, encodePassword);
-//		return match;
-//	}
+	// 일반회원 비밀번호 변경시 현재 비밀번호 입력
+	public boolean checkPasswordA(AMemberDto member) {
+		String rawPassword = member.getPassword();
+		int seq = member.getSeq();
+		String encodePassword = sqlSession.selectOne(namespace + "getPasswordA", seq);
+		boolean match = bCryptPasswordEncoder.matches(rawPassword, encodePassword);
+		return match;
+	}
 	
 	// 기업회원 비밀번호 변경시 현재 비밀번호 입력
 	public boolean checkPasswordC(CMemberDto companyDto) {
@@ -94,10 +94,21 @@ public class LoginDao {
 		return match;
 	}
 	
-	// 기업회원 비밀번호 변경하기 
-	public boolean updatePasswordC(CMemberDto companyDto) {
-		return sqlSession.update(namespace + "updatePasswordC", companyDto)>0? true:false;
+	// 일반회원 비밀번호 변경하기 
+	public boolean updatePasswordA(AMemberDto member) {
+		return sqlSession.update(namespace + "updatePasswordA", member)>0? true:false;
 	}
+	
+	// 일반회원 탈퇴하기
+	public boolean withdrawMemberA(int seq) {
+		return sqlSession.update(namespace + "withdrawMemberA", seq) > 0 ? true:false;
+	}
+	
+	// 기업회원 비밀번호 변경하기 
+	public boolean updatePasswordC(CMemberDto member) {
+		return sqlSession.update(namespace + "updatePasswordC", member)>0? true:false;
+	}
+	
 	// 기업회원 탈퇴하기
 	public boolean withdrawMemberC(int seq) {
 		return sqlSession.update(namespace + "withdrawMemberC", seq) > 0 ? true:false;

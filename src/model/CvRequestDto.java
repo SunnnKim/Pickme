@@ -3,6 +3,7 @@ package model;
 public class CvRequestDto {
 
 	private int seq;			// delete에 사용할 request 시퀀스
+	private String pEmail;		// CV_COMPANY에서 이력서 찾기 위해 사용
 	private String email;		// favorite에 넣을 기업 email 가져오려고 사용
 	private int pseq;			// favorite에 넣을 구직자 seq 
 	private String name;		// 구직자명 / 기업명
@@ -14,14 +15,26 @@ public class CvRequestDto {
 	private int likePick;		// 관심인재 여부 (0:해제, 1:선택)
 	private String ddate;		// 삭제일
 	
+	
+	
+	private int cvSeq;			// 제출한 이력서 seq
+	private int comSeq;			// CV_COMPANY에서 이력서 찾기 위해 사용(세션에서 저장)
+	
 	public CvRequestDto() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public CvRequestDto(int seq, String email, int pseq, String name, String rdate, String comment, int accept,
-			int state, int del, int likePick, String ddate) {
+
+
+
+	
+
+
+	public CvRequestDto(int seq, String pEmail, String email, int pseq, String name, String rdate, String comment,
+			int accept, int state, int del, int likePick, String ddate, int cvSeq, int comSeq) {
 		super();
 		this.seq = seq;
+		this.pEmail = pEmail;
 		this.email = email;
 		this.pseq = pseq;
 		this.name = name;
@@ -32,6 +45,60 @@ public class CvRequestDto {
 		this.del = del;
 		this.likePick = likePick;
 		this.ddate = ddate;
+		this.cvSeq = cvSeq;
+		this.comSeq = comSeq;
+	}
+
+
+
+
+
+
+
+	public int getComSeq() {
+		return comSeq;
+	}
+
+
+
+
+
+
+
+	public void setComSeq(int comSeq) {
+		this.comSeq = comSeq;
+	}
+
+
+
+
+
+
+
+	public String getpEmail() {
+		return pEmail;
+	}
+
+
+
+
+
+	public void setpEmail(String pEmail) {
+		this.pEmail = pEmail;
+	}
+
+
+
+
+
+	public int getCvSeq() {
+		return cvSeq;
+	}
+
+
+
+	public void setCvSeq(int cvSeq) {
+		this.cvSeq = cvSeq;
 	}
 
 
@@ -124,13 +191,25 @@ public class CvRequestDto {
 	}
 
 
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "CvRequestDto [seq=" + seq + ", email=" + email + ", pseq=" + pseq + ", name=" + name + ", rdate="
-				+ rdate + ", comment=" + comment + ", accept=" + accept + ", state=" + state + ", del=" + del
-				+ ", likePick=" + likePick + ", ddate=" + ddate + "]";
+		return "CvRequestDto [seq=" + seq + ", pEmail=" + pEmail + ", email=" + email + ", pseq=" + pseq + ", name="
+				+ name + ", rdate=" + rdate + ", comment=" + comment + ", accept=" + accept + ", state=" + state
+				+ ", del=" + del + ", likePick=" + likePick + ", ddate=" + ddate + ", cvSeq=" + cvSeq + ", comSeq="
+				+ comSeq + "]";
 	}
 
+
+
+
+
+
 	
+
 	
 }

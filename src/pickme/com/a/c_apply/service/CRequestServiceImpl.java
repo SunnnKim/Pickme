@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.CvCompanyDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
 import model.MessageDto;
@@ -71,6 +72,11 @@ public class CRequestServiceImpl implements CRequestService{
 	@Override
 	public int getLikeTotalRecordCount(MessageParam param) {
 		return cApplyDao.getLikeTotalRecordCount(param);
+	}
+
+	@Override
+	public CvCompanyDto reqResumeOpen(CvRequestDto dto) {
+		return cApplyDao.reqResumeOpen(dto);
 	}
 
 	
