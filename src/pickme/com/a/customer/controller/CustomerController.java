@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.FilesDto;
-import model.NoticeDto;
+import model.NoticeDto;import model.PremierServiceDto;
 import pickme.com.a.customer.service.CustomerService;
 
 @Controller
@@ -87,7 +87,20 @@ public class CustomerController {
 	// 기업 유료서비스 뷰로 이동하기
 	@RequestMapping(value="paidService.do", method=RequestMethod.GET)
 	public String paidService(Model model) {
+		List<PremierServiceDto> list = service.getPremierService();
+		model.addAttribute("list", list);
+		
 		return "customer/paidService/paidService";
+	}
+	
+
+	// 기업 유료서비스 디테일 뷰로 이동하기
+	@RequestMapping(value="paidServiceDetail.do", method=RequestMethod.GET)
+	public String paidService(Model model, int seq) {
+		PremierServiceDto dto = service.getServiceDetail(seq);
+		model.addAttribute("dto", dto);
+		
+		return "customer/paidService/paidServiceDetail";
 	}
 	
 	

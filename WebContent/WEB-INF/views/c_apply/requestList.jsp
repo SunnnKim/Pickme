@@ -124,7 +124,7 @@ email : <%=company.getEmail()%>
 							<td>
 								<c:choose>
 								<c:when test="${request.accept eq '1'}">
-									<button type="button" class="btn-resumeOpen" onclick="resumeOpen()">이력서 열람</button>
+									<button type="button" class="btn-resumeOpen" onclick="resumeOpen(${request.cvSeq}, '${request.pEmail }')">이력서 열람</button>
 								</c:when>
 									<c:when test="${request.accept eq '2'}">
 										 <!-- 요청 거절 됨 -->
@@ -421,8 +421,43 @@ email : <%=company.getEmail()%>
 		alert("구직자 디테일 : " + p_seq);
 	}
 
-	function resumeOpen() {
-		alert(" 이력서 열람 요청 준비중 : resumeOpen() ")
+	function resumeOpen(cvSeq, pEmail) {
+		//var w = window.open("about:blank","_blank","width=600, height=700, top=0,left=0,scrollbars=no");
+
+		
+		alert(" 이력서 열람 요청 준비중 : resumeOpen() >>>> "+cvSeq + " // " + pEmail )
+		 
+		$.ajax({
+			url 		: "reqResumeOpen.do",
+			type		: "POST",
+			dataType	: "json",
+			data		: {"cvSeq" : cvSeq , "pEmail" : pEmail},
+			success 	: function(data) {
+				alert("success");
+				//w.location.href = "getRequestList.do";
+				if(data.filePath == null) {
+					alert("filePath : null 웹페이지 연결");
+
+					//alert(data.comseq);
+				} else {
+					alert("파일 다운로드 연결");
+				}
+				
+
+
+				
+			},
+			error		: function(request,status,error){ 
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+			}
+			
+
+		})
+
+
+
+
+		
 	}
 
 	

@@ -6,7 +6,7 @@
 <mapper namespace="Payment">
 <!-- 유료 서비스 회원 불러오기 -->
 <select id="getPremierMember" resultType="model.PremierMemDto">
-SELECT p.SEQ,cmember.NAME, p.USERSEQ, p.SERVICENAME, p.STARTDATE, p.ENDDATE, p.SERVICESEQ
+SELECT p.SEQ,cmember.NAME, p.USERSEQ, p.SERVICENAME, p.STARTDATE, p.ENDDATE, p.SERVICESEQ, p.RESTTICKET
 from PREMIER_MEM AS p INNER JOIN C_MEMBER AS cmember
 ON p.USERSEQ = cmember.SEQ
 ORDER BY p.STARTDATE ASC, p.ENDDATE DESC
@@ -18,8 +18,8 @@ WHERE DEL != 1
 </select>
 <!-- 유료 서비스 등록하기 -->
 <select id="insertService" parameterType="model.PremierServiceDto">
-INSERT INTO PREMIER_SERVICE ( SERVICENAME, PRICE, DEL, CONTENT )
-VALUES ( #{serviceName}, #{price}, 0, #{content} )
+INSERT INTO PREMIER_SERVICE ( SERVICENAME, PRICE, DEL, CONTENT, PERIOD, SERVICEINFO  )
+VALUES ( #{serviceName}, #{price}, 0, #{content}, #{period}, #{serviceInfo} )
 </select>
 <!-- 유료 서비스 데이터불러오기 -->
 <select id="getServiceDetail" parameterType="int" resultType="model.PremierServiceDto">

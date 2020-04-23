@@ -155,9 +155,8 @@ public class LoginController {
 	@ResponseBody
 	@RequestMapping(value="checkPasswordA.do", method=RequestMethod.POST)
 	public String checkPasswordA ( AMemberDto memberDto ) {
-		//boolean success = aMember.checkPasswordC(companyDto);
-		//return success + "";
-		return false+"";
+		boolean success = aMember.checkPasswordA(memberDto);
+		return success + "";
 	}
 	
 	// 기업 비밀번호 변경 전 비밀번호 체크 
@@ -173,12 +172,13 @@ public class LoginController {
 	public String changePasswordA(AMemberDto memberDto, Model model) {
 		System.out.println(memberDto);
 		memberDto.setPassword(new BCryptPasswordEncoder().encode(memberDto.getPassword()));
-		//boolean success = cMember.updatePasswordC(memberDto);
-//		if(success) {
-//			return "redirect:/c_mypage/goUpdate.do";
-//		}
+		boolean success = aMember.updatePasswordA(memberDto);
+		
+		if(success) {
+			return "redirect:/a_mypage/profile.do";
+		}
 		// 실패시 
-		return "redirect:/c_mypage/update.do";
+		return "redirect:/a_mypage/changePassword.do";
 	}
 	
 	// 기업 비밀번호 변경하기
@@ -199,11 +199,11 @@ public class LoginController {
 	@RequestMapping(value="memberWithdrawal.do", method=RequestMethod.POST)
 	public String memberWithdrawal( HttpSession session ) {
 		int seq = ((AMemberDto)session.getAttribute("loginuser")).getSeq();
-		//boolean success = aMember.withdrawMemberA(seq);
-//		if(success) {
-//			return "redirect:/login/company/logout.do";
-//		}
-		return "";
+		boolean success = aMember.withdrawMemberA(seq);
+		if(success) {
+			return "redirect:/login/logout.do";
+		}
+		return "redirect:/a_mypage/withdrawal.do";
 	}
 	// 기업회원 탈퇴신청
 	@RequestMapping(value="companyWithdrawal.do", method=RequestMethod.POST)

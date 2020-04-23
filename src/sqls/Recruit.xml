@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
+  "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="Recruit">
 <!-- 마지막 시퀀스 뽑아내기 -->
@@ -25,9 +25,12 @@
 	</insert> 
 	<!-- ================= recruit 테이블 imagename 을 originname -> newname 으로 바꾸기 -->
 	<update id="imageNameUpdate" parameterType="int">
-		UPDATE RECRUIT R
-		SET IMAGENAME=(SELECT NEWNAME FROM FILES F WHERE R.SEQ = F.REF AND USETABLE = 'RECRUIT' AND F.STEP=0 )
-		WHERE R.SEQ=#{ref}
+		<!-- UPDATE RECRUIT R
+		SET IMAGENAME=(SELECT NEWNAME FROM FILES F WHERE R.REF = F.REF AND USETABLE = 'RECRUIT' AND F.STEP=0 )
+		WHERE R.SEQ=#{ref} -->
+		UPDATE RECRUIT
+		SET IMAGENAME=(SELECT NEWNAME FROM FILES WHERE REF=${ref} AND USETABLE = 'RECRUIT' AND STEP=0 )
+		WHERE SEQ=${ref}
 	</update>
 	<!-- 채용탐색글 수 count -->
 	<select id="getCountRec" resultType="int">

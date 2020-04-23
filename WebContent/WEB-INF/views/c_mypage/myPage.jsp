@@ -10,7 +10,7 @@
 	// 컨트롤러에서 받아온 주소 조각
 	String zipcode = (String)request.getAttribute("realAddress[0]");	// 우편번호
 	String basicAdd = (String)request.getAttribute("realAddress[1]");	// 기본주소
-	String detailAdd = (String)request.getAttribute("realAddress[2]");	// 상세주소
+	String detailAdd = (String)request.getAttribute("realAddress[2]");	// 상세주소 
 %>  
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>

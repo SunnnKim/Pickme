@@ -47,8 +47,8 @@
 <!-- font-awesome -->
 <script src="/Pickme/js/jquery/jquery-3.4.1.min.js"></script>
 <!-- jquery -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+<script src="/Pickme/js/sweetalert2/sweetalert2.all.js"></script>
+<link rel="stylesheet" href="/Pickme/js/sweetalert2/sweetalert2.css" type="text/css"/>
 <!-- sweetAlert2 -->
 </head>
 <body>

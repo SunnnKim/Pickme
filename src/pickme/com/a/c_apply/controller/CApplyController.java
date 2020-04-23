@@ -19,9 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.CApplyDto;
 import model.CMemberDto;
+import model.CvRecruitDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import pickme.com.a.c_apply.service.CApplyService;
@@ -90,6 +92,18 @@ public class CApplyController {
 	
 	
 	
+	// 이력서 열람 버튼 Ajax
+	@ResponseBody
+	@RequestMapping(value = "apResumeOpen.do", method = { RequestMethod.POST })
+	public CvRecruitDto apResumeOpen(int cvSeq, HttpSession session) {
+		
+		CvRecruitDto apResumeDto = cApplyService.apResumeOpen(cvSeq);
+		
+		System.out.println(apResumeDto.toString());
+		
+		return apResumeDto;
+		
+	}
 	
 	
 	

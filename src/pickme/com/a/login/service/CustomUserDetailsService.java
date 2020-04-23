@@ -51,5 +51,20 @@ public class CustomUserDetailsService implements LoginService, UserDetailsServic
 		return dao.getMemberByEmail(email);
 	}
 
+	@Override
+	public boolean checkPasswordA(AMemberDto memberDto) {
+		return dao.checkPasswordA(memberDto);
+	}
+
+	@Override
+	public boolean updatePasswordA(AMemberDto memberDto) {
+		return dao.updatePasswordA(memberDto);
+	}
+
+	@Override
+	public boolean withdrawMemberA(int seq) {
+		return dao.withdrawMemberA(seq);
+	}
+
 
 }

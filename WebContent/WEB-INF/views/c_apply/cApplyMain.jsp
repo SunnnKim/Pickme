@@ -127,7 +127,7 @@ function goPage(pn){
 }
 
 function cApply_list(seq) {
-	//alert("seq : " + seq);
+	alert("jobSeq : " + seq);
 	location.href="cApplyList.do?jobSeq=" + seq;
 }
 

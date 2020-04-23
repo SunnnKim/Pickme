@@ -59,7 +59,8 @@ var dataList2 = [];
 			USERNAME:'<%=member.getName()%>',
 			SERVICENAME:'<%=member.getServiceName()%>', 
 			STARTDATE:'<%=member.getStartDate()%>', 
-			ENDDATE:'<%=member.getEndDate()%>'
+			ENDDATE:'<%=member.getEndDate()%>',
+			RESTTICKET:'<%= member.getRestTicket() != null ? member.getRestTicket():""%>'
 		}
 		dataList.push(data)
 	<%
@@ -101,7 +102,7 @@ $(document).ready(function () {
              template: "<div class='customer-name'>#: USERNAME #</div>",
              field: "USERNAME",
              title: "기업명",
-             width: 300
+             width: 250
          }, {
              field: "SERVICENAME",
              title: "서비스명",
@@ -114,6 +115,10 @@ $(document).ready(function () {
              field: "ENDDATE",
              title: "마감일",
              width: 150
+         }, {
+             field: "RESTTICKET",
+             title: "잔여이용권",
+             width: 100
          }, {
              field: "checkall",
              title: "체크",

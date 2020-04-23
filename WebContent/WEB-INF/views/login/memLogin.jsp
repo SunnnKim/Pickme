@@ -1,8 +1,5 @@
 <%@include file ="../../../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
-<script src="sweetalert2.all.min.js"></script>
-<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 
 <%
 if(request.getParameter("fail") != null ){
@@ -25,9 +22,9 @@ if(request.getParameter("fail") != null ){
                 <div class="com-content-wrap">
                     <div class="com-content">
                         <span>회원 로그인</span>
-                        <input type="text" id="email" name="email" placeholder="이메일을 입력하세요" autocomplete="off">
-                        <input type="password" id="pwd" name="password" placeholder="비밀번호 입력하세요" autocomplete="off">
-                        <button type="button" id="com-login-btn">로그인</button>
+                        <input type="text" id="email" name="email" onkeyup="enterkey()" placeholder="이메일을 입력하세요" autocomplete="off">
+                        <input type="password" id="pwd" name="password" onkeyup="enterkey()" placeholder="비밀번호 입력하세요" autocomplete="off">
+                        <button type="button" id="com-login-btn" onclick="login()">로그인</button>
                         <div class="com-href"><a href="#">아이디/비밀번호를 잊으셨나요?</a></div>
                     </div>
                     <div class="com-logo">
@@ -41,7 +38,7 @@ if(request.getParameter("fail") != null ){
 </div>
 <script>
 // 로그인 버튼 
-document.querySelector('#com-login-btn').onclick = ()=>{
+login = () => {
 	var email = document.querySelector('input[name=email]');
 	var password = document.querySelector('input[name=password]');
 
@@ -60,6 +57,13 @@ document.querySelector('#com-login-btn').onclick = ()=>{
 		return false;
 	}
 	document.querySelector('#frm').submit();
+}
+// enter 적용
+function enterkey() {
+        if (window.event.keyCode == 13) {
+             // 엔터키가 눌렸을 때 실행할 내용
+             login();
+        }
 }
 </script>
 

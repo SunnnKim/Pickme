@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import model.FilesDto;
 import model.NoticeDto;
+import model.PremierServiceDto;
 import pickme.com.a.customer.dao.CustomerDao;
 
 @Service
@@ -33,6 +34,16 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<FilesDto> getNoticeFiles(int ref) {
 		return dao.getNoticeFiles(ref);
+	}
+
+	@Override
+	public List<PremierServiceDto> getPremierService() {
+		return dao.getPremierService();
+	}
+
+	@Override
+	public PremierServiceDto getServiceDetail(int serviceSeq) {
+		return dao.getServiceDetail(serviceSeq);
 	}
 	
 }
