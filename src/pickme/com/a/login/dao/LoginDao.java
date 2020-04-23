@@ -105,7 +105,7 @@ public class LoginDao {
 	}
 	
 	// 기업회원 비밀번호 변경하기 
-	public boolean updatePasswordC(AMemberDto member) {
+	public boolean updatePasswordC(CMemberDto member) {
 		return sqlSession.update(namespace + "updatePasswordC", member)>0? true:false;
 	}
 	

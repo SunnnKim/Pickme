@@ -1,6 +1,10 @@
+<%@page import="model.PremierServiceDto"%>
+<%@page import="java.util.List"%>
 <%@include file ="../../../../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
-
+<%
+	List<PremierServiceDto> list = (List<PremierServiceDto>)request.getAttribute("list");
+%>
 
 <div class="profile-wrap">
 <!-- 여기부터 복붙하기 -->
@@ -23,25 +27,28 @@
         <div class="service-content ">
             <div class="content-title">서비스 목록</div>
             <div class="contents-wrapper clfix">
-                <div class="content-box">
-                    <span>베이직 패키지</span>
-                    <div class="go-btn">자세히보기</div>
+            <% for(int i = 0; i < list.size(); i ++ ){
+            	PremierServiceDto dto = list.get(i);
+            %>
+           		<div class="content-box">
+                    <span><%=dto.getServiceName() %></span>
+                    <div class="go-btn" onclick="goBtn(<%=dto.getServiceSeq()%>)">자세히보기</div>
                 </div>
-                <div class="content-box">
-                    <span>이코노믹 패키지</span>
-                    <div class="go-btn">자세히보기</div>
-                </div>
-                <div class="content-box">
-                    <span>광고 패키지</span>
-                    <div class="go-btn">자세히보기</div>
-                </div>
-                <div class="content-box">
-                    <span>티켓구매</span>
-                    <div class="go-btn">자세히보기</div>
-                </div>
+            <% 
+            }
+           	%>
+              
             </div>
         </div>
 </div>
+<!-- script -->
+<script>
+function goBtn( seq ){
+	location.href="/Pickme/customer/paidServiceDetail.do?seq="  + seq;	
+}
+
+</script>
+
 <style>
 .logo-wrapper{
     width: 100%;
@@ -77,15 +84,11 @@
 .service-content .content-box > span {
     display: block; font-size: 30px; font-weight: 200; text-align: center; margin-top: 30px; 
 }
-.service-content .content-box > .go-btn { transition: all 0.3s ease-in-out;
+.service-content .content-box > .go-btn { transition: all 0.3s ease-in-out; cursor:pointer;
     border: 1px solid #eaeaea; color:#eaeaea; width: 250px; text-align: center; margin: 0 auto; margin-top: 30px;height: 40px; line-height: 40px; border-radius: 20px; 
 }
 .service-content .content-box > .go-btn:hover{
     background-color: #4f6eff; border: 1px solid #eaeaea; color:#eaeaea;
-}
-.service-content .contract{ text-align: center; }
-.service-content .contract > a{
-    border: 1px solid #bbb; display: inline-block; text-align: center; margin: 50px 20px; width: 300px; height: 40px; line-height: 40px; color: #bbb;
 }
 </style>
 
