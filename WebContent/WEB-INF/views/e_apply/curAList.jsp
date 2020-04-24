@@ -94,13 +94,14 @@
 				</tr>
 			</thead>
 			<tbody>
+			<!-- 검색결과 없는 경우 -->
 			<c:if test="${empty myApplyList }">
-				<tr>
+				<tr>	
 				<c:if test="${!sKeyword eq null || (not empty sKeyword)}">
-					<td colspan="7">검색결과가 없습니다</td>
+					<td colspan="6">검색결과가 없습니다</td>
 				</c:if>
 				<c:if test="${(sKeyword eq null) || (empty sKeyword)}">
-					<td colspan="7">지원내역이 없습니다</td>
+					<td colspan="6">지원내역이 없습니다</td>
 				</c:if>
 				</tr>
 			</c:if>
@@ -108,8 +109,8 @@
 			<c:forEach items="${myApplyList }" var="myApply" varStatus="vs">
 			<c:set var="adate" value="${myApply.adate }"/>
 				<tr >
-					<td><a href="#none" title="채용공고페이지?seq=${myApply.jobSeq }" style="text-align:center;">${myApply.comName }</a></td>
-					<td>${myApply.comJob }</td>
+					<td><a href="/Pickme/searchJob/recDetail.do?seq=${myApply.jobSeq }" title="채용공고페이지" style="text-align:center;">${myApply.comName }</a></td>
+					<td>${myApply.comJob2 }</td>
 					<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("adate").toString())%></td>
 					<td>${myApply.edate }</td>
 					<c:if test="${myApply.open == 0 }">
@@ -143,22 +144,10 @@
 </div> <!-- // allList -->
 
 <script>
-
-
-/* $(document).ready(function(){
-	// 오름차순 내림차순 선택확인	
-	var sortUp = $("#sort-up").attr('class');
-	var sortDown = $("#sort-down").attr('class');
-
-	if(sortUp.indexOf('active') != -1){
-		sort = 1;
-	}else if(sortDown.indexOf('active') != -1){
-		sort = 0;
-	}
-}); */
-
-var sort = '<c:out value="${sort}"/>';
-var filter = '<c:out value="${filter}"/>';
+	// 정렬 
+	var sort = '<c:out value="${sort}"/>';
+	// 필터
+	var filter = '<c:out value="${filter}"/>';
 
 	// 지원취소 
 	function cancelApply(seq){
@@ -191,8 +180,7 @@ var filter = '<c:out value="${filter}"/>';
 
 							  var sKeyword = '<c:out value="${sKeyword}"/>';
 							  var pn = '<c:out value="${pageNumber}"/>'
-							
-							location.href="curAList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+							  location.href="curAList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
 							});
 						}
 					},
@@ -201,10 +189,8 @@ var filter = '<c:out value="${filter}"/>';
 					}
 				});	
 		  }
-		});
-		
+		});	
 	}
-	
 		/* 페이지 이동 */
 	function goPage(pn){
 	  var sKeyword = '<c:out value="${sKeyword}"/>';
@@ -252,17 +238,11 @@ var filter = '<c:out value="${filter}"/>';
         }
   
     	location.href="curAList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
-
      }   
-
-
 			
 </script>
 
-
 <!-- subCont 끝 -->
-
-
 
 <%@include file="/include/footer.jsp"%>
 

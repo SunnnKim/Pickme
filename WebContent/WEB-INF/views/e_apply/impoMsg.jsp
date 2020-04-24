@@ -124,7 +124,7 @@
 	</div>
 
 	<div class="btn-message clfix">
-		<button type="button" style="float: right;" onclick="deleteAction()">선택삭제</button>
+		<button type="button" onclick="deleteAction()">선택삭제</button>
 	</div>
 
 	<!-- 페이징 -->

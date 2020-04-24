@@ -42,12 +42,8 @@ public class EApplyController {
 		
 		List<EApplyDto> myApplyList = (List<EApplyDto>)eservice.getCurAList(param); 
 		System.out.println("myApplyListSize: " + myApplyList.size());
-		
-		// System.out.println("msg확인: " + msg.get(0).toString());
-		
-		
+	    // 총 지원한 횟수
 		int totalRecordCount = eservice.getTotalRecordCount(param);
-		
 		System.out.println("totalRecordCount: " + totalRecordCount);
 		
 		model.addAttribute("sort", param.getSort());
@@ -67,8 +63,7 @@ public class EApplyController {
 		
 		// session에서 login seq 받아오기 
 		int loginSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
-						
-		// 받은 사람(원래는 보낸사람 seq로 해야하는데 param에 toSeq밖에 없어 그냥 통용하기)seq 를 수신인 seq로 셋팅 
+		// 받아온 seq param에 셋팅하기 
 		param.setLoginSeq(loginSeq);
 		
 		int pn = param.getPageNumber(); // 현재페이지넘버
@@ -76,18 +71,12 @@ public class EApplyController {
 		int end = (pn + 1) * param.getRecordCountPerPage(); // 10, 20, 30
 		
 		System.out.println("pn: " + pn + " start: " + start + " end: " +end);
-		
-		
-		
+		// 시작, 끝 글의 번호를 param 에 셋팅하기
 		param.setStart(start);
 		param.setEnd(end);
 		
 		List<EApplyDto> myPastApplyList = (List<EApplyDto>)eservice.getPastAList(param); 
 		System.out.println("myPastApplyListSize: " + myPastApplyList.size());
-		
-		// System.out.println("msg확인: " + msg.get(0).toString());
-		
-		
 		int totalRecordCount = eservice.getTotalPastCount(param);
 		
 		System.out.println("totalRecordCount: " + totalRecordCount);

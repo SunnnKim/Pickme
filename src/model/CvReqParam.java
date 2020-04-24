@@ -2,19 +2,19 @@ package model;
 
 public class CvReqParam {
 	
-	private int loginSeq;
+	private int loginSeq;	 // 로그인 시퀀스
 	
 	// search 
-	private String sKeyword;
+	private String sKeyword; // 검색어
 	
 	// paging
-	private int pageNumber = 0;
-	private int recordCountPerPage = 10;
+	private int pageNumber = 0;   		 // 넘어갈 페이지 넘버
+	private int recordCountPerPage = 10; // 한페이지에 보여줄 글의 개수
 	
 	
 	// DB
-	private int start = 0;
-	private int end = 10;
+	private int start = 0;   // 페이지에 뿌려줄 첫번째 글의 넘버(RNum order했을때 순서) 
+	private int end = 10;    // 페이지에 뿌려줄 마지막 글의 넘버
 
 
 	public CvReqParam() {

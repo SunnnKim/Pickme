@@ -470,8 +470,8 @@ span.read-msg{text-align:left;color:#777;}
 
 
 /* apply - 메시지보내기 팝업 */
-.messenger-wrap{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4);}
-.msgBox {width:600px; background:#fff; margin:15% auto;}
+.messenger-wrap{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); overflow-y:scroll; z-index:100;}
+.msgBox {width:600px; background:#fff; margin:10% auto;}
 .msg-bar {width:100%; background:#333; padding:0 20px}
 .msg-bar h4 {color:#fff; font-weight:normal; line-height:60px; font-size:18px;}
 .msgCont {width:100%; padding:20px 30px 40px; background:#fff;}
