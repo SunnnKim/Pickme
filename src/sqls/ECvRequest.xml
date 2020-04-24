@@ -7,11 +7,11 @@
  
 	<!-- 현재 이력서 열람요청내역 불러오기 --> 
  	<select id="getCvReqList" parameterType="model.CvReqParam" resultType="model.CvReqDto">
- 		SELECT v.SEQ, v.PSEQ, v.CSEQ, v.RDATE, v.COMMENT, v.ACCEPT, v.DEL, v.CANCEL, v.CVSEQ, c.NAME
+ 		SELECT v.SEQ, v.PSEQ, v.CSEQ, v.RDATE, v.COMMENT, v.ACCEPT, v.DELMEM, v.CANCEL, v.CVSEQ, c.NAME
  		FROM (SELECT * FROM CV_REQUEST WHERE PSEQ = #{loginSeq}) v
  		INNER JOIN C_MEMBER c
  		ON v.CSEQ = c.SEQ
-		WHERE v.ACCEPT = 0 AND v.DEL = 0 
+		WHERE v.ACCEPT = 0 AND v.DELMEM = 0 
 		<!-- 검색 -->
 		<if test="sKeyword != null and sKeyword !=''">
 		AND( v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
@@ -26,7 +26,7 @@
  		FROM (SELECT * FROM CV_REQUEST  WHERE PSEQ = #{loginSeq}) v
  		INNER JOIN C_MEMBER c
  		ON v.CSEQ = c.SEQ
-		WHERE  v.ACCEPT = 0  AND v.DEL = 0 
+		WHERE  v.ACCEPT = 0  AND v.DELMEM = 0 
 		<if test="sKeyword != null and sKeyword !=''">
 		AND( v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%') OR  c.NAME = #{sKeyword})
 		</if>
@@ -66,13 +66,13 @@
  	
  	<!-- 수락여부를 결정한 요청들 불러오기 / 지난요청 -->
  	<select id="getPastCvReqList" parameterType="model.CvReqParam" resultType="model.CvReqDto">
- 		SELECT v.SEQ, v.PSEQ, v.CSEQ, v.RDATE, v.COMMENT, v.ACCEPT, v.DEL, v.CANCEL, v.CVSEQ, c.NAME, y.STATUS
+ 		SELECT v.SEQ, v.PSEQ, v.CSEQ, v.RDATE, v.COMMENT, v.ACCEPT, v.DELMEM, v.CANCEL, v.CVSEQ, c.NAME, y.STATUS
  		FROM (SELECT * FROM CV_REQUEST WHERE PSEQ = #{loginSeq}) v
  		INNER JOIN C_MEMBER c
  		ON v.CSEQ = c.SEQ
  		INNER JOIN CV_COMPANY y
  		ON v.CVSEQ = y.SEQ
- 		WHERE (v.ACCEPT = 1 OR v.ACCEPT = 2) AND v.DEL = 0 
+ 		WHERE (v.ACCEPT = 1 OR v.ACCEPT = 2) AND v.DELMEM = 0 
 		<if test="sKeyword != null and sKeyword !=''">
 			AND (c.NAME = #{sKeyword} OR v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
@@ -86,7 +86,7 @@
  		FROM (SELECT * FROM CV_REQUEST  WHERE PSEQ = #{loginSeq}) v
  		INNER JOIN C_MEMBER c
  		ON v.CSEQ = c.SEQ
-		WHERE (v.ACCEPT = 1 OR ACCEPT = 2) AND v.DEL = 0 
+		WHERE (v.ACCEPT = 1 OR ACCEPT = 2) AND v.DELMEM = 0 
 		<if test="sKeyword != null and sKeyword !=''">
 		AND (c.NAME = #{sKeyword} OR v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
@@ -109,7 +109,7 @@
     <!-- 지난요청 내역 삭제하기 --> 
  	<update id="deletePastReq" parameterType="int">
  		UPDATE CV_REQUEST
- 		SET DEL = 1
+ 		SET DELMEM = 1
  		WHERE SEQ = #{seq}
  	
  	</update>

@@ -2,23 +2,23 @@ package model;
 
 public class CvReqDto {
 
-	private int seq;
-	private int pSeq;
-	private int cSeq;
-	private String rdate;
-	private String comment;
-	private int accept;
-	private int del;
-	private int cancel;
-	private int cvSeq;
-	private String name;
-	private int status; // 요청 수락한 이력서 오픈 상태
+	private int seq; 		// 시퀀스 
+	private int pSeq; 		// 요청받은 일반회원 seq
+	private int cSeq; 		// 요청하는 기업 seq
+	private String rdate; 	// 요청일 
+	private String comment; // 기업 코멘트 
+	private int accept; 	// 수락여부 
+	private int delmem; 	// 삭제여부 
+	private int cancel;		// 취소여부(기업)
+	private int cvSeq;		// 수락할 cv의 시퀀
+	private String name;	// 이력서 열람요청한 기업이름 
+	private int status; 	// 요청 수락한 이력서 오픈 상태
 	
 	public CvReqDto() {
 		
 	}
 
-	public CvReqDto(int seq, int pSeq, int cSeq, String rdate, String comment, int accept, int del, int cancel,
+	public CvReqDto(int seq, int pSeq, int cSeq, String rdate, String comment, int accept, int delmem, int cancel,
 			int cvSeq, String name, int status) {
 		super();
 		this.seq = seq;
@@ -27,7 +27,7 @@ public class CvReqDto {
 		this.rdate = rdate;
 		this.comment = comment;
 		this.accept = accept;
-		this.del = del;
+		this.delmem = delmem;
 		this.cancel = cancel;
 		this.cvSeq = cvSeq;
 		this.name = name;
@@ -82,12 +82,12 @@ public class CvReqDto {
 		this.accept = accept;
 	}
 
-	public int getDel() {
-		return del;
+	public int getDelmem() {
+		return delmem;
 	}
 
-	public void setDel(int del) {
-		this.del = del;
+	public void setDelmem(int delmem) {
+		this.delmem = delmem;
 	}
 
 	public int getCancel() {
@@ -125,7 +125,7 @@ public class CvReqDto {
 	@Override
 	public String toString() {
 		return "CvReqDto [seq=" + seq + ", pSeq=" + pSeq + ", cSeq=" + cSeq + ", rdate=" + rdate + ", comment="
-				+ comment + ", accept=" + accept + ", del=" + del + ", cancel=" + cancel + ", cvSeq=" + cvSeq
+				+ comment + ", accept=" + accept + ", delmem=" + delmem + ", cancel=" + cancel + ", cvSeq=" + cvSeq
 				+ ", name=" + name + ", status=" + status + "]";
 	}
 

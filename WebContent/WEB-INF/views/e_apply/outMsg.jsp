@@ -85,7 +85,8 @@
 					<tr>
 					<td><input type="checkbox" name="checkRow" value="${outMsg.seq }"></td>
 					<td>
-						<a href="seeMsg.do?seq=${outMsg.seq }&page=outMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
+						<a href="seeMsg.do?seq=${outMsg.seq }&page=outMsg&pageNumber=${pageNumber}&unread=0">
+						<span style="text-align:left;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
 					</td>
 					<td> ${ outMsg.name } <input type="hidden" id="_seq" value="${ outMsg.seq}"></td>
 					<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td>
@@ -143,17 +144,12 @@
 				// 배열에 집어넣기
 				seqArray.push($(this).val());
 				
-				//checkRow = checkRow + $(this).val() + ",";
 			});
-			// checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
 			
 			if (seqArray == null) {
 				alert("삭제 할 대상을 선택하세요.");
 				return false;
 			}
-			// console.log("### checkRow => {}" + checkRow);
-			
-			// alert(seqArray.length);
 	
 			if(seqArray.length == 0){
 				alert("삭제하실 내역이 없습니다");
