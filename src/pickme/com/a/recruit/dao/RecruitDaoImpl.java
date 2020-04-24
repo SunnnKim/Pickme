@@ -117,8 +117,8 @@ public class RecruitDaoImpl implements RecruitDao{
 
 
 	@Override
-	public void dayUpdateDel() {
-		sqlSession.update(ns+"dayUpdateDel");
+	public void dayUpdateDel(String today) {
+		sqlSession.update(ns+"dayUpdateDel", today);
 	}
 
 

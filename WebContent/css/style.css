@@ -470,8 +470,8 @@ span.read-msg{text-align:left;color:#777;}
 
 
 /* apply - 메시지보내기 팝업 */
-.messenger-wrap{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4);}
-.msgBox {width:600px; background:#fff; margin:15% auto;}
+.messenger-wrap{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); overflow-y:scroll; z-index:100;}
+.msgBox {width:600px; background:#fff; margin:10% auto;}
 .msg-bar {width:100%; background:#333; padding:0 20px}
 .msg-bar h4 {color:#fff; font-weight:normal; line-height:60px; font-size:18px;}
 .msgCont {width:100%; padding:20px 30px 40px; background:#fff;}
@@ -679,6 +679,21 @@ span.ess {color: red; font-weight: bold;}
 
 /*============ 채용등록 끝============*/
 /*============ 채용탐색 시작============*/
+/* bbs-top */
+.recTop {position: relative; width: 100%; display: inline-block;}
+.searchTop{width:50%; text-align:right; right:50%; top:212px; margin-right:-525px; overflow:hidden;}
+/* .searchTop .bbs-total{line-height:40px;} */
+.searchTop .form-search{float:right;}
+.recSearch{position:relative;}
+.recSearch input{width:290px; padding-right:40px;}
+.recSearch .btnSearch{position:absolute; top:0; right:0; display:block; width:40px; height:40px;}
+/* .form-search .btn-search:before{content:""; position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('/cjom/web/images/common/spr_common.svg') 0 -120px no-repeat; background-size:510px 210px;} */
+.recSearch .btnSearch:before{content:""; position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('../images/main/ico_search.png') no-repeat; background-size:17px 17px;}
+.recSearch .btnSearch span{display:block; text-indent:-99999px;}
+
+.recSearch input[type=text] {height:40px; padding:0 16px 1px; line-height:37px; font-size:15px; font-weight:400; color:#000; box-sizing:border-box; outline:none; border:1px solid #ccc; border-radius:0; transition:border-color 150ms ease-in-out 0s;}
+
+
 .subTit ul.jobs_list{}
 .subTit ul.jobs_list li{
     font-size: 13px;
@@ -699,9 +714,10 @@ span.ess {color: red; font-weight: bold;}
 .subTit ul.jobs_list li span {display:table-cell; vertical-align:middle; width:126px; height: 60px;}
 .subTit ul.jobs_list li:hover{background-color: #ccc;}
 .subTit ul.jobs_list li a{color:#fff;text-decoration: none;}
-
-.subCont .filter_wrap ul.filter_ul{ margin-bottom: 15px;}
+.subCont .filter_wrap {width: 50%;float: left;}
+.subCont .filter_wrap ul.filter_ul{ margin-bottom: 15px; }
 .subCont .filter_wrap ul.filter_ul li{
+
     cursor: pointer;
     float: left;
     border-radius: 2px;
@@ -710,7 +726,7 @@ span.ess {color: red; font-weight: bold;}
     color:#304edf;
     font-size: 14px;
     font-weight: 400;
-    padding: 9px 15px;
+  /*   padding: 9px 15px; */
     margin-right: 10px;
     height:42px;
 }
@@ -719,7 +735,15 @@ span.ess {color: red; font-weight: bold;}
 .subCont .filter_wrap ul.filter_ul li:hover{ background-color: #f9f9f9;}
 .subCont .filter_wrap ul.filter_ul li:last-child{ margin-right: 0;}
 .subCont .filter_wrap ul.filter_ul li:nth-child(2){padding:0;}
-.subCont .filter_wrap ul.filter_ul li select{
+.subCont .filter_wrap ul.filter_ul li select.sorting{
+    display: block;
+     border:none;
+      padding: 9px 15px;
+     cursor: pointer;
+     background: none;
+     outline: none;
+}
+.subCont .filter_wrap ul.filter_ul li select.career{
     display: block;
      border:none;
      padding: 9px 15px;
@@ -727,7 +751,6 @@ span.ess {color: red; font-weight: bold;}
      background: none;
      outline: none;
 }
-
 .subCont .filter_wrap ul.filter_ul li select::-ms-expand {display: none;}
 
 /*

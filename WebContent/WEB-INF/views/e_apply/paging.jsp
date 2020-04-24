@@ -87,22 +87,6 @@
 	
 	<%} %>
 	
-	<!-- <a href="#none" title="처음페이지" onclick="goPage('0')">
-		<img alt="" src="./image/arrow_first.gif" style="width: 10px; height: 10px">
-	</a>
- -->	
-	<!-- < [11] ~ [20] -> [1] ~ [10] -->
-<%-- 	<%
-	if(screenStartPageIndex > 1){	// 총 글의 수가 100개 넘어야 보인다
-		%>
-		<a href="#none" title="이전페이지" onclick="goPage('<%=screenStartPageIndex-1 %>')">
-			<img alt="" src="./image/arrow_back.gif" style="width: 10px; height: 10px">
-		</a>
-		
-		<%
-	}	
-	%>
- --%>
 	<!-- [1] 2 [3] --> 
 	
 	<ul>
@@ -141,33 +125,6 @@
 	<%} %>
 	
 
-			
-			
-<%-- 			<span style="font-size: 10pt; color: #000000; font-weight: bold;">
-				<%=i+1 %>			
-			</span>			
-			<%
-		}else{					// 그 외의 페이지 [1] 2 [3][4]
-			%>
-			<a href="#none" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)"
-				style="font-size: 9.5pt; color: #000000; font-weight: normal;">
-				[<%=i+1 %>]
-			</a>	
-			<%
-		}		
-	}		
-	%> --%>
-
-	<!-- > 1 ~ 10 -> 11 ~ 20	-->
-<%-- 	<%
-	if(screenEndPageIndex < totalPageCount){	// [11][12][13] 
-		%>
-		<a href="#none" title="다음페이지" onclick="goPage(<%=screenEndPageIndex %>)">
-			<img alt="" src="./image/arrow_next.gif" style="width: 10px; height: 10px">			
-		</a>	
-		<%
-	}
-	%>		 --%>
 	
 	
 	<button type="button" class="btn-last"
@@ -175,12 +132,7 @@
 			<span>마지막</span>
 	</button>
 	
-	<!-- >> -->
-<%-- 	<a href="#none" title="마지막페이지" onclick="goPage(<%=end_page %>)">
-		<img alt="" src="./image/arrow_end.gif" style="width: 10px;height: 10px;">
-	</a>
-	
- --%></div>
+</div>
 
 
 

@@ -46,6 +46,16 @@ public class SearchJobController {
 	
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
+		//1차 직군 선택시
+		System.out.println("===== Search Occ : "+ param.getOcc());
+		
+		if( param.getOcc() == null ) {
+			model.addAttribute("getOcc", "");
+		} else {
+			model.addAttribute("getOcc", param.getOcc());			
+		}
+		 
+		 
 		
 		//마감날짜가 지나면 del update
 		//serv.dayUpdateDel();
@@ -55,7 +65,7 @@ public class SearchJobController {
 		
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
-		int totalRecCount = serv.getCountRec();
+		int totalRecCount = serv.getCountRec(param);
 		
 		param.setStart(start);
 		param.setEnd(end);
@@ -67,6 +77,11 @@ public class SearchJobController {
 		model.addAttribute("pageCountPerScreen", 10);
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
 		model.addAttribute("totalRecCount", totalRecCount); 
+		
+		//검색
+		System.out.println("keyword : " + param.getsKeyword());
+		model.addAttribute("sKeyword", param.getsKeyword());
+		
 		return "searchJob/recSearch";
 	}
 	

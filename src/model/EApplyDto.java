@@ -2,29 +2,27 @@ package model;
 
 public class EApplyDto {
 
-	private int seq;
-	private int jobSeq;
-	private int comSeq;
-	private String comName;
-	private int memSeq;
-	private String adate;
-	private int open;
-	private int cancel;
-	private int cvSeq;
-	private int del;
-	private String comJob;
-	private String edate;
-	
+	private int seq;		  // 시퀀스
+	private int jobSeq;		  // 채용공고 시퀀스 	
+	private int comSeq;       // 기업 시퀀스 
+	private String comName;   // 기업 이름 
+	private int memSeq;       // 개인 시퀀스 
+	private String adate;	  // 지원일	
+	private int open;         // 열람여부 
+	private int cancel;		  // 지원취소(담당자 미열람시) 	
+	private int cvSeq;        // 지원한 이력서 seq
+	private int del;		  // 삭제 여부(지난지원에서) 	
+	private String comJob1;   // 직군 
+	private String comJob2;   // 직무 
+	private String edate;	  // 채용공고 마감일 	
 	
 
 	public EApplyDto() {
 		
 	}
 
-
-
 	public EApplyDto(int seq, int jobSeq, int comSeq, String comName, int memSeq, String adate, int open, int cancel,
-			int cvSeq, int del, String comJob, String edate) {
+			int cvSeq, int del, String comJob1, String comJob2, String edate) {
 		super();
 		this.seq = seq;
 		this.jobSeq = jobSeq;
@@ -36,7 +34,8 @@ public class EApplyDto {
 		this.cancel = cancel;
 		this.cvSeq = cvSeq;
 		this.del = del;
-		this.comJob = comJob;
+		this.comJob1 = comJob1;
+		this.comJob2 = comJob2;
 		this.edate = edate;
 	}
 
@@ -162,14 +161,26 @@ public class EApplyDto {
 
 
 
-	public String getComJob() {
-		return comJob;
+	public String getComJob1() {
+		return comJob1;
 	}
 
 
 
-	public void setComJob(String comJob) {
-		this.comJob = comJob;
+	public void setComJob1(String comJob1) {
+		this.comJob1 = comJob1;
+	}
+
+
+
+	public String getComJob2() {
+		return comJob2;
+	}
+
+
+
+	public void setComJob2(String comJob2) {
+		this.comJob2 = comJob2;
 	}
 
 
@@ -190,10 +201,11 @@ public class EApplyDto {
 	public String toString() {
 		return "EApplyDto [seq=" + seq + ", jobSeq=" + jobSeq + ", comSeq=" + comSeq + ", comName=" + comName
 				+ ", memSeq=" + memSeq + ", adate=" + adate + ", open=" + open + ", cancel=" + cancel + ", cvSeq="
-				+ cvSeq + ", del=" + del + ", comJob=" + comJob + ", edate=" + edate + "]";
+				+ cvSeq + ", del=" + del + ", comJob1=" + comJob1 + ", comJob2=" + comJob2 + ", edate=" + edate + "]";
 	}
 
 
-	
+
+		
 
 }	

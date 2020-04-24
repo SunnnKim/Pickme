@@ -230,9 +230,6 @@
 	  location.href="pastCvReq.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 		
 	}
-			
-
-
 	
 </script>
 

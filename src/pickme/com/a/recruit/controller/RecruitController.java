@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +46,8 @@ public class RecruitController {
 	
 	@Autowired
 	RecruitService serv;
+	
+	
 	
 	
 	@RequestMapping(value = "recInsert.do", method = {RequestMethod.POST,RequestMethod.GET})
@@ -79,6 +84,8 @@ public class RecruitController {
 		model.addAttribute("pageCountPerScreen", 10);
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
 		model.addAttribute("totalRecCount", totalRecCount); 
+		
+
 		return "recruit/recNow";
 	}
 	

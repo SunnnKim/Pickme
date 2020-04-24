@@ -10,9 +10,6 @@
                 </div><!-- // message-bar-->
                 <div class="msgCont">
                     <div class="msgTo"><!--검색기능 jquery-ui, ajax사용-->
-                        <!--https://jqueryui.com/autocomplete/ 
-                            https://hellogk.tistory.com/74
-                            참고하면 될듯해요-->
                         <input type="text" readonly="readonly" value="${recDto.comName }"  >
                         <input type="hidden" name="to" value="${recDto.comSeq}" > 
                     </div><!-- // messageTo-->
@@ -35,6 +32,8 @@
 
 	$("#recruitDetailButton2").on("click", function(){
 		 $(".messenger-wrap").show();
+		 $('body').css("overflow", "hidden");
+
 		
 	});
 
@@ -42,6 +41,7 @@
 	function hideThis(){
 	    $("#content").val("");
 	    $(".messenger-wrap").hide();
+	    $('body').css("overflow", "scroll");
 	    
 	}
 	 //보내기버튼 클릭
@@ -87,6 +87,7 @@
 						
 						$("#content").val("");
 						$(".messenger-wrap").hide();
+						$('body').css("overflow", "scroll");
 						
 					}	
 				},
@@ -98,5 +99,14 @@
 	
 	}
 
-  
+	window.onkeyup = function(e) {
+		var key = e.keyCode ? e.keyCode : e.which;
+
+		if(key == 27) {
+			$(".messenger-wrap").fadeOut(90);
+			$("body").css('overflow-y', 'scroll');
+		}
+	}
+	 
+	  
 </script>  

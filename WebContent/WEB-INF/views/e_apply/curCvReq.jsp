@@ -66,7 +66,7 @@
 				<col style="width: 15%">
 				<col style="width: 25%">
 			</colgroup>
-			<thead>
+		<thead>
 				<tr>
 					<th><input type="checkbox" id="checkall"></th>
 					<!-- <th>번호</th> -->
@@ -159,50 +159,74 @@
 			alert("이력서 열람요청 내역이 없습니다");
 			return false;
 		}
-	
-		Swal.fire({
-			  title: '선택하신 요청을 수락하기 원하십니까?',
-			  text: "",
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			  cancelButtonText:'돌아가기',
-			  confirmButtonText: '수락하기'
-			}).then((result) =>{
-			  if (result.value) {
-				  $.ajax({
-						url        : "cvReqAccepts.do",
-						dataType   : "json",
-						type       : "post",
-				    	traditional: true, // array보낼때 필요
-						data       : {"seqArray" : seqArray, 
-									  "cSeqArray" : cSeqArray	
-									 },						
-						success    : function(data){			
-							if(data != null){
-								Swal.fire({
-									  position: 'center',
-									  icon: 'success',
-									  title: '수락되었습니다!',
-									  showConfirmButton: false,
-									  timer: 1000
-								}).then( (result) =>{
 
-								  var sKeyword = '<c:out value="${sKeyword}"/>';
-								  var pn = '<c:out value="${pageNumber}"/>'
-								
-								location.href="curCvReq.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
-								});
-							}
-						},
-						error:function(request,status,error){
-					        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					    }
-				   });	
-			  }
-		});
-			
+
+		$.ajax({
+			type	: "post",
+			url		: "getResumeList.do",
+			dataType: "json",
+			success : function(data){
+				// 작성된 이력서 없을 때
+				if(data == ""){
+					Swal.fire({
+							  icon: 'warning',
+							  title: '수락하실 이력서가 없습니다',
+							  text: '이력서를 먼저 작성해주세요.',
+							  
+							})
+						return false;
+				}	
+	
+				Swal.fire({
+					  title: '선택하신 요청을 수락하기 원하십니까?',
+					  text: "",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#3085d6',
+					  cancelButtonColor: '#d33',
+					  cancelButtonText:'돌아가기',
+					  confirmButtonText: '수락하기'
+					}).then((result) =>{
+					  if (result.value) {
+						  $.ajax({
+								url        : "cvReqAccepts.do",
+								dataType   : "json",
+								type       : "post",
+						    	traditional: true, // array보낼때 필요
+								data       : {"seqArray" : seqArray, 
+											  "cSeqArray" : cSeqArray	
+											 },						
+								success    : function(data){			
+									if(data != null){
+										Swal.fire({
+											  position: 'center',
+											  icon: 'success',
+											  title: '수락되었습니다!',
+											  showConfirmButton: false,
+											  timer: 1000
+										}).then( (result) =>{
+		
+										  var sKeyword = '<c:out value="${sKeyword}"/>';
+										  var pn = '<c:out value="${pageNumber}"/>'
+										
+										location.href="curCvReq.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+										});
+									}
+								},
+								error:function(request,status,error){
+							        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+							    }
+						   });	
+					  }
+				});
+
+		  },
+
+		  error:function(){
+			  
+	     }		
+		});	
+		  
 	}
 
 	// 요청거절
@@ -261,7 +285,7 @@
 				// 작성된 이력서 없을 때
 				if(data == ""){
 					Swal.fire({
-							  icon: 'error',
+							  icon: 'warning',
 							  title: '수락하실 이력서가 없습니다',
 							  text: '이력서를 먼저 작성해주세요.',
 							  

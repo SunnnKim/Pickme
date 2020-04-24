@@ -161,13 +161,10 @@
 			$(this).toggleClass('on');
 			
 			 var trNum = ($(this).closest('tr').prevAll().length) + 1;
-			//	alert("trNum" + trNum);
-			 
-				var seq = $('table tr').eq(trNum).find('#_seq').val();
-			//	alert("seq: " + seq);
+			//	alert("trNum" + trNum); 
+			 var seq = $('table tr').eq(trNum).find('#_seq').val();
 			
-			//	alert($(this).attr('class'));
-			if($(this).attr('class')=="fas fa-star on"){
+			 if($(this).attr('class')=="fas fa-star on"){
 			 
 			 // 클릭한 중요 별이 속해있는 tr 가져오기 
 			 // prevAll은 현재 tr요소 앞의 모든 tr요소 이므로 그 length 값에 +1을 해야 현재 tr의 넘버를 알 수 있음
@@ -180,7 +177,7 @@
 			 			success: function(data){
 			 				
 			 				if(data != null){
-			 				//	alert("중요메시지에 추가되었습니다 ");
+			 					console.log("중요메시지추가");
 			 				}
 			 			},
 			 			error: function(){
@@ -194,9 +191,8 @@
 		 			Type: "post",
 		 			data:{ "seq" : seq },
 		 			success: function(data){
-		 				
 		 				if(data != null){
-		 					alert("중요메시지에서 삭제되었습니다 ");
+		 				 	console.log("중요메시지 취소");
 		 				}
 		 			},
 		 			error: function(){
@@ -293,12 +289,8 @@ function goPage(pn){
 
 	  if(isUnread == 'yes'){
 		  location.href="unread.do?page=inMsg&pageNumber=" + pn;
-
-
 	 }else{	
-	
 	  location.href="inMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
-		
 	}
 }
 	
@@ -315,11 +307,8 @@ function goPage(pn){
       });
 	
 	function searchAction() {
-	//	alert("검색 버튼 클릭");
-		
 		var sKeyword =($("#_keyword").val()).trim();
-		
-	//	alert("sKeyword: " + sKeyword );
+	
 		if(sKeyword == null || sKeyword == ""){
 			alert("검색어를 입력해주세요.");
 		}else{
@@ -331,9 +320,5 @@ function goPage(pn){
 	
 </script>
 
-
 <!-- subCont 끝 -->
-
-
-
 <%@include file="/include/footer.jsp"%>

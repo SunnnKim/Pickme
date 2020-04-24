@@ -23,8 +23,8 @@ public class SearchJobServiceImpl implements SearchJobService{
 		return dao.getRecAllList(param);
 	}
 	@Override
-	public int getCountRec() {
-		return dao.getCountRec();
+	public int getCountRec(RecruitParam param) {
+		return dao.getCountRec(param);
 	}
 	@Override
 	public RecruitDto getRecruitDetail(int seq) {
