@@ -16,7 +16,7 @@ public interface SearchJobDao {
 	public List<RecruitDto> getRecAllList(RecruitParam param);
 	
 	//총 게시물 수
-	public int getCountRec();
+	public int getCountRec(RecruitParam param);
 	
 	// 공고 detail
 	public RecruitDto getRecruitDetail(int seq);

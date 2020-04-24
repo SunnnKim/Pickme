@@ -8,24 +8,44 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
+
 	<div class="jobSubMenu">
 <!-- 		<div class="jobsub" id="job_sub">
 			<label name="occ_title"></label>
 		</div> -->
 	</div>
-    <div class="filter_wrap">
-          <ul class="filter_ul clfix">
-            <li><span><strong>최신순</strong></span></li>
-            <li>
-              <select class="" name="career">
-                <option value="">경력</option>
-                <option value="전체">전체</option>
-                <option value="신입">신입</option>
-                <option value="경력">경력</option>
-              </select>
-             </li>
-          </ul>
-        </div><!-- div.filter_wrap -->
+	<div class="recTop">
+	    <div class="filter_wrap">
+	          <ul class="filter_ul clfix">
+	            <li><span><strong>최신순</strong></span></li>
+	            <li>
+	              <select class="" name="career">
+	                <option value="">경력</option>
+	                <option value="전체">전체</option>
+	                <option value="신입">신입</option>
+	                <option value="경력">경력</option>
+	              </select>
+	             </li>
+	          </ul>
+	     </div><!-- div.filter_wrap -->    
+	    <!-- 검색창 -->
+		<div class="searchTop">
+			<div class="recSearch">
+				<c:if test="${not empty sKeyword}">
+				<input type="text" id="_keyword" name="keyWord" title="검색어 입력"
+					placeholder="" value="${sKeyword }">
+				</c:if>
+				<c:if test="${empty sKeyword}">
+				<input type="text" id="_keyword" name="keyWord" title="검색어 입력"
+					placeholder="검색어를 입력해주세요." value="">
+				</c:if>
+				<button type="button" class="btnSearch" onclick="searchAction()">
+					<span>검색</span>
+				</button>
+			</div>
+		</div>
+      </div>
+  
         
         <div class="cont">
  <ul class="pmList clfix">
@@ -34,10 +54,16 @@
 					<div style="text-align:center; position:relative; margin-top:4wndl0px;">
           			<p style="position:absolute; top:0; left:0; width:100%; font-size:30px;">등록된 공고가 없습니다.</p>
 					<img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width:60%;">
-				</div>
+					</div>
+				 <c:if test="${sKeyword != null }">
+							<div style="text-align:center; position:relative; margin-top:4wndl0px;">
+          					<p style="position:absolute; top:0; left:0; width:100%; font-size:30px;">찾으시는 공고가 없습니다.</p>
+							<img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width:60%;">
+						</c:if>
 				</c:when>
 				<c:when test="${not empty recList }">
 					   <ul class="pmList clfix">
+					  
 						<c:forEach items="${recList }" var="dto" varStatus="rs">
 							<li><a href="recDetail.do?seq=${dto.seq }">
 				              <div class="img">
@@ -65,9 +91,27 @@
           	</c:choose>
   		          </div><!-- cont -->  
 <script>
+
+/* 검색 */
+function searchAction(){
+	var sKeyword = ($("#_keyword").val()).trim();
+	//	alert("sKeyword: " + sKeyword );
+	if(sKeyword == null || sKeyword == ""){
+		Swal.fire({
+			  icon: 'error',
+			  text: '검색어를 입력해주세요.'
+		})
+	} else{
+		 location.href="recSearch.do?sKeyword=" + sKeyword +"&pageNumber=0";
+	} 
+
+}	
+$("#_keyword").keyup(function(e){if(e.keyCode == 13) searchAction(); });
+
 /* 페이지 이동 */
 function paging(pn){	
-  location.href="recSearch.do?pageNumber=" + pn;
+	var sKeyword = '<c:out value="${sKeyword}"/>';
+  location.href="recSearch.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 	
 }
  // 직군 카테고리

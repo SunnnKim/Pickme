@@ -80,12 +80,6 @@
  		</mvc:interceptor>
  	</mvc:interceptors> 
  	
- 	<!-- 4/21 scheduler -->
- 	<!-- 스케쥴러파일이 존재하는 패키지 설정 -->
-    <context:component-scan base-package="pickme.com.a.util" />
-    <!-- 해당 태그들은 크론탭을 설정에 필요한 태그들 -->
-    <task:scheduler id="jobScheduler" pool-size="10" />
-    <task:annotation-driven scheduler="jobScheduler" />
-<!--  	<task:annotation-driven /> -->
-
+ 	<!-- 4/23 scheduler -->
+ 	<task:annotation-driven/>
 </beans>

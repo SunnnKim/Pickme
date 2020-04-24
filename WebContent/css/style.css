@@ -678,6 +678,21 @@ span.ess {color: red; font-weight: bold;}
 
 /*============ 채용등록 끝============*/
 /*============ 채용탐색 시작============*/
+/* bbs-top */
+.recTop {position: relative; width: 100%; display: inline-block;}
+.searchTop{width:50%; text-align:right; right:50%; top:212px; margin-right:-525px; overflow:hidden;}
+/* .searchTop .bbs-total{line-height:40px;} */
+.searchTop .form-search{float:right;}
+.recSearch{position:relative;}
+.recSearch input{width:290px; padding-right:40px;}
+.recSearch .btnSearch{position:absolute; top:0; right:0; display:block; width:40px; height:40px;}
+/* .form-search .btn-search:before{content:""; position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('/cjom/web/images/common/spr_common.svg') 0 -120px no-repeat; background-size:510px 210px;} */
+.recSearch .btnSearch:before{content:""; position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('../images/main/ico_search.png') no-repeat; background-size:17px 17px;}
+.recSearch .btnSearch span{display:block; text-indent:-99999px;}
+
+.recSearch input[type=text] {height:40px; padding:0 16px 1px; line-height:37px; font-size:15px; font-weight:400; color:#000; box-sizing:border-box; outline:none; border:1px solid #ccc; border-radius:0; transition:border-color 150ms ease-in-out 0s;}
+
+
 .subTit ul.jobs_list{}
 .subTit ul.jobs_list li{
     font-size: 13px;
@@ -698,7 +713,7 @@ span.ess {color: red; font-weight: bold;}
 .subTit ul.jobs_list li span {display:table-cell; vertical-align:middle; width:126px; height: 60px;}
 .subTit ul.jobs_list li:hover{background-color: #ccc;}
 .subTit ul.jobs_list li a{color:#fff;text-decoration: none;}
-
+.subCont .filter_wrap {width: 50%;float: left;}
 .subCont .filter_wrap ul.filter_ul{ margin-bottom: 15px;}
 .subCont .filter_wrap ul.filter_ul li{
     cursor: pointer;

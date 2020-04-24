@@ -33,8 +33,19 @@
 		WHERE SEQ=${ref}
 	</update>
 	<!-- 채용탐색글 수 count -->
-	<select id="getCountRec" resultType="int">
+	<select id="getCountRec" parameterType="model.RecruitParam" resultType="int">
 		SELECT IFNULL(COUNT(*),0) AS CNT FROM RECRUIT WHERE DEL=0
+		<if test="sKeyword != null and sKeyword !=''">
+		<![CDATA[
+		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
+		OR  TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR TITLE = #{sKeyword} 
+		OR  COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB1 = #{sKeyword} 
+		OR  COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB2 = #{sKeyword} 
+		OR  REQUIREMENTS LIKE CONCAT('%', #{sKeyword}, '%') OR REQUIREMENTS = #{sKeyword} 
+		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
+		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
+		]]>
+		</if>
 	</select>
 	<!-- (기업) 현재 공고중인 게시글 수 count -->
 	<select id="getComRecCount" resultType="int">
@@ -45,11 +56,28 @@
 		SELECT IFNULL(COUNT(*),0) AS CNT FROM RECRUIT WHERE COMSEQ=#{comSeq} AND DEL=1
 	</select>
 	
-	<!-- 채용탐색 들어가자마자 뿌려지는 전체 LIST(페이징)-->
+	<!-- 채용탐색 들어가자마자 뿌려지는 전체 LIST(페이징)+검색-->
  	<select id="getRecAllList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
-		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
+		<!-- SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
 		FROM ( SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY SEQ DESC) R
-		LIMIT #{recordCountPerPage} OFFSET #{start}
+		LIMIT #{recordCountPerPage} OFFSET #{start} -->
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB1, COMJOB2, COMJOBTYPE,
+		MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY,
+ 		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL, IMAGENAME
+		FROM ( SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY SEQ DESC) R
+		WHERE 1=1
+		<if test="sKeyword != null and sKeyword !=''">
+		<![CDATA[
+		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
+		OR  TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR TITLE = #{sKeyword} 
+		OR  COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB1 = #{sKeyword} 
+		OR  COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB2 = #{sKeyword} 
+		OR  REQUIREMENTS LIKE CONCAT('%', #{sKeyword}, '%') OR REQUIREMENTS = #{sKeyword} 
+		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
+		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
+		]]>
+		</if>
+		LIMIT #{recordCountPerPage} OFFSET #{start} 
 	</select> 
 	<!-- 기업만 볼수있는 채용공고 list (현재공고) -->
 	<select id="getMyRecruitNow" parameterType="model.RecruitParam" resultType="model.RecruitDto">
@@ -106,10 +134,10 @@
 		WHERE USETABLE='RECRUIT' AND REF = #{ref} 
 	</delete>
 	<!-- 마감일이 오늘날짜보다 지났을때 공고마감 del=1  -->
-	<update id="dayUpdateDel">
+	<update id="dayUpdateDel" parameterType="java.lang.String">
 		<![CDATA[
 			UPDATE RECRUIT SET DEL=1
-			WHERE CURDATE() > DATE_FORMAT(EDATE,'%Y-%m-%d')	
+			WHERE DATE_FORMAT(${today},'%Y-%m-%d') > DATE_FORMAT(EDATE,'%Y-%m-%d')	
 		]]>
 	</update>
 
