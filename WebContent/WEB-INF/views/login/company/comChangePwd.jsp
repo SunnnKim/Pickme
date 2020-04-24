@@ -8,7 +8,7 @@
 <div class="profile-wrap">
      
 <div class="amemChangePw">
-	<form id="frm" action="/Pickme/login/changePwdWithCode.do" method="post">
+	<form id="frm" action="/Pickme/login/company/changePwdWithCode.do" method="post">
 	<input type="hidden" name="email" value="<%=email%>">
 	<strong>비밀번호를 수정하시겠습니까?</strong>
 	<p>
@@ -44,9 +44,6 @@
 
 <!-- script -->
 <script>
-alert('<%=emailCode%>')
-
-
 // 확인버튼 누름
 updatePwd = () => {
 	// 변수

@@ -112,14 +112,26 @@ WHERE EMAIL = #{email}
  </update>
  
  
- 
- 
  <!-- 기업회원 이메일 찾기 -->
  <select id="getLostEmailC" parameterType="model.CMemberDto" resultType="int">
  SELECT COUNT(*)
  FROM C_MEMBER
- WHERE EMAIL = #{email} AND NAME = #{name} AND DEL != 1
+ WHERE EMAIL = #{email} AND NUMBER = ${number} AND DEL != 1
  </select>
+  <!-- 기업회원 이메일 찾기2 -->
+ <select id="getLostEmailC2" parameterType="model.CMemberDto" resultType="int">
+ SELECT COUNT(*)
+ FROM C_MEMBER
+ WHERE EMAIL = #{email} AND DEL != 1
+ </select>
+ <!-- 기업회원 비밀번호 분실시 이메일로 변경하기 -->
+ <update id="changePwdWithCodeC" parameterType="model.CMemberDto">
+ UPDATE C_MEMBER
+ SET PASSWORD = #{password}
+ WHERE email = #{email}
+ </update>
+ 
+ 
  
 </mapper>
 

@@ -16,7 +16,7 @@
      <div class="content-wrapper">
        <div id="email-content" class="content-box">
          <input type="text" name="email" placeholder="이메일을 입력하세요" onkeyup="enterkey('email')">
-         <input type="text" name="name" placeholder="이름을 입력하세요" onkeyup="enterkey('email')">
+         <input type="text" name="number" placeholder="사업자번호를 입력하세요" maxlength="11" onkeyup="enterkey('email')">
          <div class="check-btn" id="registerBtn" onclick="checkEmail()">가입여부 확인하기</div>
        </div>
        
@@ -31,7 +31,7 @@
      </div>
    </div>
 </div>
-<form id="frm" method='post' action="/Pickme/login/memChangePwd.do">
+<form id="frm" method='post' action="/Pickme/login/company/comChangePwd.do">
 	<input type="hidden" name="emailCode" id="emailCode">
 	<input type="hidden" name="memberEmail" id="memberEmail">
 </form>
@@ -50,6 +50,8 @@ function changeView( btn ){
     pwdBtn.classList.remove( 'tab-on' );
     document.querySelector('#email-content').style.display = 'block'
     document.querySelector('#password-content').style.display = 'none'
+    document.querySelector('input[name=email]').value = ""
+    document.querySelector('input[name=number]').value = ""
   }else{
     pwdBtn.classList.add( 'tab-on' );
     pwdBtn.classList.remove( 'tab-off' );
@@ -57,6 +59,8 @@ function changeView( btn ){
     emailBtn.classList.remove( 'tab-on' );
     document.querySelector('#email-content').style.display = 'none'
     document.querySelector('#password-content').style.display = 'block'
+   	document.querySelector('input[name=email2]').value = ""
+    document.querySelector('input[name=temp]').value = ""
   }
 }
 
@@ -64,28 +68,30 @@ function changeView( btn ){
 // 이메일 가입여부 확인하기 
 function checkEmail(){
   var email = $('input[name=email]');
-  var name = $('input[name=name]')
+  var number = $('input[name=number]')
   
   if(email.val().trim() == ''){
     email.focus()
     sweetAlert( 'error', '이메일을 입력하세요', 1000, false)
     return false;
   }
-  if(name.val().trim() == ''){
-    name.focus()
+  if(number.val().trim() == ''){
+	number.focus()
     sweetAlert( 'error', '이름을 입력하세요', 1000, false)
     return false
   }
-  // form data 만들기
-  let emailData = new FormData();
-  emailData.append('email', $('input[name=email]').val())
-  emailData.append('name', $('input[name=name]').val())
-
+  var regExpNumber = /^[0-9]*$/;
+  if( !regExpNumber.test(number.val()) ){
+	  number.focus()
+	  sweetAlert( 'error', '사업자번호는 숫자만 입력하세요', 1000, false)
+	  return false
+  }
+  
    $.ajax({
-     url:'/Pickme/login/getLostEmailA.do',
+     url:'/Pickme/login/company/getLostEmailC.do',
      data: {
     	 'email': $('input[name=email]').val(),
-    	 'name': $('input[name=name]').val()
+    	 'number': $('input[name=number]').val()
      },
      type:'post',
      success: function( data ){
@@ -110,7 +116,7 @@ $('#sendEmail').click( function(){
   }
   
    $.ajax({
-     url:'/Pickme/login/sendPasswordEmail.do',
+     url:'/Pickme/login/company/getLostPasswordC.do',
      data:{
         email : $('input[name=email2]').val()
       },

@@ -112,6 +112,8 @@ public class LoginDao {
 	public boolean withdrawMemberC(int seq) {
 		return sqlSession.update(namespace + "withdrawMemberC", seq) > 0 ? true:false;
 	}
+
+	// @@@@@@@@ 이메일 확인하기 @@@@@@@
 	
 	// 일반회원 이메일 있는지 확인하기 
 	public boolean getLostEmailA(AMemberDto dto) {
@@ -137,5 +139,16 @@ public class LoginDao {
 		int count = sqlSession.selectOne(namespace + "getLostEmailC", dto);
 		return count == 1 ? true:false;
 	}
+	// 기업회원 이메일 있는지 확인하기 2
+	public boolean getLostEmailC2(CMemberDto dto) {
+		int count = sqlSession.selectOne(namespace + "getLostEmailC2", dto);
+		return count == 1 ? true:false;
+	}
+	
+	// 일반회원 비밀번호 분실시 이메일로 변경하기 
+	public boolean changePwdWithCodeC(CMemberDto member) {
+		return sqlSession.update(namespace + "changePwdWithCodeC", member)>0? true:false;
+	}
+	
 
 }
