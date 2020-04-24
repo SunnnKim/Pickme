@@ -104,7 +104,7 @@
 		</table>
 	</div>
 	
-	<div class="btn-apply">
+	<div class="btn-apply clfix">
 		<button type="button" style="float: left;" onclick="deleteAction()">선택삭제</button>
 	</div>
 

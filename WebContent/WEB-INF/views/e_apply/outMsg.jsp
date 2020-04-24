@@ -53,19 +53,19 @@
 		<table>
 			<caption>전체</caption>
 			<colgroup>
+				<col style="width: 10%">
 				<col style="width: 45%">
 				<col style="width:15%">
 				<col style="width:15%">
 				<col style="width:15%">
-				<col style="width: 10%">
 			</colgroup>
 			<thead>
 				<tr>
+					<th><input type="checkbox" id="checkall"></th>
 					<th>내용</th>
 					<th>수신자</th>
 					<th>발신일</th>
-					<th>수신확인</th>
-					<th><input type="checkbox" id="checkall"></th>
+					<th>수신확인</th>	
 				</tr>
 			</thead>
 			<tbody>
@@ -83,10 +83,9 @@
 				<c:set var="content" value="${outMsg.content }" />
 				<c:set var="sdate" value="${outMsg.sdate }" />
 					<tr>
+					<td><input type="checkbox" name="checkRow" value="${outMsg.seq }"></td>
 					<td>
-						
 						<a href="seeMsg.do?seq=${outMsg.seq }&page=outMsg&pageNumber=${pageNumber}&unread=0"><span style="text-align:left;"><%=EApplyUtil.dots(pageContext.getAttribute("content").toString())%></span></a>
-					
 					</td>
 					<td> ${ outMsg.name } <input type="hidden" id="_seq" value="${ outMsg.seq}"></td>
 					<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td>
@@ -100,16 +99,13 @@
 								<span>읽음</span>	
 							</c:if>
 						</td>
-						
-						<td><input type="checkbox" name="checkRow" value="${outMsg.seq }"></td>
-						
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
 
-	<div class="btn-message">
+	<div class="btn-message clfix">
 		<button type="button" style="float: right;" onclick="deleteAction()">선택삭제</button>
 	</div>
 
@@ -137,85 +133,78 @@
 				$("input[name=checkRow]").prop("checked", false);
 			}
 		});
-
 	});
 
 	/* 선택 삭제(체크박스된 것 전부) */
 		function deleteAction() {
-		// 삭제할 seq 넣을 배열 선언
-		var seqArray = [];
-		$("input[name='checkRow']:checked").each(function() {
-			// 배열에 집어넣기
-			seqArray.push($(this).val());
-			
-			//checkRow = checkRow + $(this).val() + ",";
-		});
-		// checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
-		
-		if (seqArray == null) {
-			alert("삭제 할 대상을 선택하세요.");
-			return false;
-		}
-		// console.log("### checkRow => {}" + checkRow);
-		
-		// alert(seqArray.length);
-
-		if(seqArray.length == 0){
-			alert("삭제하실 내역이 없습니다");
-			return false;
-		}
-
-		Swal.fire({
-			  title: '선택하신 메시지를 삭제하시겠습니까?',
-			  text: "",
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			  cancelButtonText:'취소',
-			  confirmButtonText: '삭제'
-			}).then((result) =>{
-			  if (result.value) {
-					$.ajax({
-						url        : "deleteMsg.do",
-						dataType   : "json",
-						type       : "post",
-					    traditional: true, // array보낼때 필요
-						data       : {"seqArray" : seqArray },
-						success    : function(data){
-
-							if(data != null){
-									
-								 Swal.fire(
-									 position: 'center',
-									  icon: 'success',
-									  title: '삭제되었습니다!',
-									  showConfirmButton: false,
-									  timer: 1000	
-							    ).then((reslut)=>{
-
-							    	  var sKeyword = '<c:out value="${sKeyword}"/>';
-									  var pn = '<c:out value="${pageNumber}"/>'
-									
-									location.href="outMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
-							    });		
-
-							}	 	   	    	
-				},
-				error      : function(request, status, error){
-					alert("error");
-				}
+			// 삭제할 seq 넣을 배열 선언
+			var seqArray = [];
+			$("input[name='checkRow']:checked").each(function() {
+				// 배열에 집어넣기
+				seqArray.push($(this).val());
+				
+				//checkRow = checkRow + $(this).val() + ",";
 			});
-		}
-	});
-}
+			// checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
+			
+			if (seqArray == null) {
+				alert("삭제 할 대상을 선택하세요.");
+				return false;
+			}
+			// console.log("### checkRow => {}" + checkRow);
+			
+			// alert(seqArray.length);
+	
+			if(seqArray.length == 0){
+				alert("삭제하실 내역이 없습니다");
+				return false;
+			}
+	
+			Swal.fire({
+				  title: '선택하신 메시지를 삭제하시겠습니까?',
+				  text: "",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText:'취소',
+				  confirmButtonText: '삭제'
+				}).then((result) =>{
+				  if (result.value) {
+						$.ajax({
+							url        : "deleteMsg.do",
+							dataType   : "json",
+							type       : "post",
+						    traditional: true, // array보낼때 필요
+							data       : {"seqArray" : seqArray },
+							success    : function(data){
+	
+								if(data != null){
+										
+									 Swal.fire(
+										      '삭제되었습니다',
+										      '',
+										      'success'
+									    ).then((reslut)=>{														  
+									    	  var sKeyword = '<c:out value="${sKeyword}"/>';
+											  var pn = '<c:out value="${pageNumber}"/>'
+											//삭제처리 후 다시 불러올 리스트 url   
+											location.href="inMsg.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+									    });
+								}	 	   	    	
+					},
+					error      : function(request, status, error){
+						alert("error");
+					}
+				});
+			}
+		});
+	}
 	/* 페이지 이동 */
 	function goPage(pn){
 	  var sKeyword = '<c:out value="${sKeyword}"/>';
 	//  alert("sKeyword: " + sKeyword);	
-		
 	  location.href="outMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
-		
 	}
 
 	/* 메시지 작성 */
@@ -249,9 +238,6 @@
 
 </script>
 
-
 <!-- subCont 끝 -->
-
-
 
 <%@include file="/include/footer.jsp"%>

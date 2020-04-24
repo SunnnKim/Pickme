@@ -118,4 +118,18 @@ public class EMessageServiceImpl implements EMessageService {
 	}
 
 
+	@Override
+	public int getLastId() {
+		
+		return dao.getLastId();
+	}
+
+	@Override
+	public String getEmail(int to) {
+	
+		return dao.getEmail(to);
+	}
+	
+
+
 }
