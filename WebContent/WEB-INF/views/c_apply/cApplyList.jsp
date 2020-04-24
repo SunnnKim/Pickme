@@ -20,12 +20,67 @@
 </ul>
  -->
 
+<style>
+img {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+}
+
+</style>
+
+
 <!-- allList -->
 
-<div class="cont">
-<h1>cApplyList</h1>
+<div id="allList" data-tab-content="" class="active">
+	<!-- 리스트 -->
+	<div class="table-col table-bbs">
+		<table>
+			<caption>전체</caption>
+			<colgroup>
+				<col style="width: 15%">
+				<col style="width: 15%">
+				<col style="width: 35%">
+				<col style="width: 20%">
+				<col style="width: 15%">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>사진</th>
+					<th>이름</th>
+					<th>이력서</th>
+					<th>지원날짜</th>
+					<th>열람여부</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:if test="${empty cApplyList }">
+					<tr>
+						<td colspan="5">지원자가 없습니다</td>
+					</tr>
+				</c:if>
+				<c:forEach items="${cApplyList }" var="dto" varStatus="vs">
+					<tr>
+						<td>
+							<!-- <a href="#none" style="text-align: center"> --> 
+								<img src="filedownload.do?filename=${dto.profilename }&filepath=/upload/amember/"  alt="프로필사진">
+							<!-- </a> -->
+						</td>
+						<td><a href="#none" style="text-align: center"> ${dto.memName } </a></td>
+						<td><a href="#none" style="text-align: center" onclick="apResumeOpen(${dto.cvSeq})"> ${dto.cvName } </a></td>
+						
+						<c:set var="aDate" value="${dto.aDate }"/>
+						<td>${fn:substring(aDate,0,16) }</td>
+						<c:if test="${dto.open == 0 }"><td>미열람</td></c:if>
+						<c:if test="${dto.open == 1 }"><td>열람</td></c:if>		
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 	
 </div>
+<!-- // allList -->
 
 
 <!-- // allList -->
@@ -44,6 +99,32 @@ function goPage(pn){
 function cApply_list() {
 	location.href="cApplyList.do"
 }
+
+
+function apResumeOpen(cvSeq) {
+	alert("cvSeq : " + cvSeq);
+	$.ajax({
+		url		 : "apResumeOpen.do",
+		type	 : "POST",
+		dataType : "json",
+		data	 : {"cvSeq" : cvSeq},
+		success	 : function(data) {
+			alert("success");
+			alert(data.memEmail);
+			if(data.filePath == null) {
+				alert("웹페이지 디테일");
+			} else {
+				alert("파일다운");
+			}
+		},
+		error	 : function(request,status,error){ 
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+		}
+	})
+		
+}
+
+
 
 </script>
 

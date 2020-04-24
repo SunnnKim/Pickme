@@ -21,12 +21,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import model.PaymentParam;
 import model.PremierMemDto;
 import model.PremierServiceDto;
 import pickme.com.a.admin.service.PaymentService;
+import pickme.com.a.customer.service.CustomerService;
 import pickme.com.a.util.FUpUtil;
 
 @RequestMapping(value="/admin/payment")
@@ -36,6 +39,9 @@ public class PaymentController {
 	@Autowired
 	PaymentService service;
 	
+	@Autowired
+	CustomerService customerService;
+	
 	// 유료서비스 페이지이동
 	@RequestMapping(value="paidServiceView.do")
 	public String paidServiceView(Model model) {
@@ -43,9 +49,18 @@ public class PaymentController {
 		List<PremierMemDto> memberList = service.getPremierMember();
 		// 유료서비스 데이터 
 		List<PremierServiceDto> serviceList = service.getPremierService();
+		// 가입회원 통계
+		List<PaymentParam> memberCount = service.getStatistics();
+		// 신규 이용고객 통계
+		int newPremierMember = service.getNewPremierMember();
+		// 신규 환불고객 통계
+		int refundMember = service.getRefundNumber();
 		
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("serviceList", serviceList);
+		model.addAttribute("memberCount", memberCount);
+		model.addAttribute("newPremierMember", newPremierMember);
+		model.addAttribute("refundMember", refundMember);
 		
 		return "admin/payment/paidService";
 	}
@@ -55,6 +70,26 @@ public class PaymentController {
 	public String writePaidService() {
 		
 		return "admin/payment/writePaidService";
+		
+	}
+	// 서비스 수정 페이지 이동
+	@RequestMapping(value="updatePaidService.do")
+	public String updatePaidService(Model model, int seq) {
+		PremierServiceDto dto = customerService.getServiceDetail(seq);
+		model.addAttribute("dto", dto);
+		
+		return "admin/payment/updatePaidService";
+		
+	}
+	// 서비스 수정하기 
+	@RequestMapping(value="updateService.do")
+	public String updateService(Model model, PremierServiceDto dto) {
+		System.out.println(dto);
+		boolean success = service.updateService(dto);
+		System.out.println(success);
+		if(success) return "redirect:/admin/payment/paidServiceView.do";
+		
+		return "redirect:/admin/payment/paidServiceView.do?seq=" + dto.getServiceSeq();
 		
 	}
 
@@ -101,88 +136,89 @@ public class PaymentController {
 		return map;
 	}
 		
-		// 텍스트 에디터창에 이미지 불러오기 (다운로드)
-		@RequestMapping(value="imgDownload.do", method= {RequestMethod.GET,RequestMethod.POST})
-		public void imgDownload( String filename, String filepath,
-				HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				// 인코딩 설정 
-				request.setCharacterEncoding("utf-8");
-				response.setCharacterEncoding("utf-8");
-				response.setContentType("text/html; charset=utf-8");
-				
-				// 파일이름 및 경로 확인 
-				System.out.println("file download connected");
-				System.out.println("download serv filepath :"+filepath);
-				System.out.println("download serv filename :"+filename);
-		      
-				// 불러올 파일 루트 확인
-				String uploadRoot = request.getSession().getServletContext().getRealPath(filepath);
-				System.out.println("uploadRoot:"+uploadRoot);
-				
-				// 전송할 파일 객체 준비  
-				File f = new File(uploadRoot + filename);
-
-				response.setHeader("Content-Type", "image/jpg");
-				
-				// 파일을 읽고 사용자에게 전송
-				FileInputStream fis;
-				try {
-					fis = new FileInputStream(f);
-					BufferedInputStream bis = new BufferedInputStream(fis);
-					OutputStream out = response.getOutputStream();
-					BufferedOutputStream bos = new BufferedOutputStream(out);
-					
-					while (true) {
-						int ch = bis.read();
-						if (ch == -1)
-							break;
-						bos.write(ch);
-					}
-					
-					bis.close();
-					fis.close();
-					bos.close();
-					out.close();
-					
-					
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-				System.out.println("filedownload error:" + e.getMessage());
-				}
-		}
+	// 텍스트 에디터창에 이미지 불러오기 (다운로드)
+	@RequestMapping(value="imgDownload.do", method= {RequestMethod.GET,RequestMethod.POST})
+	public void imgDownload( String filename, String filepath,
+		HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 인코딩 설정 
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
 		
-		// 텍스트에디터 사진 업로드하기
-		@ResponseBody
-		@RequestMapping(value="editorImageUpload.do",method=RequestMethod.POST )
-		public String editorImageUpload(  MultipartFile[] file, String filename, HttpServletRequest request ) {
-			// 저장 경로 불러오기 
-			String tempPath = request.getSession().getServletContext().getRealPath("/upload/temp");
-			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/paidService");
+		// 파일이름 및 경로 확인 
+		System.out.println("file download connected");
+		System.out.println("download serv filepath :"+filepath);
+		System.out.println("download serv filename :"+filename);
+      
+		// 불러올 파일 루트 확인
+		String uploadRoot = request.getSession().getServletContext().getRealPath(filepath);
+		System.out.println("uploadRoot:"+uploadRoot);
+		
+		// 전송할 파일 객체 준비  
+		File f = new File(uploadRoot + filename);
+
+		response.setHeader("Content-Type", "image/jpg");
+		
+		// 파일을 읽고 사용자에게 전송
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(f);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			OutputStream out = response.getOutputStream();
+			BufferedOutputStream bos = new BufferedOutputStream(out);
 			
-			
-			// 파일 실제로 업로드 하부분
-			for( int i = 0; i < file.length; i++ ) {
-				// 파일이름 설정
-				String newFilename = filename.split(",")[i];
-				File uploadFile = new File(uploadPath + "/" + newFilename);
-				try {
-					// 실제 파일을 지정 폴더에 업로드 함 
-					FileUtils.writeByteArrayToFile(uploadFile, file[i].getBytes());
-				} catch (IOException e) {
-					e.getMessage();
-					return "fail";
-				}
-				File tempFile = new File(tempPath + "/" + newFilename);
-				if(tempFile.exists()) {
-					if( !tempFile.isDirectory() ) {
-						tempFile.delete();
-					}
-				}
+			while (true) {
+				int ch = bis.read();
+				if (ch == -1)
+					break;
+				bos.write(ch);
 			}
 			
-			return "success";
+			bis.close();
+			fis.close();
+			bos.close();
+			out.close();
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+		System.out.println("filedownload error:" + e.getMessage());
 		}
+	}
+		
+	// 텍스트에디터 사진 업로드하기
+	@ResponseBody
+	@RequestMapping(value="editorImageUpload.do",method=RequestMethod.POST )
+	public String editorImageUpload(  MultipartFile[] file, String filename, HttpServletRequest request ) {
+		// 저장 경로 불러오기 
+		String tempPath = request.getSession().getServletContext().getRealPath("/upload/temp");
+		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/paidService");
+		System.out.println("file!!!!! : " + file.length);
+		
+		// 파일 실제로 업로드 하부분
+		for( int i = 0; i < file.length; i++ ) {
+			// 파일이름 설정
+			String newFilename = filename.split(",")[i];
+			File uploadFile = new File(uploadPath + "/" + newFilename);
+			try {
+				// 실제 파일을 지정 폴더에 업로드 함 
+				FileUtils.writeByteArrayToFile(uploadFile, file[i].getBytes());
+			} catch (IOException e) {
+				e.getMessage();
+				return "fail";
+			}
+			File tempFile = new File(tempPath + "/" + newFilename);
+			if(tempFile.exists()) {
+				if( !tempFile.isDirectory() ) {
+					tempFile.delete();
+				}
+			}
+		}
+		
+		return "success";
+	}
 	
+	// 유료 서비스 등록하기
 	@RequestMapping(value="insertPaidService.do", method=RequestMethod.POST)
 	public String insertPaidService( PremierServiceDto serviceDto ) {
 		System.out.println("serviceDto : " + serviceDto);
@@ -192,5 +228,12 @@ public class PaymentController {
 		return "redirect:/admin/payment/writePaidService.do?fail=true";
 	}
 	
+	// 유료 서비스 삭제하기
+	@ResponseBody
+	@RequestMapping(value="deleteService.do", method=RequestMethod.POST)
+	public String insertPaidService( @RequestParam(value="seqList[]")  List<Integer> seqList ) {
+		boolean success = service.deleteService(seqList);
+		return success + "";
+	}
 	
 }

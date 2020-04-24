@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import model.CvCompanyDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
 import model.MessageDto;
@@ -76,6 +77,11 @@ public class CRequestDaoImpl implements CRequestDao{
 	public int getLikeTotalRecordCount(MessageParam param) {
 		int totalRecordCount = sqlSession.selectOne(ns + "getLikeTotalRecordCount",param);
 		return totalRecordCount;
+	}
+
+	@Override
+	public CvCompanyDto reqResumeOpen(CvRequestDto dto) {
+		return sqlSession.selectOne(ns + "reqResumeOpen", dto);
 	}
 
 	

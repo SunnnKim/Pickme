@@ -39,7 +39,7 @@
 	</div>
 
 	<!-- 리스트 -->
-	<div class="table-col table-bbs">
+	<div class="table-col table-bbs msg mt10">
 		<table>
 			<caption>전체</caption>
 			<colgroup>

@@ -108,16 +108,16 @@
 	<ul>
 	<%
 	if(screenStartPageIndex == screenEndPageIndex){%>
-		<li class="active"><span>1</span></li>
+		<li class="active" style="margin-right: 10;"><span>1</span></li>
 	<% }
 	
 	for(int i = screenStartPageIndex; i < screenEndPageIndex; i++){
 		if(i == pageNumber){	// 현재 페이지	2
 			%>
-			<li class="active"><span><%=i + 1 %></span></li>
+			<li class="active" style="margin-right: 10;"><span><%=i + 1 %></span></li>
         
         <%}else{ %>
-			<li><a href="#none" onclick="paging(<%=i %>)"><%=i + 1 %></a></li> 
+			<li style="margin-right: 10;"><a href="#none" onclick="paging(<%=i %>)"><%=i + 1 %></a></li> 
 			
 		<%}} %>	
 	</ul>

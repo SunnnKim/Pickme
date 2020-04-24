@@ -2,6 +2,7 @@ package pickme.com.a.c_apply.service;
 
 import java.util.List;
 
+import model.CvCompanyDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
 import model.MessageDto;
@@ -26,6 +27,8 @@ public interface CRequestService {
 
 	public int getTotalRecordCount(MessageParam param);
 	public int getLikeTotalRecordCount(MessageParam param);
+
+	public CvCompanyDto reqResumeOpen(CvRequestDto dto);
 
 	
 	

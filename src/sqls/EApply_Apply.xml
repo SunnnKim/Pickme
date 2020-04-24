@@ -5,34 +5,34 @@
   <mapper namespace="eApplyApply">
   <!-- 현재 지원내역 불러오기 -->
   	<select id="getCurAList" parameterType="model.EApplyParam" resultType="model.EApplyDto">
-  		SELECT a.SEQ, a.JOBSEQ, a.COMSEQ, a.COMNAME, a.MEMSEQ, a.ADATE, a.OPEN, a.CANCEL, a.CVSEQ, r.COMJOB, r.EDATE
+  		SELECT a.SEQ, a.JOBSEQ, a.COMSEQ, a.COMNAME, a.MEMSEQ, a.ADATE, a.OPEN, a.CANCEL, r.COMJOB1, r.COMJOB2, a.CVSEQ, r.EDATE
   		FROM APPLY a
   		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
   		ON  a.JOBSEQ = r.SEQ
   		WHERE a.MEMSEQ = #{loginSeq} AND a.CANCEL = 0 AND a.DEL =0
   	<if test="sKeyword != null and sKeyword !=''">
 		AND( r.EDATE LIKE CONCAT('%', #{sKeyword}, '%') OR a.ADATE LIKE CONCAT('%', #{sKeyword}, '%') OR  
-		a.COMNAME = #{sKeyword} OR r.COMJOB LIKE CONCAT('%', #{sKeyword}, '%')) 
+		a.COMNAME = #{sKeyword} OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR r.HASHTAG LIKE CONCAT('%', #{sKeyword}, '%')) 
 	</if>
 	<if test="filter == '채용마감일'">
 		<if test="sort == 0">
-			ORDER BY r.EDATE DESC
+		ORDER BY r.EDATE DESC
 		</if>
 		<if test="sort == 1">
-			ORDER BY r.EDATE ASC
+		ORDER BY r.EDATE ASC
 		</if>
 	</if>
 	<if test="filter == '지원일'">
 		<if test="sort == 0">
-			ORDER BY a.ADATE DESC
+		ORDER BY a.ADATE DESC
 		</if>
 		<if test="sort == 1">
-			ORDER BY a.ADATE ASC
+		ORDER BY a.ADATE ASC
 		</if>
 	</if>
-	  LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+	    LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
   	</select>
-    
+
       <!-- 현재지원내역 갯수  -->
     <select id="getTotalRecordCount" parameterType="model.EApplyParam" resultType="int">
       	SELECT COUNT(*)
@@ -42,7 +42,7 @@
  	 	WHERE a.MEMSEQ = #{loginSeq} AND a.CANCEL = 0 AND a.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		 AND( r.EDATE LIKE CONCAT('%', #{sKeyword}, '%') OR a.ADATE LIKE CONCAT('%', #{sKeyword}, '%') OR  
-		 a.COMNAME = #{sKeyword} OR r.COMJOB LIKE CONCAT('%', #{sKeyword}, '%'))
+		 a.COMNAME = #{sKeyword} OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR r.HASHTAG LIKE CONCAT('%', #{sKeyword}, '%'))
       	</if>
     </select>
       
@@ -62,20 +62,20 @@
   	 
   	 <!-- 지난지원내역 불러오기 -->
   	<select  id="getPastAList" parameterType="model.EApplyParam" resultType="model.EApplyDto">
-  	 	SELECT a.SEQ, a.JOBSEQ, a.COMSEQ, a.COMNAME, a.MEMSEQ, a.ADATE, a.OPEN, a.CANCEL, a.CVSEQ, r.COMJOB, r.EDATE
+  	 	SELECT a.SEQ, a.JOBSEQ, a.COMSEQ, a.COMNAME, a.MEMSEQ, a.ADATE, a.OPEN, a.CANCEL, a.CVSEQ, r.COMJOB1, r.COMJOB2, r.EDATE
   		FROM APPLY a
   		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE < DATE(NOW()) ]]>) r
   		ON a.JOBSEQ = r.SEQ 
   		WHERE  a.MEMSEQ = #{loginSeq} AND a.DEL = 0 AND a.CANCEL = 0 
   	 <if test="sKeyword != null and sKeyword !=''">
 		AND (r.EDATE LIKE CONCAT('%', #{sKeyword}, '%') OR a.ADATE LIKE CONCAT('%', #{sKeyword}, '%')OR  
-			a.COMNAME = #{sKeyword} OR r.COMJOB LIKE CONCAT('%', #{sKeyword}, '%'))
+			a.COMNAME = #{sKeyword} OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR r.HASHTAG LIKE CONCAT('%', #{sKeyword}, '%'))
 	</if>
 		ORDER BY r.EDATE DESC
 		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
   	 
   	</select>
-
+	
     <!-- 지난 지원내역 총 갯수  -->
     <select id="getTotalPastCount" parameterType="model.EApplyParam" resultType="int">
  	 	SELECT COUNT(*)
@@ -85,7 +85,7 @@
  	 	WHERE a.MEMSEQ = #{loginSeq} AND a.CANCEL = 0 AND a.DEL = 0
 		<if test="sKeyword != null and sKeyword !=''">
 		 AND( r.EDATE LIKE CONCAT('%', #{sKeyword}, '%') OR a.ADATE LIKE CONCAT('%', #{sKeyword}, '%') OR  
-		 a.COMNAME = #{sKeyword} OR r.COMJOB LIKE CONCAT('%', #{sKeyword}, '%'))
+		 a.COMNAME = #{sKeyword} OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR r.HASHTAG LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
  	 </select>
   </mapper>

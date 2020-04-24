@@ -80,8 +80,8 @@ public class RecruitServiceImpl implements RecruitService{
 		return dao.delRecFile(ref);
 	}
 	@Override
-	public void dayUpdateDel() {
-		dao.dayUpdateDel();
+	public void dayUpdateDel(String today) {
+		dao.dayUpdateDel(today);
 	}
 	
 

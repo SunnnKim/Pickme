@@ -9,9 +9,10 @@ CREATE TABLE RECRUIT
 (
     `SEQ`           INT              NOT NULL    AUTO_INCREMENT COMMENT '시퀀스번호', 
     `COMSEQ`        INT              NULL        COMMENT '회사SEQ', 
-    `NAME`          VARCHAR(500)     NULL        COMMENT '회사이름', 
+    `COMNAME`       VARCHAR(500)     NULL        COMMENT '회사이름', 
     `TITLE`         VARCHAR(200)     NULL        COMMENT '제목', 
-    `COMJOB`        VARCHAR(500)     NULL        COMMENT '채용직무', 
+    `COMJOB1`       VARCHAR(50)      NULL        COMMENT '직군', 
+    `COMJOB2`       VARCHAR(50)      NULL        COMMENT '직무', 
     `COMJOBTYPE`    VARCHAR(100)     NULL        COMMENT '채용포지션(신입/경력)', 
     `MAINTASK`      VARCHAR(1000)    NULL        COMMENT '주요업무', 
     `WORKINGFORM`   VARCHAR(100)     NULL        COMMENT '근무형태(정규직계약직)', 
@@ -23,10 +24,12 @@ CREATE TABLE RECRUIT
     `EDATE`         DATE             NULL        COMMENT '마감일', 
     `REF`           INT              NULL        COMMENT '그룹번호(파일)', 
     `READCOUNT`     INT              NULL        COMMENT '조회수', 
-    `IMAGENAME`     VARHCAR(100)     NULL        COMMENT '대표이미지이름', 
+    `IMAGENAME`     VARCHAR(100)     NULL        COMMENT '대표이미지이름', 
     `DEL`           INT              NULL        COMMENT '삭제여부(0등록1삭제)', 
     PRIMARY KEY (SEQ)
 );
+
+ALTER TABLE RECRUIT COMMENT '채용관리';
  */
 
 public class RecruitDto implements Serializable {
@@ -35,7 +38,8 @@ public class RecruitDto implements Serializable {
 	private int comSeq;
 	private String comName;
 	private String title;
-	private String comJob;
+	private String comJob1;
+	private String comJob2;
 	private String comJobType;
 	private String mainTask;
 	private String workingForm;
@@ -49,14 +53,14 @@ public class RecruitDto implements Serializable {
 	private int readCount;
 	private int del;
 	private String imagename;
-	
+	private int applyCount;
 	
 	public RecruitDto() {
 		
 	}
 	
 
-	public RecruitDto(int seq, int comSeq, String comName, String title, String comJob, String comJobType, String mainTask,
+	public RecruitDto(int seq, int comSeq, String comName, String title, String comJob1,String comJob2, String comJobType, String mainTask,
 			String workingForm, String requirements, String salary, String content, String hashTag, String wdate,
 			String edate, int ref, int del, String imagename) {
 		super();
@@ -64,7 +68,8 @@ public class RecruitDto implements Serializable {
 		this.comSeq = comSeq;
 		this.comName = comName;
 		this.title = title;
-		this.comJob = comJob;
+		this.comJob1 = comJob1;
+		this.comJob2 = comJob2;
 		this.comJobType = comJobType;
 		this.mainTask = mainTask;
 		this.workingForm = workingForm;
@@ -81,14 +86,42 @@ public class RecruitDto implements Serializable {
 
 	
 
-	public RecruitDto(int comSeq, String comName, String title, String comJob, String comJobType, String mainTask,
+	public RecruitDto(int seq, int comSeq, String comName, String title, String comJob1, String comJob2, String comJobType,
+			String mainTask, String workingForm, String requirements, String salary, String content, String hashTag,
+			String wdate, String edate, int ref, int readCount, int del, String imagename, int applyCount) {
+		super();
+		this.seq = seq;
+		this.comSeq = comSeq;
+		this.comName = comName;
+		this.title = title;
+		this.comJob1 = comJob1;
+		this.comJob2 = comJob2;
+		this.comJobType = comJobType;
+		this.mainTask = mainTask;
+		this.workingForm = workingForm;
+		this.requirements = requirements;
+		this.salary = salary;
+		this.content = content;
+		this.hashTag = hashTag;
+		this.wdate = wdate;
+		this.edate = edate;
+		this.ref = ref;
+		this.readCount = readCount;
+		this.del = del;
+		this.imagename = imagename;
+		this.applyCount = applyCount;
+	}
+
+
+	public RecruitDto(int comSeq, String comName, String title, String comJob1, String comJob2,String comJobType, String mainTask,
 			String workingForm, String requirements, String salary, String content, String hashTag, String edate,
 			int ref, String imagename) {
 		super();
 		this.comSeq = comSeq;
 		this.comName = comName;
 		this.title = title;
-		this.comJob = comJob;
+		this.comJob1 = comJob1;
+		this.comJob2 = comJob2;
 		this.comJobType = comJobType;
 		this.mainTask = mainTask;
 		this.workingForm = workingForm;
@@ -102,6 +135,16 @@ public class RecruitDto implements Serializable {
 	}
 
 	
+
+	public int getApplyCount() {
+		return applyCount;
+	}
+
+
+	public void setApplyCount(int applyCount) {
+		this.applyCount = applyCount;
+	}
+
 
 	public String getComName() {
 		return comName;
@@ -147,13 +190,26 @@ public class RecruitDto implements Serializable {
 		this.title = title;
 	}
 
-	public String getComJob() {
-		return comJob;
+	
+	public String getComJob1() {
+		return comJob1;
 	}
 
-	public void setComJob(String comJob) {
-		this.comJob = comJob;
+
+	public void setComJob1(String comJob1) {
+		this.comJob1 = comJob1;
 	}
+
+
+	public String getComJob2() {
+		return comJob2;
+	}
+
+
+	public void setComJob2(String comJob2) {
+		this.comJob2 = comJob2;
+	}
+
 
 	public String getComJobType() {
 		return comJobType;
@@ -254,15 +310,15 @@ public class RecruitDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "RecruitDto [seq=" + seq + ", comSeq=" + comSeq + ", comName=" + comName + ", title=" + title + ", comJob="
-				+ comJob + ", comJobType=" + comJobType + ", mainTask=" + mainTask + ", workingForm=" + workingForm
-				+ ", requirements=" + requirements + ", salary=" + salary + ", content=" + content + ", hashTag="
-				+ hashTag + ", wdate=" + wdate + ", edate=" + edate + ", ref=" + ref + ", readCount=" + readCount
-				+ ", del=" + del + ", imagename=" + imagename + "]";
+		return "RecruitDto [seq=" + seq + ", comSeq=" + comSeq + ", comName=" + comName + ", title=" + title
+				+ ", comJob1=" + comJob1 + ", comJob2=" + comJob2 + ", comJobType=" + comJobType + ", mainTask="
+				+ mainTask + ", workingForm=" + workingForm + ", requirements=" + requirements + ", salary=" + salary
+				+ ", content=" + content + ", hashTag=" + hashTag + ", wdate=" + wdate + ", edate=" + edate + ", ref="
+				+ ref + ", readCount=" + readCount + ", del=" + del + ", imagename=" + imagename + "]";
 	}
 
 
-
+	
 
 	
 

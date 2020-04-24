@@ -47,17 +47,17 @@
 		<script type="text/javascript" src="/Pickme/js/bxslider.js"></script>
 		<ul id="visual">
       <li>
-          <p style="background-image:url('https://dimg.donga.com/wps/NEWS/IMAGE/2020/03/11/100116088.2.jpg)"></p>
+          <p style="background-image:url('http://bitly.kr/Bhuwi1tzO')"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
 			<li>
-		  <p style="background-image:url('https://dimg.donga.com/wps/NEWS/IMAGE/2020/03/11/100116088.2.jpg')"></p>
+		  <p style="background-image:url('http://bitly.kr/X6FdifSzE')"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
       <li>
-      	  <p style="background-image:url('https://dimg.donga.com/wps/NEWS/IMAGE/2020/03/11/100116088.2.jpg')"></p>
+      	  <p style="background-image:url('http://bitly.kr/urJlCXH68')"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>

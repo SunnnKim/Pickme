@@ -43,9 +43,6 @@
 		     <a href="unread.do?page=inMsg"><p class="unread">안읽은메시지 ${unreadCount}</p></a>
 		</div>
 	</div>
-
-	
-
 	<!-- 리스트 -->
 	<div class="table-col table-bbs msg mt10">
 	
@@ -53,19 +50,21 @@
 		<table>
 			<caption>전체</caption>
 			<colgroup>
-				<col style="width: 10%">
-				<col style="width: 50%">
+				<col style="width: 5%">			
+				<col style="width: 5%">
+				<col style="width: 60%">
 				<col style="width:15%">
 				<col style="width:15%">
-				<col style="width: 10%">
+				
 			</colgroup>
 			<thead>
 				<tr>
+					<th><input type="checkbox" id="checkall"></th>
 					<th>중요</th>
 					<th>내용</th>
 					<th>발신자</th>
 					<th>발신일</th>
-					<th><input type="checkbox" id="checkall"></th>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -88,6 +87,7 @@
 			<c:set var="content" value="${inMsg.content }" />
 			<c:set var="sdate" value="${inMsg.sdate }" /><!-- 오늘 날짜 시간으로 표시위해 설정 -->
 					<tr><!-- 중요메시지 표시 -->
+					<td><input type="checkbox" name="checkRow" value="${inMsg.seq }"></td>
 					<td class="star-td">
 						<c:if test="${ inMsg.important == 0 }" >
 							<i class="fas fa-star"> <input
@@ -116,9 +116,7 @@
 							</c:if>
 						</td>
 						<td> ${ inMsg.name } <input type="hidden" id="_seq" value="${ inMsg.seq}"></td>
-						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td>
-						<td><input type="checkbox" name="checkRow" value="${inMsg.seq }"></td>
-						
+						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td>	
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -126,7 +124,7 @@
 		</table>
 	</div>
 
-	<div class="btn-message" style="display:block">
+	<div class="btn-message clfix" style="display:block">
 		<button type="button" onclick="deleteAction()">선택삭제</button>
 	</div>
 
@@ -163,13 +161,10 @@
 			$(this).toggleClass('on');
 			
 			 var trNum = ($(this).closest('tr').prevAll().length) + 1;
-			//	alert("trNum" + trNum);
-			 
-				var seq = $('table tr').eq(trNum).find('#_seq').val();
-			//	alert("seq: " + seq);
+			//	alert("trNum" + trNum); 
+			 var seq = $('table tr').eq(trNum).find('#_seq').val();
 			
-			//	alert($(this).attr('class'));
-			if($(this).attr('class')=="fas fa-star on"){
+			 if($(this).attr('class')=="fas fa-star on"){
 			 
 			 // 클릭한 중요 별이 속해있는 tr 가져오기 
 			 // prevAll은 현재 tr요소 앞의 모든 tr요소 이므로 그 length 값에 +1을 해야 현재 tr의 넘버를 알 수 있음
@@ -182,7 +177,7 @@
 			 			success: function(data){
 			 				
 			 				if(data != null){
-			 				//	alert("중요메시지에 추가되었습니다 ");
+			 					console.log("중요메시지추가");
 			 				}
 			 			},
 			 			error: function(){
@@ -196,9 +191,8 @@
 		 			Type: "post",
 		 			data:{ "seq" : seq },
 		 			success: function(data){
-		 				
 		 				if(data != null){
-		 					alert("중요메시지에서 삭제되었습니다 ");
+		 				 	console.log("중요메시지 취소");
 		 				}
 		 			},
 		 			error: function(){
@@ -263,9 +257,7 @@
 								      '삭제되었습니다',
 								      '',
 								      'success'
-							    ).then((reslut)=>{
-														  
-							
+							    ).then((reslut)=>{														  
 								  var sKeyword = '<c:out value="${sKeyword}"/>';
 								  var pn = '<c:out value="${pageNumber}"/>'
 								//삭제처리 후 다시 불러올 리스트 url   
@@ -297,12 +289,8 @@ function goPage(pn){
 
 	  if(isUnread == 'yes'){
 		  location.href="unread.do?page=inMsg&pageNumber=" + pn;
-
-
 	 }else{	
-	
 	  location.href="inMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
-		
 	}
 }
 	
@@ -319,11 +307,8 @@ function goPage(pn){
       });
 	
 	function searchAction() {
-	//	alert("검색 버튼 클릭");
-		
 		var sKeyword =($("#_keyword").val()).trim();
-		
-	//	alert("sKeyword: " + sKeyword );
+	
 		if(sKeyword == null || sKeyword == ""){
 			alert("검색어를 입력해주세요.");
 		}else{
@@ -335,9 +320,5 @@ function goPage(pn){
 	
 </script>
 
-
 <!-- subCont 끝 -->
-
-
-
 <%@include file="/include/footer.jsp"%>

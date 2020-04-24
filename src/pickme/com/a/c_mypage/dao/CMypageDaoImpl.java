@@ -76,6 +76,13 @@ public class CMypageDaoImpl implements CMypageDao{
 		CMemberDto dto = session.selectOne(nameSpace + "select", seq);
 		return dto;
 	}
+
+	// 로고 업로드
+	@Override
+	public boolean uploadLogo(CMemberDto dto) {
+		int n = session.insert(nameSpace + "uploadLogo", dto);
+		return n>0? true : false;
+	}
 	
 	
 }

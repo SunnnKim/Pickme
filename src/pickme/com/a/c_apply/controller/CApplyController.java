@@ -19,8 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import model.CApplyDto;
 import model.CMemberDto;
+import model.CvRecruitDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import pickme.com.a.c_apply.service.CApplyService;
@@ -51,6 +54,9 @@ public class CApplyController {
 		param.setEnd(end);
 		List<RecruitDto> list = cApplyService.myCurrentRecList(param);
 		
+		//int applyCount = cApplyService.
+		
+		
 		model.addAttribute("comCurrentRecList", list);
 		model.addAttribute("pageNumber", nowPage);	//현재페이지
 		model.addAttribute("pageCountPerScreen", 10);
@@ -62,8 +68,21 @@ public class CApplyController {
 	
 	
 	@RequestMapping(value = "cApplyList.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String cApplyList(RecruitParam param, Model model, HttpSession session) {
+	public String cApplyList(Model model, HttpSession session, int jobSeq, CApplyDto dto) {
 		
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq(); 
+		dto.setComSeq(c_seq);
+		System.out.println("seq : " + c_seq);
+		
+		List<CApplyDto> list = cApplyService.getCApplyList(jobSeq);
+		
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(i +" : " + list.get(i));
+		}
+		
+		
+		
+		model.addAttribute("cApplyList", list);
 		
 		
 		return "c_apply/cApplyList";
@@ -73,6 +92,18 @@ public class CApplyController {
 	
 	
 	
+	// 이력서 열람 버튼 Ajax
+	@ResponseBody
+	@RequestMapping(value = "apResumeOpen.do", method = { RequestMethod.POST })
+	public CvRecruitDto apResumeOpen(int cvSeq, HttpSession session) {
+		
+		CvRecruitDto apResumeDto = cApplyService.apResumeOpen(cvSeq);
+		
+		System.out.println(apResumeDto.toString());
+		
+		return apResumeDto;
+		
+	}
 	
 	
 	

@@ -2,6 +2,8 @@ package pickme.com.a.recruit.service;
 
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 import model.CMemberDto;
 import model.FilesDto;
 import model.RecruitDto;
@@ -9,7 +11,7 @@ import model.RecruitParam;
 
 public interface RecruitService {
 		//날짜 지나면 DEL=1로 바꾸기
-		public void dayUpdateDel();
+		public void dayUpdateDel(String today);
 	
 		//마지막 ref+1 받아오기
 		public int getRef();									

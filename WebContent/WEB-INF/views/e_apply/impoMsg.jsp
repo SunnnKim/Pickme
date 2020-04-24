@@ -12,16 +12,14 @@
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
 
 <!-- subCont 시작 -->
-
-<!-- 메뉴 -->
-<ul class="tab-default column3 mt30" data-tab="">
-	<li ><a href="inMsg.do" >받은 메시지</a></li>
-	<li><a href="outMsg.do" >보낸 메시지</a></li>
-	<li class="active"><a href="impoMsg.do" >중요 메시지</a></li>
-</ul>
-
-<div id="allList" data-tab-content="" class="active">
-
+	<!-- 메뉴 -->
+	<ul class="tab-default column3 mt30" data-tab="">
+		<li ><a href="inMsg.do" >받은 메시지</a></li>
+		<li><a href="outMsg.do" >보낸 메시지</a></li>
+		<li class="active"><a href="impoMsg.do" >중요 메시지</a></li>
+	</ul>
+	<div id="allList" data-tab-content="" class="active">
+	
 	<!-- 검색창 -->
 	<div class="bbs-top">
 		<div class="form-search">
@@ -51,19 +49,19 @@
 		<table>
 			<caption>전체</caption>
 			<colgroup>
-				<col style="width: 10%">
-				<col style="width: 50%">
+				<col style="width: 5%">
+				<col style="width: 5%">
+				<col style="width: 60%">
 				<col style="width:15%">
 				<col style="width:15%">
-				<col style="width: 10%">
 			</colgroup>
 			<thead>
 				<tr>
+					<th><input type="checkbox" id="checkall"></th>
 					<th>중요</th>
 					<th>내용</th>
 					<th>발신자</th>
 					<th>발신일</th>
-					<th><input type="checkbox" id="checkall"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -87,6 +85,7 @@
 			<c:set var="content" value="${impoMsg.content }" />
 			<c:set var="sdate" value="${impoMsg.sdate }" />
 					<tr><!-- 중요메시지 표시 -->
+					<td><input type="checkbox" name="checkRow" value="${impoMsg.seq }"></td>
 					<td class="star-td">
 						<c:if test="${ impoMsg.important == 0 }" >
 							<i class="fas fa-star"> <input
@@ -116,9 +115,7 @@
 							</c:if>
 						</td>
 						<td> ${ impoMsg.name } <input type="hidden" id="_seq" value="${ impoMsg.seq}"></td>
-						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td>
-						<td><input type="checkbox" name="checkRow" value="${impoMsg.seq }"></td>
-						
+						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td>	
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -126,8 +123,8 @@
 		</table>
 	</div>
 
-	<div class="btn-message">
-		<button type="button" style="float: right;" onclick="deleteAction()">선택삭제</button>
+	<div class="btn-message clfix">
+		<button type="button" onclick="deleteAction()">선택삭제</button>
 	</div>
 
 	<!-- 페이징 -->
@@ -165,22 +162,16 @@
 				var seq = $('table tr').eq(trNum).find('#_seq').val();
 			//	alert("seq: " + seq);
 			//	alert($(this).attr('class'));
-			
-				 
 				 if($(this).attr('class')=="fas fa-star on"){
-			 
-					 
-					alert(" on");
+					// alert(" on");
 					 // 클릭한 중요 별이 속해있는 tr 가져오기 
 					 // prevAll은 현재 tr요소 앞의 모든 tr요소 이므로 그 length 값에 +1을 해야 현재 tr의 넘버를 알 수 있음
-
 					 	$.ajax({
 					 			url:"addStar.do",
 					 			dataType: "JSON",
 					 			Type: "post",
 					 			data:{ "seq" : seq },
 					 			success: function(data){
-					 				
 					 				if(data != null){
 					 					alert("중요메시지에 추가되었습니다 ");
 					 				}
@@ -278,25 +269,23 @@
 	}
 	/* 페이지 이동 */
 	function goPage(pn){
-	  var sKeyword = '<c:out value="${sKeyword}"/>';
-	  alert("sKeyword: " + sKeyword);
-
-	  var isUnread = '<c:out value="${isUnread}"/>';
-
-	  alert(isUnread);
-
-	  if(isUnread == 'yes'){
-		  
-		  location.href="unread.do?page=impoMsg&pageNumber=" + pn;
-
-	 }else{	
-		
-	  	location.href="impoMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
-
-	 }	
-	}
-
+		  var sKeyword = '<c:out value="${sKeyword}"/>';
+		  alert("sKeyword: " + sKeyword);
 	
+		  var isUnread = '<c:out value="${isUnread}"/>';
+	
+		  alert(isUnread);
+	
+		  if(isUnread == 'yes'){
+			  
+			  location.href="unread.do?page=impoMsg&pageNumber=" + pn;
+	
+		 }else{	
+			
+		  	location.href="impoMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
+	
+		 }	
+	}
 	
 	/* 메시지 작성 */
 	function writeAction() {

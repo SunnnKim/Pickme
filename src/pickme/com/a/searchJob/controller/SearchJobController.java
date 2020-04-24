@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,21 +42,30 @@ import pickme.com.a.searchJob.service.SearchJobService;
 public class SearchJobController {
 	@Autowired
 	SearchJobService serv;
-	
 
+	
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
+		//1차 직군 선택시
+		System.out.println("===== Search Occ : "+ param.getOcc());
+		
+		if( param.getOcc() == null ) {
+			model.addAttribute("getOcc", "");
+		} else {
+			model.addAttribute("getOcc", param.getOcc());			
+		}
+		 
+		 
 		
 		//마감날짜가 지나면 del update
-		serv.dayUpdateDel();
-		
+		//serv.dayUpdateDel();
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
 		
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
-		int totalRecCount = serv.getCountRec();
+		int totalRecCount = serv.getCountRec(param);
 		
 		param.setStart(start);
 		param.setEnd(end);
@@ -67,6 +77,11 @@ public class SearchJobController {
 		model.addAttribute("pageCountPerScreen", 10);
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
 		model.addAttribute("totalRecCount", totalRecCount); 
+		
+		//검색
+		System.out.println("keyword : " + param.getsKeyword());
+		model.addAttribute("sKeyword", param.getsKeyword());
+		
 		return "searchJob/recSearch";
 	}
 	

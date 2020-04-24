@@ -95,7 +95,7 @@ color: #4f6eff;
 							<span style="text-align: right;">[기간] : ${dto.wdate } ~ ${dto.edate }</span>
 												
 							<div style="text-align: -webkit-center; margin-top: 20px">
-								<button type="button" class="cApply_btn" onclick="cApply_list()">지원자 : 2명	</button>
+								<button type="button" class="cApply_btn" onclick="cApply_list(${dto.seq})">지원자 : ${dto.applyCount }명	</button>
 							</div>
 						</div>
 					</li>
@@ -126,8 +126,9 @@ function goPage(pn){
 	
 }
 
-function cApply_list() {
-	location.href="cApplyList.do";
+function cApply_list(seq) {
+	alert("jobSeq : " + seq);
+	location.href="cApplyList.do?jobSeq=" + seq;
 }
 
 

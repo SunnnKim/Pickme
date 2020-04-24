@@ -29,6 +29,9 @@ public interface CMypageDao {
 	// 수정 페이지 데이터 담기
 	public CMemberDto select(int seq);
 	
+	// 로고 업로드
+	public boolean uploadLogo(CMemberDto dto);
+	
 	
 	
 	

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
+  "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="Recruit">
 <!-- 마지막 시퀀스 뽑아내기 -->
@@ -12,10 +12,10 @@
  		SELECT IFNULL(MAX(REF),0)+1 FROM RECRUIT
  	</select>
 	<insert id="recInsert" parameterType="model.RecruitDto">
-		INSERT INTO RECRUIT(COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE,
+		INSERT INTO RECRUIT(COMSEQ, COMNAME, TITLE, COMJOB1, COMJOB2, COMJOBTYPE,
 		MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY,
  		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL, IMAGENAME)
-		VALUES (#{comSeq}, #{comName}, #{title}, #{comJob}, #{comJobType},
+		VALUES (#{comSeq}, #{comName}, #{title}, #{comJob1}, #{comJob2}, #{comJobType},
 		#{mainTask}, #{workingForm}, #{requirements}, #{salary},
 		#{content}, #{hashTag}, SYSDATE(), #{edate}, #{ref}, 0, 0, #{imagename} )
 	</insert>
@@ -25,13 +25,27 @@
 	</insert> 
 	<!-- ================= recruit 테이블 imagename 을 originname -> newname 으로 바꾸기 -->
 	<update id="imageNameUpdate" parameterType="int">
-		UPDATE RECRUIT R
-		SET IMAGENAME=(SELECT NEWNAME FROM FILES F WHERE R.SEQ = F.REF AND USETABLE = 'RECRUIT' AND F.STEP=0 )
-		WHERE R.REF=#{ref}
+		<!-- UPDATE RECRUIT R
+		SET IMAGENAME=(SELECT NEWNAME FROM FILES F WHERE R.REF = F.REF AND USETABLE = 'RECRUIT' AND F.STEP=0 )
+		WHERE R.SEQ=#{ref} -->
+		UPDATE RECRUIT
+		SET IMAGENAME=(SELECT NEWNAME FROM FILES WHERE REF=${ref} AND USETABLE = 'RECRUIT' AND STEP=0 )
+		WHERE SEQ=${ref}
 	</update>
 	<!-- 채용탐색글 수 count -->
-	<select id="getCountRec" resultType="int">
+	<select id="getCountRec" parameterType="model.RecruitParam" resultType="int">
 		SELECT IFNULL(COUNT(*),0) AS CNT FROM RECRUIT WHERE DEL=0
+		<if test="sKeyword != null and sKeyword !=''">
+		<![CDATA[
+		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
+		OR  TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR TITLE = #{sKeyword} 
+		OR  COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB1 = #{sKeyword} 
+		OR  COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB2 = #{sKeyword} 
+		OR  REQUIREMENTS LIKE CONCAT('%', #{sKeyword}, '%') OR REQUIREMENTS = #{sKeyword} 
+		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
+		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
+		]]>
+		</if>
 	</select>
 	<!-- (기업) 현재 공고중인 게시글 수 count -->
 	<select id="getComRecCount" resultType="int">
@@ -42,11 +56,28 @@
 		SELECT IFNULL(COUNT(*),0) AS CNT FROM RECRUIT WHERE COMSEQ=#{comSeq} AND DEL=1
 	</select>
 	
-	<!-- 채용탐색 들어가자마자 뿌려지는 전체 LIST(페이징)-->
+	<!-- 채용탐색 들어가자마자 뿌려지는 전체 LIST(페이징)+검색-->
  	<select id="getRecAllList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
-		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
+		<!-- SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
 		FROM ( SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY SEQ DESC) R
-		LIMIT #{recordCountPerPage} OFFSET #{start}
+		LIMIT #{recordCountPerPage} OFFSET #{start} -->
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB1, COMJOB2, COMJOBTYPE,
+		MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY,
+ 		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL, IMAGENAME
+		FROM ( SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY SEQ DESC) R
+		WHERE 1=1
+		<if test="sKeyword != null and sKeyword !=''">
+		<![CDATA[
+		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
+		OR  TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR TITLE = #{sKeyword} 
+		OR  COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB1 = #{sKeyword} 
+		OR  COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB2 = #{sKeyword} 
+		OR  REQUIREMENTS LIKE CONCAT('%', #{sKeyword}, '%') OR REQUIREMENTS = #{sKeyword} 
+		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
+		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
+		]]>
+		</if>
+		LIMIT #{recordCountPerPage} OFFSET #{start} 
 	</select> 
 	<!-- 기업만 볼수있는 채용공고 list (현재공고) -->
 	<select id="getMyRecruitNow" parameterType="model.RecruitParam" resultType="model.RecruitDto">
@@ -62,7 +93,7 @@
 	</select> 
 	<!-- detail -->
 	<select id="getRecruitDetail" parameterType="int" resultType="model.RecruitDto">
-		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
+		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOB1, COMJOB2, COMJOBTYPE, MAINTASK, WORKINGFORM, REQUIREMENTS, SALARY, CONTENT, HASHTAG, WDATE,EDATE, REF, READCOUNT, DEL, IMAGENAME
 		FROM RECRUIT 
 		WHERE SEQ=#{seq}
 	</select> 
@@ -92,7 +123,7 @@
 	<!-- 공고 update -->
 	<update id="recUpdate" parameterType="model.RecruitDto">
 		UPDATE RECRUIT
-		SET TITLE=#{title}, COMJOB=#{comJob}, COMJOBTYPE=#{comJobType},
+		SET TITLE=#{title}, COMJOB1=#{comJob1}, COMJOB2=#{comJob2}, COMJOBTYPE=#{comJobType},
 		 MAINTASK=#{mainTask}, WORKINGFORM=#{workingForm}, REQUIREMENTS= #{requirements},
 		 SALARY=#{salary}, CONTENT=#{content}, HASHTAG=#{hashTag}, EDATE=#{edate}, IMAGENAME=#{imagename}
 		WHERE SEQ=#{seq}
@@ -103,8 +134,11 @@
 		WHERE USETABLE='RECRUIT' AND REF = #{ref} 
 	</delete>
 	<!-- 마감일이 오늘날짜보다 지났을때 공고마감 del=1  -->
-	<update id="dayUpdateDel">
-		UPDATE RECRUIT SET DEL=1 WEHRE NOW()>EDATE
+	<update id="dayUpdateDel" parameterType="java.lang.String">
+		<![CDATA[
+			UPDATE RECRUIT SET DEL=1
+			WHERE DATE_FORMAT(${today},'%Y-%m-%d') > DATE_FORMAT(EDATE,'%Y-%m-%d')	
+		]]>
 	</update>
 
 	<!-- 해야할것 : (통계)해당 게시물 좋아요수 count -->

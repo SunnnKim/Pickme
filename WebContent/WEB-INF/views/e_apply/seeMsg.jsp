@@ -96,116 +96,102 @@
     
  </div> <!-- // all list -->   
 <%@include file="/include/footer.jsp"%>
+
 <script>
-
-$(document).ready(function(){
-  
-	//alert('<c:out value="${page}"/>')
-	
-	var page = '<c:out value="${page}"/>'
-	// messageDetail 들어오기 직전 탭 지정하기
-	document.getElementById(page).setAttribute('class', 'active');
-	
-	if(page == 'outMsg'){
+	$(document).ready(function(){	
+		var page = '<c:out value="${page}"/>'
+		// messageDetail 들어오기 직전 탭 지정하기
+		document.getElementById(page).setAttribute('class', 'active');
 		
-		$("#_reply").hide();
-		
+		if(page == 'outMsg'){ // 보낸 메시지 답장기능 숨기기
+			$("#_reply").hide();
+		}
+		// 처음에 답장창 숨기기
+		$(".messageBox").hide();
+	});
+	
+	   
+	// 답장하기 버튼 누른 경우
+	function reply(){
+	
+	    $(".messageBox").show();
+	    $(".messageBox input").focus(function(){ $(".messageBox").css('box-shadow', '0px 0px 5px  rgba(0,0,0,0.2)');});
+	    $("#repl-cont").focus(function(){ $(".messageBox").css('box-shadow', '0px 0px 5px  rgba(0,0,0,0.2)');});
+	    $(".messageBox input").blur(function(){ $(".messageBox").css('box-shadow', '');});  
+	    $("#repl-cont").blur(function(){ $(".messageBox").css('box-shadow', '');});
+	   
+	    var offset = $('.messageBox').offset(); //선택한 태그의 위치를 반환
+	    //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
+	    $("html body").animate({scrollTop : offset.top}, 400);  
+	    $("#msgBtn").hide();
+	    
 	}
-
-	$(".messageBox").hide();
-});
-
- 
-   
-// 답장하기 버튼 누른 경우
-function reply(){
-
-    $(".messageBox").show();
-    $(".messageBox input").focus(function(){ $(".messageBox").css('box-shadow', '0px 0px 5px  rgba(0,0,0,0.2)');});
-    $("#repl-cont").focus(function(){ $(".messageBox").css('box-shadow', '0px 0px 5px  rgba(0,0,0,0.2)');});
-    $(".messageBox input").blur(function(){ $(".messageBox").css('box-shadow', '');});  
-    $("#repl-cont").blur(function(){ $(".messageBox").css('box-shadow', '');});
-   
-    var offset = $('.messageBox').offset(); //선택한 태그의 위치를 반환
-    //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
-    $("html body").animate({scrollTop : offset.top}, 400);  
-    $("#msgBtn").hide();
-    
-}
-
-// 답장 닫기
-function hideThis(){
-    $("#repl-cont").val("");
-    $(".messageBox").hide();
-    $("#msgBtn").show();
-  
-}
-
-function delcheck(){
-	var seq = '<c:out value="${msgDetail.seq}"/>';
-	// alert(seq);
 	
-	Swal.fire({
-		  title: '정말 삭제하시겠습니까?',
-		  text: "",
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  cancelButtonText:'취소',
-		  confirmButtonText: '삭제'
-		}).then((result) =>{
-			 var seqArray = [];
-			 seqArray.push(seq);
-			
-		  if (result.value) {
-				$.ajax({
-					url        : "deleteMsg.do",
-					dataType   : "json",
-					type       : "post",
-				    traditional: true, // array보낼때 필요
-					data       : {"seqArray" : seqArray },
-					success    : function(data){
-												
-						
-						if(data != null){
-
-							 Swal.fire(
-								      '삭제되었습니다',
-								      '',
-								      'success'
-							    ).then((reslut)=>{
-							
-							
-							var goPage = '<c:out value="${page}"/>'
-								//alert("goPage: " + goPage);
-							if(goPage == 'impoMsg'){
-								location.href="impoMsg.do";
-							}else if(goPage == 'inMsg'){
-								location.href="inMsg.do";
-							}else if(goPage == 'outMsg'){
-								location.href="outMsg.do";
-								
+	// 답장 닫기
+	function hideThis(){
+	    $("#repl-cont").val("");
+	    $(".messageBox").hide();
+	    $("#msgBtn").show();
+	  
+	}
+	
+	function delcheck(){
+		var seq = '<c:out value="${msgDetail.seq}"/>';
+		Swal.fire({
+			  title: '정말 삭제하시겠습니까?',
+			  text: "",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText:'취소',
+			  confirmButtonText: '삭제'
+			}).then((result) =>{
+				 var seqArray = [];
+				 seqArray.push(seq);
+				
+			  if (result.value) {
+					$.ajax({
+						url        : "deleteMsg.do",
+						dataType   : "json",
+						type       : "post",
+					    traditional: true, // array보낼때 필요
+						data       : {"seqArray" : seqArray },
+						success    : function(data){
+							if(data != null){
+								 Swal.fire(
+									      '삭제되었습니다',
+									      '',
+									      'success'
+								    ).then((reslut)=>{
+								var goPage = '<c:out value="${page}"/>'
+									//alert("goPage: " + goPage);
+								if(goPage == 'impoMsg'){
+									location.href="impoMsg.do";
+								}else if(goPage == 'inMsg'){
+									location.href="inMsg.do";
+								}else if(goPage == 'outMsg'){
+									location.href="outMsg.do";
+									
+								}	
+	
+								});
 							}	
-
-							});
-						}	
-
-					},
-					error      : function(request, status, error){
-						alert("error");
-					}
-				});
-		  
-		  	}
-		});
 	
-
-} 
+						},
+						error      : function(request, status, error){
+							alert("error");
+						}
+					});
+			  
+			  	}
+			});
+		
+	
+	} 
 
 
 	function send(){
-
 		var formData = $("#frm").serialize();
 		if (($("#repl-cont").val()).trim()  == null || ($("#repl-cont").val()).trim() == ""){
 			Swal.fire({
@@ -221,16 +207,28 @@ function delcheck(){
 				type  :"post",
 				data  :formData,
 				dataType: "json",
-				success:function(result){
-					if(result == 1){
+				success:function(data){
+					if(data != null){
+						console.log(data.receiverEmail);
+						console.log(data.loginSeq)
+						console.log(data.msgSeq);
+						console.log(data.senderName);
+						console.debug("reply.js:: socket>>", socket)
+						if(socket) { // 소켓객체가 존재하는 경우
+							// websocket에 보내기  (distinguish, cmd, 메시지 보내는자이름, 메시지받는자이메일 , 메시지seq, 안읽은메시지갯수)
+						   let socketMsg = socket.send("com,alert," +  data.senderName + "," + data.receiverEmail 
+								                       + "," + data.msgSeq + ",null");
+						 	console.debug("sssmsg >> ", socketMsg);
+						 	socket.send(socketMsg)
+						}
+												
 						Swal.fire({
 							  position: 'center',
 							  icon: 'success',
 							  text: '메시지가 성공적으로 보내졌습니다',
 							  showConfirmButton: false,
 							  timer: 1500
-							})					
-						
+							});						
 						$("#repl-cont").val("");
 						$(".messageBox").hide();
 						$("#msgBtn").show();
@@ -244,28 +242,28 @@ function delcheck(){
 	
 	}
 
-function searchAction() {
-	alert("검색 버튼 클릭");
-	var sKeyword = ($("#_keyword").val()).trim();
-	
-	alert("sKeyword: " + sKeyword );
-	if(sKeyword == null || sKeyword == ""){
-		alert("검색어를 입력해주세요.");
-	}else{
-		var page = '<c:out value="${page}"/>'
-		if(page == 'inMsg'){
-		 	location.href="inMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
-		}else if(page =='outMsg'){
-			location.href="outMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";	
-			
-		}else if(page == 'impoMsg'){
-			
-			location.href="impoMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
+	function searchAction() {
+		alert("검색 버튼 클릭");
+		var sKeyword = ($("#_keyword").val()).trim();
+		
+		alert("sKeyword: " + sKeyword );
+		if(sKeyword == null || sKeyword == ""){
+			alert("검색어를 입력해주세요.");
+		}else{
+			var page = '<c:out value="${page}"/>'
+			if(page == 'inMsg'){
+			 	location.href="inMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
+			}else if(page =='outMsg'){
+				location.href="outMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";	
+				
+			}else if(page == 'impoMsg'){
+				
+				location.href="impoMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
+			}
 		}
-	}
-}	
+	}	
 
-$("#_keyword").keyup(function(e){if(e.keyCode == 13) searchAction(); });
+	$("#_keyword").keyup(function(e){if(e.keyCode == 13) searchAction(); });
 </script>
 
 

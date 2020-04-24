@@ -9,7 +9,7 @@ import model.RecruitParam;
 
 public interface RecruitDao {
 	//날짜 지나면 DEL=1로 바꾸기
-	public void dayUpdateDel();
+	public void dayUpdateDel(String today);
 	
 	//마지막 ref+1 받아오기
 	public int getRef();									

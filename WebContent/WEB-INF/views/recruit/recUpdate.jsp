@@ -96,10 +96,10 @@ $(document).ready(function(){
               
               <h4>직군/직무<span class="ess">*</span></h4>
               <div class="cont">
-                <select class="select_cons" name="com_job1" id="com_job1" onchange="changeOcc(this)">
+                <select class="select_cons" name="comJob1" id="com_job1" onchange="changeOcc(this)">
                   <option value="0">1차분류</option>
                 </select>
-                <select class="select_cons" name="com_job2" id="com_job2">
+                <select class="select_cons" name="comJob2" id="com_job2">
                   <option value="0">2차분류</option>
                 </select>
               </div>
@@ -227,7 +227,7 @@ $(document).ready(function(){
 	
 	// datepicker
 	$("#datepicker").datepicker({
-			minDate : 0,
+			minDate : 1,
 			maxDate : "+1M 7D",
 			dateFormat : "yy-mm-dd"
 	});
@@ -253,13 +253,10 @@ $(document).ready(function(){
 
           }
         }
-
-        var selOcc ="${occ}";
-        var selJob = "${job}";
-        //console.log("selOcc:"+selOcc);
-        //console.log("selJob:"+selJob);
         
         // selected 되어있을 때 2차 분류 뿌리기   
+        var selOcc ="${recDto.comJob1}";
+        var selJob = "${recDto.comJob2}";
        	$('#com_job1 option').each(function(){
        	   if($(this).val()== selOcc){	
        	     $(this).attr("selected","selected"); // attr적용안될경우 prop으로 	
@@ -469,12 +466,27 @@ $(document).ready(function(){
 				  icon: 'error',
 				  text: '제목을 등록해주세요'
 				})
+		} else if( $("#img1").val()=="" &&  $("#img2").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '첫번째 이미지를 등록해주세요'
+				})
+		} else if( $("#img1").val()=="" &&  $("#img3").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '첫번째 이미지를 등록해주세요'
+				})
+		} else if( $("#img2").val()=="" &&  $("#img3").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '두번째 이미지를 등록해주세요'
+				})
 		} else if ( $("input[name='edate']").val() == "" ){
 			Swal.fire({
 				  icon: 'error',
 				  text: '채용마감일을 등록해주세요'
 				})
-		} else if($("select[name='com_job1']").val()==0 || $("select[name='com_job2']").val()==0){
+		} else if($("select[name='comJob1']").val()==0 || $("select[name='comJob2']").val()==0){
 			Swal.fire({
 				  icon: 'error',
 				  text: '직군/직무를 선택해주세요.'
@@ -527,7 +539,8 @@ $(document).ready(function(){
 				var originfile = $("input[name=originfile]").val(); //첨부파일
 				var title = $("input[name=title]").val();
 				var edate =  $("input[name=edate]").val();
-				var comJob = $("#com_job1 option:selected").text()+","+$("#com_job2 option:selected").text();	//직군, 직무;
+				var comJob1 = $("#com_job1 option:selected").text();	//직군
+				var comJob2 = $("#com_job2 option:selected").text();	//직무
 				var comJobType = $("select[name=comJobType]").val();
 				var workingForm = $("select[name=workingForm]").val();
 				var mainTask = $("input[name=mainTask]").val();
@@ -549,7 +562,7 @@ $(document).ready(function(){
 				url:"updateRecAf.do",
 				type:"post",
 				datatype:'json',
-				data:{'seq':seq,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
+				data:{'seq':seq,'ref':ref,'edate':edate,'comJob1':comJob1,'comJob2':comJob2,'comJobType':comJobType, 'title':title, 'requirements':requirements,
 					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName },
 				success: function(data){
 					//alert("넘어온 seq: "+data);

@@ -1,16 +1,20 @@
 package pickme.com.a.c_mypage.controller;
 
+import java.io.File;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.CMemberDto;
 import pickme.com.a.c_mypage.service.CMypageService;
@@ -21,7 +25,7 @@ public class CMypageController {
 
 	@Autowired
 	CMypageService service;
-	
+	  
 	
 	// 슬라이드 테스트용
 	@RequestMapping(value = "slide.do", method = {RequestMethod.GET,RequestMethod.POST})
@@ -60,13 +64,16 @@ public class CMypageController {
 	// 기업 마이페이지 이동
 	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String goCMyPage(Model model, HttpSession session) {
-		System.out.println("test go ");
 		// 기업 고유 시퀀스 
 		int seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq() ;
 		CMemberDto cMember = service.select(seq);
 		model.addAttribute("cMember", cMember);
 		
-		System.out.println("해시태그 = " + cMember.getHashTag());
+		//주소 따옴표 제거하기
+		String addressDto = cMember.getAddress();
+		String[] realAddress = addressDto.split("'");
+		
+		model.addAttribute("realAddress", realAddress);
 		
 		return "c_mypage/myPage";
 	}
@@ -90,6 +97,33 @@ public class CMypageController {
 		
 		model.addAttribute("dto", dtoo);
 		
+		System.out.println("수정페이지 열릴 때 해시태그 = " + dtoo.getHashTag());
+		System.out.println("수정페이지 열릴 때 주소 = " + dtoo.getAddress());
+		
+		String addressDto = dtoo.getAddress();
+		String[] addressArr = addressDto.split("'");
+		
+		model.addAttribute("addressArr", addressArr);
+		
+		/*
+		String arr1 = addressArr[0];
+		String arr2 = addressArr[1];
+		String arr3 = addressArr[2];
+		
+		// 우편번호에서 괄호 [ ] 제거하기
+		String realArr1 = arr1.replace("[", "");
+		String realArr2 = realArr1.replace("]", "");
+		
+		System.out.println("우편번호 = " + realArr2);
+		System.out.println("기본주소 = " + arr2);
+		System.out.println("상세주소 = " + arr3);
+		
+		model.addAttribute("realArr2", realArr2);	// 우편번호
+		model.addAttribute("arr2", arr2);	// 기본주소
+		model.addAttribute("arr3", arr3);	// 상세주소
+		
+		*/
+		
 		return "c_mypage/update";
 	}
 	
@@ -112,45 +146,31 @@ public class CMypageController {
 	
 	// 기업 정보 수정 
 	@RequestMapping(value = "update.do", method = {RequestMethod.POST})
-	public String update(CMemberDto dto, Model model) throws Exception {
+	public String update(CMemberDto dto, Model model, String hashTag) throws Exception {
+		
+		System.out.println(hashTag);
 		
 		service.update(dto);
-		System.out.println("수정된 기업정보 dto = " + dto.toString());
 		
-//		model.getAttribute("address");
+		System.out.println("수정된 기업정보 dto = " + dto.toString());
+		System.out.println("수정된 해시태그 = " + dto.getHashTag());
 		
 		return "redirect:/c_mypage/goCMypage.do";
 	}
 	
 	
-	
-	
-	
-	// 
-	private String saveFile(MultipartFile file) {
-		// 파일 이름 변경
-		UUID uuid = UUID.randomUUID();
-		String saveName = uuid + "_" + file.getOriginalFilename();
+	// 로고 업로드
+/*	@RequestMapping(value = "uploadLogo.do", method = {RequestMethod.POST})
+	public String uploadLogo(CMemberDto dto,
+								@RequestParam(value = "fileload", required = false)
+								MulitipartFile fileload, HttpServletRequest req) {
 		
-		System.out.println("저장된 로고 이름 = {}" + saveName);
-		
-		// 저장할 File 객체를 생성
-//		File saveFile = new File(UPLOAD_PATH, saveName);
-		
+		// fileName
+		String fileName = fileload
+				
 		return "";
 	}
-	
-	
-	
-	// 로고 업로드
-	@RequestMapping(value = "logoUpload.do", method = {RequestMethod.POST})
-	public void logoUpload(MultipartFile uploadFile) {
-		System.out.println("로고 업로드");
-		System.out.println("로고 이름 = " + uploadFile.getOriginalFilename());
-		System.out.println("로고 크기 = " + uploadFile.getSize());
-		
-		saveFile(uploadFile);
-	}
+	*/
 }
 
 

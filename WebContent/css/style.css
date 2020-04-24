@@ -89,10 +89,10 @@ button.likebtn{
     height: 39px;
     border-radius: 15px;
     position: absolute;
-   /*  background: rgba(0,0,0,.4);  */
+   /*  background: rgba(0,0,0,.4); */
     color: #000;
     border: 1px solid #3b467c;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
@@ -101,6 +101,26 @@ button.likebtn{
     -ms-flex-align: center;
     align-items: center;
     display: block;
+    outline: none;
+}
+button.detailLike{
+	/* margin-top:7px; */
+    width: 71px;
+ 	/* height: 39px; */
+   /*  border-radius: 15px; */
+   /*  position: absolute; */
+   /*  background: rgba(0,0,0,.4);  */
+    color: #000;
+   /*  border: 1px solid #3b467c; */
+    font-size: 20px;
+    font-weight: 400;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+   /* display: block; */
     outline: none;
 }
 
@@ -349,15 +369,17 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
 .paging [class^=btn-] span{display:block; text-indent:-999999px;}
 .paging [class^=btn-]:hover,
 .paging [class^=btn-]:focus{background-position-y:-50px;}
-.paging ul{display:inline-block; margin:0 20px 0 15px; vertical-align:top;}
+.paging ul{display:inline-block; margin:0 20px; vertical-align:top;}
 .paging li{display:inline-block; width:30px; height:30px; margin-left:5px; line-height:30px; text-align:center;}
+.paging li:first-child {margin-left:0;}
 .paging li a{display:block; height:30px; font-size:15px;}
 .paging li span{position:relative; display:block; font-size:15px; background:#4f6eff; color:#fff;}
 
 /* .bbs-delete {color: #fff; background-color: #17a2b8; border-color: #17a2b8;} */
 
-.btn-message{display:block; text-align:right;}
-.btn-message button {width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: inline-block; font-size: 15px; margin-top: 15px; cursor: pointer;}
+.btn-message{display:block; text-align:left;}
+.btn-message button {width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; 
+            text-align: center; text-decoration: none; display: inline-block; font-size: 15px; margin-top: 15px; cursor: pointer; float: left;}
 .btn-message button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
 
 .table-bbs td a {display: block; text-align: left; max-width: 340px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
@@ -379,8 +401,6 @@ ul.form-desc li:before {position:absolute; left:0; top:8px; content:''; display:
     color: #ff0000;
     margin-right: 0;
 }
-
-
 
 button.btn-cancel {    
 	width: 90px;
@@ -450,8 +470,8 @@ span.read-msg{text-align:left;color:#777;}
 
 
 /* apply - 메시지보내기 팝업 */
-.messenger-wrap{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4);}
-.msgBox {width:600px; background:#fff; margin:15% auto;}
+.messenger-wrap{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); overflow-y:scroll; z-index:100;}
+.msgBox {width:600px; background:#fff; margin:10% auto;}
 .msg-bar {width:100%; background:#333; padding:0 20px}
 .msg-bar h4 {color:#fff; font-weight:normal; line-height:60px; font-size:18px;}
 .msgCont {width:100%; padding:20px 30px 40px; background:#fff;}
@@ -481,7 +501,7 @@ span.read-msg{text-align:left;color:#777;}
 .applyDelBtn{width:80px; height:40px; line-height:40px; font-size:15px; background:#4f6eff; color:#fff; margin:0 3px;}
 .applyDelBtn2{width:80px; height:40px; line-height:40px; font-size:15px; background:#777; color:#fff; margin:0 3px;}
 .bbs-infoWrap{line-height:24px;}
-.bbs-infoWrap .bbs-lt{float:left;padding-left:5px;}
+.bbs-infoWrap .bbs-lt{float:left;padding-left:5px;line-height:32px;}
 .bbs-infoWrap .bbs-lt span{font-weight:600;}
 .bbs-infoWrap .bbs-rt{float:right;}
 .bbs-infoWrap .bbs-rt p.unread{ background:#4f6eff; border-radius:10; padding:5px; color: #fff; font-weight: 400px; font-size:13px;}
@@ -491,7 +511,8 @@ p.cancel-notice{font-size:12px; color:#8aa5c1; text-align:right;}
 .cvRejBtn{width:70px; height:40px; line-height:40px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
 
 .cvreq-DelBtn{width:100%; height:50px}
-.cvreq-DelBtn button{width: 100px; background-color: #ffffff; border: 1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: inline-block; font-size: 15px; margin-top: 15px; cursor: pointer;}
+.cvreq-DelBtn button{width: 100px; background-color: #ffffff; border:1px solid #4f6eff; color: #4f6eff; padding: 5px 0; text-align: center; text-decoration: none; display: inline-block; 
+					font-size: 15px; margin-top: 15px; cursor: pointer; float:left;}
 .cvreq-DelBtn button:hover {background-color: #4f6eff; color:#ffffff; transition:all 0.2s ease-in-out;}
 
 
@@ -658,6 +679,21 @@ span.ess {color: red; font-weight: bold;}
 
 /*============ 채용등록 끝============*/
 /*============ 채용탐색 시작============*/
+/* bbs-top */
+.recTop {position: relative; width: 100%; display: inline-block;}
+.searchTop{width:50%; text-align:right; right:50%; top:212px; margin-right:-525px; overflow:hidden;}
+/* .searchTop .bbs-total{line-height:40px;} */
+.searchTop .form-search{float:right;}
+.recSearch{position:relative;}
+.recSearch input{width:290px; padding-right:40px;}
+.recSearch .btnSearch{position:absolute; top:0; right:0; display:block; width:40px; height:40px;}
+/* .form-search .btn-search:before{content:""; position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('/cjom/web/images/common/spr_common.svg') 0 -120px no-repeat; background-size:510px 210px;} */
+.recSearch .btnSearch:before{content:""; position:absolute; top:50%; left:50%; display:block; width:20px; height:20px; margin:-10px 0 0 -10px; background:url('../images/main/ico_search.png') no-repeat; background-size:17px 17px;}
+.recSearch .btnSearch span{display:block; text-indent:-99999px;}
+
+.recSearch input[type=text] {height:40px; padding:0 16px 1px; line-height:37px; font-size:15px; font-weight:400; color:#000; box-sizing:border-box; outline:none; border:1px solid #ccc; border-radius:0; transition:border-color 150ms ease-in-out 0s;}
+
+
 .subTit ul.jobs_list{}
 .subTit ul.jobs_list li{
     font-size: 13px;
@@ -678,9 +714,10 @@ span.ess {color: red; font-weight: bold;}
 .subTit ul.jobs_list li span {display:table-cell; vertical-align:middle; width:126px; height: 60px;}
 .subTit ul.jobs_list li:hover{background-color: #ccc;}
 .subTit ul.jobs_list li a{color:#fff;text-decoration: none;}
-
-.subCont .filter_wrap ul.filter_ul{ margin-bottom: 15px;}
+.subCont .filter_wrap {width: 50%;float: left;}
+.subCont .filter_wrap ul.filter_ul{ margin-bottom: 15px; }
 .subCont .filter_wrap ul.filter_ul li{
+
     cursor: pointer;
     float: left;
     border-radius: 2px;
@@ -689,7 +726,7 @@ span.ess {color: red; font-weight: bold;}
     color:#304edf;
     font-size: 14px;
     font-weight: 400;
-    padding: 9px 15px;
+  /*   padding: 9px 15px; */
     margin-right: 10px;
     height:42px;
 }
@@ -698,7 +735,15 @@ span.ess {color: red; font-weight: bold;}
 .subCont .filter_wrap ul.filter_ul li:hover{ background-color: #f9f9f9;}
 .subCont .filter_wrap ul.filter_ul li:last-child{ margin-right: 0;}
 .subCont .filter_wrap ul.filter_ul li:nth-child(2){padding:0;}
-.subCont .filter_wrap ul.filter_ul li select{
+.subCont .filter_wrap ul.filter_ul li select.sorting{
+    display: block;
+     border:none;
+      padding: 9px 15px;
+     cursor: pointer;
+     background: none;
+     outline: none;
+}
+.subCont .filter_wrap ul.filter_ul li select.career{
     display: block;
      border:none;
      padding: 9px 15px;
@@ -706,7 +751,6 @@ span.ess {color: red; font-weight: bold;}
      background: none;
      outline: none;
 }
-
 .subCont .filter_wrap ul.filter_ul li select::-ms-expand {display: none;}
 
 /*
@@ -800,7 +844,7 @@ span.ess {color: red; font-weight: bold;}
     display: none;
     position: absolute;
     /* margin-top: 5rem; */
-    }
+}
 
 .subCont .recTop .slide:first-child {
     display: block;
@@ -1194,9 +1238,47 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .resumeBtnWrap button:hover {}
 
 
+/*================= 웹소켓용 ====================*/
+.header_infoBtn li.alert-warp{
+	position:relative;
+}
+.header_infoBtn li.alert-warp img {vertical-align:middle;}
+
+.alert-number{
+		border-radius:50%;
+		font-size:11px;
+		font-family: 'Roboto', sans-serif;
+		background-color:#285cbb;
+		color:#fff;
+		position:absolute;
+		z-index: 1;
+		line-height:14px;
+		height:15px;
+		width:15px;
+		text-align:center;
+		top:11px;
+		right: -8px;	
+		/* display:none; */
+}
+
+#socketAlert{
+width:100%; 
+height:50px;
+background:#7e9cd6;
+line-height:50px;
+display:none;
+		
+}
+#socketAlert img {
+vertical-align:-5px;
+margin-right:6px;
+}
+#socketAlert a {display:block; color:#fff; font-size:15px;}
+#socketAlert a span {display:inline-block; font-weight:bold;}
 
 
-
-
-
+/*======================cvRequest=====================*/
+.req-response.reject img{
+	width:13px;
+}
 

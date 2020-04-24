@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,6 +48,8 @@ public class RecruitController {
 	RecruitService serv;
 	
 	
+	
+	
 	@RequestMapping(value = "recInsert.do", method = {RequestMethod.POST,RequestMethod.GET})
 	public String recInsert(Model model) {
 		int ref = serv.getRef();
@@ -58,10 +63,9 @@ public class RecruitController {
 		if( comSeq == null ) {
 			comSeq = (Integer)req.getAttribute("comSeq"); 
 		}
-		param.setComSeq(comSeq);
 		
 		//마감날짜 지나면 del=1 update
-		serv.dayUpdateDel();
+		//serv.dayUpdateDel();
 		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
@@ -70,7 +74,7 @@ public class RecruitController {
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
 		int totalRecCount = serv.getComRecCount(comSeq);
-		
+		param.setComSeq(comSeq);
 		param.setStart(start);
 		param.setEnd(end);
 		List<RecruitDto> list = serv.myCurrentRecList(param);
@@ -80,6 +84,8 @@ public class RecruitController {
 		model.addAttribute("pageCountPerScreen", 10);
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
 		model.addAttribute("totalRecCount", totalRecCount); 
+		
+
 		return "recruit/recNow";
 	}
 	
@@ -89,7 +95,7 @@ public class RecruitController {
 		if( comSeq == 0 ) {
 			comSeq = (int)req.getAttribute("comSeq"); 
 		}
-		param.setComSeq(comSeq);
+		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
@@ -97,7 +103,7 @@ public class RecruitController {
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
 		int totalRecCount = serv.getComPastCount(comSeq);
-		
+		param.setComSeq(comSeq);
 		param.setStart(start);
 		param.setEnd(end);
 		List<RecruitDto> list = serv.myPastRecList(param);
@@ -280,9 +286,6 @@ public class RecruitController {
 		//System.out.println("update seq:"+recSeq);
 		RecruitDto dto = serv.getRecruitDetail(recSeq);
 	
-		String[] comJob = dto.getComJob().split(",");
-		String occ = comJob[0];	 //직군
-		String job = comJob[1];//직무
 		//System.out.println("occ: "+occ+" job: "+job);
 		
 		//System.out.println("myRec: "+dto.toString());
@@ -300,8 +303,6 @@ public class RecruitController {
 		List<FilesDto> fileslist = serv.getRecFile(recSeq);
 		
 		model.addAttribute("recDto",dto);
-		model.addAttribute("occ",occ);
-		model.addAttribute("job",job);
 		model.addAttribute("hashTag",hashStr);
 		model.addAttribute("hashlength",hashStr.length);
 		model.addAttribute("fileslist",fileslist);

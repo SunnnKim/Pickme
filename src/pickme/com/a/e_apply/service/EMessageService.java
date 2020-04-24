@@ -34,6 +34,10 @@ public interface EMessageService {
 	
 	public int sendMsg(MessageDto dto);
 	
+	public int getLastId();
+	
+	public String getEmail(int to);
+	
 	public int unreadCount(int seq);
 	
 	public int impoUnreadCount(int seq);

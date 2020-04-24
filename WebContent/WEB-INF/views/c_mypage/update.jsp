@@ -4,7 +4,10 @@
 <%@include file ="../../../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-
+<%
+	CMemberDto dto = (CMemberDto) request.getAttribute("dto");
+	String addressArr = request.getParameter("addressArr");
+%>
 
 
 
@@ -255,19 +258,12 @@ div div.logo-img input.btTextW {
     border-radius: 5px 5px 5px 5px;
   }
   
-  /* 해시태그 추가버튼 */
-  .hashAdd {
-  	width : 80px;
-	height : 40px;
-	background-color: #4f6eff;
-	color: #fff;
-  }
+  /* `` */
   
 </style>    
 
-<form action = "update.do" method = "post" id = "frm" name = "frm">
+<form action = "update.do" method = "post" id = "frm" name = "frm" enctype = "multipart/form-data">
 <input type="hidden" name="seq" value="${dto.seq}"/>
-      <div style = "">
           
         <div class="update-logo">
           <div class="logo-text">
@@ -288,9 +284,9 @@ div div.logo-img input.btTextW {
 					<div class="imgs-wrap" id="imgs-wrap"></div>
 				</div>
 				<div class="filebox preview-image">
-					<label for="input_file"><i class="fas fa-camera"></i></label> <input
-						type="file" id="input_file" class="upload-hidden"> <input
-						type="hidden" class="upload-name" name="_profileName">
+					<label for="input_file"><i class="fas fa-camera"></i></label> 
+					<input type="file" name = file id="input_file" class="upload-hidden"> 
+					<input type="hidden" class="upload-name" name="_profileName">
 				</div>
 			</div>
 
@@ -348,17 +344,17 @@ div div.logo-img input.btTextW {
           	<input type = "button" class = "btn" onclick="sample6_execDaumPostcode()" value="주소찾기">
           	
             <!-- 우편번호 -->
-            <input type= "text" class = "address_zipcode" id="sample6_postcode" placeholder="우편번호">
+            <input type= "text" value = "${realArr2 }" class = "address_zipcode" id="sample6_postcode" placeholder="우편번호">
             
             <!-- 기본주소 -->
-            <input type = "text" class = "address_basic" id="sample6_address" placeholder="기본주소">
+            <input type = "text" value = "${arr2 }" class = "address_basic" id="sample6_address" placeholder="기본주소">
             	<input type="hidden" name="address"><!-- 이 부분은 우편번호'기본주소'상세주소 이런식으로 들어가도록 스크립트에서 작업 -->
             	<br>
             <!-- 참고항목 -->
             <input type = "hidden" class = "address_reference" id="sample6_extraAddress">
             
             <!-- 상세주소 -->
-            <input type = "text" style= "background-color:#ffffff" class = "address_specific" placeholder="상세주소를 입력해주세요." id="sample6_detailAddress">
+            <input type = "text" value = "${arr3 }" class = "address_specific" placeholder="상세주소를 입력해주세요." id="sample6_detailAddress">
         
         </div>
         
@@ -377,9 +373,10 @@ div div.logo-img input.btTextW {
             <label class = "message"> 한글, 영문, 숫자만 가능하며, 등록된 태그를 클릭하면 삭제됩니다. </label>
           </p>
           <input type = "text" id = "hashId" class = "hashId" placeholder="해시태그는 최대 3개까지 등록 가능합니다."/>
-          <input type = "hidden" name = "hashTag" id = "hash1">
-          <input type= "hidden" name = "hashTag" id = "hash2">
-          <input type=  "hidden" name = "hashTag" id = "hash3">
+          <input type = "hidden" id = "hash1">
+          <input type= "hidden" id = "hash2">
+          <input type=  "hidden" id = "hash3">
+          <input type="hidden"  id = "hashT" name = "hashTag" value = ${dto.hashTag }>
           <ul id = "hashUl">
           
           </ul>
@@ -431,12 +428,7 @@ div div.logo-img input.btTextW {
 
 
 
-
-
-
-
 <!--==================================== 스크립트 영역 ========================================-->
-
 
 
 <!---------------- 기업분야, 기업형태 선택 ------------------>
@@ -604,9 +596,17 @@ var introduce = document.querySelector("#introduce");		// 소개
 		// 4. 대표연락처
 		var regTel = /^\d{2,3}-\d{3,4}-\d{4}$/;
 		
+		var beforeTelValue = $("#tel").val();
+		
+		if( beforeTelValue != null || beforeTelValue != "" ) { 
+			console.log("페이지 열릴 때 연락처 = " + beforeTelValue);
+			telCheck = true;
+		}
+		
 		if( tel.onfocusout = () => {
-		var telValue = $("#tel").val();
-
+			var telValue = $("#tel").val();
+			console.log("클릭 후 연락처 = " + telValue);
+			
 			if( telValue == "" ) {
 				telCheck = false;
 			} else if ( regTel.test(tel.value) ) {
@@ -624,24 +624,19 @@ var introduce = document.querySelector("#introduce");		// 소개
         		})
 			}
 		});
-
-		// 5. 주소
-		
-		
-		// 6. 해시태그
-		
-		
 		
 
-// 완료버튼 누름
+//============================= 완료 submit ===========================================//
 updateComplete = () => {
 
 	// 주소 합치기 ! 
 	var addressStr = '';
-	addressStr += "[" + $('#sample6_postcode').val() + "] ";	// 우편번호
-	addressStr += $('#sample6_address').val() + " ";			// 기본주소
-	addressStr += $('#sample6_extraAddress').val();				// 상세주소
+	addressStr += "[" + $('#sample6_postcode').val() + "]'";		// 우편번호
+	addressStr += $('#sample6_address').val() + "'";			// 기본주소
+	addressStr += $('#sample6_detailAddress').val();			// 상세주소
 	$('input[name=address]').val(addressStr);
+	console.log(addressStr);
+
 
 	// 대표자명 잘못 입력
 	if( presidentCheck == false ) {
@@ -698,13 +693,52 @@ updateComplete = () => {
 			return false;
 		})
 	}
+	// 해쉬태그 합치기
+	var hashTag = [];
+	// <input type= "hidden" name = "hashTag" id = "hashT">
+	console.log("hashVal: "+$('#hashT').val());
 
+	// name = hashTag 의 값을 json 으로 변환
+	var receivedArray = JSON.parse($('#hashT').val());
+	console.log(receivedArray.length); // 길이 체크
+	
+	for( var i=1; i <= 3; i++){
+		if( $('#hash'+i).val() != "" ){
+			receivedArray[i-1] = $('#hash'+i).val();
+			// hash1 = receivedArray[0]
+			// hash2 = receivedArray[1]
+			// hash3 = receivedArray[2]
+		}
+	}
+	console.log("receivedArray: "+receivedArray);
+	console.log("receivedArray type: "+typeof(receivedArray));
+	for(var i=0; i < 3; i++){
+		if(hashTag[i] == '' && receivedArray[i] != hashTag[i]) {
+			hashTag[i] = receivedArray[i];
+			// hashTag[0] = receivedArray[0]
+			// hashTag[1] = receivedArray[1]
+			// hashTag[2] = receivedArray[2]
+		}
+	}
+	// receivedArray 를 String 으로 변환
+	json = JSON.stringify(receivedArray);
+	console.log(json);
+	
+	// hash tag -> string
+    //var jsondata = JSON.parse(tags);
+   	jsondata = JSON.stringify(hashTag);
+//  console.log( jsondata)
 
+	// input 에 변환한 배열 데이터를 넣기 
+	$('input[name=hashTag]').val(json);
+	console.log("jsondata: "+jsondata);
+
+  
 	// submit
 	Swal.fire({
 		position: 'center',
 		icon: 'success',
-		text: '성공적으로 수정되었습니다!',
+		title: '성공적으로 수정되었습니다!',
 		showConfirmButton: false,
 		timer: 1500
 	}).then ( (result) => {
@@ -716,79 +750,14 @@ updateComplete = () => {
 });
 </script>
 
-<!----------------------- 주소 쪼개기 ------------------------------->
-
-<script>
-
-	var dbAddress = "${dto.address }";
-	
-
-</script>
-
 <!----------------------- 해시태그 -------------------------->
 
 <script>
-
-/*
-function addTag() {
-
-	var index = 0;
-
-	// 태그 개수
-    var count = $("#hashDiv").length;
-
-    // 해시태그 내용
-    var hashtag = $("#hashId").val();
-
-    // 해시태그 유효성 (한글, 영어, 숫자만 허용)
-    var hashtagCheck = /^[가-힣a-zA-Z0-9]*$/;
-
-    // 태그는 3개까지 허용하며, 빈 칸인 경우 추가하지 않는다.
-    if (count < 3 && hashtag != '') {
-        if(hashtagCheck.test(hashtag)) {
-		   // 추가 성공
-     	  $("#hashDiv").append("<span>"+"#"+hashtag+"<input type='hidden' name='hashTag' value='"+hashtag+"'></span>");
-		  count++;
-		  alert(hashtag);
-		  alert(count);
-     		
-     	  // 새로 추가될 때마다 입력창을 비운다.
-           $("#hashId").val('');
-           removeScript();
-        } else {
-           // 추가 실패(형식 에러)
-     	   Swal.fire({
-     			position: 'center',
-     			icon: 'error',
-     			title: '형식이 올바르지 않습니다!',
-     			text: '한글, 영문, 숫자만 가능합니다',
-     			showConfirmButton: false,
-     			timer: 4000
-     		}).then ( (result) => {
-     			$("#hashId").val('');
-     		})
-        }
-        
-
-    } else if (count > 2 && hashtag != '') {
-        // 추가 실패(개수 초과)
-        Swal.fire({
-				position:'center',
-				icon:'error',
-				title:'해시태그 개수가 너무 많습니다!',
-				text:'3개까지만 추가 가능합니다.',
-				showConfirmButton: false,
-				timer:4000
-        }).then ( (result) => {
-				$("#hashId").val('');
-        })
-    }
-} */
-
    // 해시태그 추가
 
    var index = 0;
-   $("#hashId").focusout(function() {
+   $("#hashId").keypress(function(event) {
+	   if(event.which == 13) {
        // 태그 개수
 
        var count = $("ul#hashUl li").length;
@@ -808,14 +777,15 @@ function addTag() {
 		   	  // 추가 성공
         	  $("#hashUl").append("<li>" + "#" + hashtag + "</li>");
 
-        	  if(hiddenHashtag1 == null) {
+		   	  console.log("hiddenHashtag1: " + hiddenHashtag1)
+				
+        	  if(hiddenHashtag1 == '') {
         	  	$("#hash1").val( $("#hashId").val() );
-			  } else if(hiddenHashtag2 == null) {
+			  } else if(hiddenHashtag2 == '') {
 				$("#hash2").val( $("#hashId").val() );
-			  } else if(hiddenHashtag3 == null) {
+			  } else if(hiddenHashtag3 == '') {
 				$("#hash3").val( $("#hashId").val() );
 			  }
-        	  
         	  
                 	  
         	  // 새로 추가될 때마다 입력창을 비운다.
@@ -850,14 +820,33 @@ function addTag() {
            })
        }
 
+	   }
+
    	});
 
-   function removeScript() {
-       $("ul#hashUl li").click(function() {
-           $(this).remove();
-       });
-   }
+ 	function removeScript() {
+		$("ul#hashUl li").click(function() {
+			$(this).remove();
+		})
+ 	}
     
+</script>
+
+<script>
+	var tags = <%=dto.getHashTag() %>;
+	console.log(tags);
+
+	for( key in tags ) {
+		var arr = tags[key];
+		$("#hashUl").append("<li>" + "#" + arr + "</li>");
+	}
+
+$(document).ready(function() {
+	       $("ul#hashUl li").click(function() {
+	           $(this).remove();
+	       });
+	   	
+})
 </script>
 
 <!---------------------- 이미지 다중 썸네일 --------------------------->

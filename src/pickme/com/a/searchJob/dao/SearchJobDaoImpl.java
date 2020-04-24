@@ -24,8 +24,8 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	}
 	
 	@Override
-	public int getCountRec() {
-		return sqlSession.selectOne(ns+"getCountRec");
+	public int getCountRec(RecruitParam param) {
+		return sqlSession.selectOne(ns+"getCountRec", param);
 	}
 
 

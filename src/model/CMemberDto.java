@@ -9,19 +9,19 @@ public class CMemberDto implements UserDetails {
 	
 	
 	// 기업 회원 정보 수정
-	private int seq;			// 기업시퀀스
+	private int seq;				// 기업시퀀스
 	private String email;			// 이메일
 	private String password;		// 비밀번호
 	private String president;		// 대표자 성명
-	private String name;			// 기업명
+	private String name;				// 기업명
 	private String tel;				// 전화번호
 	private String department;		// 기업분야
-	private String type;			// 기업종류
+	private String type;				// 기업종류
 	private String address;			// 주소
 	private String introduce;		// 기업소개
 	private int del;				// 탈퇴여부 (0 등록 / 1 삭제)
 	private String hashTag;			// 해시태그
-	private int number;				// 사업자등록번호
+	private long number;				// 사업자등록번호
 	private String logoPath;		// 로고이미지 경로
 	private String logoName;		// 로고이미지 이름
 	private String signDate;		// 가입일자
@@ -84,7 +84,7 @@ public class CMemberDto implements UserDetails {
 	
 	
 	public CMemberDto(int seq, String email, String password, String president, String name, String tel,
-			String department, String type, String address, String introduce, int del, String hashTag, int number,
+			String department, String type, String address, String introduce, int del, String hashTag, long number,
 			String logoPath, String logoName, String signDate) {
 		super();
 		this.seq = seq;
@@ -197,11 +197,11 @@ public class CMemberDto implements UserDetails {
 		this.hashTag = hashTag == null ? "" : hashTag;
 	}
 
-	public int getNumber() {
+	public long getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(long number) {
 		this.number = number;
 	}
 

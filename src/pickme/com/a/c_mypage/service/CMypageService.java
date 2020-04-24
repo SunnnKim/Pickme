@@ -29,4 +29,7 @@ public interface CMypageService {
 
 	// 흑흑
 	public CMemberDto select(int seq);
+	
+	// 로고 업로드
+	public boolean uploadLogo(CMemberDto dto);
 }

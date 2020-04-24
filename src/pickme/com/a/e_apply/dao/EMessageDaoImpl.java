@@ -113,6 +113,18 @@ public class EMessageDaoImpl implements EMessageDao {
 		
 		return sqlSession.insert(ns + "sendMsg" ,  dto);
 	}
+	
+	@Override
+	public int getLastId() {
+		
+		return sqlSession.selectOne(ns + "getLastId");
+	}
+
+	@Override
+	public String getEmail(int to) {
+		
+		return sqlSession.selectOne(ns + "getEmail", to);
+	}
 
 	@Override
 	public int unreadCount(int seq) {

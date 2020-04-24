@@ -73,12 +73,10 @@
               
               <h4>직군/직무<span class="ess">*</span></h4>
               <div class="cont">
-                <!-- <input type="text" name="com_job" required placeholder="직무를 입력해주세요" maxlength="100" autofocus>
-                <i class="far fa-check-circle"></i> -->
-                <select class="select_cons" name="com_job1" id="com_job1" onchange="changeOcc(this)">
+                <select class="select_cons" name="comJob1" id="com_job1" onchange="changeOcc(this)">
                   <option value="0">1차분류</option>
                 </select>
-                <select class="select_cons" name="com_job2" id="com_job2">
+                <select class="select_cons" name="comJob2" id="com_job2">
                   <option value="0">2차분류</option>
                 </select>
               </div>
@@ -175,9 +173,6 @@
 		return true;
 	});
 	
-	
-	
-
 	//파일업로드
 	function resetImage(input) {
 	  input.value = '';
@@ -196,12 +191,9 @@
 	  else receiver.style.backgroundImage = 'none';
 	}
 
-
-
-  
 	// datepicker
 	$("#datepicker").datepicker({
-			minDate : 0,
+			minDate : 1,
 			maxDate : "+1M 7D",
 			dateFormat : "yy-mm-dd"
 	});
@@ -231,6 +223,7 @@
     });
     
       function changeOcc( onedepth ){
+         // alert(onedepth.value);
         var i=0;
         console.log(onedepth.value);
         $("#com_job2").html('');
@@ -251,25 +244,22 @@
     
 
     // v 체크 불 들어오게
-    var i_title = $("input[name='title']");
-   var i_main_task = $("input[name='mainTask']");
-   var i_requirements = $("input[name='requirements']");
-   var i_salary = $("input[name='salary']");
+    var i_title = $("input[name='title']"),
+   i_main_task = $("input[name='mainTask']"),
+   i_requirements = $("input[name='requirements']"),
+   i_salary = $("input[name='salary']");
 
     //boolean
-  var b_title;
-  var b_main_task;
-  var b_requirements;
-  var b_salary;
+  var b_title, b_main_task, b_requirements, b_salary;
 
 
 
 	//경력
 	  $(i_title).keyup(function(){
-	   var inputLength = $(this).val().length;
+	   var inputLength = $(this).val().length
 	  console.log(inputLength);
 	  if(inputLength>1){
-	    $(this).next("i").css("color","green");
+	    $(this).next("i").css("color","green")
 	    b_title=true;
 	    } else {
 	    $(this).next("i").css("color","#bbb");
@@ -387,7 +377,7 @@
 
        	for(var i=0; i < taglen;i++){
            	tags[i] = $("input[name='hashTag']").eq(i).val();
-    		console.log("tags:"+tags);
+    		//console.log("tags:"+tags);
     	}
 		//var jsondata = JSON.parse(tags);
 		jsondata = JSON.stringify(tags)
@@ -398,7 +388,6 @@
  		jsondata = JSON.parse(jsondata)
     	console.log( jsondata)
  */    	
-    	
 		 
 		// null 체크 && true 체크
 		if ( $("input[name='title']").val() == "" && b_title == true){
@@ -406,17 +395,27 @@
 				  icon: 'error',
 				  text: '제목을 등록해주세요'
 				})
-		} else if ( $("input[name='originfile']").val() == ""){
+		} else if( $("#img1").val()=="" &&  $("#img2").val()!= "" ){
 			Swal.fire({
 				  icon: 'error',
-				  text: '대표이미지를 등록해주세요'
+				  text: '첫번째 이미지를 등록해주세요'
 				})
-		} else if ( $("input[name='edate']").val() == "" ){
+		} else if( $("#img1").val()=="" &&  $("#img3").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '첫번째 이미지를 등록해주세요'
+				})
+		} else if( $("#img2").val()=="" &&  $("#img3").val()!= "" ){
+			Swal.fire({
+				  icon: 'error',
+				  text: '두번째 이미지를 등록해주세요'
+				})
+		}  else if ( $("input[name='edate']").val() == "" ){
 			Swal.fire({
 				  icon: 'error',
 				  text: '채용마감일을 등록해주세요'
 				})
-		} else if($("select[name='com_job1']").val()==0 || $("select[name='com_job2']").val()==0){
+		} else if($("select[name='comJob1']").val()==0 || $("select[name='comJob2']").val()==0){
 			Swal.fire({
 				  icon: 'error',
 				  text: '직군/직무를 선택해주세요.'
@@ -461,33 +460,33 @@
 			//name value
 			 //페이지 이동 확인창 false
 	 		checkUnload=false;
-			
-		 		var comSeq = $("input[name=comSeq]").val();
-		 		var comName = $("input[name=comName]").val();
-				var ref = $("input[name=ref]").val();
-				var originfile = $("input[name=originfile]").val();
-				var title = $("input[name=title]").val();
-				var edate =  $("input[name=edate]").val();
-				var comJob = $("#com_job1 option:selected").text()+","+$("#com_job2 option:selected").text();	//직군, 직무;
-				var comJobType = $("select[name=comJobType]").val();
-				var workingForm = $("select[name=workingForm]").val();
-				var mainTask = $("input[name=mainTask]").val();
-				var requirements = $("input[name=requirements]").val();
-				var salary = $("input[name=salary]").val();
-				var imageName = $("#img1").val();
+		 		var comSeq = $("input[name=comSeq]").val(),
+		 		comName = $("input[name=comName]").val(),
+				ref = $("input[name=ref]").val(),
+				originfile = $("input[name=originfile]").val(),
+				title = $("input[name=title]").val(),
+				edate =  $("input[name=edate]").val(),
+				comJob1 = $("#com_job1 option:selected").text(),	//직군
+				comJob2 = $("#com_job2 option:selected").text(),	//직무
+				comJobType = $("select[name=comJobType]").val(),
+				workingForm = $("select[name=workingForm]").val(),
+				mainTask = $("input[name=mainTask]").val(),
+				requirements = $("input[name=requirements]").val(),
+				salary = $("input[name=salary]").val(),
+				imageName = $("#img1").val();
 				
 				//CKEDITOR.instances.content.getData()
 				var hashTag = jsondata;
 
-				console.log("이미지:"+originfile);
-				console.log( {'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
-					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName });
+				//console.log("이미지:"+originfile);
+				//console.log( {'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob1':comJob1,'comJob2':comJob2,'comJobType':comJobType, 'title':title, 'requirements':requirements,
+				//	'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName });
 			  
 			   $.ajax({
 				url:"recInsertAf.do",
 				type:"post",
 				datatype:'json',
-				data:{'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob':comJob,'comJobType':comJobType, 'title':title, 'requirements':requirements,
+				data:{'comSeq':comSeq,'comName':comName,'ref':ref,'edate':edate,'comJob1':comJob1,'comJob2':comJob2,'comJobType':comJobType, 'title':title, 'requirements':requirements,
 					'workingForm':workingForm,'mainTask':mainTask,'salary':salary,'content':CKEDITOR.instances.content.getData(), 'hashTag':hashTag, 'imagename':imageName },
 				success: function(data){
 					//alert("넘어온 seq: "+data);
@@ -510,14 +509,9 @@
 					}
 				}
 			}); //ajax 
-				 
-			
 		}
 	
     });//등록 눌렀을때
-
-
-    
 </script>
  
 
