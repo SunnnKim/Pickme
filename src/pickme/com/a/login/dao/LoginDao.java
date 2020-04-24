@@ -26,7 +26,6 @@ public class LoginDao {
 		if( dto1 == null && dto2 == null ) return "";
 		if( dto1 != null ) return dto1.getEmail();
 		return dto2.getEmail();
-		
 	}
 	
 	// 일반 회원가입 
@@ -113,4 +112,30 @@ public class LoginDao {
 	public boolean withdrawMemberC(int seq) {
 		return sqlSession.update(namespace + "withdrawMemberC", seq) > 0 ? true:false;
 	}
+	
+	// 일반회원 이메일 있는지 확인하기 
+	public boolean getLostEmailA(AMemberDto dto) {
+		int count = sqlSession.selectOne(namespace + "getLostEmailA", dto);
+		return count == 1 ? true:false;
+	}
+	
+	// 일반회원 이메일 있는지 확인하기 2
+	public boolean getLostEmailA2(AMemberDto dto) {
+		int count = sqlSession.selectOne(namespace + "getLostEmailA2", dto);
+		return count == 1 ? true:false;
+	}
+	
+	// 일반회원 비밀번호 분실시 이메일로 변경하기 
+	public boolean changePwdWithCodeA(AMemberDto member) {
+		return sqlSession.update(namespace + "changePwdWithCodeA", member)>0? true:false;
+	}
+	
+	
+	
+	// 기업회원 이메일 있는지 확인하기
+	public boolean getLostEmailC(CMemberDto dto) {
+		int count = sqlSession.selectOne(namespace + "getLostEmailC", dto);
+		return count == 1 ? true:false;
+	}
+
 }
