@@ -1,144 +1,4 @@
-<%@page import="model.CMemberDto"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- 헤더호출 -->
-
-<c:import url="../../../include/header.jsp"/> 
-
-
-<link rel="stylesheet"	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link href="./../css/calstyle.css" rel="stylesheet">
-<!-- jquery ui -->
-
-<!--font-awesome-->
-<script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
-<script src="https://cdn.ckeditor.com/4.14.0/basic/ckeditor.js"></script> 
-<!-- 텍스트 에디터 -->
-<!-- subCont 시작 -->
-<!-- 메뉴 -->
-        <div class="rec-wrapper">
-          <div class="rec-caution">
-            <h3 class="tit">채용등록</h3>
-            <ul class="rec-ul">
-              <li>채용등록주의사항1</li>
-              <li>채용등록주의사항2</li>
-              <li>채용등록주의사항3</li>
-            </ul>
-          </div><!-- rec-title -->
-          
-          <!-- 회사정보 넘기기 -->
-        
-          <div class="rec-conatainer">
-            <div class="rec-info">
-              <h3 class="tit">채용등록정보</h3>
-              	<form id="fileform" method="post" action="recfileup.do" enctype="multipart/form-data">
-                  <h4>대표이미지등록<span class="ess">*</span></h4>
-                  <div class="cont">
-                  <i class="file-image">
-					 <input id="img1" name="originfile" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
-					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
-					<label for="img1" class="image"></label> 
-					</i>
-					<i class="file-image">
-					 <input id="img2" name="originfile" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
-					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
-					<label for="img2" class="image"></label>
-					</i>
-					  <i class="file-image">
-					 <input id="img3" name="originfile" type="file" onchange="readImage(this)" title="" accept=".jpg, .png"/>
-					<i class="reset" onclick="resetImage(this.previousElementSibling)"></i> 
-					<label for="img3" class="image"></label>
-					</i> 
-				</div>
-              	</form>     
-              	<form id="frm"> 
-              	 <input type="hidden" name="comSeq" value="${sessionScope.logincompany.seq}"> 
-              	 <input type="hidden" name="comName" value="${sessionScope.logincompany.name}">
-              	 <input type="hidden" name="ref" value="${ref}"> 
-               <h4>제목<span class="ess">*</span></h4>
-              <div class="cont">
-                <input type="text" name="title" required placeholder="제목을 입력해주세요." maxlength="40">
-                <i class="far fa-check-circle"></i>
-              </div>         
-               
-                  <!-- <div class="imgs-wrap" id="imgs-wrap"></div>   -->                   
-           	<h4>채용마감일<span class="ess">*</span></h4>
-                  <div class="cont"> 
-                  	<input type="text" id="datepicker" name="edate" required placeholder="채용마감일을 설정해주세요." readonly="readonly" style="cursor: pointer;">
-             
-                  </div>
-              
-              <h4>직군/직무<span class="ess">*</span></h4>
-              <div class="cont">
-                <select class="select_cons" name="comJob1" id="com_job1" onchange="changeOcc(this)">
-                  <option value="0">1차분류</option>
-                </select>
-                <select class="select_cons" name="comJob2" id="com_job2">
-                  <option value="0">2차분류</option>
-                </select>
-              </div>
-            <div>
-            <div class="lef">
-             <h4>경력<span class="ess">*</span></h4>
-               <div class="cont">
-                <select class="select_cons" name="comJobType">
-                <option value="0">경력을 선택해주세요</option>
-                  <option value="신입">신입</option>
-                  <option value="경력">경력</option>
-                  <option value="경력무관">경력무관</option>
-                </select>
-                </div>
-            </div>
-            <div class="lef_r">
-               <h4>근무형태<span class="ess">*</span></h4>
-               <div class="cont" style="margin-left: 0;">
-                <select class="select_cons" name="workingForm">
-                  <option value="0">근무형태를 선택해주세요</option>
-                  <option value="정규직">정규직</option>
-                  <option value="계약직">계약직</option>
-                </select>
-                </div>
-             </div>
-             </div>
-              <h4>주요업무<span class="ess">*</span></h4>
-              <div class="cont">
-                <input type="text" name="mainTask" required placeholder="주요업무를 간략하게 입력해주세요" maxlength="200">
-                <i class="far fa-check-circle"></i>
-              </div>
-             
-              <h4>자격요건<span class="ess">*</span></h4>
-              <div class="cont">
-                <input type="text" name="requirements"  required placeholder="학력, 스킬 등 원하는 조건을 입력해주세요." maxlength="200">
-                <i class="far fa-check-circle"></i>
-              </div>
-              <h4>급여<span class="ess">*</span></h4>
-              <div class="cont">
-                <input type="text" name="salary" required placeholder="2,000~3,000만원" maxlength="25">
-                <i class="far test fa-check-circle"></i>
-              </div>
-              <h4>내용<span class="ess">*</span></h4>
-              <div class="cont">
-                    <textarea id="content" name="content" cols="70" rows="50" placeholder="복지 등 업무소개를 더 자세하게 입력가능합니다."></textarea>
-              </div>
-              <h4>태그<span class="ess">*</span></h4>
-              <div class="cont">
-                <input type="text" id="hashtag" required placeholder="태그는 최대 3개까지 입력가능합니다." maxlength="7"><button type="button" id="hashadd" onclick="tagappend()" >추가</button>
-                <div class="inhash"></div>
-              </div>
-              <div class="rec-buttons">
-                <button type="button" id="rec-insert">등록</button>
-                <button type="reset">취소</button>
-              </div>
-            </div><!-- rec-info-->
-          </div><!-- rec-conatainer -->
-          </form>
-        </div> <!-- rec-wrapper -->
-
-  <script type="text/javascript">
-	//페이지 벗어나면 확인창 띄우기
+   //페이지 벗어나면 확인창 띄우기
 	  var checkUnload = true;
 	  $(window).on("beforeunload", function(){
 	      if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
@@ -213,7 +73,7 @@
           for( key in json ){
            // console.log(key);
             $("#com_job1").append("<option value='"+key+"'>"+key+"</option>");
-            // console.log("key:"+key+", value:"+json[key]);
+           
             keyArr.push(key);
             valArr.push(json[key]);
 
@@ -239,6 +99,7 @@
               }
           }
         }
+        
       }
 
     
@@ -251,8 +112,6 @@
 
     //boolean
   var b_title, b_main_task, b_requirements, b_salary;
-
-
 
 	//경력
 	  $(i_title).keyup(function(){
@@ -329,7 +188,6 @@
 
      }
 
-
 	//태그 입력
    $("#hashtag").keyup(function(e){
 	   if(e.keyCode == 13) {
@@ -345,7 +203,6 @@
 	   
     });
 
-   
 
     function remove( element ){  
       element_count--;
@@ -381,7 +238,7 @@
     	}
 		//var jsondata = JSON.parse(tags);
 		jsondata = JSON.stringify(tags)
-    	console.log( jsondata)
+    	//console.log( jsondata)
 	
 	/*  
 		String 데이터를 Json데이터로 바꾸는 방법
@@ -512,10 +369,3 @@
 		}
 	
     });//등록 눌렀을때
-</script>
- 
-
-<!-- subCont 끝 -->
-<c:import url="../../../include/footer.jsp"/> 
-<%-- <%@include file="/include/footer.jsp"%> --%>
-

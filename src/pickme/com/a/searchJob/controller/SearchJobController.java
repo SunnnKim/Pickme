@@ -46,6 +46,16 @@ public class SearchJobController {
 	
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
+		//1차 직군 선택시
+		System.out.println("===== Search Occ : "+ param.getOcc());
+		
+		if( param.getOcc() == null ) {
+			model.addAttribute("getOcc", "");
+		} else {
+			model.addAttribute("getOcc", param.getOcc());			
+		}
+		 
+		 
 		
 		//마감날짜가 지나면 del update
 		//serv.dayUpdateDel();

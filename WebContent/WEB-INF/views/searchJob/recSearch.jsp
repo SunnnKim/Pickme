@@ -2,13 +2,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!-- 헤더호출 -->
 <c:import url="../../../include/header.jsp"/> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+	var getOcc = '${getOcc}';
+	console.log("getOcc: "+getOcc);
+	if(getOcc==""){
+		 $(".location").children(":last").text("전체보기");
+	}else if(getOcc != ""){
+	    $(".pageTit").append(" / "+getOcc);
+	    $(".location").children(":last").text(getOcc);
+	
+	}
 
+
+});
+</script>
 	<div class="jobSubMenu">
 <!-- 		<div class="jobsub" id="job_sub">
 			<label name="occ_title"></label>
@@ -17,9 +31,14 @@
 	<div class="recTop">
 	    <div class="filter_wrap">
 	          <ul class="filter_ul clfix">
-	            <li><span><strong>최신순</strong></span></li>
-	            <li>
-	              <select class="" name="career">
+	           <li>
+	              <select class="sorting" name="sorting">
+	                <option value="최신순">최신순</option>
+	                <option value="인기순">인기순</option>
+	              </select>
+	           </li>
+	            <li> 
+	              <select class="career" name="career">
 	                <option value="">경력</option>
 	                <option value="전체">전체</option>
 	                <option value="신입">신입</option>
@@ -48,18 +67,13 @@
   
         
         <div class="cont">
- <ul class="pmList clfix">
+
           	<c:choose>
           		<c:when test="${empty recList }">
 					<div style="text-align:center; position:relative; margin-top:4wndl0px;">
           			<p style="position:absolute; top:0; left:0; width:100%; font-size:30px;">등록된 공고가 없습니다.</p>
 					<img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width:60%;">
 					</div>
-				 <c:if test="${sKeyword != null }">
-							<div style="text-align:center; position:relative; margin-top:4wndl0px;">
-          					<p style="position:absolute; top:0; left:0; width:100%; font-size:30px;">찾으시는 공고가 없습니다.</p>
-							<img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width:60%;">
-						</c:if>
 				</c:when>
 				<c:when test="${not empty recList }">
 					   <ul class="pmList clfix">
@@ -78,6 +92,7 @@
 				            </a></li>
 						</c:forEach>
 		         	 </ul>
+		     
 				      <!-- 페이징 -->
 						<div id="paging_wrap">
 							<jsp:include page="/WEB-INF/views/searchJob/paging.jsp" flush="false">
@@ -93,8 +108,10 @@
 <script>
 
 /* 검색 */
+var sKeyword = $("#_keyword").val().trim();
+ 
 function searchAction(){
-	var sKeyword = ($("#_keyword").val()).trim();
+	
 	//	alert("sKeyword: " + sKeyword );
 	if(sKeyword == null || sKeyword == ""){
 		Swal.fire({
@@ -119,7 +136,8 @@ function paging(pn){
     var keyArr = new Array();
     var valArr = new Array();
 	var duty; //직무
-  
+
+	var getOcc = '${getOcc}';
     var json;
     var jsonArr = [];
     $.getJSON(json_url, function(data){
@@ -129,33 +147,28 @@ function paging(pn){
           jsonArr.push(json)
           for( key in json ){
            // console.log(key);
-            $("#joblist").append("<li><span><a href='#none'>"+key+"</a></span></li>");
-           /*  var jobdiv = document.createElement("div");
-            jobdiv.attr("class","jobsub");
-            var joblabel = document.createElement("label");
-            joblabel.attr("class","occ_title");
-            var jobtext = document.createTextNode(key);
-
-            $(".jobSubMenu").appendChild(jobdiv);
-            $(".jobsub").appendChild(joblabel);
-            $(".occ_title").appendChild(jobtext); */
+            $("#joblist").append("<li><a href='recSearch.do?occ="+key+"'><span>"+key+"</span></a></li>");
+          } //for
+        }//for
         
-   /*          $("#job_sub").append(key+"<ul><li>"+json[key]+"</li></ul>");
-            $(".jobSubMenu").hide();
- */
-         
-            // console.log("key:"+key+", value:"+json[key]);
-            keyArr.push(key);
-            valArr.push(json[key]);
-            // map.put(key, json[key]);
-          }
-        }
-            // console.log(jsonArr)
-    });
+       if(getOcc != ""){
+           $("#joblist").empty();
+           console.log("js getOcc: "+ getOcc);
+           for( arr of jsonArr ){
+               for(key in arr){
+                   if( key.trim() == getOcc.trim() ){
+                     for( i = 0; i < arr[key].length; i++ ){
+                       console.log("길이: "+arr[key].length);
+	                   console.log("arr[key]: "+arr[key][i]);
+                       $("#joblist").append("<li><a href='recSearch.do?occ="+key+"&job="+arr[key][i]+"'><span>"+arr[key][i]+"</span></a></li>");
 
-
-  
-  
-
+                     }//for
+                    
+                   }//if
+               }//for
+             }//for
+           }//if
+           
+    }); //.getJSON
 </script>
 <c:import url="../../../include/footer.jsp"/> 

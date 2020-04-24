@@ -715,8 +715,9 @@ span.ess {color: red; font-weight: bold;}
 .subTit ul.jobs_list li:hover{background-color: #ccc;}
 .subTit ul.jobs_list li a{color:#fff;text-decoration: none;}
 .subCont .filter_wrap {width: 50%;float: left;}
-.subCont .filter_wrap ul.filter_ul{ margin-bottom: 15px;}
+.subCont .filter_wrap ul.filter_ul{ margin-bottom: 15px; }
 .subCont .filter_wrap ul.filter_ul li{
+
     cursor: pointer;
     float: left;
     border-radius: 2px;
@@ -725,7 +726,7 @@ span.ess {color: red; font-weight: bold;}
     color:#304edf;
     font-size: 14px;
     font-weight: 400;
-    padding: 9px 15px;
+  /*   padding: 9px 15px; */
     margin-right: 10px;
     height:42px;
 }
@@ -734,7 +735,15 @@ span.ess {color: red; font-weight: bold;}
 .subCont .filter_wrap ul.filter_ul li:hover{ background-color: #f9f9f9;}
 .subCont .filter_wrap ul.filter_ul li:last-child{ margin-right: 0;}
 .subCont .filter_wrap ul.filter_ul li:nth-child(2){padding:0;}
-.subCont .filter_wrap ul.filter_ul li select{
+.subCont .filter_wrap ul.filter_ul li select.sorting{
+    display: block;
+     border:none;
+      padding: 9px 15px;
+     cursor: pointer;
+     background: none;
+     outline: none;
+}
+.subCont .filter_wrap ul.filter_ul li select.career{
     display: block;
      border:none;
      padding: 9px 15px;
@@ -742,7 +751,6 @@ span.ess {color: red; font-weight: bold;}
      background: none;
      outline: none;
 }
-
 .subCont .filter_wrap ul.filter_ul li select::-ms-expand {display: none;}
 
 /*

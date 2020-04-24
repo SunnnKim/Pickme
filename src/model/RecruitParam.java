@@ -8,6 +8,12 @@ public class RecruitParam {
 	// search 
 	private String sKeyword;
 	
+	// 직군 , 직무, 필터
+	private String occ;
+	private String job;
+	private String sorting;
+	private String career;
+	
 	//DB에서 사용할 변수
 	private int start = 1;				
 	private int end = 8;
@@ -17,17 +23,63 @@ public class RecruitParam {
 	
 	public RecruitParam() {	
 	}
+	
 
-
-	public RecruitParam(int pageNumber, int recordCountPerPage, String sKeyword, int start, int end, int comSeq) {
+	public RecruitParam(int pageNumber, int recordCountPerPage, String sKeyword, String occ, String job, String sorting,
+			String career, int start, int end, int comSeq) {
 		super();
 		this.pageNumber = pageNumber;
 		this.recordCountPerPage = recordCountPerPage;
 		this.sKeyword = sKeyword;
+		this.occ = occ;
+		this.job = job;
+		this.sorting = sorting;
+		this.career = career;
 		this.start = start;
 		this.end = end;
 		this.comSeq = comSeq;
 	}
+
+
+	public String getOcc() {
+		return occ;
+	}
+
+
+	public void setOcc(String occ) {
+		this.occ = occ;
+	}
+
+
+	public String getJob() {
+		return job;
+	}
+
+
+	public void setJob(String job) {
+		this.job = job;
+	}
+
+
+	public String getSorting() {
+		return sorting;
+	}
+
+
+	public void setSorting(String sorting) {
+		this.sorting = sorting;
+	}
+
+
+	public String getCareer() {
+		return career;
+	}
+
+
+	public void setCareer(String career) {
+		this.career = career;
+	}
+
 
 	public int getComSeq() {
 		return comSeq;
