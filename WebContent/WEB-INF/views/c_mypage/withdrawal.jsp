@@ -60,6 +60,8 @@ button {
   border-color: #4f6eff;
 }
 
+button:hover {background-color:#6681ff;}
+
 </style>
 	<form action = "/Pickme/login/companyWithdrawal.do" method = "post" id="frm">
 	  <div class="subCont_div" align = "center">

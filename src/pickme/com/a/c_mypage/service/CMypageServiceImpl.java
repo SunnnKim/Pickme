@@ -69,5 +69,12 @@ public class CMypageServiceImpl implements CMypageService{
 	public CMemberDto select(int seq) {
 		return dao.select(seq);
 	}
+
+
+	// 로고 업로드
+	@Override
+	public boolean uploadLogo(CMemberDto dto) {
+		return dao.uploadLogo(dto);
+	}
 	
 }

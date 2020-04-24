@@ -50,9 +50,21 @@
 <script src="/Pickme/js/sweetalert2/sweetalert2.all.js"></script>
 <link rel="stylesheet" href="/Pickme/js/sweetalert2/sweetalert2.css" type="text/css"/>
 <!-- sweetAlert2 -->
+
+<!-- 구글폰트 적용 -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+
 </head>
 <body>
+<!-- message alert  -->
+<div id="socketAlert">
+	<div class="inner">
+
+	</div>
+</div>
+
 	<div id="wrap">
+	
 		<header>
 			<div class="inner clfix">
 				<strong class="logo"><a href="/Pickme/login/main.do">PICK ME</a></strong>
@@ -69,6 +81,10 @@
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
+					<li class="alert-warp">
+					   	<a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
+					   	<span class="alert-number"></span>	
+					</li>
 					<li>
 						<a href="/Pickme/a_mypage/profile.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
 					</li>
@@ -87,6 +103,10 @@
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
+					<li class="alert-warp">
+					   		<a href="/Pickme/c_apply/cRcvMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
+					   		<span class="alert-number"></span>	
+					</li>
 					<li>
 						<!-- 기업회원 마이페이지 -->
 						<a href="/Pickme/c_mypage/goCMypage.do">[기업] <%=userName %> </a>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.PaymentParam;
 import model.PremierMemDto;
 import model.PremierServiceDto;
 import pickme.com.a.admin.dao.PaymentDao;
@@ -28,5 +29,30 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public boolean insertService(PremierServiceDto serviceDto) {
 		return dao.insertService(serviceDto);
+	}
+
+	@Override
+	public boolean updateService(PremierServiceDto dto) {
+		return dao.updateService(dto);
+	}
+
+	@Override
+	public boolean deleteService(List<Integer> seqList) {
+		return dao.deleteService(seqList);
+	}
+
+	@Override
+	public List<PaymentParam> getStatistics() {
+		return dao.getStatistics();
+	}
+
+	@Override
+	public int getNewPremierMember() {
+		return dao.getNewPremierMember();
+	}
+
+	@Override
+	public int getRefundNumber() {
+		return dao.getRefundNumber();
 	}
 }

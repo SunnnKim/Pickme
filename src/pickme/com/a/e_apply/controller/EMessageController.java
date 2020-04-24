@@ -1,6 +1,8 @@
 package pickme.com.a.e_apply.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -243,20 +245,39 @@ public class EMessageController {
 	// 메시지 보내기
 	@ResponseBody
 	@RequestMapping(value="sendMsg.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public int sendMsg(MessageDto dto, HttpSession session) {
+	public Map<String, String> sendMsg(MessageDto dto, HttpSession session) {
 		
+		AMemberDto loginuser = (AMemberDto) session.getAttribute("loginuser");
 		// session에서 login seq 받아오기 
-		int fromSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
+		int fromSeq = loginuser.getSeq();
+	
+		// 보내는 이의 이름 가져오기
+		String senderName = loginuser.getName();
+		System.out.println("senderName: " + senderName);
 		
 		System.out.println(dto.toString());
 		
-		// 나중에 login Session에서 받아서 seq 넣어주기
 		dto.setFrom(fromSeq);
 		
+		// 보낸메시지 데이터 테이블에 삽입 
 		int result = eservice.sendMsg(dto);
+	    
+		// 받는 이의 이메일 불러오기 
+		String receiverEmail = eservice.getEmail(dto.getTo());
+	    System.out.println("receiverEmail: " + receiverEmail);
+		// 보낸 메시지 seq 불러오기
+		int seq = eservice.getLastId();
+		// String타입으로 파싱 
+		String msgSeq = seq + "";
+		
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("receiverEmail", receiverEmail);
+		map.put("senderName", senderName);
+		map.put("msgSeq", msgSeq);
 		
 	
-		return result;
+		return map;
 	}
 	
 	public int unreadCount(int seq) {

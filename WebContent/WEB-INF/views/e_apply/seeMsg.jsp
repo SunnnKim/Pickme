@@ -96,26 +96,20 @@
     
  </div> <!-- // all list -->   
 <%@include file="/include/footer.jsp"%>
-<script>
 
-$(document).ready(function(){
-  
-	//alert('<c:out value="${page}"/>')
-	
+<script>
+$(document).ready(function(){	
 	var page = '<c:out value="${page}"/>'
 	// messageDetail 들어오기 직전 탭 지정하기
 	document.getElementById(page).setAttribute('class', 'active');
 	
-	if(page == 'outMsg'){
-		
+	if(page == 'outMsg'){ // 보낸 메시지 답장기능 숨기기
 		$("#_reply").hide();
-		
 	}
-
+	// 처음에 답장창 숨기기
 	$(".messageBox").hide();
 });
 
- 
    
 // 답장하기 버튼 누른 경우
 function reply(){
@@ -166,17 +160,12 @@ function delcheck(){
 				    traditional: true, // array보낼때 필요
 					data       : {"seqArray" : seqArray },
 					success    : function(data){
-												
-						
 						if(data != null){
-
 							 Swal.fire(
 								      '삭제되었습니다',
 								      '',
 								      'success'
 							    ).then((reslut)=>{
-							
-							
 							var goPage = '<c:out value="${page}"/>'
 								//alert("goPage: " + goPage);
 							if(goPage == 'impoMsg'){
@@ -205,7 +194,6 @@ function delcheck(){
 
 
 	function send(){
-
 		var formData = $("#frm").serialize();
 		if (($("#repl-cont").val()).trim()  == null || ($("#repl-cont").val()).trim() == ""){
 			Swal.fire({
@@ -221,8 +209,21 @@ function delcheck(){
 				type  :"post",
 				data  :formData,
 				dataType: "json",
-				success:function(result){
-					if(result == 1){
+				success:function(data){
+					if(data != null){
+						console.log(data.receiverEmail);
+						console.log(data.loginSeq)
+						console.log(data.msgSeq);
+						console.log(data.senderName);
+						console.debug("reply.js:: socket>>", socket)
+						if(socket) { // 소켓객체가 존재하는 경우
+							// websocket에 보내기  (distinguish, cmd, 메시지 보내는자이름, 메시지받는자이메일 , 메시지seq, 안읽은메시지갯수)
+						   let socketMsg = socket.send("com,alert," +  data.senderName + "," + data.receiverEmail 
+								                       + "," + data.msgSeq + ",null");
+						 	console.debug("sssmsg >> ", socketMsg);
+						 	socket.send(socketMsg)
+						}
+												
 						Swal.fire({
 							  position: 'center',
 							  icon: 'success',

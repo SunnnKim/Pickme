@@ -7,7 +7,7 @@
 .pwdUpdateWrap {margin-top:100px;}
 
 /* 비밀번호 변경 페이지 타이틀 */
-.pwdUpdate-title {font-size:22pt;}
+.pwdUpdate-title {font-size:22pt; width:400px; text-align:center;}
 
 /* 기존 비밀번호 타이틀 */
 .pre-pwd-wrap-title {margin-top:50px;text-align:center;font-size:13pt;}
@@ -22,7 +22,7 @@
 .new-pwd-wrap-title1 {margin-top:50px;text-align:center;font-size:13pt;}
 
 /* 새 비밀번호 input */
-.new-pwd1 {margin-top:30px;width: 330px;height:40px;border:1px solid #888;font-size:20px;text-align:center;}
+.new-pwd1 {/* margin-top:30px; */width: 330px;height:40px;border:1px solid #888;font-size:20px;text-align:center;}
 
 /* 새 비밀번호가 형식에 적합하지 않을 때 경고문 */
 .new-pwd-incorrect1{font-size:19px;color:#fff;}
@@ -31,7 +31,7 @@
 .new-pwd-wrap-title2 {margin-top:50px;text-align:center;font-size:13pt;}
 
 /* 새 비밀번호 확인 input */
-.new-pwd2 {margin-top:30px;width: 330px;height : 40px;border:1px solid #888;font-size:20px;text-align:center;}
+.new-pwd2 {/* margin-top:30px; */width: 330px;height : 40px;border:1px solid #888;font-size:20px;text-align:center;}
 
 /* 새 비밀번호 확인이 일치하지 않을 때 경고문 */
 .new-pwd-incorrect2{font-size:19px;color:#fff;}
@@ -54,17 +54,21 @@
 		<div class = "pwdUpdate-title">
 		비밀번호 변경
 		</div>
+		<div class = "pwdUpdate-text">
+		보다 안전한 서비스 이용을 위해 비밀번호를 변경하세요.
+		</div>
+	
 		<div class = "pre-pwd-wrap">
-			<div class = "pre-pwd-wrap-title"> 기존 비밀번호를 입력하세요. </div>
-			<input type = "text" class = "pre-pwd" name="oldPassword">
+			<div class = "pre-pwd-wrap-title"> </div>
+			<input type = "text" class = "pre-pwd" name="oldPassword" placeholder="기존 비밀번호">
 		</div>
 		<div class = "new-pwd-wrap1">
-			<div class = "new-pwd-wrap-title1"> 새 비밀번호 입력 </div>
-			<input type="password" class = "new-pwd1" name="password">
+			<div class = "new-pwd-wrap-title1"> </div>
+			<input type="password" class = "new-pwd1" name="password" placeholder="새 비밀번호">
 		</div>
 		<div class = "new-pwd-wrap2">
-			<div class = "new-pwd-wrap-title2"> 새 비밀번호 확인</div>
-			<input type = "password" class = "new-pwd2" name="passwordCheck">
+			<div class = "new-pwd-wrap-title2"> </div>
+			<input type = "password" class = "new-pwd2" name="passwordCheck" placeholder="새 비밀번호 확인">
 		</div>
 	</div>
 	<div class = "btn-wrap">

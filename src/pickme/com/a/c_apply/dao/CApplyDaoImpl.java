@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.CApplyDto;
+import model.CvRecruitDto;
 import model.RecruitDto;
 import model.RecruitParam;
 
@@ -30,6 +31,11 @@ public class CApplyDaoImpl implements CApplyDao {
 	@Override
 	public List<CApplyDto> getCApplyList(int jobSeq) {
 		return sqlSession.selectList(ns + "getCApplyList", jobSeq);
+	}
+
+	@Override
+	public CvRecruitDto apResumeOpen(int cvSeq) {
+		return sqlSession.selectOne(ns + "apResumeOpen", cvSeq);
 	}
 	
 	

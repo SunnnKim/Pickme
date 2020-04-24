@@ -4,9 +4,11 @@ public class PremierServiceDto {
 	
 	private int serviceSeq;			// 시퀀스 PK
 	private String serviceName;		// 서비스 명 
-	private int price;				// 서비스 가격 
+	private String price;			// 서비스 가격 
+	private String period;			// 서비스 기간
+	private String serviceInfo;		// 서비스 내용 요약 
+	private String content;			// 서비스 내용 설명 
 	private int del;				// 삭제여부
-	private String content;		// 서비스 내용 
 	
 	
 	public PremierServiceDto() {
@@ -14,13 +16,16 @@ public class PremierServiceDto {
 	}
 
 
-	public PremierServiceDto(int serviceSeq, String serviceName, int price, int del, String content) {
+	public PremierServiceDto(int serviceSeq, String serviceName, String price, String period, String serviceInfo,
+			String content, int del) {
 		super();
 		this.serviceSeq = serviceSeq;
 		this.serviceName = serviceName;
 		this.price = price;
-		this.del = del;
+		this.period = period;
+		this.serviceInfo = serviceInfo;
 		this.content = content;
+		this.del = del;
 	}
 
 
@@ -44,23 +49,33 @@ public class PremierServiceDto {
 	}
 
 
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
 
-	public void setPrice(int price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
 
-	public int getDel() {
-		return del;
+	public String getPeriod() {
+		return period;
 	}
 
 
-	public void setDel(int del) {
-		this.del = del;
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+
+
+	public String getServiceInfo() {
+		return serviceInfo;
+	}
+
+
+	public void setServiceInfo(String serviceInfo) {
+		this.serviceInfo = serviceInfo;
 	}
 
 
@@ -74,12 +89,22 @@ public class PremierServiceDto {
 	}
 
 
+	public int getDel() {
+		return del;
+	}
+
+
+	public void setDel(int del) {
+		this.del = del;
+	}
+
+
 	@Override
 	public String toString() {
 		return "PremierServiceDto [serviceSeq=" + serviceSeq + ", serviceName=" + serviceName + ", price=" + price
-				+ ", del=" + del + ", content=" + content + "]";
+				+ ", period=" + period + ", serviceInfo=" + serviceInfo + ", content=" + content + ", del=" + del + "]";
 	}
-
+	
 	
 	
 	

@@ -63,9 +63,21 @@
 				type  :"post",
 				data  :formData,
 				dataType: "json",
-				success:function(result){
-					if(result == 1){
-						Swal.fire({
+				success:function(data){
+					if(data != null){
+						console.log(data.receiverEmail);
+						console.log(data.msgSeq);
+						console.log(data.senderName);
+						console.debug("reply.js:: socket>>", socket)
+						if(socket) {
+							// websocket에 보내기  (distinguish, cmd, 메시지 보내는자이름, 메시지받는자이메일 , 메시지seq, 안읽은메시지갯수)
+						   let socketMsg = socket.send("com,alert," +  data.senderName + "," + data.receiverEmail 
+								                       + "," + data.msgSeq + ",null");
+						 	console.debug("sssmsg >> ", socketMsg)
+						 	socket.send(socketMsg)
+						}  
+						 
+						 Swal.fire({
 							  position: 'center',
 							  icon: 'success',
 							  text: '메시지가 성공적으로 보내졌습니다',

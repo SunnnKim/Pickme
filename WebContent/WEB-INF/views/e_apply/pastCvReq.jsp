@@ -100,18 +100,17 @@
 				<c:if test="${pastCvReq.accept eq 2}">	
 					<td>
 						<span class="req-response reject">
-							<img alt="거절" src="<%=request.getContextPath()%>/images/sub/reject.png" style="width:15px;height:15px;">	
+							<img alt="거절" src="<%=request.getContextPath()%>/images/sub/reject.png">	
 						</span>
 					</td>
 					<td> - </td>
-					
 				</c:if>
 				</tr>
 			</c:forEach>	
 			</tbody>
 		</table>
 	</div><!-- // table-col close -->
-	<div class="cvreq-DelBtn">
+	<div class="cvreq-DelBtn clfix">
 		<button type="button" style="float: left;" onclick="deleteAction()">선택삭제</button>
 	</div>
 	

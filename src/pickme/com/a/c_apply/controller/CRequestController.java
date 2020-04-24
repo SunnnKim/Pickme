@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import model.AMemberDto;
 import model.CMemberDto;
 import model.CvCompanyDto;
+import model.CvRecruitDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
 import model.MessageDto;
@@ -186,6 +187,7 @@ public class CRequestController {
 		*/ 
 		return reqResumeDto; 
 	}
+	
 	
 	
 	

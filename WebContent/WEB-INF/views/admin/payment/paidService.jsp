@@ -1,3 +1,4 @@
+<%@page import="model.PaymentParam"%>
 <%@page import="model.PremierServiceDto"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
@@ -7,7 +8,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../include/adminHeader.jsp" %>
-
+<%
+	int newPremierMember = (int) request.getAttribute("newPremierMember");
+	int refundMember = (int) request.getAttribute("refundMember");
+%>
 <div class="profile-wrap">
   <div class="chart-wrap">
       <div class="chart"> 
@@ -15,12 +19,12 @@
         <div class="ct-chart ct-perfect-fourth" style="width: 300px;"></div>
       </div>
       <div class="chart">
-        <span>결제건수</span>
-        <div class="chart-text">0</div>
+        <span>신규결제건수</span>
+        <div class="chart-text"><%=newPremierMember %></div>
       </div>
       <div class="chart">
-        <span>환불건수</span>
-        <div class="chart-text">0</div>
+        <span>신규환불건수</span>
+        <div class="chart-text"><%=refundMember %></div>
       </div>
   </div>
   <!-- 유료서비스 이용 고객 -->
@@ -37,7 +41,7 @@
     	<div id="grid2"></div>
     	<div class="btn-wrapper">
 	 		<button id="check2">전체체크</button>
-	 		<button>삭제하기</button>
+	 		<button onclick="deleteBtn2()">삭제하기</button>
 	 	</div>
 	</div>
 </div>
@@ -59,7 +63,8 @@ var dataList2 = [];
 			USERNAME:'<%=member.getName()%>',
 			SERVICENAME:'<%=member.getServiceName()%>', 
 			STARTDATE:'<%=member.getStartDate()%>', 
-			ENDDATE:'<%=member.getEndDate()%>'
+			ENDDATE:'<%=member.getEndDate()%>',
+			RESTTICKET:'<%= member.getRestTicket() != null ? member.getRestTicket():""%>'
 		}
 		dataList.push(data)
 	<%
@@ -69,7 +74,7 @@ var dataList2 = [];
 	for(int i = 0; i < serviceList.size(); i++ ){
 		PremierServiceDto service = serviceList.get(i);
 	%>	var data = {
-			SERVICESEQ: <%=service.getServiceSeq()%>,
+			SEQ:<%= service.getServiceSeq()%>,
 			SERVICENAME:'<%=service.getServiceName()%>',
 			PRICE:'<%=service.getPrice()%>'
 		}
@@ -101,7 +106,7 @@ $(document).ready(function () {
              template: "<div class='customer-name'>#: USERNAME #</div>",
              field: "USERNAME",
              title: "기업명",
-             width: 300
+             width: 250
          }, {
              field: "SERVICENAME",
              title: "서비스명",
@@ -114,6 +119,10 @@ $(document).ready(function () {
              field: "ENDDATE",
              title: "마감일",
              width: 150
+         }, {
+             field: "RESTTICKET",
+             title: "잔여이용권",
+             width: 100
          }, {
              field: "checkall",
              title: "체크",
@@ -139,7 +148,7 @@ $(document).ready(function () {
          },
          columns: [
          {
-             field: "SERVICESEQ",
+             field: "SEQ",
              title: "번호",
              width: 70
          },{
@@ -162,9 +171,9 @@ $(document).ready(function () {
              template: "<div class='updateBtn' onclick='updateBtn(this)'>수정</div>",
              width: 100
          }, {
-             field: "checkall",
+             field: "SEQ",
              title: "체크",
-             template: "<input type='checkbox' style='text-align:center' name='checkbox2'>",
+             template: "<input type='checkbox' style='text-align:center' seq='#: SEQ #' name='checkbox2'>",
              width: 50
          }]
      });
@@ -172,11 +181,27 @@ $(document).ready(function () {
  });
 
 
+// 파이 차트 통계데이터
+var pieData = [];
+var serviceName = [];
+<%
+List<PaymentParam> memberCount = (List<PaymentParam>) request.getAttribute("memberCount");
+for(int i = 0; i < memberCount.size(); i++ ){
+	PaymentParam data = memberCount.get(i);
+	%>
+		pieData.push('<%=data.getMemberCount()%>')
+		serviceName.push('<%=data.getServiceName()%>')
+	<%	
+}
+%>
+
+console.log(pieData)
+console.log(serviceName)
 
 /*  chart with animation */
 var chart = new Chartist.Pie('.ct-chart', {
-  series: [30,50],
-  labels: ['basic','ecnomic']
+  series: pieData,
+  labels: serviceName
 }, {
   donut: true,
   showLabel: true
@@ -244,7 +269,68 @@ $('#check').click(function(){
 	  } 
 	  $('#check').text('전체체크') 
 	}
+})
+
+// 체크박스 모두 선택 2 
+$('#check2').click(function(){
+	var chklist = document.querySelectorAll('input[name=checkbox2]');
+	if( $('#check2').text() == '전체체크'){
+	    for(i in chklist){
+	      chklist[i].checked = true;
+	    }
+	    $('#check2').text('전체해제') 
+	}else{
+	  for(i in chklist){
+	    chklist[i].checked = false;
+	  } 
+	  $('#check2').text('전체체크') 
+	}
 }) 
+// 자세히보기 클릭
+function goBtn( btn ){
+	var seqNum = btn.parentElement.parentElement.childNodes[0].innerHTML;
+	location.href="/Pickme/customer/noticeDetail.do?seq="+seqNum;	// 공지사항 디테일로 가는 경로 입력 
+}
+// 수정하기 클릭
+function updateBtn( btn ){
+	var seqNum = btn.parentElement.parentElement.childNodes[0].innerHTML;
+	location.href="/Pickme/admin/payment/updatePaidService.do?seq=" + seqNum;	// 공지사항 디테일로 가는 경로 입력 
+}
+//삭제하기 버튼 
+function deleteBtn2(){
+	var chboxes = document.querySelectorAll('input[name=checkbox2]');
+	var checkCount = 0;
+	var seqList = [];
+	for( i = 0; i < chboxes.length; i++ ){
+		if( chboxes[i].checked == true ){
+			checkCount++;
+			seqList.push(chboxes[i].getAttribute('seq'))
+		}
+	}
+	if(checkCount == 0){
+		alert('삭제할 데이터를 체크해주세요')
+		return false;
+	}
+	if(confirm(checkCount + '개의 데이터를 삭제합니다.')){
+		console.log(seqList)
+		var sendData = { "seqList":seqList };
+		$.ajax({
+			url:'deleteService.do',
+			data:sendData,
+			type:'post',
+			success: function(data){
+				if(data == 'true'){
+					alert('성공적으로 삭제되었습니다.')
+					location.reload();
+				}else{
+					alert('삭제 실패함')
+				}
+			}, error: function(err){
+				alert('error!')
+			}
+		})
+	}
+}
 </script>
 <style>
 .btn-wrapper{ margin: 20px 0; height: 30px; }

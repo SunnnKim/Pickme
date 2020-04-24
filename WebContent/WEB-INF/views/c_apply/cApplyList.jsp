@@ -20,6 +20,16 @@
 </ul>
  -->
 
+<style>
+img {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+}
+
+</style>
+
+
 <!-- allList -->
 
 <div id="allList" data-tab-content="" class="active">
@@ -36,9 +46,9 @@
 			</colgroup>
 			<thead>
 				<tr>
-					<th>이미지</th>
+					<th>사진</th>
 					<th>이름</th>
-					<th>이력서 제목</th>
+					<th>이력서</th>
 					<th>지원날짜</th>
 					<th>열람여부</th>
 				</tr>
@@ -52,12 +62,12 @@
 				<c:forEach items="${cApplyList }" var="dto" varStatus="vs">
 					<tr>
 						<td>
-							<a href="#none" style="text-align: center"> 
-								<img src="filedownload.do?filename=${dto.profilename }&filepath=/upload/recruit/"  style="width: 90px;"	alt="프로필사진">
-							</a>
+							<!-- <a href="#none" style="text-align: center"> --> 
+								<img src="filedownload.do?filename=${dto.profilename }&filepath=/upload/amember/"  alt="프로필사진">
+							<!-- </a> -->
 						</td>
 						<td><a href="#none" style="text-align: center"> ${dto.memName } </a></td>
-						<td><a href="#none" style="text-align: center" onclick="openResume(${dto.cvSeq})"> ${dto.cvName } </a></td>
+						<td><a href="#none" style="text-align: center" onclick="apResumeOpen(${dto.cvSeq})"> ${dto.cvName } </a></td>
 						
 						<c:set var="aDate" value="${dto.aDate }"/>
 						<td>${fn:substring(aDate,0,16) }</td>
@@ -91,8 +101,27 @@ function cApply_list() {
 }
 
 
-function openResume(cvSeq) {
+function apResumeOpen(cvSeq) {
 	alert("cvSeq : " + cvSeq);
+	$.ajax({
+		url		 : "apResumeOpen.do",
+		type	 : "POST",
+		dataType : "json",
+		data	 : {"cvSeq" : cvSeq},
+		success	 : function(data) {
+			alert("success");
+			alert(data.memEmail);
+			if(data.filePath == null) {
+				alert("웹페이지 디테일");
+			} else {
+				alert("파일다운");
+			}
+		},
+		error	 : function(request,status,error){ 
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+		}
+	})
+		
 }
 
 

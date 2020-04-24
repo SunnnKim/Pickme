@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.CApplyDto;
+import model.CvRecruitDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import pickme.com.a.c_apply.dao.CApplyDao;
@@ -29,6 +30,11 @@ public class CApplyServiceImpl implements CApplyService {
 	@Override
 	public List<CApplyDto> getCApplyList(int jobSeq) {
 		return cApplyDao.getCApplyList(jobSeq);
+	}
+
+	@Override
+	public CvRecruitDto apResumeOpen(int cvSeq) {
+		return cApplyDao.apResumeOpen(cvSeq);
 	}
 	
 	

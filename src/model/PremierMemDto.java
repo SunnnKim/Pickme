@@ -9,13 +9,14 @@ public class PremierMemDto {
 	private String serviceName;
 	private String startDate;
 	private String endDate;
+	private String restTicket;
 	
 	public PremierMemDto() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public PremierMemDto(int seq, int userSeq, int serviceSeq, String name, String serviceName, String startDate,
-			String endDate) {
+			String endDate, String restTicket) {
 		super();
 		this.seq = seq;
 		this.userSeq = userSeq;
@@ -24,6 +25,7 @@ public class PremierMemDto {
 		this.serviceName = serviceName;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.restTicket = restTicket;
 	}
 
 	public int getSeq() {
@@ -82,11 +84,21 @@ public class PremierMemDto {
 		this.endDate = endDate;
 	}
 
+	public String getRestTicket() {
+		return restTicket;
+	}
+
+	public void setRestTicket(String restTicket) {
+		this.restTicket = restTicket;
+	}
+
 	@Override
 	public String toString() {
 		return "PremierMemDto [seq=" + seq + ", userSeq=" + userSeq + ", serviceSeq=" + serviceSeq + ", name=" + name
-				+ ", serviceName=" + serviceName + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ ", serviceName=" + serviceName + ", startDate=" + startDate + ", endDate=" + endDate + ", restTicket="
+				+ restTicket + "]";
 	}
+
 
 	
 	
