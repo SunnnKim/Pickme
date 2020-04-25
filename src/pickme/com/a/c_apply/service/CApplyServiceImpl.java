@@ -7,15 +7,18 @@ import org.springframework.stereotype.Service;
 
 import model.CApplyDto;
 import model.CvRecruitDto;
+import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import pickme.com.a.c_apply.dao.CApplyDao;
+import pickme.com.a.c_apply.dao.CMsgDao;
 
 @Service
 public class CApplyServiceImpl implements CApplyService {
 
 	@Autowired
 	CApplyDao cApplyDao;
+
 
 	@Override
 	public int getComRecCount(int seq) {
@@ -36,6 +39,6 @@ public class CApplyServiceImpl implements CApplyService {
 	public CvRecruitDto apResumeOpen(int cvSeq) {
 		return cApplyDao.apResumeOpen(cvSeq);
 	}
-	
+
 	
 }

@@ -41,5 +41,12 @@ public interface CMsgDao {
 	public int getSendMsgCount(MessageParam param);
 
 	public MessageDto sendMsgDetail(int msgSeq);
+	
+	
 
+	public int writeMsg(MessageDto dto);
+
+	public String getEmail(int to);
+
+	public int getLastSeq();
 }

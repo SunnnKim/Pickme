@@ -106,5 +106,20 @@ public class CMsgDaoImpl implements CMsgDao {
 		return sqlSession.selectOne(ns + "sendMsgDetail", msgSeq);
 	}
 	
+
+	@Override
+	public int writeMsg(MessageDto dto) {
+		return sqlSession.insert(ns + "writeMsg", dto);
+	}
+
+	@Override
+	public String getEmail(int to) {
+		return sqlSession.selectOne(ns + "getEmail", to); 
+	}
+
+	@Override
+	public int getLastSeq() {
+		return sqlSession.selectOne(ns + "getLastSeq");
+	}
 	
 }

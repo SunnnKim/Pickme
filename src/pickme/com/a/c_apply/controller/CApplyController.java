@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +23,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import model.AMemberDto;
 import model.CApplyDto;
 import model.CMemberDto;
 import model.CvRecruitDto;
+import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import pickme.com.a.c_apply.service.CApplyService;
+import pickme.com.a.c_apply.service.CMsgService;
 
 @Controller
 @RequestMapping(value = "/c_apply")
@@ -34,6 +39,7 @@ public class CApplyController {
 
 	@Autowired
 	CApplyService cApplyService;
+	CMsgService cMsgService;
 	
 	@RequestMapping(value = "cApplyMain.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String cApplyMain(RecruitParam param, Model model, HttpSession session) {
@@ -104,7 +110,6 @@ public class CApplyController {
 		return apResumeDto;
 		
 	}
-	
 	
 	
 	
