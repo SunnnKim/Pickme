@@ -377,3 +377,12 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>기업유료서비스</span>
 </div>
 <% } %>
+
+<!-- 인재탐색  -->
+<% if (lourl.contains("/searchPeople/")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>인재탐색</span>
+</div> 
+<% } %>

@@ -100,3 +100,8 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 <% if(ifurl.contains("/customer/")){%>
 고객센터
 <% }%>
+
+<!--  searchPeople - 인재탐색 -->
+<% if(ifurl.contains("/searchPeople/")){%>
+		인재탐색 		
+<% }%>
