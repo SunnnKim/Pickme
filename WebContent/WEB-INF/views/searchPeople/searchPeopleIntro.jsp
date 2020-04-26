@@ -15,32 +15,22 @@
 	  <div class="justify">
 	    <div class="search-content">
 	      <div>경력구분</div>
-	      <select>
-	        <option>전체보기</option>
-	        <option>신입</option>
-	        <option>경력</option>
+	      <select id="career">
+	        <option value=" " selected="selected">전체보기</option>
+	        <option value="신입">신입</option>
+	        <option value="년">경력</option>
 	      </select>
 	    </div>
 	    <div class="search-content">
 	      <div>1차분류</div>
-	      <select>
-	        <option>전체보기</option>
-	        <option>개발</option>
-	        <option>디자인</option>
-	        <option>기획/마케팅</option>
-	        <option>건축</option>
-	        <option>전기</option>
+	      <select id="job1" onchange="getJob2()">
+	        <option value=" " selected="selected">전체보기</option>
 	      </select>
 	    </div>
 	    <div class="search-content">
 	      <div>2차분류</div>
-	      <select>
-	        <option>전체보기</option>
-	        <option>개발</option>
-	        <option>디자인</option>
-	        <option>기획/마케팅</option>
-	        <option>건축</option>
-	        <option>전기</option>
+	      <select id="job2">
+	        <option value=" " selected="selected">전체보기</option>
 	      </select>
 	    </div>
 	  </div>
@@ -51,17 +41,70 @@
 </div>
 <!-- sending data -->
 <form id="frm" action="/Pickme/searchPeople/searchPeopleResult.do" method="post">
-<input type="hidden" name="peopleType" value="경력">
-<input type="hidden" name="job1" value="개발">
-<input type="hidden" name="job2" value="웹개발자">
+	<input type="hidden" name="career">
+	<input type="hidden" name="job1">
+	<input type="hidden" name="job2">
+	<input type="hidden" name="hashTags" value="">
 </form>
 <!-- script -->
 <script>
-
+// 1차분류 직군목록 가져오기
+var json_url = './../util/rec-joblist.json';
+$.getJSON(json_url, function(data){
+	for( var i in data){
+        json = JSON.stringify(data[i])
+        json = JSON.parse(json);
+        for( key in json ){
+          $("#job1").append("<option value='"+key+"'>"+key+"</option>");
+        } 
+      }
+})
+// 2차분류 가져오기 
+function getJob2(){
+	var job1 = $('#job1').val();
+	var job2 = [];
+	 $("#job2").html("");
+	 $("#job2").append("<option value=' '>전체보기</option>");
+	$.getJSON(json_url, function(data){
+		for( var i in data){
+	        json = JSON.stringify(data[i])
+	        json = JSON.parse(json);
+	        for( key in json ){
+		        if( key == job1 ){
+			         job2 = json[key]
+			         break;
+		        }
+	        } 
+	      }
+	     for( var i in job2){
+			$("#job2").append("<option value='"+job2[i]+"'>"+job2[i]+"</option>");
+	     }
+	})
+}
 
 // 검색버튼 누름
 function searchPeople(){
-	$('#frm').submit();
+	$('input[name=career]').val($('#career').val());
+	$('input[name=job1]').val($('#job1').val());
+	$('input[name=job2]').val($('#job2').val());
+	if( "${isPremier}" == "true" ){
+		console.log($('input[name=career]').val())
+		console.log($('input[name=job1]').val())
+		console.log($('input[name=job2]').val())
+		$('#frm').submit();
+ 	}else{
+ 		Swal.fire({
+ 			  position: 'center',
+ 			  icon: 'error',
+ 			  text: '기업서비스에 가입하세요!',
+ 			  showConfirmButton: true,
+ 			  confirmButtonText: '픽미 서비스 보러가기'
+ 		}).then((result) => {
+ 			if (result.value) {
+				location.href="/Pickme/customer/paidService.do";
+ 			}
+ 	 	})
+	}
 }
 
 

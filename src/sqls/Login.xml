@@ -24,8 +24,8 @@ WHERE EMAIL = #{email}  AND DEL != 1
  </select>
  <!-- 일반회원가입 -->
  <select id="memberJoin">
- INSERT INTO A_MEMBER ( EMAIL, PASSWORD, NAME, DEL, SIGNDATE )
- VALUES ( #{email }, #{password}, #{name}, -1, SYSDATE() )
+ INSERT INTO A_MEMBER ( EMAIL, PASSWORD, NAME, DEL, SIGNDATE, OPEN )
+ VALUES ( #{email }, #{password}, #{name}, -1, SYSDATE(), 0)
  </select>
 <!-- 기업 로그인 정보(세션에 담을용) -->
  <select id="getLoginInfoForCompany" parameterType="model.CMemberDto" resultType="model.CMemberDto">
