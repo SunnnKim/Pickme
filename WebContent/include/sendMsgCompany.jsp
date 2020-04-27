@@ -4,7 +4,7 @@
 <!-- 메시지작성 팝업 -->
  <div class="messenger-wrap">
      <form id="frm" action="" method="post">
-         <div class="msgBox">
+         <div class="msgBox" style="margin: 5% auto; ">
                 <div class="msg-bar">
                     <h4>메시지 보내기</h4>
                 </div><!-- // message-bar-->
@@ -15,7 +15,7 @@
                     </div><!-- // messageTo-->
 
                     <div class="msgText">
-                        <textarea id="content" name="content" placeholder=""></textarea>
+                        <textarea id="content" name="content" placeholder="" style="height:250px"></textarea>
                     </div><!-- // messageText-->
                     <div class="msgBtn">
                         <button type="button" onclick="send()">보내기</button>
