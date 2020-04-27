@@ -36,11 +36,17 @@
 
 <!-- 웹소켓 -->
 <script>
+
 	// 소켓 전역변수 
 	  var socket = null;
+	  var member = $("#loginuser").val();
+	  var company = $("#logincompany").val();	
+	  
 	   $(document).ready(function (){
 		   connectWs();
 	   });
+
+	   
 	   //웹소켓 연결 	 
 	   function connectWs(){
 			console.log("Info: connecting...");
@@ -54,8 +60,7 @@
 			ws.onopen = function(){
 				console.log('Info: connection opened');
 			 	// 기업 / 일반 메시지 갯수 가져올 ajax 구분
-				var member = $("#loginuser").val();
-			    var company = $("#logincompany").val();
+				
 			    
 				// 일반회원 로그인 했을때 메시지 갯수 가져오기 	
 				if(member){	
@@ -111,24 +116,35 @@
 		            let $socketAlert = $('div#socketAlert');
 		             $socketAlert.html(event.data); 
 		            // $socketAlert.css('display', 'block');
+		             $socketAlert.append("<div class='inner'></div>");
 					 $socketAlert.slideDown();
 					 
 		            setTimeout( function(){
+			             $('#inner').detach();
 		            	 $socketAlert.slideUp();
 		            	 
 		            },6000);
+
 		            
 				}else{ // 안읽은 메시지 갯수 표시
 					
 					if(event.data > 0){
+					
 						console.log("event.data: " + event.data);
-						$(".alert-number").css('display', 'block');
-						$(".alert-number").text(event.data);
+						/* $('li.alert-wrap').html('<a class="msgCountAlert" href="/Pickme/c_apply/cRcvMsg.do"><img class="msgCountAlert" alt="" src="../images/main/message.png" width="20px" height="20px"></a>');
+						$('li.alert-wrap').html('<span class="alert-number">'+ event.data + '</span>');  */
+
+						
+				   	
+						//$(".alert-number").css('display', 'block');
+						//$(".alert-number").text(event.data); 
+						$('.header_infoBtn li:nth-child(2)').append('<span class="alert-number">'+event.data+'</span>');
 						
 					}else{
-						console.log("메시지 없음")
-						$(".alert-number").css('display', 'none');
-
+						console.log("메시지 없음");
+						$('.header_infoBtn li:nth-child(2)').find('span').remove();				
+						
+						
 				   }
 			  }	
 		 }

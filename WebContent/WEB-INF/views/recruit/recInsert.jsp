@@ -86,9 +86,9 @@
                <div class="cont">
                 <select class="select_cons" name="comJobType">
                 <option value="0">경력을 선택해주세요</option>
-                  <option value="신입">신입</option>
-                  <option value="경력">경력</option>
-                  <option value="경력무관">경력무관</option>
+                  <option value="new">신입</option>
+                  <option value="career">경력</option>
+                  <option value="all">경력무관</option>
                 </select>
                 </div>
             </div>
@@ -198,7 +198,7 @@
 			dateFormat : "yy-mm-dd"
 	});
   
-    // 직무 카테고리
+    // 직군, 직무 카테고리
     var json_url = './../util/rec-joblist.json';
     var keyArr = new Array();
     var valArr = new Array();
@@ -211,31 +211,23 @@
           json = JSON.parse(json);
           jsonArr.push(json)
           for( key in json ){
-           // console.log(key);
             $("#com_job1").append("<option value='"+key+"'>"+key+"</option>");
-            // console.log("key:"+key+", value:"+json[key]);
-            keyArr.push(key);
-            valArr.push(json[key]);
-
           }
         }
-
     });
     
       function changeOcc( onedepth ){
-         // alert(onedepth.value);
         var i=0;
         console.log(onedepth.value);
         $("#com_job2").html('');
         $("#com_job2").append("<option value='0'>2차분류</option>")
         for( arr of jsonArr ){
-          // console.log(arr)
           for(key in arr){
               if( key.trim() == onedepth.value.trim() ){
                 for( i = 0; i < arr[key].length; i++ ){
                   $("#com_job2").append("<option value='"+arr[key]+"'>"+arr[key][i]+"</option>");
                 }
-               
+
               }
           }
         }
