@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+  PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
+  "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="eApplyInterest">
+    <!-- 관심기업 seq가져오기  -->
+  	<select id="interestCompany" parameterType="model.EInterestParam" resultType="model.EInterestDto">
+  		SELECT f.LIKEPICKSEQ, c.NAME, c.TEL
+  		FROM (SELECT * FROM FAVORITE WHERE AUTH = 1) f
+  		INNER JOIN C_MEMBER c
+  		ON f.LIKEPICKSEQ  = c.SEQ
+  		WHERE f.ID = #{email}
+  		<!-- 검색 -->
+		<if test="sKeyword != null and sKeyword !=''">
+		AND c.NAME = #{sKeyword}
+		</if>
+		ORDER BY c.NAME ASC
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
+  	</select>
+  	
+  	<select id="getTotalInterComCount" parameterType="model.EInterestParam" resultType="int">
+  		SELECT COUNT(*)
+  		FROM (SELECT * FROM FAVORITE WHERE AUTH = 1) f
+  		INNER JOIN C_MEMBER c
+  		ON f.LIKEPICKSEQ  = c.SEQ
+  		WHERE f.ID = #{email}
+  		<if test="sKeyword != null and sKeyword !=''">
+		AND c.NAME = #{sKeyword}
+		</if>
+  	</select>	
+  	<select id="interestComRecruit" parameterType="model.EInterestParam" resultType="model.EInterestDto">
+		SELECT f.LIKEPICKSEQ, r.TITLE, r.COMNAME, r.EDATE
+		FROM (SELECT * FROM FAVORITE WHERE AUTH = 1) f
+		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
+		ON f.LIKEPICKSEQ = r.COMSEQ
+		WHERE f.ID = #{email}
+  	</select>
+  	<select id="applied" parameterType="int" resultType="int">
+  		SELECT SEQ
+  		FROM APPLY
+  		WHERE JOBSEQ = #{likepickseq}
+  	
+  	</select>
+  	<select id="likeRecruitList" parameterType="model.EInterestParam" resultType="model.EInterestDto">
+  		SELECT f.LIKEPICKSEQ, r.TITLE, r.COMNAME, r.EDATE
+  		FROM (SELECT * FROM FAVORITE WHERE AUTH = 1) f
+  		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
+  		ON f.LIKEPICKSEQ = r.SEQ
+  		WHERE f.ID = #{email}
+  	
+  	</select>
+  
+  
+  </mapper>

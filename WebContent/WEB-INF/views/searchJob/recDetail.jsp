@@ -8,6 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
+
   <form method="post">
   	<input type="hidden" name="seq" value="${recDto.seq }">
   	<input type="hidden" name="comSeq" value="${recDto.comSeq }">
@@ -91,7 +92,7 @@
             		 
             	</span>
             </div>
-          <button type="button" class="likebtn" onclick="likech(this)"><i class="fas fa-heart unliked"></i>23</button>
+          <button type="button" class="likebtn" onclick="likech(this)"><i class="fas fa-heart unliked"></i><span>${likeTotal }</span></button>
              
             
           </div><!-- div.infoCom -->
@@ -122,8 +123,18 @@
 <%@include file="../../../../api/kakaoMap.jsp" %>
 <%@include file="../../../include/sendMsg.jsp" %>
 <script>
-	
-
+//좋아요 하트 클래스 add+remove
+ var chk = "${chk}";
+if ( chk != null || chk != ""){
+	if(chk == 1){
+		 $(".likebtn").children('i').removeClass('unliked');
+	     $(".likebtn").children('i').addClass('liked');
+	} else if(chk == 0){
+	    $(".likebtn").children('i').removeClass('liked');
+		$(".likebtn").children('i').addClass('unliked');
+	}
+} 
+ 
 /* 	$("#recruitDetailButton2").on("click", function(){
 		alert("메시지보내기 클릭");
 	});
@@ -140,17 +151,42 @@
 	$(".recTit").text("${recDto.title }");
 	$(".recSubTit").text("${recDto.comName }");
     //좋아요 
+    var total = "${likeTotal }";
     function likech(btn){
-    console.log($(btn).children('i'));
-     if( $(btn).children('i').hasClass('unliked')==true ){
-       $(btn).children('i').removeClass('unliked');
-       $(btn).children('i').addClass('liked');
-    //   alert( "dd");
+    	$.ajax({
+			url:"recLike.do",
+			type:"post",
+			datatype:"json",
+			data:{"likePickSeq":$("input[name=seq]").val()},
+			success:function(data){
+				//alert("success " + data);
+				 if(data == 'fail') {
+					 Swal.fire({
+						  icon: 'error',
+						  text: '로그인이 필요한 서비스입니다.',
+					}).then( (result) =>{
+						location.href = "/Pickme/login/memLogin.do"
+					})
+			
+				} else if (data == 'plus') {
+					  total++;
+					  $(btn).children('span').text(total);
+					  //console.log($(btn).children('span').text() );
+					  $(btn).children('i').removeClass('unliked');
+				      $(btn).children('i').addClass('liked');
+				} else if (data == 'del') {
+					  total--;
+					  $(btn).children('span').text(total);
+					  $(btn).children(':first').removeClass('liked');
+				      $(btn).children(':first').addClass('unliked');
+				}
+			},
+			error:function(request, status, error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
 
-    } else if($(btn).children(':first').hasClass('liked')) {
-        $(btn).children(':first').removeClass('liked');
-        $(btn).children(':first').addClass('unliked');
-     }
+        });
+ 
   }
 
 

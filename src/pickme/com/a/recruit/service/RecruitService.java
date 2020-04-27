@@ -35,7 +35,7 @@ public interface RecruitService {
 		public List<FilesDto> getRecFile(int ref);
 		
 		// 기업 분야,주소 받아오기
-		public CMemberDto getAddr(int seq);
+		public CMemberDto getComInfo(int seq);
 		
 		//(기업) 로그인한 기업이 볼 수 있는 현재공고
 		public List<RecruitDto> myCurrentRecList(RecruitParam param);

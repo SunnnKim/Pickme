@@ -86,7 +86,7 @@
             </div>
           <div style="width: 100%; display: inline-block;">
              <span style="width: 10%;float: left;font-size: 20px;font-weight: 400;"><i class="fas fa-eye"></i> ${recDto.readCount }</span>
-          <span style="width: 50%"><button type="button" class="detailLike" onclick="likech(this)"><i class="fas fa-heart liked"></i>23</button></span>
+          <span style="width: 50%"><button type="button" class="detailLike" onclick="likech(this)"><i class="fas fa-heart liked"></i><span>${likeTotal }</span></button></span>
           </div>
           </div><!-- div.infoCom -->
         </div><!-- div.recTop -->

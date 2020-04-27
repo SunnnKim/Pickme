@@ -3,6 +3,7 @@ package pickme.com.a.searchJob.service;
 import java.util.List;
 
 import model.CMemberDto;
+import model.FavoriteDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -16,18 +17,21 @@ public interface SearchJobService {
 	public List<RecruitDto> getRecAllList(RecruitParam param);
 	//총 게시물 수
 	public int getCountRec(RecruitParam param);
-		
-	// 공고 detail
-	public RecruitDto getRecruitDetail(int seq);
-	
-	// 해당되는 공고 img 불러오기
-	public List<FilesDto> getRecFile(int ref);
-
-	// 기업 분야,주소 받아오기
-	public CMemberDto getAddr(int seq);
 
 	// readcount up
 	public void readCountUp(int seq);
+	
+	// 좋아요 추가
+	public boolean likePlus(FavoriteDto dto);
+	
+	// 좋아요 삭제
+	public boolean likeDel(FavoriteDto dto);
+	
+	// 전체 좋아요 count
+	public int likeRecTotal(FavoriteDto dto);
+	
+	// 내가 좋아요 한 게시물
+	public int likeCountByMem(FavoriteDto dto);
 	
 	
 	// @@@@@ 지원하기 @@@@@
