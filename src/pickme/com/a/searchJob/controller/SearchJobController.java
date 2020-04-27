@@ -43,19 +43,30 @@ public class SearchJobController {
 	@Autowired
 	SearchJobService serv;
 
-	
+
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
 		//1차 직군 선택시
-		System.out.println("===== Search Occ : "+ param.getOcc());
+		System.out.println("occ : "+ param.getOcc());
+		model.addAttribute("occ", param.getOcc());
+			
+		//2차 직무 선택
+		System.out.println("job : "+ param.getJob());
+		model.addAttribute("job", param.getJob());
 		
-		if( param.getOcc() == null ) {
-			model.addAttribute("getOcc", "");
-		} else {
-			model.addAttribute("getOcc", param.getOcc());			
-		}
-		 
-		 
+		//필터 - sorting(최신순, 인기순)
+		System.out.println("sorting : " + param.getSorting());
+		model.addAttribute("sorting", param.getSorting());
+		
+		//경력 정렬
+		System.out.println("comJobType : "+param.getComJobType());
+		model.addAttribute("comJobType",param.getComJobType());
+
+		//검색
+		System.out.println("sKeyword : " + param.getsKeyword());
+		model.addAttribute("sKeyword", param.getsKeyword());
+		
+	
 		
 		//마감날짜가 지나면 del update
 		//serv.dayUpdateDel();
@@ -78,10 +89,8 @@ public class SearchJobController {
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
 		model.addAttribute("totalRecCount", totalRecCount); 
 		
-		//검색
-		System.out.println("keyword : " + param.getsKeyword());
-		model.addAttribute("sKeyword", param.getsKeyword());
 		
+
 		return "searchJob/recSearch";
 	}
 	

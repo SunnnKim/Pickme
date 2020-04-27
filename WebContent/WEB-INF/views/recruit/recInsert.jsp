@@ -86,9 +86,9 @@
                <div class="cont">
                 <select class="select_cons" name="comJobType">
                 <option value="0">경력을 선택해주세요</option>
-                  <option value="신입">신입</option>
-                  <option value="경력">경력</option>
-                  <option value="경력무관">경력무관</option>
+                  <option value="new">신입</option>
+                  <option value="career">경력</option>
+                  <option value="all">경력무관</option>
                 </select>
                 </div>
             </div>

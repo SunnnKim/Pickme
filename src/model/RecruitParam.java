@@ -12,7 +12,7 @@ public class RecruitParam {
 	private String occ;
 	private String job;
 	private String sorting;
-	private String career;
+	private String comJobType;
 	
 	//DB에서 사용할 변수
 	private int start = 1;				
@@ -25,8 +25,11 @@ public class RecruitParam {
 	}
 	
 
+	
+
+
 	public RecruitParam(int pageNumber, int recordCountPerPage, String sKeyword, String occ, String job, String sorting,
-			String career, int start, int end, int comSeq) {
+			String comJobType, int start, int end, int comSeq) {
 		super();
 		this.pageNumber = pageNumber;
 		this.recordCountPerPage = recordCountPerPage;
@@ -34,11 +37,14 @@ public class RecruitParam {
 		this.occ = occ;
 		this.job = job;
 		this.sorting = sorting;
-		this.career = career;
+		this.comJobType = comJobType;
 		this.start = start;
 		this.end = end;
 		this.comSeq = comSeq;
 	}
+
+
+
 
 
 	public String getOcc() {
@@ -71,13 +77,14 @@ public class RecruitParam {
 	}
 
 
-	public String getCareer() {
-		return career;
+
+	public String getComJobType() {
+		return comJobType;
 	}
 
 
-	public void setCareer(String career) {
-		this.career = career;
+	public void setComJobType(String comJobType) {
+		this.comJobType = comJobType;
 	}
 
 
@@ -137,9 +144,12 @@ public class RecruitParam {
 	@Override
 	public String toString() {
 		return "RecruitParam [pageNumber=" + pageNumber + ", recordCountPerPage=" + recordCountPerPage + ", sKeyword="
-				+ sKeyword + ", start=" + start + ", end=" + end + ", comSeq=" + comSeq + "]";
+				+ sKeyword + ", occ=" + occ + ", job=" + job + ", sorting=" + sorting + ", comJobType=" + comJobType
+				+ ", start=" + start + ", end=" + end + ", comSeq=" + comSeq + "]";
 	}
-	
+
+
+
 	
 	
 }

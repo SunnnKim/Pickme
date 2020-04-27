@@ -35,6 +35,15 @@
 	<!-- 채용탐색글 수 count -->
 	<select id="getCountRec" parameterType="model.RecruitParam" resultType="int">
 		SELECT IFNULL(COUNT(*),0) AS CNT FROM RECRUIT WHERE DEL=0
+		<if test="comJobType != null and comJobType !=''">
+		AND COMJOBTYPE = #{comJobType}
+		</if>
+		<if test="occ != null and occ !=''">
+		AND COMJOB1 = #{occ}
+		</if>
+		<if test="job != null and job !=''">
+		AND COMJOB2 = #{job}
+		</if>
 		<if test="sKeyword != null and sKeyword !=''">
 		<![CDATA[
 		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
@@ -45,6 +54,12 @@
 		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
 		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
 		]]>
+		</if>
+		<if test="sorting != null and sorting !='' and sorting == 'newest' ">
+		ORDER BY SEQ DESC
+		</if>
+		<if test="sorting != null and sorting !='' and sorting == 'popular' ">
+		ORDER BY READCOUNT DESC
 		</if>
 	</select>
 	<!-- (기업) 현재 공고중인 게시글 수 count -->
@@ -66,6 +81,15 @@
  		CONTENT, HASHTAG, WDATE, EDATE, REF, READCOUNT, DEL, IMAGENAME
 		FROM ( SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY SEQ DESC) R
 		WHERE 1=1
+		<if test="comJobType != null and comJobType !=''">
+		AND COMJOBTYPE = #{comJobType}
+		</if>
+		<if test="job != null and job !=''">
+		AND COMJOB2 = #{job}
+		</if>
+		<if test="occ != null and occ !=''">
+		AND COMJOB1 = #{occ}
+		</if>
 		<if test="sKeyword != null and sKeyword !=''">
 		<![CDATA[
 		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
@@ -76,6 +100,12 @@
 		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
 		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
 		]]>
+		</if>
+		<if test="sorting != null and sorting !='' and sorting == 'newest' ">
+		ORDER BY SEQ DESC
+		</if>
+		<if test="sorting != null and sorting !='' and sorting == 'popular' ">
+		ORDER BY READCOUNT DESC
 		</if>
 		LIMIT #{recordCountPerPage} OFFSET #{start} 
 	</select> 
