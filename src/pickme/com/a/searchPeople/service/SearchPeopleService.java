@@ -17,5 +17,7 @@ public interface SearchPeopleService {
 	public List<AMemberDto> getSearchDetail( SearchPeopleParam param );
 	// 디테일 인재 찾기 인원수
 	public int getSearchDetailNumber( SearchPeopleParam param );
+	// 인재 정보 디테일 불러오기 
+	public AMemberDto getPeopleDetail(int seq);
 	
 }

@@ -39,6 +39,10 @@ public class SearchPeopleServiceImpl implements SearchPeopleService{
 	public int getSearchDetailNumber(SearchPeopleParam param) {
 		return dao.getSearchDetailNumber(param);
 	}
+	@Override
+	public AMemberDto getPeopleDetail(int seq) {
+		return dao.getPeopleDetail(seq);
+	}
 
 	
 	

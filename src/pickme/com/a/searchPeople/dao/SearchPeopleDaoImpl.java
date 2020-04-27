@@ -42,6 +42,11 @@ public class SearchPeopleDaoImpl implements SearchPeopleDao{
 		return sqlSesssion.selectOne(namespace + "getSearchDetailNumber", param);
 	}
 
+	@Override
+	public AMemberDto getPeopleDetail(int seq) {
+		return sqlSesssion.selectOne(namespace + "getPeopleDetail", seq);
+	}
+
 
 
 }

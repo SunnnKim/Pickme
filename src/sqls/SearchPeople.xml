@@ -16,7 +16,7 @@ WHERE USERSEQ = ${seq}
 
 <!-- 기본 인재찾기 -->
 <select id="getSearchBasic" parameterType="model.SearchPeopleParam" resultType="model.AMemberDto">
-SELECT SEQ, EMAIL, NAME, PHONE, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG, MAINRESUME
+SELECT SEQ, NAME, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG
 FROM A_MEMBER
 WHERE (DEL != 1 AND OPEN = 1)
 	AND (CAREER LIKE #{career} )
@@ -34,7 +34,7 @@ WHERE (DEL != 1 AND OPEN = 1)
 </select>
 <!-- 디테일 인재 찾기 인원수 -->
 <select id="getSearchDetail" parameterType="model.SearchPeopleParam" resultType="model.AMemberDto">
-SELECT SEQ, EMAIL, NAME, PHONE, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG, MAINRESUME
+SELECT SEQ, NAME, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG
 FROM A_MEMBER
 WHERE (DEL != 1 AND OPEN = 1)
 	AND (CAREER LIKE #{career} )
@@ -58,6 +58,13 @@ WHERE (DEL != 1 AND OPEN = 1)
 	  	</foreach>
 	)
 </select>
+<!-- 인재정보 디테일불러오기 -->
+<select id="getPeopleDetail" parameterType="int" resultType="model.AMemberDto">
+SELECT SEQ, EMAIL, NAME, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG, MAINRESUME
+FROM A_MEMBER
+WHERE SEQ = ${seq} AND DEL != 1
+</select>
+
 </mapper>
 
 

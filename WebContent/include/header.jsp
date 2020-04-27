@@ -48,9 +48,8 @@
 <script src="/Pickme/js/jquery/jquery-3.4.1.min.js"></script>
 <!-- jquery -->
 <script src="/Pickme/js/sweetalert2/sweetalert2.all.js"></script>
-<link rel="stylesheet" href="/Pickme/js/sweetalert2/sweetalert2.css" type="text/css"/>
 <!-- sweetAlert2 -->
-
+<link rel="stylesheet" href="/Pickme/js/sweetalert2/sweetalert2.css" type="text/css"/>
 <!-- 구글폰트 적용 -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 
