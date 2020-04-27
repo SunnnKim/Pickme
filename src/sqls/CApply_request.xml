@@ -36,7 +36,7 @@
 </select>
 
 
-	
+<!-- 이력서 열람요청 - 관심인재 리스트 -->	
 <select id="requestLike" resultType="model.CvRequestDto">
 <![CDATA[	
 	select cv_request.seq, a_member.seq as pseq, a_member.name, comment, accept, state, cv_request.del, c_member.email, cv_request.cvSeq, a_member.email as pEmail
@@ -75,24 +75,26 @@
 
 
 
-
+<!-- 이력서 열람요청 목록 삭제 -->
 <update id="requestDelete" parameterType="java.lang.String">
 	update cv_request
 	set del = 1
 	where seq = #{seq} 
 </update>
 
-
+<!-- 관심인재 추가 -->
 <insert id="addLike" parameterType="model.FavoriteDto">
 	insert into favorite
 	values(seq, #{email}, #{likePickSeq}, null, 0)
 </insert>
 
+<!-- 관심인재 삭제 -->
 <delete id="delLike" parameterType="model.FavoriteDto">
 	DELETE FROM FAVORITE
 	WHERE ID=#{email } AND LIKEPICKSEQ=#{likePickSeq}
 </delete>
 
+<!-- 이력서 열람요청 취소 -->
 <update id="requestCancel" parameterType="java.lang.String">
 	UPDATE CV_REQUEST
 	SET CANCEL = 1

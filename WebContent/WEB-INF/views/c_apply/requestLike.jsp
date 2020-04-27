@@ -68,7 +68,7 @@ email : <%=company.getEmail()%>
 			<tbody>
 				<c:if test="${empty requestLike }">
 					<tr>
-						<td colspan="7">요청 한 목록이 없습니다</td>
+						<td colspan="7">추가 된 인재가 없습니다</td>
 					</tr>
 				</c:if>
 
@@ -131,7 +131,7 @@ email : <%=company.getEmail()%>
 		</table>
 	</div>
 
-	<div class="btn-message" style="text-align: right;">
+	<div class="btn-message clfix">
 		<button type="button" class="delete_btn" onclick="deleteAction()">선택삭제</button>
 	</div>
 

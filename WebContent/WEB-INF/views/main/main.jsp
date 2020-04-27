@@ -410,24 +410,26 @@
 				// 기업회원 로그인 했을때 메시지 갯수 가져오기 
 			  	if(company){
 			  		console.log("loginCompany들어옴");
-			  		/*
+			  		console.log("loginuser: " + company);
 					 $.ajax({
-						    url:"../여기에 기업 메시지갯수 가져오는 주소 넣기",
+						    url:"/Pickme/c_apply/totalMsgCount.do",
+							method:"post",
 						    dataType:"text",
 						    success: function(data){
 								if(socket) {
 									console.log("메시지총갯수" + data);
 									// websocket에 보내기  (distinguish, cmd, 발신인이름 , 수신인이메일 , 메시지seq, 로그인 seq, 메시지 갯수))
-								    let socketMsg = socket.send("null,unread,null,null,null,null,"+ data);
+								    let socketMsg = socket.send("null,unread,null,null,null,"+ data);
 								 	console.debug("sssmsg >> ", socketMsg)
 								 	socket.send(socketMsg)
 								}	
 							}, 
 						    error:function(request,status,error){
-							        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+							    	alert("main.jsp socket error");
+							        alert("code:"+request.status+"\n\n"+"message:"+request.responseText+"\n\n"+"error:"+error);
 							}		
 					 });
-					 */
+					 
 				 }
 			}
 			

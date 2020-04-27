@@ -386,4 +386,42 @@ public class CMsgController {
 
 	
 	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "totalMsgCount.do", method= {RequestMethod.POST})
+	public String totalMsgCount(HttpSession session) {
+		System.out.println("totalMsgCount.do 실행");
+		// 로그인 세션에서 seq 호출
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+		System.out.println("로그인 아이디 : " + c_seq);
+		
+		MessageParam param = new MessageParam();
+		param.setToSeq(c_seq);
+		
+		int totalMsgCount = cMsgService.unreadCount(c_seq);
+		
+		return totalMsgCount + "";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

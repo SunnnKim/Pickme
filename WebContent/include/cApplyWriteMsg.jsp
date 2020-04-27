@@ -53,7 +53,7 @@
 			}) 		 
 		}else{
 		  $.ajax({
-				url   :"../c_apply/writeMsg.do",
+				url   :"/Pickme/c_apply/writeMsg.do",
 				type  :"post",
 				data  :formData,
 				dataType: "json",

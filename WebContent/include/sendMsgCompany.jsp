@@ -6,12 +6,12 @@
      <form id="frm" action="" method="post">
          <div class="msgBox">
                 <div class="msg-bar">
-                    <h4>메세지 보내기</h4>
+                    <h4>메시지 보내기</h4>
                 </div><!-- // message-bar-->
                 <div class="msgCont">
                     <div class="msgTo"><!--검색기능 jquery-ui, ajax사용-->
-                        <input type="text" readonly="readonly" value="${recDto.comName }"  >
-                        <input type="hidden" name="to" value="${recDto.comSeq}" > 
+                        <input type="text" readonly="readonly" id="toName" value="" >
+                        <input type="hidden" name="to" value="" >
                     </div><!-- // messageTo-->
 
                     <div class="msgText">
@@ -30,12 +30,6 @@
 
  	$(".messenger-wrap").hide();
 
-	$("#recruitDetailButton2").on("click", function(){
-		 $(".messenger-wrap").show();
-		 $('body').css("overflow", "hidden");
-
-		
-	});
 
 	//닫기 버튼 클릭
 	function hideThis(){
@@ -47,7 +41,7 @@
 	 //보내기버튼 클릭
 	function send(){
 		var formData = $("#frm").serialize();
-
+		//alert(formData);
 		//메시지내용 있는지 여부 확인
 		if (($("#content").val()).trim()  == null || ($("#content").val()).trim() == ""){
 			Swal.fire({
@@ -59,7 +53,7 @@
 			}) 		 
 		}else{
 		  $.ajax({
-				url   :"../e_apply/sendMsg.do",
+				url   :"/Pickme/c_apply/writeMsg.do",
 				type  :"post",
 				data  :formData,
 				dataType: "json",
@@ -71,7 +65,7 @@
 						console.debug("reply.js:: socket>>", socket)
 						if(socket) {
 							// websocket에 보내기  (distinguish, cmd, 메시지 보내는자이름, 메시지받는자이메일 , 메시지seq, 안읽은메시지갯수)
-						   let socketMsg = socket.send("com,alert," +  data.senderName + "," + data.receiverEmail 
+						   let socketMsg = socket.send("mem,alert," +  data.senderName + "," + data.receiverEmail 
 								                       + "," + data.msgSeq + ",null");
 						 	console.debug("sssmsg >> ", socketMsg)
 						 	socket.send(socketMsg)
