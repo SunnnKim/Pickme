@@ -1244,6 +1244,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 }
 .header_infoBtn li.alert-warp img {vertical-align:middle;}
 
+
 .alert-number{
 		border-radius:50%;
 		font-size:11px;
@@ -1252,13 +1253,13 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 		color:#fff;
 		position:absolute;
 		z-index: 1;
-		line-height:14px;
+		line-height:15px;
 		height:15px;
 		width:15px;
 		text-align:center;
 		top:11px;
 		right: -8px;	
-		/* display:none; */
+		 
 }
 
 #socketAlert{
