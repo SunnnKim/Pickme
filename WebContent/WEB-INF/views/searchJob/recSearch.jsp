@@ -39,6 +39,7 @@ $(document).ready(function(){
 	           </li>
 	            <li> 
 	              <select class="career" name="comJobType" onchange="selectCareer(this)">
+	                <option value="defalut" <c:if test="${empty comJobType}">selected</c:if>>전체</option>
 	                <option value="all" <c:if test="${comJobType eq 'all'}">selected</c:if>>경력무관</option>
 	                <option value="new" <c:if test="${comJobType eq 'new'}">selected</c:if>>신입</option>
 	                <option value="career" <c:if test="${comJobType eq 'career'}">selected</c:if>>경력</option>
@@ -147,30 +148,64 @@ $(document).ready(function(){
 
     //필터링 최신순
     function selectSorting(sorting){
-    	 var occ = "${occ}";
-         var job = "${job}";
-         var comJobType = "${comJobType}";
-		//alert("최신순 value "+sorting.value);
-		location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sorting="+sorting.value;
+    	var sKeyword = "${sKeyword}",
+    	occ = "${occ}",
+    	job = "${job}",
+    	comJobType = "${comJobType}";
+  
+    	var linkStr="recSearch.do?sorting="+sorting.value;
+		if(sKeyword != ""){
+			linkStr+="sKeyword="+sKeyword;
+		}
+		if( occ != "" ){  
+    		linkStr+="&occ="+occ;
+    	} 
+    	if (job != "") {
+    		linkStr+="&job="+job;
+        }
+        if (comJobType != ""){
+        	linkStr+="&comJobType="+comJobType;
+        } 
+      
+	        location.href=linkStr;
+		
+		//location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sorting="+sorting.value;
     }
 
     //필터링 경력
     function selectCareer(selCareer){
 		//alert("경력정렬: "+selCareer.value);
-		 var occ = "${occ}";
-         var job = "${job}";
-         var sorting = "${sorting}";
-		location.href="recSearch.do?occ="+occ+"&job="+job+"&sorting="+sorting+"&comJobType="+selCareer.value;
+    	var sKeyword = "${sKeyword}",
+    	occ = "${occ}",
+    	job = "${job}",
+    	sorting = "${sorting}";
+  
+    	var linkStr="recSearch.do?comJobType="+selCareer.value;
+		if(sKeyword != ""){
+			linkStr+="sKeyword="+sKeyword;
+		}
+		if( occ != "" ){  
+    		linkStr+="&occ="+occ;
+    	} 
+    	if (job != "") {
+    		linkStr+="&job="+job;
+        }
+        if (sorting != ""){
+        	linkStr+="&sorting="+sorting;
+        } 
+      
+	    location.href=linkStr;
+		//location.href="recSearch.do?occ="+occ+"&job="+job+"&sorting="+sorting+"&comJobType="+selCareer.value;
     }
     
 
     /* 검색 */
     function searchAction(){
-        var sKeyword = $("#_keyword").val().trim();	
-        var occ = "${occ}";
-        var job = "${job}";
-        var comJobType = "${comJobType}";
-        var sorting = "${sorting}";
+        var sKeyword = $("#_keyword").val().trim(),
+        occ = "${occ}",
+        job = "${job}",
+        comJobType = "${comJobType}",
+        sorting = "${sorting}";
     /* 	alert("comJobType:"+comJobType); */
     	//alert("sKeyword: " + sKeyword );
     	if(sKeyword == null || sKeyword == ""){
@@ -179,7 +214,21 @@ $(document).ready(function(){
     			  text: '검색어를 입력해주세요.'
     		})
     	} else{
-    		 location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sKeyword=" + sKeyword +"&sorting="+sorting+"&pageNumber=0";
+    		var linkStr="recSearch.do?pageNumber=0&sKeyword=" + sKeyword;
+    		if( occ != "" ){  
+        		linkStr+="&occ="+occ;
+        	} 
+        	if (job != "") {
+        		linkStr+="&job="+job;
+            }
+            if (comJobType != ""){
+            	linkStr+="&comJobType="+comJobType;
+            } 
+            if (sorting != ""){
+            	linkStr+="&sorting="+sorting;
+            }
+    		 //location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sKeyword=" + sKeyword +"&sorting="+sorting+"&pageNumber=0";
+            location.href=linkStr;
     	} 
 
     }	
@@ -187,12 +236,30 @@ $(document).ready(function(){
 
     /* 페이지 이동 */
     function paging(pn){	
-    	var sKeyword = '<c:out value="${sKeyword}"/>';
+    	var sKeyword = "${sKeyword}";
     	var occ = "${occ}";
     	var job = "${job}";
     	var comJobType = "${comJobType}";
     	var sorting = "${sorting}";
-    	location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sKeyword=" + sKeyword +"&sorting="+sorting+"&pageNumber=" + pn;
+    	
+    	var linkStr="recSearch.do?pageNumber="+pn;
+		if(sKeyword != ""){
+			linkStr+="sKeyword="+sKeyword;
+		}
+		if( occ != "" ){  
+    		linkStr+="&occ="+occ;
+    	} 
+    	if (job != "") {
+    		linkStr+="&job="+job;
+        }
+        if (comJobType != ""){
+        	linkStr+="&comJobType="+comJobType;
+        } 
+        if (sorting != ""){
+        	linkStr+="&sorting="+sorting;
+        }
+	        location.href=linkStr;
+    	//location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sKeyword=" + sKeyword +"&sorting="+sorting+"&pageNumber=" + pn;
     	
     }
 </script>

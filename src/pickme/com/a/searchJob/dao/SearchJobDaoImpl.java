@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.CMemberDto;
+import model.FavoriteDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -30,23 +31,6 @@ public class SearchJobDaoImpl implements SearchJobDao{
 
 
 	@Override
-	public RecruitDto getRecruitDetail(int seq) {
-		return sqlSession.selectOne(ns+"getRecruitDetail", seq);
-	}
-
-
-	@Override
-	public List<FilesDto> getRecFile(int ref) {
-		return sqlSession.selectList(ns+"getRecFile", ref);
-	}
-
-
-	@Override
-	public CMemberDto getAddr(int seq) {
-		return sqlSession.selectOne(ns+"getAddr", seq);
-	}
-
-	@Override
 	public List<ResumeDto> getMyResumes(int seq) {
 		return sqlSession.selectList(ns + "getMyResumes", seq);
 	}
@@ -60,6 +44,26 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	@Override
 	public void dayUpdateDel() {
 		sqlSession.update(ns+"dayUpdateDel");
+	}
+
+	@Override
+	public boolean likePlus(FavoriteDto dto) {
+		return sqlSession.insert(ns+"likeplus", dto)>0?true:false;
+	}
+
+	@Override
+	public boolean likeDel(FavoriteDto dto) {
+		return sqlSession.delete(ns+"likedel", dto)>0?true:false;
+	}
+
+	@Override
+	public int likeRecTotal(FavoriteDto dto) {
+		return sqlSession.selectOne(ns+"likeRecTotal", dto);
+	}
+
+	@Override
+	public int likeCountByMem(FavoriteDto dto) {
+		return sqlSession.selectOne(ns+"likeCountByMem", dto);
 	}
 
 

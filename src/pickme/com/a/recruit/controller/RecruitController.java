@@ -34,10 +34,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mysql.cj.Session;
 
 import model.CMemberDto;
+import model.FavoriteDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import pickme.com.a.recruit.service.RecruitService;
+import pickme.com.a.searchJob.service.SearchJobService;
 import pickme.com.a.util.FUpUtil;
 
 @Controller
@@ -47,7 +49,8 @@ public class RecruitController {
 	@Autowired
 	RecruitService serv;
 	
-	
+	@Autowired
+	SearchJobService searchServ;
 	
 	
 	@RequestMapping(value = "recInsert.do", method = {RequestMethod.POST,RequestMethod.GET})
@@ -117,10 +120,15 @@ public class RecruitController {
 	}
 	
 	@RequestMapping(value = "myRecDetail.do")
-	public String recDetail(int seq, Model model,HttpSession session) {
+	public String recDetail(int seq, Model model,HttpSession session,FavoriteDto favDto) {
 		RecruitDto dto = serv.getRecruitDetail(seq);
 		//System.out.println("myRec: "+dto.toString());
 
+
+		favDto.setLikePickSeq(seq);
+		// 해당 공고물 좋아요 total count 
+		int likeTotal = searchServ.likeRecTotal(favDto);
+		model.addAttribute("likeTotal", likeTotal);
 		
 		//hashtag 빼오기
 		//System.out.println("해쉬태그 : "+ dto.getHashTag());
@@ -141,7 +149,7 @@ public class RecruitController {
 		for (int i = 0; i < fileslist.size(); i++) {
 			System.out.println("이미지 : "+ fileslist.get(i).getNewname());			
 		}/**/
-		CMemberDto cmemdto = serv.getAddr(dto.getComSeq());
+		CMemberDto cmemdto = serv.getComInfo(dto.getComSeq());
 		
 		//주소 제대로 들어오면 지우기
 		cmemdto.setAddress("서울 강남구 테헤란로5길 11 YBM빌딩 2층");
