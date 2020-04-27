@@ -31,7 +31,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width= 1050px, initial-scale=1.0">
+<meta name="viewport" content="width=1050, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>index</title>
 <!-- 
@@ -95,7 +95,7 @@
 		 	 } else if( company != null ){
 				 %>
 				 <nav class="gnb">
-					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
+					<a href="/Pickme/searchPeople/searchPeopleIntro.do">인재탐색</a> <!-- 기업회원 인재탐색  -->
 					<a href="/Pickme/c_apply/cApplyMain.do">지원현황</a><!-- 기업 회원 지원현황  -->
 					<a href="javascript:goPageRec('now');">채용관리</a><!-- 채용공고   -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>

@@ -13,4 +13,10 @@ public interface LoginService {
    public boolean updatePasswordA(AMemberDto memberDto);
    // 기업회원 탈퇴하기
    public boolean withdrawMemberA(int seq);
+   // 일반회원 이메일 있는지 확인하기 
+   public boolean getLostEmailA(AMemberDto dto);
+   // 일반회원 이메일 있는지 확인하기 2
+	public boolean getLostEmailA2(AMemberDto dto);
+   // 일반회원 비밀번호 변경하기 
+	public boolean changePwdWithCodeA(AMemberDto member);
 }

@@ -87,6 +87,10 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 		%>
 		<span>회원가입</span>
 		<%
+	}else if(lourl.contains("memFindEmailPwd.jsp") || lourl.contains("memChange")){
+		%>
+		<span>이메일/비밀번호 분실</span>
+		<%
 	}
 %>
 </div>
@@ -107,6 +111,10 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	}else if(lourl.contains("comJoin.jsp")){
 		%>
 		<span>기업회원가입</span>
+		<%
+	}else if(lourl.contains("comFindEmailPwd.jsp") || lourl.contains("comChange")){
+		%>
+		<span>이메일/비밀번호 분실</span>
 		<%
 	}
 %>
@@ -368,4 +376,13 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 	<span>></span>
 	<span>기업유료서비스</span>
 </div>
+<% } %>
+
+<!-- 인재탐색  -->
+<% if (lourl.contains("/searchPeople/")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>인재탐색</span>
+</div> 
 <% } %>

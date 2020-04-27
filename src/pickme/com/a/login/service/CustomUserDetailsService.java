@@ -66,5 +66,20 @@ public class CustomUserDetailsService implements LoginService, UserDetailsServic
 		return dao.withdrawMemberA(seq);
 	}
 
+	@Override
+	public boolean getLostEmailA(AMemberDto dto) {
+		return dao.getLostEmailA(dto);
+	}
+
+	@Override
+	public boolean changePwdWithCodeA(AMemberDto member) {
+		return dao.changePwdWithCodeA(member);
+	}
+
+	@Override
+	public boolean getLostEmailA2(AMemberDto dto) {
+		return dao.getLostEmailA2(dto);
+	}
+
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.CApplyDto;
 import model.CvRecruitDto;
+import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
 
@@ -17,4 +18,5 @@ public interface CApplyService {
 
 	public CvRecruitDto apResumeOpen(int cvSeq);
 
+	
 }

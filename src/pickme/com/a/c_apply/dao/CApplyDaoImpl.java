@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import model.CApplyDto;
 import model.CvRecruitDto;
+import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
 
@@ -37,7 +38,7 @@ public class CApplyDaoImpl implements CApplyDao {
 	public CvRecruitDto apResumeOpen(int cvSeq) {
 		return sqlSession.selectOne(ns + "apResumeOpen", cvSeq);
 	}
-	
+
 	
 	
 	

@@ -121,7 +121,7 @@ public class LoginController {
 		msg += keyCode + "</strong> 를 입력해주세요.</div><br/>";
 		// 메일 보내기 
 		try {
-			MailUtil.sendMail(email, subject, msg);
+			// MailUtil.sendMail(email, subject, msg);
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -215,5 +215,142 @@ public class LoginController {
 		}
 		return "redirect:/c_mypage/goWithdrawal.do";
 	}
+	
+	// @@@@@@@@@@@@@@@
+	
+	
+	// 일반회원 이메일/비번 찾기 페이지 
+	@RequestMapping(value="findEmailPwdA.do")
+	public String findEmailPwdA() {
+		return "login/memFindEmailPwd";
+	}
+	
+	// 일반 이메일 찾기 
+	@ResponseBody
+	@RequestMapping(value="getLostEmailA.do", method=RequestMethod.POST)
+	public String getLostEmailA( AMemberDto dto ) {
+		System.out.println(dto);
+		boolean success = aMember.getLostEmailA(dto);
+		return success + "";
+	}
+	
+	// 일반 임시 비밀번호 찾기  
+	@ResponseBody
+	@RequestMapping(value="sendPasswordEmail.do", method=RequestMethod.POST)
+	public String getLostPasswordA ( AMemberDto dto ) {
+		System.out.println(dto);
+		boolean emailExist = aMember.getLostEmailA2(dto);
+		System.out.println("emailExist : " + emailExist);
+		if( !emailExist ) return "falseEmail";
+		
+		// 키코드 발급 
+		UUID one = UUID.randomUUID();
+		String keyCode = one.toString().split("-")[0];
+		// 메일 쓰기 
+		String subject = "[ Pick Me ] 임시 비밀번호 인증코드 안내 ";
+		String msg = "";
+		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+		msg += "<h3 style='color: blue;'> PICK ME 임시 비밀번호 인증코드입니다.</h3>";
+		msg += "<div style='font-size: 130%'>";
+		msg += "임시 비밀번호 인증 페이지에서 인증코드 <strong>"; 
+		msg += keyCode + "</strong> 를 입력해주세요.</div><br/>";
+		// 메일 보내기 
+		try {
+		//	MailUtil.sendMail( email, subject, msg);
+		} catch (Exception e) {
+			e.getMessage();
+			return "false";
+		}
+		return keyCode;
+		
+	}
+	
+	
+	// 일반회원 인증번호로 비밀번호 변경 페이지 가기 
+	@RequestMapping (value="memChangePwd.do", method=RequestMethod.POST)
+	public String memChangePwd( Model model, String emailCode, String memberEmail ) {
+		model.addAttribute("emailCode", emailCode);
+		model.addAttribute("memberEmail", memberEmail);
+		return "login/memChangePwd";
+	}
+	
+	// 일반회원 인증번호로 비밀번호 변경하기
+	@RequestMapping (value="changePwdWithCode.do", method=RequestMethod.POST)
+	public String changePwdWithCode( Model model, AMemberDto dto ) {
+		
+		dto.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
+		
+		boolean success = aMember.changePwdWithCodeA(dto);
+		if(success) return "redirect:/login/memLogin.do";
+		
+		return "redirect:/login/findEmailPwdA.do";
+	}
+
+	// 기업
+	// 기업회원 이메일/비번 찾기 페이지 
+	@RequestMapping(value="company/findEmailPwdC.do")
+	public String findEmailPwdC() {
+		return "login/company/comFindEmailPwd";
+	}
+	// 기업 이메일 찾기 
+	@ResponseBody
+	@RequestMapping(value="company/getLostEmailC.do", method=RequestMethod.POST)
+	public String getLostEmailC( CMemberDto dto ) {
+		System.out.println(dto);
+		boolean success = cMember.getLostEmailC(dto);
+		return success + "";
+	}
+	
+	// 기업 임시 비밀번호 찾기  
+	@ResponseBody
+	@RequestMapping(value="company/getLostPasswordC.do", method=RequestMethod.POST)
+	public String getLostPasswordC ( CMemberDto dto ) {
+		System.out.println(dto);
+		boolean emailExist = cMember.getLostEmailC2(dto);
+		System.out.println("emailExist : " + emailExist);
+		if( !emailExist ) return "falseEmail";
+		
+		// 키코드 발급 
+		UUID one = UUID.randomUUID();
+		String keyCode = one.toString().split("-")[0];
+		// 메일 쓰기 
+		String subject = "[ Pick Me ] 임시 비밀번호 인증코드 안내 ";
+		String msg = "";
+		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+		msg += "<h3 style='color: blue;'> PICK ME 임시 비밀번호 인증코드입니다.</h3>";
+		msg += "<div style='font-size: 130%'>";
+		msg += "임시 비밀번호 인증 페이지에서 인증코드 <strong>"; 
+		msg += keyCode + "</strong> 를 입력해주세요.</div><br/>";
+		// 메일 보내기 
+		try {
+//			MailUtil.sendMail( email, subject, msg);
+		} catch (Exception e) {
+			e.getMessage();
+			return "false";
+		}
+		return keyCode;
+	}
+	
+	
+	// 일반회원 인증번호로 비밀번호 변경 페이지 가기 
+	@RequestMapping (value="company/comChangePwd.do", method=RequestMethod.POST)
+	public String comChangePwd( Model model, String emailCode, String memberEmail ) {
+		model.addAttribute("emailCode", emailCode);
+		model.addAttribute("memberEmail", memberEmail);
+		return "login/company/comChangePwd";
+	}
+	
+	// 일반회원 인증번호로 비밀번호 변경하기
+	@RequestMapping (value="company/changePwdWithCode.do", method=RequestMethod.POST)
+	public String changePwdWithCodeC( Model model, CMemberDto dto ) {
+		
+		dto.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
+		
+		boolean success = cMember.changePwdWithCodeC(dto);
+		if(success) return "redirect:/login/company/comLogin.do";
+		
+		return "redirect:/login/company/findEmailPwdC.do";
+	}
+	
 	
 }

@@ -479,25 +479,6 @@
 	     }
         
     });
-
-
-	/* 
-  $.ajax({
-	url:"profileUpdate.do",
-	type:"post",
-	datatype:'json',
-	data:{'seq':seq,'email':email,'phone':phone,'profilePath':profilePath,'profileName':profileName,'job':job,'career':career,
-		  'introduce':introduce, 'hashtag':hashtag},
-	success: function(data){
-		alert("success");
-		
-	},
-	 error:function(request,status,error){
-        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-       }
-
-	});  */
-
 		
   });
 

@@ -10,6 +10,8 @@
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
 
+
+
 <!-- subCont 시작 -->
 
 <!-- 메뉴 -->
@@ -21,11 +23,20 @@
  -->
 
 <style>
-img {
+.apProfile {
 	width: 80px;
 	height: 80px;
 	border-radius: 50%;
 }
+
+.capply-menu ul {display:none;position:absolute;top:-40px;left:50px;width:100px;/* height:84px; */background:#fff;box-shadow:0 0 10px rgba(0,0,0,0.3);}
+.capply-menu ul li {line-height:28px;font-size:13px;}
+.capply-menu ul li a {display:block; width: 100%; height:100%; padding:0 15px; transition:all 0.1s ease-in-out;}
+.capply-menu ul li:hover a {background:#4f6eff; color:#fff;}
+
+
+.capply-menu {position:relative; padding:7px 0; cursor:pointer;}
+/* .capply-menu .resume-menuBtn {text-align:center; transform:rotate(90deg);} */
 
 </style>
 
@@ -63,11 +74,25 @@ img {
 					<tr>
 						<td>
 							<!-- <a href="#none" style="text-align: center"> --> 
-								<img src="filedownload.do?filename=${dto.profilename }&filepath=/upload/amember/"  alt="프로필사진">
+								<img class="apProfile" src="filedownload.do?filename=${dto.profilename }&filepath=/upload/amember/"  alt="프로필사진">
 							<!-- </a> -->
 						</td>
-						<td><a href="#none" style="text-align: center"> ${dto.memName } </a></td>
-						<td><a href="#none" style="text-align: center" onclick="apResumeOpen(${dto.cvSeq})"> ${dto.cvName } </a></td>
+						<%-- <td><span class="apSubMenu" style="text-align: center" onclick="apProfileOpen(${dto.memSeq})"> ${dto.memName } </span></td> --%>
+						<td>
+							<div class="capply-menu">
+								<!-- <div class="resume-menuBtn"> -->
+									<%-- <span class="apSubMenu" style="text-align: center" onclick="apProfileOpen(${dto.memSeq})"> ${dto.memName } </span> --%>
+									<span class="apSubMenu" style="text-align: center" > ${dto.memName } </span>
+								<!-- </div> -->
+								<ul style=>
+									<li><a href="#none" onclick="alert('프로필 모달')">프로필 확인</a></li>
+									<%-- <li><a href="cApplyProfile.do?aProfileSeq=${dto.memSeq }">프로필 확인</a></li> --%>
+									<li><a href="#none" onclick="cApplySendMeg(${dto.memSeq }, '${dto.memName }')">메시지 전송</a></li>
+								</ul>
+							</div>
+						</td>
+						
+						<td><span style="text-align: center" onclick="apResumeOpen(${dto.cvSeq})"> ${dto.cvName } </span></td>
 						
 						<c:set var="aDate" value="${dto.aDate }"/>
 						<td>${fn:substring(aDate,0,16) }</td>
@@ -83,8 +108,8 @@ img {
 <!-- // allList -->
 
 
-<!-- // allList -->
-
+<!-- 메세지 보내기 모달 -->
+<%@include file="../../../include/cApplyWriteMsg.jsp" %>
 
 <script>
 /* 페이지 이동 */
@@ -101,6 +126,7 @@ function cApply_list() {
 }
 
 
+/* 이력서 열람 */
 function apResumeOpen(cvSeq) {
 	alert("cvSeq : " + cvSeq);
 	$.ajax({
@@ -123,6 +149,27 @@ function apResumeOpen(cvSeq) {
 	})
 		
 }
+
+function apProfileOpen(memSeq) {
+	alert("구직자 프로필 연결 구직자 seq : " + memSeq);
+}
+
+
+function cApplySendMeg(memSeq, memName) {
+	//alert("메시지 전송 MODAL 구직자 seq : " + memSeq);
+	//alert("메시지 전송 MODAL 구직자 memName : " + memName);
+	$(".messenger-wrap").show();
+	$('body').css("overflow", "hidden");
+	$("#toName").val("받는 이 : " + memName); 
+	$("input[name=to]").val(memSeq); 
+}
+
+
+
+$(".capply-menu").click(function(){
+   $("capply-menu ul").not($(this).find('ul').fadeToggle('fast')).hide();
+});
+
 
 
 

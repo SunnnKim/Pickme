@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="SearchPeople">
+<!-- 유료회원인지 찾아보기 -->
+<select id="isPremierMember" parameterType="int" resultType="int">
+SELECT COUNT(*)
+FROM PREMIER_MEM
+WHERE USERSEQ = ${seq} 
+	AND STARTDATE &lt;= NOW() 
+	AND ENDDATE &gt;= NOW() 
+	AND SERVICESEQ IN ( 1, 2 )
+</select>
+
+<!-- 기본 인재찾기 -->
+<select id="getSearchBasic" parameterType="model.SearchPeopleParam" resultType="model.AMemberDto">
+SELECT SEQ, EMAIL, NAME, PHONE, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG, MAINRESUME
+FROM A_MEMBER
+WHERE (DEL != 1 AND OPEN = 1)
+	AND (CAREER LIKE #{career} )
+	AND (JOB LIKE #{job1} AND JOB LIKE #{job2} )
+LIMIT 5 offset ${moreContentNum}
+</select>
+
+<!-- 기본 인재 찾기 인원수 -->
+<select id="getSearchBasicNumber" parameterType="model.SearchPeopleParam" resultType="int">
+SELECT COUNT(*)
+FROM A_MEMBER
+WHERE (DEL != 1 AND OPEN = 1)
+	AND (CAREER LIKE #{career} )
+	AND (JOB LIKE #{job1} AND JOB LIKE #{job2} )
+</select>
+<!-- 디테일 인재 찾기 인원수 -->
+<select id="getSearchDetail" parameterType="model.SearchPeopleParam" resultType="model.AMemberDto">
+SELECT SEQ, EMAIL, NAME, PHONE, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG, MAINRESUME
+FROM A_MEMBER
+WHERE (DEL != 1 AND OPEN = 1)
+	AND (CAREER LIKE #{career} )
+	AND (JOB LIKE #{job1} AND JOB LIKE #{job2} )
+	AND (
+		<foreach item="tag" index="index" collection="hashTags" separator="or">
+	        HASHTAG LIKE #{tag}
+	  	</foreach>
+	)
+</select>
+<!-- 디테일 인재 찾기 인원수 -->
+<select id="getSearchDetailNumber" parameterType="model.SearchPeopleParam" resultType="int">
+SELECT COUNT(*)
+FROM A_MEMBER
+WHERE (DEL != 1 AND OPEN = 1)
+	AND (CAREER LIKE #{career} )
+	AND (JOB LIKE #{job1} AND JOB LIKE #{job2} )
+	AND (
+		<foreach item="tag" index="index" collection="hashTags" separator="or">
+	        HASHTAG LIKE #{tag}
+	  	</foreach>
+	)
+</select>
+</mapper>
+
+
+

@@ -272,7 +272,7 @@ div div.logo-img input.btTextW {
               <p style="font-size: 11pt;"> 
                 <label class = "star" style="color:#ff0000"> * </label> 
                 표시된 정보는 일반회원, 기업회원 모두 열람이 가능합니다.
-              </p>
+              <p>
             </span>
           </div>
 
@@ -528,6 +528,7 @@ var introduce = document.querySelector("#introduce");		// 소개
 		// 1. 대표자명
 		var korRegPresident = /^[가-힣]*$/;				// 한글 정규식
 		var engRegPresident = /^[a-zA-Z]*$/;				// 영어 정규식
+		//var RegPresident = /^[가-힣a-zA-Z]+$/;				// 정규표현식 (한글영문  포함 띄어쓰기 불가 자음 불가)
 		var beforePresident = $("#president").val();
 		console.log("페이지 열릴 때 대표자명 = " + beforePresident);
 
@@ -535,6 +536,7 @@ var introduce = document.querySelector("#introduce");		// 소개
 			presidentCheck = true;
 		}
 		
+		/*
 		if( president.onfocusout = () => {
 			var presidentValue = $("#president").val();
 			console.log("클릭 후 대표자명 = " + presidentValue);
@@ -555,7 +557,28 @@ var introduce = document.querySelector("#introduce");		// 소개
 	        		})
 				}
 			});
+		*/
+		
+		$(president).focusout(function (){
+			var presidentValue = $("#president").val();
+			console.log("클릭 후 대표자명 = " + presidentValue);
 
+				if( presidentValue == "" ) {
+					presidentCheck = false;
+				} else if ( korRegPresident.test(president.value) || engRegPresident.test(president.value) ) {
+					presidentCheck = true;
+				} else {
+					Swal.fire({
+	        			position: 'center',
+	        			icon: 'error',
+	        			title: '이름이 적합하지 않습니다!',
+	        			showConfirmButton: false,
+	        			timer: 3000
+	        		}).then ( (result) => {
+	        			presidentCheck = false;
+	        		})
+				}
+		});
 		
 		// 2. 분야
 		if(department.onchange = () => {
@@ -637,7 +660,7 @@ updateComplete = () => {
 	$('input[name=address]').val(addressStr);
 	console.log(addressStr);
 
-
+	
 	// 대표자명 잘못 입력
 	if( presidentCheck == false ) {
 		president.focus();
@@ -693,14 +716,19 @@ updateComplete = () => {
 			return false;
 		})
 	}
+	
+	
 	// 해쉬태그 합치기
-	var hashTag = [];
+	var hashTag = new Array();
 	// <input type= "hidden" name = "hashTag" id = "hashT">
 	console.log("hashVal: "+$('#hashT').val());
 
 	// name = hashTag 의 값을 json 으로 변환
-	var receivedArray = JSON.parse($('#hashT').val());
-	console.log(receivedArray.length); // 길이 체크
+	var receivedArray =  new Array()
+	if( $('#hashT').val() != "") {
+			receivedArray = JSON.parse($('#hashT').val());
+	};
+	console.log("receivedArray: " +receivedArray.length); // 길이 체크
 	
 	for( var i=1; i <= 3; i++){
 		if( $('#hash'+i).val() != "" ){
@@ -723,7 +751,7 @@ updateComplete = () => {
 	// receivedArray 를 String 으로 변환
 	json = JSON.stringify(receivedArray);
 	console.log(json);
-	
+	alert("json : " + json);
 	// hash tag -> string
     //var jsondata = JSON.parse(tags);
    	jsondata = JSON.stringify(hashTag);
@@ -733,6 +761,7 @@ updateComplete = () => {
 	$('input[name=hashTag]').val(json);
 	console.log("jsondata: "+jsondata);
 
+	
   
 	// submit
 	Swal.fire({

@@ -8,9 +8,12 @@
 	CMemberDto memberInfo = (CMemberDto) request.getAttribute("cMember");
 
 	// 컨트롤러에서 받아온 주소 조각
+	
 	String zipcode = (String)request.getAttribute("realAddress[0]");	// 우편번호
 	String basicAdd = (String)request.getAttribute("realAddress[1]");	// 기본주소
 	String detailAdd = (String)request.getAttribute("realAddress[2]");	// 상세주소 
+	
+	
 %>  
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
@@ -121,7 +124,14 @@
                   <li><span>대표자 성명</span><%=memberInfo.getPresident() %></li>
                   <li><span>전화번호</span><%=memberInfo.getTel() %></li>
                   <li><span>이메일</span><%=memberInfo.getEmail() %></li>
-                  <li><span>주소</span><%=memberInfo.getAddress() == ""? "등록된 주소가 없습니다.": memberInfo.getAddress()%> </li>
+                  <%-- <li><span>주소</span><%=memberInfo.getAddress() == ""? "등록된 주소가 없습니다.": memberInfo.getAddress()%> </li> --%>
+                  <li><span>주소</span>
+                   <% if (zipcode == null) { %>
+                   		등록된 주소가 없습니다.
+                   <%} else { %>
+                  		 <%=zipcode %> &nbsp; <%=basicAdd %> &nbsp; <%=detailAdd %>
+                   <%} %>
+                   </li>
                 </ul>
                 <div class="followBtnWrap">
                   <label>
@@ -199,10 +209,9 @@
 
 		// 해쉬태그 json 가져오기
 		var hashTag = <%=memberInfo.getHashTag()%>;
-	
 		// 해쉬태그가 없는경우
-		if(hashTag == 'null'){
-			$('#hashTags').html('태그를 설정해주세요')
+		if(hashTag == null){
+			$('#hashTags').html('태그없음');
 		}
 		// 태그가 있는 경우
 		else{

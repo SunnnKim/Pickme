@@ -14,4 +14,11 @@ public interface LoginServiceForCompany {
    public boolean updatePasswordC(CMemberDto companyDto);
    // 기업회원 탈퇴하기
    public boolean withdrawMemberC(int seq);
+   // 기업회원 이메일 있는지 확인하기
+   public boolean getLostEmailC(CMemberDto dto);
+   // 기업회원 이메일 있는지 확인하기 2
+   public boolean getLostEmailC2(CMemberDto dto);
+   // 일반회원 비밀번호 분실시 이메일로 변경하기 
+   public boolean changePwdWithCodeC(CMemberDto member);
+   
 }
