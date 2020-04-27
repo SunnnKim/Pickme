@@ -67,7 +67,7 @@
 					<c:forEach items="${interComList }" var="interCom" varStatus="vs">
 						<tr>
 							<td class="like-td">
-								<button type="button" onclick="likech(${interCom.likepickseq }')">
+								<button type="button" onclick="likech(${interCom.likepickseq })">
 									<i class="fas fa-heart liked"></i>
 								</button>
 							</td>
