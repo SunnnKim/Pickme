@@ -3,7 +3,7 @@ package model;
 public class RecruitParam {
 	//paging
 	private int pageNumber=0;			//현재페이지
-	private int recordCountPerPage=4;	//한 페이지당 게시글 수
+	private int recordCountPerPage=8;	//한 페이지당 게시글 수
 	
 	// search 
 	private String sKeyword;
@@ -16,7 +16,7 @@ public class RecruitParam {
 	
 	//DB에서 사용할 변수
 	private int start = 1;				
-	private int end = 8;
+	private int end = 10;
 	
 	//com seq
 	private int comSeq;
