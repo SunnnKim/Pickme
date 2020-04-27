@@ -105,7 +105,7 @@
 		</table>
 	</div>
 
-	<div class="btn-message" style="text-align: right;">
+	<div class="btn-message clfix">
 		<button type="button" onclick="deleteAction()">선택삭제</button>
 	</div>
 

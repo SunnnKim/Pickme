@@ -58,7 +58,6 @@
 				data  :formData,
 				dataType: "json",
 				success:function(data){
-					alert("MSG AJAX SUCCESS");
 					if(data != null){
 						console.log(data.receiverEmail);
 						console.log(data.msgSeq);

@@ -29,15 +29,12 @@ public class LoginController {
 	LoginServiceForCompany cMember;	// 기업회원 
 	
 
-	// 테스트용 로그인폼
-	@RequestMapping(value = "loginform.do")
-	public String loginForm() {
-		return "login/loginsample";
-	}
-
 	// 메인페이지
 	@RequestMapping(value = "main.do")
-	public String mainView() {
+	public String mainView( Model model) {
+		
+		// 공지사항 데이터 
+		
 		return "main/main";
 	}
 	

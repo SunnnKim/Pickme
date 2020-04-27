@@ -142,7 +142,7 @@ email : <%=company.getEmail()%>
 			</table>
 		</div>
 
-		<div class="btn-message" style="text-align: right;">
+		<div class="btn-message clfix" style="text-align: right;">
 			<button type="button" onclick="deleteAction()">선택삭제</button>
 		</div>
 

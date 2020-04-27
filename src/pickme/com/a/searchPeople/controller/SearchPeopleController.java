@@ -94,6 +94,16 @@ public class SearchPeopleController {
 		return sendData;
 	}
 	
+	// 인재 디테일 가져오기
+	@ResponseBody
+	@RequestMapping(value="getPeopleDetail.do", method=RequestMethod.POST)
+	public Map<String, Object> getPeopleDetail(int seq){
+		
+		Map<String, Object> data = new HashMap<>();
+		AMemberDto people = service.getPeopleDetail(seq);
+		data.put("people", people);
+		return data;
+	}
 	
 	// 기능함수 앞 뒤로( % ) 붙여줌 
 	public String addPercentToBack(String component) {

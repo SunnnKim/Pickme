@@ -56,13 +56,22 @@
 <!-- 필터 -->
 	<div class="filter-wrapper">
 	  <div class="filter">
-	    <a href="#">최신순</a>
+	    <a href="#">인기순</a>
 	    <a href="#">경력순</a>
 	  </div>
 	</div>
 <!-- 필터 -->	
 <!-- 인재프로필 -->	
 	<div class="search-contents" id="appendPeople">
+<% if( searchList.size() == 0 ){
+	%>
+	<i class="fas fa-exclamation-triangle" style="font-size: 90px;text-align: center; color: #304edf;display: block;  margin-top: 60px;"></i>
+	<div class="no-data" style="text-align: center; margin: 50px 0; font-size: 18px">
+		조건에 맞는 인재가 없습니다!
+	</div>
+	<%
+}
+%>
 <% for(int i = 0; i < searchList.size(); i++ ){
 		AMemberDto dto = searchList.get(i);
 %>
@@ -83,7 +92,7 @@
 	      <div class="name"><%=dto.getName() %></div>
 	      <div class="info-wrapper">
 	        <div><%= dto.getJob().split(",")[0] %> / <%= dto.getJob().split(",")[1] %></div>
-	        <div><%=dto.getCareer().equals("신입") ? "신입":"경력 " + dto.getCareer() %></div>
+	        <div><%=dto.getCareer().equals("신입") ? "신입":"경력"%></div>
 	      </div>
 	      <div class="info-hashtag">
 	      	<% String [] hashTag = dto.getHashtag().split(",");
@@ -102,10 +111,10 @@
 	  </div>
 	  <div class="people-btn">
 	    <div class="content-wrapper">
-	      <button class="show-btn" seq="<%=dto.getSeq()%>">
+	      <button class="show-btn profileBtn" seq="<%=dto.getSeq()%>">
 	        프로필보기
 	      </button>
-	      <button class="show-btn" seq="<%=dto.getSeq()%>">
+	      <button class="show-btn requestBtn" seq="<%=dto.getSeq()%>">
 	        열람요청
 	      </button>
 	    </div>
@@ -125,6 +134,45 @@
 <!-- 더보기버튼 -->
 	</div>
 </div>
+<!-- 프로필 모달 -->
+<dialog>
+    <div class="dialog__inner">
+        <button class="button button-close close">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="dialog__content">
+          <div class="title">Profile</div>
+          <div class="img-wrapper">
+            <div class="profile-img">
+            <i class="fas fa-user"></i>
+<!--               <img src="../images/woman1.png">
+ -->            </div>
+          </div>
+            <div class="basic-info">
+              <div class="name"></div>
+              <div class="email" style="font-size: 13px"></div>
+              <div class="career"></div>
+              <div class="job"></div>
+              <div class="profile-tags scroller">
+                <span>#ddd</span>
+                <span>#ddddfjlsjflkdsjdfsdfdfssdfsdfdsfhjsdhfkjsdhfkslsdsfjkls</span>
+                <span>#ddsssd</span>
+              </div>
+            </div>
+          <div class="introduce">
+            <div class="text-area scroller">
+            </div>
+          </div>
+        </div>  
+          <div class="message-btn">
+            <button type="button">메세지 보내기</button>
+          </div>
+    </div>
+</dialog>
+
+
+
+
 <script>
 // 검색 
 // 변수 
@@ -165,6 +213,13 @@ function searchPeople(){
 	console.log($('input[name=hashTags]').val())
 	$('#searchForm').submit();
 }
+// 프로필보기 
+/* 
+ */
+
+
+
+
 </script>
 
 
@@ -209,8 +264,8 @@ $('#more-btn').click(function(){
 				 				'<div>' + people.job.split(",")[0] + '/' + people.job.split(",")[1] + '</div>' +
 				 				'<div>';
 	        	
-	        	if( people.career != '신입') str += '경력 ';
-	        	str += people.career + '</div></div>'
+	        	if( people.career != '신입') str += '경력';
+	        	str += '</div></div>'
 	        	str += '<div class="info-hashtag">';
 	        	var hashTag = people.hashtag.split(',');
 	        	for( var j in hashTag ){
@@ -224,7 +279,7 @@ $('#more-btn').click(function(){
 	    					'</div></div>' +
 			   			'<div class="people-btn">' +
 	    					'<div class="content-wrapper">' + 
-	      						'<button class="show-btn" seq="' + people.seq + '">프로필보기</button>' +
+	      						'<button class="show-btn profileBtn" seq="' + people.seq + '">프로필보기</button>' +
 	      						'<button class="show-btn" seq="' + people.seq + '">열람요청</button>' +
 	      						'</div></div></div>';
 	  	      $('#appendPeople').append(str);
@@ -316,6 +371,82 @@ function intervalCall(interval){
     setTimeout(() => {elapsed = true}, interval)
   }
 }
+// 프로필보기 에이작스 함수
+function getPeopleData( seq ){
+	$.ajax({
+		url:'getPeopleDetail.do',
+		data:'seq=' + seq,
+		type: 'post',
+		success : function( data ){
+			console.log(data)
+			var people = data.people;
+			$('.basic-info .name').text( people.name )
+			$('.basic-info .email').text( people.email )
+			$('.basic-info .phone').text( people.phone )
+			if( people.career.includes('년') ){
+				$('.basic-info .career').text( '경력 ' + people.career )
+			} else{
+				$('.basic-info .career').text( people.career )
+			}
+			// 직무 / 직군 
+			var str = people.job.split(',')
+			$('.basic-info .job').text( str[0] + ' / ' + str[1] )
+			// 해시태그 
+			var profileTags = people.hashtag.split(',');
+			console.log(profileTags)
+			$('.basic-info .profile-tags').html('')
+			for ( var i in profileTags ){
+				$('.basic-info .profile-tags').append('<span>#' + profileTags[i] + '</span>')
+			}
+			
+			// 자기소개 
+			$('.introduce .text-area').html( people.introduce.replace(/\n/gi, "<br>") )
+			
+		}, error : function( err ){
+			alert('error')
+			console.log(err)
+		}
+
+	})
+		
+
+	
+}
+
+</script>
+<script>
+// 프로필보기 모달창 
+// 프로필보기 
+const modal = document.querySelector('dialog');
+var btn = document.querySelectorAll('.profileBtn');
+const btnClose = document.querySelectorAll('.close');
+
+// 모달창 열기
+$(document).on('click','.profileBtn',function(){
+  	openModal()
+	var $this = $(this) 
+	getPeopleData($this.attr('seq'))
+})
+btnClose.forEach((elm) => elm.addEventListener('click', () => closeModal()));
+modal.addEventListener('click', (e) => detectBackdropClick(e));
+openModal = () => {
+    modal.showModal();
+}
+// 모달 닫기
+closeModal = () => {
+    modal.classList.add("dialog__animate-out");
+    modal.addEventListener('animationend', handleClose, false);
+}
+handleClose = () => {
+    modal.classList.remove("dialog__animate-out");
+    modal.removeEventListener('animationend', handleClose, false);
+    modal.close();
+}
+detectBackdropClick = (event) => {
+    if(event.target === modal) {
+        closeModal();
+    }
+}
 </script>
 <style>
 /* search-box */
@@ -355,6 +486,7 @@ select { width: 200px; /* 원하는 너비설정 */ padding: .8em .5em; /* 여�
 .people-info .content-wrapper .info-wrapper{ }
 .people-info .content-wrapper .info-hashtag span{ background-color: #1e308b; color: #fff; font-weight: 300; font-size: 10px;
   display: inline-block; font-size: 13px; border: 1px solid; padding: 5px 3px;  margin: 3px 0; border-radius: 10px;}
+
 /* 자기소개 */
 .search-contents .people-box .people-introduce { padding: 0 10px; width: 500px; }
 .search-contents .people-box .people-introduce .text-area{ display: inline-block; border: 1px solid #eaeaea; padding: 10px 5px; height: 100px; overflow:hidden; white-space: nowrap;text-overflow: ellipsis;
@@ -366,6 +498,121 @@ select { width: 200px; /* 원하는 너비설정 */ padding: .8em .5em; /* 여�
 /* 더보기버튼 */
 .more-wrapper { text-align: center;}
 .more-wrapper #more-btn{ display: inline-block; background: #304edf; color:#fff; width: 200px; height: 50px; margin: 0 auto;}
+
+/* modal */
+.fa-times{ color: #eaeaea; font-size: 30px; position: absolute; right: 10px; top:5px; cursor: pointer;}
+.dialog__content{}
+.dialog__content .title{ font-size: 25px; font-weight: 300; text-align: center; border-bottom: 1px solid #eaeaea;padding: 10px 0; margin-bottom: 10px;}
+/* modal - logo img */
+.dialog__content .img-wrapper { margin: 10px; height: 100%; width: 150px; margin: 10px 20px; float: left;}
+.dialog__content .profile-img{ margin: 0 auto; border: 1px solid #eaeaea; border-radius: 100px; width: 120px; height: 120px; overflow: hidden; }
+.dialog__content .profile-img img{ width: 120px; height: 120px;}
+/* modal - basic info */
+.dialog__content .basic-info{ width: 220px;  margin-left: 10px; height: 100%; float: left;}
+.dialog__content .basic-info .name{ font-size: 25px;}
+.dialog__content .basic-info > div{ padding-left: 5px;}
+/* modal - hashtag */
+.dialog__content .basic-info .profile-tags{ margin-right: 10px; overflow-y: scroll; height: 50px; padding: 0 10px; }
+.scroller { overflow: auto; }
+.scroller::-webkit-scrollbar { width: 10px; background-color: #fff;}
+.scroller::-webkit-scrollbar-thumb { background-color: #eaeaea; border-radius: 1000px; }
+.scroller::-webkit-scrollbar-track { background-color: #fff; }
+.dialog__content .basic-info .profile-tags > span{ display: inline-block; margin:3px; margin-right:5px; background: #304edf; padding: 0 7px; border-radius: 10px; font-size: 11px; font-weight: 300; color: #fff; }
+
+/* modal - introduce */
+.dialog__content .introduce{
+  width: 100%; float: left; padding: 10px; margin: 10px auto;
+  height: 200px;
+}
+/* modal - messageBtn */
+.message-btn{ height: 40px; text-align: center; }
+.message-btn button { background-color:#304edf; color: #fff; width: 150px; border-radius: 20px; height: 30px; font-size: 13px; font-weight: 300;}
+/* animation */
+.dialog__content .introduce .text-area{
+  padding: 10px; border: 1px solid #eaeaea;
+  overflow-y: scroll; height: 180px;
+}
+
+/* animation */
+
+$default--padding: 55px;
+body{ width:100%; height: 0vh; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', sans-serif; position: fixed;}
+.button {
+    border: none;
+    background-color: #afb8c9;
+    padding: 17px $default--padding 17px $default--padding;
+    border-radius: 30px;
+    font-size: 15px;
+    font-family: 'Nunito', sans-serif;
+    color: #fff;
+    box-shadow: 0 10px 25px #3c4a5645;
+    outline: none;
+    cursor: pointer;
+}
+
+.button-close {
+    padding: 10px;
+    align-self: flex-end; 
+    background-color: transparent;
+    box-shadow: none;
+    color: #838282;
+}
+
+dialog {
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    animation: appear .8s cubic-bezier(.77,0,.175,1) forwards;
+    box-shadow: 0 25px 40px -20px #3c4a56;
+    height: 510px;width: 420px;
+}
+
+.dialog__animate-out{
+    animation: dissappear .8s cubic-bezier(.77,0,.175,1) forwards;
+}
+.dialog__inner {
+    display: flex;
+    flex-direction: column;
+    color: #838282;
+}
+.dialog__close-btn {
+    align-self: flex-end;
+}
+.dialog__content {
+    padding: 0 $default--padding $default--padding $default--padding;
+}
+.dialog__footer{
+    padding: $default--padding $default--padding 0 $default--padding;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes dissappear {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+
 </style>
 
 <%@include file ="../../../include/footer.jsp" %>

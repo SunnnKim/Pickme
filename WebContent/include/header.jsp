@@ -48,9 +48,8 @@
 <script src="/Pickme/js/jquery/jquery-3.4.1.min.js"></script>
 <!-- jquery -->
 <script src="/Pickme/js/sweetalert2/sweetalert2.all.js"></script>
-<link rel="stylesheet" href="/Pickme/js/sweetalert2/sweetalert2.css" type="text/css"/>
 <!-- sweetAlert2 -->
-
+<link rel="stylesheet" href="/Pickme/js/sweetalert2/sweetalert2.css" type="text/css"/>
 <!-- 구글폰트 적용 -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 
@@ -58,9 +57,7 @@
 <body>
 <!-- message alert  -->
 <div id="socketAlert">
-	<div class="inner">
 
-	</div>
 </div>
 
 	<div id="wrap">
@@ -82,8 +79,8 @@
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
 					<li class="alert-warp">
-					   	<a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
-					   	<span class="alert-number"></span>	
+					   <a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
+					   
 					</li>
 					<li>
 						<a href="/Pickme/a_mypage/profile.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
@@ -105,7 +102,7 @@
 					<li><button type="button" id="searchBtn"></button></li>
 					<li class="alert-warp">
 					   		<a href="/Pickme/c_apply/cRcvMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
-					   		<span class="alert-number"></span>	
+					   		
 					</li>
 					<li>
 						<!-- 기업회원 마이페이지 -->
