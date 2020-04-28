@@ -10,8 +10,7 @@ import model.RecruitParam;
 import model.ResumeDto;
 
 public interface SearchJobService {
-	//날짜 지나면 DEL=1로 바꾸기
-	public void dayUpdateDel();
+
 		
 	//채용탐색 전체 리스트
 	public List<RecruitDto> getRecAllList(RecruitParam param);

@@ -51,7 +51,6 @@
 		AND COMJOB2 = #{job}
 		</if>
 		<if test="sKeyword != null and sKeyword !=''">
-		<![CDATA[
 		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
 		OR  TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR TITLE = #{sKeyword} 
 		OR  COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB1 = #{sKeyword} 
@@ -59,12 +58,11 @@
 		OR  REQUIREMENTS LIKE CONCAT('%', #{sKeyword}, '%') OR REQUIREMENTS = #{sKeyword} 
 		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
 		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
-		]]>
 		</if>
-		<if test="sorting == 'newest' ">
+		<if test="sorting !=null and sorting !='' and sorting == 'newest' ">
 		ORDER BY SEQ DESC
 		</if>
-		<if test="sorting == 'popular' ">
+		<if test="sorting !=null and sorting !='' and sorting == 'popular' ">
 		ORDER BY READCOUNT DESC
 		</if>
 	</select>
@@ -100,7 +98,6 @@
 		AND COMJOB1 = #{occ}
 		</if>
 		<if test="sKeyword != null and sKeyword !=''">
-		<![CDATA[
 		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
 		OR  TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR TITLE = #{sKeyword} 
 		OR  COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB1 = #{sKeyword} 
@@ -108,12 +105,11 @@
 		OR  REQUIREMENTS LIKE CONCAT('%', #{sKeyword}, '%') OR REQUIREMENTS = #{sKeyword} 
 		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
 		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
-		]]>
 		</if>
-		<if test="sorting == 'newest' ">
+		<if test="sorting !=null and sorting !='' and sorting == 'newest' ">
 		ORDER BY SEQ DESC
 		</if>
-		<if test="sorting == 'popular' ">
+		<if test="sorting !=null and sorting !='' and sorting == 'popular' ">
 		ORDER BY READCOUNT DESC
 		</if>
 		LIMIT #{recordCountPerPage} OFFSET #{start} 
@@ -176,7 +172,7 @@
 	<update id="dayUpdateDel" parameterType="java.lang.String">
 		<![CDATA[
 			UPDATE RECRUIT SET DEL=1
-			WHERE DATE_FORMAT(${today},'%Y-%m-%d') > DATE_FORMAT(EDATE,'%Y-%m-%d')	
+			WHERE DATE_FORMAT(#{today},'%Y-%m-%d') > DATE_FORMAT(EDATE,'%Y-%m-%d')	
 		]]>
 	</update>
 	<!-- 좋아요 눌렀을때 -->
