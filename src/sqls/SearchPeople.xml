@@ -64,7 +64,11 @@ SELECT SEQ, EMAIL, NAME, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHT
 FROM A_MEMBER
 WHERE SEQ = ${seq} AND DEL != 1
 </select>
-
+<!-- 이력서 열람요청 추가하기 -->
+<select id="insertCvRequest" parameterType="model.CvRequestDto">
+INSERT INTO CV_REQUEST ( PSEQ, CSEQ, RDATE, COMMENT, ACCEPT, STATE, DEL, DELMEM, CANCEL )
+VALUES ( ${pseq}, ${comSeq}, NOW(), #{comment}, 0, 0, 0, 0, 0 ) 
+</select>
 </mapper>
 
 

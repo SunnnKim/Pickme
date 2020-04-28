@@ -3,6 +3,7 @@ package pickme.com.a.searchPeople.dao;
 import java.util.List;
 
 import model.AMemberDto;
+import model.CvRequestDto;
 import model.SearchPeopleParam;
 
 public interface SearchPeopleDao {
@@ -19,4 +20,8 @@ public interface SearchPeopleDao {
 	public int getSearchDetailNumber( SearchPeopleParam param );
 	// 인재 정보 디테일 불러오기 
 	public AMemberDto getPeopleDetail(int seq);
+	// 열람요청 보내기
+	public boolean insertCvRequest(CvRequestDto dto);
+	
+	
 }

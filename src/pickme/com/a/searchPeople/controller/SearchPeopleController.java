@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.CvRecruitDto;
+import model.CvRequestDto;
 import model.SearchPeopleParam;
 import pickme.com.a.searchPeople.service.SearchPeopleService;
 
@@ -104,6 +106,21 @@ public class SearchPeopleController {
 		data.put("people", people);
 		return data;
 	}
+	
+	// 이력서 열람요청하기 
+	@ResponseBody
+	@RequestMapping(value="requestResume.do", method=RequestMethod.POST)
+	public boolean requestResume( CvRequestDto cv, HttpSession session ) {
+		System.out.println(cv);
+		int comSeq = ((CMemberDto) session.getAttribute("logincompany")).getSeq();
+		cv.setComSeq(comSeq);
+		boolean success = service.insertCvRequest(cv);
+	
+		return success;
+	}
+	
+	
+	
 	
 	// 기능함수 앞 뒤로( % ) 붙여줌 
 	public String addPercentToBack(String component) {

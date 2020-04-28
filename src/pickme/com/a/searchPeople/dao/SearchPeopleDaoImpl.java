@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.AMemberDto;
+import model.CvRequestDto;
 import model.SearchPeopleParam;
 
 @Repository
@@ -45,6 +46,11 @@ public class SearchPeopleDaoImpl implements SearchPeopleDao{
 	@Override
 	public AMemberDto getPeopleDetail(int seq) {
 		return sqlSesssion.selectOne(namespace + "getPeopleDetail", seq);
+	}
+
+	@Override
+	public boolean insertCvRequest(CvRequestDto dto) {
+		return sqlSesssion.insert(namespace + "insertCvRequest", dto) > 0 ? true:false;
 	}
 
 

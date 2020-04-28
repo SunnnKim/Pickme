@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.AMemberDto;
+import model.CvRequestDto;
 import model.SearchPeopleParam;
 import pickme.com.a.searchPeople.dao.SearchPeopleDao;
 
@@ -42,6 +43,10 @@ public class SearchPeopleServiceImpl implements SearchPeopleService{
 	@Override
 	public AMemberDto getPeopleDetail(int seq) {
 		return dao.getPeopleDetail(seq);
+	}
+	@Override
+	public boolean insertCvRequest(CvRequestDto dto) {
+		return dao.insertCvRequest(dto);
 	}
 
 	

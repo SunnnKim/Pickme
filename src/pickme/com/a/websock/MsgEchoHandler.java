@@ -75,7 +75,7 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 						
 						receiverSession.sendMessage(tmpMsg);
 					}else if("mem".equals(distinguish)) {
-						TextMessage tmpMsg = new TextMessage("<a href='../e_apply/seeMsg.do?msgSeq=" + msgSeq +  "&page=inMsg&pageNumber=0&unread=0'>"
+						TextMessage tmpMsg = new TextMessage("<a href='../e_apply/seeMsg.do?seq=" + msgSeq +  "&page=inMsg&pageNumber=0&unread=0'>"
 								+ "<img src='../images/main/bell.png' width='20px' height='20px'><span>[" + senderName + "]</span>님으로부터 새로운메시지가 도착하였습니다.</a>"); 
 						receiverSession.sendMessage(tmpMsg);
 						
