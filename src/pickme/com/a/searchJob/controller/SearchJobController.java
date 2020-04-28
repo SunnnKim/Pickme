@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class SearchJobController {
 	
 	@Autowired
 	RecruitService recServ;
-
+	
 
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
@@ -71,10 +73,6 @@ public class SearchJobController {
 		System.out.println("sKeyword : " + param.getsKeyword());
 		model.addAttribute("sKeyword", param.getsKeyword());
 		
-	
-		
-		//마감날짜가 지나면 del update
-		//serv.dayUpdateDel();
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30

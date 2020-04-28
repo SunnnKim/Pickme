@@ -8,7 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
-<script>
+<!-- <script>
 $(document).ready(function(){
 	var getOcc = '${occ}';
 	//console.log("getOcc: "+getOcc);
@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 	
 });
-</script>
+</script> -->
 	<div class="jobSubMenu">
 <!-- 		<div class="jobsub" id="job_sub">
 			<label name="occ_title"></label>
@@ -113,6 +113,14 @@ $(document).ready(function(){
 	var duty; //직무
 
 	var getOcc = '${occ}';
+	if(getOcc==""){
+		 $(".location").children(":last").text("전체보기");
+	}else if(getOcc != ""){
+	    $(".pageTit").append(" / "+getOcc);
+	    $(".location").children(":last").text(getOcc);
+	
+	}
+	
     var json;
     var jsonArr = [];
     $.getJSON(json_url, function(data){
@@ -128,7 +136,7 @@ $(document).ready(function(){
         
        if(getOcc != ""){
            $("#joblist").empty();
-           console.log("js getOcc: "+ getOcc);
+           //console.log("js getOcc: "+ getOcc);
            for( arr of jsonArr ){
                for(key in arr){
                    if( key.trim() == getOcc.trim() ){
@@ -147,15 +155,16 @@ $(document).ready(function(){
     }); //.getJSON
 
     //필터링 최신순
-    function selectSorting(sorting){
+    function selectSorting(sel){
+        alert("정렬 :"+sel.value)
     	var sKeyword = "${sKeyword}",
     	occ = "${occ}",
     	job = "${job}",
     	comJobType = "${comJobType}";
   
-    	var linkStr="recSearch.do?sorting="+sorting.value;
+    	var linkStr="recSearch.do?sorting="+sel.value;
 		if(sKeyword != ""){
-			linkStr+="sKeyword="+sKeyword;
+			linkStr+="&sKeyword="+sKeyword;
 		}
 		if( occ != "" ){  
     		linkStr+="&occ="+occ;
@@ -166,23 +175,20 @@ $(document).ready(function(){
         if (comJobType != ""){
         	linkStr+="&comJobType="+comJobType;
         } 
-      
 	        location.href=linkStr;
-		
-		//location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sorting="+sorting.value;
     }
 
     //필터링 경력
-    function selectCareer(selCareer){
-		//alert("경력정렬: "+selCareer.value);
+    function selectCareer(sel){
+
     	var sKeyword = "${sKeyword}",
     	occ = "${occ}",
     	job = "${job}",
     	sorting = "${sorting}";
   
-    	var linkStr="recSearch.do?comJobType="+selCareer.value;
+    	var linkStr="recSearch.do?comJobType="+sel.value;
 		if(sKeyword != ""){
-			linkStr+="sKeyword="+sKeyword;
+			linkStr+="&sKeyword="+sKeyword;
 		}
 		if( occ != "" ){  
     		linkStr+="&occ="+occ;
@@ -195,7 +201,7 @@ $(document).ready(function(){
         } 
       
 	    location.href=linkStr;
-		//location.href="recSearch.do?occ="+occ+"&job="+job+"&sorting="+sorting+"&comJobType="+selCareer.value;
+	
     }
     
 
@@ -206,8 +212,7 @@ $(document).ready(function(){
         job = "${job}",
         comJobType = "${comJobType}",
         sorting = "${sorting}";
-    /* 	alert("comJobType:"+comJobType); */
-    	//alert("sKeyword: " + sKeyword );
+
     	if(sKeyword == null || sKeyword == ""){
     		Swal.fire({
     			  icon: 'error',
@@ -227,7 +232,7 @@ $(document).ready(function(){
             if (sorting != ""){
             	linkStr+="&sorting="+sorting;
             }
-    		 //location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sKeyword=" + sKeyword +"&sorting="+sorting+"&pageNumber=0";
+    		
             location.href=linkStr;
     	} 
 
@@ -236,11 +241,11 @@ $(document).ready(function(){
 
     /* 페이지 이동 */
     function paging(pn){	
-    	var sKeyword = "${sKeyword}";
-    	var occ = "${occ}";
-    	var job = "${job}";
-    	var comJobType = "${comJobType}";
-    	var sorting = "${sorting}";
+    	var sKeyword = "${sKeyword}",
+    	occ = "${occ}",
+    	job = "${job}",
+    	comJobType = "${comJobType}",
+    	sorting = "${sorting}";
     	
     	var linkStr="recSearch.do?pageNumber="+pn;
 		if(sKeyword != ""){
@@ -259,7 +264,7 @@ $(document).ready(function(){
         	linkStr+="&sorting="+sorting;
         }
 	        location.href=linkStr;
-    	//location.href="recSearch.do?occ="+occ+"&job="+job+"&comJobType="+comJobType+"&sKeyword=" + sKeyword +"&sorting="+sorting+"&pageNumber=" + pn;
+    	
     	
     }
 </script>

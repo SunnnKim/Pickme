@@ -176,19 +176,7 @@
 	//회사이름, 제목 
 	$(".recTit").text("${recDto.title }");
 	$(".recSubTit").text("${recDto.comName }");
-    //좋아요 
-    function likech(btn){
-    console.log($(btn).children('i'));
-     if( $(btn).children('i').hasClass('unliked')==true ){
-       $(btn).children('i').removeClass('unliked');
-       $(btn).children('i').addClass('liked');
-    //   alert( "dd");
-
-    } else if($(btn).children(':first').hasClass('liked')) {
-        $(btn).children(':first').removeClass('liked');
-        $(btn).children(':first').addClass('unliked');
-     }
-  }
+  
 
 
  // 이미지 슬라이드
