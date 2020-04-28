@@ -5,10 +5,10 @@
 <%@include file="/include/header.jsp"%>
 
 <!-- JSTL사용 추가 -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- 
+
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
 	<li id="rcvMsg"><a href="cRcvMsg.do">받은 메시지</a></li>
@@ -21,7 +21,8 @@
 	<!-- 검색창 -->
 	<div class="bbs-top">
 		<div class="form-search">
-			<input type="text" id="_keyword" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value="">
+			<input type="text" id="_keyword" name="keyWord" title="검색어 입력"
+				placeholder="검색어를 입력해주세요." value="">
 			<button type="button" class="btn-search" onclick="searchAction()">
 				<span>검색</span>
 			</button>
@@ -29,73 +30,84 @@
 	</div>
 
 
- 		<div class="comeMsg" > 
-         <div class="title">
-              <span>${ msgDetail.sdate}</span><!-- 메시지 보낸 날짜 불러오기-->
-          </div><!-- // title-->
-          <div class="from">             
-             <a href="클릭시 기업정보페이지가기"><span class=msgFrom>  언리드: ${unread } ) ${msgDetail.name } </span></a>
-          </div>
-          <div class="msg-content" >
-            <p>
-              ${msgDetail.content }
-            </p>
+	<div class="comeMsg">
+		<div class="title">
+			<span>${ msgDetail.sdate}</span>
+			<!-- 메시지 보낸 날짜 불러오기-->
+		</div>
+		<!-- // title-->
+		<div class="from">
+			<a href="클릭시 기업정보페이지가기"><span class=msgFrom> 언리드: ${unread }
+					) ${msgDetail.name } </span></a>
+		</div>
+		<div class="msg-content">
+			<p>${msgDetail.content }</p>
 
-          </div><!--// msg-content -->
-          <div class="messageBtn" id="msgBtn">
-              <button onclick="delcheck()">삭제하기</button>  
-             
-           
-              
-          <c:if test="${page eq 'cRcvMsg'}">
-          	  <c:if test="${unread == 0 }">
-          	   	  <button id="_reply" onclick="reply()">답장하기</button> 
-          		  <a href="cRcvMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
-          	  </c:if> 
-          	  <c:if test="${unread == 1 }">
-          	    <button id="_reply" onclick="reply()">답장하기</button> 
-              	<a href="unread.do?page=cRcvMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
-         	</c:if>
-          </c:if>
-		 <c:if test="${page eq 'cImpoMsg'}">
-		 	<c:if test="${unread == 0 }">
-		 		 <button id="_reply" onclick="reply()">답장하기</button> 
-		 		 <a href="cImpoMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
-		 	</c:if>
-		 	<c:if test="${unread == 1 }">
-		 		 <button id="_reply" onclick="reply()">답장하기</button> 
-		 		 <a href="unread.do?page=cImpoMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
-		 	</c:if>
-        </c:if>
-        <c:if test="${page eq 'cSendMsg' }" >  
-         		 <a href="cSendMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a> 
-         </c:if>
-          </div><!-- // messageBtn-->
-        </div><!--// comeMsg-->
-        
-        
-        <form id="frm" action="" method="post">
-        <div class="messageBox" id="app"> 
-            <div class="messageCont">
-                <div class="messageTo">
-                    <img alt="" src="<%=request.getContextPath()%>/images/main/reply.png" >
-                    <span id="recipient">${msgDetail.name }</span> 
-                    <input id="to_seq" type="hidden" name="to" value="${msgDetail.from }">
-                </div><!-- messageTo-->
+		</div>
+		<!--// msg-content -->
+		<div class="messageBtn" id="msgBtn">
+			<button onclick="delcheck()">삭제하기</button>
 
-                <div class="messageText">
-                    <textarea id="repl-cont" name="content" placeholder=""></textarea>
-                </div><!-- // mesageText-->
-               <div class="messageBtn">
-                    <button onclick="send()">보내기</button>
-                    <button onclick="hideThis()">닫기</button>
-                </div><!--//  messageBtn -->
-            </div><!-- // messageCont-->
-      </div><!-- // messageBox -->
-    </form>
-    
-    
- </div> <!-- // all list -->   
+
+
+			<c:if test="${page eq 'cRcvMsg'}">
+				<c:if test="${unread == 0 }">
+					<button id="_reply" onclick="reply()">답장하기</button>
+					<a href="cRcvMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+				</c:if>
+				<c:if test="${unread == 1 }">
+					<button id="_reply" onclick="reply()">답장하기</button>
+					<a href="unread.do?page=cRcvMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
+				</c:if>
+			</c:if>
+			<c:if test="${page eq 'cImpoMsg'}">
+				<c:if test="${unread == 0 }">
+					<button id="_reply" onclick="reply()">답장하기</button>
+					<a href="cImpoMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+				</c:if>
+				<c:if test="${unread == 1 }">
+					<button id="_reply" onclick="reply()">답장하기</button>
+					<a href="unread.do?page=cImpoMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
+				</c:if>
+			</c:if>
+			<c:if test="${page eq 'cSendMsg' }">
+				<a href="cSendMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
+			</c:if>
+		</div>
+		<!-- // messageBtn-->
+	</div>
+	<!--// comeMsg-->
+
+
+	<form id="frm" action="" method="post">
+		<div class="messageBox" id="app">
+			<div class="messageCont">
+				<div class="messageTo">
+					<img alt=""
+						src="<%=request.getContextPath()%>/images/main/reply.png"> <span
+						id="recipient">${msgDetail.name }</span> <input id="to_seq"
+						type="hidden" name="to" value="${msgDetail.from }">
+				</div>
+				<!-- messageTo-->
+
+				<div class="messageText">
+					<textarea id="repl-cont" name="content" placeholder=""></textarea>
+				</div>
+				<!-- // mesageText-->
+				<div class="messageBtn">
+					<button onclick="send()">보내기</button>
+					<button onclick="hideThis()">닫기</button>
+				</div>
+				<!--//  messageBtn -->
+			</div>
+			<!-- // messageCont-->
+		</div>
+		<!-- // messageBox -->
+	</form>
+
+
+</div>
+<!-- // all list -->
 <%@include file="/include/footer.jsp"%>
 <script>
 
@@ -206,21 +218,44 @@ function send(){
 		return false;
 		 
 	}else{
-		$.ajax({
-			url   :"sendMsg.do",
-			type  :"post",
-			data  :formData,
-			success:function(result){
-				if(result != 0){
-					alert("메시지를 전송하였습니다");
-					$("#repl-cont").val("");
-					$(".messageBox").hide();
+		 $.ajax({
+				url   :"/Pickme/c_apply/writeMsg.do",
+				type  :"post",
+				data  :formData,
+				dataType: "json",
+				success:function(data){
+					//alert("MSG AJAX SUCCESS");
+					if(data != null){
+						console.log(data.receiverEmail);
+						console.log(data.msgSeq);
+						console.log(data.senderName);
+						console.debug("reply.js:: socket>>", socket)
+						if(socket) {
+							// websocket에 보내기  (distinguish, cmd, 메시지 보내는자이름, 메시지받는자이메일 , 메시지seq, 안읽은메시지갯수)
+						   let socketMsg = socket.send("mem,alert," +  data.senderName + "," + data.receiverEmail 
+								                       + "," + data.msgSeq + ",null");
+						 	console.debug("sssmsg >> ", socketMsg)
+						 	socket.send(socketMsg)
+						}  
+						 
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  text: '메시지가 성공적으로 보내졌습니다',
+							  showConfirmButton: false,
+							  timer: 1500
+							})					
+						
+							$("#repl-cont").val("");
+							$(".messageBox").hide();
+							$("#msgBtn").show();
+						
+					}	
+				},
+				error: function(){
+					
 				}	
-			},
-			error: function(){
-				
-			}	
-		});
+			}); 
 	}
 	 return false; 
 }
