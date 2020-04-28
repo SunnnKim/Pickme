@@ -46,6 +46,7 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 		//protocol :보낸사람이 기업인지, 일반인지구별자, cmd, 메시지 보낸사람이름, 받는사람이메일(기업, 개인 seq겹칠 수 있으므로 이메일로 구분), 
 		//          메시지seq(alert에서 a tag로 msgDetail로 가도록 하기 위함), unread메시지 갯수
 		String msg = message.getPayload();
+		System.out.println(">>>>>>>>>>>>>>>>>  : " + msg);
 		if(StringUtils.isNotEmpty(msg)) {
 			String[] strs = msg.split(",");
 			
@@ -74,7 +75,8 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 						
 						receiverSession.sendMessage(tmpMsg);
 					}else if("mem".equals(distinguish)) {
-						TextMessage tmpMsg = new TextMessage("");
+						TextMessage tmpMsg = new TextMessage("<a href='../e_apply/seeMsg.do?seq=" + msgSeq +  "&page=inMsg&pageNumber=0&unread=0'>"
+								+ "<img src='../images/main/bell.png' width='20px' height='20px'><span>[" + senderName + "]</span>님으로부터 새로운메시지가 도착하였습니다.</a>"); 
 						receiverSession.sendMessage(tmpMsg);
 						
 					}

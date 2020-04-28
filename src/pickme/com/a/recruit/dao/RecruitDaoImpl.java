@@ -93,8 +93,8 @@ public class RecruitDaoImpl implements RecruitDao{
 
 
 	@Override
-	public CMemberDto getAddr(int seq) {
-		return sqlSession.selectOne(ns+"getAddr", seq);
+	public CMemberDto getComInfo(int seq) {
+		return sqlSession.selectOne(ns+"getComInfo", seq);
 	}
 
 

@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,46 +33,58 @@ import org.springframework.web.multipart.MultipartFile;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.FavoriteDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import model.ResumeDto;
+import pickme.com.a.recruit.service.RecruitService;
 import pickme.com.a.searchJob.service.SearchJobService;
 
 @Controller
 @RequestMapping(value = "/searchJob")
 public class SearchJobController {
 	@Autowired
-	SearchJobService serv;
-
+	SearchJobService searchServ;
 	
+	@Autowired
+	RecruitService recServ;
+	
+
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
 		//1차 직군 선택시
-		System.out.println("===== Search Occ : "+ param.getOcc());
+		System.out.println("occ : "+ param.getOcc());
+		model.addAttribute("occ", param.getOcc());
+			
+		//2차 직무 선택
+		System.out.println("job : "+ param.getJob());
+		model.addAttribute("job", param.getJob());
 		
-		if( param.getOcc() == null ) {
-			model.addAttribute("getOcc", "");
-		} else {
-			model.addAttribute("getOcc", param.getOcc());			
-		}
-		 
-		 
+		//필터 - sorting(최신순, 인기순)
+		System.out.println("sorting : " + param.getSorting());
+		model.addAttribute("sorting", param.getSorting());
 		
-		//마감날짜가 지나면 del update
-		//serv.dayUpdateDel();
+		//경력 정렬
+		System.out.println("comJobType : "+param.getComJobType());
+		model.addAttribute("comJobType",param.getComJobType());
+	
+		//검색
+		System.out.println("sKeyword : " + param.getsKeyword());
+		model.addAttribute("sKeyword", param.getsKeyword());
+		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
 		
 		//System.out.println("현재 페이지 : "+ nowPage);
 		//채용 탐색에서 채용중인 총 게시글 수
-		int totalRecCount = serv.getCountRec(param);
+		int totalRecCount = searchServ.getCountRec(param);
 		
 		param.setStart(start);
 		param.setEnd(end);
 		
-		List<RecruitDto> list = serv.getRecAllList(param);
+		List<RecruitDto> list = searchServ.getRecAllList(param);
 		System.out.println("recSearch List Size : "+list.size());
 		model.addAttribute("recList",list);
 		model.addAttribute("pageNumber", nowPage);	//현재페이지
@@ -78,21 +92,63 @@ public class SearchJobController {
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	//한페이지에 보일 게시물 수
 		model.addAttribute("totalRecCount", totalRecCount); 
 		
-		//검색
-		System.out.println("keyword : " + param.getsKeyword());
-		model.addAttribute("sKeyword", param.getsKeyword());
 		
+
 		return "searchJob/recSearch";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "recLike.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String recLike(FavoriteDto favDto,HttpSession session,Model model) {
+		AMemberDto dto = (AMemberDto) session.getAttribute("loginuser");
+		
+		if(dto == null || dto.getEmail().equals("")) {
+			return "fail";	
+		} 
+		
+		favDto.setEmail(dto.getEmail());
+		System.out.println("LIKE DO : "+ favDto.toString());
+		int chk = searchServ.likeCountByMem(favDto);
+		System.out.println("CHK : "+chk);
+		//좋아요 수 
+		int likeTotal=searchServ.likeRecTotal(favDto);
+		model.addAttribute("likeTotal",likeTotal);
+		if (chk==0) {
+			//좋아요 가능
+			searchServ.likePlus(favDto);
+			return "plus";
+		} else {
+			//좋아요 빼기
+			searchServ.likeDel(favDto);
+			return "del";
+		}
+		
+	
+	}
 	
 	@RequestMapping(value = "recDetail.do")
-	public String recDetail(int seq, Model model,HttpSession session) {
+	public String recDetail(int seq, Model model,HttpSession session, FavoriteDto favDto) {
 		
 		//조회수 업데이트
-		serv.readCountUp(seq);
+		searchServ.readCountUp(seq);
 		
-		RecruitDto dto = serv.getRecruitDetail(seq);
+		favDto.setLikePickSeq(seq);
+		// 해당 공고물 좋아요 total count 
+		int likeTotal = searchServ.likeRecTotal(favDto);
+		model.addAttribute("likeTotal", likeTotal);
+		
+		int chk=-1;
+	    AMemberDto adto = (AMemberDto) session.getAttribute("loginuser");
+	    if(adto == null || adto.getEmail().equals("")) {
+	    	chk = searchServ.likeCountByMem(favDto);
+		} else if ( adto != null || !adto.getEmail().equals("")) {
+			favDto.setEmail(adto.getEmail());
+			chk = searchServ.likeCountByMem(favDto);
+	    }
+	    model.addAttribute("chk",chk);
+		
+		
+		RecruitDto dto = recServ.getRecruitDetail(seq);
 		//System.out.println("detail dto : "+ dto.toString());
 		
 		//hashtag 빼오기
@@ -107,13 +163,13 @@ public class SearchJobController {
 		}
 		
 		//첨부한 파일 넘기기
-		List<FilesDto> fileslist = serv.getRecFile(seq);
+		List<FilesDto> fileslist = recServ.getRecFile(seq);
 		/*
 		System.out.println("detail file count : "+fileslist.size());
 		for (int i = 0; i < fileslist.size(); i++) {
 			System.out.println("이미지 : "+ fileslist.get(i).getNewname());			
 		}/**/
-		CMemberDto cmemdto = serv.getAddr(dto.getComSeq());
+		CMemberDto cmemdto = recServ.getComInfo(dto.getComSeq());
 		
 		//주소 제대로 들어오면 지우기
 		cmemdto.setAddress("서울 강남구 테헤란로5길 11 YBM빌딩 2층");
@@ -192,7 +248,7 @@ public class SearchJobController {
 		System.out.println("memberseq: " + seq);
 		
 		// 리스트에 담기 
-		List<ResumeDto> myResumes = serv.getMyResumes(seq);
+		List<ResumeDto> myResumes = searchServ.getMyResumes(seq);
 		
 		// 리턴값 : map 으로 담아 프론트에 보내기  
         Map<String, Object> retVal = new HashMap<String, Object>();

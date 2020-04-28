@@ -30,11 +30,28 @@
 
  	$(".messenger-wrap").hide();
 
+ 	// 쪽지보내기 버튼 클릭 
 	$("#recruitDetailButton2").on("click", function(){
-		 $(".messenger-wrap").show();
-		 $('body').css("overflow", "hidden");
+		 var member = $("#loginuser").val();
+			console.log("member: " + member);
+		// 로그인 세션체크 
+		 if(member == null || member == 'undefined' || member == ""){
+			  Swal.fire({
+					  position: 'center',
+					  icon: 'warning',
+					  title: '로그인이 필요한 서비스입니다.',
+					  showConfirmButton: true,
+				}).then((result) => {
 
-		
+					location.href="/Pickme/login/memLogin.do";
+				}) 	
+
+	     }else{ 
+		     alert("로그인")
+		 	$(".messenger-wrap").show();
+		 	$('body').css("overflow", "hidden");
+
+	     }
 	});
 
 	//닫기 버튼 클릭
@@ -46,6 +63,7 @@
 	}
 	 //보내기버튼 클릭
 	function send(){
+		
 		var formData = $("#frm").serialize();
 
 		//메시지내용 있는지 여부 확인

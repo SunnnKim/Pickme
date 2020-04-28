@@ -1,6 +1,8 @@
 package pickme.com.a.c_apply.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -295,6 +297,55 @@ public class CMsgController {
 	
 	
 	
+
+	@ResponseBody
+	@RequestMapping(value = "writeMsg.do", method = { RequestMethod.POST })
+	public Map<String, String> writeMsg(MessageDto dto, HttpSession session) {
+	
+		// session에서 login seq 받아오기 
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+		// 보내는 이의 이름 가져오기
+		String senderName = ((CMemberDto)session.getAttribute("logincompany")).getName();
+				
+		System.out.println("senderName: " + senderName);
+		
+		dto.setFrom(c_seq);
+		System.out.println(dto.toString());
+		
+		
+		// 보낸메시지 데이터 테이블에 삽입 
+		int result = cMsgService.writeMsg(dto);
+	    System.out.println(result);
+		// 받는 이의 이메일 불러오기 
+		String receiverEmail = cMsgService.getEmail(dto.getTo());
+	    System.out.println("receiverEmail: " + receiverEmail);
+		// 보낸 메시지 seq 불러오기
+		int seq = cMsgService.getLastSeq();
+		// String타입으로 파싱 
+		String msgSeq = seq + "";
+		
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("receiverEmail", receiverEmail);
+		map.put("senderName", senderName);
+		map.put("msgSeq", msgSeq);
+		
+	
+		return map;
+	
+	
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*============== 보낸 메시지함 호출 ==============*/
 	@RequestMapping(value = "cSendMsg.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String cSendMsg(Model model, HttpSession session, MessageParam param) {
@@ -333,6 +384,44 @@ public class CMsgController {
 		return "c_apply/cSendMsg";
 	}
 
+	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "totalMsgCount.do", method= {RequestMethod.POST})
+	public String totalMsgCount(HttpSession session) {
+		System.out.println("totalMsgCount.do 실행");
+		// 로그인 세션에서 seq 호출
+		int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+		System.out.println("로그인 아이디 : " + c_seq);
+		
+		MessageParam param = new MessageParam();
+		param.setToSeq(c_seq);
+		
+		int totalMsgCount = cMsgService.unreadCount(c_seq);
+		
+		return totalMsgCount + "";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

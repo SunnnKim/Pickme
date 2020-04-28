@@ -32,8 +32,8 @@ public interface RecruitDao {
 	// 해당되는 공고 img 불러오기
 	public List<FilesDto> getRecFile(int ref);
 	
-	// 기업 주소,분야 뽑아오기
-	public CMemberDto getAddr(int seq);
+	// 기업 주소,분야, 로고 뽑아오기
+	public CMemberDto getComInfo(int seq);
 	
 	//(기업) 로그인한 기업이 볼 수 있는 현재공고
 	public List<RecruitDto> myCurrentRecList(RecruitParam param);

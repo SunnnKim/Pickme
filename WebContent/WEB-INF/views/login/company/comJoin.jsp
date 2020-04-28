@@ -151,7 +151,7 @@
 
 
 	// 기업명 확인 
-	var regExpComname = /^[가-힣a-zA-Z]*$/;
+	var regExpComname = /^[0-9가-힣a-zA-Z]*$/;
 	
 	if( name.onkeyup = () => {
 		if( name.value.length >= 2 && regExpComname.test( name.value ) ){
@@ -285,7 +285,7 @@
 		}
 	});
 
-	// 7. 사업자등록번호 입력
+	// 7. 사업자등록번호 입력	
 	var regExpNumber = /^[0-9]*$/;
 	if( number.onkeyup = () => {
 		if( number.value.length != 10 ){

@@ -107,5 +107,20 @@ public class CMsgServiceImpl implements CMsgService{
 	}
 	
 
+	@Override
+	public int writeMsg(MessageDto dto) {
+		return cMsgDao.writeMsg(dto);
+	}
+
+	@Override
+	public String getEmail(int to) {
+		return cMsgDao.getEmail(to);
+	}
+
+	@Override
+	public int getLastSeq() {
+		return cMsgDao.getLastSeq();
+	}
+	
 	
 }

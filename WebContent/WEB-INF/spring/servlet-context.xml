@@ -91,6 +91,7 @@
  		</mvc:interceptor>
  	</mvc:interceptors> 
  	
- 	<!-- 4/23 scheduler -->
+ 	<!-- scheduler -->
+ 	<!-- 스케쥴러 -->
  	<task:annotation-driven/>
 </beans>

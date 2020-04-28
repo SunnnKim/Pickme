@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.CMemberDto;
+import model.FavoriteDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -26,18 +27,7 @@ public class SearchJobServiceImpl implements SearchJobService{
 	public int getCountRec(RecruitParam param) {
 		return dao.getCountRec(param);
 	}
-	@Override
-	public RecruitDto getRecruitDetail(int seq) {
-		return dao.getRecruitDetail(seq);
-	}
-	@Override
-	public List<FilesDto> getRecFile(int ref) {
-		return dao.getRecFile(ref);
-	}
-	@Override
-	public CMemberDto getAddr(int seq) {
-		return dao.getAddr(seq);
-	}
+
 	@Override
 	public List<ResumeDto> getMyResumes(int seq) {
 		return dao.getMyResumes(seq);
@@ -46,9 +36,22 @@ public class SearchJobServiceImpl implements SearchJobService{
 	public void readCountUp(int seq) {
 		dao.readCountUp(seq);
 	}
+	
 	@Override
-	public void dayUpdateDel() {
-		dao.dayUpdateDel();
+	public boolean likePlus(FavoriteDto dto) {
+		return dao.likePlus(dto);
+	}
+	@Override
+	public boolean likeDel(FavoriteDto dto) {
+		return dao.likeDel(dto);
+	}
+	@Override
+	public int likeRecTotal(FavoriteDto dto) {
+		return dao.likeRecTotal(dto);
+	}
+	@Override
+	public int likeCountByMem(FavoriteDto dto) {
+		return dao.likeCountByMem(dto);
 	}
 	
 

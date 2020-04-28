@@ -48,19 +48,32 @@
 <script src="/Pickme/js/jquery/jquery-3.4.1.min.js"></script>
 <!-- jquery -->
 <script src="/Pickme/js/sweetalert2/sweetalert2.all.js"></script>
-<link rel="stylesheet" href="/Pickme/js/sweetalert2/sweetalert2.css" type="text/css"/>
 <!-- sweetAlert2 -->
-
+<link rel="stylesheet" href="/Pickme/js/sweetalert2/sweetalert2.css" type="text/css"/>
 <!-- 구글폰트 적용 -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 
 </head>
 <body>
+<!-- 채용탐색 - 공고 마감일이 지났을때  -->
+<script type="text/javascript">
+	$.ajax({
+		url:"/Pickme/recruit/updateDel.do",
+		type:"post",
+		datatype:"text",
+		success:function(data){
+			//alert("del success: "+data);
+		},
+		error:function(){
+			alert("del error")
+		}
+	})
+</script>
+
+
 <!-- message alert  -->
 <div id="socketAlert">
-	<div class="inner">
 
-	</div>
 </div>
 
 	<div id="wrap">
@@ -82,8 +95,8 @@
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
 					<li class="alert-warp">
-					   	<a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
-					   	<span class="alert-number"></span>	
+					   <a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
+					   
 					</li>
 					<li>
 						<a href="/Pickme/a_mypage/profile.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
@@ -95,7 +108,7 @@
 		 	 } else if( company != null ){
 				 %>
 				 <nav class="gnb">
-					<a href="#none">인재탐색</a> <!-- 기업회원 인재탐색  -->
+					<a href="/Pickme/searchPeople/searchPeopleIntro.do">인재탐색</a> <!-- 기업회원 인재탐색  -->
 					<a href="/Pickme/c_apply/cApplyMain.do">지원현황</a><!-- 기업 회원 지원현황  -->
 					<a href="javascript:goPageRec('now');">채용관리</a><!-- 채용공고   -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
@@ -105,7 +118,7 @@
 					<li><button type="button" id="searchBtn"></button></li>
 					<li class="alert-warp">
 					   		<a href="/Pickme/c_apply/cRcvMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
-					   		<span class="alert-number"></span>	
+					   		
 					</li>
 					<li>
 						<!-- 기업회원 마이페이지 -->

@@ -21,8 +21,8 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 	private String hashtag;		// 해시태그
 	private int mainResume;  	// 대표 이력서
 	private int del;			// 삭제 여부 
-	private String signDate;
-	
+	private String signDate;	// 등록일 
+	private int open;			// 프로필 공개여부 ( 0:비공개(디폴트) 1:공개 )
 	private Collection<GrantedAuthority> authorities;
 
 	public int getSeq() {
@@ -133,9 +133,11 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 		this.hashtag = hashtag;
 	}
 
+	
+
 	public AMemberDto(int seq, String email, String name, String password, String phone, String profilePath,
 			String profileName, String introduce, String job, String career, String hashtag, int mainResume, int del,
-			String signDate) {
+			String signDate, int open, Collection<GrantedAuthority> authorities) {
 		super();
 		this.seq = seq;
 		this.email = email;
@@ -151,6 +153,8 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 		this.mainResume = mainResume;
 		this.del = del;
 		this.signDate = signDate;
+		this.open = open;
+		this.authorities = authorities;
 	}
 
 	public String getEmail() {
@@ -220,13 +224,23 @@ public class AMemberDto implements UserDetails {	// 시큐리티 사용을 위�
 		return true;
 	}
 
+	public int getOpen() {
+		return open;
+	}
+
+	public void setOpen(int open) {
+		this.open = open;
+	}
+
 	@Override
 	public String toString() {
 		return "AMemberDto [seq=" + seq + ", email=" + email + ", name=" + name + ", password=" + password + ", phone="
 				+ phone + ", profilePath=" + profilePath + ", profileName=" + profileName + ", introduce=" + introduce
 				+ ", job=" + job + ", career=" + career + ", hashtag=" + hashtag + ", mainResume=" + mainResume
-				+ ", del=" + del + ", signDate=" + signDate + ", authorities=" + authorities + "]";
+				+ ", del=" + del + ", signDate=" + signDate + ", open=" + open + ", authorities=" + authorities + "]";
 	}
+
+	
 
 	
 

@@ -86,7 +86,7 @@
             </div>
           <div style="width: 100%; display: inline-block;">
              <span style="width: 10%;float: left;font-size: 20px;font-weight: 400;"><i class="fas fa-eye"></i> ${recDto.readCount }</span>
-          <span style="width: 50%"><button type="button" class="detailLike" onclick="likech(this)"><i class="fas fa-heart liked"></i>23</button></span>
+          <span style="width: 50%"><button type="button" class="detailLike" onclick="likech(this)"><i class="fas fa-heart liked"></i><span>${likeTotal }</span></button></span>
           </div>
           </div><!-- div.infoCom -->
         </div><!-- div.recTop -->
@@ -170,24 +170,13 @@
 
 	$(".followButton").on("click", function(){
 		alert("기업정보 바로가기 클릭");
+		location.href="/Pickme/c_mypage/goCMypage.do";
 	});
 	
 	//회사이름, 제목 
 	$(".recTit").text("${recDto.title }");
 	$(".recSubTit").text("${recDto.comName }");
-    //좋아요 
-    function likech(btn){
-    console.log($(btn).children('i'));
-     if( $(btn).children('i').hasClass('unliked')==true ){
-       $(btn).children('i').removeClass('unliked');
-       $(btn).children('i').addClass('liked');
-    //   alert( "dd");
-
-    } else if($(btn).children(':first').hasClass('liked')) {
-        $(btn).children(':first').removeClass('liked');
-        $(btn).children(':first').addClass('unliked');
-     }
-  }
+  
 
 
  // 이미지 슬라이드

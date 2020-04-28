@@ -36,8 +36,8 @@ if (durl.contains("/login/mem")){
 	<li class=<%= durl.contains("memJoin.jsp") ? " on" :" "%>>
 		<a href="/Pickme/login/memJoin.do">회원가입</a>
 	</li>
-	<li class=<%= durl.contains("memIdpwd.jsp") ? " on" :" "%>>
-		<a href="/Pickme/login/memIdPwd.do">이메일/비밀번호찾기</a>
+	<li class=<%= durl.contains("memFindEmailPwd.jsp") || durl.contains("memChange") ? " on" :" "%>>
+		<a href="/Pickme/login/findEmailPwdA.do">이메일/비밀번호찾기</a>
 	</li>
 </ul>
 <%
@@ -54,8 +54,8 @@ if (durl.contains("/login/com")){
 	<li class=<%= durl.contains("comJoin.jsp") ? " on" :" "%>>
 		<a href="/Pickme/login/company/comJoin.do">기업회원가입</a>
 	</li>
-	<li class=<%= durl.contains("comIdpwd.jsp") ? " on" :" "%>>
-		<a href="/Pickme/login/company/comIdPwd.do">이메일/비밀번호찾기</a>
+	<li class=<%= durl.contains("comFind") ? " on" :" "%>>
+		<a href="/Pickme/login/company/findEmailPwdC.do">이메일/비밀번호찾기</a>
 	</li>
 </ul>
 <%
@@ -135,6 +135,9 @@ if( durl.contains("e_apply")){
 	</li>
 	<li class=<%= durl.contains("AList")? " on" : " "%>>
 	  <a href="curAList.do">나의지원내역</a>
+	</li>
+	<li class=<%= durl.contains("interest")? " on" : " "%>>
+	  <a href="interestCom.do">나의관심</a>
 	</li>
 </ul>
 

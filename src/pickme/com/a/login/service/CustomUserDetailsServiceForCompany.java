@@ -65,4 +65,19 @@ public class CustomUserDetailsServiceForCompany implements LoginServiceForCompan
 		return dao.withdrawMemberC(seq);
 	}
 
+	@Override
+	public boolean getLostEmailC(CMemberDto dto) {
+		return dao.getLostEmailC(dto);
+	}
+
+	@Override
+	public boolean getLostEmailC2(CMemberDto dto) {
+		return dao.getLostEmailC2(dto);
+	}
+
+	@Override
+	public boolean changePwdWithCodeC(CMemberDto member) {
+		return dao.changePwdWithCodeC(member);
+	}
+
 }

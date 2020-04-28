@@ -11,7 +11,8 @@ public class EApplyDto {
 	private int open;         // 열람여부 
 	private int cancel;		  // 지원취소(담당자 미열람시) 	
 	private int cvSeq;        // 지원한 이력서 seq
-	private int del;		  // 삭제 여부(지난지원에서) 	
+	private int del;		  // 삭제여부(기업) 	
+	private int delMem;		  // 삭제여부(개인)	
 	private String comJob1;   // 직군 
 	private String comJob2;   // 직무 
 	private String edate;	  // 채용공고 마감일 	
@@ -21,8 +22,9 @@ public class EApplyDto {
 		
 	}
 
+
 	public EApplyDto(int seq, int jobSeq, int comSeq, String comName, int memSeq, String adate, int open, int cancel,
-			int cvSeq, int del, String comJob1, String comJob2, String edate) {
+			int cvSeq, int del, int delMem, String comJob1, String comJob2, String edate) {
 		super();
 		this.seq = seq;
 		this.jobSeq = jobSeq;
@@ -34,11 +36,11 @@ public class EApplyDto {
 		this.cancel = cancel;
 		this.cvSeq = cvSeq;
 		this.del = del;
+		this.delMem = delMem;
 		this.comJob1 = comJob1;
 		this.comJob2 = comJob2;
 		this.edate = edate;
 	}
-
 
 
 	public int getSeq() {
@@ -46,11 +48,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
-
 
 
 	public int getJobSeq() {
@@ -58,11 +58,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setJobSeq(int jobSeq) {
 		this.jobSeq = jobSeq;
 	}
-
 
 
 	public int getComSeq() {
@@ -70,11 +68,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setComSeq(int comSeq) {
 		this.comSeq = comSeq;
 	}
-
 
 
 	public String getComName() {
@@ -82,11 +78,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setComName(String comName) {
 		this.comName = comName;
 	}
-
 
 
 	public int getMemSeq() {
@@ -94,11 +88,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setMemSeq(int memSeq) {
 		this.memSeq = memSeq;
 	}
-
 
 
 	public String getAdate() {
@@ -106,11 +98,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setAdate(String adate) {
 		this.adate = adate;
 	}
-
 
 
 	public int getOpen() {
@@ -118,11 +108,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setOpen(int open) {
 		this.open = open;
 	}
-
 
 
 	public int getCancel() {
@@ -130,11 +118,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setCancel(int cancel) {
 		this.cancel = cancel;
 	}
-
 
 
 	public int getCvSeq() {
@@ -142,11 +128,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setCvSeq(int cvSeq) {
 		this.cvSeq = cvSeq;
 	}
-
 
 
 	public int getDel() {
@@ -154,11 +138,19 @@ public class EApplyDto {
 	}
 
 
-
 	public void setDel(int del) {
 		this.del = del;
 	}
 
+
+	public int getDelMem() {
+		return delMem;
+	}
+
+
+	public void setDelMem(int delMem) {
+		this.delMem = delMem;
+	}
 
 
 	public String getComJob1() {
@@ -166,11 +158,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setComJob1(String comJob1) {
 		this.comJob1 = comJob1;
 	}
-
 
 
 	public String getComJob2() {
@@ -178,11 +168,9 @@ public class EApplyDto {
 	}
 
 
-
 	public void setComJob2(String comJob2) {
 		this.comJob2 = comJob2;
 	}
-
 
 
 	public String getEdate() {
@@ -190,21 +178,18 @@ public class EApplyDto {
 	}
 
 
-
 	public void setEdate(String edate) {
 		this.edate = edate;
 	}
-
 
 
 	@Override
 	public String toString() {
 		return "EApplyDto [seq=" + seq + ", jobSeq=" + jobSeq + ", comSeq=" + comSeq + ", comName=" + comName
 				+ ", memSeq=" + memSeq + ", adate=" + adate + ", open=" + open + ", cancel=" + cancel + ", cvSeq="
-				+ cvSeq + ", del=" + del + ", comJob1=" + comJob1 + ", comJob2=" + comJob2 + ", edate=" + edate + "]";
+				+ cvSeq + ", del=" + del + ", delMem=" + delMem + ", comJob1=" + comJob1 + ", comJob2=" + comJob2
+				+ ", edate=" + edate + "]";
 	}
-
-
 
 		
 

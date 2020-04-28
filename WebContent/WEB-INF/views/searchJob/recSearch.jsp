@@ -8,10 +8,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
-<script>
+<!-- <script>
 $(document).ready(function(){
-	var getOcc = '${getOcc}';
-	console.log("getOcc: "+getOcc);
+	var getOcc = '${occ}';
+	//console.log("getOcc: "+getOcc);
 	if(getOcc==""){
 		 $(".location").children(":last").text("전체보기");
 	}else if(getOcc != ""){
@@ -20,9 +20,9 @@ $(document).ready(function(){
 	
 	}
 
-
+	
 });
-</script>
+</script> -->
 	<div class="jobSubMenu">
 <!-- 		<div class="jobsub" id="job_sub">
 			<label name="occ_title"></label>
@@ -32,17 +32,17 @@ $(document).ready(function(){
 	    <div class="filter_wrap">
 	          <ul class="filter_ul clfix">
 	           <li>
-	              <select class="sorting" name="sorting">
-	                <option value="최신순">최신순</option>
-	                <option value="인기순">인기순</option>
+	              <select class="sorting" name="sorting" onchange="selectSorting(this)">
+	                <option value="newest" <c:if test="${sorting eq 'newest'}">selected</c:if>>최신순</option>
+	                <option value="popular" <c:if test="${sorting eq 'popular'}">selected</c:if>>인기순</option>
 	              </select>
 	           </li>
 	            <li> 
-	              <select class="career" name="career">
-	                <option value="">경력</option>
-	                <option value="전체">전체</option>
-	                <option value="신입">신입</option>
-	                <option value="경력">경력</option>
+	              <select class="career" name="comJobType" onchange="selectCareer(this)">
+	                <option value="defalut" <c:if test="${empty comJobType}">selected</c:if>>전체</option>
+	                <option value="all" <c:if test="${comJobType eq 'all'}">selected</c:if>>경력무관</option>
+	                <option value="new" <c:if test="${comJobType eq 'new'}">selected</c:if>>신입</option>
+	                <option value="career" <c:if test="${comJobType eq 'career'}">selected</c:if>>경력</option>
 	              </select>
 	             </li>
 	          </ul>
@@ -106,38 +106,21 @@ $(document).ready(function(){
           	</c:choose>
   		          </div><!-- cont -->  
 <script>
-
-/* 검색 */
-var sKeyword = $("#_keyword").val().trim();
- 
-function searchAction(){
-	
-	//	alert("sKeyword: " + sKeyword );
-	if(sKeyword == null || sKeyword == ""){
-		Swal.fire({
-			  icon: 'error',
-			  text: '검색어를 입력해주세요.'
-		})
-	} else{
-		 location.href="recSearch.do?sKeyword=" + sKeyword +"&pageNumber=0";
-	} 
-
-}	
-$("#_keyword").keyup(function(e){if(e.keyCode == 13) searchAction(); });
-
-/* 페이지 이동 */
-function paging(pn){	
-	var sKeyword = '<c:out value="${sKeyword}"/>';
-  location.href="recSearch.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
-	
-}
  // 직군 카테고리
  var json_url = './../util/rec-joblist.json';
     var keyArr = new Array();
     var valArr = new Array();
 	var duty; //직무
 
-	var getOcc = '${getOcc}';
+	var getOcc = '${occ}';
+	if(getOcc==""){
+		 $(".location").children(":last").text("전체보기");
+	}else if(getOcc != ""){
+	    $(".pageTit").append(" / "+getOcc);
+	    $(".location").children(":last").text(getOcc);
+	
+	}
+	
     var json;
     var jsonArr = [];
     $.getJSON(json_url, function(data){
@@ -153,13 +136,13 @@ function paging(pn){
         
        if(getOcc != ""){
            $("#joblist").empty();
-           console.log("js getOcc: "+ getOcc);
+           //console.log("js getOcc: "+ getOcc);
            for( arr of jsonArr ){
                for(key in arr){
                    if( key.trim() == getOcc.trim() ){
                      for( i = 0; i < arr[key].length; i++ ){
-                       console.log("길이: "+arr[key].length);
-	                   console.log("arr[key]: "+arr[key][i]);
+                       //console.log("길이: "+arr[key].length);
+	                   //console.log("arr[key]: "+arr[key][i]);
                        $("#joblist").append("<li><a href='recSearch.do?occ="+key+"&job="+arr[key][i]+"'><span>"+arr[key][i]+"</span></a></li>");
 
                      }//for
@@ -170,5 +153,119 @@ function paging(pn){
            }//if
            
     }); //.getJSON
+
+    //필터링 최신순
+    function selectSorting(sel){
+        alert("정렬 :"+sel.value)
+    	var sKeyword = "${sKeyword}",
+    	occ = "${occ}",
+    	job = "${job}",
+    	comJobType = "${comJobType}";
+  
+    	var linkStr="recSearch.do?sorting="+sel.value;
+		if(sKeyword != ""){
+			linkStr+="&sKeyword="+sKeyword;
+		}
+		if( occ != "" ){  
+    		linkStr+="&occ="+occ;
+    	} 
+    	if (job != "") {
+    		linkStr+="&job="+job;
+        }
+        if (comJobType != ""){
+        	linkStr+="&comJobType="+comJobType;
+        } 
+	        location.href=linkStr;
+    }
+
+    //필터링 경력
+    function selectCareer(sel){
+
+    	var sKeyword = "${sKeyword}",
+    	occ = "${occ}",
+    	job = "${job}",
+    	sorting = "${sorting}";
+  
+    	var linkStr="recSearch.do?comJobType="+sel.value;
+		if(sKeyword != ""){
+			linkStr+="&sKeyword="+sKeyword;
+		}
+		if( occ != "" ){  
+    		linkStr+="&occ="+occ;
+    	} 
+    	if (job != "") {
+    		linkStr+="&job="+job;
+        }
+        if (sorting != ""){
+        	linkStr+="&sorting="+sorting;
+        } 
+      
+	    location.href=linkStr;
+	
+    }
+    
+
+    /* 검색 */
+    function searchAction(){
+        var sKeyword = $("#_keyword").val().trim(),
+        occ = "${occ}",
+        job = "${job}",
+        comJobType = "${comJobType}",
+        sorting = "${sorting}";
+
+    	if(sKeyword == null || sKeyword == ""){
+    		Swal.fire({
+    			  icon: 'error',
+    			  text: '검색어를 입력해주세요.'
+    		})
+    	} else{
+    		var linkStr="recSearch.do?pageNumber=0&sKeyword=" + sKeyword;
+    		if( occ != "" ){  
+        		linkStr+="&occ="+occ;
+        	} 
+        	if (job != "") {
+        		linkStr+="&job="+job;
+            }
+            if (comJobType != ""){
+            	linkStr+="&comJobType="+comJobType;
+            } 
+            if (sorting != ""){
+            	linkStr+="&sorting="+sorting;
+            }
+    		
+            location.href=linkStr;
+    	} 
+
+    }	
+    $("#_keyword").keyup(function(e){if(e.keyCode == 13) searchAction(); });
+
+    /* 페이지 이동 */
+    function paging(pn){	
+    	var sKeyword = "${sKeyword}",
+    	occ = "${occ}",
+    	job = "${job}",
+    	comJobType = "${comJobType}",
+    	sorting = "${sorting}";
+    	
+    	var linkStr="recSearch.do?pageNumber="+pn;
+		if(sKeyword != ""){
+			linkStr+="sKeyword="+sKeyword;
+		}
+		if( occ != "" ){  
+    		linkStr+="&occ="+occ;
+    	} 
+    	if (job != "") {
+    		linkStr+="&job="+job;
+        }
+        if (comJobType != ""){
+        	linkStr+="&comJobType="+comJobType;
+        } 
+        if (sorting != ""){
+        	linkStr+="&sorting="+sorting;
+        }
+	        location.href=linkStr;
+    	
+    	
+    }
 </script>
 <c:import url="../../../include/footer.jsp"/> 

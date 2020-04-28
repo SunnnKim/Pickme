@@ -2,21 +2,32 @@ package model;
 
 public class FavoriteDto {
 
+	private int seq;				// Favorite table seq
 	private String email; 			// 기업 및 회원 email
 	private int likePickSeq; 		// 회원 seq 및 기업 seq
-	private int likePickCount; 		// 찜 +팔로우 count
 	private int auth; 				// 구분 (0:인재 , 1:기업 , 3:게시물)
 
 	public FavoriteDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public FavoriteDto(String email, int likePickSeq, int likePickCount, int auth) {
+
+
+	public FavoriteDto(int seq, String email, int likePickSeq,int auth) {
 		super();
+		this.seq = seq;
 		this.email = email;
 		this.likePickSeq = likePickSeq;
-		this.likePickCount = likePickCount;
 		this.auth = auth;
+	}
+
+
+	public int getSeq() {
+		return seq;
+	}
+
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 
 	public String getEmail() {
@@ -35,14 +46,6 @@ public class FavoriteDto {
 		this.likePickSeq = likePickSeq;
 	}
 
-	public int getLikePickCount() {
-		return likePickCount;
-	}
-
-	public void setLikePickCount(int likePickCount) {
-		this.likePickCount = likePickCount;
-	}
-
 	public int getAuth() {
 		return auth;
 	}
@@ -51,12 +54,13 @@ public class FavoriteDto {
 		this.auth = auth;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "FavoriteDto [email=" + email + ", likePickSeq=" + likePickSeq + ", likePickCount=" + likePickCount
-				+ ", auth=" + auth + "]";
+		return "FavoriteDto [seq=" + seq + ", email=" + email + ", likePickSeq=" + likePickSeq + ", auth=" + auth + "]";
 	}
 
-	
+
 	
 }

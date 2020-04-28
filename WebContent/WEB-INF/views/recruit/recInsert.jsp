@@ -23,9 +23,9 @@
           <div class="rec-caution">
             <h3 class="tit">채용등록</h3>
             <ul class="rec-ul">
-              <li>채용등록주의사항1</li>
-              <li>채용등록주의사항2</li>
-              <li>채용등록주의사항3</li>
+              <li>사업자등록증 미등록  및 불건전 업체는 절대! 채용공고등록을 하실 수 없습니다.</li>
+              <li>채용공고 등록 후에는 삭제되지 않으니 신중하게 작성해주세요.</li>
+              <li>채용 효과를 높이기 위해서 유료 채용광고 상품을 이용하실 수 있으니 참고해주시기 바랍니다.</li>
             </ul>
           </div><!-- rec-title -->
           
@@ -198,7 +198,7 @@
 			dateFormat : "yy-mm-dd"
 	});
   
-    // 직무 카테고리
+    // 직군, 직무 카테고리
     var json_url = './../util/rec-joblist.json';
     var keyArr = new Array();
     var valArr = new Array();
@@ -211,31 +211,23 @@
           json = JSON.parse(json);
           jsonArr.push(json)
           for( key in json ){
-           // console.log(key);
             $("#com_job1").append("<option value='"+key+"'>"+key+"</option>");
-            // console.log("key:"+key+", value:"+json[key]);
-            keyArr.push(key);
-            valArr.push(json[key]);
-
           }
         }
-
     });
     
       function changeOcc( onedepth ){
-         // alert(onedepth.value);
         var i=0;
         console.log(onedepth.value);
         $("#com_job2").html('');
         $("#com_job2").append("<option value='0'>2차분류</option>")
         for( arr of jsonArr ){
-          // console.log(arr)
           for(key in arr){
               if( key.trim() == onedepth.value.trim() ){
                 for( i = 0; i < arr[key].length; i++ ){
                   $("#com_job2").append("<option value='"+arr[key]+"'>"+arr[key][i]+"</option>");
                 }
-               
+
               }
           }
         }

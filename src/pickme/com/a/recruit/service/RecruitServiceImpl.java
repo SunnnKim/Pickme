@@ -64,8 +64,8 @@ public class RecruitServiceImpl implements RecruitService{
 		return dao.getComPastCount(seq);
 	}
 	@Override
-	public CMemberDto getAddr(int seq) {
-		return dao.getAddr(seq);
+	public CMemberDto getComInfo(int seq) {
+		return dao.getComInfo(seq);
 	}
 	@Override
 	public int delRecruit(int seq) {

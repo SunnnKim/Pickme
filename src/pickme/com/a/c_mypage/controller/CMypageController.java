@@ -69,12 +69,20 @@ public class CMypageController {
 		CMemberDto cMember = service.select(seq);
 		model.addAttribute("cMember", cMember);
 		
+		//System.out.println(" >>>>>>>>>>>>>> " + cMember.getAddress().length());
+		
 		//주소 따옴표 제거하기
-		String addressDto = cMember.getAddress();
-		String[] realAddress = addressDto.split("'");
-		
-		model.addAttribute("realAddress", realAddress);
-		
+		if(cMember.getAddress() != null) {
+			if(cMember.getAddress().length() > 5) {
+			System.out.println("getAddress true");
+			String addressDto = cMember.getAddress();
+			String[] realAddress = addressDto.split("'");
+					
+			model.addAttribute("realAddress[0]", realAddress[0]);		// 우편번호
+			model.addAttribute("realAddress[1]", realAddress[1]);		// 기본주소
+			model.addAttribute("realAddress[2]", realAddress[2]);		// 상세주소
+			};
+		};
 		return "c_mypage/myPage";
 	}
 	
@@ -94,36 +102,34 @@ public class CMypageController {
 		int seq = company.getSeq();
 		
 		CMemberDto dtoo = service.select(seq);
-		
 		model.addAttribute("dto", dtoo);
-		
 		System.out.println("수정페이지 열릴 때 해시태그 = " + dtoo.getHashTag());
 		System.out.println("수정페이지 열릴 때 주소 = " + dtoo.getAddress());
 		
-		String addressDto = dtoo.getAddress();
-		String[] addressArr = addressDto.split("'");
-		
-		model.addAttribute("addressArr", addressArr);
-		
-		/*
-		String arr1 = addressArr[0];
-		String arr2 = addressArr[1];
-		String arr3 = addressArr[2];
-		
-		// 우편번호에서 괄호 [ ] 제거하기
-		String realArr1 = arr1.replace("[", "");
-		String realArr2 = realArr1.replace("]", "");
-		
-		System.out.println("우편번호 = " + realArr2);
-		System.out.println("기본주소 = " + arr2);
-		System.out.println("상세주소 = " + arr3);
-		
-		model.addAttribute("realArr2", realArr2);	// 우편번호
-		model.addAttribute("arr2", arr2);	// 기본주소
-		model.addAttribute("arr3", arr3);	// 상세주소
-		
-		*/
-		
+		// 등록된 주소가 있을 경우 spilt하여 전송
+		if(dtoo.getAddress() != null) {
+			if(dtoo.getAddress().length() > 5) {
+			String addressDto = dtoo.getAddress();
+			String[] addressArr = addressDto.split("'");
+			
+			model.addAttribute("addressArr", addressArr);
+			String arr1 = addressArr[0];
+			String arr2 = addressArr[1];
+			String arr3 = addressArr[2];
+			
+			// 우편번호에서 괄호 [ ] 제거하기
+			String realArr1 = arr1.replace("[", "");
+			String realArr2 = realArr1.replace("]", "");
+			
+			System.out.println("우편번호 = " + realArr2);
+			System.out.println("기본주소 = " + arr2);
+			System.out.println("상세주소 = " + arr3);
+			
+			model.addAttribute("realArr2", realArr2);	// 우편번호
+			model.addAttribute("arr2", arr2);			// 기본주소
+			model.addAttribute("arr3", arr3);			// 상세주소
+			};
+		};
 		return "c_mypage/update";
 	}
 	
@@ -148,7 +154,8 @@ public class CMypageController {
 	@RequestMapping(value = "update.do", method = {RequestMethod.POST})
 	public String update(CMemberDto dto, Model model, String hashTag) throws Exception {
 		
-		System.out.println(hashTag);
+		System.out.println("DB에 들어갈 해쉬태그 : " + hashTag);
+		System.out.println("DB : " + dto.getHashTag());
 		
 		service.update(dto);
 		
