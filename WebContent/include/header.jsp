@@ -2,6 +2,12 @@
 <%@page import="model.AMemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%
+	// session invalid check
+	if(session==null || !request.isRequestedSessionIdValid()){ 
+		response.sendRedirect("/Pickme/login/main.do");
+	}
+ %>
 <%
 	// session
 	AMemberDto member = (AMemberDto) session.getAttribute("loginuser");
