@@ -114,8 +114,8 @@
 	      <button class="show-btn profileBtn" seq="<%=dto.getSeq()%>">
 	        프로필보기
 	      </button>
-	      <button class="show-btn requestBtn" seq="<%=dto.getSeq()%>">
-	        열람요청
+	      <button class="show-btn requestBtn" seq="<%=dto.getSeq()%>" pname="<%=dto.getName()%>">
+	        이력서 열람요청
 	      </button>
 	    </div>
 	  </div>
@@ -168,6 +168,39 @@
           </div>
     </div>
 </dialog>
+<!-- 열람요청 모달 -->
+</dialog>
+  <dialog id="cvRequest">
+    <div class="dialog__inner">
+        <button class="button button-close close">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="title">
+          Request
+        </div>
+        <div class="request-modal">
+          <form action="" method="post" id="frm">
+            <div>
+              요청기업
+              <span id="sender">비트캠프</span>
+              <input type="hidden" name="pseq">
+            </div>
+            <div>
+              받는사람
+              <span id="receiver">김선주</span>
+            </div>
+            <div class="text-area">
+              <textarea name="comment" placeholder="코멘트를 남겨주세요."></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="send-request">
+          <button id="sendRequset">열람요청 보내기</button>
+        </div>
+
+    </div>
+</dialog>
+
 <!-- 메세지 보내기 창  -->
 <%@include file ="../../../include/sendMsgCompany.jsp" %>
 
@@ -268,11 +301,46 @@ $("#sendMsg").on("click", function(){
 		  }, 600 );
  	closeModal()
 })
-// 열람 요청함수
- document.querySelector('.requestBtn').onclick = () => {
- var seq = $(this).attr('seq');
- alert(seq)
-}
+
+/*
+ * `SEQ`      INT         NOT NULL    AUTO_INCREMENT COMMENT '시퀀스', 
+ `PSEQ`     INT         NULL        COMMENT '구직자이름', 
+ `CSEQ`     INT         NULL        COMMENT '요청기업', 
+ `RDATE`    DATETIME    NULL        COMMENT '요청날짜', 
+ `COMMENT`  LONGTEXT    NULL        COMMENT '기업 코멘트', 
+ `ACCEPT`   INT         NULL        COMMENT '수락여부(0:대기, 1:수락, 2:거절)', 
+ `STATE`    INT         NULL        COMMENT '요청 상태', 
+ `DEL`      INT         NULL        COMMENT '요청삭제여부(0등록1삭제)-기업', 
+ `DELMEM`   INT         NULL        COMMENT '요청삭제여부(0등록1삭제)-일반', 
+ `DDATE`    DATETIME    NULL        COMMENT '삭제일', 
+ `CANCEL`   INT         NULL        COMMENT '요청취소(0/1:취소)', 
+ `CVSEQ`    INT         NULL        COMMENT '제출이력서시퀀스(CV_COMPANY)', 
+ */
+// 열람 요청보내기 
+$(document).on('click', '#sendRequset', function(){
+	if($('textarea[name=comment]').val().trim() == ''){
+		alert('요청 코멘트를 입력하세요')
+		return false;
+	}
+	var sendData = $('#frm').serialize();
+	alert(sendData)
+	$.ajax({
+		data:sendData,
+		url:'/Pickme/searchPeople/requestResume.do',
+		type:'post',
+		success: function(data){
+			if(data == 'false'){
+				alert('요청을 실패했습니다.')
+			}
+		}, error: function (err){
+			alert('요청을 실패했습니다.')
+			console.log(err)
+		}, complete:function(){
+				closeModal2()
+		}
+		
+	})
+}); 
 
 </script>
 
@@ -334,7 +402,7 @@ $('#more-btn').click(function(){
 			   			'<div class="people-btn">' +
 	    					'<div class="content-wrapper">' + 
 	      						'<button class="show-btn profileBtn" seq="' + people.seq + '">프로필보기</button>' +
-	      						'<button class="show-btn requestBtn" seq="' + people.seq + '">열람요청</button>' +
+	      						'<button class="show-btn requestBtn" seq="' + people.seq + '" pname="' + people.name + '">이력서 열람요청</button>' +
 	      						'</div></div></div>';
 	  	      $('#appendPeople').append(str);
 			}
@@ -395,13 +463,6 @@ function getJob2(){
 	     }
 	})
 }
-//enter 적용
-function enterkey() {
-        if (window.event.keyCode == 13) {
-             // 엔터키가 눌렸을 때 실행할 내용
-           //  putHashtag();	// 해쉬태그 입력하기
-        }
-}
 const intervalCall1000 = intervalCall(1000)
 /* hashtag */
 $("#hashTag").keyup(function(e){ 
@@ -425,6 +486,16 @@ function intervalCall(interval){
     setTimeout(() => {elapsed = true}, interval)
   }
 }
+// sweetalert2
+function sweetAlert( type, msg, time, confirmBtn ){
+	Swal.fire({
+		  position: 'center',
+		  icon: type,
+		  text: msg,
+		  showConfirmButton: confirmBtn,
+		  timer: time
+	});
+}
 
 
 </script>
@@ -437,6 +508,7 @@ const btnClose = document.querySelectorAll('.close');
 
 // 모달창 열기
 $(document).on('click','.profileBtn',function(){
+	$('html, body').css("overflow", "hidden");
   	openModal()
 	var $this = $(this) 
 	getPeopleData($this.attr('seq'))
@@ -455,14 +527,61 @@ handleClose = () => {
     modal.classList.remove("dialog__animate-out");
     modal.removeEventListener('animationend', handleClose, false);
     modal.close();
+    $('html, body').css({'overflow': 'auto', 'height': '100%'}); //scroll hidden 해제 
+    $('body').off('scroll touchmove mousewheel'); // 터치무브 및 마우스휠 스크롤 가능
 }
 detectBackdropClick = (event) => {
     if(event.target === modal) {
         closeModal();
     }
 }
+
+
+// 열람요청 모달 
+const modal2 = document.querySelector('#cvRequest');
+var btn = document.querySelectorAll('.profileBtn');
+const btnClose2 = document.querySelectorAll('.close');
+
+// 열람요청 모달창 열기
+$(document).on('click','.requestBtn',function(){
+	$('html, body').css("overflow", "hidden");
+  	openModal2()
+	var $this = $(this)
+	var pSeq = $(this).attr('seq')
+	var name = $(this).attr('pname')
+	var companyName = '${logincompany.name}'
+	$('input[name=pseq]').val(pSeq);
+	$('#sender').text( companyName )
+	$('#receiver').text( name )
+})
+
+btnClose2.forEach((elm) => elm.addEventListener('click', () => closeModal2()));
+modal2.addEventListener('click', (e) => detectBackdropClick(e));
+openModal2 = () => {
+    modal2.showModal();
+}
+// 모달 닫기
+closeModal2 = () => {
+    modal2.classList.add("dialog__animate-out");
+    modal2.addEventListener('animationend', handleClose2, false);
+}
+handleClose2 = () => {
+    modal2.classList.remove("dialog__animate-out");
+    modal2.removeEventListener('animationend', handleClose2, false);
+    modal2.close();
+    $('html, body').css({'overflow': 'auto', 'height': '100%'}); //scroll hidden 해제 
+    $('body').off('scroll touchmove mousewheel'); // 터치무브 및 마우스휠 스크롤 가능
+}
+detectBackdropClick2 = (event) => {
+    if(event.target === modal2) {
+        closeModal2();
+    }
+}
 </script>
 <style>
+.swal2-container {
+  z-index: 300000;
+}
 /* search-box */
 .search-box{ border: 1px solid #eaeaea; margin-bottom: 0px; height: 250px; }
 .justify{ margin: 0 auto; margin-top: 30px;height: 100px; width: 900px; display: flex; justify-content: space-around;}
@@ -543,14 +662,23 @@ display: inline-block; border: 1px solid #eaeaea; padding: 10px 10px; height: 11
 /* modal - messageBtn */
 .message-btn{ height: 40px; text-align: center; }
 .message-btn button { background-color:#304edf; color: #fff; width: 150px; border-radius: 20px; height: 30px; font-size: 13px; font-weight: 300;}
-/* animation */
+/* modal - text-area */
 .dialog__content .introduce .text-area{
   padding: 10px; border: 1px solid #eaeaea;
   overflow-y: scroll; height: 180px;
 }
+/* modal2 - cvRequest */
+.title{ font-size: 25px; font-weight: 300; text-align: center; border-bottom: 1px solid #eaeaea;padding: 10px 0; margin-bottom: 10px;}
+.request-modal { margin: 10px 20px; }
+.request-modal div  { margin: 3px 10px; border-bottom: 1px solid #eaeaea; padding: 8px 10px; font-size: 12px; font-weight: 300;}
+.request-modal div > span {  margin-left: 30px;font-size: 14px; font-weight: 400;}
+.request-modal .text-area { margin: 0px auto; margin-top: 20px; border: none;}
+.request-modal .text-area textarea {  border: 1px solid #fff; background-color: rgba(245, 245, 245, 0.5); width: 360px; height: 180px; padding:0px; outline: none; }
+/* modal2 - requestBtn */
+.send-request{ width: 180px; height: 40px;  margin: 5px auto; margin-top: 15px;}
+.send-request button{ width: 100%; height: 100%; outline: none; font-size: 14px; font-weight: 300; background: #304edf; color: #fff; text-align: center; line-height: 40px; border-radius: 100px;}
 
 /* animation */
-
 $default--padding: 55px;
 body{
  width:100%; height: 0vh; 
@@ -585,6 +713,7 @@ dialog {
     animation: appear .8s cubic-bezier(.77,0,.175,1) forwards;
     box-shadow: 0 25px 40px -20px #3c4a56;
     height: 530px;width: 420px;
+     z-index: 100;s
 }
 
 .dialog__animate-out{
