@@ -1,5 +1,7 @@
 package pickme.com.a.resume.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,10 @@ import model.CareerDto;
 import model.EducationDto;
 import model.LanguageDto;
 import model.LinkDto;
+import model.RecruitDto;
+import model.RecruitParam;
 import model.ResumeDto;
+import model.ResumeParam;
 import pickme.com.a.a_mypage.service.AMypageService;
 import pickme.com.a.resume.service.ResumeService;
 
@@ -25,16 +30,95 @@ public class ResumeController {
 	
 	@Autowired
 	AMypageService aMypageService;
+	
 	@Autowired
 	ResumeService service;
 	
-	// 이력서 관리 페이지 이동
+	// 이력서 관리 페이지 이동 
 	@RequestMapping(value = "resume.do")
-	public String resumeView() {		
+	public String resumeView(Model model, ResumeParam param,  HttpSession session) {		
 		
+		int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		param.setMemSeq(memSeq);
+		
+		int nowPage = param.getPageNumber(); // 현재페이지넘버
+		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
+		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
+		
+		System.out.println("현재 페이지 : "+ nowPage);
+		
+		param.setStart(start);
+		param.setEnd(end);
+		
+		// 이력서 count
+		int totalRecCount = service.ResumeCount(param);
+		System.out.println("이력서 count:" + totalRecCount);
+		
+		List<ResumeDto> list = service.ResumeAllList(param);
+		System.out.println("Resume List Size : " + list.size());
+		model.addAttribute("resumeList",list);
+		model.addAttribute("pageNumber", nowPage);	//현재페이지
+		model.addAttribute("pageCountPerScreen", 10);
+		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage()); // 한 페이지에 보일 게시물 수
+		model.addAttribute("totalRecCount", totalRecCount);
 		return "resume/resume";
 	}
 	
+	// 이력서 관리 이력서명 변경
+	@ResponseBody
+	@RequestMapping(value = "ResumeNameUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int ResumeNameUpdate(ResumeDto dto, Model model) {		
+		System.out.println("ResumeController ResumeNameUpdate.do 도착");
+		
+		int rs = service.ResumeNameUpdate(dto);	
+		
+		model.addAttribute("rs", rs);
+		System.out.println("rs : " + rs);
+		
+		return rs;
+		
+		
+	}
+	
+	// 이력서 관리 메인 이력서 변경
+	@ResponseBody
+	@RequestMapping(value = "MainResumeUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int MainResumeUpdate(Integer memSeq, Integer seq, Model model) {		
+		System.out.println("ResumeController MainResumeUpdate.do 도착");
+
+		System.out.println("메인이력서 memSeq" + memSeq);
+		System.out.println("메인이력서" + seq);
+		
+		int reset = service.MainResumeReset(memSeq);			
+		int update = service.MainResumeUpdate(seq);	
+		
+		//model.addAttribute("reset", reset);
+		//System.out.println("reset : " + reset);
+		
+		//model.addAttribute("update", update);
+		System.out.println("update : " + update);
+		
+		return update;
+		
+		
+	}
+	
+	// 이력서 삭제
+	@ResponseBody
+	@RequestMapping(value = "ResumeDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int MainResumeUpdate(Integer seq, Model model, HttpSession session) {		
+		System.out.println("ResumeController ResumeDelete.do 도착");
+		
+		int rs = service.ResumeDelete(seq);	
+		
+		model.addAttribute("rs", rs);
+		System.out.println("rs : " + rs);
+		
+		return rs;
+		
+		
+	}
+
 	
 	// 이력서 작성 페이지 이동
 	@RequestMapping(value = "resumeWrite.do", method = {RequestMethod.GET, RequestMethod.POST})

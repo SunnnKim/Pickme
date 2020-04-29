@@ -1141,9 +1141,10 @@ label.radioBtn i.fa-check-square-o {display: none;}
 label.radioBtn.active i.fa-square-o {display:none;}
 label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 
-.resume-list .resume-preview h3 {font-size:18px; margin-top:8px; color:#999; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+
+.resume-list .resume-preview h3 input {display:block; height:28px; font-weight:bold; margin-top:8px; pointer-events: none; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; border:none; outline:none; background:none; font-size:18px; color:#999;}
 .resume-list .resume-preview p {color:#999; font-size:15px; margin-top:5px; font-weight:bold;}
-.resume-item.complete h3, .resume-item.complete p {color:#333;}
+.resume-item.complete h3 input, .resume-item.complete p {color:#333;}
 
 .resume-info {width:100%; height:38px; padding:0 15px 0 20px; border-top:1px solid #ddd;}
 .resume-info p {color:#999; float:left; font-size:14px; line-height:37px; font-weight:bold;}
@@ -1154,10 +1155,14 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .resume-info .resume-menu .resume-menuBtn span {display:inline-block; width:4px; height:4px; border-radius:50%; background:#bbb;}
 .resume-info .resume-menu .resume-menuBtn span:first-child {}
 .resume-menu ul {display:none; position:absolute; top:25px; left:-120px; width:150px; height:84px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3);}
-.resume-menu ul li {line-height:28px; font-size:13px;}
+.resume-menu ul li {line-height:28px; font-size:13px; padding:0 15px; transition:all 0.1s ease-in-out;}
+.resume-menu ul li:hover {background:#4f6eff; color:#fff;}
+/*
 .resume-menu ul li a {display:block; width: 100%; height:100%; padding:0 15px; transition:all 0.1s ease-in-out;}
 .resume-menu ul li:hover a {background:#4f6eff; color:#fff;}
-
+ */
+ 
+ 
 /* 이력서 작성 및 수정 */
 #resumeWrite_Wrap {}
 .rsm_top {position:relative;}
