@@ -58,6 +58,46 @@ public class AdminServiceImpl implements AdminService {
 		return dao.getUnapprovalList();
 	}
 
+	@Override
+	public boolean approveCompany(List<Integer> seqList) {
+		return dao.approveCompany(seqList);
+	}
+
+	@Override
+	public boolean unapproveCompany(List<Integer> seqList) {
+		return dao.unapproveCompany(seqList);
+	}
+
+	@Override
+	public List<AMemberDto> getWithdrawMemberA() {
+		return dao.getWithdrawMemberA();
+	}
+
+	@Override
+	public List<CMemberDto> getWithdrawMemberC() {
+		return dao.getWithdrawMemberC();
+	}
+
+	@Override
+	public boolean recoverMemberA(List<Integer> seqList) {
+		return dao.recoverMemberA(seqList);
+	}
+
+	@Override
+	public boolean recoverMemberC(List<Integer> seqList) {
+		return dao.recoverMemberC(seqList);
+	}
+
+	@Override
+	public void removeMemberA() {
+		dao.removeMemberA();
+	}
+
+	@Override
+	public void removeMemberC() {
+		dao.removeMemberC();
+	}
+
 	
 	
 	

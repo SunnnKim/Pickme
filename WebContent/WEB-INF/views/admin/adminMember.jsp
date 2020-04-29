@@ -35,10 +35,24 @@
 var dataList = [];
 <%
 for( AMemberDto member : list ){
+	String status = "";
+	int num = member.getDel();
+	switch( num ){
+		case -1 :
+			status = "이메일체크";
+			break;
+		case 0 :
+			status = "승인";
+			break;
+		case 1 :
+			status = "탈퇴";
+			break;
+	}
 %>
 member = { SEQ:'<%=member.getSeq()%>',
                	EMAIL:'<%=member.getEmail()%>',
                	NAME:'<%=member.getName()%>',
+               	STATUS:'<%=status%>',
                	SIGNDATE:'<%=member.getSignDate()%>' }
 dataList.push(member)					
 <% } %> 
@@ -46,9 +60,9 @@ $(document).ready(function () {
      $("#grid").kendoGrid({
          dataSource: {
              data: dataList,
-             pageSize: 10
+             pageSize: 30
          },
-         height: 350,
+         height: 550,
          groupable: true,
          sortable: true,
          pageable: {
@@ -73,6 +87,9 @@ $(document).ready(function () {
          }, {
              field: "SIGNDATE",
              title: "가입일자"
+         }, {
+             field: "STATUS",
+             title: "가입상태"
          }, {
              field: "checkall",
              title: "체크",

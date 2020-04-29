@@ -12,13 +12,15 @@ WHERE ID = #{id} AND PASSWORD = #{password}
 </select>
 <!-- 일반 회원관리 데이터 모두 가져오기 -->
 <select id="amemberAll" resultType="model.AMemberDto">
- SELECT SEQ, EMAIL, NAME, SIGNDATE
+ SELECT SEQ, EMAIL, NAME, SIGNDATE, DEL
  FROM A_MEMBER
+ ORDER BY SEQ DESC
 </select>
 <!-- 기업 회원관리 데이터 모두 가져오기 -->
 <select id="cmemberAll" resultType="model.AMemberDto">
- SELECT SEQ, EMAIL, NAME, SIGNDATE
+ SELECT SEQ, EMAIL, NAME, SIGNDATE, DEL
  FROM C_MEMBER
+ ORDER BY SEQ DESC
 </select>
 <!-- 일반회원 신규가입수 -->
 <select id="countNewAMember" resultType="int">
@@ -44,8 +46,61 @@ SELECT COUNT(*) FROM C_MEMBER where DEL != 1
 <select id="getUnapprovalList" resultType="model.CMemberDto">
 SELECT SEQ, EMAIL, NAME, TYPE, NUMBER, DEL
 FROM C_MEMBER
-WHERE DEL != 0
+WHERE DEL = -2 OR DEL = 0
 </select>
+<!-- 기업가입승인하기 -->
+<update id="approveCompany" parameterType="int">
+UPDATE C_MEMBER
+SET DEL = 2
+WHERE SEQ = ${seq}
+</update>
+<!-- 기업가입승인 취소하기 -->
+<update id="unapproveCompany" parameterType="int">
+UPDATE C_MEMBER
+SET DEL = -2
+WHERE SEQ = ${seq}
+</update>
+<!-- 일반회원 탈퇴목록 불러오기 -->
+<select id="getWithdrawMemberA" resultType="model.AMemberDto">
+SELECT * 
+FROM A_MEMBER
+WHERE DEL = 1
+</select>
+<!-- 기업회원 탈퇴목록 불러오기 -->
+<select id="getWithdrawMemberC" resultType="model.CMemberDto">
+SELECT * 
+FROM C_MEMBER
+WHERE DEL = 1
+</select>
+
+<!-- 일반회원 탈퇴복구 -->
+<update id="recoverMemberA" parameterType="model.AMemberDto">
+UPDATE A_MEMBER
+SET DEL = 0
+WHERE SEQ = ${seq}
+</update>
+
+<!-- 기업회원 탈퇴복구 -->
+<update id="recoverMemberC" parameterType="model.CMemberDto">
+UPDATE C_MEMBER
+SET DEL = -1
+WHERE SEQ = ${seq}
+</update>
+
+<!-- 일반회원 탈퇴 삭제-->
+<delete id="removeMemberA">
+DELETE FROM A_MEMBER
+WHERE DEL = 1
+</delete>
+<!-- 기업회원 탈퇴 삭제-->
+<delete id="removeMemberC">
+DELETE FROM C_MEMBER
+WHERE DEL = 1
+
+</delete>
+
+
+
 
 </mapper>
 

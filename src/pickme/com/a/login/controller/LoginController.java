@@ -355,5 +355,14 @@ public class LoginController {
 		return "redirect:/login/company/findEmailPwdC.do";
 	}
 	
+	// 기업 사업자등록번호 변경하기
+	@ResponseBody
+	@RequestMapping(value = "company/changeCompanyNumber.do", method=RequestMethod.POST)
+	public boolean changeCompanyNumber(CMemberDto company) {
+		
+		System.out.println(company);
+		return cMember.changeCompanyNumber(company);
+	}
+	
 	
 }

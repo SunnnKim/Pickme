@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
 import model.AdminDto;
@@ -51,9 +53,21 @@ public class AdminController {
 		model.addAttribute("cMemberAll", cMemberAll);	// 기업회원 수
 		return "admin/adminMember";
 	}
-	// 일반회원 - 탈퇴관리 
+	
+	// 일반회원 복원하기
+	@ResponseBody
+	@RequestMapping(value="recoverMemberA.do", method=RequestMethod.POST)
+	public boolean recoverMemberA(@RequestParam(value="seqList[]")  List<Integer> seqList) {
+		
+		boolean success = service.recoverMemberA(seqList);
+		
+		return success;
+	}
+	// 일반회원 - 탈퇴관리페이지 가기 
 	@RequestMapping(value = "withdrawal.do",  method= {RequestMethod.GET,RequestMethod.POST})
 	public String withdrawal( Model model) {
+		List<AMemberDto> memberList = service.getWithdrawMemberA();
+		model.addAttribute("memberList", memberList);
 		return "admin/adminMemberWithdrawal";
 	}
 	
@@ -75,16 +89,43 @@ public class AdminController {
 	@RequestMapping(value = "comApproval.do",  method= {RequestMethod.GET,RequestMethod.POST})
 	public String comApproval( Model model ) {
 		// 미승인 데이터 불러오기
-		
+		List<CMemberDto> companyList = service.getUnapprovalList();
+		model.addAttribute("companyList", companyList);
 		return "admin/companyApproval";
+	}
+	
+	// 기업회원 가입승인하기
+	@ResponseBody
+	@RequestMapping(value="approveCompany.do",method=RequestMethod.POST)
+	public boolean approveCompany ( @RequestParam("seqList[]") List<Integer> seqList ) {
+		System.out.println(seqList);
+		return service.approveCompany(seqList);
+	}
+	// 기업회원 가입승인 취소하기
+	@ResponseBody
+	@RequestMapping(value="unapproveCompany.do",method=RequestMethod.POST)
+	public boolean unapproveCompany ( @RequestParam("seqList[]") List<Integer> seqList ) {
+		System.out.println(seqList);
+		return service.unapproveCompany(seqList);
 	}
 	
 	
 	
-	// 탈퇴관리 
+	
+	// 기업 탈퇴관리 페이지가기  
 	@RequestMapping(value = "comWithdrawal.do",  method= {RequestMethod.GET,RequestMethod.POST})
 	public String comWithdrawal( Model model) {
+		List<CMemberDto> memberList = service.getWithdrawMemberC();
+		model.addAttribute("memberList", memberList);
 		return "admin/companyWithdrawal";
+	}
+	
+	// 기업회원 탈퇴 복원하기
+	@ResponseBody
+	@RequestMapping(value="recoverMemberC.do", method=RequestMethod.POST)
+	public boolean recoverMemberC(@RequestParam(value="seqList[]")  List<Integer> seqList) {
+		boolean success = service.recoverMemberC(seqList);
+		return success;
 	}
 	
 }
