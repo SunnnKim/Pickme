@@ -55,22 +55,6 @@
 
 </head>
 <body>
-<!-- 채용탐색 - 공고 마감일이 지났을때  -->
-<script type="text/javascript">
-	$.ajax({
-		url:"/Pickme/recruit/updateDel.do",
-		type:"post",
-		datatype:"text",
-		success:function(data){
-			//alert("del success: "+data);
-		},
-		error:function(){
-			alert("del error")
-		}
-	})
-</script>
-
-
 <!-- message alert  -->
 <div id="socketAlert">
 
