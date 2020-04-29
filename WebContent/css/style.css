@@ -1072,7 +1072,10 @@ span.body{color: #333;width: calc(100% - 80px); font-size: 13pt;}
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
 }
-.aMyinfo .aMyBtn {position:absolute; top:0; right:0; width:150px; padding:10px 0; border:1px solid #ddd; text-align:center;}
+.aMyinfo .aMyBtn {position:absolute; top:0; right:0; width:150px; cursor:pointer; padding:10px 0; border:1px solid #ddd; text-align:center;}
+.aMyinfo .aMyBtn i {margin-right:10px; color:#ddd;}
+.aMyinfo .aMyBtn:hover i{color:#304edf;}
+.aMyinfo .aMyBtn.on i{color:#304edf;}
 .aMyinfo .aMyBtn a {display:block; width:100%; height:100%;}
 
 .aMycont {margin-top:40px;}
@@ -1225,7 +1228,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_addCont .lang label span{color:#555;}
 
 .rsm_addCont ul.chkBox {}
-.rsm_addCont ul.chkBox li {float:left; margin-right:30px; color:#555;}
+.rsm_addCont ul.chkBox li {float:left; margin-right:30px; color:#555; cursor:pointer;}
 .rsm_addCont ul.chkBox li span {
 	display: inline-block;
   width:14px; height:14px; border-radius:50%;

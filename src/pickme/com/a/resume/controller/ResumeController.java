@@ -118,6 +118,22 @@ public class ResumeController {
 		
 		
 	}
+	
+	// 이력서 detail & update 페이지
+	@RequestMapping(value = "resumeView.do", method = {RequestMethod.GET, RequestMethod.POST})
+		public String resumeView(Model model, HttpSession session) {		
+			
+		System.out.println("ResumeController resumeView.do 도착");
+		
+		
+		//int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		
+		
+		
+
+		return "resume/resumeView";
+		
+	}
 
 	
 	// 이력서 작성 페이지 이동
@@ -270,6 +286,9 @@ public class ResumeController {
 		
 		
 	}
+	
+	
+	
 	
 	
 	
