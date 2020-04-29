@@ -84,5 +84,27 @@ public class CMypageServiceImpl implements CMypageService{
 	public int setPaymentInfo(PaymentDto dto) {
 		return dao.setPaymentInfo(dto);
 	}
+
+
+	// 결제 페이지 이동
+	@Override
+	public List<PaymentDto> showPaymentDto(PaymentDto dto) {
+		return dao.showPaymentDto(dto);
+	}
+
+
+	// 현재 서비스 진행중인지
+	@Override
+	public PaymentDto recentService(PaymentDto dto) {
+		return dao.recentService(dto);
+	}
+	
+	
+	
+	// 가장 최근 결제 서비스의 종료일
+//	@Override
+//	public PaymentDto showRecentPay(PaymentDto dto) {
+//		return dao.showRecentPay(dto);
+//	}
 	
 }

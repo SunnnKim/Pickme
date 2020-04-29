@@ -36,4 +36,15 @@ public interface CMypageService {
 
 	// 결제 승인 후 DB 저장
 	public int setPaymentInfo(PaymentDto dto);
+
+	// 결제 페이지 이동
+	public List<PaymentDto> showPaymentDto(PaymentDto dto);
+	
+	// 현재 서비스 진행중인지
+	public PaymentDto recentService(PaymentDto dto);
+
+	// 가장 최근 결제 서비스의 종료일
+	//public PaymentDto showRecentPay(PaymentDto dto);
+	
+	
 }

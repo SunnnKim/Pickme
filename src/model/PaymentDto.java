@@ -14,6 +14,7 @@ public class PaymentDto {
       private String method;        // 결제방법 
       private String paymentId;     // 주문번호(결제정보 조회시 사용)   - 아임포트 (merchant_uid)
       private String impUid;        // 아임포트 고유id 결제성공시 리턴 , 환불시에도 사용  - 아임포트 (imp_uid)
+      private String endDate;		// 서비스종료일
       
       
       public PaymentDto() {
@@ -23,7 +24,7 @@ public class PaymentDto {
       
 
       public PaymentDto(int seq, int buyerId, String serviceName, String payDate, int totalPay, int refund,
-            String requestDate, String refundDate, String method, String paymentId, String impUid) {
+            String requestDate, String refundDate, String method, String paymentId, String impUid, String endDate) {
          super();
          this.seq = seq;
          this.buyerId = buyerId;
@@ -36,6 +37,7 @@ public class PaymentDto {
          this.method = method;
          this.paymentId = paymentId;
          this.impUid = impUid;
+         this.endDate = endDate;
       }
 
 
@@ -131,13 +133,31 @@ public class PaymentDto {
       public void setImpUid(String impUid) {
          this.impUid = impUid;
       }
+      
+      
 
-      @Override
-      public String toString() {
-         return "PaymentDto [seq=" + seq + ", buyerId=" + buyerId + ", serviceName=" + serviceName + ", payDate="
-               + payDate + ", totalPay=" + totalPay + ", refund=" + refund + ", requestDate=" + requestDate
-               + ", refundDate=" + refundDate + ", method=" + method + ", paymentId=" + paymentId + ", impUid="
-               + impUid + "]";
-      }
+      public String getEndDate() {
+		return endDate;
+	}
+
+
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "PaymentDto [seq=" + seq + ", buyerId=" + buyerId + ", serviceName=" + serviceName + ", payDate="
+				+ payDate + ", totalPay=" + totalPay + ", refund=" + refund + ", requestDate=" + requestDate
+				+ ", refundDate=" + refundDate + ", method=" + method + ", paymentId=" + paymentId + ", impUid="
+				+ impUid + ", endDate=" + endDate + "]";
+	}
+
+
+
+	
       
 }

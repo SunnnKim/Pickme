@@ -1,6 +1,7 @@
 package pickme.com.a.c_mypage.controller;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,7 +146,25 @@ public class CMypageController {
 	
 	// 결제 페이지 이동
 	@RequestMapping(value = "goPayment.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String goPayment() {
+	public String goPayment(PaymentDto dto, Model model, HttpSession session) {
+		
+		// 기업 세션 seq 저장
+        int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+        dto.setBuyerId(c_seq);
+        
+        	System.out.println("결제페이지 이동 dto = " + dto.toString());
+        
+		// 결제 내역 담은 dto list 가져오기
+		List<PaymentDto> list = service.showPaymentDto(dto);
+		System.out.println("결제페이지 이동 list = " + list);
+		System.out.println("결제페이지 이동 list size = " + list.size());
+		
+		// 현재 진행중인 서비스가 있는지 확인
+		PaymentDto recentDto = service.recentService(dto);
+		System.out.println("기업이 현재 이용중인 서비스 내역 = " + recentDto);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("recentDto", recentDto);
 		
 		return "c_mypage/payment";
 	}

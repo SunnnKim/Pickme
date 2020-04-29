@@ -63,9 +63,41 @@ WHERE SERVICESEQ = ${serviceSeq}
 
 <!-- 결제 승인 후 DB 저장 -->
 <insert id="setPaymentInfo" parameterType="model.PaymentDto">
-   INSERT INTO PAYMENT ( BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID )
-   VALUES ( #{buyerId}, #{serviceName}, NOW(), #{totalPay}, #{paymentId}, #{impUid} )
+   INSERT INTO PAYMENT ( BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID, ENDDATE )
+   VALUES ( #{buyerId}, #{serviceName}, NOW(), #{totalPay}, #{paymentId}, #{impUid}, DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 MONTH) )
 </insert>
+
+<!-- 결제 페이지 이동 -->
+<select id = "showPayment" parameterType = "model.PaymentDto" resultType="model.PaymentDto">
+	SELECT BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID, ENDDATE
+	FROM PAYMENT
+	WHERE BUYERID=#{buyerId}
+</select>
+
+<!-- 현재 서비스 진행중인지 -->
+<select id = "recentService" parameterType = "model.PaymentDto" resultType="model.PaymentDto">
+    SELECT SERVICENAME, PAYDATE, TOTALPAY, ENDDATE
+	FROM PAYMENT
+	WHERE BUYERID=#{buyerId} AND <![CDATA[ NOW() < ENDDATE ]]>
+</select>
+
+
+<!-- 가장 최근 결제 서비스의 종료일 -->
+<!-- <select id = "showRecentPay" parameterType = "model.PaymentDto" resultType="model.PaymentDto">
+	SELECT DATE_ADD(DATE_FORMAT(PAYDATE, '%Y-%m-%d'), INTERVAL 1 MONTH)
+	FROM PAYMENT
+	WHERE BUYERID={buyerId}
+	ORDER BY PAYDATE DESC LIMIT 1
+</select> -->
+
+<!-- 가장 최근 결제 서비스의 종료일 -->
+<!-- <select id = "showRecentPay" parameterType="model.PaymentDto" resultType="model.PaymentDto">
+	SELECT DATE_FORMAT(ENDDATE, '%Y-%m-%d') AS ENDDATE, BUYERID
+	FROM PAYMENT
+	WHERE BUYERID=#{buyerId}
+	ORDER BY ENDDATE DESC LIMIT 1
+</select> -->
+
 
 </mapper>
 
