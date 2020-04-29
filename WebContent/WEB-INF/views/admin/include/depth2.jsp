@@ -24,7 +24,7 @@ System.out.println("durl:"+durl);
 				<a href="adminCompany.do">기업회원관리</a>
 			</li>
 			<li class=<%= durl.contains("companyApproval.jsp") ? " on" :" "%>> 
-				<a href="#">가입승인</a>
+				<a href="/Pickme/admin/comApproval.do">가입승인</a>
 	        </li>
 			<li class=<%= durl.contains("companyWithdrawal.jsp") ? " on" :" "%>> 
 				<a href="comWithdrawal.do">탈퇴관리</a>
@@ -58,5 +58,15 @@ System.out.println("durl:"+durl);
 			<li class=<%= durl.contains("writePaidService.jsp") || durl.contains("updatePaidService.jsp") ? " on" :" "%>> 
 				<a href="writePaidService.do">서비스등록</a>
 	        </li>
+		</ul><!-- // depth02 -->
+<% } %>
+
+<!-- 문의내역  -->
+<% if( durl.contains("/question/") ){
+	%>
+		<ul class="depth02 clfix">
+			<li class=<%= durl.contains("/question/question") ? " on" :" "%>> 
+				<a href="/Pickme/admin/question/questionList.do">문의내역관리</a>
+			</li>
 		</ul><!-- // depth02 -->
 <% } %>

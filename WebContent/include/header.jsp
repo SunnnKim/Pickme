@@ -2,6 +2,12 @@
 <%@page import="model.AMemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%
+	// session invalid check
+	if(session==null || !request.isRequestedSessionIdValid()){ 
+		response.sendRedirect("/Pickme/login/main.do");
+	}
+ %>
 <%
 	// session
 	AMemberDto member = (AMemberDto) session.getAttribute("loginuser");
@@ -21,6 +27,11 @@
 		// 미인증 메일일 때
 		if(company.getDel() == -1 ){
 			response.sendRedirect("/Pickme/login/validate.do");
+			return;
+		}
+		// 사업자번호 미승인 일 때
+		else if(company.getDel() == -2 ){
+			response.sendRedirect("/Pickme/login/upapproval.do");
 			return;
 		}
 		userName = company.getName();
@@ -55,22 +66,6 @@
 
 </head>
 <body>
-<!-- 채용탐색 - 공고 마감일이 지났을때  -->
-<script type="text/javascript">
-	$.ajax({
-		url:"/Pickme/recruit/updateDel.do",
-		type:"post",
-		datatype:"text",
-		success:function(data){
-			//alert("del success: "+data);
-		},
-		error:function(){
-			alert("del error")
-		}
-	})
-</script>
-
-
 <!-- message alert  -->
 <div id="socketAlert">
 

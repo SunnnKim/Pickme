@@ -54,32 +54,6 @@
 		     				 authentication-success-handler-ref="companySuccessHandler" />
 	</security:http>
 	<!-- // com-login -->
-	<!-- admin Login -->
-	<!-- <security:http pattern="/admin/**.do"
-				   authentication-manager-ref="adminAuthManager"	
-				   auto-config="true" disable-url-rewriting="true" 
-     			   use-expressions="true" >
-		
-		<security:csrf disabled="true" />
-	    
-	    <security:intercept-url pattern="/admin/**.do" access="hasRole('ADMIN')" />
-   		
-   		<security:logout invalidate-session="true" logout-url="/admin/logout.do" logout-success-url="/login/main.do" />
-   		
-   		<security:form-login login-page="/admin/login.do" 
-						     login-processing-url="/admin/logincheck.do"
-     						 username-parameter="id" 
-     						 password-parameter="password"
-	     					 authentication-failure-url="/admin/login.do?fail=true"
-		     				 authentication-success-handler-ref="userSuccessHandler" />
-		
-		<security:session-management invalid-session-url="/admin/adminMember.do">
-			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false"/>
-		</security:session-management>
-		
-	</security:http> -->
-	<!-- // admin-login -->
-	
 
 	<!-- 암호화 빈 -->
 	<bean id="passwordEncoder" class=" org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />

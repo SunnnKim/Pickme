@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.CMemberDto;
+import model.PaymentDto;
 
 @Repository
 public class CMypageDaoImpl implements CMypageDao{
@@ -82,6 +83,14 @@ public class CMypageDaoImpl implements CMypageDao{
 	public boolean uploadLogo(CMemberDto dto) {
 		int n = session.insert(nameSpace + "uploadLogo", dto);
 		return n>0? true : false;
+	}
+
+
+	// 결제 승인 후 DB 저장
+	@Override
+	public int setPaymentInfo(PaymentDto dto) {
+		int n = session.insert("Payment." + "setPaymentInfo", dto);
+	    return n;
 	}
 	
 	

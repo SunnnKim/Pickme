@@ -72,6 +72,11 @@
   <listener>
   	<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
   </listener>
+  <!-- 세션아웃 시간 설정 -->
+  <session-config>
+	<session-timeout>1</session-timeout>
+  </session-config>
+  
   
   <!-- 모든 요청이 해당 프록시 필터를 거치도록 만듬. 스프링 시큐리티가 이를 통해 인증, 인가 수행 -->
   <filter>

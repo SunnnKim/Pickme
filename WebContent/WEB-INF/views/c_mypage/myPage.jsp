@@ -211,7 +211,7 @@
 		var hashTag = <%=memberInfo.getHashTag()%>;
 		// 해쉬태그가 없는경우
 		if(hashTag == null){
-			$('#hashTags').html('태그없음');
+			$('#hashTags').html('');
 		}
 		// 태그가 있는 경우
 		else{

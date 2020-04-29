@@ -20,6 +20,9 @@
 		if(company.getDel() == -1 ){
 			response.sendRedirect("/Pickme/login/validate.do");
 			return;
+		}else if(company.getDel() == -2 ){
+			response.sendRedirect("/Pickme/login/upapproval.do");
+			return;
 		}
 		userName = company.getName();
 	}

@@ -58,6 +58,11 @@ public class AdminDaoImpl implements AdminDao {
 		return sqlSession.selectOne(namespace + "countNewCMember");
 	}
 
+	@Override
+	public List<CMemberDto> getUnapprovalList() {
+		return sqlSession.selectList(namespace + "getUnapprovalList");
+	}
+
 	
 	
 	
