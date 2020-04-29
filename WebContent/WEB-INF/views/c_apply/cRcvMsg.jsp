@@ -44,18 +44,18 @@
 			<caption>전체</caption>
 			<colgroup>
 				<col style="width: 10%">
-				<col style="width: 50%">
-				<col style="width: 15%">
-				<col style="width: 15%">
 				<col style="width: 10%">
+				<col style="width: 50%">
+				<col style="width: 10%">
+				<col style="width: 20%">
 			</colgroup>
 			<thead>
 				<tr>
+					<th><input type="checkbox" id="checkall"></th>
 					<th>중요</th>
 					<th>내용</th>
 					<th>발신자</th>
 					<th>발신일</th>
-					<th><input type="checkbox" id="checkall"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -76,6 +76,7 @@
 				<c:forEach items="${rcvMsgList }" var="rcvMsg" varStatus="vs">
 					<c:set var="content" value="${rcvMsg.content }" />
 					<tr>
+						<td><input type="checkbox" name="checkRow" value="${rcvMsg.seq }"></td>
 						<!-- 중요메시지 표시 -->
 						<td class="star-td">
 							<c:if test="${ rcvMsg.important == 0 }">
@@ -122,7 +123,7 @@
 						</td>
 						<%-- <td><%=EApplyUtil.todayMsg(pageContext.getAttribute("sdate").toString())%></td> --%>
 						<td>${rcvMsg.sdate }</td>
-						<td><input type="checkbox" name="checkRow" value="${rcvMsg.seq }"></td>
+						
 
 					</tr>
 				</c:forEach>
@@ -130,7 +131,7 @@
 		</table>
 	</div>
 
-	<div class="btn-message clfix" style="text-align: right;">
+	<div class="btn-message clfix">
 		<button type="button" onclick="deleteAction()">선택삭제</button>
 	</div>
 	

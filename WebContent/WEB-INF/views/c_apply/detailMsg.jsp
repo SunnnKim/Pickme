@@ -37,8 +37,7 @@
 		</div>
 		<!-- // title-->
 		<div class="from">
-			<a href="클릭시 기업정보페이지가기"><span class=msgFrom> 언리드: ${unread }
-					) ${msgDetail.name } </span></a>
+			<a href="클릭시 구직자 프로필"><span class=msgFrom> 보낸이 : ${msgDetail.name } </span></a>
 		</div>
 		<div class="msg-content">
 			<p>${msgDetail.content }</p>

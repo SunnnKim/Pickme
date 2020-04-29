@@ -82,7 +82,7 @@ color: #4f6eff;
 				<c:forEach items="${comCurrentRecList }" var="dto" varStatus="rs">
 					<li style="border: 1px solid #ddd; border-radius: 5px;">
 						<div class="img" style="border: 0;">
-							<a href="/Pickme/recruit/myRecDetail.do?seq=${dto.seq }"> 
+							<a href="/Pickme/c_apply/cApply_myRecDetail.do?seq=${dto.seq }"> 
 								<img src="filedownload.do?filename=${dto.imagename }&filepath=/upload/recruit/"	alt="엑박">
 							</a>
 						</div>

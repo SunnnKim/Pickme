@@ -90,8 +90,8 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 			    }else if("recruit".equals(cmd)) {
 			    	WebSocketSession loginSession = userSessionsMap.get(loginEmail.trim());
 			    	
-			    	TextMessage tmpMsg = new TextMessage(); 
-			    	loginSession.sendMessage(tmpMsg);
+			    	//TextMessage tmpMsg = new TextMessage(); 
+			    	//loginSession.sendMessage(tmpMsg);
 			    }
 			}
 	

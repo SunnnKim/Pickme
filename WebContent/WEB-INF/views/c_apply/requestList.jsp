@@ -36,7 +36,7 @@ email : <%=company.getEmail()%>
 		<!-- 검색창 -->
 		<div class="bbs-top">
 			<div class="form-search">
-				<input type="text" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해 주세요." value=${sKeyword }>
+				<input type="text" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value=${sKeyword }>
 				<button type="button" class="btn-search" onclick="searchAction()"><span>검색</span>	</button>
 			</div>
 		</div>
@@ -54,37 +54,38 @@ email : <%=company.getEmail()%>
 			<table>
 				<caption>전체</caption>
 				<colgroup>
+					<%-- <col style="width: 10%"> --%>
 					<col style="width: 10%">
 					<col style="width: 10%">
-					<col style="width: 30%">
+					<col style="width: 25%">
+					<col style="width: 20%">
 					<col style="width: 15%">
-					<col style="width: 15%">
-					<col style="width: 15%">
-					<col style="width: 5%">
+					<col style="width: 20%">
 				</colgroup>
 				<thead>
 					<tr>
-						<th>No</th>
+						<!-- <th>No</th> -->
+						<th><input type="checkbox" id="checkall"></th>
 						<th>관심</th>
 						<th>이름</th>
 						<th>요청일</th>
 						<th>수락여부</th>
 						<th>상태</th>
-						<th><input type="checkbox" id="checkall"></th>
 						<!-- 모두선택 -->
 					</tr>
 				</thead>
 				<tbody>
 					<c:if test="${empty requestList }">
 						<tr>
-							<td colspan="7">요청 한 목록이 없습니다</td>
+							<td colspan="6">요청 한 목록이 없습니다</td>
 						</tr>
 					</c:if>
 
 					<c:forEach items="${requestList }" var="request" varStatus="vs">
 						<tr>
 							<%-- <td>${vs.count }</td> --%>
-							<td>${request.seq }</td>
+							<%-- <td>${request.seq }</td> --%>
+							<td><input type="checkbox" class="checkRow" name="checkRow" value="${request.seq}"></td>
 							<td class="like-td">
 								<%-- <input type="hidden" id="amem_seq" value="${request.seq }"> --%>
 								<c:choose>
@@ -135,14 +136,14 @@ email : <%=company.getEmail()%>
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td><input type="checkbox" class="checkRow" name="checkRow" value="${request.seq}"></td>
+							
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
 
-		<div class="btn-message clfix" style="text-align: right;">
+		<div class="btn-message clfix">
 			<button type="button" onclick="deleteAction()">선택삭제</button>
 		</div>
 
