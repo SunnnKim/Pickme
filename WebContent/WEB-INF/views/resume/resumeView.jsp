@@ -521,8 +521,9 @@ $(document).on('click','.resumeBtnWrap button', function(){
 					  title: '이력서 저장 완료',
 					  timer: 1500
 				}).then( (result) =>{
-					location.href="resume.do";
-				})		
+					
+				})
+			
 				
 			} else {
 				Swal.fire({
