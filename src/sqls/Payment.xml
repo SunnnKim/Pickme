@@ -60,6 +60,13 @@ UPDATE PREMIER_SERVICE
 SET DEL = 1
 WHERE SERVICESEQ = ${serviceSeq}
 </update>
+
+<!-- 결제 승인 후 DB 저장 -->
+<insert id="setPaymentInfo" parameterType="model.PaymentDto">
+   INSERT INTO PAYMENT ( BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID )
+   VALUES ( #{buyerId}, #{serviceName}, NOW(), #{totalPay}, #{paymentId}, #{impUid} )
+</insert>
+
 </mapper>
 
 
