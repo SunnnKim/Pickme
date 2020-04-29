@@ -29,8 +29,5 @@ public interface AdminService {
 	public boolean recoverMemberA(List<Integer> seqList);
 	// 기업 탈퇴회원 복구하기
 	public boolean recoverMemberC(List<Integer> seqList);
-	// 일반 탈퇴회원 삭제 
-	public void removeMemberA();
-	// 기업 탈퇴회원 삭제
-	public void removeMemberC();
+
 }

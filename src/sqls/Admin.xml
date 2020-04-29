@@ -87,17 +87,6 @@ SET DEL = -1
 WHERE SEQ = ${seq}
 </update>
 
-<!-- 일반회원 탈퇴 삭제-->
-<delete id="removeMemberA">
-DELETE FROM A_MEMBER
-WHERE DEL = 1
-</delete>
-<!-- 기업회원 탈퇴 삭제-->
-<delete id="removeMemberC">
-DELETE FROM C_MEMBER
-WHERE DEL = 1
-
-</delete>
 
 
 

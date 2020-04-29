@@ -33,8 +33,14 @@ public class SchedulerController {
 	}
 	
 	// 관리자 
-	// 매일 밤 12시에 맞춰 삭제된 데이터 데이터베이스에서 삭제하기
+	// 월요일 밤 12시에 맞춰 삭제된 데이터 데이터베이스에서 삭제하기
+	@Scheduled(cron = "0 55 23 * * 3")
 	public void deleteFromDatabase() {
+		Calendar today = Calendar.getInstance();
+		serivce.deleteMemberA();
+		System.out.println( "[Scheduler] Delete A_Member : " + today.getTime());
+		serivce.deleteMemberC();
+		System.out.println( "[Scheduler] Delete C_Member : " + today.getTime());
 		
 	}
 	

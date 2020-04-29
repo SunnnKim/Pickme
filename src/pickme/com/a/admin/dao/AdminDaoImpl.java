@@ -113,15 +113,6 @@ public class AdminDaoImpl implements AdminDao {
 		return true;
 	}
 
-	@Override
-	public void removeMemberA() {
-		sqlSession.delete(namespace + "removeMemberA");
-	}
-
-	@Override
-	public void removeMemberC() {
-		sqlSession.delete(namespace + "removeMemberC");
-	}
 
 	
 	

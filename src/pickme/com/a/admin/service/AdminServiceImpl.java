@@ -88,16 +88,6 @@ public class AdminServiceImpl implements AdminService {
 		return dao.recoverMemberC(seqList);
 	}
 
-	@Override
-	public void removeMemberA() {
-		dao.removeMemberA();
-	}
-
-	@Override
-	public void removeMemberC() {
-		dao.removeMemberC();
-	}
-
 	
 	
 	
