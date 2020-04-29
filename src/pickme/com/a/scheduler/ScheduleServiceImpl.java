@@ -15,5 +15,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public int scheduleTest(AMemberDto dto) {
 		return dao.scheduleTest(dto);
 	}
+
+	@Override
+	public int dayUpdateDel(String today) {
+		return dao.dayUpdateDel(today);
+	}
 	
 }

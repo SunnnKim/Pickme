@@ -11,7 +11,10 @@ import model.RecruitParam;
 
 public interface RecruitService {
 		//날짜 지나면 DEL=1로 바꾸기
-		public void dayUpdateDel(String today);
+		//public void dayUpdateDel(String today);
+	
+		// (메인) 조회수 순 4개 보여주기
+		public List<RecruitDto> mainTopRec();
 	
 		//마지막 ref+1 받아오기
 		public int getRef();									

@@ -84,7 +84,7 @@
             		<div class="logo" style="background-image: url(&quot;https://static.wanted.co.kr/images/wdes/0_5.aded81ce.jpg&quot;);"></div>
             		<div class="companyName">
             			<p class="comP">${recDto.comName }</p>
-            			<p class="comT">기업분야<%-- ${cmem.department }--%></p>
+            			<p class="comT">${cmem.department }</p>
             		</div>
             	</button>
             	 <span class="likes">

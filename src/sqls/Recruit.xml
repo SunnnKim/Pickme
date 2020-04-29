@@ -169,12 +169,12 @@
 		WHERE USETABLE='RECRUIT' AND REF = #{ref} 
 	</delete>
 	<!-- 마감일이 오늘날짜보다 지났을때 공고마감 del=1  -->
-	<update id="dayUpdateDel" parameterType="java.lang.String">
+	<!-- <update id="dayUpdateDel" parameterType="java.lang.String">
 		<![CDATA[
 			UPDATE RECRUIT SET DEL=1
 			WHERE DATE_FORMAT(#{today},'%Y-%m-%d') > DATE_FORMAT(EDATE,'%Y-%m-%d')	
 		]]>
-	</update>
+	</update> -->
 	<!-- 좋아요 눌렀을때 -->
 	<insert id="likeplus" parameterType="model.FavoriteDto">
 		INSERT INTO FAVORITE (ID, LIKEPICKSEQ, AUTH)
@@ -194,7 +194,11 @@
 		SELECT COUNT(*) FROM FAVORITE WHERE ID=#{email} AND LIKEPICKSEQ=#{likePickSeq} AND AUTH=3
 	</select>
 	
-	
+	<!-- (메인) 조회수 순으로 4개  보여주기-->
+	<!-- <select id="mainTopRecruit" resultType="model.RecruitDto">
+		SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY READCOUNT DESC LIMIT 4
+	</select>
+	 -->
 	
 	<!-- @@@@ 지원하기부분 @@@@ -->
 	<!-- 이력서 목록 불러오기 -->

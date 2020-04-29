@@ -13,6 +13,16 @@ VALUES ( #{email},#{name}, #{password}, NOW(), 1 )
 <!-- 탈퇴기업삭제 -->
 <!-- 공지 삭제 -->
 <!-- 탈퇴회원삭제 -->
+
+
+
+<!--  (채용관리) 마감일이 오늘날짜보다 지났을때 공고마감 del=1  -->
+<update id="dayUpdateDel" parameterType="java.lang.String">
+	<![CDATA[
+		UPDATE RECRUIT SET DEL=1
+		WHERE DATE_FORMAT(#{today},'%Y-%m-%d') > DATE_FORMAT(EDATE,'%Y-%m-%d')	
+	]]>
+</update>
 </mapper>
 
 

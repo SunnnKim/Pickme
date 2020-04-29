@@ -117,9 +117,15 @@ public class RecruitDaoImpl implements RecruitDao{
 
 
 	@Override
-	public void dayUpdateDel(String today) {
-		sqlSession.update(ns+"dayUpdateDel", today);
+	public List<RecruitDto> mainTopRec() {
+		return sqlSession.selectList(ns+"mainTopRecruit");
 	}
+
+
+	/*
+	 * @Override public void dayUpdateDel(String today) {
+	 * sqlSession.update(ns+"dayUpdateDel", today); }
+	 */
 
 
 	

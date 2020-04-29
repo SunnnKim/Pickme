@@ -3,6 +3,7 @@ package pickme.com.a.recruit.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import model.CMemberDto;
@@ -10,6 +11,7 @@ import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import pickme.com.a.recruit.dao.RecruitDao;
+
 
 @Service
 public class RecruitServiceImpl implements RecruitService{
@@ -79,11 +81,11 @@ public class RecruitServiceImpl implements RecruitService{
 	public boolean delRecFile(int ref) {
 		return dao.delRecFile(ref);
 	}
+
 	@Override
-	public void dayUpdateDel(String today) {
-		dao.dayUpdateDel(today);
+	public List<RecruitDto> mainTopRec() {
+		return dao.mainTopRec();
 	}
-	
 
 	
 	
