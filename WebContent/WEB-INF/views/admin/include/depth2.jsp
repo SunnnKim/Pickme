@@ -60,3 +60,13 @@ System.out.println("durl:"+durl);
 	        </li>
 		</ul><!-- // depth02 -->
 <% } %>
+
+<!-- 문의내역  -->
+<% if( durl.contains("/question/") ){
+	%>
+		<ul class="depth02 clfix">
+			<li class=<%= durl.contains("/question/question") ? " on" :" "%>> 
+				<a href="/Pickme/admin/question/questionList.do">문의내역관리</a>
+			</li>
+		</ul><!-- // depth02 -->
+<% } %>

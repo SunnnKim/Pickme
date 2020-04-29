@@ -716,6 +716,7 @@ updateComplete = () => {
 			return false;
 		})
 	}
+	//
 	
 	
 	// 해쉬태그 합치기
@@ -757,7 +758,7 @@ updateComplete = () => {
    	jsondata = JSON.stringify(hashTag);
 //  console.log( jsondata)
 
-	// input 에 변환한 배열 데이터를 넣기 
+	// input 에 변환한 배열 데이터를 넣기
 	$('input[name=hashTag]').val(json);
 	console.log("jsondata: "+jsondata);
 

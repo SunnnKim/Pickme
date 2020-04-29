@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+  PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
+  "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="Resume">
+
+<!--  이력서 마지막 시퀀스 번호 + 1  -->
+<select id="resumeGetSeq" resultType="int">
+	SELECT IFNULL(MAX(A.SEQ), 0)+1 FROM RESUME A
+</select>
+ 	
+<!-- 이력서 기본 정보  insert -->
+<insert id="resumeInsert" parameterType="model.ResumeDto">
+	INSERT INTO RESUME(MEMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, STATUS, MAINRESUME, DEL)
+	VALUES (#{memSeq}, #{name}, #{userName}, #{phone}, #{email}, #{introduce}, SYSDATE(), #{status}, 0, 0)
+</insert>
+
+<!-- 경력  insert -->
+<insert id="careerInsert" parameterType="model.CareerDto">
+   INSERT INTO CAREER(RSMSEQ, COMPANY, POSITION, STARTDATE, ENDDATE, ING)
+   VALUES (#{rsmseq}, #{company}, #{position}, #{startdate}, #{enddate}, #{ing})
+</insert>
+
+<!-- 학력  insert -->
+<insert id="educationInsert" parameterType="model.EducationDto">
+   INSERT INTO EDUCATION(RSMSEQ, SCHOOL, MAJOR, STUDY, STARTDATE, ENDDATE, ING)
+   VALUES (#{rsmseq}, #{school}, #{major}, #{study}, #{startdate}, #{enddate}, #{ing})
+</insert>
+
+<!-- 수상 및 기타  insert -->
+<insert id="AwardsEtcInsert" parameterType="model.AwardsEtcDto">
+   INSERT INTO AWARDSETC(RSMSEQ, AWARDS, DETAIL, DATE)
+   VALUES (#{rsmseq}, #{awards}, #{detail}, #{date})
+</insert>
+
+<!-- 외국어  insert -->
+<insert id="LanguageInsert" parameterType="model.LanguageDto">
+   INSERT INTO LANGUAGE(RSMSEQ, LANG, LEVEL, TEST, SCORE, DATE)
+   VALUES (#{rsmseq}, #{lang}, #{level}, #{test}, #{score}, #{date})
+</insert>
+
+<!-- 링크  insert -->
+<insert id="LinkInsert" parameterType="model.LinkDto">
+   INSERT INTO LINK(RSMSEQ, URL)
+   VALUES (#{rsmseq}, #{url})
+</insert>
+
+
+
+
+</mapper>

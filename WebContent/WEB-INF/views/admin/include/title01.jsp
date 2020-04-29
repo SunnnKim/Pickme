@@ -23,4 +23,9 @@ if( ifurl.contains("notice")){
 if( ifurl.contains("/payment/")){
 	%>유료서비스<%
 }%>
+
+<%
+if( ifurl.contains("/question/")){
+	%>문의내역<%
+}%>
   

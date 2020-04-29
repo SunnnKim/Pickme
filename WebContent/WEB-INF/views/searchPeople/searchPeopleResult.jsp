@@ -202,7 +202,7 @@
 </dialog>
 
 <!-- 메세지 보내기 창  -->
-<%@include file ="../../../include/sendMsgCompany.jsp" %>
+<%@include file ="../../../include/cApplyWriteMsg.jsp" %>
 
 
 

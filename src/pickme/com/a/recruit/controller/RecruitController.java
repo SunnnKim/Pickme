@@ -179,6 +179,7 @@ public class RecruitController {
 	@RequestMapping(value = "recInsertAf.do",method = RequestMethod.POST)
 	public int recInsertAf(RecruitDto dto) {
 		System.out.println(dto.toString());
+		
 		int count = serv.insertRecruit(dto);
 	
 		System.out.println("insert success : " + count);

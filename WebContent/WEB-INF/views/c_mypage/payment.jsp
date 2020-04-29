@@ -5,6 +5,7 @@
 
 
 <div class="allWrap">
+if()
    현재 이용중인 서비스가 없습니다.
    <div class="allWrapDetail">
       합리적인 가격으로 최대의 혜택을 누리세요.
@@ -16,11 +17,13 @@
       </div>
    </div>
 </div>
-<form id="frm" method="post">
-   <input type="hidden" name="imp_uid" value="">			<!-- 아임포트 거래 고유 번호 -->
-   <input type="hidden" name="merchant_uid" value="">		<!-- 가맹점에서 생성/관리하는 고유 주문번호 -->
-   <input type="hidden" name="paid_amount" value="">		<!-- 결제금액 -->
-   <input type="hidden" name="apply_num" value="">			<!-- 카드사 승인번호 -->
+<form id="frm" method=post action="setPaymentInfo.do">
+   <input type="hidden" name="impUid" value="">         <!-- 아임포트 거래 고유 번호 -->
+   <input type="hidden" name="totalPay" value="">      <!-- 결제금액 -->
+   <input type="hidden" name="paymentId" value="">      <!-- 가맹점에서 생성/관리하는 고유 주문번호 -->
+   <input type="hidden" name="serviceName" value="">   <!-- 결제서비스명(주문명) -->
+   
+   <!-- <input type="hidden" name="apply_num" value="">       -->   <!-- 카드사 승인번호 -->
 </form>
 <p> 
    결제 테스트
@@ -55,20 +58,12 @@
                 'phone':휴대폰소액결제 
             */
             merchant_uid: 'merchant_' + new Date().getTime(),
-            /* 
-                merchant_uid에 경우 
-                https://docs.iamport.kr/implementation/payment
-                위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
-                참고하세요. 
-                나중에 포스팅 해볼게요.
-             */
-            name: '주문명:결제테스트',                //결제창에서 보여질 이름
+            name: '결제테스트',                //결제창에서 보여질 이름
             amount: 10,                         //가격 
             buyer_email: '${dto.email }',
             buyer_name: '${dto.name }',
-            buyer_tel: '${dto.tel }',
-            buyer_addr: '${dto.address }',
-            m_redirect_url: 'http://www.naver.com'
+            buyer_tel: '${dto.tel }',         //(필수항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+            buyer_addr: '${dto.address }'
             /*  
                 모바일 결제시,
                 결제가 끝나고 랜딩되는 URL을 지정 
@@ -76,20 +71,27 @@
                 */
         }, function (rsp) {
             console.log(rsp);
-            if (rsp.success) {
+            if (rsp.success) {      // 실제 결제승인이 이뤄졌거나, 가상계좌 발급이 성공된 경우, True
                 var msg = '결제가 완료되었습니다.';
                 msg += '고유ID : ' + rsp.imp_uid;
                 msg += '상점 거래ID : ' + rsp.merchant_uid;
                 msg += '결제 금액 : ' + rsp.paid_amount;
                 msg += '카드 승인번호 : ' + rsp.apply_num;
-                // DB로 보낼 데이터 작성 
-
-				
+                msg += '주문명 : ' + rsp.name;
 
 
+            //location.href="setPaymentInfo.do?totalPay=" + rsp.paid_amount+"&impUid="+rsp.imp_uid+"&serviceName="+rsp.name+"&paymentId="+rsp.merchant_uid;
 
+                
+            // DB로 보낼 데이터 저장
+            $("input[name=impUid]").val(rsp.imp_uid);
+            $("input[name=paymentId]").val(rsp.merchant_uid);
+            $("input[name=totalPay]").val(rsp.paid_amount);
+            $("input[name=serviceName]").val(rsp.name);
 
-   				
+            $("form").submit();
+            
+               
             } else {
                 var msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
@@ -109,7 +111,7 @@
 
 
 <style>
-/* 결제 내역 없을 때5 화면 */
+/* 결제 내역 없을 때 화면 */
 .allWrap{text-align:center;font-size:30px;margin-top:100px;}
 .allWrapDetail{font-size:19px;margin-top:50px;}
 .buttonCls button{margin-top:50px; width:200px; height: 50px; color:#fff; background-color:#4f6eff; border-radius:5px 5px 5px 5px;}

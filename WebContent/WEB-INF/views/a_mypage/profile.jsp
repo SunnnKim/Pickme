@@ -385,9 +385,8 @@
     }
   }
 
-
- 	// 작성완료 버튼 눌렀을 때
-  	$("#pSaveBtn").on("click",function(){
+// 작성완료 버튼 눌렀을 때
+$("#pSaveBtn").on("click",function(){
 	 //alert("클릭");
      //hash tag
   	var taglen = $("input[name='hashTag']").length;

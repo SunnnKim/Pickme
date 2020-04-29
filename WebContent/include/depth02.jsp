@@ -239,7 +239,7 @@ if (durl.contains("customer/")){
 		<a href="/Pickme/customer/customerQuestion.do">자주하는질문</a>
 	</li>
 	<li class=<%= durl.contains("customerService.jsp") ? " on" :" "%>>
-		<a href="/Pickme/customer/customerService">문의하기</a>
+		<a href="/Pickme/customer/customerService.do">문의하기</a>
 	</li>
 	<%	
 		// 기업에만 보이는 유료서비스페이지
