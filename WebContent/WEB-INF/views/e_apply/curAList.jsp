@@ -220,9 +220,12 @@
 		var filterAfter = $("#applyFilter option:selected").val();
 		// alert(filterAfter);
 		// 검색된 페이지인 경우 검색어 불러오기
- 		var sKeyword = '<c:out value="${sKeyword}"/>';
-		location.href="curAList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
-		
+		if(filterAfter == '선택'){
+			
+        }else{
+ 			var sKeyword = '<c:out value="${sKeyword}"/>';
+			location.href="curAList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
+        }
 	});
 
     /* 정렬 */		
@@ -235,10 +238,11 @@
 
     	if(filterAfter == '선택'){
 			alert("카테고리를 선택해주세요.");
+        }else{
+            alert("확인")
+    		location.href="curAList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
         }
-  
-    	location.href="curAList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
-     }   
+   }   
 			
 </script>
 
