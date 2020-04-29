@@ -77,7 +77,7 @@
             		<div class="logo" style="background-image: url(&quot;https://static.wanted.co.kr/images/wdes/0_5.aded81ce.jpg&quot;);"></div>
             		<div class="companyName">
             			<p class="comP">${recDto.comName }</p>
-            			<p class="comT">기업분야<%-- ${cmem.department }--%></p>
+            			<p class="comT">${cmem.department }</p>
             		</div>
             	</button>
             	 <span class="likes">
@@ -85,7 +85,7 @@
             	</span>
             </div>
           <div style="width: 100%; display: inline-block;">
-             <span style="width: 10%;float: left;font-size: 20px;font-weight: 400;"><i class="fas fa-eye"></i> ${recDto.readCount }</span>
+             <span style="width: 15%;float: left;font-size: 20px;font-weight: 400;"><i class="fas fa-eye"></i> ${recDto.readCount }</span>
           <span style="width: 50%"><button type="button" class="detailLike" onclick="likech(this)"><i class="fas fa-heart liked"></i><span>${likeTotal }</span></button></span>
           </div>
           </div><!-- div.infoCom -->

@@ -47,6 +47,45 @@
 </insert>
 
 
+<!-- 이력서 총 개수 -->
+<select id="ResumeCount" resultType="int">
+	SELECT IFNULL(COUNT(*),0) AS CNT FROM RESUME WHERE MEMSEQ=#{memSeq} AND DEL=0
+</select>
+	
+<!-- 이력서 관리 list(페이징) -->
+<select id="ResumeAllList" parameterType="model.ResumeParam" resultType="model.ResumeDto">
+	SELECT SEQ, MEMSEQ, NAME, WDATE, STATUS, MAINRESUME, DEL
+	FROM ( SELECT * FROM RESUME WHERE DEL=0 ORDER BY SEQ DESC ) R
+	WHERE 1=1
+	LIMIT #{recordCountPerPage} OFFSET #{start} 
+</select>
 
+<!-- 이력서 관리 이력서명 변경 -->
+<update id="ResumeNameUpdate" parameterType="model.ResumeDto">	
+	UPDATE RESUME 
+	SET NAME=#{name}
+	WHERE SEQ=#{seq} AND DEL=0
+</update>
+
+<!-- 이력서 관리 메인 이력서 변경 -->
+<!-- 메인 이력서 0 초기화 -->
+<update id="MainResumeReset" parameterType="int">	
+	UPDATE RESUME 
+	SET MAINRESUME=0
+	WHERE MEMSEQ=#{memSeq} AND DEL=0 
+</update>
+<!-- 메인 이력서 1 -->
+<update id="MainResumeUpdate" parameterType="int">	
+	UPDATE RESUME 
+	SET MAINRESUME=1
+	WHERE SEQ=#{seq} AND DEL=0
+</update>
+
+<!-- 이력서 삭제 -->
+<update id="ResumeDelete" parameterType="int">	
+	UPDATE RESUME 
+	SET DEL=1
+	WHERE SEQ=#{seq}
+</update>
 
 </mapper>

@@ -82,14 +82,15 @@
 		 		 %>
 		 		 <nav class="gnb">
 					<a href="/Pickme/searchJob/recSearch.do">채용탐색</a> <!-- 일반회원 채용탐색  -->
-					<a href="/Pickme/resume/resumeWrite.do">이력서</a><!-- 일반회원 이력서쓰기  -->
+					<a href="/Pickme/resume/resume.do">이력서</a><!-- 일반회원 이력서 관리  -->
 					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a><!-- 일반회원 지원현황  -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
 				</nav>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
-					<li><button type="button" id="searchBtn"></button></li>
+					<li><button type="button" id="searchBtn"></button></li> 
 					<li class="alert-warp">
+					   <a href="#none" class="alert-bell"><img alt="" src="../images/main/alarm-bell.png" width="20px" height="20px"></a>
 					   <a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
 					   
 					</li>

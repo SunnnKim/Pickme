@@ -504,7 +504,7 @@ span.read-msg{text-align:left;color:#777;}
 .bbs-infoWrap .bbs-lt{float:left;padding-left:5px;line-height:32px;}
 .bbs-infoWrap .bbs-lt span{font-weight:600;}
 .bbs-infoWrap .bbs-rt{float:right;}
-.bbs-infoWrap .bbs-rt p.unread{ background:#4f6eff; border-radius:10; padding:5px; color: #fff; font-weight: 400px; font-size:13px;}
+.bbs-infoWrap .bbs-rt p.unread{ background:#4f6eff; border-radius:5%; padding:5px; color: #fff; font-weight: 400px; font-size:13px;}
 p.cancel-notice{font-size:12px; color:#8aa5c1; text-align:right;}
 /* apply - cvReq */
 .cvAcepBtn{width:70px; height:40px; line-height:40px; font-size:15px; background:#333; color:#fff; margin:0 3px;}
@@ -1072,7 +1072,10 @@ span.body{color: #333;width: calc(100% - 80px); font-size: 13pt;}
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
 }
-.aMyinfo .aMyBtn {position:absolute; top:0; right:0; width:150px; padding:10px 0; border:1px solid #ddd; text-align:center;}
+.aMyinfo .aMyBtn {position:absolute; top:0; right:0; width:150px; cursor:pointer; padding:10px 0; border:1px solid #ddd; text-align:center;}
+.aMyinfo .aMyBtn i {margin-right:10px; color:#ddd;}
+.aMyinfo .aMyBtn:hover i{color:#304edf;}
+.aMyinfo .aMyBtn.on i{color:#304edf;}
 .aMyinfo .aMyBtn a {display:block; width:100%; height:100%;}
 
 .aMycont {margin-top:40px;}
@@ -1141,9 +1144,10 @@ label.radioBtn i.fa-check-square-o {display: none;}
 label.radioBtn.active i.fa-square-o {display:none;}
 label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 
-.resume-list .resume-preview h3 {font-size:18px; margin-top:8px; color:#999; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+
+.resume-list .resume-preview h3 input {display:block; height:28px; font-weight:bold; margin-top:8px; pointer-events: none; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; border:none; outline:none; background:none; font-size:18px; color:#999;}
 .resume-list .resume-preview p {color:#999; font-size:15px; margin-top:5px; font-weight:bold;}
-.resume-item.complete h3, .resume-item.complete p {color:#333;}
+.resume-item.complete h3 input, .resume-item.complete p {color:#333;}
 
 .resume-info {width:100%; height:38px; padding:0 15px 0 20px; border-top:1px solid #ddd;}
 .resume-info p {color:#999; float:left; font-size:14px; line-height:37px; font-weight:bold;}
@@ -1154,10 +1158,14 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .resume-info .resume-menu .resume-menuBtn span {display:inline-block; width:4px; height:4px; border-radius:50%; background:#bbb;}
 .resume-info .resume-menu .resume-menuBtn span:first-child {}
 .resume-menu ul {display:none; position:absolute; top:25px; left:-120px; width:150px; height:84px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3);}
-.resume-menu ul li {line-height:28px; font-size:13px;}
+.resume-menu ul li {line-height:28px; font-size:13px; padding:0 15px; transition:all 0.1s ease-in-out;}
+.resume-menu ul li:hover {background:#4f6eff; color:#fff;}
+/*
 .resume-menu ul li a {display:block; width: 100%; height:100%; padding:0 15px; transition:all 0.1s ease-in-out;}
 .resume-menu ul li:hover a {background:#4f6eff; color:#fff;}
-
+ */
+ 
+ 
 /* 이력서 작성 및 수정 */
 #resumeWrite_Wrap {}
 .rsm_top {position:relative;}
@@ -1220,7 +1228,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_addCont .lang label span{color:#555;}
 
 .rsm_addCont ul.chkBox {}
-.rsm_addCont ul.chkBox li {float:left; margin-right:30px; color:#555;}
+.rsm_addCont ul.chkBox li {float:left; margin-right:30px; color:#555; cursor:pointer;}
 .rsm_addCont ul.chkBox li span {
 	display: inline-block;
   width:14px; height:14px; border-radius:50%;
@@ -1279,6 +1287,7 @@ height:50px;
 background:#7e9cd6;
 line-height:50px;
 display:none;
+z-index:1000;
 		
 }
 #socketAlert img {
@@ -1288,9 +1297,24 @@ margin-right:6px;
 #socketAlert a {display:block; color:#fff; font-size:15px;}
 #socketAlert a span {display:inline-block; font-weight:bold;}
 
-
+.wsFixed{
+	position: fixed;
+	top:0px;
+	
+	
+}
+.alert-bell{margin-right:10px;}
 /*======================cvRequest=====================*/
 .req-response.reject img{
 	width:13px;
 }
+
+/*=====================MyfavCom=======================*/
+.sendMsgBtn{background:#202a9e; border-radius:5%; padding:5px; color: #fff; font-weight: 400px; font-size:13px; height: 40px; width: 100px;}
+
+
+/*=======================MyfavComRecruit===============*/
+.goApplyBtn{background:#202a9e; border-radius:5%; padding:5px; color: #fff; font-weight: 400px; font-size:13px; height: 40px; width: 100px;}
+.applyCompleteBtn{font-weight:500px;}
+.table-bbs td a.interest-com{text-align:center;}
 

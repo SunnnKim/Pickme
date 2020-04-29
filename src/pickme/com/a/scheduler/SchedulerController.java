@@ -1,5 +1,8 @@
 package pickme.com.a.scheduler;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,6 +36,19 @@ public class SchedulerController {
 	// 매일 밤 12시에 맞춰 삭제된 데이터 데이터베이스에서 삭제하기
 	public void deleteFromDatabase() {
 		
+	}
+	
+	
+	// 채용관리 매일밤 12시 채용 마감일이 오늘 날짜를 지나면 DEL=1로 바꾸기
+	//@Scheduled(cron = "0 0/1 * ? * *" )
+	public void dayUpdateDel() {
+		System.out.println("Day update Del ");
+		Calendar nowTime = Calendar.getInstance();
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+        String today = sd.format(nowTime.getTime());
+        System.out.println("today: "+today);
+        serivce.dayUpdateDel(today);
+        System.out.println("del=1 change ok ");
 	}
 	
 	

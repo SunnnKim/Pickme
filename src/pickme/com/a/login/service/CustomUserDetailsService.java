@@ -1,5 +1,7 @@
 package pickme.com.a.login.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.RecruitDto;
 import pickme.com.a.login.dao.LoginDao;
 
 @Service
@@ -79,6 +82,11 @@ public class CustomUserDetailsService implements LoginService, UserDetailsServic
 	@Override
 	public boolean getLostEmailA2(AMemberDto dto) {
 		return dao.getLostEmailA2(dto);
+	}
+
+	@Override
+	public List<RecruitDto> mainTopRec() {
+		return dao.mainTopRec();
 	}
 
 

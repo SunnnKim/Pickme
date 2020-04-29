@@ -278,7 +278,7 @@
 	
 		  if(isUnread == 'yes'){
 			  
-			  location.href="unread.do?page=impoMsg&pageNumber=" + pn;
+			  location.href="unread.do?sKeyword=" + sKeyword + "&page=impoMsg&pageNumber=" + pn;
 	
 		 }else{	
 			
@@ -307,6 +307,8 @@
 		
 		if(sKeyword == null || sKeyword == ""){
 			alert("검색어를 입력해주세요.");
+		}else if(isUnread == 'yes'){
+			location.href="unread.do?sKeyword=" + sKeyword + "&page=impoMsg&pageNumber=0";
 		}else{
 		 location.href="impoMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
 		}
