@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class SearchJobController {
 	
 	@Autowired
 	RecruitService recServ;
-
+	
 
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
@@ -71,10 +73,6 @@ public class SearchJobController {
 		System.out.println("sKeyword : " + param.getsKeyword());
 		model.addAttribute("sKeyword", param.getsKeyword());
 		
-	
-		
-		//마감날짜가 지나면 del update
-		//serv.dayUpdateDel();
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
 		int end = (nowPage + 1) * param.getRecordCountPerPage(); // 10, 20, 30
@@ -173,8 +171,11 @@ public class SearchJobController {
 		}/**/
 		CMemberDto cmemdto = recServ.getComInfo(dto.getComSeq());
 		
-		//주소 제대로 들어오면 지우기
-		cmemdto.setAddress("서울 강남구 테헤란로5길 11 YBM빌딩 2층");
+		String address = cmemdto.getAddress().replace("\'", " ");
+		int findBracket =  address.indexOf("]");
+		//address.substring(findBracket);
+		cmemdto.setAddress(address.substring(findBracket+1));
+		System.out.println("바뀐 주소 : "+cmemdto.getAddress());
 		
 		model.addAttribute("recDto", dto);
 		model.addAttribute("cmem",cmemdto);

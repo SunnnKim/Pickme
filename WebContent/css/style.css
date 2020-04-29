@@ -1046,7 +1046,7 @@ span.body{color: #333;width: calc(100% - 80px); font-size: 13pt;}
 .aMyinfo ul li {position:relative; line-height:40px; margin-top:17px; overflow:hidden;}
 .aMyinfo ul li strong {display:block; float:left; width:50px; font-size:17px;}
 .aMyinfo ul li input {color:#555; outline:none; display:block; float:left; width:710px; border:none; height:40px; border-bottom:1px solid #ddd;}
-.aMyinfo ul li select {color:#555; outline:none; display:block; float:left; width:710px; border:none; height:40px; border-bottom:1px solid #ddd; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
+.aMyinfo ul li select {color:#555; outline:none; display:block; float:left; width:710px; border:none; height:40px; border-bottom:1px solid #ddd; -webkit-appearance: none; -moz-appearance: none; appearance: none; background:#fff; border-radius:0;}
 .aMyinfo ul li select::-ms-expand {display: none;}
 .aMyinfo ul li select.select_cons {width:450px;}
 .aMyinfo ul li select.select_cons#userJob01 {width:250px;}
@@ -1141,9 +1141,10 @@ label.radioBtn i.fa-check-square-o {display: none;}
 label.radioBtn.active i.fa-square-o {display:none;}
 label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 
-.resume-list .resume-preview h3 {font-size:18px; margin-top:8px; color:#999; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+
+.resume-list .resume-preview h3 input {display:block; height:28px; font-weight:bold; margin-top:8px; pointer-events: none; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; border:none; outline:none; background:none; font-size:18px; color:#999;}
 .resume-list .resume-preview p {color:#999; font-size:15px; margin-top:5px; font-weight:bold;}
-.resume-item.complete h3, .resume-item.complete p {color:#333;}
+.resume-item.complete h3 input, .resume-item.complete p {color:#333;}
 
 .resume-info {width:100%; height:38px; padding:0 15px 0 20px; border-top:1px solid #ddd;}
 .resume-info p {color:#999; float:left; font-size:14px; line-height:37px; font-weight:bold;}
@@ -1154,16 +1155,20 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .resume-info .resume-menu .resume-menuBtn span {display:inline-block; width:4px; height:4px; border-radius:50%; background:#bbb;}
 .resume-info .resume-menu .resume-menuBtn span:first-child {}
 .resume-menu ul {display:none; position:absolute; top:25px; left:-120px; width:150px; height:84px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3);}
-.resume-menu ul li {line-height:28px; font-size:13px;}
+.resume-menu ul li {line-height:28px; font-size:13px; padding:0 15px; transition:all 0.1s ease-in-out;}
+.resume-menu ul li:hover {background:#4f6eff; color:#fff;}
+/*
 .resume-menu ul li a {display:block; width: 100%; height:100%; padding:0 15px; transition:all 0.1s ease-in-out;}
 .resume-menu ul li:hover a {background:#4f6eff; color:#fff;}
-
+ */
+ 
+ 
 /* 이력서 작성 및 수정 */
 #resumeWrite_Wrap {}
 .rsm_top {position:relative;}
 .rsm_top .rsm-downBtn {position:absolute; top:0; right:0;}
 .rsm_top .rsm-downBtn button {display:block; width:50px; padding:10px 0; border:1px solid #ddd; outline:none;}
-.rsm_top h3 {font-size:30px; margin-bottom:30px; font-weight:500;}
+.rsm_top h3 input {border:none; width:100%; font-size:30px; color:#333; margin-bottom:30px; font-weight:500; outline:none;}
 .rsm_top input {border:none; width:100%; height:30px; font-size:17px; margin-top:5px; outline:none; color:#555;}
 .rsm_top textarea {font-size:17px; width:100%; height:100px; margin-top:10px; margin-top:30px; border:none; color:#555; outline:none; resize:none;}
 .rsm_top input::placeholder {color:#999;}
@@ -1173,11 +1178,12 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsmCont h4 {width:100%; font-size:17px; padding:30px 0 10px; font-weight:normal; border-bottom:1px solid #bbb;}
 .rsmCont .rsm_addBtn {color:#176fd8; font-size:18px; height:86px; line-height:85px; border-bottom:1px solid #eaeaea; cursor:pointer;}
 .rsmCont .rsm_add {}
-.rsm_addCont {/*display:none;*/ position:relative; width:100%; padding:30px; color:#555;}
+.rsmCont .rsm_add div:first-child {border-top:none;}
+.rsm_addCont {position:relative; width:100%; padding:30px; color:#555;  border-top:1px solid #eaeaea;}
 .rsm_addCont:hover{background:#f7f7f7;}
 .rsm_addCont .rsm_left {float:left; width:280px;}
 .rsm_addCont .rsm_left .rsm_date {height:30px;}
-.rsm_date input {display:inline-block; width:34px; color:#555; background:none; border:none; outline:none;}
+.rsm_date input {display:inline-block; width:60px; color:#555; background:none; border:none; outline:none;}
 .rsm_date span {display:inline-block; margin-right:3px;}
 .rsm_date span:nth-of-type(2) {vertical-align:-6px; margin-left:-7px;}
 .rsm_date span.lang:nth-of-type(2) {vertical-align:0; margin-left:-7px;}
@@ -1218,20 +1224,30 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_addCont .lang label input{margin-right:10px;}
 .rsm_addCont .lang label span{color:#555;}
 
+.rsm_addCont ul.chkBox {}
+.rsm_addCont ul.chkBox li {float:left; margin-right:30px; color:#555;}
+.rsm_addCont ul.chkBox li span {
+	display: inline-block;
+  width:14px; height:14px; border-radius:50%;
+  vertical-align:-2px; margin-right:7px;
+  border:1px solid #b7b7b7;
+  transition: all 0.2s ease-in-out;
+}
+.rsm_addCont ul.chkBox li.on span {border:5px solid #4f6eff;}
+.rsm_addCont ul.chkBox li i {font-style:normal;}
+.rsm_addCont ul.chkBox li input {}
+
 .rsm_addCont .level {margin-top:30px;}
 .rsm_addCont .level label {margin-right:20px; cursor:pointer;}
 .rsm_addCont .level label input{margin-right:10px;}
 .rsm_addCont .level label span{color:#555;}
 
-.rsm_addCont .lang_testBtn {color:#176fd8; font-size:16px; padding:30px 0 0; cursor:pointer; font-weight:normal;}
-.rsm_addCont .lang_test {position:relative; margin-top:20px; padding:20px 60px 20px 30px;}
-.rsm_addCont .lang_test:hover {background:#fff;}
-.rsm_addCont .lang_test::before {position:absolute; top:34px; left:15px; content:''; width:4px; height:4px; border-radius:50%; background:#333;}
+.rsm_addCont .lang_test {margin-top:30px;}
 .rsm_addCont .lang_test input.desc {margin-top:5px; display:block; width:100%; color:#555; background:none; outline:none; border:none;}
 .rsm_addCont .lang_test input::placeholder {color:#999;}
 .rsm_addCont .lang_test span {color:#555;}
 .rsm_addCont .lang_test .rsm_date span:nth-of-type(2) {vertical-align:0;}
-.rsm_addCont .lang_test .rsm_delete  {top:20px; right:30px;}
+
 
 .resumeBtnWrap {width:100%; text-align:center; font-size:0; margin-top:40px;}
 .resumeBtnWrap button {display:inline-block; font-size:15px; margin:0 5px; width:200px; height:50px; background:#4f6eff; border:1px solid #4f6eff; color:#fff; transition:all 0.2s ease-in-out; outline:none;}

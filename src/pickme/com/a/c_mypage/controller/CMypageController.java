@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.CMemberDto;
+import model.PaymentDto;
 import pickme.com.a.c_mypage.service.CMypageService;
 
 @Controller
@@ -164,6 +165,21 @@ public class CMypageController {
 		
 		return "redirect:/c_mypage/goCMypage.do";
 	}
+	
+    // 결제 성공 후 DB저장
+    @RequestMapping(value = "setPaymentInfo.do", method = {RequestMethod.GET, RequestMethod.POST})
+    public String setPaymentInfo(PaymentDto dto, HttpSession session) {
+      
+        // 기업 세션 seq 저장
+         int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+         dto.setBuyerId(c_seq);
+    
+         int n = service.setPaymentInfo(dto);
+         System.out.println("insert result count : " + n);
+      
+         return "c_mypage/payment";
+    }
+
 	
 	
 	// 로고 업로드

@@ -40,6 +40,13 @@ SELECT COUNT(*) FROM A_MEMBER where DEL != 1
 SELECT COUNT(*) FROM C_MEMBER where DEL != 1
 </select>
 
+<!-- 가입 미승인된 기업 불러오기 -->
+<select id="getUnapprovalList" resultType="model.CMemberDto">
+SELECT SEQ, EMAIL, NAME, TYPE, NUMBER, DEL
+FROM C_MEMBER
+WHERE DEL != 0
+</select>
+
 </mapper>
 
 

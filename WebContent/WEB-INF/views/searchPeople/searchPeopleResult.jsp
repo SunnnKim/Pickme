@@ -91,10 +91,10 @@
 	    <div class="content-wrapper">
 	      <div class="name"><%=dto.getName() %></div>
 	      <div class="info-wrapper">
-	        <div><%= dto.getJob().split(",")[0] %> / <%= dto.getJob().split(",")[1] %></div>
+	        <div style="font-size: 11px"><%= dto.getJob().split(",")[0] %> / <%= dto.getJob().split(",")[1] %></div>
 	        <div><%=dto.getCareer().equals("신입") ? "신입":"경력"%></div>
 	      </div>
-	      <div class="info-hashtag">
+	      <div class="info-hashtag scroller">
 	      	<% String [] hashTag = dto.getHashtag().split(",");
 	      		for(int j = 0; j < hashTag.length; j++ ){ %>
 	        	<span>#<%=hashTag[j] %></span>
@@ -114,8 +114,8 @@
 	      <button class="show-btn profileBtn" seq="<%=dto.getSeq()%>">
 	        프로필보기
 	      </button>
-	      <button class="show-btn requestBtn" seq="<%=dto.getSeq()%>">
-	        열람요청
+	      <button class="show-btn requestBtn" seq="<%=dto.getSeq()%>" pname="<%=dto.getName()%>">
+	        이력서 열람요청
 	      </button>
 	    </div>
 	  </div>
@@ -144,19 +144,18 @@
           <div class="title">Profile</div>
           <div class="img-wrapper">
             <div class="profile-img">
-            <i class="fas fa-user"></i>
-<!--               <img src="../images/woman1.png">
- -->            </div>
+            	<i class="fas fa-user"></i>
+<!--             <img src="../images/woman1.png">
+ -->        </div>
           </div>
             <div class="basic-info">
+           	  <input type="hidden" name="userseq">
               <div class="name"></div>
               <div class="email" style="font-size: 13px"></div>
               <div class="career"></div>
-              <div class="job"></div>
+              <div class="job"  style="font-size: 12px"></div>
               <div class="profile-tags scroller">
                 <span>#ddd</span>
-                <span>#ddddfjlsjflkdsjdfsdfdfssdfsdfdsfhjsdhfkjsdhfkslsdsfjkls</span>
-                <span>#ddsssd</span>
               </div>
             </div>
           <div class="introduce">
@@ -165,11 +164,45 @@
           </div>
         </div>  
           <div class="message-btn">
-            <button type="button">메세지 보내기</button>
+            <button type="button" id="sendMsg">메세지 보내기</button>
           </div>
     </div>
 </dialog>
+<!-- 열람요청 모달 -->
+</dialog>
+  <dialog id="cvRequest">
+    <div class="dialog__inner">
+        <button class="button button-close close">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="title">
+          Request
+        </div>
+        <div class="request-modal">
+          <form action="" method="post" id="frm">
+            <div>
+              요청기업
+              <span id="sender">비트캠프</span>
+              <input type="hidden" name="pseq">
+            </div>
+            <div>
+              받는사람
+              <span id="receiver">김선주</span>
+            </div>
+            <div class="text-area">
+              <textarea name="comment" placeholder="코멘트를 남겨주세요."></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="send-request">
+          <button id="sendRequset">열람요청 보내기</button>
+        </div>
 
+    </div>
+</dialog>
+
+<!-- 메세지 보내기 창  -->
+<%@include file ="../../../include/cApplyWriteMsg.jsp" %>
 
 
 
@@ -214,11 +247,100 @@ function searchPeople(){
 	$('#searchForm').submit();
 }
 // 프로필보기 
-/* 
+//프로필보기 에이작스 함수
+ function getPeopleData( seq ){
+ 	$.ajax({
+ 		url:'getPeopleDetail.do',
+ 		data:'seq=' + seq,
+ 		type: 'post',
+ 		success : function( data ){
+ 			console.log(data)
+ 			var people = data.people;
+ 			$('input[name=userseq]').val( people.seq )
+ 			$('.basic-info .name').text( people.name )
+ 			$('.basic-info .email').text( people.email )
+ 			$('.basic-info .phone').text( people.phone )
+ 			if( people.career.includes('년') ){
+ 				$('.basic-info .career').text( '경력 ' + people.career )
+ 			} else{
+ 				$('.basic-info .career').text( people.career )
+ 			}
+ 			// 직무 / 직군 
+ 			var str = people.job.split(',')
+ 			$('.basic-info .job').text( str[0] + ' / ' + str[1] )
+ 			// 해시태그 
+ 			var profileTags = people.hashtag.split(',');
+ 			console.log(profileTags)
+ 			$('.basic-info .profile-tags').html('')
+ 			for ( var i in profileTags ){
+ 				$('.basic-info .profile-tags').append('<span>#' + profileTags[i] + '</span>')
+ 			}
+ 			// 사진
+ 			if( people.profileName.trim() == ""){
+				$('.profile-img').html('<i class="fas fa-user" style="font-size=60px"></i>');
+ 	 		}else{
+				$('.profile-img').html('<img src="/Pickme/a_mypage/imageDownload.do?filename=' + people.profileName + '&filepath=' + people.profilePath + '">');
+ 	 	 	}
+ 			// 자기소개 
+ 			$('.introduce .text-area').html( people.introduce.replace(/\n/gi, "<br>") )
+ 			
+ 		}, error : function( err ){
+ 			alert('error')
+ 			console.log(err)
+ 		}
+ 	})
+ }
+// 메세지 보내기 함수 
+$("#sendMsg").on("click", function(){
+	  setTimeout(function(){
+		 	$('#toName').val( $('.basic-info .name').text() )
+		 	$('input[name=to]').val( $('input[name=userseq]').val())
+		
+			$(".messenger-wrap").show();
+		 	$('body').css("overflow", "hidden");
+		  }, 600 );
+ 	closeModal()
+})
+
+/*
+ * `SEQ`      INT         NOT NULL    AUTO_INCREMENT COMMENT '시퀀스', 
+ `PSEQ`     INT         NULL        COMMENT '구직자이름', 
+ `CSEQ`     INT         NULL        COMMENT '요청기업', 
+ `RDATE`    DATETIME    NULL        COMMENT '요청날짜', 
+ `COMMENT`  LONGTEXT    NULL        COMMENT '기업 코멘트', 
+ `ACCEPT`   INT         NULL        COMMENT '수락여부(0:대기, 1:수락, 2:거절)', 
+ `STATE`    INT         NULL        COMMENT '요청 상태', 
+ `DEL`      INT         NULL        COMMENT '요청삭제여부(0등록1삭제)-기업', 
+ `DELMEM`   INT         NULL        COMMENT '요청삭제여부(0등록1삭제)-일반', 
+ `DDATE`    DATETIME    NULL        COMMENT '삭제일', 
+ `CANCEL`   INT         NULL        COMMENT '요청취소(0/1:취소)', 
+ `CVSEQ`    INT         NULL        COMMENT '제출이력서시퀀스(CV_COMPANY)', 
  */
-
-
-
+// 열람 요청보내기 
+$(document).on('click', '#sendRequset', function(){
+	if($('textarea[name=comment]').val().trim() == ''){
+		alert('요청 코멘트를 입력하세요')
+		return false;
+	}
+	var sendData = $('#frm').serialize();
+	alert(sendData)
+	$.ajax({
+		data:sendData,
+		url:'/Pickme/searchPeople/requestResume.do',
+		type:'post',
+		success: function(data){
+			if(data == 'false'){
+				alert('요청을 실패했습니다.')
+			}
+		}, error: function (err){
+			alert('요청을 실패했습니다.')
+			console.log(err)
+		}, complete:function(){
+				closeModal2()
+		}
+		
+	})
+}); 
 
 </script>
 
@@ -261,12 +383,12 @@ $('#more-btn').click(function(){
 							'<div class="content-wrapper">' +
 				 			'<div class="name">' + people.name + '</div>' +
 				 				'<div class="info-wrapper">' + 
-				 				'<div>' + people.job.split(",")[0] + '/' + people.job.split(",")[1] + '</div>' +
+				 				'<div style="font-size: 11px">' + people.job.split(",")[0] + '/' + people.job.split(",")[1] + '</div>' +
 				 				'<div>';
 	        	
 	        	if( people.career != '신입') str += '경력';
 	        	str += '</div></div>'
-	        	str += '<div class="info-hashtag">';
+	        	str += '<div class="info-hashtag scroller">';
 	        	var hashTag = people.hashtag.split(',');
 	        	for( var j in hashTag ){
 					str += '<span>#' + hashTag[j] + '</span>'
@@ -280,7 +402,7 @@ $('#more-btn').click(function(){
 			   			'<div class="people-btn">' +
 	    					'<div class="content-wrapper">' + 
 	      						'<button class="show-btn profileBtn" seq="' + people.seq + '">프로필보기</button>' +
-	      						'<button class="show-btn" seq="' + people.seq + '">열람요청</button>' +
+	      						'<button class="show-btn requestBtn" seq="' + people.seq + '" pname="' + people.name + '">이력서 열람요청</button>' +
 	      						'</div></div></div>';
 	  	      $('#appendPeople').append(str);
 			}
@@ -341,13 +463,6 @@ function getJob2(){
 	     }
 	})
 }
-//enter 적용
-function enterkey() {
-        if (window.event.keyCode == 13) {
-             // 엔터키가 눌렸을 때 실행할 내용
-           //  putHashtag();	// 해쉬태그 입력하기
-        }
-}
 const intervalCall1000 = intervalCall(1000)
 /* hashtag */
 $("#hashTag").keyup(function(e){ 
@@ -371,47 +486,17 @@ function intervalCall(interval){
     setTimeout(() => {elapsed = true}, interval)
   }
 }
-// 프로필보기 에이작스 함수
-function getPeopleData( seq ){
-	$.ajax({
-		url:'getPeopleDetail.do',
-		data:'seq=' + seq,
-		type: 'post',
-		success : function( data ){
-			console.log(data)
-			var people = data.people;
-			$('.basic-info .name').text( people.name )
-			$('.basic-info .email').text( people.email )
-			$('.basic-info .phone').text( people.phone )
-			if( people.career.includes('년') ){
-				$('.basic-info .career').text( '경력 ' + people.career )
-			} else{
-				$('.basic-info .career').text( people.career )
-			}
-			// 직무 / 직군 
-			var str = people.job.split(',')
-			$('.basic-info .job').text( str[0] + ' / ' + str[1] )
-			// 해시태그 
-			var profileTags = people.hashtag.split(',');
-			console.log(profileTags)
-			$('.basic-info .profile-tags').html('')
-			for ( var i in profileTags ){
-				$('.basic-info .profile-tags').append('<span>#' + profileTags[i] + '</span>')
-			}
-			
-			// 자기소개 
-			$('.introduce .text-area').html( people.introduce.replace(/\n/gi, "<br>") )
-			
-		}, error : function( err ){
-			alert('error')
-			console.log(err)
-		}
-
-	})
-		
-
-	
+// sweetalert2
+function sweetAlert( type, msg, time, confirmBtn ){
+	Swal.fire({
+		  position: 'center',
+		  icon: type,
+		  text: msg,
+		  showConfirmButton: confirmBtn,
+		  timer: time
+	});
 }
+
 
 </script>
 <script>
@@ -423,6 +508,7 @@ const btnClose = document.querySelectorAll('.close');
 
 // 모달창 열기
 $(document).on('click','.profileBtn',function(){
+	$('html, body').css("overflow", "hidden");
   	openModal()
 	var $this = $(this) 
 	getPeopleData($this.attr('seq'))
@@ -441,14 +527,61 @@ handleClose = () => {
     modal.classList.remove("dialog__animate-out");
     modal.removeEventListener('animationend', handleClose, false);
     modal.close();
+    $('html, body').css({'overflow': 'auto', 'height': '100%'}); //scroll hidden 해제 
+    $('body').off('scroll touchmove mousewheel'); // 터치무브 및 마우스휠 스크롤 가능
 }
 detectBackdropClick = (event) => {
     if(event.target === modal) {
         closeModal();
     }
 }
+
+
+// 열람요청 모달 
+const modal2 = document.querySelector('#cvRequest');
+var btn = document.querySelectorAll('.profileBtn');
+const btnClose2 = document.querySelectorAll('.close');
+
+// 열람요청 모달창 열기
+$(document).on('click','.requestBtn',function(){
+	$('html, body').css("overflow", "hidden");
+  	openModal2()
+	var $this = $(this)
+	var pSeq = $(this).attr('seq')
+	var name = $(this).attr('pname')
+	var companyName = '${logincompany.name}'
+	$('input[name=pseq]').val(pSeq);
+	$('#sender').text( companyName )
+	$('#receiver').text( name )
+})
+
+btnClose2.forEach((elm) => elm.addEventListener('click', () => closeModal2()));
+modal2.addEventListener('click', (e) => detectBackdropClick(e));
+openModal2 = () => {
+    modal2.showModal();
+}
+// 모달 닫기
+closeModal2 = () => {
+    modal2.classList.add("dialog__animate-out");
+    modal2.addEventListener('animationend', handleClose2, false);
+}
+handleClose2 = () => {
+    modal2.classList.remove("dialog__animate-out");
+    modal2.removeEventListener('animationend', handleClose2, false);
+    modal2.close();
+    $('html, body').css({'overflow': 'auto', 'height': '100%'}); //scroll hidden 해제 
+    $('body').off('scroll touchmove mousewheel'); // 터치무브 및 마우스휠 스크롤 가능
+}
+detectBackdropClick2 = (event) => {
+    if(event.target === modal2) {
+        closeModal2();
+    }
+}
 </script>
 <style>
+.swal2-container {
+  z-index: 300000;
+}
 /* search-box */
 .search-box{ border: 1px solid #eaeaea; margin-bottom: 0px; height: 250px; }
 .justify{ margin: 0 auto; margin-top: 30px;height: 100px; width: 900px; display: flex; justify-content: space-around;}
@@ -468,13 +601,13 @@ select { width: 200px; /* 원하는 너비설정 */ padding: .8em .5em; /* 여�
 .search-btn:hover{ background: #1e308b; }
 
 /* filter-area */
-.filter-wrapper{ margin: 20px 0;  }
+.filter-wrapper{ margin: 20px 0;  }	
 .filter-wrapper a{ margin: 0 10px; }
 .filter-wrapper a:hover{ color: #304edf; }
 
 /* searching-area */
 .search-contents{ min-height: 280px; margin-bottom: 50px; }
-.search-contents .people-box{ padding: 0 10px; border: 1px solid #eaeaea; height: 200px; margin-bottom: 60px;display: flex; justify-content: space-around; }
+.search-contents .people-box{ padding: 0 10px; border: 1px solid #eaeaea; height: 215px; margin-bottom: 60px;display: flex; justify-content: space-around; }
 .content-wrapper{ height: 100%; display: flex; flex-direction: column; justify-content: center; }
 /* 로고이미지 */
 .search-contents .people-box .img-wrapper{ border: 1px solid #eaeaea; width: 150px; height: 150px; overflow: hidden; border-radius: 1000px;  }
@@ -484,13 +617,15 @@ select { width: 200px; /* 원하는 너비설정 */ padding: .8em .5em; /* 여�
 .people-info .content-wrapper .name{ font-size: 30px; display: block;  }
 .people-info .info-wrapper{ font-size: 15px; }
 .people-info .content-wrapper .info-wrapper{ }
+.people-info .content-wrapper .info-hashtag { height: 78px; margin-bottom: 0px; width: 160px; overflow-y: scroll; margin-left: 17px; padding: 0 10px;}
 .people-info .content-wrapper .info-hashtag span{ background-color: #1e308b; color: #fff; font-weight: 300; font-size: 10px;
   display: inline-block; font-size: 13px; border: 1px solid; padding: 5px 3px;  margin: 3px 0; border-radius: 10px;}
 
 /* 자기소개 */
 .search-contents .people-box .people-introduce { padding: 0 10px; width: 500px; }
-.search-contents .people-box .people-introduce .text-area{ display: inline-block; border: 1px solid #eaeaea; padding: 10px 5px; height: 100px; overflow:hidden; white-space: nowrap;text-overflow: ellipsis;
-  white-space: normal; line-height: 1.5;  text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+.search-contents .people-box .people-introduce .text-area{ 
+display: inline-block; border: 1px solid #eaeaea; padding: 10px 10px; height: 110px; overflow:hidden; white-space: nowrap;text-overflow: ellipsis;
+  white-space: normal; line-height: 2;  text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
  }
 .search-contents .people-box .people-btn { width: 200px;}
 .search-contents .people-box .people-btn .show-btn { background: #304edf; width: 150px; height: 50px; margin: 5px auto; line-height: 50px; color: #fff; text-align: center; } 
@@ -501,7 +636,7 @@ select { width: 200px; /* 원하는 너비설정 */ padding: .8em .5em; /* 여�
 
 /* modal */
 .fa-times{ color: #eaeaea; font-size: 30px; position: absolute; right: 10px; top:5px; cursor: pointer;}
-.dialog__content{}
+.dialog__content { }
 .dialog__content .title{ font-size: 25px; font-weight: 300; text-align: center; border-bottom: 1px solid #eaeaea;padding: 10px 0; margin-bottom: 10px;}
 /* modal - logo img */
 .dialog__content .img-wrapper { margin: 10px; height: 100%; width: 150px; margin: 10px 20px; float: left;}
@@ -512,31 +647,44 @@ select { width: 200px; /* 원하는 너비설정 */ padding: .8em .5em; /* 여�
 .dialog__content .basic-info .name{ font-size: 25px;}
 .dialog__content .basic-info > div{ padding-left: 5px;}
 /* modal - hashtag */
-.dialog__content .basic-info .profile-tags{ margin-right: 10px; overflow-y: scroll; height: 50px; padding: 0 10px; }
+.dialog__content .basic-info .profile-tags{ margin-right: 10px; overflow-y: scroll; height: 55px; }
 .scroller { overflow: auto; }
 .scroller::-webkit-scrollbar { width: 10px; background-color: #fff;}
 .scroller::-webkit-scrollbar-thumb { background-color: #eaeaea; border-radius: 1000px; }
 .scroller::-webkit-scrollbar-track { background-color: #fff; }
-.dialog__content .basic-info .profile-tags > span{ display: inline-block; margin:3px; margin-right:5px; background: #304edf; padding: 0 7px; border-radius: 10px; font-size: 11px; font-weight: 300; color: #fff; }
+.dialog__content .basic-info .profile-tags > span{ padding:1px 9px; display: inline-block; margin:3px 0; margin-right:5px; background: #304edf; border-radius: 10px; font-size: 12px; font-weight: 300; color: #fff; }
 
 /* modal - introduce */
-.dialog__content .introduce{
+.dialog__content .introduce {
   width: 100%; float: left; padding: 10px; margin: 10px auto;
   height: 200px;
 }
 /* modal - messageBtn */
 .message-btn{ height: 40px; text-align: center; }
 .message-btn button { background-color:#304edf; color: #fff; width: 150px; border-radius: 20px; height: 30px; font-size: 13px; font-weight: 300;}
-/* animation */
+/* modal - text-area */
 .dialog__content .introduce .text-area{
   padding: 10px; border: 1px solid #eaeaea;
   overflow-y: scroll; height: 180px;
 }
+/* modal2 - cvRequest */
+.title{ font-size: 25px; font-weight: 300; text-align: center; border-bottom: 1px solid #eaeaea;padding: 10px 0; margin-bottom: 10px;}
+.request-modal { margin: 10px 20px; }
+.request-modal div  { margin: 3px 10px; border-bottom: 1px solid #eaeaea; padding: 8px 10px; font-size: 12px; font-weight: 300;}
+.request-modal div > span {  margin-left: 30px;font-size: 14px; font-weight: 400;}
+.request-modal .text-area { margin: 0px auto; margin-top: 20px; border: none;}
+.request-modal .text-area textarea {  border: 1px solid #fff; background-color: rgba(245, 245, 245, 0.5); width: 360px; height: 180px; padding:0px; outline: none; }
+/* modal2 - requestBtn */
+.send-request{ width: 180px; height: 40px;  margin: 5px auto; margin-top: 15px;}
+.send-request button{ width: 100%; height: 100%; outline: none; font-size: 14px; font-weight: 300; background: #304edf; color: #fff; text-align: center; line-height: 40px; border-radius: 100px;}
 
 /* animation */
-
 $default--padding: 55px;
-body{ width:100%; height: 0vh; display: flex; align-items: center; justify-content: center; font-family: 'Nunito', sans-serif; position: fixed;}
+body{
+ width:100%; height: 0vh; 
+ display: flex; align-items: center; 
+ justify-content: center; font-family: 
+ 'Nunito', sans-serif; position: fixed;}
 .button {
     border: none;
     background-color: #afb8c9;
@@ -564,7 +712,8 @@ dialog {
     border-radius: 6px;
     animation: appear .8s cubic-bezier(.77,0,.175,1) forwards;
     box-shadow: 0 25px 40px -20px #3c4a56;
-    height: 510px;width: 420px;
+    height: 530px;width: 420px;
+     z-index: 100;s
 }
 
 .dialog__animate-out{
@@ -587,9 +736,6 @@ dialog {
     justify-content: center;
     align-items: center;
 }
-
-
-
 @keyframes appear {
     from {
         opacity: 0;

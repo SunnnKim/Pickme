@@ -52,6 +52,19 @@ public class RecruitController {
 	@Autowired
 	SearchJobService searchServ;
 	
+
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value = "updateDel.do", method =
+	 * {RequestMethod.POST,RequestMethod.GET} ) public String updateDel() { Calendar
+	 * nowTime = Calendar.getInstance(); SimpleDateFormat sd = new
+	 * SimpleDateFormat("yyyy-MM-dd"); String today = sd.format(nowTime.getTime());
+	 * System.out.println("today: "+today); System.out.println("del=1 change ok ");
+	 * serv.dayUpdateDel(today); return "ok"; }
+	 */
+
+	
 	
 	@RequestMapping(value = "recInsert.do", method = {RequestMethod.POST,RequestMethod.GET})
 	public String recInsert(Model model) {
@@ -67,8 +80,6 @@ public class RecruitController {
 			comSeq = (Integer)req.getAttribute("comSeq"); 
 		}
 		
-		//마감날짜 지나면 del=1 update
-		//serv.dayUpdateDel();
 		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
@@ -151,9 +162,14 @@ public class RecruitController {
 		}/**/
 		CMemberDto cmemdto = serv.getComInfo(dto.getComSeq());
 		
-		//주소 제대로 들어오면 지우기
-		cmemdto.setAddress("서울 강남구 테헤란로5길 11 YBM빌딩 2층");
 		
+		String address = cmemdto.getAddress().replace("\'", " ");
+		int findBracket =  address.indexOf("]");
+		//address.substring(findBracket);
+		cmemdto.setAddress(address.substring(findBracket+1));
+		System.out.println("바뀐 주소 : "+cmemdto.getAddress());
+		
+
 		model.addAttribute("recDto", dto);
 		model.addAttribute("cmem",cmemdto);
 		//model.addAttribute("comAddr", comAddr);
@@ -167,6 +183,7 @@ public class RecruitController {
 	@RequestMapping(value = "recInsertAf.do",method = RequestMethod.POST)
 	public int recInsertAf(RecruitDto dto) {
 		System.out.println(dto.toString());
+		
 		int count = serv.insertRecruit(dto);
 	
 		System.out.println("insert success : " + count);

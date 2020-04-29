@@ -44,9 +44,9 @@ $(document).ready(function(){
           <div class="rec-caution">
             <h3 class="tit">채용등록</h3>
             <ul class="rec-ul">
-              <li>채용등록주의사항1</li>
-              <li>채용등록주의사항2</li>
-              <li>채용등록주의사항3</li>
+              <li>사업자등록증 미등록  및 불건전 업체는 절대! 채용공고등록을 하실 수 없습니다.</li>
+              <li>채용공고 등록 후에는 삭제되지 않으니 신중하게 작성해주세요.</li>
+              <li>채용 효과를 높이기 위해서 유료 채용광고 상품을 이용하실 수 있으니 참고해주시기 바랍니다.</li>
             </ul>
           </div><!-- rec-title -->
           

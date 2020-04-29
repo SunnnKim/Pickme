@@ -1,11 +1,12 @@
 package pickme.com.a.login.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.aop.aspectj.AspectJAdviceParameterNameDiscoverer.AmbiguousBindingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.RecruitDto;
 import pickme.com.a.login.service.LoginService;
 import pickme.com.a.login.service.LoginServiceForCompany;
-import pickme.com.a.util.MailUtil;
+import pickme.com.a.recruit.service.RecruitService;
+import pickme.com.a.recruit.service.RecruitServiceImpl;
 
 @RequestMapping("/login")
 @Controller
@@ -28,12 +31,16 @@ public class LoginController {
 	@Autowired
 	LoginServiceForCompany cMember;	// 기업회원 
 	
-
+	
 	// 메인페이지
 	@RequestMapping(value = "main.do")
 	public String mainView( Model model) {
 		
 		// 공지사항 데이터 
+		
+		// 메인 금주의 채용
+		List<RecruitDto> recTopList = aMember.mainTopRec();
+		model.addAttribute("recTopList",recTopList);
 		
 		return "main/main";
 	}
@@ -98,6 +105,12 @@ public class LoginController {
 	public String emailValidate( Model model ) {
 	
 		return "login/validate";
+	}
+	// 기업 - 사업자번호 미승인 페이지
+	@RequestMapping(value = "upapproval.do")
+	public String upapproval( Model model ) {
+		
+		return "login/upapproval";
 	}
 	
 	// 인증메일 발송

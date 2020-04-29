@@ -3,6 +3,7 @@ package pickme.com.a.c_mypage.service;
 import java.util.List;
 
 import model.CMemberDto;
+import model.PaymentDto;
 
 public interface CMypageService {
 
@@ -32,4 +33,7 @@ public interface CMypageService {
 	
 	// 로고 업로드
 	public boolean uploadLogo(CMemberDto dto);
+
+	// 결제 승인 후 DB 저장
+	public int setPaymentInfo(PaymentDto dto);
 }

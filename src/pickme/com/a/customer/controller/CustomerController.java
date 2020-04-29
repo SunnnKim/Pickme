@@ -104,5 +104,12 @@ public class CustomerController {
 	}
 	
 	
+	// @@@@@@@@@@@
+	// 문의하기 뷰 
+	@RequestMapping(value="customerService.do")
+	public String questionView( ) {
+		return "customer/customerService";
+	}
+	
 	
 }

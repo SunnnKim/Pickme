@@ -15,5 +15,7 @@ public interface AdminService {
 	public int countNewCMember();
 	public int countAmember();
 	public int countCmember();
+	// 가입 미승인된 기업회원 리스트 불러오기
+	public List<CMemberDto> getUnapprovalList();
 
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Question">
+<!-- 문의사항 접수하기 -->
+<insert id="insertQuestion" parameterType="model.QuestionDto">
+INSERT INTO QUESTION ( EMAIL, TITLE, CONTENT, WDATE, DEL, TYPE )
+VALUES ( #{email}, #{title}, #{content}, NOW(), 0, #{type} ) 
+</insert>
+
+<!-- 관리자 - 전체 문의내역불러오기 -->
+<select id="getAllQuestion" resultType="model.QuestionDto">
+SELECT * FROM QUESTION 
+ORDER BY SEQ DESC
+</select>
+<!-- 관리자 - 미응답 문의내역불러오기 -->
+<select id="getNotAnsweredQuestion" resultType="model.QuestionDto">
+SELECT * FROM QUESTION
+WHERE REPLY IS NULL AND DEL != 1
+ORDER BY SEQ
+</select>
+<!-- 관리자 - 문의내역 데이터 불러오기 -->
+<select id="getQuestionDetail" parameterType="int" resultType="model.QuestionDto">
+SELECT * FROM QUESTION
+WHERE SEQ = ${seq}
+</select>
+<!-- 관리자 - 답변 등록하기 -->
+<update id="updateQuestionReply" parameterType="model.QuestionDto">
+UPDATE QUESTION
+SET REPLY = #{reply}, RDATE = NOW()
+WHERE SEQ = ${seq}
+</update>
+<!-- 삭제하기 -->
+<update id="deleteQuestion" parameterType="int">
+UPDATE QUESTION
+SET DEL = 1
+WHERE SEQ = ${seq}
+</update>
+<!-- 응답처리하기 -->
+<update id="passQuestion" parameterType="int">
+UPDATE QUESTION
+SET REPLY = " "
+WHERE SEQ = ${seq} AND DEL != 1
+</update>
+<!-- 통계 -->
+<!-- 문의종류별 비율 -->
+<select id="getTypeOfQuestion" resultType="model.QuestionDto">
+SELECT COUNT(*) as statNum, TYPE as statStr
+FROM QUESTION
+WHERE DEL != 1
+GROUP BY TYPE
+</select> 
+</mapper>
+
+
+

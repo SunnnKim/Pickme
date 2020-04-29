@@ -2,124 +2,142 @@ package model;
 
 public class PaymentDto {
 
-		// 결제
-		private int seq;				// 결제시퀀스
-		private int buyerId;			// 결제자 아이디 시퀀스
-		private String serviceName;		// 결제 서비스명
-		private String payDate;			// 결제일
-		private int totalPay;			// 총 결제금액
-		private int refund;				// 환불여부
-		private String requestDate;		// 환불요청일
-		private String refundDate;		// 환불처리일
-		private String method;			// 결제방법 
-		private int pay;				// 결제여부 
-		 
-		public PaymentDto() {
-			// TODO Auto-generated constructor stub
-		}
+      // 결제
+      private int seq;            	// 결제시퀀스
+      private int buyerId;         	// 결제자 아이디 시퀀스
+      private String serviceName;   // 결제 서비스명 (주문명) - 아임포트(name)
+      private String payDate;       // 결제일
+      private int totalPay;         // 결제 금액(환불 가능 금액 계산시 사용) - 아임포트(amount)
+      private int refund;           // 환불여부
+      private String requestDate;   // 환불요청일
+      private String refundDate;    // 환불처리일
+      private String method;        // 결제방법 
+      private String paymentId;     // 주문번호(결제정보 조회시 사용)   - 아임포트 (merchant_uid)
+      private String impUid;        // 아임포트 고유id 결제성공시 리턴 , 환불시에도 사용  - 아임포트 (imp_uid)
+      
+      
+      public PaymentDto() {
+         // TODO Auto-generated constructor stub
+      }
+      
+      
 
-		public PaymentDto(int seq, int buyerId, String serviceName, String payDate, int totalPay, int refund,
-				String requestDate, String refundDate, String method, int pay) {
-			super();
-			this.seq = seq;
-			this.buyerId = buyerId;
-			this.serviceName = serviceName;
-			this.payDate = payDate;
-			this.totalPay = totalPay;
-			this.refund = refund;
-			this.requestDate = requestDate;
-			this.refundDate = refundDate;
-			this.method = method;
-			this.pay = pay;
-		}
+      public PaymentDto(int seq, int buyerId, String serviceName, String payDate, int totalPay, int refund,
+            String requestDate, String refundDate, String method, String paymentId, String impUid) {
+         super();
+         this.seq = seq;
+         this.buyerId = buyerId;
+         this.serviceName = serviceName;
+         this.payDate = payDate;
+         this.totalPay = totalPay;
+         this.refund = refund;
+         this.requestDate = requestDate;
+         this.refundDate = refundDate;
+         this.method = method;
+         this.paymentId = paymentId;
+         this.impUid = impUid;
+      }
 
-		public int getSeq() {
-			return seq;
-		}
 
-		public void setSeq(int seq) {
-			this.seq = seq;
-		}
 
-		public int getBuyerId() {
-			return buyerId;
-		}
+      public int getSeq() {
+         return seq;
+      }
 
-		public void setBuyerId(int buyerId) {
-			this.buyerId = buyerId;
-		}
+      public void setSeq(int seq) {
+         this.seq = seq;
+      }
 
-		public String getServiceName() {
-			return serviceName;
-		}
+      public int getBuyerId() {
+         return buyerId;
+      }
 
-		public void setServiceName(String serviceName) {
-			this.serviceName = serviceName;
-		}
+      public void setBuyerId(int buyerId) {
+         this.buyerId = buyerId;
+      }
 
-		public String getPayDate() {
-			return payDate;
-		}
+      public String getServiceName() {
+         return serviceName;
+      }
 
-		public void setPayDate(String payDate) {
-			this.payDate = payDate;
-		}
+      public void setServiceName(String serviceName) {
+         this.serviceName = serviceName;
+      }
 
-		public int getTotalPay() {
-			return totalPay;
-		}
+      public String getPayDate() {
+         return payDate;
+      }
 
-		public void setTotalPay(int totalPay) {
-			this.totalPay = totalPay;
-		}
+      public void setPayDate(String payDate) {
+         this.payDate = payDate;
+      }
 
-		public int getRefund() {
-			return refund;
-		}
+      public int getTotalPay() {
+         return totalPay;
+      }
 
-		public void setRefund(int refund) {
-			this.refund = refund;
-		}
+      public void setTotalPay(int totalPay) {
+         this.totalPay = totalPay;
+      }
 
-		public String getRequestDate() {
-			return requestDate;
-		}
+      public int getRefund() {
+         return refund;
+      }
 
-		public void setRequestDate(String requestDate) {
-			this.requestDate = requestDate;
-		}
+      public void setRefund(int refund) {
+         this.refund = refund;
+      }
 
-		public String getRefundDate() {
-			return refundDate;
-		}
+      public String getRequestDate() {
+         return requestDate;
+      }
 
-		public void setRefundDate(String refundDate) {
-			this.refundDate = refundDate;
-		}
+      public void setRequestDate(String requestDate) {
+         this.requestDate = requestDate;
+      }
 
-		public String getMethod() {
-			return method;
-		}
+      public String getRefundDate() {
+         return refundDate;
+      }
 
-		public void setMethod(String method) {
-			this.method = method;
-		}
+      public void setRefundDate(String refundDate) {
+         this.refundDate = refundDate;
+      }
 
-		public int getPay() {
-			return pay;
-		}
+      public String getMethod() {
+         return method;
+      }
 
-		public void setPay(int pay) {
-			this.pay = pay;
-		}
+      public void setMethod(String method) {
+         this.method = method;
+      }
 
-		@Override
-		public String toString() {
-			return "PaymentDto [seq=" + seq + ", buyerId=" + buyerId + ", serviceName=" + serviceName + ", payDate="
-					+ payDate + ", totalPay=" + totalPay + ", refund=" + refund + ", requestDate=" + requestDate
-					+ ", refundDate=" + refundDate + ", method=" + method + ", pay=" + pay + "]";
-		}
-		
-		
-	
+      
+      public String getPaymentId() {
+         return paymentId;
+      }
+
+
+      public void setPaymentId(String paymentId) {
+         this.paymentId = paymentId;
+      }
+
+
+
+      public String getImpUid() {
+         return impUid;
+      }
+
+      public void setImpUid(String impUid) {
+         this.impUid = impUid;
+      }
+
+      @Override
+      public String toString() {
+         return "PaymentDto [seq=" + seq + ", buyerId=" + buyerId + ", serviceName=" + serviceName + ", payDate="
+               + payDate + ", totalPay=" + totalPay + ", refund=" + refund + ", requestDate=" + requestDate
+               + ", refundDate=" + refundDate + ", method=" + method + ", paymentId=" + paymentId + ", impUid="
+               + impUid + "]";
+      }
+      
 }

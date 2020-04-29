@@ -42,11 +42,6 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	}
 
 	@Override
-	public void dayUpdateDel() {
-		sqlSession.update(ns+"dayUpdateDel");
-	}
-
-	@Override
 	public boolean likePlus(FavoriteDto dto) {
 		return sqlSession.insert(ns+"likeplus", dto)>0?true:false;
 	}

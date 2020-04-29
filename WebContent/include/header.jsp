@@ -2,6 +2,12 @@
 <%@page import="model.AMemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%
+	// session invalid check
+	if(session==null || !request.isRequestedSessionIdValid()){ 
+		response.sendRedirect("/Pickme/login/main.do");
+	}
+ %>
 <%
 	// session
 	AMemberDto member = (AMemberDto) session.getAttribute("loginuser");
@@ -21,6 +27,11 @@
 		// 미인증 메일일 때
 		if(company.getDel() == -1 ){
 			response.sendRedirect("/Pickme/login/validate.do");
+			return;
+		}
+		// 사업자번호 미승인 일 때
+		else if(company.getDel() == -2 ){
+			response.sendRedirect("/Pickme/login/upapproval.do");
 			return;
 		}
 		userName = company.getName();
@@ -71,7 +82,7 @@
 		 		 %>
 		 		 <nav class="gnb">
 					<a href="/Pickme/searchJob/recSearch.do">채용탐색</a> <!-- 일반회원 채용탐색  -->
-					<a href="/Pickme/resume/resumeWrite.do">이력서</a><!-- 일반회원 이력서쓰기  -->
+					<a href="/Pickme/resume/resume.do">이력서</a><!-- 일반회원 이력서 관리  -->
 					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a><!-- 일반회원 지원현황  -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
 				</nav>
