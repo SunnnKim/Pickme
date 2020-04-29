@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.CMemberDto;
+import model.PaymentDto;
 import pickme.com.a.c_mypage.dao.CMypageDao;
 
 @Service
@@ -75,6 +76,13 @@ public class CMypageServiceImpl implements CMypageService{
 	@Override
 	public boolean uploadLogo(CMemberDto dto) {
 		return dao.uploadLogo(dto);
+	}
+
+	
+	// 결제 승인 후 DB 저장
+	@Override
+	public int setPaymentInfo(PaymentDto dto) {
+		return dao.setPaymentInfo(dto);
 	}
 	
 }
