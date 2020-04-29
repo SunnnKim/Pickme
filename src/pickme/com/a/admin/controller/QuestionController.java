@@ -3,6 +3,7 @@ package pickme.com.a.admin.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,6 +120,11 @@ public class QuestionController {
 		
 		return success;
 	}
+	
+	@Scheduled(cron = "30/10 34-37 0 ? * *")
+	public void TestScheduler(){
+        System.out.println("스케줄링 테스트");
+    }
 	
 	
 	

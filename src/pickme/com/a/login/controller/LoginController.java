@@ -99,6 +99,12 @@ public class LoginController {
 	
 		return "login/validate";
 	}
+	// 기업 - 사업자번호 미승인 페이지
+	@RequestMapping(value = "upapproval.do")
+	public String upapproval( Model model ) {
+		
+		return "login/upapproval";
+	}
 	
 	// 인증메일 발송
 	@ResponseBody

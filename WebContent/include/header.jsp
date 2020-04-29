@@ -29,6 +29,11 @@
 			response.sendRedirect("/Pickme/login/validate.do");
 			return;
 		}
+		// 사업자번호 미승인 일 때
+		else if(company.getDel() == -2 ){
+			response.sendRedirect("/Pickme/login/upapproval.do");
+			return;
+		}
 		userName = company.getName();
 	}
 	

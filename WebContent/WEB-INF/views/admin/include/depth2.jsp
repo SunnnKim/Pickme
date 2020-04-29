@@ -24,7 +24,7 @@ System.out.println("durl:"+durl);
 				<a href="adminCompany.do">기업회원관리</a>
 			</li>
 			<li class=<%= durl.contains("companyApproval.jsp") ? " on" :" "%>> 
-				<a href="#">가입승인</a>
+				<a href="/Pickme/admin/comApproval.do">가입승인</a>
 	        </li>
 			<li class=<%= durl.contains("companyWithdrawal.jsp") ? " on" :" "%>> 
 				<a href="comWithdrawal.do">탈퇴관리</a>

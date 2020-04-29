@@ -53,6 +53,11 @@ public class AdminServiceImpl implements AdminService {
 		return dao.countNewCMember();
 	}
 
+	@Override
+	public List<CMemberDto> getUnapprovalList() {
+		return dao.getUnapprovalList();
+	}
+
 	
 	
 	

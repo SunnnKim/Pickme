@@ -72,6 +72,15 @@ public class AdminController {
 		return "admin/companyMember";
 	}
 	
+	@RequestMapping(value = "comApproval.do",  method= {RequestMethod.GET,RequestMethod.POST})
+	public String comApproval( Model model ) {
+		// 미승인 데이터 불러오기
+		
+		return "admin/companyApproval";
+	}
+	
+	
+	
 	// 탈퇴관리 
 	@RequestMapping(value = "comWithdrawal.do",  method= {RequestMethod.GET,RequestMethod.POST})
 	public String comWithdrawal( Model model) {
