@@ -3,10 +3,10 @@
   PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
   "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="eApplyInterest">
-    <!-- 관심기업 seq가져오기  -->
+    <!-- 관심기업 리스트가져오기  -->
   	<select id="interestCompany" parameterType="model.EInterestParam" resultType="model.EInterestDto">
   		SELECT f.LIKEPICKSEQ, c.NAME, c.TEL
-  		FROM (SELECT * FROM FAVORITE WHERE AUTH = 1) f
+  		FROM (SELECT * FROM FAVORITE WHERE AUTH = #{auth}) f
   		INNER JOIN C_MEMBER c
   		ON f.LIKEPICKSEQ  = c.SEQ
   		WHERE f.ID = #{email}
@@ -17,38 +17,117 @@
 		ORDER BY c.NAME ASC
 		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
   	</select>
-  	
+  	<!-- 관심기업 갯수 -->
   	<select id="getTotalInterComCount" parameterType="model.EInterestParam" resultType="int">
   		SELECT COUNT(*)
-  		FROM (SELECT * FROM FAVORITE WHERE AUTH = 1) f
+  		FROM (SELECT * FROM FAVORITE WHERE AUTH =  #{auth}) f
   		INNER JOIN C_MEMBER c
   		ON f.LIKEPICKSEQ  = c.SEQ
   		WHERE f.ID = #{email}
   		<if test="sKeyword != null and sKeyword !=''">
 		AND c.NAME = #{sKeyword}
 		</if>
-  	</select>	
-  	<select id="interestComRecruit" parameterType="model.EInterestParam" resultType="model.EInterestDto">
-		SELECT f.LIKEPICKSEQ, r.TITLE, r.COMNAME, r.EDATE
-		FROM (SELECT * FROM FAVORITE WHERE AUTH = 1) f
+  	</select>
+  	
+  	<!-- 관심기업삭제 -->	
+  	<delete id="removefav" parameterType="model.EInterestParam">
+  		DELETE FROM FAVORITE
+  		WHERE LIKEPICKSEQ = #{likepickseq} AND AUTH = #{auth}
+  	</delete>
+  	<!-- 관심기업 채용공고 리스트  -->
+  	<select id="getInterComRecruitList" parameterType="model.EInterestParam" resultType="model.EInterestDto">
+		SELECT f.LIKEPICKSEQ, r.SEQ, r.TITLE, r.COMJOB2, r.COMNAME, r.EDATE
+		FROM (SELECT * FROM FAVORITE WHERE AUTH =  #{auth}) f
 		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
 		ON f.LIKEPICKSEQ = r.COMSEQ
 		WHERE f.ID = #{email}
+		<if test="sKeyword != null and sKeyword !=''">
+		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%'))
+		</if>
+		<if test="filter == '채용마감일'">
+			<if test="sort == 0">
+			ORDER BY r.EDATE DESC
+			</if>
+			<if test="sort == 1">
+			ORDER BY r.EDATE ASC
+			</if>
+		</if>
+		<if test="filter == '공고등록일'">
+			<if test="sort == 0">
+			ORDER BY r.WDATE DESC
+			</if>
+			<if test="sort == 1">
+			ORDER BY r.WDATE ASC
+			</if>
+		</if>
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
   	</select>
-  	<select id="applied" parameterType="int" resultType="int">
-  		SELECT SEQ
-  		FROM APPLY
-  		WHERE JOBSEQ = #{likepickseq}
   	
+  	<!-- 관심기업 채용공고 개수 -->
+  	<select id="totalinterComRecruit" parameterType="model.EInterestParam" resultType="int">
+  		SELECT COUNT(*)
+  		FROM  (SELECT * FROM FAVORITE WHERE AUTH = #{auth}) f
+		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
+		ON f.LIKEPICKSEQ = r.COMSEQ
+		WHERE f.ID = #{email}
+		<if test="sKeyword != null and sKeyword !=''">
+		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%'))
+		</if>
   	</select>
-  	<select id="likeRecruitList" parameterType="model.EInterestParam" resultType="model.EInterestDto">
-  		SELECT f.LIKEPICKSEQ, r.TITLE, r.COMNAME, r.EDATE
-  		FROM (SELECT * FROM FAVORITE WHERE AUTH = 1) f
+  	
+  	<!-- 지원여부 확인 -->
+  	<select id="applychk" parameterType="model.EInterestParam" resultType="int">
+  		SELECT COUNT(*)
+  		FROM APPLY
+  		WHERE JOBSEQ = #{jobseq} AND MEMSEQ = #{memseq}
+  	</select>
+  	
+  	
+  	<select id="getLikeRecruitList" parameterType="model.EInterestParam" resultType="model.EInterestDto">
+  		SELECT f.LIKEPICKSEQ, r.TITLE, r.COMJOB2, r.COMNAME, r.EDATE
+  		FROM (SELECT * FROM FAVORITE WHERE AUTH =  #{auth}) f
   		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
   		ON f.LIKEPICKSEQ = r.SEQ
   		WHERE f.ID = #{email}
-  	
+  		<if test="sKeyword != null and sKeyword !=''">
+		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%'))
+		</if>
+		<if test="filter == '채용마감일'">
+			<if test="sort == 0">
+			ORDER BY r.EDATE DESC
+			</if>
+			<if test="sort == 1">
+			ORDER BY r.EDATE ASC
+			</if>
+		</if>
+		<if test="filter == '공고등록일'">
+			<if test="sort == 0">
+			ORDER BY r.WDATE DESC
+			</if>
+			<if test="sort == 1">
+			ORDER BY r.WDATE ASC
+			</if>
+		</if>
+		LIMIT #{recordCountPerPage, jdbcType=INTEGER} OFFSET #{start, jdbcType=INTEGER}
   	</select>
-  
-  
+  	<select id="getTotallikeRecruitCount" parameterType="model.EInterestParam" resultType="int">
+  		SELECT COUNT(*)
+  		FROM (SELECT * FROM FAVORITE WHERE AUTH =  #{auth}) f
+  		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
+  		ON f.LIKEPICKSEQ = r.SEQ
+  		WHERE f.ID = #{email}
+  		<if test="sKeyword != null and sKeyword !=''">
+		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%'))
+		</if>
+  	</select> 	
+  	
+  	<select id="getRecentlikeRecruitList" parameterType="java.lang.String" resultType="model.EInterestDto">
+  		SELECT r.COMNAME, r.TITLE, r.SEQ
+  		FROM (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>)r
+  		INNER JOIN (SELECT * FROM FAVORITE WHERE AUTH=1 AND ID = #{email} )f
+  		ON r.COMSEQ = f.LIKEPICKSEQ
+  		ORDER BY r.WDATE DESC
+  		LIMIT 5 OFFSET 0
+  	</select>
+  	
   </mapper>

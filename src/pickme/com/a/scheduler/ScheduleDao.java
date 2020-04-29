@@ -16,4 +16,8 @@ public class ScheduleDao {
 	public int scheduleTest(AMemberDto dto) {
 		return sqlSession.insert(namespace + "scheduleTest", dto);
 	}
+	
+	public int dayUpdateDel(String today) {
+		return sqlSession.update(namespace+"dayUpdateDel",today);
+	}
 }

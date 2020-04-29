@@ -1,15 +1,21 @@
 package pickme.com.a.login.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.RecruitDto;
 
-@Component
+@Primary
+@Repository
 public class LoginDao {
 	
 	@Autowired
@@ -18,7 +24,7 @@ public class LoginDao {
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+		
 	// 일반 + 기업 회원가입 이메일 찾기 
 	public String emailCheck(String email) {
 		CMemberDto dto1 = sqlSession.selectOne( namespace + "emailCheckC", new CMemberDto(email));
@@ -151,4 +157,9 @@ public class LoginDao {
 	}
 	
 
+	// 메인 채용공고 금주의 채용
+	public List<RecruitDto> mainTopRec(){
+		return sqlSession.selectList(namespace+"mainTopRecruit");
+	}
+	
 }

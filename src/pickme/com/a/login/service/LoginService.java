@@ -1,6 +1,9 @@
 package pickme.com.a.login.service;
 
+import java.util.List;
+
 import model.AMemberDto;
+import model.RecruitDto;
 
 public interface LoginService {
    public String emailCheck(String email);
@@ -19,4 +22,8 @@ public interface LoginService {
 	public boolean getLostEmailA2(AMemberDto dto);
    // 일반회원 비밀번호 변경하기 
 	public boolean changePwdWithCodeA(AMemberDto member);
+	
+	
+	// 메인 금주의 채용
+	public List<RecruitDto> mainTopRec();
 }

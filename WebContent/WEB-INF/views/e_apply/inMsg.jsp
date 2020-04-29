@@ -285,10 +285,10 @@ function goPage(pn){
 	//  alert("sKeyword: " + sKeyword);	
 
 	  var isUnread = '<c:out value="${isUnread}"/>';
-	  //alert("확인 " + isUnread);
+	  alert("확인 " + isUnread);
 
 	  if(isUnread == 'yes'){
-		  location.href="unread.do?page=inMsg&pageNumber=" + pn;
+		  location.href="unread.do?sKeyword=" + sKeyword + "&page=inMsg&pageNumber=" + pn;
 	 }else{	
 	  location.href="inMsg.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 	}
@@ -308,10 +308,14 @@ function goPage(pn){
 	
 	function searchAction() {
 		var sKeyword =($("#_keyword").val()).trim();
-	
+		var isUnread = '<c:out value="${isUnread}"/>';
+		  alert("확인 " + isUnread);
+		
 		if(sKeyword == null || sKeyword == ""){
 			alert("검색어를 입력해주세요.");
-		}else{
+		}else if(isUnread == 'yes'){
+			location.href="unread.do?sKeyword=" + sKeyword + "&page=inMsg&pageNumber=0";
+		}else{	
 		 location.href="inMsg.do?sKeyword=" + sKeyword +"&pageNumber=0";
 		}	
 	}

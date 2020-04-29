@@ -88,8 +88,9 @@
 				</nav>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
-					<li><button type="button" id="searchBtn"></button></li>
+					<li><button type="button" id="searchBtn"></button></li> 
 					<li class="alert-warp">
+					   <a href="#none" class="alert-bell"><img alt="" src="../images/main/alarm-bell.png" width="20px" height="20px"></a>
 					   <a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
 					   
 					</li>

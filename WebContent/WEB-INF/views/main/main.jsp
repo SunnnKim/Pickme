@@ -1,5 +1,6 @@
 <%@page import="model.CMemberDto"%>
 <%@page import="model.AMemberDto"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -8,7 +9,7 @@
 	CMemberDto company = (CMemberDto) session.getAttribute("logincompany");
 	String userName = "";
 	// 인증 페이지
-	
+
 	if( member != null ){
 		if(member.getDel() == -1 ){
 			response.sendRedirect("/Pickme/login/validate.do");
@@ -277,56 +278,36 @@
 	      <div class="inner">
 	        <div class="m-tit">
 	          <h2>금주의 채용</h2>
-	          <a href="#none">more +</a>
+	          <a href="/Pickme/searchJob/recSearch.do">more +</a>
 	        </div>
 	        <div class="cont">
-	          <ul class="pmList clfix">
-	            <li><a href="#">
-	              <div class="img">
-	                <img src="/Pickme/images/main/img.jpg" alt="">
-	              </div>
-	              <div class="txt">
-	                <h3>iOS 앱 개발자</h3>
-	                <p>브이로거(Vlogr)</p>
-	                <p>서울.한국</p>
-	                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-	              </div>
-	            </a></li>
-	            <li><a href="#">
-	              <div class="img">
-	                <img src="/Pickme/images/main/img.jpg" alt="">
-	              </div>
-	              <div class="txt">
-	                <h3>iOS 앱 개발자</h3>
-	                <p>브이로거(Vlogr)</p>
-	                <p>서울.한국</p>
-	                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-	              </div>
-	            </a></li>
-	            <li><a href="#">
-	              <div class="img">
-	                <img src="/Pickme/images/main/img.jpg" alt="">
-	              </div>
-	              <div class="txt">
-	                <h3>iOS 앱 개발자</h3>
-	                <p>브이로거(Vlogr)</p>
-	                <p>서울.한국</p>
-	                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-	              </div>
-	            </a></li>
-	            <li><a href="#">
-	              <div class="img">
-	                <img src="/Pickme/images/main/img.jpg" alt="">
-	              </div>
-	              <div class="txt">
-	                <h3>iOS 앱 개발자</h3>
-	                <p>브이로거(Vlogr)</p>
-	                <p>서울.한국</p>
-	                <span>[채용] 2020-05-12 ~ 2020-05-12</span>
-	              </div>
-	            </a></li>
-	          </ul>
-	        </div>
+	        	<c:choose>
+	          		<c:when test="${empty recTopList }">
+						<div style="text-align:center; position:relative; margin-top:4wndl0px;">
+	          			<p style="position:absolute; top:0; left:0; width:100%; font-size:30px;">등록된 공고가 없습니다.</p>
+						<%-- <img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width:60%;"> --%>
+						</div>
+					</c:when>
+					<c:when test="${not empty recTopList }">
+						   <ul class="pmList clfix">
+						  
+							<c:forEach items="${recTopList }" var="dto" varStatus="rs">
+								<li><a href="/Pickme/searchJob/recDetail.do?seq=${dto.seq }">
+					              <div class="img">
+					               <img src="/Pickme/searchJob/filedownload.do?filename=${dto.imagename }&filepath=/upload/recruit/" alt="엑박">
+					              </div>
+					              <div class="txt">
+					                <h3>${dto.title }</h3>
+					                <p>${dto.comName }</p>
+					                <p>${dto.comJobType }</p>
+					                <span>[채용]${dto.wdate } ~ ${dto.edate }</span>
+					              </div>
+					            </a></li>
+							</c:forEach>
+			         	 </ul>
+			     	</c:when>
+          		</c:choose>
+		    </div><!-- cont -->
 	      </div><!-- // inner -->
 	    </div><!-- // section02 -->
 	    <div id="section03">
@@ -440,12 +421,25 @@
 		    ws.onmessage = function(event){
 				if((event.data).includes("메시지")){//메시지 도착시 alert 
 					console.log("ReceiveMessage:", event.data + '\n');
-					
 		            let $socketAlert = $('div#socketAlert');
 		             $socketAlert.html(event.data); 
 		            // $socketAlert.css('display', 'block');
+		             $socketAlert.append("<div class='inner'></div>");
 					 $socketAlert.slideDown();
+
+					 var socketOffset = $socketAlert.offset();
+				        $( window ).scroll( function() {
+				          if ( $( document ).scrollTop() > socketOffset.top ) {
+				            $socketAlert.addClass( 'wsFixed' );
+				          }
+				          else{
+				            $socketAlert.removeClass( 'wsFixed' );
+				          }
+				        });
+											
+ 
 		            setTimeout( function(){
+			             $('#inner').detach();
 		            	 $socketAlert.slideUp();
 		            	 
 		            },6000);
@@ -454,16 +448,20 @@
 					
 					if(event.data > 0){
 						console.log("event.data: " + event.data);
-						$(".alert-number").css('display', 'block');
-						$(".alert-number").text(event.data);
+			
+						$('.header_infoBtn li:nth-child(2)').append('<span class="alert-number">'+event.data+'</span>');
 						
 					}else{
-						console.log("메시지 없음")
+						console.log("메시지 없음");
 						$(".alert-number").css('display', 'none');
 
 				   }
-			  }	
-		 }
+			  
+		 	}
+
+	   }
+
+			   
 
 	 	// 소켓 닫힌경우	 
 	    ws.onclose = function() {
@@ -475,7 +473,7 @@
 	 </script>
 	
 	<!-- 채용탐색 - 공고 마감일이 지났을때  -->
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$.ajax({
 			url:"/Pickme/recruit/updateDel.do",
 			type:"post",
@@ -487,6 +485,6 @@
 				alert("del error")
 			}
 		})
-	</script>
+	</script> -->
 </body>
 </html>
