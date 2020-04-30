@@ -42,6 +42,7 @@
    <input type="hidden" name="totalPay" value="">      <!-- 결제금액 -->
    <input type="hidden" name="paymentId" value="">      <!-- 가맹점에서 생성/관리하는 고유 주문번호 -->
    <input type="hidden" name="serviceName" value="">   <!-- 결제서비스명(주문명) -->
+   <input type="hidden" name="serviceSeq" value="">   <!-- 결제서비스명(주문명) -->
    
    <!-- <input type="hidden" name="apply_num" value="">       -->   <!-- 카드사 승인번호 -->
 </form>
@@ -78,7 +79,7 @@
                 'phone':휴대폰소액결제 
             */
             merchant_uid: 'merchant_' + new Date().getTime(),
-            name: '결제테스트',                //결제창에서 보여질 이름
+            name: '결제테스트',                // 결제창에서 보여질 이름
             amount: 10,                         //가격 
             buyer_email: '${dto.email }',
             buyer_name: '${dto.name }',
@@ -102,13 +103,17 @@
 
             //location.href="setPaymentInfo.do?totalPay=" + rsp.paid_amount+"&impUid="+rsp.imp_uid+"&serviceName="+rsp.name+"&paymentId="+rsp.merchant_uid;
 
-                
+            
+            // 페이지 처음 들어왔을 때 선택한 서비스 번호 가져오기  
+            var serviceSeq = 1
+            
             // DB로 보낼 데이터 저장
             $("input[name=impUid]").val(rsp.imp_uid);
             $("input[name=paymentId]").val(rsp.merchant_uid);
             $("input[name=totalPay]").val(rsp.paid_amount);
             $("input[name=serviceName]").val(rsp.name);
-
+            $("input[name=serviceSeq]").val(serviceSeq);
+	
             $("form").submit();
             
                

@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.CMemberDto;
 import model.PaymentDto;
+import model.PremierMemDto;
 
 public interface CMypageDao {
 
@@ -35,6 +36,9 @@ public interface CMypageDao {
 
 	// 결제 승인 후 DB 저장
 	public int setPaymentInfo(PaymentDto dto);
+	
+	// 결제 승인 후 DB 저장 (유료회원등록) *****************
+	public int insertPremierMem(PremierMemDto member);
 
 	// 결제 페이지 이동
 	public List<PaymentDto> showPaymentDto(PaymentDto dto);

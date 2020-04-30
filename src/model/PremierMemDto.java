@@ -5,7 +5,7 @@ public class PremierMemDto {
 	private int seq;
 	private int userSeq;
 	private int serviceSeq;
-	private String name;
+	private String name;	// 데이터베이스 테이블 컬럼에는 없음(출력용)  
 	private String serviceName;
 	private String startDate;
 	private String endDate;
@@ -98,7 +98,6 @@ public class PremierMemDto {
 				+ ", serviceName=" + serviceName + ", startDate=" + startDate + ", endDate=" + endDate + ", restTicket="
 				+ restTicket + "]";
 	}
-
 
 	
 	

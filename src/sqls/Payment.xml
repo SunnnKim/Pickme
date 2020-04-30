@@ -28,7 +28,7 @@ where refund = 1 and requestdate + interval 1 day >= now()
 </select>
 <!-- 유료 서비스 회원 불러오기 -->
 <select id="getPremierMember" resultType="model.PremierMemDto">
-SELECT p.SEQ,cmember.NAME, p.USERSEQ, p.SERVICENAME, p.STARTDATE, p.ENDDATE, p.SERVICESEQ, p.RESTTICKET
+SELECT p.SEQ, cmember.NAME, p.USERSEQ, p.SERVICENAME, p.STARTDATE, p.ENDDATE, p.SERVICESEQ, p.RESTTICKET
 from PREMIER_MEM AS p INNER JOIN C_MEMBER AS cmember
 ON p.USERSEQ = cmember.SEQ
 ORDER BY p.STARTDATE ASC, p.ENDDATE DESC
@@ -61,10 +61,16 @@ SET DEL = 1
 WHERE SERVICESEQ = ${serviceSeq}
 </update>
 
-<!-- 결제 승인 후 DB 저장 -->
+<!-- 결제 승인 후 DB(Payment) 저장 -->
 <insert id="setPaymentInfo" parameterType="model.PaymentDto">
    INSERT INTO PAYMENT ( BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID, ENDDATE )
    VALUES ( #{buyerId}, #{serviceName}, NOW(), #{totalPay}, #{paymentId}, #{impUid}, DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 MONTH) )
+</insert>
+
+<!-- 결제 승인 후 DB(Premier_Mem) 저장 -->
+<insert id="insertPremierMem" parameterType="model.PremierMemDto">
+   INSERT INTO PREMIER_MEM ( USERSEQ, SERVICESEQ, SERVICENAME, STARTDATE, ENDDATE, RESTTICKET )
+   VALUES ( ${userSeq}, ${serviceSeq}, #{serviceName}, NOW(), NOW() + INTERVAL 1 MONTH, #{restTicket} )
 </insert>
 
 <!-- 결제 페이지 이동 -->
@@ -74,11 +80,13 @@ WHERE SERVICESEQ = ${serviceSeq}
 	WHERE BUYERID=#{buyerId}
 </select>
 
-<!-- 현재 서비스 진행중인지 -->
+<!-- 현재 서비스 진행중인지 (1개만뽑기) -->
 <select id = "recentService" parameterType = "model.PaymentDto" resultType="model.PaymentDto">
     SELECT SERVICENAME, PAYDATE, TOTALPAY, ENDDATE
 	FROM PAYMENT
 	WHERE BUYERID=#{buyerId} AND <![CDATA[ NOW() < ENDDATE ]]>
+	ORDER BY SEQ DESC
+	LIMIT 1
 </select>
 
 

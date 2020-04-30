@@ -88,6 +88,16 @@ public class AdminServiceImpl implements AdminService {
 		return dao.recoverMemberC(seqList);
 	}
 
+	@Override
+	public boolean updateDelMemberA(List<Integer> seqList) {
+		return dao.updateDelMemberA(seqList);
+	}
+
+	@Override
+	public boolean updateDelMemberC(List<Integer> seqList) {
+		return dao.updateDelMemberC(seqList);
+	}
+
 	
 	
 	

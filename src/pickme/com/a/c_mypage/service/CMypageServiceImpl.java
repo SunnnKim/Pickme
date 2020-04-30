@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import model.CMemberDto;
 import model.PaymentDto;
+import model.PremierMemDto;
 import pickme.com.a.c_mypage.dao.CMypageDao;
 
 @Service
@@ -84,7 +85,12 @@ public class CMypageServiceImpl implements CMypageService{
 	public int setPaymentInfo(PaymentDto dto) {
 		return dao.setPaymentInfo(dto);
 	}
-
+	
+	// 결제 승인 후 DB 저장 (유료회원등록) *****************
+	@Override
+	public int insertPremierMem(PremierMemDto member) {
+		return dao.insertPremierMem(member);
+	}
 
 	// 결제 페이지 이동
 	@Override
@@ -98,6 +104,8 @@ public class CMypageServiceImpl implements CMypageService{
 	public PaymentDto recentService(PaymentDto dto) {
 		return dao.recentService(dto);
 	}
+
+
 	
 	
 	

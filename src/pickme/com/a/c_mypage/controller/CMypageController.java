@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.CMemberDto;
 import model.PaymentDto;
+import model.PremierMemDto;
 import pickme.com.a.c_mypage.service.CMypageService;
 
 @Controller
@@ -152,7 +153,7 @@ public class CMypageController {
         int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
         dto.setBuyerId(c_seq);
         
-        	System.out.println("결제페이지 이동 dto = " + dto.toString());
+        System.out.println("결제페이지 이동 dto = " + dto.toString());
         
 		// 결제 내역 담은 dto list 가져오기
 		List<PaymentDto> list = service.showPaymentDto(dto);
@@ -187,16 +188,31 @@ public class CMypageController {
 	
     // 결제 성공 후 DB저장
     @RequestMapping(value = "setPaymentInfo.do", method = {RequestMethod.GET, RequestMethod.POST})
-    public String setPaymentInfo(PaymentDto dto, HttpSession session) {
+    public String setPaymentInfo(PaymentDto dto, int serviceSeq, HttpSession session) {
       
-        // 기업 세션 seq 저장
+    	System.out.println(dto);
+    	System.out.println(serviceSeq);
+
+     	 // 기업 세션 seq 저장
          int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
          dto.setBuyerId(c_seq);
-    
+         
+         // 유료회원 dto 생성
+         PremierMemDto member = new PremierMemDto(0, c_seq, serviceSeq, dto.getServiceName(), null, null, null, null);
+         System.out.println(member);
+         
+         // payment 테이블에 데이터 저장 
          int n = service.setPaymentInfo(dto);
          System.out.println("insert result count : " + n);
-      
-         return "c_mypage/payment";
+
+         // premiere_mem 테이블에 데이터 저장
+         int m = service.insertPremierMem(member);
+         System.out.println(m);
+         
+         
+         // redirect로 보내야 데이터 가지고 화면으로 이동함 
+         // 그냥 페이지로 이동했더니 결제 데이터 2번 올라감
+         return "redirect:/c_mypage/goPayment.do";
     }
 
 	

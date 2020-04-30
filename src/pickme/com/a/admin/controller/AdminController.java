@@ -63,6 +63,15 @@ public class AdminController {
 		
 		return success;
 	}
+	// 일반회원 탈퇴처리하기
+	@ResponseBody
+	@RequestMapping(value="updateDelMemberA.do", method=RequestMethod.POST)
+	public boolean updateDelMemberA(@RequestParam(value="seqList[]")  List<Integer> seqList) {
+		
+		boolean success = service.updateDelMemberA(seqList);
+		
+		return success;
+	}
 	// 일반회원 - 탈퇴관리페이지 가기 
 	@RequestMapping(value = "withdrawal.do",  method= {RequestMethod.GET,RequestMethod.POST})
 	public String withdrawal( Model model) {
@@ -118,6 +127,16 @@ public class AdminController {
 		List<CMemberDto> memberList = service.getWithdrawMemberC();
 		model.addAttribute("memberList", memberList);
 		return "admin/companyWithdrawal";
+	}
+	
+	// 일반회원 탈퇴처리하기
+	@ResponseBody
+	@RequestMapping(value="updateDelMemberC.do", method=RequestMethod.POST)
+	public boolean updateDelMemberC(@RequestParam(value="seqList[]")  List<Integer> seqList) {
+		
+		boolean success = service.updateDelMemberC(seqList);
+		
+		return success;
 	}
 	
 	// 기업회원 탈퇴 복원하기

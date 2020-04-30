@@ -113,6 +113,26 @@ public class AdminDaoImpl implements AdminDao {
 		return true;
 	}
 
+	@Override
+	public boolean updateDelMemberA(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "updateDelMemberA", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean updateDelMemberC(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "updateDelMemberC", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
 
 	
 	

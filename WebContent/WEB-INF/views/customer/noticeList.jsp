@@ -9,9 +9,7 @@
 <!--font-awesome-->
 <script src="https://kit.fontawesome.com/e11681bffc.js"	crossorigin="anonymous"></script>
  <!-- Vue -->
- <script src="https://unpkg.com/vue/dist/vue.js"></script><!--vue-->
- <script src="https://unpkg.com/axios/dist/axios.min.js"></script><!--axios-->
- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script><!--vue-router-->
+ <script src="/Pickme/js/vue/vue.js"></script><!--vue-->
 
 <!-- subCont 시작 -->
  <!-- 메뉴 -->

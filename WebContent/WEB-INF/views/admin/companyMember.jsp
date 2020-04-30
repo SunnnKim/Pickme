@@ -27,7 +27,7 @@
     	<div id="grid"></div>
     	<div class="btn-wrapper">
 	 		<button id="check">전체체크</button>
-	 		<button>탈퇴처리</button>
+	 		<button onclick="updateDelMember()">탈퇴처리</button>
 	 	</div>
 	</div>
 </div>
@@ -168,6 +168,42 @@ $('#check').click(function(){
 	  $('#check').text('전체체크') 
 	}
 }) 
+// 탈퇴처리하기
+function updateDelMember(){
+	var chboxes = document.querySelectorAll('input[name=checkbox]');
+	var checkCount = 0;
+	var seqList = [];
+	for( i = 0; i < chboxes.length; i++ ){
+		if( chboxes[i].checked == true ){
+			checkCount++;
+			seqList.push(chboxes[i].getAttribute('seq'))
+		}
+	}
+	if(checkCount == 0){
+		alert('탈퇴처리할 데이터를 체크해주세요')
+		return false;
+	}
+
+	if(confirm(checkCount + '개의 데이터를 탈퇴처리 합니다.')){
+		console.log(seqList)
+		var sendData = { "seqList":seqList };
+		$.ajax({
+			url:'updateDelMemberC.do',
+			data:sendData,
+			type:'post',
+			success: function(data){
+				if(data === true ){
+					alert('성공적으로 탈퇴처리 되었습니다.')
+					location.reload();
+				}else{
+					alert('탈퇴처리 실패함')
+				}
+			}, error: function(err){
+				alert('error!')
+			}
+		})
+	}
+}
 </script>
 <style>
 .btn-wrapper{ margin: 20px 0; height: 30px; }

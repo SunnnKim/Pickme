@@ -73,6 +73,27 @@ FROM C_MEMBER
 WHERE DEL = 1
 </select>
 
+<!-- 일반회원 탈퇴처리  -->
+<!-- 회원 del처리 -->
+<update id="updateDelMemberA" parameterType="model.AMemberDto">
+UPDATE A_MEMBER
+SET DEL = 1
+WHERE SEQ = ${seq}
+</update>
+<!-- 이력서 del처리 -->
+<update id="updateDelResume" parameterType="model.AMemberDto">
+UPDATE RESUME
+SET DEL = 1
+WHERE MEMSEQ = ${seq}
+</update>
+
+<!-- 기업회원 탈퇴처리  -->
+<update id="updateDelMemberC" parameterType="model.CMemberDto">
+UPDATE C_MEMBER
+SET DEL = 1
+WHERE SEQ = ${seq}
+</update>
+
 <!-- 일반회원 탈퇴복구 -->
 <update id="recoverMemberA" parameterType="model.AMemberDto">
 UPDATE A_MEMBER

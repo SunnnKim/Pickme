@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import model.CMemberDto;
 import model.PaymentDto;
+import model.PremierMemDto;
 
 @Repository
 public class CMypageDaoImpl implements CMypageDao{
@@ -89,8 +90,15 @@ public class CMypageDaoImpl implements CMypageDao{
 	// 결제 승인 후 DB 저장
 	@Override
 	public int setPaymentInfo(PaymentDto dto) {
+
 		int n = session.insert("Payment." + "setPaymentInfo", dto);
 	    return n;
+	}
+	
+	// 결제 승인 후 DB 저장 (유료회원등록) *****************
+	@Override
+	public int insertPremierMem(PremierMemDto member) {
+		return session.insert("Payment.insertPremierMem", member);
 	}
 
 	// 결제 페이지 이동
@@ -107,6 +115,8 @@ public class CMypageDaoImpl implements CMypageDao{
 		PaymentDto recentDto = session.selectOne("Payment." + "recentService", dto);
 		return recentDto;
 	}
+
+
 	
 	// 가장 최근 결제 서비스의 종료일
 //	@Override

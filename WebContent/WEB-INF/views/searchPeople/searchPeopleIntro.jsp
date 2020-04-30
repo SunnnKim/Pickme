@@ -87,6 +87,7 @@ function searchPeople(){
 	$('input[name=career]').val($('#career').val());
 	$('input[name=job1]').val($('#job1').val());
 	$('input[name=job2]').val($('#job2').val());
+
 	if( "${isPremier}" == "true" ){
 		console.log($('input[name=career]').val())
 		console.log($('input[name=job1]').val())
