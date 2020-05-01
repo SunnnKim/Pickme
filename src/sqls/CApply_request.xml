@@ -106,6 +106,27 @@
 
 
 
+<!-- 이력서 열람요청에서 구직자 프로필 가져오기 -->
+<select id="getaMemberProfile" parameterType="java.lang.String" resultType="model.AMemberDto">
+	SELECT *
+	FROM A_MEMBER
+	WHERE SEQ = #{seq}
+</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- 이력서 열람 승인시 CV_COMPANY 조회하여 이력서 가져오기 -->
 <select id="reqResumeOpen" parameterType="model.CvRequestDto" resultType="model.CvCompanyDto">
 	SELECT  COM.*
