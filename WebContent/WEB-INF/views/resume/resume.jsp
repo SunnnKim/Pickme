@@ -31,7 +31,7 @@
 				<c:forEach items="${resumeList }" var="dto" varStatus="rs">						
 					<div class="resume-item <c:if test="${dto.status != 0}">complete</c:if>">
 						<div class="resume-preview">
-							<a href="#none">
+							<a href="/Pickme/resume/resumeView.do?seq=${dto.seq }">
 								<div class="resume-choice">
 									<label class="radioBtn <c:if test="${dto.mainResume != 0}">active</c:if>" title="대표 이력서 선택">
 										<input type="radio" name='m_resume' value="${dto.mainResume }" title="대표 이력서 선택">
@@ -123,8 +123,7 @@ $(".radioBtn").unbind("click").bind("click",function(){
 });
 
 
-
-// 이름 변경 클릭 시
+// 이름 변경 클릭 시 
 $(".nameChange").click(function(){
 	var target = $(this).parent('ul').parent('.resume-menu').parent('.resume-info').siblings('.resume-preview').find('h3 input');
 	target.removeAttr("readOnly"); 		

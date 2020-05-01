@@ -17,7 +17,8 @@
     `MAINRESUME`   INT              NULL        COMMENT '대표이력서번호', 
     `DEL`          INT              NULL        COMMENT '탈퇴여부(0/1탈퇴)', 
     `SIGNDATE`     DATE             NULL        COMMENT '가입일자', 
-    PRIMARY KEY (SEQ)
+    `OPEN`     	   INT              NULL        COMMENT '프로필 공개여부(0/1)', 
+     PRIMARY KEY (SEQ)
     
     
     private int seq; 
@@ -33,13 +34,14 @@
 	private String hashtag;		// 해시태그
 	private int mainResume;  	// 대표 이력서
 	private int del;			// 삭제 여부 
-	private String signDate;
+	private String signDate;	// 가입 날짜
+	private int open;			// 프로필 공개 여부
  -->
 <mapper namespace="Amember">
 
 	<!-- 프로필 정보 보여주기 -->
 	<select id="profileSelect" parameterType="int" resultType="model.AMemberDto">
-	  	SELECT PHONE, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG
+	  	SELECT PHONE, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG, OPEN
 	  	FROM A_MEMBER
 	  	WHERE SEQ=#{seq}
   	</select>
@@ -48,7 +50,7 @@
 	<update id="profileUpdate" parameterType="model.AMemberDto">
 		UPDATE A_MEMBER 
 		SET PHONE=#{phone}, PROFILEPATH=#{profilePath}, PROFILENAME=#{profileName},
-			INTRODUCE=#{introduce}, JOB=#{job}, CAREER=#{career}, HASHTAG=#{hashtag}
+			INTRODUCE=#{introduce}, JOB=#{job}, CAREER=#{career}, HASHTAG=#{hashtag}, OPEN=#{open}
 		WHERE SEQ=#{seq}
 	</update>	
 	

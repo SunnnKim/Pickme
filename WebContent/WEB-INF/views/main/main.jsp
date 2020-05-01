@@ -421,12 +421,25 @@
 		    ws.onmessage = function(event){
 				if((event.data).includes("메시지")){//메시지 도착시 alert 
 					console.log("ReceiveMessage:", event.data + '\n');
-					
 		            let $socketAlert = $('div#socketAlert');
 		             $socketAlert.html(event.data); 
 		            // $socketAlert.css('display', 'block');
+		             $socketAlert.append("<div class='inner'></div>");
 					 $socketAlert.slideDown();
+
+					 var socketOffset = $socketAlert.offset();
+				        $( window ).scroll( function() {
+				          if ( $( document ).scrollTop() > socketOffset.top ) {
+				            $socketAlert.addClass( 'wsFixed' );
+				          }
+				          else{
+				            $socketAlert.removeClass( 'wsFixed' );
+				          }
+				        });
+											
+ 
 		            setTimeout( function(){
+			             $('#inner').detach();
 		            	 $socketAlert.slideUp();
 		            	 
 		            },6000);
@@ -435,16 +448,20 @@
 					
 					if(event.data > 0){
 						console.log("event.data: " + event.data);
-						$(".alert-number").css('display', 'block');
-						$(".alert-number").text(event.data);
+			
+						$('.header_infoBtn li:nth-child(2)').append('<span class="alert-number">'+event.data+'</span>');
 						
 					}else{
-						console.log("메시지 없음")
+						console.log("메시지 없음");
 						$(".alert-number").css('display', 'none');
 
 				   }
-			  }	
-		 }
+			  
+		 	}
+
+	   }
+
+			   
 
 	 	// 소켓 닫힌경우	 
 	    ws.onclose = function() {

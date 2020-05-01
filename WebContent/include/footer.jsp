@@ -64,23 +64,34 @@
 			    
 				// 일반회원 로그인 했을때 메시지 갯수 가져오기 	
 				if(member){	
-					console.log("loginuser들어옴");
-					console.log("loginuser: " + member);
-					 $.ajax({
-						    url:"../totalMsgCount.do",
-						    dataType:"text",
-						    success: function(data){
-								if(socket) {
-									console.log("메시지총갯수" + data);									
-									// websocket에 메시지 보내기  (distinguish, cmd, 발신인이름 , 수신인이메일 , 메시지seq, 메시지 갯수))
-								    socket.send("null,unread,null,null,null," + data);
+						if(socket){
+						console.log("loginuser들어옴");
+						console.log("loginuser: " + member);
+						 $.ajax({
+							    url:"../totalMsgCount.do",
+							    dataType:"text",
+							    success: function(data){
+										console.log("메시지총갯수" + data);									
+										// websocket에 메시지 보내기  (distinguish, cmd, 발신인이름 , 수신인이메일 , 메시지seq, 메시지 갯수))
+									    socket.send("null,unread,null,null,null," + data);
+								
+								}, 
+							    error:function(request,status,error){
+								    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+								}						
+						 });
+					
+						$.ajax({
+								url:"../recentLikeRecruit.do",
+							    dataType:"text",
+						    	success: function(data){
+									socket.send("null,recruit,null,null,null" + data);
+								},
+								error:function(request,status,error){
+									alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 								}	
-							}, 
-						    error:function(request,status,error){
-							        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-							}						
-					 });
-
+							});	
+						}
 				} 
 				
 				// 기업회원 로그인 했을때 메시지 갯수 가져오기 
@@ -120,7 +131,19 @@
 		            // $socketAlert.css('display', 'block');
 		             $socketAlert.append("<div class='inner'></div>");
 					 $socketAlert.slideDown();
+
 					 
+					 var socketOffset = $socketAlert.offset();
+				        $( window ).scroll( function() {
+				          if ( $( document ).scrollTop() > socketOffset.top ) {
+				            $socketAlert.addClass( 'wsFixed' );
+				          }
+				          else{
+				            $socketAlert.removeClass( 'wsFixed' );
+				          }
+				        });
+											
+ 
 		            setTimeout( function(){
 			             $('#inner').detach();
 		            	 $socketAlert.slideUp();
@@ -128,6 +151,12 @@
 		            },6000);
 
 		            
+				}else if((event.data).includes("체크")){
+
+				 	// alert(event.data);
+
+
+
 				}else{ // 안읽은 메시지 갯수 표시
 					if(event.data > 0){
 					
@@ -136,11 +165,10 @@
 						$('li.alert-wrap').html('<span class="alert-number">'+ event.data + '</span>');  */
 
 						
-				   	
 						//$(".alert-number").css('display', 'block');
 						//$(".alert-number").text(event.data); 
 						$('.header_infoBtn li:nth-child(2)').append('<span class="alert-number">'+event.data+'</span>');
-						
+
 					}else{
 						console.log("메시지 없음");
 						$('.header_infoBtn li:nth-child(2)').find('span').remove();				
@@ -150,6 +178,8 @@
 			  }	
 		 }
 
+
+			
 	 	// 소켓 닫힌경우
 	    ws.onclose = function() {
 	      	console.log('connect close');

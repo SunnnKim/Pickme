@@ -60,7 +60,7 @@
 						</select>
 					</li>
 				</ul>
-				<!-- <div class="aMyBtn"><a href="#none">비밀번호수정 / 탈퇴</a></div> -->
+				<div class="aMyBtn <c:if test="${dto.open != 0}">on</c:if>"><i class="fa fa-check" aria-hidden="true"></i>프로필 공개<input type="hidden" name="open" value="${dto.open }"></div>
 			</div>
 		</div>
 		<!-- // aMypage_top -->
@@ -273,6 +273,10 @@
    var hashdb02 = hashdbArray[1]
    var hashdb03 = hashdbArray[2]
 
+   hashdb01.replace('undefined',''); 
+   hashdb02.replace('undefined',''); 
+   hashdb03.replace('undefined',''); 
+
    console.log("hashstr = " + "${dto.hashtag}");
 
    console.log("해쉬태그1: " + hashdb01);
@@ -339,7 +343,7 @@
 		 //alert("끝")
 		
 	});
- 	 
+  	
 
   //hashtag append
   var element_count = document.getElementsByTagName('hashtag').length;
@@ -384,6 +388,18 @@
       $("#hashadd").attr("disabled",false);
     }
   }
+
+// 프로필 공개 여부 체크
+
+$('.aMyBtn').click(function(){
+	$(this).toggleClass('on');
+	if($(this).hasClass("on") === true) {
+		$('input[name=open]').val(1);
+	}else {
+		$('input[name=open]').val(0);
+	}
+
+});
 
 // 작성완료 버튼 눌렀을 때
 $("#pSaveBtn").on("click",function(){

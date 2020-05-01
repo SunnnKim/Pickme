@@ -9,8 +9,18 @@
 INSERT INTO A_MEMBER( EMAIL, NAME, PASSWORD, SIGNDATE, OPEN )
 VALUES ( #{email},#{name}, #{password}, NOW(), 1 )
 </insert>
-<!-- 탈퇴회원삭제 -->
-<!-- 탈퇴기업삭제 -->
+
+<!-- 일반회원 탈퇴 삭제-->
+<delete id="deleteMemberA">
+DELETE FROM A_MEMBER
+WHERE DEL = 1
+</delete>
+<!-- 기업회원 탈퇴 삭제-->
+<delete id="deleteMemberC">
+DELETE FROM C_MEMBER
+WHERE DEL = 1
+
+</delete>
 <!-- 공지 삭제 -->
 <!-- 탈퇴회원삭제 -->
 

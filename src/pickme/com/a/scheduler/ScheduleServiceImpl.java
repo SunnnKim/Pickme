@@ -20,5 +20,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public int dayUpdateDel(String today) {
 		return dao.dayUpdateDel(today);
 	}
+
+	@Override
+	public void deleteMemberA() {
+		dao.deleteMemberA();
+	}
+
+	@Override
+	public void deleteMemberC() {
+		dao.deleteMemberC();
+	}
 	
 }

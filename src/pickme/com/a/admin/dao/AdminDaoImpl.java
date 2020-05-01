@@ -63,6 +63,77 @@ public class AdminDaoImpl implements AdminDao {
 		return sqlSession.selectList(namespace + "getUnapprovalList");
 	}
 
+	@Override
+	public boolean approveCompany(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "approveCompany", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean unapproveCompany(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "unapproveCompany", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<AMemberDto> getWithdrawMemberA() {
+		return sqlSession.selectList(namespace + "getWithdrawMemberA");
+	}
+
+	@Override
+	public List<CMemberDto> getWithdrawMemberC() {
+		return sqlSession.selectList(namespace + "getWithdrawMemberC");
+	}
+
+	@Override
+	public boolean recoverMemberA(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "recoverMemberA", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean recoverMemberC(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "recoverMemberC", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean updateDelMemberA(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "updateDelMemberA", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean updateDelMemberC(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "updateDelMemberC", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
+
 	
 	
 	

@@ -36,7 +36,7 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 	//소켓에 메세지를 보냈을때
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("왜 안될까?");
+        System.out.println("소켓에 메시지 도착!");
 		System.out.println("handleTextMessage:" + session + ": " + message);
 		String loginEmail = getEmail(session);
 		System.out.println("loginEmail: " + loginEmail);
@@ -87,6 +87,11 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 			    	TextMessage tmpMsg = new TextMessage(msgCount); 	
 					loginSession.sendMessage(tmpMsg);
 			    	
+			    }else if("recruit".equals(cmd)) {
+			    	WebSocketSession loginSession = userSessionsMap.get(loginEmail.trim());
+			    	
+			    	//TextMessage tmpMsg = new TextMessage(); 
+			    	//loginSession.sendMessage(tmpMsg);
 			    }
 			}
 	

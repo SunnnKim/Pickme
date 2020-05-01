@@ -179,7 +179,7 @@
           Request
         </div>
         <div class="request-modal">
-          <form action="" method="post" id="frm">
+          <form action="" method="post" id="frm2">
             <div>
               요청기업
               <span id="sender">비트캠프</span>
@@ -224,7 +224,7 @@ function putHashtag(){
 	$('.tag-area').append(tag)		// html 추가 
 	// 입력한 태그를 리스트에 저장 
 	tagList.push('%'+ $('#hashTag').val() + '%')	// 배열에 태그 넣기 
-	console.log(tagList)		// 출력 
+	//console.log(tagList)		// 출력 
 	$('#hashTag').val("")		// 인풋 초기화 
 }
 
@@ -256,7 +256,7 @@ function searchPeople(){
  		success : function( data ){
  			console.log(data)
  			var people = data.people;
- 			$('input[name=userseq]').val( people.seq )
+ 			$('input[name=userseq]').val(seq)
  			$('.basic-info .name').text( people.name )
  			$('.basic-info .email').text( people.email )
  			$('.basic-info .phone').text( people.phone )
@@ -283,46 +283,33 @@ function searchPeople(){
  	 	 	}
  			// 자기소개 
  			$('.introduce .text-area').html( people.introduce.replace(/\n/gi, "<br>") )
+			console.log($('input[name=userseq]').val())
  			
  		}, error : function( err ){
  			alert('error')
  			console.log(err)
  		}
  	})
- }
+}
+
 // 메세지 보내기 함수 
 $("#sendMsg").on("click", function(){
 	  setTimeout(function(){
 		 	$('#toName').val( $('.basic-info .name').text() )
 		 	$('input[name=to]').val( $('input[name=userseq]').val())
-		
 			$(".messenger-wrap").show();
 		 	$('body').css("overflow", "hidden");
 		  }, 600 );
  	closeModal()
 })
 
-/*
- * `SEQ`      INT         NOT NULL    AUTO_INCREMENT COMMENT '시퀀스', 
- `PSEQ`     INT         NULL        COMMENT '구직자이름', 
- `CSEQ`     INT         NULL        COMMENT '요청기업', 
- `RDATE`    DATETIME    NULL        COMMENT '요청날짜', 
- `COMMENT`  LONGTEXT    NULL        COMMENT '기업 코멘트', 
- `ACCEPT`   INT         NULL        COMMENT '수락여부(0:대기, 1:수락, 2:거절)', 
- `STATE`    INT         NULL        COMMENT '요청 상태', 
- `DEL`      INT         NULL        COMMENT '요청삭제여부(0등록1삭제)-기업', 
- `DELMEM`   INT         NULL        COMMENT '요청삭제여부(0등록1삭제)-일반', 
- `DDATE`    DATETIME    NULL        COMMENT '삭제일', 
- `CANCEL`   INT         NULL        COMMENT '요청취소(0/1:취소)', 
- `CVSEQ`    INT         NULL        COMMENT '제출이력서시퀀스(CV_COMPANY)', 
- */
 // 열람 요청보내기 
 $(document).on('click', '#sendRequset', function(){
 	if($('textarea[name=comment]').val().trim() == ''){
 		alert('요청 코멘트를 입력하세요')
 		return false;
 	}
-	var sendData = $('#frm').serialize();
+	var sendData = $('#frm2').serialize();
 	alert(sendData)
 	$.ajax({
 		data:sendData,
@@ -427,7 +414,7 @@ $.getJSON(json_url, function(data){
         json = JSON.stringify(data[i])
         json = JSON.parse(json);
         for( key in json ){
-         console.log(key);
+         //console.log(key);
          if( key == "<%=searchParam.getJob1().replaceAll("%", "")%>"){
 	          $("#job1").append("<option value='"+key+"' selected>"+key+"</option>");
 	          getJob2();

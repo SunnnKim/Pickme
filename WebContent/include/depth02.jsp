@@ -161,14 +161,16 @@ if( durl.contains("e_apply")){
 <% } %>
 
 <!-- 채용관리에서. 공고 detail -->
-<% if(durl.contains("/recruit/myRecDetail")){ %>
+<%	if (durl.contains("/recruit/myRecDetail")) { %>
 <div class="recDetailTop clfix">
-          <div class="detailTop-left">
-            <h1 class="recTit"></h1>
-            <h3 class="recSubTit"></h3>
-          </div><!-- .detailTop-left -->
-          <div class="detailTop-right">
-            <section class="section-controller">
+	<div class="detailTop-left">
+		<h1 class="recTit"></h1>
+		<h3 class="recSubTit"></h3>
+	</div>
+	<!-- .detailTop-left -->
+	<div class="detailTop-right">
+		<section class="section-controller">
+			<%-- 
              <c:if test="${recDto.del eq 0 }">
 	              <button type="button" id="recruitDetailButton1"><i class="fas fa-edit"></i>수정하기</button>
 	              <button type="button" id="recruitDetailButton2"><i class="fas fa-stopwatch"></i>마감하기</button>
@@ -177,16 +179,43 @@ if( durl.contains("e_apply")){
 	              <button type="button" id="recruitDetailButton1" disabled="disabled" style="cursor: default;background-color: #ccc;"><i class="fas fa-edit"></i>수정하기</button>
 	              <button type="button" id="recruitDetailButton2" disabled="disabled" style="cursor: default;background-color: #ccc;"><i class="fas fa-stopwatch"></i>마감하기</button>
               </c:if>
-            </section>
-          </div><!-- .detailTop-right -->
-        </div><!-- .recDetailTop -->
-<% } %>
+            --%>
+			<c:choose>
+				<c:when test="${location eq 'cApply' }"></c:when>
+				<c:otherwise>	
+					<c:if test="${recDto.del eq 0 }">
+						<button type="button" id="recruitDetailButton1">
+							<i class="fas fa-edit"></i>수정하기
+						</button>
+						<button type="button" id="recruitDetailButton2">
+							<i class="fas fa-stopwatch"></i>마감하기
+						</button>
+					</c:if>
+					<c:if test="${recDto.del eq 1 }">
+						<button type="button" id="recruitDetailButton1"
+							disabled="disabled"
+							style="cursor: default; background-color: #ccc;">
+							<i class="fas fa-edit"></i>수정하기
+						</button>
+						<button type="button" id="recruitDetailButton2"
+							disabled="disabled"
+							style="cursor: default; background-color: #ccc;">
+							<i class="fas fa-stopwatch"></i>마감하기
+						</button>
+					</c:if>
+				</c:otherwise>
+			</c:choose>
+		</section>
+	</div>	<!-- .detailTop-right -->
+</div><!-- .recDetailTop -->
+<%	} %>
 
 <!-- recruit. 채용관리 -->
-<% if(durl.contains("/recruit") && !durl.contains("/recruit/myRecDetail")){ 
-	%>
+<%
+	if (durl.contains("/recruit") && !durl.contains("/recruit/myRecDetail")) {
+%>
 	  <ul class="depth02 clfix">
-	  <li class=<%= durl.contains("recNow") ? " on" :" "%>>
+	  <li class=<%=durl.contains("recNow") ? " on" : " "%>>
 			<a href="javascript:goPageRec('now');">현재공고보기</a>
 		</li>
 		<li class=<%= durl.contains("recPast") ? " on" :" "%>>

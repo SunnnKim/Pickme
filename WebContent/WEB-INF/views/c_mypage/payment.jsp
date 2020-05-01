@@ -1,27 +1,48 @@
 <%@include file ="../../../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>    
 
 
 <div class="allWrap">
-if()
+
+<!-- 한번도 이용한 적이 없는 경우 -->
+<c:if test = "${fn:length(list) eq 0 }">
    현재 이용중인 서비스가 없습니다.
    <div class="allWrapDetail">
       합리적인 가격으로 최대의 혜택을 누리세요.
       <div class="buttonCls">
          <button type="button" onclick="goPage()"> 서비스 둘러보기 </button>
       </div>
-      <div class="previous">
-         <label> 과거 결제 내역 </label>
-      </div>
    </div>
+</c:if>
+
+<!-- 이용내역이 존재하며, 현재 이용중인 서비스가 있는 경우 -->
+<c:if test = "${fn:length(list) > 0 && recentDto ne null }">
+    <div class="previous">
+       <label> 과거 결제 내역 </label>
+       <div class="previous_refundButton"><button> 환불 </button></div>
+    </div>
+</c:if>
+
+<!-- 이용내역이 존재하며, 현재 이용중인 서비스가 없는 경우 -->
+<c:if test = "${fn:length(list) > 0 && recentDto eq null }">
+	<div class="previous">
+		<label> 과거 결제 내역 </label>
+		<button> 서비스 둘러보기 </button>
+	</div>
+</c:if>
+
+
+
 </div>
 <form id="frm" method=post action="setPaymentInfo.do">
    <input type="hidden" name="impUid" value="">         <!-- 아임포트 거래 고유 번호 -->
    <input type="hidden" name="totalPay" value="">      <!-- 결제금액 -->
    <input type="hidden" name="paymentId" value="">      <!-- 가맹점에서 생성/관리하는 고유 주문번호 -->
    <input type="hidden" name="serviceName" value="">   <!-- 결제서비스명(주문명) -->
+   <input type="hidden" name="serviceSeq" value="">   <!-- 결제서비스명(주문명) -->
    
    <!-- <input type="hidden" name="apply_num" value="">       -->   <!-- 카드사 승인번호 -->
 </form>
@@ -58,7 +79,7 @@ if()
                 'phone':휴대폰소액결제 
             */
             merchant_uid: 'merchant_' + new Date().getTime(),
-            name: '결제테스트',                //결제창에서 보여질 이름
+            name: '결제테스트',                // 결제창에서 보여질 이름
             amount: 10,                         //가격 
             buyer_email: '${dto.email }',
             buyer_name: '${dto.name }',
@@ -82,13 +103,17 @@ if()
 
             //location.href="setPaymentInfo.do?totalPay=" + rsp.paid_amount+"&impUid="+rsp.imp_uid+"&serviceName="+rsp.name+"&paymentId="+rsp.merchant_uid;
 
-                
+            
+            // 페이지 처음 들어왔을 때 선택한 서비스 번호 가져오기  
+            var serviceSeq = 1
+            
             // DB로 보낼 데이터 저장
             $("input[name=impUid]").val(rsp.imp_uid);
             $("input[name=paymentId]").val(rsp.merchant_uid);
             $("input[name=totalPay]").val(rsp.paid_amount);
             $("input[name=serviceName]").val(rsp.name);
-
+            $("input[name=serviceSeq]").val(serviceSeq);
+	
             $("form").submit();
             
                
@@ -117,6 +142,7 @@ if()
 .buttonCls button{margin-top:50px; width:200px; height: 50px; color:#fff; background-color:#4f6eff; border-radius:5px 5px 5px 5px;}
 .buttonCls button:hover{background-color:#859aff;}
 .previous label{margin-top:120px;text-decoration:underline;}
+.previous_refundButton {}
 
 /* 결제 내역 있을 때 화면 */
 

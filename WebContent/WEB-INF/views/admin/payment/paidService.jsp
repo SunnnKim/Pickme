@@ -76,7 +76,8 @@ var dataList2 = [];
 	%>	var data = {
 			SEQ:<%= service.getServiceSeq()%>,
 			SERVICENAME:'<%=service.getServiceName()%>',
-			PRICE:'<%=service.getPrice()%>'
+			PRICE:'<%=service.getPrice()%>',
+			PERIOD:'<%=service.getPeriod()%>'
 		}
 		dataList2.push(data)
 	<%
@@ -159,7 +160,11 @@ $(document).ready(function () {
          }, {
              field: "PRICE",
              title: "가격",
-             width: 250
+             width: 130
+         }, {
+             field: "PERIOD",
+             title: "이용기간",
+             width: 100
          }, {
              field: "DETAIL",
              title: "자세히보기",

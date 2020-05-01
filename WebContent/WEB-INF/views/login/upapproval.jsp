@@ -33,6 +33,7 @@
 <style>
 .validate-box{ width: 500px; float: left; margin-top: 80px; }
 .validate-box p{ font-size: 20px; margin: 30px 20px; }
+.validate-box input{ width: 400px; height: 50px;outline: none; margin: 20px 0;margin-left: 20px; padding-left: 10px }
 .validate-box #codeBtn{ background: #4f6eff; color:#fff; margin-left: 20px; outline: none; font-size: 15px; width: 400px; height: 50px; text-align: center; transition: all 0.3s ease-in-out; }
 .validate-box #codeBtn:hover{ background: #3349ac; }
 .validate-img{ margin-top: 30px; width: 500px; float: right; }
@@ -122,86 +123,85 @@
 			
 				<div class="profile-wrap">
 					<div class="validate-box">
-			            <p>이메일 인증을 완료하면 <br>더 많은 Pick Me의 서비스를 이용할 수 있습니다</p>
-			            <button type="button" id="codeBtn">인증메일 보내기</button>
-			            <!-- input -->
-			            <div class="validate-input" id="append">
-			            </div>
+			            <p>사업자등록번호 오류로 서비스를 이용할 수 없습니다.<br>새로운 사업자등록번호를 입력하세요</p>
+			            <input type="text" name="num" maxlength="10">
+			            <button type="button" id="codeBtn">사업자등록번호 변경</button>
        				</div>
 			        <div class="validate-img">
 			            <img src="/Pickme/images/sub/validateImg.jpg">
 			        </div>
 			        <form method="post" action="accountValidate.do" id="frm">
-							<input type="hidden" name="memberType" value="<%=memType%>">
+							<input type="hidden" name="number" value="">
 							<input type="hidden" name="email" value="<%=userMail%>">
 					</form>
 				</div>
 				
 <script type="text/javascript">
-var keyCode;
-$('#codeBtn').click(function(){
-	Swal.fire({
-		  position: 'center',
-		  icon: 'success',
-		  text: '인증코드가 발송되었습니다!',
-		  showConfirmButton: false,
-		  timer: 1000
-		});
-	
-	$.ajax({
-		url:'/Pickme/login/sendValidateEmail.do',
-		data:'email='+'<%=userMail%>',
-		type:'post',
-		success: function(data){
-			keyCode = data;
-			
-		}, error: function(err){
-			alert('error');
-			console.log(err);
-		}
 
-	});
-
-	$('#append').html('');
-	$('#append').append('<input type="text" id="keyCode" placeholder="Key Code를 입력하세요">');
-    $('#append').append('<button type="button" id="pressBtn">인증하기</button>');
-
-})
-
-$(document).on('click','#pressBtn', function(){
-	alert(keyCode)
-	var inputCode = $('#append input').val();
-	if( inputCode == '' ){
+$(document).on('click','#codeBtn', function(){
+	var inputCode = $('input[name=num]').val();
+	if( inputCode == '' || inputCode.length != 10 ){
 		Swal.fire({
 			  position: 'center',
 			  icon: 'error',
-			  text: '인증번호를 입력하세요',
+			  text: '사업자등록번호를 모두 입력하세요',
 			  showConfirmButton: false,
 			  timer: 800
 		});
 		return false;
 	}
-	// 인증 번호입력 후
-	if( inputCode != keyCode ){
+
+	var regexp = /^[0-9]*$/
+	v = $('input[name=num]').val();
+	if( !regexp.test(v) ) {
 		Swal.fire({
 			  position: 'center',
 			  icon: 'error',
-			  text: '인증번호가 틀렸습니다!',
+			  text: '숫자만 입력하세요',
 			  showConfirmButton: false,
 			  timer: 800
 		});
-	}else{
-		// 인증 성공시 
+		$('input[name=num]').val(v.replace(regexp,''));
+		return false;
+	}
+	if( ${logincompany.number} == $('input[name=num]').val() ){
 		Swal.fire({
 			  position: 'center',
-			  icon: 'success',
-			  text: '이메일 인증이 완료되었습니다',
+			  icon: 'error',
+			  text: '이미 사업자번호를 변경하셨으며 확인중입니다.',
 			  showConfirmButton: false,
-			  timer: 1300
-		}).then( (result ) => {
-			$('#frm').submit();
-		})
+			  timer: 1500
+		});
+		return false;
 	}
+	// form데이터 만들기 
+	$('input[name=number]').val($('input[name=num]').val());
+	var sendData = $('#frm').serialize();
+	$.ajax({
+		url:'/Pickme/login/company/changeCompanyNumber.do',
+		data:sendData,
+		type:'post',
+		success: function(data){
+			if( data == true ){
+				Swal.fire({
+					  position: 'center',
+					  icon: 'success',
+					  text: '사업자번호를 변경했습니다. 승인을 기다려주세요.',
+					  showConfirmButton: false,
+					  timer: 2000
+				}).then( (result) => {
+						location.href="/Pickme/login/company/logout.do"
+				})
+			}
+		},
+		error: function(err){
+			alert('error')
+			console.log(err)
+		}
+
+	})
+		
+	
 })
 
 </script>
