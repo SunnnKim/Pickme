@@ -80,12 +80,6 @@ UPDATE A_MEMBER
 SET DEL = 1
 WHERE SEQ = ${seq}
 </update>
-<!-- 이력서 del처리 -->
-<update id="updateDelResume" parameterType="model.AMemberDto">
-UPDATE RESUME
-SET DEL = 1
-WHERE MEMSEQ = ${seq}
-</update>
 
 <!-- 기업회원 탈퇴처리  -->
 <update id="updateDelMemberC" parameterType="model.CMemberDto">
@@ -108,8 +102,84 @@ SET DEL = -1
 WHERE SEQ = ${seq}
 </update>
 
+<!-- 이력서 관리 : 이력서 목록 가져오기 -->
+<select id="getAllResume" resultType="model.AdminParam">
+SELECT r.seq, r.memseq, a.name as username, r.name as resumeName, r.status, r.del, r.mainresume, r.wdate
+FROM RESUME as r
+inner join a_member as a on r.memseq = a.seq
+</select>
+
+<!-- 제출한 이력서 관리 : 제출 이력서 목록 가져오기 -->
+<select id="getAllResume2" resultType="model.AdminParam">
+select r.seq, r.memseq, c.name as comName, r.name as resumeName, r.username, r.whose, r.del, r.open, r.wdate
+from resume_after r
+inner join c_member c on c.seq = r.comseq
+</select>
+
+<!-- 이력서 관리 : 이력서 삭제처리하기  -->
+<update id="updateDelResume" parameterType="int">
+UPDATE Resume
+SET DEL = 1
+WHERE SEQ = ${seq}
+</update>
+<!-- 이력서 관리 : 제출 이력서 삭제처리하기  -->
+<update id="updateDelResume2" parameterType="int">
+UPDATE Resume_after
+SET DEL = 1
+WHERE SEQ = ${seq}
+</update>
+
+<!-- 삭제된 이력서  -->
+
+<!-- 기업공고 모두 불러오기  -->
+<select id="getAllRecruit" resultType="model.RecruitDto">
+select seq, comseq, comname, comjob1, comjob2, comjobtype, wdate, edate, del
+from recruit
+</select>
+
+<!-- 기업공고 관리 : 기업공고 삭제처리하기  -->
+<update id="updateDelRecruit" parameterType="int">
+UPDATE Recruit
+SET DEL = 1
+WHERE SEQ = ${seq}
+</update>
 
 
+<!-- 통계 : 기업회원 직종 분포비율  -->
+<select id="getDepartmentStatistics" resultType="model.StatisticsParam">
+select count(*) as statNum1, department as statStr1, type as statStr2
+from c_member
+where del != 1
+group by type, department
+order by department, type
+</select>
+<!-- 통계 : 제출이력서 수  -->
+<select id="getTotalResumeAfter" resultType="int">
+select count(*) as statNum1
+from resume_after
+where del != 1
+</select>
+<!-- 통계 : 이력서 제출한 기업군 비율  -->
+<select id="getResumeStatistics" resultType="model.StatisticsParam">
+select re.comjob1 as statStr1, count( re.comjob1) as statNum1
+from resume_after ra
+inner join recruit  re on ra.jobseq = re.seq
+group by re.comjob1
+</select>
+<!-- 현재 진행중인 공고 개수 -->
+<select id="getRecruitNumber" resultType="int">
+select count(*)
+from recruit
+where del = 0
+</select>
+
+<!-- 현재 채용중인 공고 통계  -->
+<select id="getRecruitStatistics" resultType="model.StatisticsParam">
+select comjob1 statStr1, comjob2 as statStr2, count(comjob1) as statNum1
+from recruit
+where del = 0
+group by comjob1, comjob2
+</select>
 
 
 </mapper>

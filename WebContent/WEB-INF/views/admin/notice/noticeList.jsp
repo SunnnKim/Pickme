@@ -10,6 +10,7 @@
 
 
 <div id="example">
+<div style="font-size: 15px;">* 삭제처리된 공지사항은 매주 월요일마다 데이터베이스에서 삭제됩니다.</div>
     	<div id="grid"></div>
     	<div class="btn-wrapper">
 	 		<button id="check1">전체체크</button>
@@ -44,6 +45,7 @@ $(document).ready(function () {
          },
          height: 350,
          groupable: true,
+         toolbar: ["search"],
          sortable: true,
          pageable: {
              refresh: true,

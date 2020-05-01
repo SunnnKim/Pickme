@@ -29,3 +29,8 @@ if( ifurl.contains("/question/")){
 	%>문의내역<%
 }%>
   
+<%
+if( ifurl.contains("/admin/manage")){
+	%>이력서/공고 관리 <%
+}%>
+  

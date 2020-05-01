@@ -41,8 +41,7 @@
         <a href="/Pickme/admin/notice/noticeList.do">공지사항</a>
         <a href="/Pickme/admin/payment/paidServiceView.do">유료서비스</a>
         <a href="/Pickme/admin/question/questionList.do">문의내역</a>
-        <a href="#none">이력서관리</a>
-        <a href="#none">공고관리</a>
+        <a href="/Pickme/admin/manageResume.do">이력서/공고관리</a>
       </nav><!-- // gnb -->
       <ul class="header_infoBtn clfix">
         <li></li>
