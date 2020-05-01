@@ -6,7 +6,9 @@ public class EInterestDto {
     private String tel;		 // 좋아요 한 기업 번호 	
     private String title;    // 좋아요 한 채용공고 제목 
     private String comName;  // 좋아요 한 채용공고 올린 기업이름 
-    private String comjob2;  // 직무 
+    private String logopath; // 기업 로고 이름
+    private String logoname;
+    private String comjob1;  // 직무 
     private String edate;    // 채용 마감일
     private int apply;       // 지원여부  
     private int seq;         // 채용공고 seq 
@@ -17,15 +19,17 @@ public class EInterestDto {
     }
 
 
-	public EInterestDto(int likepickseq, String name, String tel, String title, String comName, String comjob2,
-			String edate, int apply, int seq) {
+	public EInterestDto(int likepickseq, String name, String tel, String title, String comName, String logopath,
+			String logoname, String comjob1, String edate, int apply, int seq) {
 		super();
 		this.likepickseq = likepickseq;
 		this.name = name;
 		this.tel = tel;
 		this.title = title;
 		this.comName = comName;
-		this.comjob2 = comjob2;
+		this.logopath = logopath;
+		this.logoname = logoname;
+		this.comjob1 = comjob1;
 		this.edate = edate;
 		this.apply = apply;
 		this.seq = seq;
@@ -82,13 +86,33 @@ public class EInterestDto {
 	}
 
 
-	public String getComjob2() {
-		return comjob2;
+	public String getLogopath() {
+		return logopath;
 	}
 
 
-	public void setComjob2(String comjob2) {
-		this.comjob2 = comjob2;
+	public void setLogopath(String logopath) {
+		this.logopath = logopath;
+	}
+
+
+	public String getLogoname() {
+		return logoname;
+	}
+
+
+	public void setLogoname(String logoname) {
+		this.logoname = logoname;
+	}
+
+
+	public String getComjob1() {
+		return comjob1;
+	}
+
+
+	public void setComjob1(String comjob1) {
+		this.comjob1 = comjob1;
 	}
 
 
@@ -125,9 +149,12 @@ public class EInterestDto {
 	@Override
 	public String toString() {
 		return "EInterestDto [likepickseq=" + likepickseq + ", name=" + name + ", tel=" + tel + ", title=" + title
-				+ ", comName=" + comName + ", comjob2=" + comjob2 + ", edate=" + edate + ", apply=" + apply + ", seq="
-				+ seq + "]";
+				+ ", comName=" + comName + ", logopath=" + logopath + ", logoname=" + logoname + ", comjob1=" + comjob1
+				+ ", edate=" + edate + ", apply=" + apply + ", seq=" + seq + "]";
 	}
+
+
+	
 
 	
     

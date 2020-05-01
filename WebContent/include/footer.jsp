@@ -46,7 +46,7 @@
 		   connectWs();
 	   });
 
-	   
+		
 	   //웹소켓 연결 	 
 	   function connectWs(){
 			console.log("Info: connecting...");
@@ -73,7 +73,7 @@
 							    success: function(data){
 										console.log("메시지총갯수" + data);									
 										// websocket에 메시지 보내기  (distinguish, cmd, 발신인이름 , 수신인이메일 , 메시지seq, 메시지 갯수))
-									    socket.send("null,unread,null,null,null," + data);
+									    socket.send("null,unread,null,null,null," + data + ",null");
 								
 								}, 
 							    error:function(request,status,error){
@@ -85,13 +85,14 @@
 								url:"../recentLikeRecruit.do",
 							    dataType:"text",
 						    	success: function(data){
-									socket.send("null,recruit,null,null,null" + data);
+							    	console.log(data);
+									socket.send("null,recruit,null,null,null,null," + data);
 								},
 								error:function(request,status,error){
 									alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 								}	
-							});	
-						}
+						});	
+					}
 				} 
 				
 				// 기업회원 로그인 했을때 메시지 갯수 가져오기 
@@ -106,7 +107,7 @@
 								if(socket) {
 									console.log("메시지총갯수" + data);
 									// websocket에 보내기  (distinguish, cmd, 발신인이름 , 수신인이메일 , 메시지seq, 로그인 seq, 메시지 갯수))
-								    let socketMsg = socket.send("null,unread,null,null,null,"+ data);
+								    let socketMsg = socket.send("null,unread,null,null,null,"+ data + ",null");
 								 	console.debug("sssmsg >> ", socketMsg)
 								 	socket.send(socketMsg)
 								}	
@@ -151,35 +152,36 @@
 		            },6000);
 
 		            
-				}else if((event.data).includes("체크")){
+				}else if((event.data).includes("<ul>")){
 
+					console.log('recruit!>>>' + event.data);
+					$('.alert-NoContent').detach();
+					$('.alert-wrap.bell').append(event.data);
+					// $('.alert-recruitList').hide();
 				 	// alert(event.data);
-
+					
 
 
 				}else{ // 안읽은 메시지 갯수 표시
 					if(event.data > 0){
 					
-						console.log("event.data: " + event.data);
+						console.log("event.data?: " + event.data);
 						/* $('li.alert-wrap').html('<a class="msgCountAlert" href="/Pickme/c_apply/cRcvMsg.do"><img class="msgCountAlert" alt="" src="../images/main/message.png" width="20px" height="20px"></a>');
 						$('li.alert-wrap').html('<span class="alert-number">'+ event.data + '</span>');  */
-
-						
 						//$(".alert-number").css('display', 'block');
 						//$(".alert-number").text(event.data); 
-						$('.header_infoBtn li:nth-child(2)').append('<span class="alert-number">'+event.data+'</span>');
+						$('.alert-wrap').append('<span class="alert-number">'+event.data+'</span>');
 
-					}else{
-						console.log("메시지 없음");
-						$('.header_infoBtn li:nth-child(2)').find('span').remove();				
+						
+					}else if(event.data == 0){
+						console.log("메시지 없음?");
+						$('.alert-wrap').find('span').remove();				
 						
 						
 				   }
 			  }	
 		 }
-
-
-			
+			 		
 	 	// 소켓 닫힌경우
 	    ws.onclose = function() {
 	      	console.log('connect close');
@@ -189,6 +191,34 @@
 	    // 에러발생시
 	    ws.onerror = function (err) {console.log('Errors : ' , err);}
 	   }
+
+	   
+	   // 알람 클릭시 
+		$(".alert-bell").click(function(){
+			// alert("종클릭!");
+			$('.alertContWrap').fadeToggle('fast');
+	
+		});
+
+	   /*
+		$(document).click(function(e){
+			if(e.target.className == 'alert-wrap'){return false}
+			if(e.target.className == 'alert-bell'){return false}
+			
+				$('.alertContWrap').fadeOut(100);
+
+		})	
+
+ */
+	 	// esc키로 알림내용 닫기 
+		window.onkeyup = function(e) {
+			var key = e.keyCode ? e.keyCode : e.which;
+
+			$('.alertContWrap').fadeToggle('fast');
+		}
+		 
+
+	   
 	 </script>
 </body>
 </html>

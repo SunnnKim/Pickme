@@ -1,4 +1,4 @@
-package pickme.com.a.a_mypage.controller;
+ package pickme.com.a.a_mypage.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
