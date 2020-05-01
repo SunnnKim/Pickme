@@ -80,9 +80,12 @@
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
-					<li class="alert-warp">
-					   		<a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
-					   	
+					<li class="alert-wrap bell">
+					   <span class="alert-bell"><img alt="" src="../images/main/alarm-bell.png"></span>
+					   <div class="alert-NoContent">현재 관심등록한 기업의 채용공고가 없습니다.</div>	
+					 </li>	
+					<li class="alert-wrap msg">	
+					   	<a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
 					</li>
 					<li>
 						<a href="/Pickme/a_mypage/profile.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
@@ -105,7 +108,7 @@
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
-					<li class="alert-warp">
+					<li class="alert-wrap msg">
 					   		<a href="/Pickme/c_apply/cRcvMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
 				
 					</li>
@@ -374,21 +377,34 @@
 				if(member){	
 					console.log("loginuser들어옴");
 					console.log("loginuser: " + member);
-					 $.ajax({
-						    url:"../totalMsgCount.do",
-						    dataType:"text",
-						    success: function(data){
-								if(socket) {
-									console.log("메시지총갯수" + data);									
-									// websocket에 메시지 보내기  (distinguish, cmd, 발신인이름 , 수신인이메일 , 메시지seq, 메시지 갯수))
-								    socket.send("null,unread,null,null,null,"+ data);
+					if(socket){
+						 $.ajax({
+							    url:"../totalMsgCount.do",
+							    dataType:"text",
+							    success: function(data){
+									if(socket) {
+										console.log("메시지총갯수" + data);									
+										// websocket에 메시지 보내기  (distinguish, cmd, 발신인이름 , 수신인이메일 , 메시지seq, 메시지 갯수))
+									    socket.send("null,unread,null,null,null,"+ data+",null");
+									}	
+								}, 
+							    error:function(request,status,error){
+								        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+								}						
+						 });
+	
+							$.ajax({
+								url:"../recentLikeRecruit.do",
+							    dataType:"text",
+						    	success: function(data){
+							    	console.log(data);
+									socket.send("null,recruit,null,null,null,null," + data);
+								},
+								error:function(request,status,error){
+									alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 								}	
-							}, 
-						    error:function(request,status,error){
-							        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-							}						
-					 });
-
+						});	
+					}	
 				} 
 				
 				// 기업회원 로그인 했을때 메시지 갯수 가져오기 
@@ -403,7 +419,7 @@
 								if(socket) {
 									console.log("메시지총갯수" + data);
 									// websocket에 보내기  (distinguish, cmd, 발신인이름 , 수신인이메일 , 메시지seq, 로그인 seq, 메시지 갯수))
-								    let socketMsg = socket.send("null,unread,null,null,null,"+ data);
+								    let socketMsg = socket.send("null,unread,null,null,null,"+ data + ",null");
 								 	console.debug("sssmsg >> ", socketMsg)
 								 	socket.send(socketMsg)
 								}	
@@ -444,16 +460,22 @@
 		            	 
 		            },6000);
 		            
+				}else if((event.data).includes("<ul>")){
+					console.log('recruit!>>>');
+					console.log('recruit!>>>' + event.data);
+					$('.alert-NoContent').detach();
+					$('.alert-wrap.bell').append(event.data);
+							 	
 				}else{ // 안읽은 메시지 갯수 표시
 					
 					if(event.data > 0){
 						console.log("event.data: " + event.data);
 			
-						$('.header_infoBtn li:nth-child(2)').append('<span class="alert-number">'+event.data+'</span>');
+						$('.alert-wrap.msg').append('<span class="alert-number">'+event.data+'</span>');
 						
 					}else{
 						console.log("메시지 없음");
-						$(".alert-number").css('display', 'none');
+						$('.alert-wrap.msg').find('span').remove();	
 
 				   }
 			  
@@ -470,6 +492,27 @@
 	    };
 	    ws.onerror = function (err) {console.log('Errors : ' , err);}
 	   }
+
+
+
+		   // 알람 클릭시 
+		$(".alert-bell").click(function(){
+			// alert("종클릭!");
+			$('.alertContWrap').fadeToggle('fast');
+	
+		});
+
+
+	 	// esc키로 알림내용 닫기 
+		window.onkeyup = function(e) {
+			var key = e.keyCode ? e.keyCode : e.which;
+
+			$('.alertContWrap').fadeToggle('fast');
+		}
+		 
+		
+		
+	   
 	 </script>
 	
 	<!-- 채용탐색 - 공고 마감일이 지났을때  -->

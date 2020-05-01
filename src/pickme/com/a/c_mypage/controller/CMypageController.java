@@ -1,6 +1,10 @@
 package pickme.com.a.c_mypage.controller;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.CMemberDto;
 import model.PaymentDto;
+import model.PremierMemDto;
 import pickme.com.a.c_mypage.service.CMypageService;
 
 @Controller
@@ -143,9 +148,43 @@ public class CMypageController {
 		return "c_mypage/withdrawal";
 	}
 	
-	// 결제 페이지 이동
+	// 결제내역 이동
 	@RequestMapping(value = "goPayment.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String goPayment() {
+	public String goPayment(PaymentDto dto, Model model, HttpSession session) throws ParseException {
+		
+		// 기업 세션 seq 저장
+        int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
+        dto.setBuyerId(c_seq);
+        
+        System.out.println("결제페이지 이동 dto = " + dto.toString());
+        
+		// 결제 내역 담은 dto list 가져오기
+		List<PaymentDto> list = service.showPaymentDto(dto);
+		System.out.println("결제페이지 이동 list = " + list);
+		System.out.println("결제페이지 이동 list size = " + list.size());
+		
+		// 현재 진행중인 서비스가 있는지 확인
+		PaymentDto recentDto = service.recentService(dto);
+		System.out.println("기업이 현재 이용중인 서비스 내역 = " + recentDto);
+		
+		// 현재시간
+		Date nowDate = new Date();	// java.util.date
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = nowDate;
+		Date end = sdf.parse(recentDto.getEndDate());
+		
+		// 결제내역 항목들
+		if(list.size() != 0 && now.before(end)) {	// 결제 이력이 있고, 현재 서비스 이용중인 경우
+			String serviceName = recentDto.getServiceName();
+			String payDate = recentDto.getPayDate();
+			String endDate = recentDto.getEndDate();
+			
+			model.addAttribute("list", list);
+			model.addAttribute("recentDto", recentDto);
+			model.addAttribute("serviceName", serviceName);
+			model.addAttribute("payDate", payDate);
+			model.addAttribute("endDate", endDate);
+		}
 		
 		return "c_mypage/payment";
 	}
@@ -166,18 +205,42 @@ public class CMypageController {
 		return "redirect:/c_mypage/goCMypage.do";
 	}
 	
+	// 결제 디테일 이동
+	@RequestMapping(value="paymentDetail.do", method = {RequestMethod.GET})
+	public String paymentDetail(int seq, Model model) {
+		
+		model.addAttribute("seq", seq);
+		
+		return "c_mypage/paymentDetail";
+	}
+	
     // 결제 성공 후 DB저장
     @RequestMapping(value = "setPaymentInfo.do", method = {RequestMethod.GET, RequestMethod.POST})
-    public String setPaymentInfo(PaymentDto dto, HttpSession session) {
+    public String setPaymentInfo(PaymentDto dto, int serviceSeq, HttpSession session) {
       
-        // 기업 세션 seq 저장
+    	System.out.println(dto);
+    	System.out.println(serviceSeq);
+
+     	 // 기업 세션 seq 저장
          int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
          dto.setBuyerId(c_seq);
-    
+         
+         // 유료회원 dto 생성
+         PremierMemDto member = new PremierMemDto(0, c_seq, serviceSeq, dto.getServiceName(), null, null, null, null);
+         System.out.println(member);
+         
+         // payment 테이블에 데이터 저장 
          int n = service.setPaymentInfo(dto);
          System.out.println("insert result count : " + n);
-      
-         return "c_mypage/payment";
+
+         // premiere_mem 테이블에 데이터 저장
+         int m = service.insertPremierMem(member);
+         System.out.println(m);
+         
+         
+         // redirect로 보내야 데이터 가지고 화면으로 이동함 
+         // 그냥 페이지로 이동했더니 결제 데이터 2번 올라감
+         return "redirect:/c_mypage/goPayment.do";
     }
 
 	

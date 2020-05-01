@@ -2,6 +2,7 @@ package pickme.com.a.c_apply.dao;
 
 import java.util.List;
 
+import model.AMemberDto;
 import model.CvCompanyDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
@@ -29,6 +30,8 @@ public interface CRequestDao {
 	public int getLikeTotalRecordCount(MessageParam param);
 
 	public CvCompanyDto reqResumeOpen(CvRequestDto dto);
+
+	public AMemberDto getaMemberProfile(String seq);
 
 	
 	

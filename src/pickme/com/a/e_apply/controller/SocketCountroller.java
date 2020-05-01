@@ -1,7 +1,17 @@
 package pickme.com.a.e_apply.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,30 +56,80 @@ public class SocketCountroller {
 		
 	// 최신 공고 웹소켓
 	  @ResponseBody
-	  @RequestMapping(value="recentLikeRecruit.do", method= {RequestMethod.GET, RequestMethod.POST})
+	  @RequestMapping(value="recentLikeRecruit.do", produces="application/String;charset=utf8", method= {RequestMethod.GET, RequestMethod.POST})
 	  public String getRecentLikeRecruit(HttpSession session) {
 		  String email = ((AMemberDto) session.getAttribute("loginuser")).getEmail();
-		  
+		  System.out.println("=======================getRecentLikeRecruit");
 		  List<EInterestDto> list = interestService.getRecentLikeRecruit(email);
 		  
 		  String msg = null;
 		  
 		  if(list != null) {
-			  msg = "<table>"
-			  		+ "<col width='100px'>"
-			  		+ "<col width='200px'>"
-			  		+ "<tr> "
-			  			+ "<th>기업명</th>"
-			  			+ "<th>제목</th>"
-			  		+ "</tr>";
-			  
+			  msg = "<div class='alertContWrap'>" + 
+			  		"<div class='tit'><a href='/Pickme/e_apply/interestComRecruit.do'><strong>관심기업 최신 채용공고</strong><span>+</span></a></div>	" + 
+			  		"<ul>";
 			  for (int i = 0; i < list.size(); i++) {
 				  
-				 msg = msg + "<tr><td>" + list.get(i).getComName() + "</td><td><a href='Pickme/searchJob/recDetail.do?seq="
-				           + list.get(i).getSeq() + ">" + list.get(i).getTitle() + "</a></td><tr>"; 	
-			}
-			  msg = msg + "</table>"; 
-		  }
+					 msg = msg + "<li><a href='/Pickme/searchJob/recDetail.do?seq=" + list.get(i).getSeq() +"'>" +		 
+							 		"<div class='img'><img src='/Pickme/getComLogo.do?filename=" + list.get(i).getLogoname() + 
+							 		"&filepath=" + list.get(i).getLogopath() + "' alt='기업 로고'></div>" + 
+							 		"<div class='txt'>" + 
+							 			"<h3>" + list.get(i).getComName() + "</h3>"+ 
+							 			"<p>~" + list.get(i).getEdate() + "</p>" + 
+							 			"<p>" + list.get(i).getComjob1() + "</p>" + 
+							 	    "</div>" + 
+							 	 "</a></li>";
+			  }
+			  msg = msg + "</ul></div>"; 
+		  }		  
+		  System.out.println("msg>>>>>>> " + msg);
 		  return msg;
 	  }
+	  
+	// 회사로고 불러오기 
+		@RequestMapping(value="getComLogo.do")
+		 protected void getComLogo(HttpServletRequest request, HttpServletResponse response, String logoname, String logopath) throws ServletException, IOException {
+				   
+			  request.setCharacterEncoding("utf-8");
+			  response.setCharacterEncoding("utf-8");
+			  response.setContentType("text/html; charset=utf-8");
+		      System.out.println("file download connected");
+		      
+		      System.out.println("download serv logopath :"+ logopath);
+		      System.out.println("download serv logoname :"+ logoname);
+
+		      
+		      String uploadRoot = request.getSession().getServletContext().getRealPath(logopath);
+		      System.out.println("uploadRoot:"+uploadRoot);
+
+		      File f = new File(uploadRoot + logoname);
+
+		      response.setHeader("Content-Type", "image/jpg");
+
+		      // 파일을 읽고 사용자에게 전송
+		      FileInputStream fis;
+			try {
+				fis = new FileInputStream(f);
+				BufferedInputStream bis = new BufferedInputStream(fis);
+				OutputStream out = response.getOutputStream();
+				BufferedOutputStream bos = new BufferedOutputStream(out);
+				
+				while (true) {
+					int ch = bis.read();
+					if (ch == -1)
+						break;
+					bos.write(ch);
+				}
+				
+				bis.close();
+				fis.close();
+				bos.close();
+				out.close();
+				
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				System.out.println("filedownload error:" + e.getMessage());
+			}
+		}
 }

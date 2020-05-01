@@ -27,7 +27,7 @@
     	<div id="grid"></div>
     	<div class="btn-wrapper">
 	 		<button id="check">전체체크</button>
-	 		<button>탈퇴처리</button>
+	 		<button onclick="updateDelMember()">탈퇴처리</button>
 	 	</div>
 	</div>
 </div>
@@ -35,10 +35,24 @@
 var dataList = [];
 <%
 for( AMemberDto member : list ){
+	String status = "";
+	int num = member.getDel();
+	switch( num ){
+		case -1 :
+			status = "이메일체크";
+			break;
+		case 0 :
+			status = "승인";
+			break;
+		case 1 :
+			status = "탈퇴";
+			break;
+	}
 %>
 member = { SEQ:'<%=member.getSeq()%>',
                	EMAIL:'<%=member.getEmail()%>',
                	NAME:'<%=member.getName()%>',
+               	STATUS:'<%=status%>',
                	SIGNDATE:'<%=member.getSignDate()%>' }
 dataList.push(member)					
 <% } %> 
@@ -46,9 +60,10 @@ $(document).ready(function () {
      $("#grid").kendoGrid({
          dataSource: {
              data: dataList,
-             pageSize: 10
+             pageSize: 30
          },
-         height: 350,
+         height: 550,
+         toolbar: ["search"],
          groupable: true,
          sortable: true,
          pageable: {
@@ -74,9 +89,12 @@ $(document).ready(function () {
              field: "SIGNDATE",
              title: "가입일자"
          }, {
+             field: "STATUS",
+             title: "가입상태"
+         }, {
              field: "checkall",
              title: "체크",
-             template: "<input type='checkbox' style='text-align:center' name='checkbox'>",
+             template: "<label class='check-label'><input type='checkbox' seq='#: SEQ #'  style='text-align:center' name='checkbox'></label>",
              width: 50
          }]
      });
@@ -157,10 +175,50 @@ $('#check').click(function(){
 	  $('#check').text('전체체크') 
 	}
 }) 
+
+// 탈퇴처리하기
+function updateDelMember(){
+	var chboxes = document.querySelectorAll('input[name=checkbox]');
+	var checkCount = 0;
+	var seqList = [];
+	for( i = 0; i < chboxes.length; i++ ){
+		if( chboxes[i].checked == true ){
+			checkCount++;
+			seqList.push(chboxes[i].getAttribute('seq'))
+		}
+	}
+	if(checkCount == 0){
+		alert('탈퇴처리할 데이터를 체크해주세요')
+		return false;
+	}
+
+	if(confirm(checkCount + '개의 데이터를 탈퇴처리 합니다.')){
+		console.log(seqList)
+		var sendData = { "seqList":seqList };
+		$.ajax({
+			url:'updateDelMemberA.do',
+			data:sendData,
+			type:'post',
+			success: function(data){
+				if(data === true ){
+					alert('성공적으로 탈퇴처리 되었습니다.')
+					location.reload();
+				}else{
+					alert('탈퇴처리 실패함')
+				}
+			}, error: function(err){
+				alert('error!')
+			}
+		})
+	}
+}
 </script>
 <style>
 .btn-wrapper{ margin: 20px 0; height: 30px; }
 .btn-wrapper button{ float:right; margin-left: 10px; width:100px; height: 30px; line-height:30px; color:#fff; background: #4f6eff; outline: none; }
+.check-label{ display: inline-block; width: 100px; margin: 0px -10px;}
+.check-label input{ text-align: center; margin-left: 25px;}
 
 </style>
 <%@include file="./include/footer.jsp" %>
+  

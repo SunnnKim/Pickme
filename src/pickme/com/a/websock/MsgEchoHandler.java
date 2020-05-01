@@ -51,7 +51,7 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 			String[] strs = msg.split(",");
 			
 			System.out.println("strs길이: " + strs.length);
-			if(strs != null && strs.length == 6) {
+			if(strs != null && strs.length == 7) {
 				
 				String distinguish = strs[0];
 				String cmd=strs[1];
@@ -59,6 +59,7 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 				String receiverEmail = strs[3];
 				String msgSeq = strs[4];
 				String msgCount = strs[5];
+				String likerecruitList = strs[6];
 			
 				System.out.println("cmd: " + cmd);
 			    if("alert".equals(cmd)) {
@@ -70,8 +71,6 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 					if("com".equals(distinguish) && receiverSession != null) {
 						TextMessage tmpMsg = new TextMessage("<a href='../c_apply/msgDetail.do?msgSeq=" + msgSeq +  "&page=cRcvMsg&pageNumber=0&unread=0'>"
 								+ "<img src='../images/main/bell.png' width='20px' height='20px'><span>[" + senderName + "]</span>님으로부터 새로운메시지가 도착하였습니다.</a>"); 
-						
-						
 						
 						receiverSession.sendMessage(tmpMsg);
 					}else if("mem".equals(distinguish)) {
@@ -89,9 +88,15 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 			    	
 			    }else if("recruit".equals(cmd)) {
 			    	WebSocketSession loginSession = userSessionsMap.get(loginEmail.trim());
+<<<<<<< HEAD
 			    	
 			    	// TextMessage tmpMsg = new TextMessage(); 
 			    	// loginSession.sendMessage(tmpMsg);
+=======
+			    	System.out.println("likerecruitList: " + likerecruitList);
+			    	TextMessage tmpMsg = new TextMessage(likerecruitList); 
+			    	loginSession.sendMessage(tmpMsg);
+>>>>>>> 7be0f1a58e25d559d38bc710d91b6c0d9ab89713
 			    }
 			}
 	

@@ -51,18 +51,18 @@
 		AND COMJOB2 = #{job}
 		</if>
 		<if test="sKeyword != null and sKeyword !=''">
-		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
-		OR  TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR TITLE = #{sKeyword} 
-		OR  COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB1 = #{sKeyword} 
-		OR  COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB2 = #{sKeyword} 
-		OR  REQUIREMENTS LIKE CONCAT('%', #{sKeyword}, '%') OR REQUIREMENTS = #{sKeyword} 
-		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
-		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
+		AND ( COMNAME LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR COMNAME = UPPER(#{sKeyword})
+		OR  TITLE LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR TITLE = UPPER(#{sKeyword})
+		OR  COMJOB1 LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR COMJOB1 = UPPER(#{sKeyword})
+		OR  COMJOB2 LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR COMJOB2 =UPPER(#{sKeyword})
+		OR  REQUIREMENTS LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR REQUIREMENTS = UPPER(#{sKeyword})
+		OR  CONTENT LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR CONTENT = UPPER(#{sKeyword}) 
+		OR  HASHTAG LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR HASHTAG = UPPER(#{sKeyword}) )
 		</if>
-		<if test="sorting !=null and sorting !='' and sorting == 'newest' ">
+		<if test="sorting == 'newest' ">
 		ORDER BY SEQ DESC
 		</if>
-		<if test="sorting !=null and sorting !='' and sorting == 'popular' ">
+		<if test="sorting == 'popular' ">
 		ORDER BY READCOUNT DESC
 		</if>
 	</select>
@@ -98,18 +98,18 @@
 		AND COMJOB1 = #{occ}
 		</if>
 		<if test="sKeyword != null and sKeyword !=''">
-		AND ( COMNAME LIKE CONCAT('%', #{sKeyword}, '%') OR COMNAME = #{sKeyword} 
-		OR  TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR TITLE = #{sKeyword} 
-		OR  COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB1 = #{sKeyword} 
-		OR  COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%') OR COMJOB2 = #{sKeyword} 
-		OR  REQUIREMENTS LIKE CONCAT('%', #{sKeyword}, '%') OR REQUIREMENTS = #{sKeyword} 
-		OR  CONTENT LIKE CONCAT('%', #{sKeyword}, '%') OR CONTENT = #{sKeyword} 
-		OR  HASHTAG LIKE CONCAT('%', #{sKeyword}, '%') OR HASHTAG = #{sKeyword} )
+		AND ( COMNAME LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR COMNAME = UPPER(#{sKeyword})
+		OR  TITLE LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR TITLE = UPPER(#{sKeyword})
+		OR  COMJOB1 LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR COMJOB1 = UPPER(#{sKeyword})
+		OR  COMJOB2 LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR COMJOB2 =UPPER(#{sKeyword})
+		OR  REQUIREMENTS LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR REQUIREMENTS = UPPER(#{sKeyword})
+		OR  CONTENT LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR CONTENT = UPPER(#{sKeyword}) 
+		OR  HASHTAG LIKE UPPER(CONCAT('%', #{sKeyword}, '%')) OR HASHTAG = UPPER(#{sKeyword}) )
 		</if>
-		<if test="sorting !=null and sorting !='' and sorting == 'newest' ">
+		<if test="sorting == 'newest' ">
 		ORDER BY SEQ DESC
 		</if>
-		<if test="sorting !=null and sorting !='' and sorting == 'popular' ">
+		<if test="sorting == 'popular' ">
 		ORDER BY READCOUNT DESC
 		</if>
 		LIMIT #{recordCountPerPage} OFFSET #{start} 
@@ -120,10 +120,10 @@
 		FROM ( SELECT * FROM RECRUIT WHERE COMSEQ=#{comSeq} AND DEL=0 ORDER BY SEQ DESC) R
 		LIMIT #{recordCountPerPage} OFFSET #{start}
 	</select> 
-	<!-- 기업만 볼수 있는 지난공고 list -->
+	<!-- 기업만 볼수 있는 마감공고 list -->
 	<select id="getMyRecruitPast" parameterType="model.RecruitParam" resultType="model.RecruitDto">
 		SELECT SEQ, COMSEQ, COMNAME, TITLE, COMJOBTYPE, WDATE,EDATE, REF, READCOUNT, IMAGENAME
-		FROM ( SELECT * FROM RECRUIT WHERE COMSEQ=#{comSeq} AND DEL=1 ORDER BY SEQ DESC) R
+		FROM ( SELECT * FROM RECRUIT WHERE COMSEQ=#{comSeq} AND DEL=2 ORDER BY SEQ DESC) R
 		LIMIT #{recordCountPerPage} OFFSET #{start}
 	</select> 
 	<!-- detail -->
@@ -152,7 +152,7 @@
 	<!-- 공고 마감하기 -->
 	<update id="delRecruit" parameterType="int">
 		UPDATE RECRUIT
-		SET DEL=1
+		SET DEL=2
 		WHERE SEQ=#{seq}
 	</update>
 	<!-- 공고 update -->
@@ -168,13 +168,7 @@
 		DELETE FROM FILES
 		WHERE USETABLE='RECRUIT' AND REF = #{ref} 
 	</delete>
-	<!-- 마감일이 오늘날짜보다 지났을때 공고마감 del=1  -->
-	<!-- <update id="dayUpdateDel" parameterType="java.lang.String">
-		<![CDATA[
-			UPDATE RECRUIT SET DEL=1
-			WHERE DATE_FORMAT(#{today},'%Y-%m-%d') > DATE_FORMAT(EDATE,'%Y-%m-%d')	
-		]]>
-	</update> -->
+	
 	<!-- 좋아요 눌렀을때 -->
 	<insert id="likeplus" parameterType="model.FavoriteDto">
 		INSERT INTO FAVORITE (ID, LIKEPICKSEQ, AUTH)

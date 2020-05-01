@@ -1,6 +1,8 @@
 package pickme.com.a.c_apply.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.json.JsonObject;
 import javax.servlet.http.HttpSession;
@@ -151,6 +153,39 @@ public class CRequestController {
 
 		return count;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "getaMemberProfile.do", method = {RequestMethod.POST})
+	public Map<String, Object> getaMemberProfile(String seq){
+		
+		System.out.println("getaMemberProfile seq : " + seq);
+		
+		Map<String, Object> data = new HashMap<>(); 
+		AMemberDto dto = cApplyService.getaMemberProfile(seq);
+		
+		System.out.println(":::::::::::::::::::" + dto.toString());
+		
+		data.put("AMember", dto); 
+		
+		
+		return data;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/*============== 요청 승인시에 이력서 가져오기 ==============*/

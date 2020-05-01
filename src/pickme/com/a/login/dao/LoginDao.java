@@ -156,6 +156,11 @@ public class LoginDao {
 		return sqlSession.update(namespace + "changePwdWithCodeC", member)>0? true:false;
 	}
 	
+	// 기업 사업자등록번호 변경하기
+	public boolean changeCompanyNumber(CMemberDto company) {
+		return sqlSession.update(namespace + "changeCompanyNumber", company) > 0 ? true:false;
+	}
+	
 
 	// 메인 채용공고 금주의 채용
 	public List<RecruitDto> mainTopRec(){

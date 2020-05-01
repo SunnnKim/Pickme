@@ -20,4 +20,12 @@ public class ScheduleDao {
 	public int dayUpdateDel(String today) {
 		return sqlSession.update(namespace+"dayUpdateDel",today);
 	}
+
+	public void deleteMemberA() {
+		sqlSession.delete(namespace + "deleteMemberA");
+	}
+
+	public void deleteMemberC() {
+		sqlSession.delete(namespace + "deleteMemberC");
+	}
 }

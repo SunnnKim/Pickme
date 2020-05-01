@@ -28,7 +28,10 @@
       </div>
   </div>
   <!-- 유료서비스 이용 고객 -->
-  <div class="service-title">유료회원 목록</div>
+  <div class="service-title">유료회원 목록
+	  <div style="font-size: 15px;">* 삭제된 유료회원 목록은 매주 월요일마다 데이터베이스에서 삭제됩니다.</div>
+  </div>
+  
    <div id="example">
     	<div id="grid"></div>
     	<div class="btn-wrapper">
@@ -36,7 +39,9 @@
 	 		<button>이용취소</button>
 	 	</div>
 	</div>
-	<div class="service-title">유료서비스 목록</div>
+	<div class="service-title">유료서비스 목록
+	  <div style="font-size: 15px;">* 삭제된 유료서비스 목록은 매주 월요일마다 데이터베이스에서 삭제됩니다.</div>
+	</div>
 	<div id="example2">
     	<div id="grid2"></div>
     	<div class="btn-wrapper">
@@ -76,7 +81,8 @@ var dataList2 = [];
 	%>	var data = {
 			SEQ:<%= service.getServiceSeq()%>,
 			SERVICENAME:'<%=service.getServiceName()%>',
-			PRICE:'<%=service.getPrice()%>'
+			PRICE:'<%=service.getPrice()%>',
+			PERIOD:'<%=service.getPeriod()%>'
 		}
 		dataList2.push(data)
 	<%
@@ -91,6 +97,7 @@ $(document).ready(function () {
          },
          height: 350,
          groupable: true,
+         toolbar: ["search"],
          sortable: true,
          pageable: {
              refresh: true,
@@ -140,6 +147,7 @@ $(document).ready(function () {
          },
          height: 350,
          groupable: true,
+         toolbar: ["search"],
          sortable: true,
          pageable: {
              refresh: true,
@@ -159,7 +167,11 @@ $(document).ready(function () {
          }, {
              field: "PRICE",
              title: "가격",
-             width: 250
+             width: 130
+         }, {
+             field: "PERIOD",
+             title: "이용기간",
+             width: 100
          }, {
              field: "DETAIL",
              title: "자세히보기",

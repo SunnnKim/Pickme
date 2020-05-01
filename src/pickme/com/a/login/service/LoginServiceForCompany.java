@@ -20,5 +20,7 @@ public interface LoginServiceForCompany {
    public boolean getLostEmailC2(CMemberDto dto);
    // 일반회원 비밀번호 분실시 이메일로 변경하기 
    public boolean changePwdWithCodeC(CMemberDto member);
+	// 기업 사업자등록번호 변경하기
+	public boolean changeCompanyNumber(CMemberDto company);
    
 }

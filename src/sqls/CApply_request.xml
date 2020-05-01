@@ -18,15 +18,17 @@
 ]]>
 </select>
  -->
+ 
+<!-- 이력서 열람요청 리스트 호출 -->
 <select id="getRequestList" parameterType="model.MessageParam" resultType="model.CvRequestDto">
-<![CDATA[
+
 	SELECT cv_request.SEQ, a_member.seq as pseq, c_member.email, a_member.name, comment, accept, state, cv_request.del, cv_request.cvSeq, a_member.email as pEmail
 		,(SELECT 1 FROM FAVORITE WHERE FAVORITE.ID = C_MEMBER.EMAIL AND FAVORITE.LIKEPICKSEQ = cv_request.PSEQ GROUP BY FAVORITE.LIKEPICKSEQ) AS likePick
-		, IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate
+		, <![CDATA[ IF(DATE(cv_request.rdate) < DATE(sysdate()), DATE_FORMAT(cv_request.rdate, '%Y-%m-%d'), DATE_FORMAT(cv_request.rdate, '%H : %i')) as rdate ]]>
 	FROM cv_request , a_member ,  C_MEMBER 
 	WHERE cv_request.cseq = #{toSeq} AND cv_request.del = 0 AND cv_request.cancel = 0 AND a_member.seq = cv_request.pseq
 		  AND cv_request.cseq =C_MEMBER.SEQ
-]]>	
+	
 	<if test="sKeyword != null and sKeyword !=''">
 		AND a_member.name LIKE CONCAT('%', #{sKeyword}, '%')
 	</if>
@@ -100,6 +102,27 @@
 	SET CANCEL = 1
 	WHERE SEQ = #{cv_seq}
 </update>
+
+
+
+
+<!-- 이력서 열람요청에서 구직자 프로필 가져오기 -->
+<select id="getaMemberProfile" parameterType="java.lang.String" resultType="model.AMemberDto">
+	SELECT *
+	FROM A_MEMBER
+	WHERE SEQ = #{seq}
+</select>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

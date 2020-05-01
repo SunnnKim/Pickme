@@ -36,13 +36,13 @@
   	</delete>
   	<!-- 관심기업 채용공고 리스트  -->
   	<select id="getInterComRecruitList" parameterType="model.EInterestParam" resultType="model.EInterestDto">
-		SELECT f.LIKEPICKSEQ, r.SEQ, r.TITLE, r.COMJOB2, r.COMNAME, r.EDATE
+		SELECT f.LIKEPICKSEQ, r.SEQ, r.TITLE, r.COMJOB1, r.COMNAME, r.EDATE
 		FROM (SELECT * FROM FAVORITE WHERE AUTH =  #{auth}) f
 		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
 		ON f.LIKEPICKSEQ = r.COMSEQ
 		WHERE f.ID = #{email}
 		<if test="sKeyword != null and sKeyword !=''">
-		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%'))
+		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
 		<if test="filter == '채용마감일'">
 			<if test="sort == 0">
@@ -71,7 +71,7 @@
 		ON f.LIKEPICKSEQ = r.COMSEQ
 		WHERE f.ID = #{email}
 		<if test="sKeyword != null and sKeyword !=''">
-		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%'))
+		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
   	</select>
   	
@@ -84,13 +84,13 @@
   	
   	
   	<select id="getLikeRecruitList" parameterType="model.EInterestParam" resultType="model.EInterestDto">
-  		SELECT f.LIKEPICKSEQ, r.TITLE, r.COMJOB2, r.COMNAME, r.EDATE
+  		SELECT f.LIKEPICKSEQ, r.TITLE, r.COMJOB1, r.COMNAME, r.EDATE
   		FROM (SELECT * FROM FAVORITE WHERE AUTH =  #{auth}) f
   		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
   		ON f.LIKEPICKSEQ = r.SEQ
   		WHERE f.ID = #{email}
   		<if test="sKeyword != null and sKeyword !=''">
-		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%'))
+		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
 		<if test="filter == '채용마감일'">
 			<if test="sort == 0">
@@ -117,15 +117,18 @@
   		ON f.LIKEPICKSEQ = r.SEQ
   		WHERE f.ID = #{email}
   		<if test="sKeyword != null and sKeyword !=''">
-		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB2 LIKE CONCAT('%', #{sKeyword}, '%'))
+		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
   	</select> 	
   	
+  	<!-- 리크루트 알람 -->
   	<select id="getRecentlikeRecruitList" parameterType="java.lang.String" resultType="model.EInterestDto">
-  		SELECT r.COMNAME, r.TITLE, r.SEQ
-  		FROM (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>)r
+  		SELECT r.COMNAME, r.SEQ, r.EDATE, r.COMJOB1, c.LOGOPATH, c.LOGONAME
+  		FROM (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) AND WDATE >= DATE_ADD(NOW(), INTERVAL -1 MONTH)]]> )r
   		INNER JOIN (SELECT * FROM FAVORITE WHERE AUTH=1 AND ID = #{email} )f
   		ON r.COMSEQ = f.LIKEPICKSEQ
+  		INNER JOIN C_MEMBER c
+  		ON r.COMSEQ = c.SEQ
   		ORDER BY r.WDATE DESC
   		LIMIT 5 OFFSET 0
   	</select>

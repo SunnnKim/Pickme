@@ -14,11 +14,14 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" crossorigin="anonymous">
 <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
 <script src="https://kit.fontawesome.com/e11681bffc.js" crossorigin="anonymous"></script><!-- font-awesome -->
-   <!-- kendo --> 
-<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.1.406/styles/kendo.default-v2.min.css" crossorigin="anonymous"/>
-<script src="https://code.jquery.com/jquery-1.12.3.min.js" crossorigin="anonymous"></script>
-<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js" crossorigin="anonymous"></script>
+<!-- JQuery -->
+ <script src="/Pickme/js/jquery/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+<!-- Kendo-Grid --> 
+<link rel="stylesheet" href="/Pickme/js/chartist/chartist.css" crossorigin="anonymous"/>
+<script src="/Pickme/js/chartist/chartist.js" crossorigin="anonymous"></script>
+<!-- (cdn) -->
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.1.406/styles/kendo.common.min.css" crossorigin="anonymous">
+<script src="https://kendo.cdn.telerik.com/2020.1.406/js/kendo.all.min.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.1.406/styles/kendo.rtl.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.1.406/styles/kendo.default.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.1.406/styles/kendo.mobile.all.min.css" crossorigin="anonymous">
@@ -38,8 +41,7 @@
         <a href="/Pickme/admin/notice/noticeList.do">공지사항</a>
         <a href="/Pickme/admin/payment/paidServiceView.do">유료서비스</a>
         <a href="/Pickme/admin/question/questionList.do">문의내역</a>
-        <a href="#none">이력서관리</a>
-        <a href="#none">공고관리</a>
+        <a href="/Pickme/admin/manageResume.do">이력서/공고관리</a>
       </nav><!-- // gnb -->
       <ul class="header_infoBtn clfix">
         <li></li>

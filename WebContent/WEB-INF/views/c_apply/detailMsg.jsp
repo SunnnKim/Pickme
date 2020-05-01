@@ -37,8 +37,7 @@
 		</div>
 		<!-- // title-->
 		<div class="from">
-			<a href="클릭시 기업정보페이지가기"><span class=msgFrom> 언리드: ${unread }
-					) ${msgDetail.name } </span></a>
+			<a href="클릭시 구직자 프로필"><span class=msgFrom> 보낸이 : ${msgDetail.name } </span></a>
 		</div>
 		<div class="msg-content">
 			<p>${msgDetail.content }</p>
@@ -233,7 +232,7 @@ function send(){
 						if(socket) {
 							// websocket에 보내기  (distinguish, cmd, 메시지 보내는자이름, 메시지받는자이메일 , 메시지seq, 안읽은메시지갯수)
 						   let socketMsg = socket.send("mem,alert," +  data.senderName + "," + data.receiverEmail 
-								                       + "," + data.msgSeq + ",null");
+								                       + "," + data.msgSeq + ",null,null");
 						 	console.debug("sssmsg >> ", socketMsg)
 						 	socket.send(socketMsg)
 						}  

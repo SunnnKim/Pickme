@@ -13,7 +13,7 @@
         <div>이용가격<span class="price"></span></div>
         <div>이용기간<span><%=dto.getPeriod() %></span></div>
         <div>서비스내용<span><%=dto.getServiceInfo() %></span></div>
-        <div class="btn">결제하기</div>
+        <div class="btn" onclick="goPaying(<%=dto.getServiceSeq() %>)">결제하기</div>
       </div>
     </div>
     <div class="detail-content">
@@ -31,7 +31,8 @@ function changeValue( number ){
 }
 // 결제하기 버튼
 function goPaying( seq ) {
-	location.href="#" + seq;	// 서비스 시퀀스를 가지고 결제 페이지로 이동
+	//alert("seq = " + seq);
+	location.href="/Pickme/c_mypage/paymentDetail.do?seq="+seq;	// 서비스 시퀀스를 가지고 결제 페이지로 이동
 }
 
 </script>

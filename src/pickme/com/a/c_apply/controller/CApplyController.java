@@ -27,11 +27,15 @@ import model.AMemberDto;
 import model.CApplyDto;
 import model.CMemberDto;
 import model.CvRecruitDto;
+import model.FavoriteDto;
+import model.FilesDto;
 import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import pickme.com.a.c_apply.service.CApplyService;
 import pickme.com.a.c_apply.service.CMsgService;
+import pickme.com.a.recruit.service.RecruitService;
+import pickme.com.a.searchJob.service.SearchJobService;
 
 @Controller
 @RequestMapping(value = "/c_apply")
@@ -39,7 +43,14 @@ public class CApplyController {
 
 	@Autowired
 	CApplyService cApplyService;
+	@Autowired
 	CMsgService cMsgService;
+	@Autowired
+	RecruitService serv;
+	@Autowired
+	SearchJobService searchServ;
+	
+	
 	
 	@RequestMapping(value = "cApplyMain.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String cApplyMain(RecruitParam param, Model model, HttpSession session) {
@@ -114,6 +125,53 @@ public class CApplyController {
 	
 	
 	
+	@RequestMapping(value = "cApply_myRecDetail.do")
+	public String recDetail(int seq, Model model,HttpSession session,FavoriteDto favDto) {
+		
+		System.out.println("seq :::: " + seq);
+		RecruitDto dto = serv.getRecruitDetail(seq);
+		System.out.println("myRec: "+dto.toString());
+		
+
+		favDto.setLikePickSeq(seq);
+		// 해당 공고물 좋아요 total count 
+		int likeTotal = searchServ.likeRecTotal(favDto);
+		model.addAttribute("likeTotal", likeTotal);
+		
+		//hashtag 빼오기
+		//System.out.println("해쉬태그 : "+ dto.getHashTag());
+		String hashs = dto.getHashTag().replace("\"", " ");
+		//System.out.println("hashs : "+ hashs);
+		int firstBrackets = hashs.indexOf("[");
+		int lastBrackets = hashs.indexOf("]");
+		String[] hashStr = hashs.substring(firstBrackets+1,lastBrackets).split(",");
+		/*
+		 * for (int i = 0; i < hashStr.length; i++) {
+		 * System.out.println(i+"번째 hashStr : "+ hashStr[i]); }
+		 */
+		
+		//첨부한 파일 넘기기
+		List<FilesDto> fileslist = serv.getRecFile(seq);
+		/*
+		System.out.println("detail file count : "+fileslist.size());
+		for (int i = 0; i < fileslist.size(); i++) {
+			System.out.println("이미지 : "+ fileslist.get(i).getNewname());			
+		}/**/
+		CMemberDto cmemdto = serv.getComInfo(dto.getComSeq());
+		
+		//주소 제대로 들어오면 지우기
+		cmemdto.setAddress("서울 강남구 테헤란로5길 11 YBM빌딩 2층");
+		
+		model.addAttribute("recDto", dto);
+		model.addAttribute("cmem",cmemdto);
+		//model.addAttribute("comAddr", comAddr);
+		model.addAttribute("filesList", fileslist);
+		model.addAttribute("hashTag",hashStr);
+		
+		model.addAttribute("location", "cApply");
+		
+		return "recruit/myRecDetail";
+	}
 	
 	
 	
@@ -122,6 +180,29 @@ public class CApplyController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 파일 다운로드
 	@RequestMapping("/filedownload.do")
 	public void FileDownload (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	      

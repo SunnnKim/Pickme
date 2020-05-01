@@ -80,4 +80,9 @@ public class CustomUserDetailsServiceForCompany implements LoginServiceForCompan
 		return dao.changePwdWithCodeC(member);
 	}
 
+	@Override
+	public boolean changeCompanyNumber(CMemberDto company) {
+		return dao.changeCompanyNumber(company);
+	}
+
 }

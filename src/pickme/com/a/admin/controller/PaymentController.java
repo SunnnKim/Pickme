@@ -79,8 +79,8 @@ public class PaymentController {
 		model.addAttribute("dto", dto);
 		
 		return "admin/payment/updatePaidService";
-		
 	}
+
 	// 서비스 수정하기 
 	@RequestMapping(value="updateService.do")
 	public String updateService(Model model, PremierServiceDto dto) {

@@ -47,19 +47,19 @@
 		<table>
 			<caption>전체</caption>
 			<colgroup>
-				<col style="width: 45%">
-				<col style="width:15%">
-				<col style="width:15%">
-				<col style="width:15%">
 				<col style="width: 10%">
+				<col style="width: 45%">
+				<col style="width: 15%">
+				<col style="width: 15%">
+				<col style="width: 15%">
 			</colgroup>
 			<thead>
 				<tr>
+					<th><input type="checkbox" id="checkall"></th>
 					<th>내용</th>
 					<th>수신자</th>
 					<th>발신일</th>
 					<th>수신확인</th>
-					<th><input type="checkbox" id="checkall"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -77,6 +77,7 @@
 				<c:set var="content" value="${sendMsg.content }" />
 				<c:set var="sdate" value="${sendMsg.sdate }" />
 					<tr><!-- 중요메시지 표시 -->
+					<td><input type="checkbox" name="checkRow" value="${sendMsg.seq }"></td>
 					<td>
 						<a href="msgDetail.do?msgSeq=${sendMsg.seq }&page=cSendMsg&pageNumber=${pageNumber}&unread=0">
 							<span style="text-align:left;">
@@ -97,7 +98,7 @@
 							</c:if>
 						</td>
 						
-						<td><input type="checkbox" name="checkRow" value="${sendMsg.seq }"></td>
+						
 						
 					</tr>
 				</c:forEach>

@@ -84,16 +84,18 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 		채용탐색 		
 <% }%>
 
+
 <!--  c_mypage 기업 마이페이지  -->
-<% if(ifurl.contains("c_mypage")){
-	 if(ifurl.contains("myPage.jsp")){%>
-	<!-- <div id="company-logo"></div> -->
-	Corporation Information
-	<% }else{%>
+<% if(ifurl.contains("c_mypage")){ %>
 		마이페이지
+	<% if(ifurl.contains("myPage.jsp")){%>
+		Corporation Information
 <% }}%>
 
-<!-- 기업 페이지 디테일   -->
+<!-- 결제 직전 단계 디테일 -->
+<% if(ifurl.contains("/c_mypage/paymentDetail.jsp")) { %>
+		결제
+<% } %>
 
 
 <!-- 고객센터  -->
