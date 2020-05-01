@@ -1,6 +1,9 @@
 package pickme.com.a.c_mypage.controller;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -145,9 +148,9 @@ public class CMypageController {
 		return "c_mypage/withdrawal";
 	}
 	
-	// 결제 페이지 이동
+	// 결제내역 이동
 	@RequestMapping(value = "goPayment.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String goPayment(PaymentDto dto, Model model, HttpSession session) {
+	public String goPayment(PaymentDto dto, Model model, HttpSession session) throws ParseException {
 		
 		// 기업 세션 seq 저장
         int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
@@ -164,8 +167,24 @@ public class CMypageController {
 		PaymentDto recentDto = service.recentService(dto);
 		System.out.println("기업이 현재 이용중인 서비스 내역 = " + recentDto);
 		
-		model.addAttribute("list", list);
-		model.addAttribute("recentDto", recentDto);
+		// 현재시간
+		Date nowDate = new Date();	// java.util.date
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = nowDate;
+		Date end = sdf.parse(recentDto.getEndDate());
+		
+		// 결제내역 항목들
+		if(list.size() != 0 && now.before(end)) {	// 결제 이력이 있고, 현재 서비스 이용중인 경우
+			String serviceName = recentDto.getServiceName();
+			String payDate = recentDto.getPayDate();
+			String endDate = recentDto.getEndDate();
+			
+			model.addAttribute("list", list);
+			model.addAttribute("recentDto", recentDto);
+			model.addAttribute("serviceName", serviceName);
+			model.addAttribute("payDate", payDate);
+			model.addAttribute("endDate", endDate);
+		}
 		
 		return "c_mypage/payment";
 	}
@@ -184,6 +203,15 @@ public class CMypageController {
 		System.out.println("수정된 해시태그 = " + dto.getHashTag());
 		
 		return "redirect:/c_mypage/goCMypage.do";
+	}
+	
+	// 결제 디테일 이동
+	@RequestMapping(value="paymentDetail.do", method = {RequestMethod.GET})
+	public String paymentDetail(int seq, Model model) {
+		
+		model.addAttribute("seq", seq);
+		
+		return "c_mypage/paymentDetail";
 	}
 	
     // 결제 성공 후 DB저장
