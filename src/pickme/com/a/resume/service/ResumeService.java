@@ -1,5 +1,6 @@
 package pickme.com.a.resume.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import model.AwardsEtcDto;
@@ -50,5 +51,11 @@ public interface ResumeService {
 	
 	// 이력서 삭제
 	public int ResumeDelete(int seq);
+	
+	// 이력서 detail 이력서 기본정보
+	public ResumeDto ResumeDetail(HashMap<String, Integer> map);
+	
+	// 이력서 detail 경력
+	public CareerDto CareerDetail(int rsmseq);
 
 }

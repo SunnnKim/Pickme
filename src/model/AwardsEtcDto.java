@@ -3,10 +3,12 @@ package model;
 
 CREATE TABLE AWARDSETC
 (
+	`SEQ`     INT              NOT NULL    AUTO_INCREMENT COMMENT '수상 및 기타 시퀀스', 
     `RSMSEQ`  INT              NULL        COMMENT '이력서 시퀀스', 
     `AWARDS`  VARCHAR(2000)    NULL        COMMENT '활동명', 
     `DETAIL`  VARCHAR(3000)    NULL        COMMENT '세부사항', 
-    `DATE`    VARCHAR(100)     NULL        COMMENT '수상날짜'
+    `DATE`    VARCHAR(100)     NULL        COMMENT '수상날짜',
+    PRIMARY KEY (SEQ)
 );
 
 ALTER TABLE AWARDSETC COMMENT '이력서 수상 및 기타 테이블';
@@ -14,6 +16,7 @@ ALTER TABLE AWARDSETC COMMENT '이력서 수상 및 기타 테이블';
 */
 public class AwardsEtcDto {
 	
+	int seq;			// 수상 및 기타 시퀀스
 	int rsmseq;			// 이력서 시퀀스
 	String awards;		// 활동명
 	String detail;		// 세부사항
@@ -22,13 +25,11 @@ public class AwardsEtcDto {
 	
 	public AwardsEtcDto() {
 		
-	}
+	}	
 	
-	
-	
-	
-	public AwardsEtcDto(int rsmseq, String awards, String detail, String date) {
+	public AwardsEtcDto(int seq, int rsmseq, String awards, String detail, String date) {
 		super();
+		this.seq = seq;
 		this.rsmseq = rsmseq;
 		this.awards = awards;
 		this.detail = detail;
@@ -36,6 +37,14 @@ public class AwardsEtcDto {
 	}
 
 
+	public int getSeq() {
+		return seq;
+	}
+
+
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
 
 
 	public int getRsmseq() {
@@ -72,11 +81,10 @@ public class AwardsEtcDto {
 
 	@Override
 	public String toString() {
-		return "AwardsEtcDto [rsmseq=" + rsmseq + ", awards=" + awards + ", detail=" + detail + ", date=" + date + "]";
+		return "AwardsEtcDto [seq=" + seq + ", rsmseq=" + rsmseq + ", awards=" + awards + ", detail=" + detail
+				+ ", date=" + date + "]";
 	}
-	
-	
-	
+
 	
 	
 	
