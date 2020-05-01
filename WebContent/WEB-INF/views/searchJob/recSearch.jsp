@@ -156,7 +156,6 @@ $(document).ready(function(){
 
     //필터링 최신순
     function selectSorting(sel){
-        alert("정렬 :"+sel.value)
     	var sKeyword = "${sKeyword}",
     	occ = "${occ}",
     	job = "${job}",
