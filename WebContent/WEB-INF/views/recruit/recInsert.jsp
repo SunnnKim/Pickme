@@ -248,11 +248,11 @@
  
 	//제목
 	  $(i_title).keyup(function(){
-		  if(regExp.test(i_title.value)){
+		 /*  if(regExp.test(i_title.value)){
 			  	//특수문자 존재
 			 var title_r = i_title.value.replace(regExp,'');
 			 i_title.value = title_r;
-			}
+			} */
 	   var inputLength = $(this).val().length
 	  console.log(inputLength);
 	  if(inputLength>1){
