@@ -51,4 +51,7 @@ public interface CMypageService {
 	//public PaymentDto showRecentPay(PaymentDto dto);
 	
 	
+	// 환불 - 환불할 서비스 가져오기
+	public PaymentDto getRefundableService(int seq);
+	
 }

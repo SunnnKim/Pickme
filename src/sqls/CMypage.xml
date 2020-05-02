@@ -46,6 +46,8 @@
   	VALUES(#{logoPath}, #{logoName})
   </insert>
   
+
+  
   <!-- 기업회원 탈퇴 -->
  <!--  <update id = "withdrawal" parameterType = "model.CMemberDto">
   	UPDATE C_MEMBER

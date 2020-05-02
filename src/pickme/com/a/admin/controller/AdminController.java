@@ -60,11 +60,11 @@ public class AdminController {
 	// 일반회원 복원하기
 	@ResponseBody
 	@RequestMapping(value="recoverMemberA.do", method=RequestMethod.POST)
-	public boolean recoverMemberA(@RequestParam(value="seqList[]")  List<Integer> seqList) {
+	public boolean recoverMemberA( @RequestParam(value="seqList[]") List<Integer> seqList ) {
 		
 		boolean success = service.recoverMemberA(seqList);
-		
 		return success;
+
 	}
 	// 일반회원 탈퇴처리하기
 	@ResponseBody
@@ -72,8 +72,8 @@ public class AdminController {
 	public boolean updateDelMemberA(@RequestParam(value="seqList[]")  List<Integer> seqList) {
 		
 		boolean success = service.updateDelMemberA(seqList);
-		
 		return success;
+
 	}
 	// 일반회원 - 탈퇴관리페이지 가기 
 	@RequestMapping(value = "withdrawal.do",  method= {RequestMethod.GET,RequestMethod.POST})

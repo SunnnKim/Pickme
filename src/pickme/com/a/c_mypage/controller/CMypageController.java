@@ -244,6 +244,15 @@ public class CMypageController {
     }
 
 	
+    // 환불하기 페이지 이동
+    @RequestMapping(value="refundPage.do")
+    public String refundPage( Model model, int seq ) {
+    	System.out.println(seq);
+    	PaymentDto payService = service.getRefundableService(seq);
+    	model.addAttribute("payService", payService);
+    	
+    	return "c_mypage/refundRequest";
+    }
 	
 	// 로고 업로드
 /*	@RequestMapping(value = "uploadLogo.do", method = {RequestMethod.POST})

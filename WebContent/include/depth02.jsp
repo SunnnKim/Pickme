@@ -74,7 +74,7 @@ if (durl.contains("c_mypage")) {
 			<li class = <%= durl.contains("passwordUpdate.jsp") ? " on" :" " %>>
 				<a href="goPasswordUpdate.do">비밀번호 변경</a>
 			</li>
-			<li class = <%= durl.contains("payment.jsp") ? " on" :" " %>>
+			<li class = <%= durl.contains("payment.jsp") || durl.contains("refundRequest") ? " on" :" " %>>
 				<a href="goPayment.do">결제내역 </a>
 			</li>
 			<li class = <%= durl.contains("withdrawal.jsp") ? " on" :" " %>>
