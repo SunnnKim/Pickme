@@ -78,7 +78,7 @@ WHERE SERVICESEQ = ${serviceSeq}
 	SELECT BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID, ENDDATE
 	FROM PAYMENT
 	WHERE BUYERID=#{buyerId}
-	ORDER BY PAYDATE DESC
+	ORDER BY PAYDATE
 </select>
 
 <!-- 현재 서비스 진행중인지 (1개만뽑기) -->
@@ -90,6 +90,13 @@ WHERE SERVICESEQ = ${serviceSeq}
 	LIMIT 1
 </select>
 
+<!-- 환불하기 - 환불할 서비스 불러오기  -->
+<select id="getRefundableService" parameterType="int" resultType="model.PaymentDto">
+select * from Payment
+where enddate >= now() and buyerid = ${seq}
+order by enddate desc 
+limit 1
+</select>
 
 <!-- 가장 최근 결제 서비스의 종료일 -->
 <!-- <select id = "showRecentPay" parameterType = "model.PaymentDto" resultType="model.PaymentDto">

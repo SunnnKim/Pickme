@@ -117,6 +117,12 @@ public class CMypageDaoImpl implements CMypageDao{
 	}
 
 
+	@Override
+	public PaymentDto getRefundableService(int seq) {
+		return session.selectOne("Payment.getRefundableService", seq);
+	}
+
+
 	
 	// 가장 최근 결제 서비스의 종료일
 //	@Override

@@ -52,4 +52,8 @@ public interface CMypageDao {
 	
 	
 	
+	// 환불 - 환불할 서비스 가져오기
+	public PaymentDto getRefundableService(int seq);
+	
+	
 }

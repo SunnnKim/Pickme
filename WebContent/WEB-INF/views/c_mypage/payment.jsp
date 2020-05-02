@@ -74,7 +74,7 @@
 		</table>
 	   </div>
        
-       <div class="previous_refundButton"><button> 서비스 철회하기 </button></div>
+       <div class="previous_refundButton"><button onclick="refundPage(${logincompany.seq})"> 서비스 철회하기 </button></div>
     </div>
 </c:if>
 
@@ -96,6 +96,11 @@
    function goPage() {
       location.href="/Pickme/customer/paidService.do"
 }
+
+   // 환불페이지 가기
+function refundPage( seq ){
+	   location.href="/Pickme/c_mypage/refundPage.do?seq=" + seq;
+   }
 </script>
 
 

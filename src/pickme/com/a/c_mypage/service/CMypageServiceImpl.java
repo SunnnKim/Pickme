@@ -106,6 +106,12 @@ public class CMypageServiceImpl implements CMypageService{
 	}
 
 
+	@Override
+	public PaymentDto getRefundableService(int seq) {
+		return dao.getRefundableService(seq);
+	}
+
+
 	
 	
 	
