@@ -88,15 +88,10 @@ public class MsgEchoHandler extends TextWebSocketHandler{
 			    	
 			    }else if("recruit".equals(cmd)) {
 			    	WebSocketSession loginSession = userSessionsMap.get(loginEmail.trim());
-<<<<<<< HEAD
-			    	
-			    	// TextMessage tmpMsg = new TextMessage(); 
-			    	// loginSession.sendMessage(tmpMsg);
-=======
 			    	System.out.println("likerecruitList: " + likerecruitList);
 			    	TextMessage tmpMsg = new TextMessage(likerecruitList); 
 			    	loginSession.sendMessage(tmpMsg);
->>>>>>> 7be0f1a58e25d559d38bc710d91b6c0d9ab89713
+
 			    }
 			}
 	

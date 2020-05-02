@@ -8,7 +8,7 @@
 		<input type="hidden" name="memSeq" value="${sessionScope.loginuser.seq }"> <!-- 유저 시퀀스 -->
 		<input type="hidden" name="userName" value="${sessionScope.loginuser.name }"> <!-- 유저 이름 -->
 		<input type="hidden" name="status" value="0"><!-- 작성상태 : 0.작성중, 1.작성완료, 2.첨부완료 -->
-		<div class="rsm-downBtn"><button type="button"><i class="fas fa-download"></i></button></div>
+		<!-- <div class="rsm-downBtn"><button type="button"><i class="fas fa-download"></i></button></div> -->
 		<h3><input type="text" name="name" value="${sessionScope.loginuser.name }" placeholder="이력서명"></h3>
 		<input type="text" name="email" value="${sessionScope.loginuser.email }" placeholder="이메일을 입력해주세요">
 		<input type="text" name="phone" value="${memdto.phone }" name="phone" placeholder="연락처를 입력해주세요" maxlength="13">
@@ -30,11 +30,10 @@
 		<div class="rsm_addBtn educationBtn">+ 추가</div>
 		<form name="educationFrm">
 		<div class="rsm_add">
-		</div>
-		</form>
-		<!-- //rsm_add -->
-	</div>
-	<!-- //rsmCont -->
+		</div><!-- //rsm_add -->
+		</form>		
+	</div><!-- //rsmCont -->
+	
 
 	<div class="rsmCont">
 		<h4>수상 및 기타</h4>
@@ -341,8 +340,7 @@ $(document).on('click','.chkBox li', function(){
 $(document).on('click','.resumeBtnWrap button', function(){
 	
 	// 이력서 seq
-    var str_rsmseq = '${resumeSeq }'; 
-    	
+    var str_rsmseq = '${resumeSeq }';    	
 	
 	
 	// 경력 
@@ -350,10 +348,6 @@ $(document).on('click','.resumeBtnWrap button', function(){
 	console.log(careerObject);
 	var career = JSON.stringify(careerObject); // Obejct를 json문법에 맞게 string 타입으로 변형    
     console.log("career" + career);
-    
-    var careerFormData = new FormData();
-    careerFormData.append('str_rsmseq', str_rsmseq);
-    careerFormData.append('careerObject', careerObject);
 
     var sendData = { 
     	    "careerObject":careerObject.career,
@@ -361,25 +355,130 @@ $(document).on('click','.resumeBtnWrap button', function(){
     }
     console.log(sendData)
     
-    $.ajax({
-    	contentType:'application/json',
-        dataType:'json',
-		data: JSON.stringify( sendData ),
-		type: 'POST',
-		traditional: true,
-		url: "careerInsert.do",
-		success: function (data) { 
-		    alert("careerInsert.do");
-		    alert(data)			
-		}, error:function(err){
-			alert('error')
-			console.log(err)
-		}         
-	});
-   
+    if ($('form[name=careerFrm]').find('.rsm_addCont').length != 0) {   
+	    $.ajax({
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
+			type: 'POST',
+			traditional: true,
+			url: "careerInsert.do",
+			success: function (data) { 
+			    //alert("careerInsert.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
+			}         
+		});
+    }
 
-return false;
 
+ 	// 학력 
+    var educationObject = $('form[name=educationFrm]').serializeObject();
+    var sendData = { 
+    	    "educationObject":educationObject.education,
+    	    "str_rsmseq" :str_rsmseq 
+    }
+    console.log(sendData)
+    
+    if ($('form[name=educationFrm]').find('.rsm_addCont').length != 0) {   
+	    $.ajax({
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
+			type: 'POST',
+			traditional: true,
+			url: "educationInsert.do",
+			success: function (data) { 
+			    //alert("educationInsert.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
+			}         
+		});
+    }
+    
+	// 수상 및 기타
+	var awardsObject = $('form[name=awardsFrm]').serializeObject();
+    var sendData = { 
+    	    "awardsObject":awardsObject.awards,
+    	    "str_rsmseq" :str_rsmseq 
+    }
+    console.log(sendData)
+    
+    if ($('form[name=awardsFrm]').find('.rsm_addCont').length != 0) { 
+	    $.ajax({
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
+			type: 'POST',
+			traditional: true,
+			url: "AwardsEtcInsert.do",
+			success: function (data) { 
+			    //alert("AwardsEtcInsert.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
+			}         
+		});
+    }
+
+    
+	// 외국어
+	var langObject = $('form[name=langFrm]').serializeObject();
+    var sendData = { 
+    	    "langObject":langObject.language,
+    	    "str_rsmseq" :str_rsmseq 
+    }
+    console.log(sendData)
+    
+    if ($('form[name=langFrm]').find('.rsm_addCont').length != 0) {    
+	    $.ajax({
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
+			type: 'POST',
+			traditional: true,
+			url: "LanguageInsert.do",
+			success: function (data) { 
+			    //alert("LanguageInsert.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
+			}         
+		});
+    }
+    
+	// 링크
+	var linkObject = $('form[name=linkFrm]').serializeObject();
+    var sendData = { 
+    	    "linkObject":linkObject.link,
+    	    "str_rsmseq" :str_rsmseq 
+    }
+    console.log(sendData)
+    
+    if ($('form[name=linkFrm]').find('.rsm_addCont').length != 0) {    
+	    $.ajax({
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
+			type: 'POST',
+			traditional: true,
+			url: "LinkInsert.do",
+			success: function (data) { 
+			    //alert("LinkInsert.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
+			}         
+		});
+    }
+    
  	// 이력서 기본     
     var resumeFormData = new FormData($("form#resumeFrm")[0]);
     
@@ -399,14 +498,14 @@ return false;
 					  title: '이력서 저장 완료',
 					  timer: 1500
 				}).then( (result) =>{
-					//location.href="resume.do";
+					location.href="resume.do";
 				})		
 				
 			} else {
 				Swal.fire({
-					  icon: 'error',
-					  text: '실패하였습니다 다시 시도해주세요'
-					})
+				  icon: 'error',
+				  text: '실패하였습니다 다시 시도해주세요'
+				})
 				
 			}
   	     }
