@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import model.AMemberDto;
 import model.CvCompanyDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
@@ -82,6 +83,11 @@ public class CRequestDaoImpl implements CRequestDao{
 	@Override
 	public CvCompanyDto reqResumeOpen(CvRequestDto dto) {
 		return sqlSession.selectOne(ns + "reqResumeOpen", dto);
+	}
+
+	@Override
+	public AMemberDto getaMemberProfile(String seq) {
+		return sqlSession.selectOne(ns + "getaMemberProfile", seq);
 	}
 
 	

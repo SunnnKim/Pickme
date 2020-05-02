@@ -5,41 +5,22 @@
 <div id="resumeWrite_Wrap">
 	<div class="rsm_top">
 		<form name="resumeFrm" id="resumeFrm">
-		<input type="hidden" name="memSeq" value="${resumeDto.memSeq }"> <!-- 유저 시퀀스 -->
-		<input type="hidden" name="userName" value="${resumeDto.name }"> <!-- 유저 이름 -->
-		<input type="hidden" name="status" value="${resumeDto.status }"><!-- 작성상태 : 0.작성중, 1.작성완료, 2.첨부완료 -->
+		<input type="hidden" name="memSeq" value="${sessionScope.loginuser.seq }"> <!-- 유저 시퀀스 -->
+		<input type="hidden" name="userName" value="${sessionScope.loginuser.name }"> <!-- 유저 이름 -->
+		<input type="hidden" name="status" value="0"><!-- 작성상태 : 0.작성중, 1.작성완료, 2.첨부완료 -->
 		<div class="rsm-downBtn"><button type="button"><i class="fas fa-download"></i></button></div>
-		<h3><input type="text" name="name" value="${resumeDto.name }" placeholder="이력서명"></h3>
-		<input type="text" name="email" value="${resumeDto.email }" placeholder="이메일을 입력해주세요">
-		<input type="text" name="phone" value="${resumeDto.phone }" name="phone" placeholder="연락처를 입력해주세요" maxlength="13">
-		<textarea name="introduce" placeholder="간단한 자기소개를 통해 이력서를 돋보이게 만들어보세요.(3~5줄 권장)"><c:out value="${resumeDto.introduce }" /></textarea>
+		<h3><input type="text" name="name" value="${sessionScope.loginuser.name }" placeholder="이력서명"></h3>
+		<input type="text" name="email" value="${sessionScope.loginuser.email }" placeholder="이메일을 입력해주세요">
+		<input type="text" name="phone" value="${memdto.phone }" name="phone" placeholder="연락처를 입력해주세요" maxlength="13">
+		<textarea name="introduce" placeholder="간단한 자기소개를 통해 이력서를 돋보이게 만들어보세요.(3~5줄 권장)"></textarea>
 		</form>
 	</div><!-- //rsm_top -->
 
 	<div class="rsmCont">
 		<h4>경력</h4>
-		<div class="rsm_addBtn careerBtn">+ 추가2</div>
+		<div class="rsm_addBtn careerBtn">+ 추가</div>
 		<form name="careerFrm">
-		<div class="rsm_add">
-			  				
-				<c:forEach var="company" begin="0" end="${careerLength }" items="${companyStr}" varStatus="status">
-				<div class="rsm_addCont clfix" id="career">
-					<div class="rsm_left">
-						<div class="rsm_date">
-							<input type="text" name="startdate[]" placeholder="YYYYMM" maxlength="6" value="${startdateStr[status.index] }">
-							<span class="dateHide">-</span>
-							<input type="text" class="dateHide" name="enddate[]" placeholder="YYYYMM" maxlength="6" value="${enddateStr[status.index] }">
-						</div>
-						<p><label><input type="checkbox"><span></span>현재 재직중</label><input type="hidden" name="ing[]" value="${ingStr[status.index] }"></p>	
-					</div><!-- //rsm_left -->
-					<div class="rsm_right">
-						<input type="text" class="tit" placeholder="회사명" name="company[]" value="${company }">
-						<input type="text" class="desc" placeholder="부서명/직책" name="position[]" value="${positionStr[status.index] }">
-					</div><!-- //rsm_right -->
-					<div class="rsm_delete"><i class="fas fa-times"></i></div>
-				</div><!-- //rsm_addCont -->				 
-				</c:forEach>
-			
+		<div class="rsm_add">			
 		</div><!-- //rsm_add -->
 		</form>
 	</div><!-- //rsmCont -->
@@ -92,9 +73,12 @@
 </div>
 <!-- //resumeWrite_Wrap -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
-<script type="text/javascript">
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+
+
+<script type="text/javascript">
 
 // 연락처 정규식 
 $("input[name=phone]").on('keydown', function(e){
@@ -178,7 +162,27 @@ $(document).on('click','.rsm_left label', function(){
 	
 });
 
+$('.rsm-downBtn').click(function(){
+	var serializeObject = $('form[name=careerFrm]').serializeObject();
 
+	console.log(serializeObject);
+
+	var json_str = JSON.stringify(serializeObject); // Obejct를 json문법에 맞게 string 타입으로 변형    
+    console.log("json_str" + json_str);
+    var jsonObj = JSON.parse(json_str)
+    for( var i in jsonObj.career ){
+	    console.log(jsonObj.career[i].companyName)
+    }
+	var career = jsonObj;
+    //결과 : '[{"name":"a","value":"1"},{"name":"b","value":"2"},{"name":"c","value":"3"},{"name":"d","value":"4"},{"name":"e","value":"5"}]' //string
+
+
+   // var json_obj = JSON.parse(json_str); // json문법의 string을 배열의 Object형태로 변형
+   // console.log(json_obj)                // 결과는 serializeObject와 같다.    //object
+    
+
+	//alert(json_str);
+});
 /************* prependTo **************/
 // prepend 경력
 $('.careerBtn').click(function(){
@@ -537,9 +541,8 @@ $(document).on('click','.resumeBtnWrap button', function(){
 					  title: '이력서 저장 완료',
 					  timer: 1500
 				}).then( (result) =>{
-					
-				})
-			
+					location.href="resume.do";
+				})		
 				
 			} else {
 				Swal.fire({
@@ -553,6 +556,10 @@ $(document).on('click','.resumeBtnWrap button', function(){
       });
 	
 });
-</script>
 
+
+
+
+
+</script>
 <%@include file="../../../include/footer.jsp"%>

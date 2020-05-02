@@ -1,5 +1,6 @@
 package pickme.com.a.resume.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,18 @@ public class ResumeServiceImpl implements ResumeService{
 	@Override
 	public int ResumeDelete(int seq) {		
 		return dao.ResumeDelete(seq);
+	}
+	
+	// 이력서 detail 이력서 기본정보
+	@Override
+	public ResumeDto ResumeDetail(HashMap<String, Integer> map) {		
+		return dao.ResumeDetail(map);
+	}
+	
+	// 이력서 detail 경력
+	@Override
+	public CareerDto CareerDetail(int rsmseq) {
+		return dao.CareerDetail(rsmseq);
 	}
 
 	

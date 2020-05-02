@@ -88,4 +88,18 @@
 	WHERE SEQ=#{seq}
 </update>
 
+<!-- detail 기본 이력서 정보  -->
+<select id="ResumeDetail" parameterType="hashmap" resultType="model.ResumeDto">
+	SELECT SEQ, MEMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, STATUS, MAINRESUME, DEL
+	FROM RESUME 
+	WHERE SEQ=#{seq} AND MEMSEQ=#{memSeq} AND DEL=0
+</select> 
+
+<!-- detail 경력   -->
+<select id="CareerDetail" parameterType="int" resultType="model.CareerDto">
+	SELECT RSMSEQ, COMPANY, POSITION, STARTDATE, ENDDATE, ING
+	FROM CAREER 
+	WHERE RSMSEQ=#{rsmseq}
+</select> 
+
 </mapper>

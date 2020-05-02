@@ -1,5 +1,6 @@
 package pickme.com.a.resume.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -110,6 +111,19 @@ public class ResumeDaoImpl implements ResumeDao{
 	public int ResumeDelete(int seq) {
 		int count = sqlSession.update(namespace + "ResumeDelete", seq);
 		return count;
+	}
+	
+	
+	// 이력서 detail 이력서 기본정보
+	@Override
+	public ResumeDto ResumeDetail(HashMap<String, Integer> map) {		
+		return sqlSession.selectOne(namespace + "ResumeDetail", map);
+	}
+	
+	// 이력서 detail 경력
+	@Override
+	public CareerDto CareerDetail(int rsmseq) {		
+		return sqlSession.selectOne(namespace + "CareerDetail", rsmseq);
 	}
 
 	

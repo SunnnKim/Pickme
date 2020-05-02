@@ -1,14 +1,24 @@
 package pickme.com.a.resume.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.javassist.expr.NewArray;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
@@ -17,8 +27,6 @@ import model.CareerDto;
 import model.EducationDto;
 import model.LanguageDto;
 import model.LinkDto;
-import model.RecruitDto;
-import model.RecruitParam;
 import model.ResumeDto;
 import model.ResumeParam;
 import pickme.com.a.a_mypage.service.AMypageService;
@@ -119,16 +127,34 @@ public class ResumeController {
 		
 	}
 	
-	// 이력서 detail & update 페이지
+	// 이력서 detail 
 	@RequestMapping(value = "resumeView.do", method = {RequestMethod.GET, RequestMethod.POST})
-		public String resumeView(Model model, HttpSession session) {		
+		public String resumeView(int seq, Model model, HttpSession session) {		
 			
 		System.out.println("ResumeController resumeView.do 도착");
 		
+		int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		System.out.println("resumeView 이력서 시퀀스: " + seq);
+		System.out.println("resumeView 유저 시퀀스: " + memSeq);
 		
-		//int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		// 이력서 기본 정보 
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("seq", seq);
+		map.put("memSeq", memSeq);
+		System.out.println("resumeView Map: " + map.values() );
+
+		ResumeDto resumeDto = service.ResumeDetail(map);
+		System.out.println(resumeDto.toString());
+		model.addAttribute("resumeDto", resumeDto);	
 		
+		// ------- 이력서 경력  detail ---------------
+		System.out.println("이력서 경럭 detail");
+		int rsmseq = seq;
+		System.out.println("rsmseq +++++++" + rsmseq);
+		CareerDto careerDto = service.CareerDetail(rsmseq);
 		
+	
+
 		
 
 		return "resume/resumeView";
@@ -175,23 +201,72 @@ public class ResumeController {
 	// 경력 insert 
 	@ResponseBody
 	@RequestMapping(value = "careerInsert.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public int careerInsert(String str_rsmseq, CareerDto dto, Model model) {		
+	public int careerInsert(String str_rsmseq, @RequestBody Map<String, Object> careerObject, Model model) {		
 		System.out.println("ResumeController careerInsert.do 도착");
 		
 		String strRsmseq = str_rsmseq;
-		int rsmseq = Integer.parseInt(strRsmseq);
+		//int rsmseq = Integer.parseInt(strRsmseq);
+		System.out.println("###################### rsmseq" + strRsmseq);
 		
-		dto.setRsmseq(rsmseq);
 		
-		System.out.println("CareerDto dto : " + dto.toString());		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(careerObject);
+		System.out.println(careerObject.get("career"));
+		System.out.println(careerObject.get("rsmseq"));
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		
-		int a = service.careerInsert(dto);	
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : careerObject.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			System.out.println("key : "+key);
+			System.out.println(value);
+			jsonObject.put(key, value);
+			w++;
+		}
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+		System.out.println("number : " +rsmseq);
+		//CareerDto dto2 = (CareerDto)a.get(0);
+		System.out.println(a);
+		System.out.println(a.get(0));
+
 		
-		model.addAttribute("a", a);
-		System.out.println("a : " + a);
+		LinkedHashMap<String, String> careerMap = (LinkedHashMap<String, String>) a.get(0); 
+		System.out.println("startdate : " + careerMap.get("startdate"));
+		System.out.println("enddate : " + careerMap.get("enddate"));
+		System.out.println("company  : " + careerMap.get("company"));
+		System.out.println("position: " + careerMap.get("position"));
+		System.out.println("ing : " + careerMap.get("ing"));
+
+		System.out.println(((LinkedHashMap<String, Object>)a.get(0)).get("startdate"));
+		CareerDto dto = new CareerDto();
 		
-		return a;
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  // 이력서 시퀀스
+			dto.setCompany(list.get("company"));	  // 회사명
+			dto.setPosition(list.get("position"));	  // 부서명/직책
+			dto.setStartdate(list.get("startdate"));  // 입사 날짜
+			dto.setEnddate(list.get("enddate")); 	  // 퇴사 날짜
+			dto.setIng(list.get("ing")); 			  // 현재 재직중 (0 퇴사, 1 재직중)
+			
+			service.careerInsert(dto);	
+			
+			System.out.println("CareerDto dto : " + dto.toString());
+			
+			
+			
+		}	
 		
+		return 1;	
 		
 	}
 	

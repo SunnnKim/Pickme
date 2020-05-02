@@ -116,7 +116,7 @@
 					</td>
 					<td><a href="#" class="interest-com" title="기업상세페이지" >${likeRecruit.comName }</a></td>
 					<td><a href="#" class="interest-com" title="채용상세페이지">${likeRecruit.title }</a></td>
-					<td>${likeRecruit.comjob2 }</td>
+					<td>${likeRecruit.comjob1 }</td>
 					<td>${likeRecruit.edate }</td>
 					<c:if test="${likeRecruit.apply == 0 }">
 					<td>

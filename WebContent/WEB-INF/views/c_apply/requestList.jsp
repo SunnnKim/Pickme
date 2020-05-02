@@ -18,6 +18,75 @@ email : <%=company.getEmail()%>
  --%>
 
 
+<style>
+
+ /* 프로필 모달 시작 (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */.;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.3); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 15px;
+    border: 1px solid #888;
+    width: 530px; /* Could be more or less, depending on screen size */  
+   /*  height: 304px; */                        
+}
+
+.modal-content-wrap {display: inline-flex; border-bottom: 1px solid #aaa; border-top: 1px solid #aaa; width: 498px;margin-bottom: 23px;}
+.modal-imgArea {width: 180px;}
+.modal-imgWrap {float: left; width: 100%; text-align: center; margin-top: 20px;margin-bottom:15px}
+.modal-textArea {width: 348px; padding-left: 10px; padding-right: 10px;}
+.modal-introduce {resize: none; border: none; margin-bottom: 5px;}
+
+
+/* 메시지 전송 버튼 */
+.modal-msgBtn {margin-left: 9px}
+.far.fa-envelope {font-size: 20px; vertical-align: middle; vertical-align: -2px}
+/* 프로필 이미지 */
+.apProfileImg {width: 140px; height: 140px; border-radius: 50%;}
+/* 구직자 이름 */
+.apProfileName {margin-top: 7px; display: inline-block; font-size: 20px;}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: -12px;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-textUl li {margin-top:5px}
+.hashtag1 {display:inline-block;padding:5px 15px;font-size:13px;color:#fff;background:#999;border-radius:3px;margin-right:10px; margin-bottom: 10px; float: left}
+.hashtag2 {display:inline-block;padding:5px 15px;font-size:13px;color:#fff;background:#999;border-radius:3px;margin-right:10px; margin-bottom: 10px; float: left}
+.hashtag3 {display:inline-block;padding:5px 15px;font-size:13px;color:#fff;background:#999;border-radius:3px;margin-right:10px; margin-bottom: 10px; float: left}
+
+/* 프로필 모달 끝 */
+
+
+
+</style>
+
+
+
 
 
 <!-- subCont 시작 -->
@@ -103,7 +172,7 @@ email : <%=company.getEmail()%>
 							</td>
 							
 							<td>	<!-- 구직자 기본 정보 링크 들어가야함 -->
-								<a href="#none" style="text-align: center;" onclick="a_detail(${request.pseq })">
+								<a href="#none" style="text-align: center;" onclick="a_Profile(${request.pseq })">
 									${request.name }
 								</a>
 							</td>
@@ -163,9 +232,119 @@ email : <%=company.getEmail()%>
 
 
 
-
+<button id="myBtn">Open Modal</button>
 </div>
 <!-- bbsCont -->
+
+
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+	<!-- Modal content -->
+	<div class="modal-content">
+		<button type="button" class="modal-msgBtn"><i class="far fa-envelope"></i>&nbsp;메시지 전송</button>
+		<span class="close">&times;</span>
+		<div class="modal-content-wrap">
+			<div class="modal-imgArea">
+				<div class="modal-imgWrap">
+					<img class="apProfileImg" src="filedownload.do?filename=1.jpg&filepath=/upload/amember/" alt="프로필사진"> 
+					<span class="apProfileName">
+					</span>
+				</div>
+			</div>
+			<div class="modal-textArea">
+				<div style="float: right; width: 100%;">
+					<ul class="modal-textUl">
+						<li class="career"></li>
+						<li class="job1" style="float: left"></li>
+						<li class="job2"></li>
+						<li>
+							<textarea class="modal-introduce" rows="4.5px" cols="40px" readonly="readonly"></textarea>
+						</li>
+						<li><span class="hashtag1"></span></li>
+						<li><span class="hashtag2"></span></li>
+						<li><span class="hashtag3"></span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+//Get the modal
+var modal = document.getElementById('myModal');
+
+//Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+//Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];                                          
+
+//When the user clicks on the button, open the modal 
+btn.onclick = function() {
+ modal.style.display = "block";
+}
+
+//When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+ modal.style.display = "none";
+}
+
+//When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+ if (event.target == modal) {
+     modal.style.display = "none";
+ }
+}
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
 
@@ -418,8 +597,43 @@ email : <%=company.getEmail()%>
 	  location.href="getRequestList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 	}
 
-	function a_detail(p_seq){
-		alert("구직자 디테일 : " + p_seq);
+	function a_Profile(p_seq){
+		//alert("구직자 디테일 : " + p_seq);
+		$.ajax({
+			url		: "getaMemberProfile.do",
+			type	: "post",
+			dataType: "json",
+			data 	: {"seq" : p_seq},
+			success	: function(data){
+
+				var AMember = data.AMember;
+
+				if(AMember.open == 0) {
+					alert("비공개");
+				} else {
+					var tempJob = AMember.job.split(',');
+					var tempHash = AMember.hashtag.split(',');
+					//alert("success : " + AMember.job );
+					$('.apProfileName').html(AMember.name);
+					$('.career').text('경력 : ' + AMember.career);
+					$('.job1').text(tempJob[0]);
+					$('.job2').html('&nbsp;[ '+tempJob[1]+' ]');
+					$('.modal-introduce').text(AMember.introduce);
+	
+					for(var i=0 ; i < 3 ; i++) {
+						if(tempHash[i] != "undefined") {
+							$('.hashtag'+(i+1)).text('#'+tempHash[i]);
+						} else {
+							$('.hashtag'+(i+1)).removeClass();
+						}
+					}
+					modal.style.display = "block";
+				}
+			},
+			error		: function(request,status,error){ 
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+			}
+		})
 	}
 
 	function resumeOpen(cvSeq, pEmail) {

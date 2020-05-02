@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.AMemberDto;
 import model.CvCompanyDto;
 import model.CvRequestDto;
 import model.FavoriteDto;
@@ -77,6 +78,11 @@ public class CRequestServiceImpl implements CRequestService{
 	@Override
 	public CvCompanyDto reqResumeOpen(CvRequestDto dto) {
 		return cApplyDao.reqResumeOpen(dto);
+	}
+
+	@Override
+	public AMemberDto getaMemberProfile(String seq) {
+		return cApplyDao.getaMemberProfile(seq);
 	}
 
 	
