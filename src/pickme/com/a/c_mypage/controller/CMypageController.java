@@ -79,7 +79,7 @@ public class CMypageController {
 	
 	// 기업 마이페이지 이동
 	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String goCMyPage(Model model, HttpSession session, int sentSeq ) {
+	public String goCMyPage(Model model, HttpSession session, Integer sentSeq ) {
 		
 		// 데이터 불러오는 시퀀스 
 		int seq = 0;
