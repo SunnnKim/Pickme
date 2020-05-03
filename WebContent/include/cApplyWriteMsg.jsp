@@ -58,7 +58,7 @@
 				data  :formData,
 				dataType: "json",
 				success:function(data){
-					alert("MSG AJAX SUCCESS");
+					//alert("MSG AJAX SUCCESS");
 					if(data != null){
 						console.log(data.receiverEmail);
 						console.log(data.msgSeq);
@@ -75,7 +75,7 @@
 						 Swal.fire({
 							  position: 'center',
 							  icon: 'success',
-							  text: '메시지가 성공적으로 보내졌습니다',
+							  text: '메시지를 전송하였습니다',
 							  showConfirmButton: false,
 							  timer: 1500
 							})					

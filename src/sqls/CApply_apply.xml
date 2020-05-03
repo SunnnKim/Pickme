@@ -31,9 +31,15 @@
 
 <!-- 지원자 관리 - 상세 리스트 -->
 <select id="getCApplyList" resultType="model.CApplyDto">
-	SELECT a.name as memName, p.adate, p.open, c.name as cvName, a.profilename, p.cvseq, a.seq as memSeq
+	<!-- SELECT a.name as memName, p.adate, p.open, c.name as cvName, a.profilename, p.cvseq, a.seq as memSeq
 	FROM APPLY p, A_MEMBER a, CV_RECRUIT c
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0  -->
+	
+	
+	SELECT a.name as memName, p.adate, p.open, a.profilename, p.cvseq, a.seq as memSeq
+	FROM APPLY p, A_MEMBER a
 	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 
+	
 </select>
 
 
