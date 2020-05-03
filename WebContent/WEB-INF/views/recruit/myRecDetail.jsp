@@ -74,7 +74,7 @@
             </table>
             <div class="companyInfo">
             	<button type="button" class="btnleft">
-            		<div class="logo" style="background-image: url(&quot;https://static.wanted.co.kr/images/wdes/0_5.aded81ce.jpg&quot;);"></div>
+            		<div class="logo" style="background-image: url(&quot;/Pickme/c_mypage/imageDownload.do?filename=${cmem.logoName }&filepath=${cmem.logoPath }&quot;);"></div>
             		<div class="companyName">
             			<p class="comP">${recDto.comName }</p>
             			<p class="comT">${cmem.department }</p>
@@ -165,11 +165,12 @@
 	});
 
 	$(".btnleft").on("click", function(){
-		alert("기업정보 바로가기 클릭");
+		//alert("기업정보 바로가기 클릭");
+		location.href="/Pickme/c_mypage/goCMypage.do";
 	});
 
 	$(".followButton").on("click", function(){
-		alert("기업정보 바로가기 클릭");
+		//alert("기업정보 바로가기 클릭");
 		location.href="/Pickme/c_mypage/goCMypage.do";
 	});
 	
