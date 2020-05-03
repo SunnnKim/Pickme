@@ -212,4 +212,14 @@ public class AdminController {
 		boolean success = service.updateDelRecruit(seqList);
 		return success;
 	}
+	
+	
+	
+	// 환불처리 테스트 
+	@ResponseBody
+	@RequestMapping(value = "refundTest.do", method=RequestMethod.POST)
+	public String refundTest () {
+		
+		return "test";
+	}
 }

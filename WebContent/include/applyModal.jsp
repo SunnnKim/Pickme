@@ -54,7 +54,8 @@
 							$('#selectContents').append(str);
 						}
 						if(myResumes.length == 0){	// 이력서가 없을 경우
-							var str = '<label><input type="hidden" name="resume" value="noneResume"/> 작성된 이력서가 없습니다. [이력서 작성하기]</lablel>'	
+							var str = '<label><input type="hidden" name="resume" value="noneResume"/> 작성된 이력서가 없습니다.' + 
+									   '<a href="/Pickme/resume/resume.do" id="resume-link" > >> 이력서 작성하기</a>'	+ '</lablel>'	
 							$('#selectContents').append(str);
 						}else{
 							// 첫번째 이력서 선택됨 
@@ -62,8 +63,9 @@
 							$('input[name=resume]').eq(0).prop('checked', true);
 						}
 			            // show modal display
-			            document.querySelector('#modal-back').style.display = "block"
-			            $('#applyModal').show("slow")
+			            //document.querySelector('#modal-back').style.display = "block"
+			            $('#modal-back').fadeIn(500);
+			            $('#applyModal').fadeIn(500);
 			            $('#selectContents').show(30)
 					}
 				}, error: function(error){
@@ -91,8 +93,8 @@
         // x 버튼 눌렀을 때 모달 닫기 
         document.querySelector('#close-btn').onclick = () => {
             // close modal display
-            document.querySelector('#modal-back').style.display = "none"
-            document.querySelector('#applyModal').style.display = "none"
+           	$('#modal-back').fadeOut(500);
+           	$('#applyModal').fadeOut(500);
             // 애니메이션 초기화 
             $('#uploadContents').hide()
             $('#selectContents').hide()
@@ -161,9 +163,17 @@
                 var resumeUpload = $('input:file[name=file]');
 				if( resumeUpload.val() != ''){
 	     		  	data.append("file", resumeUpload[0].files[0]); 
+	     		  	data.append("memSeq", "${loginuser.seq}" ); 
+	     		  	data.append("comSeq", "${recDto.comSeq }" ); 
+	     		  	data.append("jobSeq", "${recDto.seq }" ); 
+	     		  	data.append("userName", "${loginuser.name}" ); 
 				}else{
 	     		  	data.append("seq", $('input[name=resume]:checked').val() ); 
+	     		  	data.append("comSeq", "${recDto.comSeq }" ); 
+	     		  	data.append("jobSeq", "${recDto.seq }" ); 
 				}
+				
+				
 				// 지원하기 부분 
 				$.ajax({
 					url:'insertResume.do',
@@ -174,23 +184,23 @@
 			      	processData: false,
 			      	enctype: 'multipart/form-data',
 					success: function(data){
-						alert(data)
+						// alert(data)
 					}, error : function(err){
 						alert('지원에 실패했습니다!')
 						console.log(err)
 						return false;
+					},
+					complete : function(){
+						  Swal.fire(
+					                '성공적으로 지원하였습니다!',
+					                '지원현황에서 이력서 열람여부를 확인할 수 있습니다.',
+					                'success'
+					              ).then((result) => {
+					               		location.reload();
+					              });
 					}
 
 				})
-					
-                
-              Swal.fire(
-                '성공적으로 지원하였습니다!',
-                '지원현황에서 이력서 열람여부를 확인할 수 있습니다.',
-                'success'
-              ).then((result) => {
-                location.reload();
-              });
             }
           })
         })
@@ -202,13 +212,16 @@
 #modal-back{ background: #333; opacity: 0.7; height: 100%; width: 100%; position: fixed; top:0; left: 0; z-index: 900}
 #applyModal{ z-index:1000; width: 500px; height: 480px; background: #fff; border: 1px solid #eaeaea; position: fixed; top:50px; left: 30%; }
 #close-btn { cursor: pointer; position: absolute; right: 10px; font-size: 25px; color: #ccc;}
+#resume-link{  margin-left: 50px; color: #eaeaea;}
+#resume-link:hover { color: #4356b3;}
+
 /* modal contents : select resume */
 .modal-title{ cursor: pointer; font-size: 25px; text-align: center; margin: 10px 0; padding-bottom: 10px; border-bottom: 1px solid #eaeaea; }
 .modal-content{ margin: 30px; border-left: 1px solid #eaeaea; border-right: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; }
 .modal-content > .title{ height: 50px;line-height: 40px; cursor: pointer; padding: 5px; font-size: 15px; border: 1px solid rgb(96, 123, 255); background: #304edf; color: #fff;}
 .modal-content > .contents { font-size: 15px; }
-.modal-content > #selectContents { margin: 30px 0; }
-.modal-content > #selectContents > label { display:block; width: 100%; margin-left: 10px; margin-top: 5px;}
+.modal-content > #selectContents { margin: 10px 0;height: 120px; width: 100%; overflow-y: scroll; }
+.modal-content > #selectContents > label { display:block; margin-left: 30px; margin-top: 10px;}
 .modal-content > #selectContents > label > input { margin-right: 10px; }
 /* modal contents : upload contents */
 #uploadContents > label{  display: block; margin: 30px 0; }

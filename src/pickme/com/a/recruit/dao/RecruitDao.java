@@ -2,10 +2,17 @@ package pickme.com.a.recruit.dao;
 
 import java.util.List;
 
+import model.AwardsEtcDto;
 import model.CMemberDto;
+import model.CareerDto;
+import model.EducationDto;
 import model.FilesDto;
+import model.LanguageDto;
+import model.LinkDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
+import model.ResumeFileDto;
 
 public interface RecruitDao {
 	//날짜 지나면 DEL=1로 바꾸기
@@ -58,6 +65,42 @@ public interface RecruitDao {
 	
 	// (공고 수정 ) FILES DELETE
 	public boolean delRecFile(int ref);
+	
+	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// 지원하기 : resume_after 에 데이터 넣기 
+	public int insertResume( ResumeAfterDto dto);
+	// 지원하기 : file 일 경우 resume_file_after 테이블에 넣기 
+	public int insertResumeFile( ResumeFileDto file );
+	
+	// Resume 테이블에서 지원서 꺼내오기
+	public ResumeAfterDto getSelectedResume(int seq);
+	
+	// Career 테이블에서 경력사항 꺼내오기 
+	public List<CareerDto> getSelectedResumeCareer(int seq);
+	// Career_after에 데이터 넣기
+	public boolean insertCareerAfter(List<CareerDto> list);
+	
+	// Education 테이블에서 학력사항 꺼내오기 
+	public List<EducationDto> getSelectedResumeEducation(int seq);
+	// Education_after에 데이터 넣기
+	public boolean insertEducationAfter(List<EducationDto> list);
+
+	// AwardsEtc 테이블에서 학력사항 꺼내오기 
+	public List<AwardsEtcDto> getSelectedResumeAwards(int seq);
+	// AwardsEtc_after에 데이터 넣기
+	public boolean insertAwardsAfter(List<AwardsEtcDto> list);
+	
+	// Language 테이블에서 학력사항 꺼내오기 
+	public List<LanguageDto> getSelectedResumeLanguage(int seq);
+	// Language_after 에 데이터 넣기
+	public boolean insertLanguageAfter(List<LanguageDto> list);
+	
+	// Link 테이블에서 학력사항 꺼내오기 
+	public List<LinkDto> getSelectedResumeLink(int seq);
+	// Link_after 에 데이터 넣기
+	public boolean insertLinkAfter(List<LinkDto> list);
+	
 	
 	
 	

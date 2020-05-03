@@ -3,13 +3,19 @@ package pickme.com.a.recruit.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import model.AwardsEtcDto;
 import model.CMemberDto;
+import model.CareerDto;
+import model.EducationDto;
 import model.FilesDto;
+import model.LanguageDto;
+import model.LinkDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
+import model.ResumeFileDto;
 import pickme.com.a.recruit.dao.RecruitDao;
 
 
@@ -85,6 +91,58 @@ public class RecruitServiceImpl implements RecruitService{
 	@Override
 	public List<RecruitDto> mainTopRec() {
 		return dao.mainTopRec();
+	}
+	@Override
+	public int insertResume(ResumeAfterDto dto) {
+		return dao.insertResume(dto);
+	}
+	@Override
+	public int insertResumeFile(ResumeFileDto file) {
+		return dao.insertResumeFile(file);
+	}
+	@Override
+	public ResumeAfterDto getSelectedResume(int seq) {
+		return dao.getSelectedResume(seq);
+	}
+	@Override
+	public List<CareerDto> getSelectedResumeCareer(int seq) {
+		return dao.getSelectedResumeCareer(seq);
+	}
+	@Override
+	public boolean insertCareerAfter(List<CareerDto> list) {
+		return dao.insertCareerAfter(list);
+	}
+	@Override
+	public List<EducationDto> getSelectedResumeEducation(int seq) {
+		return dao.getSelectedResumeEducation(seq);
+	}
+	@Override
+	public boolean insertEducationAfter(List<EducationDto> list) {
+		return dao.insertEducationAfter(list);
+	}
+	@Override
+	public List<AwardsEtcDto> getSelectedResumeAwards(int seq) {
+		return dao.getSelectedResumeAwards(seq);
+	}
+	@Override
+	public boolean insertAwardsAfter(List<AwardsEtcDto> list) {
+		return dao.insertAwardsAfter(list);
+	}
+	@Override
+	public List<LanguageDto> getSelectedResumeLanguage(int seq) {
+		return dao.getSelectedResumeLanguage(seq);
+	}
+	@Override
+	public boolean insertLanguageAfter(List<LanguageDto> list) {
+		return dao.insertLanguageAfter(list);
+	}
+	@Override
+	public List<LinkDto> getSelectedResumeLink(int seq) {
+		return dao.getSelectedResumeLink(seq);
+	}
+	@Override
+	public boolean insertLinkAfter(List<LinkDto> list) {
+		return dao.insertLinkAfter(list);
 	}
 
 	

@@ -205,4 +205,97 @@
 	SELECT * FROM RESUME
 	WHERE SEQ = ${seq} AND MEMSEQ = ${memSeq}
 	</select>
+	<!-- 지원서 데이터베이스에 넣기 -->
+	<insert id="insertResume" parameterType="model.ResumeAfterDto">
+	INSERT INTO RESUME_AFTER ( MEMSEQ, JOBSEQ, COMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, WHOSE, DEL, OPEN )
+	VALUES ( ${memSeq}, ${jobSeq}, ${comSeq}, #{name}, #{userName}, #{phone}, #{email}, #{introduce}, NOW(), 0, 0, 0)
+	</insert>
+	<!-- 디비에 넣은 이력서 시퀀스 뽑기 -->
+	<select id="getResumeLastSeq" resultType="int">
+	SELECT  LAST_INSERT_ID()
+	</select>
+	<!-- 디비에 파일 넣기 -->
+	<insert id="insertResumeFile" parameterType="model.ResumeFileDto">
+	INSERT INTO RESUME_FILE_AFTER ( RSMSEQ, ORIGINALNAME, STOREDNAME, FILEPATH )
+	VALUES ( ${rsmSeq}, #{originalName}, #{storedName}, #{filePath} )
+	</insert>
+	<!-- Resume 테이블에서 지원서 꺼내오기 -->
+	<select id="getSelectedResume" parameterType="int" resultType="model.ResumeAfterDto">
+	SELECT * FROM RESUME
+	WHERE SEQ = ${seq}
+	</select>
+	<!-- CAREER 테이블에서 경력 꺼내오기 -->
+	<select id="getSelectedResumeCareer" parameterType="int" resultType="model.CareerDto">
+	SELECT * FROM CAREER
+	WHERE RSMSEQ = ${seq}
+	</select>
+	<!-- Career_After에 경력사항 넣기 -->
+	<insert id="insertCareerAfter" parameterType="List">
+	insert into career_after ( RSMSEQ, COMPANY, POSITION, STARTDATE, ENDDATE, ING )
+	values 
+		<foreach collection="list" item="vo" separator=",">
+			( ${vo.rsmseq}, #{vo.company}, #{vo.position}, #{vo.startdate}, #{vo.enddate}, #{vo.ing} )
+		</foreach>
+	</insert>
+	
+	<!-- Eduaction 테이블에서 학력 꺼내오기 -->
+	<select id="getSelectedResumeEducation" parameterType="int" resultType="model.EducationDto">
+	SELECT * FROM Education
+	WHERE RSMSEQ = ${seq}
+	</select>
+	<!-- Education_After에 학력사항 넣기  -->
+	<insert id="insertEducationAfter" parameterType="List">
+	insert into education_after ( RSMSEQ, SCHOOL, MAJOR, STUDY, STARTDATE, ENDDATE, ING )
+	values 
+		<foreach collection="list" item="vo" separator=",">
+			( ${vo.rsmseq}, #{vo.school}, #{vo.major}, #{vo.study}, #{vo.startdate}, #{vo.enddate}, #{vo.ing} )
+		</foreach>
+	</insert>
+	
+	<!-- AwardsEtc 테이블에서 학력 꺼내오기 -->
+	<select id="getSelectedResumeAwards" parameterType="int" resultType="model.AwardsEtcDto">
+	SELECT * FROM AWARDSETC
+	WHERE RSMSEQ = ${seq}
+	</select>
+	
+	<!-- AwardsEtc_After에 학력사항 넣기  -->
+	<insert id="insertAwardsAfter" parameterType="List">
+	insert into AWARDSETC_after ( RSMSEQ, AWARDS, DETAIL, DATE )
+	values 
+		<foreach collection="list" item="vo" separator=",">
+			( ${vo.rsmseq}, #{vo.awards}, #{vo.detail}, #{vo.date} )
+		</foreach>
+	</insert>
+	
+	<!-- Language 테이블에서 학력 꺼내오기 -->
+	<select id="getSelectedResumeLanguage" parameterType="int" resultType="model.LanguageDto">
+	SELECT * FROM LANGUAGE
+	WHERE RSMSEQ = ${seq}
+	</select>
+	
+	<!-- Language_After에 학력사항 넣기  -->
+	<insert id="insertLanguageAfter" parameterType="List">
+	insert into LANGUAGE_after ( RSMSEQ, LANG, LEVEL, TEST, SCORE, DATE )
+	values 
+		<foreach collection="list" item="vo" separator=",">
+			( ${vo.rsmseq}, #{vo.lang}, #{vo.level}, #{vo.test}, #{vo.score}, #{vo.date})
+		</foreach>
+	</insert>
+	
+	<!-- Link 테이블에서 학력 꺼내오기 -->
+	<select id="getSelectedResumeLink" parameterType="int" resultType="model.LinkDto">
+	SELECT * FROM LINK
+	WHERE RSMSEQ = ${seq}
+	</select>
+	
+	<!-- Link_After에 학력사항 넣기  -->
+	<insert id="insertLinkAfter" parameterType="List">
+	insert into link_after ( RSMSEQ, URL )
+	values 
+		<foreach collection="list" item="vo" separator=",">
+			( ${vo.rsmseq}, #{vo.url} )
+		</foreach>
+	</insert>
+	
+	
  </mapper>
