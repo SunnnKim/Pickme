@@ -79,9 +79,20 @@ public class CMypageController {
 	
 	// 기업 마이페이지 이동
 	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String goCMyPage(Model model, HttpSession session) {
-		// 기업 고유 시퀀스 
-		int seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq() ;
+	public String goCMyPage(Model model, HttpSession session, int sentSeq ) {
+		
+		// 데이터 불러오는 시퀀스 
+		int seq = 0;
+		// 기업로그인 상태일때 
+		if( session.getAttribute("logincompany") != null ) {
+			// 기업로그인시 기업 마이페이지로 이동하기  
+			// 기업 고유 시퀀스 
+			seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq() ;
+		}else{
+			// 채용공고페이지 기업정보  클릭했을 때 이동하기 
+			seq = sentSeq;
+		}
+		
 		
 		CMemberDto cMember = service.select(seq);
 		model.addAttribute("cMember", cMember);

@@ -145,7 +145,7 @@ if ( chk != null || chk != ""){
 
 	$(".followButton").on("click", function(){
 		alert("기업정보 바로가기 클릭");
-		location.href="/Pickme/c_mypage/goCMypage.do";
+		location.href="/Pickme/c_mypage/goCMypage.do?sentSeq=${recDto.comSeq }";
 	});
 	
 	//회사이름, 제목 
