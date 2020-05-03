@@ -14,12 +14,16 @@
 		</div>
 		<!-- // resume-item  새 이력서 작성 -->
 		<div class="resume-item">
-			<div href="#none" class="dropZone">
-				<div>
-					<i class="fas fa-file-upload"></i> <span>파일업로드</span>
-					<input type="file">
-				</div>
+			<form id="form" method="post" enctype="multipart/form-data">
+			<div class="dropZone">			
+				<label for="inputFile">	
+					<div>
+						<i class="fas fa-file-upload"></i> <span>파일업로드</span>
+						<input type="file" id="inputFile" name="originalName">
+					</div>
+				</label>
 			</div>
+			</form>
 		</div>
 		<!-- // resume-item  파일업로드 -->
 		
@@ -67,24 +71,66 @@
           	
 	</div><!-- // resume-list -->
 	
-	<c:choose>
-	<c:when test="${not empty resumeList }">
-	<!-- 페이징 -->
-	<div id="paging_wrap">
-		<jsp:include page="/WEB-INF/views/resume/paging.jsp" flush="false">
-			<jsp:param name="totalRecCount" value="${totalRecCount }" />
-			<jsp:param name="pageNumber" value="${pageNumber }" />
-			<jsp:param name="pageCountPerScreen" value="${pageCountPerScreen }" />
-			<jsp:param name="recordCountPerPage" value="${recordCountPerPage }" />
-		</jsp:include>
-	</div><!-- // paging_wrap -->
-	</c:when>
-	</c:choose>
+	
 </div>
 <!-- // resumeListWrap -->
 
-
+1-${aMemberDto.userName }
+2-${aMemberDto.phone }
+3-${aMemberDto.email }
 <script>
+
+// 파일 업로드 눌렀을 때
+$(".dropZone").on("click",function(){
+
+	var memSeq = ${sessionScope.loginuser.seq};
+	var name = $("input[name=originalName]").val();
+	var userName = "${aMemberDto.userName }";
+	var phone = "${aMemberDto.phone }";
+	var email = "${aMemberDto.email }";
+	var status = 2;
+	
+	var filePath = "/upload/resume/";
+
+	console.log({
+		'memSeq':memSeq, 'name':name, 'userName':userName, 'phone':phone, 'email':email, 'status':status, 
+		'rsmSeq':rsmSeq, 'originalName':originalName, 'filePath':filePath
+	});
+	
+	return false;
+	
+	var frmTag = document.getElementById("form");
+
+	 var form = $('#form')[0];
+     var formData = new FormData(form);
+
+
+	var getFile = $('input[name=originalName]')[0].files[0]
+	formData.append("file", getFile);
+    $.ajax({
+      data: formData,
+      type: 'POST',
+      url: "resumeFileUpload.do",
+      cache: false,
+      contentType: false,
+      processData: false,
+      async : false,
+      enctype: 'multipart/form-data',
+      success: function (data) { 
+			alert('success');
+			Swal.fire({
+				  icon: 'success',
+				  title: '파일 첨부가 완료됐습니다',
+				  timer: 1500
+			}).then(function(result){
+				
+			});
+			
+	     }
+        
+    });
+		
+});
 
 //메뉴 버튼 (이름변겅, 다운로드 , 삭제 )
 $(".resume-menu").click(function(){
@@ -92,7 +138,6 @@ $(".resume-menu").click(function(){
 });
 
 // 메인 이력서 체크
-
 $(".radioBtn").unbind("click").bind("click",function(){
 	
    $(".radioBtn").not($(this).addClass('active')).removeClass('active');
@@ -197,7 +242,7 @@ $(".delete").click(function(){
 	 	 cancelButtonColor: '#d33',
 	 	 confirmButtonText: '삭제',
 	 	 cancelButtonText: '닫기',
-		}).then((result) => {
+		}).then((result) => {			
 	 		if (result.value) {		
 	 			$.ajax({
 	 				url:"ResumeDelete.do",
@@ -205,20 +250,24 @@ $(".delete").click(function(){
 	 				datatype:'json',
 	 				data:{'seq':seq},
 	 				success: function(data){
-	 					alert("ResumeDelete.do");	
+	 					// alert("ResumeDelete.do");	
 	 					Swal.fire({
 	 						  icon: 'success',
 	 						  title: '이력서가 삭제됐습니다',
 	 						  timer: 1500
 	 					}).then(function(result){
-	 						location.href="resume.do";
+	 						//location.href="resume.do";
+	 						
+	 						
 	 					});
 	 					
 	 				}
-	 			}); //ajax 
-	  		}
+	 			 }); //ajax 
+	 			$(this).parent('ul').parent('.resume-menu').parent('.resume-info').parent('.resume-item').remove();
+	  		 }
+	 		
 		});	
-	
+	  
 });
 
 

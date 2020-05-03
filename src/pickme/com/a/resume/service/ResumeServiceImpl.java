@@ -73,10 +73,16 @@ public class ResumeServiceImpl implements ResumeService{
 		return dao.ResumeCount(param);
 	}
 	
-	// 이력서 list
+	// 이력서 list paging
 	@Override
 	public List<ResumeDto> ResumeAllList(ResumeParam param) {
 		return dao.ResumeAllList(param);
+	}
+	
+	// 이력서 list ajax
+	@Override
+	public List<ResumeDto> ResumeAllList02(ResumeDto dto) {
+		return dao.ResumeAllList02(dto);
 	}
 	
 	// 이력서 관리 이력서명 변경

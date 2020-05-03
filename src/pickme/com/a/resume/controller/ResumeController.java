@@ -42,8 +42,9 @@ public class ResumeController {
 	@Autowired
 	ResumeService service;
 	
-	// 이력서 관리 페이지 이동 
-	@RequestMapping(value = "resume.do")
+	// 이력서 관리 페이지 이동 paging
+	/*
+	@RequestMapping(value = "resume.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String resumeView(Model model, ResumeParam param,  HttpSession session) {		
 		
 		int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
@@ -69,6 +70,27 @@ public class ResumeController {
 		model.addAttribute("pageCountPerScreen", 10);
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage()); // 한 페이지에 보일 게시물 수
 		model.addAttribute("totalRecCount", totalRecCount);
+		return "resume/resume";
+	}
+	*/
+	
+	// // 이력서 관리 페이지 이동 scroll
+	@RequestMapping(value = "resume.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String resumeView(Model model, ResumeDto dto, HttpSession session) {		
+		
+		int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		
+		
+		dto.setMemSeq(memSeq);		
+		
+		List<ResumeDto> list = service.ResumeAllList02(dto);
+		System.out.println("Resume List Size : " + list.size());
+		model.addAttribute("resumeList",list);
+		//model.addAttribute("aMemberDto", aMypageService.profileSelect(1));
+		
+		
+
+
 		return "resume/resume";
 	}
 	
