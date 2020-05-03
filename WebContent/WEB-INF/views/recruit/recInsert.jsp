@@ -243,60 +243,78 @@
 
     //boolean
   var b_title, b_main_task, b_requirements, b_salary;
-  var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
   
- 
+	// 정규표현식 함수
+	function regExpTest(str){
+		//console.log(str)
+	  var regExp = /[\{\}\[\]\/?.;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+		 if(regExp.test(str)){
+			  	//특수문자 존재
+			 var regStr = str.replace(regExp,'');
+			 //console.log(regStr)
+			 return regStr;
+		}
+		return str;
+	}
+  
 	//제목
 	  $(i_title).keyup(function(){
-		 /*  if(regExp.test(i_title.value)){
-			  	//특수문자 존재
-			 var title_r = i_title.value.replace(regExp,'');
-			 i_title.value = title_r;
-			} */
-	   var inputLength = $(this).val().length
-	  console.log(inputLength);
-	  if(inputLength>1){
-	    $(this).next("i").css("color","green")
-	    b_title=true;
-	    } else {
-	    $(this).next("i").css("color","#bbb");
-	    }
+		 var regStr = regExpTest( $(this).val() );
+		 $(this).val(regStr);
+		  if( $(this).val().length > 5 ){
+		    $(this).next("i").css("color","green")
+		    b_title=true;
+		   } else {
+		    $(this).next("i").css("color","#bbb");
+		   }
 	 });
 
     //주요업무
     $(i_main_task).keyup(function(){
-     var inputLength = $(this).val().length;
-    console.log(inputLength);
-    if(inputLength>10){
-      $(this).next("i").css("color","green");
-      b_main_task=true;
-      } else {
-      $(this).next("i").css("color","#bbb");
-      }
+    	var regStr = regExpTest( $(this).val() );
+		$(this).val(regStr);
+	    if($(this).val().length >10){
+	      $(this).next("i").css("color","green");
+	      b_main_task=true;
+	    } else {
+	      $(this).next("i").css("color","#bbb");
+	    }
    });
 
     //자격요건
     $(i_requirements).keyup(function(){
-     var inputLength = $(this).val().length;
-    console.log(inputLength);
-    if(inputLength>10){
-      $(this).next("i").css("color","green");
-      b_requirements=true;
-      } else {
-      $(this).next("i").css("color","#bbb");
-      }
+    	 var regStr = regExpTest( $(this).val() );
+		 $(this).val(regStr);
+		  if( $(this).val().length >10){
+		      $(this).next("i").css("color","green");
+		      b_requirements=true;
+		    } else {
+		      $(this).next("i").css("color","#bbb");
+		    }
    });
     //급여
     $(i_salary).keyup(function(){
-     var inputLength = $(this).val().length;
-    console.log(inputLength);
-    if(inputLength>3){
-      $(this).next("i").css("color","green");
-      b_salary=true;
-      } else {
-      $(this).next("i").css("color","#bbb");
-      }
+    	var regStr = regExpTest( $(this).val() );
+		 $(this).val(regStr);
+
+		 if( $(this).val().length>3){
+		      $(this).next("i").css("color","green");
+		      b_salary=true;
+	      } else {
+	     	 $(this).next("i").css("color","#bbb");
+	      }
    });
+
+    $("#hashtag").keyup(function(){
+    	 var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+		 if(regExp.test($(this).val())){
+			  	//특수문자 존재
+			 var regStr = $(this).val().replace(regExp,'');
+			 //console.log(regStr)
+			$(this).val(regStr)
+		}
+    
+    })
 
 
     //hashtag append 
