@@ -6,10 +6,17 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import model.AwardsEtcDto;
 import model.CMemberDto;
+import model.CareerDto;
+import model.EducationDto;
 import model.FilesDto;
+import model.LanguageDto;
+import model.LinkDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
+import model.ResumeFileDto;
 
 @Repository
 public class RecruitDaoImpl implements RecruitDao{
@@ -119,6 +126,85 @@ public class RecruitDaoImpl implements RecruitDao{
 	@Override
 	public List<RecruitDto> mainTopRec() {
 		return sqlSession.selectList(ns+"mainTopRecruit");
+	}
+
+
+	@Override
+	public int insertResume(ResumeAfterDto dto) {
+		sqlSession.insert(ns + "insertResume", dto);
+		return sqlSession.selectOne(ns + "getResumeLastSeq");
+	}
+
+
+	@Override
+	public int insertResumeFile(ResumeFileDto file) {
+		return sqlSession.insert(ns + "insertResumeFile", file);
+	}
+
+
+	@Override
+	public ResumeAfterDto getSelectedResume(int seq) {
+		return sqlSession.selectOne(ns + "getSelectedResume", seq);
+	}
+
+
+	@Override
+	public List<CareerDto> getSelectedResumeCareer(int seq) {
+		return sqlSession.selectList(ns + "getSelectedResumeCareer", seq);
+	}
+
+
+	@Override
+	public boolean insertCareerAfter(List<CareerDto> list) {
+		return sqlSession.insert(ns + "insertCareerAfter", list) > 0 ? true:false;
+	}
+
+
+	@Override
+	public List<EducationDto> getSelectedResumeEducation(int seq) {
+		return sqlSession.selectList(ns + "getSelectedResumeEducation", seq);
+	}
+
+
+	@Override
+	public boolean insertEducationAfter(List<EducationDto> list) {
+		return sqlSession.insert(ns + "insertEducationAfter", list) > 0 ? true:false;
+	}
+
+
+	@Override
+	public List<AwardsEtcDto> getSelectedResumeAwards(int seq) {
+		return sqlSession.selectList(ns + "getSelectedResumeAwards", seq);
+	}
+
+
+	@Override
+	public boolean insertAwardsAfter(List<AwardsEtcDto> list) {
+		return sqlSession.insert(ns + "insertAwardsAfter", list) > 0 ? true:false;
+	}
+
+
+	@Override
+	public List<LanguageDto> getSelectedResumeLanguage(int seq) {
+		return sqlSession.selectList(ns + "getSelectedResumeLanguage", seq);
+	}
+
+
+	@Override
+	public boolean insertLanguageAfter(List<LanguageDto> list) {
+		return sqlSession.insert(ns+"insertLanguageAfter", list) > 0 ? true:false;
+	}
+
+
+	@Override
+	public List<LinkDto> getSelectedResumeLink(int seq) {
+		return sqlSession.selectList(ns + "getSelectedResumeLink", seq);
+	}
+
+
+	@Override
+	public boolean insertLinkAfter(List<LinkDto> list) {
+		return sqlSession.insert(ns + "insertLinkAfter", list) > 0 ? true:false;
 	}
 
 

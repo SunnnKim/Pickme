@@ -19,7 +19,8 @@
 	      <div class="chart-text"><%=notAnswerList.size() %></div>
 	    </div>
 	</div>
-	<div class="question-title">미답변 문의내역</div>
+	<div class="question-title">미답변 문의내역
+	</div>
 	<div id="example">
 	  <div id="grid"></div>
 	  <div class="btn-wrapper">
@@ -28,7 +29,9 @@
 	 		<button onclick="passQuestion('checkbox')">응답처리</button>
 	 	</div>
 	</div>
-	<div class="question-title">전체 문의내역</div>
+	<div class="question-title">전체 문의내역
+		<div style="font-size: 15px;">* 삭제된 문의내역은 매주 월요일마다 데이터베이스에서 삭제됩니다.</div>
+	</div>
 	<div id="example2">
 	  <div id="grid2"></div>
 	  <div class="btn-wrapper">
@@ -211,6 +214,7 @@ $(document).ready(function () {
         height: 350,
         groupable: true,
         sortable: true,
+        toolbar: ["search"],
         pageable: {
             refresh: true,
             pageSizes: true,
@@ -260,6 +264,7 @@ $(document).ready(function () {
             pageSize: 5
         },
         height: 350,
+        toolbar: ["search"],
         groupable: true,
         sortable: true,
         pageable: {

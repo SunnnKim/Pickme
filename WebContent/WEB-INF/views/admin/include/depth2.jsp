@@ -70,3 +70,15 @@ System.out.println("durl:"+durl);
 			</li>
 		</ul><!-- // depth02 -->
 <% } %>
+<!-- 이력서 / 공고 관리   -->
+<% if( durl.contains("/admin/manage") ){
+	%>
+		<ul class="depth02 clfix">
+			<li class=<%= durl.contains("/admin/manageResume") ? " on" :" "%>> 
+				<a href="/Pickme/admin/manageResume.do">이력서관리</a>
+			</li>
+			<li class=<%= durl.contains("/admin/manageRecruit") ? " on" :" "%>> 
+				<a href="/Pickme/admin/manageRecruit.do">공고관리</a>
+			</li>
+		</ul><!-- // depth02 -->
+<% } %>

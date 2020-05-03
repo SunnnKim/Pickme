@@ -1,5 +1,6 @@
 package pickme.com.a.resume.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -111,6 +112,141 @@ public class ResumeDaoImpl implements ResumeDao{
 		int count = sqlSession.update(namespace + "ResumeDelete", seq);
 		return count;
 	}
+	
+	
+	// 이력서 detail 이력서 기본정보
+	@Override
+	public ResumeDto ResumeDetail(HashMap<String, Integer> map) {		
+		return sqlSession.selectOne(namespace + "ResumeDetail", map);
+	}
+	
+	// 이력서 detail 경력
+	@Override
+	public List<CareerDto> CareerDetail(int rsmseq) {		
+		return sqlSession.selectList(namespace + "CareerDetail", rsmseq);
+	}
+	
+	// 이력서 detail 학력
+	@Override
+	public List<EducationDto> educationDetail(int rsmseq) {
+		return sqlSession.selectList(namespace + "educationDetail", rsmseq);
+	}
+	
+	// 이력서 detail 수상 및 기타
+	@Override
+	public List<AwardsEtcDto> AwardsEtcDetail(int rsmseq) {
+		return sqlSession.selectList(namespace + "AwardsEtcDetail", rsmseq);
+	}
+	
+	// 이력서 detail 외국어
+	@Override
+	public List<LanguageDto> LanguageDetail(int rsmseq) {
+		return sqlSession.selectList(namespace + "LanguageDetail", rsmseq);
+	}
+	
+	// 이력서 detail 링크
+	@Override
+	public List<LinkDto> LinkDetail(int rsmseq) {
+		return sqlSession.selectList(namespace + "LinkDetail", rsmseq);
+	}
+	
+	// 이력서 delete 경력
+	@Override
+	public int careerDelete(int seq) {
+		return sqlSession.delete(namespace + "careerDelete", seq);
+	}
+	
+	// 이력서 delete 학력
+	@Override
+	public int educationDelete(int seq) {
+		return sqlSession.delete(namespace + "educationDelete", seq);
+	}
+	
+	// 이력서 delete 수상 및 기타
+	@Override
+	public int awardsEtcDelete(int seq) {
+		return sqlSession.delete(namespace + "AwardsEtcDelete", seq);
+	}
+	
+	// 이력서 delete 외국어
+	@Override
+	public int languageDelete(int seq) {
+		return sqlSession.delete(namespace + "LanguageDelete", seq);
+	}
+	
+	// 이력서 delete 링크
+	@Override
+	public int linkDelete(int seq) {
+		return sqlSession.delete(namespace + "LinkDelete", seq);
+	}
+	
+	// 이력서 update 기본 이력서
+	@Override
+	public int resumeUpdate(ResumeDto dto) {
+		return sqlSession.update(namespace + "resumeUpdate", dto);
+	}
+	
+	// 이력서 update 경력
+	@Override
+	public int careerUpdate(CareerDto dto) {
+		return sqlSession.insert(namespace + "careerUpdate", dto);
+	}
+	
+	// 이력서 update 학력
+	@Override
+	public int educationUpdate(EducationDto dto) {
+		return sqlSession.insert(namespace + "educationUpdate", dto);
+	}
+	
+	// 이력서 update 수상 및 기타
+	@Override
+	public int AwardsEtcUpdate(AwardsEtcDto dto) {
+		return sqlSession.insert(namespace + "AwardsEtcUpdate", dto);
+	}
+	
+	// 이력서 update 외국어
+	@Override
+	public int LanguageUpdate(LanguageDto dto) {
+		return sqlSession.insert(namespace + "LanguageUpdate", dto);
+	}
+	
+	// 이력서 update 링크
+	@Override
+	public int LinkUpdate(LinkDto dto) {
+		return sqlSession.insert(namespace + "LinkUpdate", dto);
+	}
+	
+	// 경력 전체 삭제
+	@Override
+	public int careerDeleteAll(int rsmseq) {
+		return sqlSession.delete(namespace + "careerDeleteAll", rsmseq);
+	}
+	
+	// 학력 전체 삭제
+	@Override
+	public int educationDeleteAll(int rsmseq) {
+		return sqlSession.delete(namespace + "educationDeleteAll", rsmseq);
+	}
+	
+	// 수상 및 기타 전체 삭제
+	@Override
+	public int awardsEtcDeleteAll(int rsmseq) {
+		return sqlSession.delete(namespace + "AwardsEtcDeleteAll", rsmseq);
+	}
+	
+	// 외국어 전체 삭제
+	@Override
+	public int languageDeleteAll(int rsmseq) {
+		return sqlSession.delete(namespace + "LanguageDeleteAll", rsmseq);
+	}
+	
+	// 링크 전체 삭제
+	@Override
+	public int linkDeleteAll(int rsmseq) {
+		return sqlSession.delete(namespace + "LinkDeleteAll", rsmseq);
+	}
+	
+	
 
 	
 

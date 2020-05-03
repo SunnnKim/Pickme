@@ -7,9 +7,14 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.core.sym.NameN;
+
 import model.AMemberDto;
 import model.AdminDto;
+import model.AdminParam;
 import model.CMemberDto;
+import model.RecruitDto;
+import model.StatisticsParam;
 
 
 
@@ -131,6 +136,76 @@ public class AdminDaoImpl implements AdminDao {
 			if(a == 0) return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<StatisticsParam> getDepartmentStatistics() {
+		return sqlSession.selectList(namespace + "getDepartmentStatistics");
+	}
+
+	@Override
+	public boolean updateDelResume(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "updateDelResume", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean updateDelResume2(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "updateDelResume2", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<AdminParam> getAllResume() {
+		return sqlSession.selectList(namespace + "getAllResume");
+	}
+
+	@Override
+	public List<AdminParam> getAllResume2() {
+		return sqlSession.selectList(namespace + "getAllResume2");
+	}
+
+	@Override
+	public int getTotalResumeAfter() {
+		return sqlSession.selectOne(namespace + "getTotalResumeAfter");
+	}
+
+	@Override
+	public List<StatisticsParam> getResumeStatistics() {
+		return sqlSession.selectList(namespace + "getResumeStatistics");
+	}
+
+	@Override
+	public List<RecruitDto> getAllRecruit() {
+		return sqlSession.selectList(namespace +  "getAllRecruit");
+	}
+
+	@Override
+	public int getRecruitNumber() {
+		return sqlSession.selectOne(namespace + "getRecruitNumber");
+	}
+
+	@Override
+	public List<StatisticsParam> getRecruitStatistics() {
+		return sqlSession.selectList(namespace + "getRecruitStatistics");
+	}
+
+	@Override
+	public boolean updateDelRecruit(List<Integer> seqList) {
+		for (int i = 0; i < seqList.size(); i++) {
+			int seq = seqList.get(i);
+			int a = sqlSession.update(namespace + "updateDelRecruit", seq); 
+			if(a == 0) return false;
+		}
+		return true;
+	
 	}
 
 

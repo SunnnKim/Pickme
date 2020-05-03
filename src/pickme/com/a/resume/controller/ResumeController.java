@@ -1,14 +1,24 @@
 package pickme.com.a.resume.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.javassist.expr.NewArray;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
@@ -17,8 +27,6 @@ import model.CareerDto;
 import model.EducationDto;
 import model.LanguageDto;
 import model.LinkDto;
-import model.RecruitDto;
-import model.RecruitParam;
 import model.ResumeDto;
 import model.ResumeParam;
 import pickme.com.a.a_mypage.service.AMypageService;
@@ -64,6 +72,7 @@ public class ResumeController {
 		return "resume/resume";
 	}
 	
+	
 	// 이력서 관리 이력서명 변경
 	@ResponseBody
 	@RequestMapping(value = "ResumeNameUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
@@ -75,10 +84,10 @@ public class ResumeController {
 		model.addAttribute("rs", rs);
 		System.out.println("rs : " + rs);
 		
-		return rs;
-		
+		return rs;		
 		
 	}
+	
 	
 	// 이력서 관리 메인 이력서 변경
 	@ResponseBody
@@ -103,38 +112,363 @@ public class ResumeController {
 		
 	}
 	
+
 	// 이력서 삭제
 	@ResponseBody
 	@RequestMapping(value = "ResumeDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public int MainResumeUpdate(Integer seq, Model model, HttpSession session) {		
-		System.out.println("ResumeController ResumeDelete.do 도착");
+		System.out.println("ResumeController ResumeDelete.do 도착");	
 		
 		int rs = service.ResumeDelete(seq);	
 		
 		model.addAttribute("rs", rs);
 		System.out.println("rs : " + rs);
 		
-		return rs;
-		
+		return rs;		
 		
 	}
 	
-	// 이력서 detail & update 페이지
+	
+	// 이력서 detail 
 	@RequestMapping(value = "resumeView.do", method = {RequestMethod.GET, RequestMethod.POST})
-		public String resumeView(Model model, HttpSession session) {		
+		public String resumeView(int seq, Model model, HttpSession session) {		
 			
 		System.out.println("ResumeController resumeView.do 도착");
 		
+		int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		System.out.println("resumeView 이력서 시퀀스: " + seq);
+		System.out.println("resumeView 유저 시퀀스: " + memSeq);
 		
-		//int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
+		// 이력서 기본 정보 
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("seq", seq);
+		map.put("memSeq", memSeq);
+		System.out.println("resumeView Map: " + map.values() );
+
+		ResumeDto resumeDto = service.ResumeDetail(map);
+		System.out.println(resumeDto.toString());
+		model.addAttribute("resumeDto", resumeDto);	
 		
+		// ------- 이력서 경력  detail ---------------
+		System.out.println("이력서 경럭 detail");
+		int rsmseq = seq;
+		System.out.println("rsmseq +++++++" + rsmseq);
 		
+		List<CareerDto> careerList = service.CareerDetail(rsmseq);
+		List<EducationDto> educationList = service.educationDetail(rsmseq);
+		List<AwardsEtcDto> awardsEtcList = service.AwardsEtcDetail(rsmseq);
+		List<LanguageDto> languageList = service.LanguageDetail(rsmseq);
+		List<LinkDto> linkList = service.LinkDetail(rsmseq);
 		
+		model.addAttribute("careerList", careerList);
+		model.addAttribute("educationList", educationList);
+		model.addAttribute("awardsEtcList", awardsEtcList);
+		model.addAttribute("languageList", languageList);
+		model.addAttribute("linkList", linkList);		
 
 		return "resume/resumeView";
 		
 	}
+	
+	// 경력 삭제
+	@ResponseBody
+	@RequestMapping(value = "careerDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int careerDelete(Integer seq) {		
+		System.out.println("ResumeController careerDelete.do 도착");			
+		int rs = service.careerDelete(seq);			
+		System.out.println("rs : " + rs);		
+		
+		return rs;				
+	}
+	
+	// 학력 삭제
+	@ResponseBody
+	@RequestMapping(value = "educationDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int educationDelete(Integer seq) {		
+		System.out.println("ResumeController educationDelete.do 도착");			
+		int rs = service.educationDelete(seq);			
+		System.out.println("rs : " + rs);		
+		
+		return rs;				
+	}
+	
+	// 수상 및 기타 삭제
+	@ResponseBody
+	@RequestMapping(value = "awardsEtcDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int awardsEtcDelete(Integer seq) {		
+		System.out.println("ResumeController awardsEtcDelete.do 도착");			
+		int rs = service.awardsEtcDelete(seq);			
+		System.out.println("rs : " + rs);		
+		
+		return rs;				
+	}
+	
+	// 외국어 삭제
+	@ResponseBody
+	@RequestMapping(value = "languageDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int languageDelete(Integer seq) {		
+		System.out.println("languageDelete careerDelete.do 도착");			
+		int rs = service.languageDelete(seq);			
+		System.out.println("rs : " + rs);		
+		
+		return rs;				
+	}
+	
+	// 경력 삭제
+	@ResponseBody
+	@RequestMapping(value = "linkDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int linkDelete(Integer seq) {		
+		System.out.println("ResumeController linkDelete.do 도착");			
+		int rs = service.linkDelete(seq);			
+		System.out.println("rs : " + rs);		
+		
+		return rs;				
+	}
+	
+	//	이력서 기본 정보 update
+	@ResponseBody
+	@RequestMapping(value = "ResumeUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int ResumeUpdate(ResumeDto dto) {		
+		System.out.println("ResumeController ResumeUpdate.do 도착");
+		
+		int rs = service.resumeUpdate(dto);
 
+		System.out.println("rs : " + rs);
+		
+		return rs;		
+		
+	}
+	
+	// 경력 update 
+	@ResponseBody
+	@RequestMapping(value = "careerUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int careerUpdate(String str_rsmseq, @RequestBody Map<String, Object> careerUpdate, Model model) {		
+		System.out.println("ResumeController careerUpdate.do 도착");
+		
+		String strRsmseq = str_rsmseq;
+		
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : careerUpdate.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+		System.out.println("zzzzzzzzzzzzzzzz rsmseq " + rsmseq);
+
+		CareerDto dto = new CareerDto();
+		
+		service.careerDeleteAll(rsmseq);
+		
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+
+			dto.setRsmseq(rsmseq); 	  				  // 이력서 시퀀스
+			dto.setCompany(list.get("company"));	  // 회사명
+			dto.setPosition(list.get("position"));	  // 부서명/직책
+			dto.setStartdate(list.get("startdate"));  // 입사 날짜
+			dto.setEnddate(list.get("enddate")); 	  // 퇴사 날짜
+			dto.setIng(list.get("ing")); 			  // 현재 재직중 (0 퇴사, 1 재직중)
+
+			service.careerUpdate(dto);	
+			
+		}	
+		
+		return 1;			
+		
+	}
+	
+	// 학력 update 
+	@ResponseBody
+	@RequestMapping(value = "educationUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int educationUpdate(String str_rsmseq, @RequestBody Map<String, Object> educationUpdate, Model model) {		
+		System.out.println("ResumeController educationUpdate.do 도착");
+		
+		String strRsmseq = str_rsmseq;
+		
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : educationUpdate.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+
+		EducationDto dto = new EducationDto();
+		
+		service.educationDeleteAll(rsmseq);
+		
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  
+			dto.setSchool(list.get("school"));	  
+			dto.setMajor(list.get("major"));	  	
+			dto.setStudy(list.get("study"));
+			dto.setStartdate(list.get("startdate")); 
+			dto.setEnddate(list.get("enddate")); 	 
+			dto.setIng(list.get("ing")); 			
+			
+			service.educationUpdate(dto);
+			
+			//System.out.println("EducationDto dto : " + dto.toString());			
+			
+		}	
+		
+		return 1;			
+		
+	}	
+		
+	// 수상 및 기타 update 
+	@ResponseBody
+	@RequestMapping(value = "AwardsEtcUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int AwardsEtcUpdate(String str_rsmseq, @RequestBody Map<String, Object> AwardsEtcUpdate, Model model) {		
+		System.out.println("ResumeController AwardsEtcUpdate.do 도착");
+		
+		String strRsmseq = str_rsmseq;
+		
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : AwardsEtcUpdate.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+
+		AwardsEtcDto dto = new AwardsEtcDto();
+		
+		service.awardsEtcDeleteAll(rsmseq);
+		
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  
+			dto.setAwards(list.get("awards"));	  
+			dto.setDetail(list.get("detail"));	  	
+			dto.setDate(list.get("date"));			
+			
+			service.AwardsEtcUpdate(dto);	
+			
+			//System.out.println("AwardsEtcDto dto : " + dto.toString());			
+			
+		}	
+		
+		return 1;			
+		
+		
+	}
+	
+	// 외국어 update 
+	@ResponseBody
+	@RequestMapping(value = "LanguageUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int LanguageUpdate(String str_rsmseq, @RequestBody Map<String, Object> LanguageUpdate, Model model) {		
+		System.out.println("ResumeController LanguageUpdate.do 도착");
+		
+		String strRsmseq = str_rsmseq;
+		
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : LanguageUpdate.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+
+		LanguageDto dto = new LanguageDto();
+		
+		service.languageDeleteAll(rsmseq);
+		
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  
+			dto.setLang(list.get("lang"));	
+			dto.setLevel(list.get("level"));	
+			dto.setTest(list.get("test"));	
+			dto.setScore(list.get("score"));	  	
+			dto.setDate(list.get("date"));			
+			
+			service.LanguageUpdate(dto);	
+			
+			//System.out.println("LanguageDto dto : " + dto.toString());			
+			
+		}	
+		
+		return 1;				
+		
+	}
+	
+	// 링크 update 
+	@ResponseBody
+	@RequestMapping(value = "LinkUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public int LinkUpdate(String str_rsmseq, @RequestBody Map<String, Object> LinkUpdate, Model model) {		
+		System.out.println("ResumeController LinkUpdate.do 도착");
+		
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : LinkUpdate.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+
+		LinkDto dto = new LinkDto();
+		
+		service.linkDeleteAll(rsmseq);
+		
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  
+			dto.setUrl(list.get("url"));	
+
+			service.LinkUpdate(dto);	
+			
+			//System.out.println("LinkDto dto : " + dto.toString());			
+			
+		}	
+		
+		return 1;		
+		
+		
+	}
+	
 	
 	// 이력서 작성 페이지 이동
 	@RequestMapping(value = "resumeWrite.do", method = {RequestMethod.GET, RequestMethod.POST})
@@ -175,68 +509,159 @@ public class ResumeController {
 	// 경력 insert 
 	@ResponseBody
 	@RequestMapping(value = "careerInsert.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public int careerInsert(String str_rsmseq, CareerDto dto, Model model) {		
+	public int careerInsert(String str_rsmseq, @RequestBody Map<String, Object> careerObject, Model model) {		
 		System.out.println("ResumeController careerInsert.do 도착");
 		
 		String strRsmseq = str_rsmseq;
-		int rsmseq = Integer.parseInt(strRsmseq);
+		//int rsmseq = Integer.parseInt(strRsmseq);
+		System.out.println("###################### rsmseq" + strRsmseq);
 		
-		dto.setRsmseq(rsmseq);
 		
-		System.out.println("CareerDto dto : " + dto.toString());		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(careerObject);
+		System.out.println(careerObject.get("career"));
+		System.out.println(careerObject.get("rsmseq"));
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		
-		int a = service.careerInsert(dto);	
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : careerObject.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			System.out.println("key : "+key);
+			System.out.println(value);
+			jsonObject.put(key, value);
+			w++;
+		}
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+		System.out.println("rsmseq : " +rsmseq);
+		System.out.println(a);
+		System.out.println(a.get(0));
+
 		
-		model.addAttribute("a", a);
-		System.out.println("a : " + a);
+		LinkedHashMap<String, String> careerMap = (LinkedHashMap<String, String>) a.get(0); 
+		System.out.println("startdate : " + careerMap.get("startdate"));
+		System.out.println("enddate : " + careerMap.get("enddate"));
+		System.out.println("company  : " + careerMap.get("company"));
+		System.out.println("position: " + careerMap.get("position"));
+		System.out.println("ing : " + careerMap.get("ing"));
+
+		System.out.println(((LinkedHashMap<String, Object>)a.get(0)).get("startdate"));
+		CareerDto dto = new CareerDto();
 		
-		return a;
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  // 이력서 시퀀스
+			dto.setCompany(list.get("company"));	  // 회사명
+			dto.setPosition(list.get("position"));	  // 부서명/직책
+			dto.setStartdate(list.get("startdate"));  // 입사 날짜
+			dto.setEnddate(list.get("enddate")); 	  // 퇴사 날짜
+			dto.setIng(list.get("ing")); 			  // 현재 재직중 (0 퇴사, 1 재직중)
+			
+			service.careerInsert(dto);	
+			
+			System.out.println("CareerDto dto : " + dto.toString());			
+			
+		}	
 		
+		return 1;	
 		
 	}
+	
 	
 	// 학력 insert 
 	@ResponseBody
 	@RequestMapping(value = "educationInsert.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public int careerInsert(String str_rsmseq, EducationDto dto, Model model) {		
+	public int educationInsert(String str_rsmseq, @RequestBody Map<String, Object> educationObject, Model model) {		
 		System.out.println("ResumeController educationInsert.do 도착");
 		
 		String strRsmseq = str_rsmseq;
-		int rsmseq = Integer.parseInt(strRsmseq);
 		
-		dto.setRsmseq(rsmseq);
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : educationObject.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+
+		EducationDto dto = new EducationDto();
 		
-		System.out.println("EducationDto dto : " + dto.toString());		
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  
+			dto.setSchool(list.get("school"));	  
+			dto.setMajor(list.get("major"));	  	
+			dto.setStudy(list.get("study"));
+			dto.setStartdate(list.get("startdate")); 
+			dto.setEnddate(list.get("enddate")); 	 
+			dto.setIng(list.get("ing")); 			
+			
+			service.educationInsert(dto);	
+			
+			System.out.println("EducationDto dto : " + dto.toString());			
+			
+		}	
 		
-		int a = service.educationInsert(dto);	
-		
-		model.addAttribute("a", a);
-		System.out.println("a : " + a);
-		
-		return a;
-		
+		return 1;			
 		
 	}
 	
 	// 수상 및 기타 insert 
 	@ResponseBody
 	@RequestMapping(value = "AwardsEtcInsert.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public int careerInsert(String str_rsmseq, AwardsEtcDto dto, Model model) {		
+	public int AwardsEtcInsert(String str_rsmseq, @RequestBody Map<String, Object> awardsObject, Model model) {		
 		System.out.println("ResumeController AwardsEtcInsert.do 도착");
 		
 		String strRsmseq = str_rsmseq;
-		int rsmseq = Integer.parseInt(strRsmseq);
 		
-		dto.setRsmseq(rsmseq);
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : awardsObject.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+
+		AwardsEtcDto dto = new AwardsEtcDto();
 		
-		System.out.println("AwardsEtcDto dto : " + dto.toString());		
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  
+			dto.setAwards(list.get("awards"));	  
+			dto.setDetail(list.get("detail"));	  	
+			dto.setDate(list.get("date"));			
+			
+			service.AwardsEtcInsert(dto);	
+			
+			System.out.println("AwardsEtcDto dto : " + dto.toString());			
+			
+		}	
 		
-		int a = service.AwardsEtcInsert(dto);	
-		
-		model.addAttribute("a", a);
-		System.out.println("a : " + a);
-		
-		return a;
+		return 1;			
 		
 		
 	}
@@ -244,22 +669,45 @@ public class ResumeController {
 	// 외국어 insert 
 	@ResponseBody
 	@RequestMapping(value = "LanguageInsert.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public int careerInsert(String str_rsmseq, LanguageDto dto, Model model) {		
+	public int LanguageInsert(String str_rsmseq, @RequestBody Map<String, Object> langObject, Model model) {		
 		System.out.println("ResumeController LanguageInsert.do 도착");
 		
 		String strRsmseq = str_rsmseq;
-		int rsmseq = Integer.parseInt(strRsmseq);
 		
-		dto.setRsmseq(rsmseq);
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : langObject.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+
+		LanguageDto dto = new LanguageDto();
 		
-		System.out.println("LanguageDto dto : " + dto.toString());		
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  
+			dto.setLang(list.get("lang"));	
+			dto.setLevel(list.get("level"));	
+			dto.setTest(list.get("test"));	
+			dto.setScore(list.get("score"));	  	
+			dto.setDate(list.get("date"));			
+			
+			service.LanguageInsert(dto);	
+			
+			System.out.println("LanguageDto dto : " + dto.toString());			
+			
+		}	
 		
-		int a = service.LanguageInsert(dto);	
-		
-		model.addAttribute("a", a);
-		System.out.println("a : " + a);
-		
-		return a;
+		return 1;		
 		
 		
 	}
@@ -267,22 +715,39 @@ public class ResumeController {
 	// 링크 insert 
 	@ResponseBody
 	@RequestMapping(value = "LinkInsert.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public int careerInsert(String str_rsmseq, LinkDto dto, Model model) {		
+	public int LinkInsert(String str_rsmseq, @RequestBody Map<String, Object> linkObject, Model model) {		
 		System.out.println("ResumeController LinkInsert.do 도착");
 		
-		String strRsmseq = str_rsmseq;
-		int rsmseq = Integer.parseInt(strRsmseq);
+		JSONObject jsonObject = new JSONObject();
+
+		Object arr[] = new Object[2];
+		int w = 0;
+		for (Map.Entry<String, Object> entry : linkObject.entrySet()) {
+
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			arr[w] = value;
+			jsonObject.put(key, value);
+			w++;
+		}
+
+		ArrayList<Object> a = (ArrayList<Object>)arr[0];
+		int rsmseq = Integer.parseInt((String) arr[1]);
+
+		LinkDto dto = new LinkDto();
 		
-		dto.setRsmseq(rsmseq);
+		for(int i = 0; i < a.size(); i++) {
+			LinkedHashMap<String, String> list = (LinkedHashMap<String, String>)a.get(i);
+			dto.setRsmseq(rsmseq); 	  				  
+			dto.setUrl(list.get("url"));	
+
+			service.LinkInsert(dto);	
+			
+			System.out.println("LinkDto dto : " + dto.toString());			
+			
+		}	
 		
-		System.out.println("LinkDto dto : " + dto.toString());		
-		
-		int a = service.LinkInsert(dto);	
-		
-		model.addAttribute("a", a);
-		System.out.println("a : " + a);
-		
-		return a;
+		return 1;		
 		
 		
 	}

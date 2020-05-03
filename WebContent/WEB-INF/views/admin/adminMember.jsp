@@ -63,6 +63,7 @@ $(document).ready(function () {
              pageSize: 30
          },
          height: 550,
+         toolbar: ["search"],
          groupable: true,
          sortable: true,
          pageable: {

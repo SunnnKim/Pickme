@@ -109,7 +109,7 @@
 				<tr>
 					<td><a href="#" class="interest-com" title="기업상세페이지" >${interComRecruit.comName }</a></td>
 					<td><a href="#" class="interest-com" title="채용상세페이지">${interComRecruit.title }</a></td>
-					<td>${interComRecruit.comjob2 }</td>
+					<td>${interComRecruit.comjob1 }</td>
 					<td>${interComRecruit.edate }</td>
 					<c:if test="${interComRecruit.apply == 0 }">
 					<td>

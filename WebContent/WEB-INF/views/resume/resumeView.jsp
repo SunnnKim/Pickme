@@ -5,14 +5,15 @@
 <div id="resumeWrite_Wrap">
 	<div class="rsm_top">
 		<form name="resumeFrm" id="resumeFrm">
-		<input type="hidden" name="memSeq" value="${sessionScope.loginuser.seq }"> <!-- 유저 시퀀스 -->
-		<input type="hidden" name="userName" value="${sessionScope.loginuser.name }"> <!-- 유저 이름 -->
-		<input type="hidden" name="status" value="0"><!-- 작성상태 : 0.작성중, 1.작성완료, 2.첨부완료 -->
-		<div class="rsm-downBtn"><button type="button"><i class="fas fa-download"></i></button></div>
-		<h3><input type="text" name="name" value="${sessionScope.loginuser.name }" placeholder="이력서명"></h3>
-		<input type="text" name="email" value="${sessionScope.loginuser.email }" placeholder="이메일을 입력해주세요">
-		<input type="text" name="phone" value="${memdto.phone }" name="phone" placeholder="연락처를 입력해주세요" maxlength="13">
-		<textarea name="introduce" placeholder="간단한 자기소개를 통해 이력서를 돋보이게 만들어보세요.(3~5줄 권장)"></textarea>
+		<input type="hidden" name="seq" value="${resumeDto.seq }"> <!-- 이력서 시퀀스 -->
+		<input type="hidden" name="memSeq" value="${resumeDto.memSeq }"> <!-- 유저 시퀀스 -->
+		<input type="hidden" name="userName" value="${resumeDto.name }"> <!-- 유저 이름 -->
+		<input type="hidden" name="status" value="${resumeDto.status }"><!-- 작성상태 : 0.작성중, 1.작성완료, 2.첨부완료 -->
+		<!-- <div class="rsm-downBtn"><button type="button"><i class="fas fa-download"></i></button></div> -->
+		<h3><input type="text" name="name" value="${resumeDto.name }" placeholder="이력서명"></h3>
+		<input type="text" name="email" value="${resumeDto.email }" placeholder="이메일을 입력해주세요">
+		<input type="text" name="phone" value="${resumeDto.phone }" name="phone" placeholder="연락처를 입력해주세요" maxlength="13">
+		<textarea name="introduce" placeholder="간단한 자기소개를 통해 이력서를 돋보이게 만들어보세요.(3~5줄 권장)"><c:out value="${resumeDto.introduce }" /></textarea>
 		</form>
 	</div><!-- //rsm_top -->
 
@@ -20,7 +21,28 @@
 		<h4>경력</h4>
 		<div class="rsm_addBtn careerBtn">+ 추가</div>
 		<form name="careerFrm">
-		<div class="rsm_add">			
+		<div class="rsm_add">
+		<c:choose>
+			<c:when test="${not empty careerList }">				  
+				<c:forEach items="${careerList }" var="dto" varStatus="status">						
+					<div class="rsm_addCont clfix" id="career">
+						<div class="rsm_left">
+							<div class="rsm_date">
+								<input type="text" name="career[][startdate]" placeholder="YYYYMM" maxlength="6" value="${dto.startdate }">
+								<span class="dateHide" <c:if test="${dto.ing != 0}">style="display:none;"</c:if>>-</span>
+								<input type="text" class="dateHide" <c:if test="${dto.ing != 0}">style="display:none;"</c:if> name="career[][enddate]" placeholder="YYYYMM" maxlength="6" value="${dto.enddate }">
+							</div>
+							<p><label><input type="checkbox" <c:if test="${dto.ing != 0}">checked</c:if>><span></span>현재 재직중</label><input type="hidden" name="career[][ing]" value="${dto.ing }"></p>
+						</div><!-- //rsm_left -->
+						<div class="rsm_right">
+							<input type="text" class="tit" placeholder="회사명" name="career[][company]" value="${dto.company }">
+							<input type="text" class="desc" placeholder="부서명/직책" name="career[][position]" value="${dto.position }">
+						</div><!-- //rsm_right -->
+						<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" name="seq" value="${dto.seq }"></div>
+					</div><!-- //rsm_addCont -->
+				</c:forEach>			      
+			</c:when>
+		</c:choose>				
 		</div><!-- //rsm_add -->
 		</form>
 	</div><!-- //rsmCont -->
@@ -30,9 +52,30 @@
 		<div class="rsm_addBtn educationBtn">+ 추가</div>
 		<form name="educationFrm">
 		<div class="rsm_add">
-		</div>
-		</form>
-		<!-- //rsm_add -->
+			<c:choose>
+				<c:when test="${not empty educationList }">				  
+					<c:forEach items="${educationList }" var="dto" varStatus="status">						
+						<div class="rsm_addCont clfix">
+							<div class="rsm_left">
+								<div class="rsm_date">
+									<input type="text" name="education[][startdate]" placeholder="YYYYMM" maxlength="6" value="${dto.startdate }">
+									<span class="dateHide" <c:if test="${dto.ing != 0}">style="display:none;"</c:if>>-</span>
+									<input type="text" class="dateHide" <c:if test="${dto.ing != 0}">style="display:none;"</c:if> name="education[][enddate]" placeholder="YYYYMM" maxlength="6" value="${dto.enddate }">
+								</div>
+								<p><label><input type="checkbox" <c:if test="${dto.ing != 0}">checked</c:if>><span></span>현재 재학중</label><input type="hidden" name="education[][ing]" value="${dto.ing }"></p>
+							</div><!-- //rsm_left -->
+							<div class="rsm_right">
+								<input type="text" class="tit" name="education[][school]" value="${dto.school }" placeholder="학교명">
+								<input type="text" class="desc" name="education[][major]" value="${dto.major }" placeholder="전공을 입력해주세요">
+								<textarea name="education[][study]" placeholder="이수과목 또는 연구내용"><c:out value="${dto.study }" /></textarea>
+							</div><!-- //rsm_right -->
+							 <div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" name="seq" value="${dto.seq }"></div>
+						 </div><!-- //rsm_addCont -->
+					</c:forEach>			      
+				</c:when>
+			</c:choose>		
+		</div><!-- //rsm_add -->
+		</form>		
 	</div>
 	<!-- //rsmCont -->
 
@@ -41,6 +84,24 @@
 		<div class="rsm_addBtn awardsBtn">+ 추가</div>
 		<form name="awardsFrm">
 		<div class="rsm_add">
+			<c:choose>
+				<c:when test="${not empty awardsEtcList }">				  
+					<c:forEach items="${awardsEtcList }" var="dto" varStatus="status">						
+						<div class="rsm_addCont clfix">
+							<div class="rsm_left">
+								<div class="rsm_date">
+									<input type="text" name="awards[][date]" placeholder="YYYYMM" maxlength="6" value="${dto.date }">
+								</div>
+							</div><!-- //rsm_left -->
+							<div class="rsm_right">
+								<input type="text" class="tit" name="awards[][awards]" value="${dto.awards }" placeholder="활동명">
+								<textarea name="awards[][detail]" placeholder="세부사항" ><c:out value="${dto.detail }" /></textarea>
+							</div><!-- //rsm_right -->
+							<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="${dto.seq }"></div>
+						</div><!-- //rsm_addCont -->
+					</c:forEach>			      
+				</c:when>
+			</c:choose>	
 		</div><!-- //rsm_add -->		
 		</form>
 	</div><!-- //rsmCont -->
@@ -50,7 +111,45 @@
 		<h4>외국어</h4>
 		<div class="rsm_addBtn langBtn">+ 추가</div>
 		<form name="langFrm">
-		<div class="rsm_add">		
+		<div class="rsm_add">	
+			<c:choose>
+				<c:when test="${not empty languageList }">				  
+					<c:forEach items="${languageList }" var="dto" varStatus="status">						
+						<div class="rsm_addCont clfix">
+							<div class="lang">
+								<h5>언어</h5>
+								<ul class="chkBox clfix">
+									<li <c:if test="${dto.lang eq '영어'}">class="on"</c:if>><span></span><i>영어</i></li>
+									<li <c:if test="${dto.lang eq '중국어'}">class="on"</c:if>><span></span><i>중국어</i></li>
+									<li <c:if test="${dto.lang eq '일본어'}">class="on"</c:if>><span></span><i>일본어</i></li>
+									<li <c:if test="${dto.lang eq '독일어'}">class="on"</c:if>><span></span><i>독일어</i></li>
+									<li <c:if test="${dto.lang eq '프랑스어'}">class="on"</c:if>><span></span><i>프랑스어</i></li>
+									<li <c:if test="${dto.lang eq '기타'}">class="on"</c:if>><span></span><i>기타</i></li>
+									<li><input type="hidden" name="language[][lang]" value="${dto.lang }"></li>
+								</ul>
+							</div>
+							<div class="level">
+								<h5>수준</h5>
+								<ul class="chkBox clfix">
+									<li <c:if test="${dto.level eq '유창함'}">class="on"</c:if>><span></span><i>유창함</i></li>
+									<li <c:if test="${dto.level eq '비지니스회화'}">class="on"</c:if>><span></span><i>비지니스회화</i></li>
+									<li <c:if test="${dto.level eq '일상회화'}">class="on"</c:if>><span></span><i>일상회화</i></li>
+									<li><input type="hidden" name="language[][level]" value="${dto.level }"></li>
+								</ul>
+							</div>
+							<div class="lang_test">
+								<h5>관련 시험</h5>
+								<input type="text" class="desc" name="language[][test]" placeholder="시험명" value="${dto.test }">
+								<input type="text" class="desc" name="language[][score]" placeholder="점수/급" value="${dto.score }">
+								<div class="rsm_date">
+									<input type="text" name="language[][date]" placeholder="YYYYMMDD" style="width:80px" maxlength="6"  value="${dto.date }">
+								</div>
+							</div>
+							<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="${dto.seq }"></div>
+						</div><!-- //rsm_addCont -->
+					</c:forEach>			      
+				</c:when>
+			</c:choose>		
 		</div><!-- //rsm_add -->		
 		</form>
 	</div><!-- //rsmCont -->
@@ -60,7 +159,17 @@
 		<h4>링크</h4>
 		<div class="rsm_addBtn linkBtn">+ 추가</div>
 		<form name="linkFrm">
-		<div class="rsm_add">					
+		<div class="rsm_add">	
+			<c:choose>
+				<c:when test="${not empty linkList }">				  
+					<c:forEach items="${linkList }" var="dto" varStatus="status">						
+						<div class="rsm_addCont clfix">
+							<div class="rsm_right link"><input type="text" class="desc" name="link[][url]" placeholder="http://" value="${dto.url }"></div>
+							<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="${dto.seq }"></div>
+						</div><!-- //rsm_addCont -->
+					</c:forEach>			      
+				</c:when>
+			</c:choose>					
 		</div><!-- //rsm_add -->		
 		</form>
 	</div><!-- //rsmCont -->
@@ -72,14 +181,8 @@
 	</div>
 </div>
 <!-- //resumeWrite_Wrap -->
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
-
-
 <script type="text/javascript">
-
 // 연락처 정규식 
 $("input[name=phone]").on('keydown', function(e){
     // 숫자만 입력받기
@@ -170,17 +273,17 @@ $('.careerBtn').click(function(){
 	$('<div class="rsm_addCont clfix" id="career">'+
 		'<div class="rsm_left">'+
 			'<div class="rsm_date">'+
-				'<input type="text" name="startdate[]" placeholder="YYYYMM" maxlength="6" value="">'+
+				'<input type="text" name="career[][startdate]" placeholder="YYYYMM" maxlength="6" value="">'+
 				'<span class="dateHide">-</span>'+
-				'<input type="text" class="dateHide" name="enddate[]" placeholder="YYYYMM" maxlength="6" value="">'+
+				'<input type="text" class="dateHide" name="career[][enddate]" placeholder="YYYYMM" maxlength="6" value="">'+
 			'</div>'+
-			'<p><label><input type="checkbox"><span></span>현재 재직중</label><input type="hidden" name="ing[]" value="0"></p>'+
+			'<p><label><input type="checkbox"><span></span>현재 재직중</label><input type="hidden" name="career[][ing]" value="0"></p>'+
 		'</div><!-- //rsm_left -->'+
 		'<div class="rsm_right">'+
-			'<input type="text" class="tit" placeholder="회사명" name="company[]" value="">'+
-			'<input type="text" class="desc" placeholder="부서명/직책" name="position[]" value="">'+
+			'<input type="text" class="tit" placeholder="회사명" name="career[][company]" value="">'+
+			'<input type="text" class="desc" placeholder="부서명/직책" name="career[][position]" value="">'+
 		'</div><!-- //rsm_right -->'+
-		'<div class="rsm_delete"><i class="fas fa-times"></i></div>'+
+		'<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="add"></div>'+
 	'</div><!-- //rsm_addCont -->').prependTo(target);
 });
 
@@ -190,18 +293,18 @@ $('.educationBtn').click(function(){
 	$('<div class="rsm_addCont clfix">'+
 		'<div class="rsm_left">'+
 			'<div class="rsm_date">'+
-				'<input type="text" name="startdate[]" placeholder="YYYYMM" maxlength="6">'+
+				'<input type="text" name="education[][startdate]" placeholder="YYYYMM" maxlength="6">'+
 				'<span class="dateHide">-</span>'+
-				'<input type="text" class="dateHide" name="enddate[]" placeholder="YYYYMM" maxlength="6">'+
+				'<input type="text" class="dateHide" name="education[][enddate]" placeholder="YYYYMM" maxlength="6">'+
 			'</div>'+
-			'<p><label><input type="checkbox"><span></span>현재 재학중</label><input type="hidden" name="ing[]" value="0"></p>'+
+			'<p><label><input type="checkbox"><span></span>현재 재학중</label><input type="hidden" name="education[][ing]" value="0"></p>'+
 		'</div><!-- //rsm_left -->'+		
 		'<div class="rsm_right">'+
-			'<input type="text" class="tit" name="school[]" placeholder="학교명">'+
-			'<input type="text" class="desc" name="major[]" placeholder="전공을 입력해주세요">'+
-			'<textarea name="study[]" placeholder="이수과목 또는 연구내용"></textarea>'+
+			'<input type="text" class="tit" name="education[][school]" placeholder="학교명">'+
+			'<input type="text" class="desc" name="education[][major]" placeholder="전공을 입력해주세요">'+
+			'<textarea name="education[][study]" placeholder="이수과목 또는 연구내용"></textarea>'+
 		'</div><!-- //rsm_right -->'+		
-		 '<div class="rsm_delete"><i class="fas fa-times"></i></div>'+
+		 '<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="add"></div>'+
 	 '</div><!-- //rsm_addCont -->').prependTo(target);
 });
 
@@ -211,14 +314,14 @@ $('.awardsBtn').click(function(){
    $('<div class="rsm_addCont clfix">'+
 		'<div class="rsm_left">'+
 			'<div class="rsm_date">'+
-				'<input type="text" name="date[]" placeholder="YYYYMM" maxlength="6">'+
+				'<input type="text" name="awards[][date]" placeholder="YYYYMM" maxlength="6">'+
 			'</div>'+
 		'</div><!-- //rsm_left -->'+
 		'<div class="rsm_right">'+
-			'<input type="text" class="tit" name="awards[]" placeholder="활동명">'+
-			'<textarea name="detail[]" placeholder="세부사항"></textarea>'+
+			'<input type="text" class="tit" name="awards[][awards]" placeholder="활동명">'+
+			'<textarea name="awards[][detail]" placeholder="세부사항"></textarea>'+
 		'</div><!-- //rsm_right -->'+
-		'<div class="rsm_delete"><i class="fas fa-times"></i></div>'+
+		'<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="add"></div>'+
 	'</div><!-- //rsm_addCont -->').prependTo(target);			
 });
 
@@ -235,7 +338,7 @@ $('.langBtn').click(function(){
 					'<li><span></span><i>독일어</i></li>'+
 					'<li><span></span><i>프랑스어</i></li>'+
 					'<li><span></span><i>기타</i></li>'+
-					'<li><input type="hidden" name="lang[]" value=""></li>'+
+					'<li><input type="hidden" name="language[][lang]" value=""></li>'+
 				'</ul>'+
 			'</div>'+
 			'<div class="level">'+
@@ -244,18 +347,18 @@ $('.langBtn').click(function(){
 					'<li><span></span><i>유창함</i></li>'+
 					'<li><span></span><i>비지니스회화</i></li>'+
 					'<li><span></span><i>일상회화</i></li>'+
-					'<li><input type="hidden" name="level[]" value=""></li>'+
+					'<li><input type="hidden" name="language[][level]" value=""></li>'+
 				'</ul>'+
 			'</div>'+
 			'<div class="lang_test">'+
 				'<h5>관련 시험</h5>'+
-				'<input type="text" class="desc" name="test[]" placeholder="시험명">'+
-				'<input type="text" class="desc" name="score[]" placeholder="점수/급">'+
+				'<input type="text" class="desc" name="language[][test]" placeholder="시험명">'+
+				'<input type="text" class="desc" name="language[][score]" placeholder="점수/급">'+
 				'<div class="rsm_date">'+
-					'<input type="text" name="date[]" placeholder="YYYYMMDD" style="width:80px" maxlength="6">'+
+					'<input type="text" name="language[][date]" placeholder="YYYYMMDD" style="width:80px" maxlength="6">'+
 				'</div>'+
 			'</div>'+
-			'<div class="rsm_delete"><i class="fas fa-times"></i></div>'+
+			'<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="add"></div>'+
 		'</div><!-- //rsm_addCont -->').prependTo(target);		
 });
 
@@ -263,27 +366,185 @@ $('.langBtn').click(function(){
 $('.linkBtn').click(function(){
 	var target = $(this).siblings('form').find('.rsm_add');
 	$('<div class="rsm_addCont clfix">'+
-		'<div class="rsm_right link"><input type="text" class="desc" name="url[]"placeholder="http://"></div>'+
-		'<div class="rsm_delete"><i class="fas fa-times"></i></div>'+
+		'<div class="rsm_right link"><input type="text" class="desc" name="link[][url]"placeholder="http://"></div>'+
+		'<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="add"></div>'+
 	'</div><!-- //rsm_addCont -->').prependTo(target);		
 });
 
 
-// 추가 입력사항 삭제하기
-$(document).on('click','.rsm_delete', function(){
-	Swal.fire({
-	  title: '삭제하시겠습니까?',
-	  showCancelButton: true,
-	  confirmButtonColor: '#3085d6',
-	  cancelButtonColor: '#d33',
-	  confirmButtonText: '삭제',
-	  cancelButtonText: '닫기',
-	}).then((result) => {
-	  if (result.value) {
-		$(this).parents('.rsm_addCont').remove();
-	   
-	  }
-	})	
+// 경력 입력사항 삭제
+$(document).on('click','form[name=careerFrm] .rsm_delete', function(){
+
+  var seq = $(this).find('input[type=hidden]').val();
+  //alert(seq);
+
+  Swal.fire({
+  	 title: '삭제하시겠습니까?',
+ 	 showCancelButton: true,
+  	 confirmButtonColor: '#3085d6',
+ 	 cancelButtonColor: '#d33',
+ 	 confirmButtonText: '삭제',
+ 	 cancelButtonText: '닫기',
+	 }).then((result) => {
+ 		if (result.value) {		
+ 			$(this).parents('.rsm_addCont').remove();
+ 			if(seq != 'add'){
+	 			$.ajax({
+	 				url:"careerDelete.do",
+	 				type:"post",
+	 				datatype:'json',
+	 				data:{'seq':seq},
+	 				success: function(data){
+	 					//alert("careerDelete.do");	
+	 					
+	 					
+	 				}
+	 			}); //ajax 
+ 			}
+  		}
+	});	
+
+
+});
+
+// 학력 입력사항 삭제
+$(document).on('click','form[name=educationFrm] .rsm_delete', function(){
+
+  var seq = $(this).find('input[type=hidden]').val();
+  //alert(seq);
+
+  Swal.fire({
+  	 title: '삭제하시겠습니까?',
+ 	 showCancelButton: true,
+  	 confirmButtonColor: '#3085d6',
+ 	 cancelButtonColor: '#d33',
+ 	 confirmButtonText: '삭제',
+ 	 cancelButtonText: '닫기',
+	 }).then((result) => {
+ 		if (result.value) {		
+ 			$(this).parents('.rsm_addCont').remove();
+ 			if(seq != 'add'){
+	 			$.ajax({
+	 				url:"educationDelete.do",
+	 				type:"post",
+	 				datatype:'json',
+	 				data:{'seq':seq},
+	 				success: function(data){
+	 					//alert("educationDelete.do");	
+	 					
+	 					
+	 				}
+	 			}); //ajax 
+ 			}
+  		}
+	});	
+
+
+});
+
+// 수상 및 기타 입력사항 삭제
+$(document).on('click','form[name=awardsFrm] .rsm_delete', function(){
+
+  var seq = $(this).find('input[type=hidden]').val();
+  //alert(seq);
+
+  Swal.fire({
+  	 title: '삭제하시겠습니까?',
+ 	 showCancelButton: true,
+  	 confirmButtonColor: '#3085d6',
+ 	 cancelButtonColor: '#d33',
+ 	 confirmButtonText: '삭제',
+ 	 cancelButtonText: '닫기',
+	 }).then((result) => {
+ 		if (result.value) {		
+ 			$(this).parents('.rsm_addCont').remove();
+ 			if(seq != 'add'){
+	 			$.ajax({
+	 				url:"awardsEtcDelete.do",
+	 				type:"post",
+	 				datatype:'json',
+	 				data:{'seq':seq},
+	 				success: function(data){
+	 					//alert("awardsEtcDelete.do");	
+	 					
+	 					
+	 				}
+	 			}); //ajax 
+ 			}
+  		}
+	});	
+
+
+});
+
+// 외국어 입력사항 삭제
+$(document).on('click','form[name=langFrm] .rsm_delete', function(){
+
+  var seq = $(this).find('input[type=hidden]').val();
+  //alert(seq);
+
+  Swal.fire({
+  	 title: '삭제하시겠습니까?',
+ 	 showCancelButton: true,
+  	 confirmButtonColor: '#3085d6',
+ 	 cancelButtonColor: '#d33',
+ 	 confirmButtonText: '삭제',
+ 	 cancelButtonText: '닫기',
+	 }).then((result) => {
+ 		if (result.value) {		
+ 			$(this).parents('.rsm_addCont').remove();
+ 			if(seq != 'add'){
+	 			$.ajax({
+	 				url:"languageDelete.do",
+	 				type:"post",
+	 				datatype:'json',
+	 				data:{'seq':seq},
+	 				success: function(data){
+	 					//alert("languageDelete.do");	
+	 					
+	 					
+	 				}
+	 			}); //ajax 
+ 			}
+  		}
+	});	
+
+
+});
+
+// 링크 입력사항 삭제
+$(document).on('click','form[name=linkFrm] .rsm_delete', function(){
+
+  var seq = $(this).find('input[type=hidden]').val();
+  //alert(seq);
+
+  Swal.fire({
+  	 title: '삭제하시겠습니까?',
+ 	 showCancelButton: true,
+  	 confirmButtonColor: '#3085d6',
+ 	 cancelButtonColor: '#d33',
+ 	 confirmButtonText: '삭제',
+ 	 cancelButtonText: '닫기',
+	 }).then((result) => {
+ 		if (result.value) {		
+ 			$(this).parents('.rsm_addCont').remove();
+ 			if(seq != 'add'){
+	 			$.ajax({
+	 				url:"linkDelete.do",
+	 				type:"post",
+	 				datatype:'json',
+	 				data:{'seq':seq},
+	 				success: function(data){
+	 					//alert("linkDelete.do");	
+	 					
+	 					
+	 				}
+	 			}); //ajax 
+ 			}
+  		}
+	});	
+
+
 });
 
 
@@ -308,228 +569,172 @@ $(document).on('click','.chkBox li', function(){
 $(document).on('click','.resumeBtnWrap button', function(){
 	
 	// 이력서 seq
-    var str_rsmseq = '${resumeSeq }'; 
-    	
-
+    var str_rsmseq = '${resumeDto.seq }';    	
+	
+	
 	// 경력 
-    var careerObj = $('form[name=careerFrm]').serializeObject();
-    var company = JSON.stringify(careerObj.company);      
-    var position = JSON.stringify(careerObj.position);   
-    var startdate = JSON.stringify(careerObj.startdate);  
-    var enddate = JSON.stringify(careerObj.enddate);   
-    var ing = JSON.stringify(careerObj.ing);   
-    
+    var careerUpdate = $('form[name=careerFrm]').serializeObject();
+	console.log(careerUpdate);
+	var career = JSON.stringify(careerUpdate); // Obejct를 json문법에 맞게 string 타입으로 변형    
+    console.log("career" + career);
 
-    
-    for( var i in careerObj.company){
-	    //console.log(i)
-	    console.log("company" + careerObj.company)	    
+    var sendData = { 
+    	    "careerUpdate":careerUpdate.career,
+    	    "str_rsmseq" :str_rsmseq 
     }
-
-   
-    console.log('str_rsmseq :' + str_rsmseq);
-    console.log('company :' + company);
-    console.log('position :' + position);
-    console.log('startdate :' + startdate);
-    console.log('enddate :' + enddate);
-    console.log('ing :' + ing);
+    console.log(sendData)
     
-    
-    var careerFormData = new FormData();
-    careerFormData.append('str_rsmseq', str_rsmseq);
-    careerFormData.append('company', company);
-    careerFormData.append('position', position);
-    careerFormData.append('startdate', startdate);
-    careerFormData.append('enddate', enddate);
-    careerFormData.append('ing', ing);
-    
-    if (careerObj.company != undefined) {    
+    if ($('form[name=careerFrm]').find('.rsm_addCont').length != 0) {   
 	    $.ajax({
-			data: careerFormData,
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
 			type: 'POST',
-			url: "careerInsert.do",
-			cache: false,
-			contentType: false,
-			processData: false,
-			async : false,
+			traditional: true,
+			url: "careerUpdate.do",
 			success: function (data) { 
-			    //alert("careerInsert.do");			
-			}	         
+			    //alert("careerUpdate.do");
+			    //alert(data)			
+			}, error:function(err){
+				alert('error')
+				//console.log(err)
+			}         
 		});
     }
 
 
  	// 학력 
-    var educationObj = $('form[name=educationFrm]').serializeObject();
-    var school = JSON.stringify(educationObj.school);      
-    var major = JSON.stringify(educationObj.major);   
-    var study = JSON.stringify(educationObj.study);   
-    var startdate = JSON.stringify(educationObj.startdate);  
-    var enddate = JSON.stringify(educationObj.enddate);   
-    var ing = JSON.stringify(educationObj.ing);   
-
-    console.log('school :' + school);
-    console.log('major :' + major);
-    console.log('study :' + study);
-    console.log('startdate :' + startdate);
-    console.log('enddate :' + enddate);
-    console.log('ing :' + ing);
+    var educationUpdate = $('form[name=educationFrm]').serializeObject();
+    var sendData = { 
+    	    "educationUpdate":educationUpdate.education,
+    	    "str_rsmseq" :str_rsmseq 
+    }
+    console.log(sendData)
     
-    
-    var eduFormData = new FormData();
-    eduFormData.append('str_rsmseq', str_rsmseq);
-    eduFormData.append('school', school);
-    eduFormData.append('major', major);
-    eduFormData.append('study', study);
-    eduFormData.append('startdate', startdate);
-    eduFormData.append('enddate', enddate);
-    eduFormData.append('ing', ing);
-    
-    if (educationObj.school != undefined) {    
+    if ($('form[name=educationFrm]').find('.rsm_addCont').length != 0) {   
 	    $.ajax({
-			data: eduFormData,
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
 			type: 'POST',
-			url: "educationInsert.do",
-			cache: false,
-			contentType: false,
-			processData: false,
-			async : false,
+			traditional: true,
+			url: "educationUpdate.do",
 			success: function (data) { 
-			    //alert("educationInsert.do");			
+			    //alert("educationUpdate.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
+			}         
+		});
+    }
+    
+	// 수상 및 기타
+	var AwardsEtcUpdate = $('form[name=awardsFrm]').serializeObject();
+    var sendData = { 
+    	    "AwardsEtcUpdate":AwardsEtcUpdate.awards,
+    	    "str_rsmseq" :str_rsmseq 
+    }
+    console.log(sendData)
+    
+    if ($('form[name=awardsFrm]').find('.rsm_addCont').length != 0) { 
+	    $.ajax({
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
+			type: 'POST',
+			traditional: true,
+			url: "AwardsEtcUpdate.do",
+			success: function (data) { 
+			    //alert("AwardsEtcUpdate.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
 			}         
 		});
     }
 
-
- 	// 수상 및 기타 
-    var awardsObj = $('form[name=awardsFrm]').serializeObject();
-    var awards = JSON.stringify(awardsObj.awards);      
-    var detail = JSON.stringify(awardsObj.detail);   
-    var date = JSON.stringify(awardsObj.date);   
-
-
-    console.log('awards :' + awards);
-    console.log('detail :' + detail);
-    console.log('date :' + date);
-
     
-    var awardsFormData = new FormData();
-    awardsFormData.append('str_rsmseq', str_rsmseq);
-    awardsFormData.append('awards', awards);
-    awardsFormData.append('detail', detail);
-    awardsFormData.append('date', date);
-
+	// 외국어
+	var LanguageUpdate = $('form[name=langFrm]').serializeObject();
+    var sendData = { 
+    	    "LanguageUpdate":LanguageUpdate.language,
+    	    "str_rsmseq" :str_rsmseq 
+    }
+    console.log(sendData)
     
-    if (awardsObj.awards != undefined) {    
+    if ($('form[name=langFrm]').find('.rsm_addCont').length != 0) {    
 	    $.ajax({
-			data: awardsFormData,
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
 			type: 'POST',
-			url: "AwardsEtcInsert.do",
-			cache: false,
-			contentType: false,
-			processData: false,
-			async : false,
+			traditional: true,
+			url: "LanguageUpdate.do",
 			success: function (data) { 
-			    //alert("AwardsEtcInsert.do");			
+			    //alert("LanguageUpdate.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
 			}         
 		});
     }
-
- 	// 외국어
-    var langObj = $('form[name=langFrm]').serializeObject();
-    var lang = JSON.stringify(langObj.lang);      
-    var level = JSON.stringify(langObj.level);   
-    var test = JSON.stringify(langObj.test);   
-    var score = JSON.stringify(langObj.score);   
-    var date = JSON.stringify(langObj.date);   
-
-
-    console.log('lang :' + lang);
-    console.log('level :' + level);
-    console.log('test :' + test);
-    console.log('score :' + score);
-    console.log('date :' + date);
-
     
-    var langFormData = new FormData();
-    langFormData.append('str_rsmseq', str_rsmseq);
-    langFormData.append('lang', lang);
-    langFormData.append('level', level);
-    langFormData.append('test', test);
-    langFormData.append('score', score);
-    langFormData.append('date', date);
-
+	// 링크
+	var LinkUpdate = $('form[name=linkFrm]').serializeObject();
+    var sendData = { 
+    	    "LinkUpdate":LinkUpdate.link,
+    	    "str_rsmseq" :str_rsmseq 
+    }
+    console.log(sendData)
     
-    if (langObj.lang != undefined) {    
+    if ($('form[name=linkFrm]').find('.rsm_addCont').length != 0) {    
 	    $.ajax({
-			data: langFormData,
+	    	contentType:'application/json',
+	        dataType:'json',
+			data: JSON.stringify( sendData ),
 			type: 'POST',
-			url: "LanguageInsert.do",
-			cache: false,
-			contentType: false,
-			processData: false,
-			async : false,
+			traditional: true,
+			url: "LinkUpdate.do",
 			success: function (data) { 
-			    //alert("LanguageInsert.do");			
+			    //alert("LinkUpdate.do");
+			    //alert(data)			
+			}, error:function(err){
+				//alert('error')
+				//console.log(err)
 			}         
 		});
     }
-
-
-
- 	// 링크
-    var linkObj = $('form[name=linkFrm]').serializeObject();
-    var url = JSON.stringify(linkObj.url);      
-
-    console.log('url :' + url);
     
-    var linkFormData = new FormData();
-    linkFormData.append('str_rsmseq', str_rsmseq);
-    linkFormData.append('url', url);
-    
-    if (linkObj.url != undefined) {    
-	    $.ajax({
-			data: linkFormData,
-			type: 'POST',
-			url: "LinkInsert.do",
-			cache: false,
-			contentType: false,
-			processData: false,
-			async : false,
-			success: function (data) { 
-			    //alert("LinkInsert.do");			
-			}         
-		});
-    }
-
  	// 이력서 기본     
     var resumeFormData = new FormData($("form#resumeFrm")[0]);
     
     $.ajax({
         data: resumeFormData,
         type: 'POST',
-        url: "resumeInsert.do",
+        url: "ResumeUpdate.do",
         cache: false,
         contentType: false,
         processData: false,
         async : false,
         success: function (data) { 
-            //alert("resumeInsert.do");        
+            alert("ResumeUpdate.do");        
 			if(data > 0){
 				Swal.fire({
 					  icon: 'success',
 					  title: '이력서 저장 완료',
 					  timer: 1500
 				}).then( (result) =>{
-					
-				})
-			
+					location.href="resume.do";
+				})		
 				
 			} else {
 				Swal.fire({
-					  icon: 'error',
-					  text: '실패하였습니다 다시 시도해주세요'
-					})
+				  icon: 'error',
+				  text: '실패하였습니다 다시 시도해주세요'
+				})
 				
 			}
   	     }
@@ -537,9 +742,6 @@ $(document).on('click','.resumeBtnWrap button', function(){
       });
 	
 });
-
-
-
-
-
 </script>
+
+<%@include file="../../../include/footer.jsp"%>

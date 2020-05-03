@@ -1,3 +1,4 @@
+<%@page import="model.StatisticsParam"%>
 <%@page import="model.AMemberDto"%>
 <%@page import="java.util.List"%>
 <%@include file="./include/adminHeader.jsp" %>
@@ -9,6 +10,7 @@
 	int newMember = (int)request.getAttribute("newMember");	// 새로가입 멤버
 	int aMemberAll = (int) request.getAttribute("aMemberAll"); // 일반회원 전체 
 	int cMemberAll = (int) request.getAttribute("cMemberAll"); // 기업회원 전체 
+	List<StatisticsParam> departmentStat = (List<StatisticsParam>) request.getAttribute("departmentStat"); // 기업회원 전체 
 
 %>
 <div class="profile-wrap">
@@ -16,6 +18,10 @@
       <div class="chart"> 
         <span>가입분포</span>
         <div class="ct-chart ct-perfect-fourth" style="width: 300px;"></div>
+      </div>
+      <div class="chart"> 
+        <span>기업비율</span>
+        <div class="ct-chart2 ct-perfect-fourth" style="width: 300px;"></div>
       </div>
       <div class="chart">
         <span>신규 가입</span>
@@ -69,6 +75,7 @@ $(document).ready(function () {
              pageSize: 30
          },
          height: 550,
+         toolbar: ["search"],
          groupable: true,
          sortable: true,
          pageable: {
@@ -110,6 +117,7 @@ $(document).ready(function () {
 
 
 /*  chart with animation */
+/*  회원비율  */
 var chart = new Chartist.Pie('.ct-chart', {
   series: [<%=aMemberAll%>,<%=cMemberAll%>],
   labels: ['일반회원','기업회원']
@@ -117,6 +125,47 @@ var chart = new Chartist.Pie('.ct-chart', {
   donut: true,
   showLabel: true
 });
+
+var department = [
+    "가사, 가정",'건설', '공공행정, 국방', '광업', '교육서비스', '국제, 외교기관', '금융', '기타 서비스업', '농림, 어업', '물류, 운송업',
+    '보건, 사회복지', '부동산', '사업지원', '상수도, 환경', '숙박, 음식점', '예술, 스포츠, 여가','전기, 가스', '전문, 과학기술',
+    'IT, 컨텐츠, 네트워크', '제조', '판매, 유통'
+  ];
+var temp = 0;
+var number1 = [];
+var label1 = [];
+var number2 = [];
+for(var i in department ){
+<%
+	for( StatisticsParam p : departmentStat ){
+			String str = p.getStatStr1();
+			int number = p.getStatNum1();
+		%>
+			console.log('department : ' + department[i])
+			if(department[i] === '<%=str%>'){
+				temp +=  <%=number%>	
+				console.log(department[i] + ' : ' + '<%=str%>' )
+				console.log('temp : ' + temp )
+			}
+		<%
+	}
+%>
+	if( temp != 0 ){
+		label1.push(department[i])		
+		number1.push(temp);
+	}
+	temp = 0;
+}
+console.log(label1)
+console.log(number1)
+
+var chart2 = new Chartist.Pie('.ct-chart2', {
+	  series: number1,
+	  labels: label1
+	}, {
+	  donut: true,
+	  showLabel: true
+	});
 
 chart.on('draw', function(data) {
   if(data.type === 'slice') {
@@ -145,6 +194,42 @@ chart.on('draw', function(data) {
 });
 
 chart.on('created', function() {
+  if(window.__anim21278907124) {
+    clearTimeout(window.__anim21278907124);
+    window.__anim21278907124 = null;
+  }
+  window.__anim21278907124 = setTimeout(chart.update.bind(chart), 500000);
+});
+
+
+
+chart2.on('draw', function(data) {
+	  if(data.type === 'slice') {
+	    var pathLength = data.element._node.getTotalLength();
+	    data.element.attr({
+	      'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+	    });
+	    var animationDefinition = {
+	      'stroke-dashoffset': {
+	        id: 'anim' + data.index,
+	        dur: 1000,
+	        from: -pathLength + 'px',
+	        to:  '0px',
+	        easing: Chartist.Svg.Easing.easeOutQuint,
+	        fill: 'freeze'
+	      }
+	    };
+	    if(data.index !== 0) {
+	      animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+	    }
+	    data.element.attr({
+	      'stroke-dashoffset': -pathLength + 'px' 
+	    });
+	    data.element.animate(animationDefinition, false);
+	  }
+	});
+
+chart2.on('created', function() {
   if(window.__anim21278907124) {
     clearTimeout(window.__anim21278907124);
     window.__anim21278907124 = null;
@@ -210,7 +295,6 @@ function updateDelMember(){
 .btn-wrapper button{ float:right; margin-left: 10px; width:100px; height: 30px; line-height:30px; color:#fff; background: #4f6eff; outline: none; }
 .check-label{ display: inline-block; width: 100px; margin: 0px -10px;}
 .check-label input{ text-align: center; margin-left: 25px;}
-
 </style>
 <%@include file="./include/footer.jsp" %>
 

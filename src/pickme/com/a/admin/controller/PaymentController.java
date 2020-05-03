@@ -79,8 +79,8 @@ public class PaymentController {
 		model.addAttribute("dto", dto);
 		
 		return "admin/payment/updatePaidService";
-		
 	}
+
 	// 서비스 수정하기 
 	@RequestMapping(value="updateService.do")
 	public String updateService(Model model, PremierServiceDto dto) {
@@ -136,6 +136,7 @@ public class PaymentController {
 		return map;
 	}
 		
+	
 	// 텍스트 에디터창에 이미지 불러오기 (다운로드)
 	@RequestMapping(value="imgDownload.do", method= {RequestMethod.GET,RequestMethod.POST})
 	public void imgDownload( String filename, String filepath,

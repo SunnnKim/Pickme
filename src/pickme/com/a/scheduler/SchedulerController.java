@@ -78,6 +78,9 @@ public class SchedulerController {
 		System.out.println( "[Scheduler] Delete C_Member : " + today.getTime());
 		
 	}
+	// 삭제된 이력서 자동으로 지우기 ( + 딸린 테이블도 지움 )
+	
+	
 	
 	
 	// 채용관리 매일밤 12시 채용 마감일이 오늘 날짜를 지나면 DEL=1로 바꾸기

@@ -75,6 +75,7 @@
   <!-- 세션아웃 시간 설정 -->
   <session-config>
 	<session-timeout>60</session-timeout>
+
   </session-config>
   
   

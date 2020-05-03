@@ -65,7 +65,7 @@ if (durl.contains("/login/com")){
 <!-- 기업 마이페이지 -->	
 <%
 if (durl.contains("c_mypage")) {
-	if ( !durl.contains("c_mypage/myPage.jsp")) {
+	if ( !durl.contains("c_mypage/myPage.jsp") && !durl.contains("c_mypage/paymentDetail.jsp") ) {
 		%>
 		<ul class = "depth02 clfix">
 			<li class = <%= durl.contains("update.jsp") ? " on" :" " %>>
@@ -74,11 +74,8 @@ if (durl.contains("c_mypage")) {
 			<li class = <%= durl.contains("passwordUpdate.jsp") ? " on" :" " %>>
 				<a href="goPasswordUpdate.do">비밀번호 변경</a>
 			</li>
-			<li class = "none">
-				<a href="#none">문의내역</a>
-			</li>
-			<li class = <%= durl.contains("payment.jsp") ? " on" :" " %>>
-				<a href="goPayment.do">결제</a>
+			<li class = <%= durl.contains("payment.jsp") || durl.contains("refundRequest") ? " on" :" " %>>
+				<a href="goPayment.do">결제내역 </a>
 			</li>
 			<li class = <%= durl.contains("withdrawal.jsp") ? " on" :" " %>>
 				<a href="goWithdrawal.do">탈퇴</a>
