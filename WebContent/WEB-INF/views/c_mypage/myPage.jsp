@@ -6,6 +6,7 @@
 <%
 	// 컨트롤러에서 받아온 기업회원 정보 부분 
 	CMemberDto memberInfo = (CMemberDto) request.getAttribute("cMember");
+	AMemberDto member1 = (AMemberDto) request.getAttribute("aMember");
 
 	// 컨트롤러에서 받아온 주소 조각
 	
@@ -104,14 +105,11 @@
 		</ul>
 	</div>
             
-            
-            
-            
-            
             </div>  <!-- // c_introSlider -->
             <div class="c_introInfo">
                 <div class="tit">
-                  <h3><img src="https://image.rocketpunch.com/company/4084/wanted_logo_1519203285.jpg?s=400x400&t=inside" alt="logo"> <%=memberInfo.getName() %></h3>
+                	<h3><img src="/Pickme/c_mypage/imageDownload.do?filename=${cMember.logoName }&filepath=${cMember.logoPath }" alt="logo"> <%=memberInfo.getName() %></h3>
+                
                 </div>
                 <ul>
                 

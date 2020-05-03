@@ -264,7 +264,12 @@ div div.logo-img input.btTextW {
 
 <form action = "update.do" method = "post" id = "frm" name = "frm" enctype = "multipart/form-data">
 <input type="hidden" name="seq" value="${dto.seq}"/>
-          
+
+<!-- 로고 이미지 경로 호출 -->
+<input type="hidden" name="logoPath" value="/upload/c_mypage/">
+<input type="hidden" name="logoName" value="${dto.logoName }">
+		
+		          
         <div class="update-logo">
           <div class="logo-text">
             <span class = "intro_message">
@@ -284,9 +289,10 @@ div div.logo-img input.btTextW {
 					<div class="imgs-wrap" id="imgs-wrap"></div>
 				</div>
 				<div class="filebox preview-image">
-					<label for="input_file"><i class="fas fa-camera"></i></label> 
-					<input type="file" name = file id="input_file" class="upload-hidden"> 
-					<input type="hidden" class="upload-name" name="_profileName">
+					<label for="inputFile"><i class="fas fa-camera"></i></label> 
+					<input type="file" name ="logoImg" id="inputFile"> 
+					<!-- <input type="hidden" class="upload-name" name="_profileName"> -->
+					<img id="uploadThumb" src="/Pickme/c_mypage/imageDownload.do?filename=${dto.logoName }&filepath=${dto.logoPath }" >
 				</div>
 			</div>
 
@@ -393,6 +399,7 @@ div div.logo-img input.btTextW {
               <textarea name="introduce" cols="30" rows="30" id="introduce">
               ${dto.introduce }
               </textarea>
+              <script>  CKEDITOR.replace('introduce', {  width : 1047,   height : 330, });</script>
             </div>
         </div>
  </form>
@@ -522,7 +529,7 @@ var tel = document.querySelector("#tel");					// 연락처
 	
 var address = document.querySelector("#address");			// 주소
 var hashTag = document.querySelector("#hashId");				// 해시태그
-var introduce = document.querySelector("#introduce");		// 소개
+//var introduce = document.querySelector("#introduce");		// 소개
 
 		
 		// 1. 대표자명
@@ -649,9 +656,24 @@ var introduce = document.querySelector("#introduce");		// 소개
 		});
 		
 
-//============================= 완료 submit ===========================================//
-updateComplete = () => {
 
+
+});
+</script>
+
+
+
+<script>
+function CKupdate(){
+    for ( instance in CKEDITOR.instances )
+        CKEDITOR.instances[instance].updateElement();
+}
+
+//============================= 완료 submit ===========================================//
+function updateComplete() {
+	CKupdate();
+	
+	
 	// 주소 합치기 ! 
 	var addressStr = '';
 	addressStr += "[" + $('#sample6_postcode').val() + "]'";		// 우편번호
@@ -660,7 +682,7 @@ updateComplete = () => {
 	$('input[name=address]').val(addressStr);
 	console.log(addressStr);
 
-	
+	/*
 	// 대표자명 잘못 입력
 	if( presidentCheck == false ) {
 		president.focus();
@@ -674,7 +696,7 @@ updateComplete = () => {
 			return false;
 		})
 	}
-
+	
 	// 기업형태 잘못 선택
 	if( typeCheck == false ) {
 		type.focus();
@@ -689,6 +711,7 @@ updateComplete = () => {
 		})
 	}
 
+	
 	// 기업분야 잘못 선택
 	if( departmentCheck == false ) {
 		department.focus();
@@ -702,7 +725,7 @@ updateComplete = () => {
 			return false;
 		})
 	}
-
+	
 	// 연락처 잘못 입력
 	if( telCheck == false ) {
 		tel.focus();
@@ -717,7 +740,7 @@ updateComplete = () => {
 		})
 	}
 	//
-	
+	*/
 	
 	// 해쉬태그 합치기
 	var hashTag = new Array();
@@ -762,9 +785,9 @@ updateComplete = () => {
 	$('input[name=hashTag]').val(json);
 	console.log("jsondata: "+jsondata);
 
-	
-  
+
 	// submit
+	/* 
 	Swal.fire({
 		position: 'center',
 		icon: 'success',
@@ -774,10 +797,79 @@ updateComplete = () => {
 	}).then ( (result) => {
 		document.querySelector('#frm').submit();
 	})
-	
+	 */
+	 
+
+	 	// 로고 처리한 Ajax
+		   
+		 var form = $('#frm')[0];
+	     var formData = new FormData(form);
+
+		//let data = new FormData;
+		//console.log()
+		var getFile = $('input[name=logoImg]')[0].files[0];
+		alert("getFile 값 :" + getFile);
+		formData.append("file", getFile);
+		//console.log(data)   
+		
+		//var introduce = $('#introduce').val();
+		//alert("introduce 값 :" + introduce);
+		//formDate.append("introduce", introduce);
+		   
+		$.ajax({
+			data 		: formData,
+			type 		: 'POST',
+			url			: "update.do",
+			cache		: false,
+		    contentType	: false,
+		    processData	: false,
+		    async 		: false,
+		    enctype		: 'multipart/form-data',
+		    success		: function (data) { 
+					//alert("success");
+					location.href="goCMypage.do"
+		    }, 
+		    error		:function(request,status,error){ 
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+			}
+
+		})
+			
+
+
+
+
+
+	 
 }
 
-});
+
+
+// 로고 이미지 미리보기
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#uploadThumb').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// 로고 바뀌면 썸네일 띄움
+$("#inputFile").change(function() {
+	$('img#uploadThumb').show();
+    readURL(this);
+});    
+
+// 로고 이미지 있는지 여부 확인
+$(function(){
+    var pfImg = "${dto.logoName }";
+    if(pfImg == "") {
+    	 $('img#uploadThumb').hide();
+    }
+});    
+
 </script>
 
 <!----------------------- 해시태그 -------------------------->
@@ -932,15 +1024,13 @@ $(document).ready(function() {
 </script>
 
 <!---------------- 텍스트 에디터 ----------------->
-
-<script>
+<!-- <script>
   // 텍스트 에디터 스크립트
   CKEDITOR.replace('introduce', {
     width : 1047,
     height : 330,
   });
-</script>
-
+</script> -->
 <!--------------- 기업 형태 값 셋팅 ----------------->
 
 <script>
