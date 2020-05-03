@@ -76,6 +76,7 @@
 					<a href="/Pickme/resume/resume.do">이력서</a><!-- 일반회원 이력서관리  -->
 					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a><!-- 일반회원 지원현황  -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
+					<a href="/Pickme/c_mypage/goCMypage.do">테스트</a>
 				</nav>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
@@ -224,8 +225,8 @@
 	    <div id="section01">
 	      <div class="inner">
 	        <div class="m-tit">
-	          <h2>나에게 맞는 포지션 <a href="#none"><i class="fas fa-cog"></i></a></h2>
-	          <a href="#none">more +</a>
+	          <h2>요즘 뜨는 기업 <a href="#none"><i class="fas fa-cog"></i></a></h2>
+	          <!-- <a href="#none">more +</a> -->
 	        </div>
 	        <div class="cont">
 	          <ul class="pmList clfix">

@@ -89,7 +89,7 @@
             	</button>
             	 <span class="likes">
             		<button type="button" class="followButton">기업정보</button>
-            		 
+            		
             	</span>
             </div>
           <button type="button" class="likebtn" onclick="likech(this)"><i class="fas fa-heart unliked"></i><span>${likeTotal }</span></button>
@@ -145,6 +145,7 @@ if ( chk != null || chk != ""){
 
 	$(".followButton").on("click", function(){
 		alert("기업정보 바로가기 클릭");
+		location.href="/Pickme/c_mypage/goCMypage.do";
 	});
 	
 	//회사이름, 제목 

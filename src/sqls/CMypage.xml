@@ -34,10 +34,11 @@
   
   <!-- 기업 정보 수정 -->
   <update id = "update" parameterType = "model.CMemberDto">
-  	UPDATE C_MEMBER
-  	SET	PRESIDENT=#{president}, DEPARTMENT=#{department}, TYPE=#{type},
-  		TEL=#{tel}, ADDRESS=#{address}, HASHTAG=#{hashTag}, INTRODUCE=#{introduce}
-  	WHERE SEQ=#{seq}
+     UPDATE C_MEMBER
+     SET  PRESIDENT=#{president}, DEPARTMENT=#{department}, TYPE=#{type},
+        TEL=#{tel}, ADDRESS=#{address}, HASHTAG=#{hashTag}, INTRODUCE=#{introduce}
+        ,LOGONAME=#{logoName}, LOGOPATH=#{logoPath}
+     WHERE SEQ=#{seq}
   </update>
   
   <!-- 로고 업로드 -->

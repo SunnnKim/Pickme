@@ -19,7 +19,7 @@
 <div class="allWrap">
 
 <!-- 한번도 이용한 적이 없는 경우 -->
-<c:if test = "${fn:length(list) eq 0 }">
+<c:if test = "${empty list }">
    현재 이용중인 서비스가 없습니다.
    <div class="allWrapDetail">
       합리적인 가격으로 최대의 혜택을 누리세요.
@@ -30,7 +30,7 @@
 </c:if>
 
 <!-- 이용내역이 존재하며, 현재 이용중인 서비스가 있는 경우 -->
-<c:if test = "${fn:length(list) > 0 && recentDto ne null }">
+<c:if test = "${not empty list && recentDto ne null }">
     <div class="previous">
     	<label> 현재 <span> ${serviceName } </span> 서비스를 이용중입니다. </label>
     	
@@ -79,10 +79,52 @@
 </c:if>
 
 <!-- 이용내역이 존재하며, 현재 이용중인 서비스가 없는 경우 -->
-<c:if test = "${fn:length(list) > 0 && recentDto eq null }">
+
+<c:if test = "${not empty list && recentDto eq null}">
 	<div class="previous">
 		<label> 이전 결제 내역 </label>
-		<button> 서비스 둘러보기 </button>
+		
+		
+		<div class="table-col table-bbs">
+		<table>
+			<caption>전체</caption>
+			<colgroup>
+				<col>
+				<col>
+				<col>
+				<col style="width: 120px">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>서비스</th>
+					<th>결제일</th>
+					<th>만료일</th>
+					<th>상태</th>
+				</tr>
+			</thead>
+			<tbody>
+					<c:forEach var="result" items="${list }">
+				<tr>
+					<td><c:out value="${result.serviceName }" /></td>
+					<td><c:out value="${result.payDate}" /></td>
+					<td><c:out value="${result.endDate }" /></td>
+					<td>
+						<c:choose>
+							<c:when test="${today le result.endDate }">
+								<span style="color:#ff0000">이용중</span>
+							</c:when>
+							<c:when test="${today gt result.endDate }">
+								<span>만료</span>
+							</c:when>
+						</c:choose>
+					</td>
+				</tr>
+					</c:forEach>
+			</tbody>
+		</table>
+	   </div>
+		<div class="buttonCls"><button onclick="goPage()"> 서비스 둘러보기 </button></div>
+		
 	</div>
 </c:if>
 
