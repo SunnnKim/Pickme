@@ -3,10 +3,13 @@ package pickme.com.a.c_apply.service;
 import java.util.List;
 
 import model.CApplyDto;
+import model.CareerDto;
 import model.CvRecruitDto;
 import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
+import model.ResumeFileDto;
 
 public interface CApplyService {
 
@@ -16,7 +19,11 @@ public interface CApplyService {
 
 	public List<CApplyDto> getCApplyList(int jobSeq);
 
-	public CvRecruitDto apResumeOpen(int cvSeq);
+	public ResumeFileDto findResumeFile(int cvSeq);
+
+	public ResumeAfterDto getResumeAfter(int seq);
+
+	public List<CareerDto> getCareerAfter(int seq);
 
 	
 }

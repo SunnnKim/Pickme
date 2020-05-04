@@ -36,18 +36,45 @@
 	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0  -->
 	
 	
-	SELECT a.name as memName, p.adate, p.open, a.profilename, p.cvseq, a.seq as memSeq
+	<!-- SELECT a.name as memName, p.adate, p.open, a.profilename, p.cvseq, a.seq as memSeq
 	FROM APPLY p, A_MEMBER a
-	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 --> 
+	
+	
+	SELECT a.name as memName, p.adate, p.open, a.profilename, a.seq as memSeq, r.seq as cvSeq, r.name as cvName
+	FROM APPLY p, A_MEMBER a, RESUME_AFTER r
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 AND r.memseq = p.memseq;
+	
 	
 </select>
 
 
-<select id="apResumeOpen" resultType="model.CvRecruitDto">
-	SELECT *
-	FROM CV_RECRUIT
-	WHERE seq = #{cvSeq}
+
+
+<!-- 이력서가 파일인지 확인 -->
+<select id="findResumeFile" resultType="int">
+	SELECT COUNT(*)
+	FROM RESUME_FILE_AFTER
+	WHERE RSMSEQ = #{cvSeq}
 </select>
+
+<!-- 이력서 파일 내용 호출 -->
+<select id="getResumeFile" resultType="model.ResumeFileDto">
+	SELECT *
+	FROM RESUME_FILE_AFTER
+	WHERE RSMSEQ = #{cvSeq}
+</select>
+
+<!-- 지원자 현황 이력서 뷰 내용 취득 -->
+<select id="getResumeAfter" resultType="model.ResumeAfterDto">
+	SELECT *
+	FROM RESUME_AFTER
+	WHERE SEQ = #{seq}
+</select>
+
+
+
+
 
 
 

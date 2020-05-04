@@ -26,12 +26,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import model.AMemberDto;
 import model.CApplyDto;
 import model.CMemberDto;
+import model.CareerDto;
 import model.CvRecruitDto;
 import model.FavoriteDto;
 import model.FilesDto;
 import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
+import model.ResumeFileDto;
 import pickme.com.a.c_apply.service.CApplyService;
 import pickme.com.a.c_apply.service.CMsgService;
 import pickme.com.a.recruit.service.RecruitService;
@@ -109,18 +112,71 @@ public class CApplyController {
 	
 	
 	
-	// 이력서 열람 버튼 Ajax
+	// 이력서 열람 버튼 Ajax file인지 아닌지 판별
 	@ResponseBody
 	@RequestMapping(value = "apResumeOpen.do", method = { RequestMethod.POST })
-	public CvRecruitDto apResumeOpen(int cvSeq, HttpSession session) {
+	public Map<String, Object> apResumeOpen(int cvSeq, HttpSession session) {
 		
-		CvRecruitDto apResumeDto = cApplyService.apResumeOpen(cvSeq);
+		ResumeFileDto dto = cApplyService.findResumeFile(cvSeq);
+				
 		
-		System.out.println(apResumeDto.toString());
+		// 시퀀스로 RESUME_FILE_AFTER 조회
+		// 리턴이 null 이면 "cant find file"
 		
-		return apResumeDto;
+		// null이 아니면 모든 내용 리턴
+		
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("fileDto", dto);
+		
+		
+		
+		//CvRecruitDto apResumeDto = cApplyService.apResumeOpen(cvSeq);
+		//System.out.println(apResumeDto.toString());
+		System.out.println("왜 안되니 : " + map);
+		return map;
 		
 	}
+	
+	
+	@RequestMapping(value = "openResumeDetail.do",  method = { RequestMethod.POST, RequestMethod.GET })
+	public String openResumeDetail(int seq, Model model) {
+		
+		System.out.println("openResume : " + seq);
+		
+		/* RESUME_AFTER 이력서 가져오기 */
+		ResumeAfterDto dto = cApplyService.getResumeAfter(seq);
+		System.out.println("★openResumeDetail : " +dto.toString());
+		
+		/* CAREER_AFTER 경력 가져오기 */
+		List<CareerDto> careerList = cApplyService.getCareerAfter(seq);
+				
+		/* EDUCATION_AFTER 학력 가져오기 */
+		
+		/* AWARDSETC_AFTER 수상 및 기타 가져오기 */
+		
+		/* LANGUAGE_AFTER 외국어 가져오기 */
+		
+		/* LINK_AFTER 링크 가져오기 */
+		
+		
+		model.addAttribute("dto", dto);
+		
+		return "c_apply/openResumeDetail";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
