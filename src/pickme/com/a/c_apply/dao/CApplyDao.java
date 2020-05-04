@@ -3,10 +3,11 @@ package pickme.com.a.c_apply.dao;
 import java.util.List;
 
 import model.CApplyDto;
-import model.CvRecruitDto;
-import model.MessageDto;
+import model.CareerDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
+import model.ResumeFileDto;
 
 public interface CApplyDao {
 
@@ -16,7 +17,11 @@ public interface CApplyDao {
 
 	public List<CApplyDto> getCApplyList(int jobSeq);
 
-	public CvRecruitDto apResumeOpen(int cvSeq);
+	public ResumeFileDto findResumeFile(int cvSeq);
+
+	public ResumeAfterDto getResumeAfter(int seq);
+
+	public List<CareerDto> getCareerAfter(int seq);
 
 
 }

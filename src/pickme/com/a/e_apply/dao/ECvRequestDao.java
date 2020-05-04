@@ -3,9 +3,16 @@ package pickme.com.a.e_apply.dao;
 import java.util.List;
 import java.util.Map;
 
+import model.AwardsEtcDto;
+import model.CareerDto;
 import model.CvCompanyDto;
 import model.CvReqDto;
 import model.CvReqParam;
+import model.EducationDto;
+import model.LanguageDto;
+import model.LinkDto;
+import model.ResumeAfterDto;
+import model.ResumeDto;
 
 public interface ECvRequestDao {
 	
@@ -16,7 +23,6 @@ public interface ECvRequestDao {
 	
 	
 	// 이력서 선택해서 수락하기
-	public int doAccept(int seq);
 	
 	public CvCompanyDto getMainResumeSeq(int pseq);
 	
@@ -33,7 +39,40 @@ public interface ECvRequestDao {
 	
 	public int cvReqReject(int seq);
 	
-	public List<CvCompanyDto> getResumeList(int loginSeq);
-	
 	public int deletePastReq(int seq);
+	
+	
+	
+	//최종)  이력서 받아오기 
+	
+	public ResumeAfterDto getMainResume(int pseq);
+	
+	public int putResume(ResumeAfterDto rdto);
+	
+	public CareerDto getCareer(int originalId);
+	
+	public int putCareer(CareerDto cdto);
+	
+	public AwardsEtcDto getAwardsEtc(int originalId);
+	
+	public int putAwardsEtc(AwardsEtcDto adto);
+	
+	public LanguageDto getLanguage(int originalId);
+	
+	public int putLanguage(LanguageDto langdto);
+	
+	public EducationDto getEducation(int originalId);
+	
+	public int putEducation(EducationDto edto);
+	
+	public LinkDto getLink(int originalId);
+	
+	public int putLink(LinkDto linkdto);
+	
+	public int doAccept(int seq, int rsmSeq);
+	
+	public List<ResumeDto> getResumeList(int loginSeq);
+	
+	public ResumeAfterDto getResume(int rseq);
+	
 }

@@ -83,7 +83,7 @@
 					<li><button type="button" id="searchBtn"></button></li>
 					<li class="alert-wrap bell">
 					   <span class="alert-bell"><img alt="" src="../images/main/alarm-bell.png"></span>
-					   <div class="alert-NoContent">현재 관심등록한 기업의 채용공고가 없습니다.</div>	
+					   <div id='alert-NoContent' class="alertContWrap">현재 관심등록한 기업의 채용공고가 없습니다.</div>	
 					 </li>	
 					<li class="alert-wrap msg">	
 					   	<a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
@@ -475,9 +475,8 @@
 		            },6000);
 		            
 				}else if((event.data).includes("<ul>")){
-					console.log('recruit!>>>');
 					console.log('recruit!>>>' + event.data);
-					$('.alert-NoContent').detach();
+					$('#alert-NoContent').detach();
 					$('.alert-wrap.bell').append(event.data);
 							 	
 				}else{ // 안읽은 메시지 갯수 표시
@@ -521,7 +520,10 @@
 		window.onkeyup = function(e) {
 			var key = e.keyCode ? e.keyCode : e.which;
 
-			$('.alertContWrap').fadeToggle('fast');
+			if(key == 27){
+				$('.alertContWrap').fadeOut('fast');
+			}	
+			
 		}
 		 
 

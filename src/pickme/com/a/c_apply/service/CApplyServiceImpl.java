@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.CApplyDto;
+import model.CareerDto;
 import model.CvRecruitDto;
 import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
+import model.ResumeFileDto;
 import pickme.com.a.c_apply.dao.CApplyDao;
 import pickme.com.a.c_apply.dao.CMsgDao;
 
@@ -35,9 +38,22 @@ public class CApplyServiceImpl implements CApplyService {
 		return cApplyDao.getCApplyList(jobSeq);
 	}
 
+	
+	/* 지원자 현황 이력서 file 판별 */
 	@Override
-	public CvRecruitDto apResumeOpen(int cvSeq) {
-		return cApplyDao.apResumeOpen(cvSeq);
+	public ResumeFileDto findResumeFile(int cvSeq) {
+		return cApplyDao.findResumeFile(cvSeq);
+	}
+
+	/* 지원자 현황 이력서 뷰 내용 취득 */
+	@Override
+	public ResumeAfterDto getResumeAfter(int seq) {
+		return cApplyDao.getResumeAfter(seq);
+	}
+
+	@Override
+	public List<CareerDto> getCareerAfter(int seq) {
+		return cApplyDao.getCareerAfter(seq);
 	}
 
 	

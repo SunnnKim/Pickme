@@ -12,6 +12,7 @@ import model.EducationDto;
 import model.LanguageDto;
 import model.LinkDto;
 import model.ResumeDto;
+import model.ResumeFileDto;
 import model.ResumeParam;
 import pickme.com.a.resume.dao.ResumeDao;
 
@@ -28,7 +29,20 @@ public class ResumeServiceImpl implements ResumeService{
 		return dao.resumeGetSeq();
 	}
 	
-	// 이력서 insert 
+	// 이력서 파일 select
+	@Override
+	public ResumeFileDto resumeFileSelect(int seq) {
+		return dao.resumeFileSelect(seq);
+	}
+	
+	// 이력서 파일 insert 
+	@Override
+	public int resumeFileInsert(ResumeFileDto fileDto) {
+		return dao.resumeFileInsert(fileDto);
+	}
+		
+	
+	// 이력서 insert
 	@Override
 	public int resumeInsert(ResumeDto dto) {
 		return dao.resumeInsert(dto);
@@ -175,6 +189,11 @@ public class ResumeServiceImpl implements ResumeService{
 		return dao.linkDelete(seq);
 	}
 	
+	// 이력서 delete 파일
+	public int fileDelete(int rsmSeq) {
+		return dao.fileDelete(rsmSeq);
+	}
+	
 	// 이력서 update 기본 정보
 	@Override
 	public int resumeUpdate(ResumeDto dto) {
@@ -240,6 +259,10 @@ public class ResumeServiceImpl implements ResumeService{
 	public int linkDeleteAll(int rsmseq) {
 		return dao.linkDeleteAll(rsmseq);
 	}
+
+
+
+	
 
 	
 	

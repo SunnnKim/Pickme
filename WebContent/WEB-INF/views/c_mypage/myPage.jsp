@@ -4,17 +4,17 @@
     
 <!-- 기업회원 정보 불러오기  --> 
 <%
-	// 컨트롤러에서 받아온 기업회원 정보 부분 
-	CMemberDto memberInfo = (CMemberDto) request.getAttribute("cMember");
-	AMemberDto member1 = (AMemberDto) request.getAttribute("aMember");
+   // 컨트롤러에서 받아온 기업회원 정보 부분 
+   CMemberDto memberInfo = (CMemberDto) request.getAttribute("cMember");
+   AMemberDto member1 = (AMemberDto) request.getAttribute("aMember");
 
-	// 컨트롤러에서 받아온 주소 조각
-	
-	String zipcode = (String)request.getAttribute("realAddress[0]");	// 우편번호
-	String basicAdd = (String)request.getAttribute("realAddress[1]");	// 기본주소
-	String detailAdd = (String)request.getAttribute("realAddress[2]");	// 상세주소 
-	
-	
+   // 컨트롤러에서 받아온 주소 조각
+   
+   String zipcode = (String)request.getAttribute("realAddress[0]");   // 우편번호
+   String basicAdd = (String)request.getAttribute("realAddress[1]");   // 기본주소
+   String detailAdd = (String)request.getAttribute("realAddress[2]");   // 상세주소 
+   
+   
 %>  
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
@@ -56,14 +56,14 @@
 .followBtnWrap span {display: block;text-align: center;height: 50px;background-color: #4f6eff;color: #fff;line-height: 50px;font-size: 24px;cursor: pointer;}
 .followBtnWrap span:hover {background-color:#6681ff;}
 .followBtnWrap span i {margin-left: 10px;display: none;}
-.followBtnWrap span input width: 0;height: 0;display:none;}
+.followBtnWrap span input {width: 0;height: 0;display:none;}
 
 .c_introBtm {margin-top: 100px;}
 .c_introBtm h4 {font-size: 22px; margin-top:30px; margin-left:40px;}
 .c_introBtm h4 > span {display:inline-block; margin-left:30px;}
 .c_introBtm h4 > span > span {display:inline-block;padding:5px 15px;font-size:15px;color:#fff;background:#999;border-radius:3px;margin-right:10px;}
 .c_introBtm .cont {margin-top: 20px;font-size: 18px; /* margin-left:60px; */}
-      	
+         
 /* 수정버튼 */
 .updateBtn { font-size: 22px;padding-bottom: 8px;color: #fff;}
 
@@ -83,32 +83,32 @@
           <div class="c_introTop clfix">
             <div class="c_introSlider">
             
-            		<div id="visual_wrap">
-		<link rel="stylesheet" href="/Pickme/css/bxslider.css" type="text/css" />
-		<script type="text/javascript" src="/Pickme/js/bxslider.js"></script>
-		<ul id="visual">
+                  <div id="visual_wrap">
+      <link rel="stylesheet" href="/Pickme/css/bxslider.css" type="text/css" />
+      <script type="text/javascript" src="/Pickme/js/bxslider.js"></script>
+      <ul id="visual">
       <li>
           <p style="background-image:url('http://bitly.kr/Bhuwi1tzO');background-size:contain;"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
-			<li>
-		  <p style="background-image:url('http://bitly.kr/X6FdifSzE');background-size:contain;"></p>
+         <li>
+        <p style="background-image:url('http://bitly.kr/X6FdifSzE');background-size:contain;"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
       <li>
-      	  <p style="background-image:url('http://bitly.kr/urJlCXH68');background-size:contain;"></p>
+           <p style="background-image:url('http://bitly.kr/urJlCXH68');background-size:contain;"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
-		</ul>
-	</div>
+      </ul>
+   </div>
             
             </div>  <!-- // c_introSlider -->
             <div class="c_introInfo">
                 <div class="tit">
-                	<h3><img src="/Pickme/c_mypage/imageDownload.do?filename=${cMember.logoName }&filepath=${cMember.logoPath }" alt="logo"> <%=memberInfo.getName() %></h3>
+                   <h3><img src="/Pickme/c_mypage/imageDownload.do?filename=${cMember.logoName }&filepath=${cMember.logoPath }" alt="logo"> <%=memberInfo.getName() %></h3>
                 
                 </div>
                 <ul>
@@ -125,19 +125,19 @@
                   <%-- <li><span>주소</span><%=memberInfo.getAddress() == ""? "등록된 주소가 없습니다.": memberInfo.getAddress()%> </li> --%>
                   <li><span>주소</span>
                    <% if (zipcode == null) { %>
-                   		등록된 주소가 없습니다.
+                         등록된 주소가 없습니다.
                    <%} else { %>
-                  		 <%=zipcode %> &nbsp; <%=basicAdd %> &nbsp; <%=detailAdd %>
+                         <%=zipcode %> &nbsp; <%=basicAdd %> &nbsp; <%=detailAdd %>
                    <%} %>
                    </li>
                 </ul>
                 <div class="followBtnWrap">
                   <label>
-                    	<% if(member != null) { %>
-                    	<span>팔로우<i class="fas fa-check"></i> <input type="checkbox"></span>
+                       <% if(member != null) { %>
+                       <span>팔로우<i class="fas fa-check"></i> <input type="checkbox"></span>
                     <% } else if(memberInfo != null) { %>
-                   		<span><i class="fas fa-check"></i><button type = "button" class="updateBtn" onclick = "location.href='goUpdate.do?seq=<%=memberInfo.getSeq()%>'"> 수정 </button></span>
-                    <% } %>					
+                         <span><i class="fas fa-check"></i><button type = "button" class="updateBtn" onclick = "location.href='goUpdate.do?seq=<%=memberInfo.getSeq()%>'"> 수정 </button></span>
+                    <% } %>               
                   </label>
                 </div>
             </div>  <!-- // c_introInfo -->
@@ -148,12 +148,12 @@
           <!--  ★★★★★★★★★★★★★★★★★★ DB 에서 해시태그 걸어야함 ★★★★★★★★★★★★★★★★ -->
           
             <h4>회사소개 
-            	<span id="hashTags">
-	            	
-            	</span>
-	        </h4>
+               <span id="hashTags">
+                  
+               </span>
+           </h4>
             <div class="cont">
-	            <%=memberInfo.getIntroduce() == null ? "등록된 소개가 없습니다.": memberInfo.getIntroduce()%>
+               <%=memberInfo.getIntroduce() == null ? "등록된 소개가 없습니다.": memberInfo.getIntroduce()%>
             </div>
           </div> <!-- // c_introBtm -->
 
@@ -170,27 +170,27 @@
         
         <!--------------------------- 슬라이드 ------------------------------->
         <script type="text/javascript">
-		$(document).ready(function(){
-		$('#visual').bxSlider({
-			//mode:'fade',
-	      pause:4500,
-		  pager: false,
-		  auto:true,
-			onSliderLoad: function(currentIndex) {
-			  $('#visual_wrap').find('.bx-viewport').find('ul').children().eq(currentIndex).addClass('active-slide');
-	 			$('#visual_wrap').find('.bx-viewport').find('ul').children().eq(1).addClass('active-slide').css('transition', 'all 0.1 ease-in-out');
-			},
-			onSlideBefore: function($slideElement){
-			  $('#visual_wrap').find('.bx-viewport').find('ul').children().removeClass('active-slide');
-			  $slideElement.addClass('active-slide');
-			}
-			});
-		});
-		</script>
+      $(document).ready(function(){
+      $('#visual').bxSlider({
+         //mode:'fade',
+         pause:4500,
+        pager: false,
+        auto:true,
+         onSliderLoad: function(currentIndex) {
+           $('#visual_wrap').find('.bx-viewport').find('ul').children().eq(currentIndex).addClass('active-slide');
+             $('#visual_wrap').find('.bx-viewport').find('ul').children().eq(1).addClass('active-slide').css('transition', 'all 0.1 ease-in-out');
+         },
+         onSlideBefore: function($slideElement){
+           $('#visual_wrap').find('.bx-viewport').find('ul').children().removeClass('active-slide');
+           $slideElement.addClass('active-slide');
+         }
+         });
+      });
+      </script>
 
-		<!------------------------- 팔로우 버튼 -------------------------->
+      <!------------------------- 팔로우 버튼 -------------------------->
     <script>
-          $(".followBtnWrap label input[type='checkbox']").click(function(){
+          $(".followBtnWrap label span input[type='checkbox']").click(function(){
             if($(this).is(":checked")){
              $('.followBtnWrap span i').show();
             }else {
@@ -198,35 +198,35 @@
             }
 
           });
-			<%-- var c_title = '<%= company.getName()%>';
+         <%-- var c_title = '<%= company.getName()%>';
           $('#company-logo').append('<span>'+c_title+'</span>') --%>
 
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // @@@@@@@@@@@@@ 해쉬태그 @@@@@@@@@@@@@
 
-		// 해쉬태그 json 가져오기
-		var hashTag = <%=memberInfo.getHashTag()%>;
-		// 해쉬태그가 없는경우
-		if(hashTag == null){
-			$('#hashTags').html('');
-		}
-		// 태그가 있는 경우
-		else{
-			$('#hashTags').html('')
-			// 화면에 뿌리기  
-			for( key in hashTag ){
-				
-				// 태그 배열 뽑아오기
-				 console.log('배열 '+hashTag[key])
-				var arr = hashTag[key];
-				 console.log(arr);
-				
-				// for 문으로 배열 데이터(태그) 모두 뽑기 
-				$('#hashTags').append('<span>#' + arr + '</span>')
-			}
-			//$('#hashTags').html('<span>' +  + '</span>')
-		}
+      // 해쉬태그 json 가져오기
+      var hashTag = <%=memberInfo.getHashTag()%>;
+      // 해쉬태그가 없는경우
+      if(hashTag == null){
+         $('#hashTags').html('');
+      }
+      // 태그가 있는 경우
+      else{
+         $('#hashTags').html('')
+         // 화면에 뿌리기  
+         for( key in hashTag ){
+            
+            // 태그 배열 뽑아오기
+             console.log('배열 '+hashTag[key])
+            var arr = hashTag[key];
+             console.log(arr);
+            
+            // for 문으로 배열 데이터(태그) 모두 뽑기 
+            $('#hashTags').append('<span>#' + arr + '</span>')
+         }
+         //$('#hashTags').html('<span>' +  + '</span>')
+      }
         </script>
 
 

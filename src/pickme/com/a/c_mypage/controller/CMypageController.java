@@ -30,9 +30,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import model.AMemberDto;
 import model.CMemberDto;
 import model.PaymentDto;
 import model.PremierMemDto;
+import model.PremierServiceDto;
 import pickme.com.a.c_mypage.service.CMypageService;
 
 @Controller
@@ -76,6 +78,20 @@ public class CMypageController {
 		return tel;
 	}
 	
+//	// 일반회원 기업 마이페이지 이동
+//	@RequestMapping(value = "goACMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
+//	public String goACMypage(Model model, HttpSession session, String sentSeq ) {
+//		int seq = 0;
+//		
+//		if( session.getAttribute("loginuser") != null ) {
+//			seq = ((AMemberDto)session.getAttribute("loginuser")).getSeq();
+//		} else {
+//			seq = Integer.parseInt(sentSeq);
+//		}
+//		
+//		AMemberDto aMember = 
+//	}
+	
 	
 	// 기업 마이페이지 이동
 	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
@@ -83,13 +99,16 @@ public class CMypageController {
 		
 		// 데이터 불러오는 시퀀스 
 		int seq = 0;
+		
 		// 기업로그인 상태일때 
 		if( session.getAttribute("logincompany") != null ) {
+			
 			// 기업로그인시 기업 마이페이지로 이동하기  
 			// 기업 고유 시퀀스 
-			seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq() ;
+			seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
 		}else{
 			// 채용공고페이지 기업정보  클릭했을 때 이동하기 
+
 			seq = Integer.parseInt(sentSeq);
 		}
 		
@@ -335,6 +354,11 @@ public class CMypageController {
 	public String paymentDetail(int seq, Model model) {
 		
 		model.addAttribute("seq", seq);
+		
+		// 유료서비스 데이터 가져오기
+		PremierServiceDto premierDTO = service.showPremere();
+		
+		model.addAttribute("premierDTO", premierDTO);
 		
 		return "c_mypage/paymentDetail";
 	}

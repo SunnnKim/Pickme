@@ -336,7 +336,7 @@ public class SearchJobController {
 																	selectResume.getPhone(), 
 																	selectResume.getEmail(), 
 																	selectResume.getIntroduce(), 
-																	null, 0, 0, 0, 0);
+																	null, 0, 0, 0, 0, 0);
 			// DB에 지원데이터 넣고 rsmseq 꺼내오기 
 			int rsmseq = recServ.insertResume(insertResume);
 			

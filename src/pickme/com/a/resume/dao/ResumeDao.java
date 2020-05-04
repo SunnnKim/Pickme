@@ -9,12 +9,19 @@ import model.EducationDto;
 import model.LanguageDto;
 import model.LinkDto;
 import model.ResumeDto;
+import model.ResumeFileDto;
 import model.ResumeParam;
 
 public interface ResumeDao {
 	
 	// resume seq+1 
 	public int resumeGetSeq();		
+	
+	// 이력서 파일 select
+	public ResumeFileDto resumeFileSelect(int seq);
+	
+	// 이력서 파일 insert
+	public int resumeFileInsert(ResumeFileDto fileDto);
 	
 	// 이력서 기본 정보 insert 
 	public int resumeInsert(ResumeDto dto);
@@ -87,6 +94,9 @@ public interface ResumeDao {
 	
 	// 이력서 delete 링크
 	public int linkDelete(int seq);
+	
+	// 이력서 delete 파일
+	public int fileDelete(int rsmSeq);	
 	
 	// 이력서	update 기본정보
 	public int resumeUpdate(ResumeDto dto);

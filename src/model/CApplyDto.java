@@ -10,7 +10,7 @@ public class CApplyDto {
 	private String aDate;		// 지원날짜
 	private int open;			// 인사담당자 확인여부
 	private int cancel;			// 지원취소 (0 / 1)
-	private int cvSeq;			// 지원한 이력서 시퀀스 (cv_recruit)
+	private int cvSeq;			// 지원한 이력서 시퀀스 (RESUME_AFTER)
 	private int del;			// 지원내역 삭제 (0 / 1)
 	
 	private String memName;		// 구직자 이름

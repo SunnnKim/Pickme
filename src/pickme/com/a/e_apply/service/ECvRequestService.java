@@ -2,17 +2,23 @@ package pickme.com.a.e_apply.service;
 
 import java.util.List;
 
+import model.AwardsEtcDto;
+import model.CareerDto;
 import model.CvCompanyDto;
 import model.CvReqDto;
 import model.CvReqParam;
+import model.EducationDto;
+import model.LanguageDto;
+import model.LinkDto;
+import model.ResumeAfterDto;
+import model.ResumeDto;
+
 
 public interface ECvRequestService {
 	
 	public List<CvReqDto> getCvReqList(CvReqParam param);
 
 	public int getReqTotalCount(CvReqParam param);
-	
-	public int doAccept(int seq);
 	
 	public CvCompanyDto getMainResumeSeq(int pseq);
 	
@@ -25,8 +31,39 @@ public interface ECvRequestService {
 	public int getPastReqTotalCount(CvReqParam param);
 	
 	public int cvReqReject(int seq);
-	
-	public List<CvCompanyDto>getResumeList(int loginSeq);
 
 	public int deletePastReq(int seq);	
+	
+	public ResumeAfterDto getMainResume(int pseq);
+	
+	public int putResume(ResumeAfterDto rdto); 
+	
+	public int getLastId();
+	
+	public CareerDto getCareer(int originalId);
+	
+	public int putCareer(CareerDto cdto);
+	
+	public AwardsEtcDto getAwardsEtc(int originalId);
+	
+	public int putAwardsEtc(AwardsEtcDto adto);
+	
+	public LanguageDto getLanguage(int originalId);
+	
+	public int putLanguage(LanguageDto langdto);
+	
+	public EducationDto getEducation(int originalId);
+	
+	public int putEducation(EducationDto edto);
+	
+	public LinkDto getLink(int origianlId);
+	
+	public int putLink(LinkDto linkdto);
+	
+	public int doAccept(int seq, int rsmSeq);
+	
+	public List<ResumeDto>getResumeList(int loginSeq);
+	
+	public ResumeAfterDto getResume(int rSeq);
+	
 }

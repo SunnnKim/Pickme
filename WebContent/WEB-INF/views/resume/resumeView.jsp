@@ -725,7 +725,7 @@ $(document).on('click','.resumeBtnWrap button', function(){
         processData: false,
         async : false,
         success: function (data) { 
-            alert("ResumeUpdate.do");        
+            // alert("ResumeUpdate.do");        
 			if(data > 0){
 				Swal.fire({
 					  icon: 'success',

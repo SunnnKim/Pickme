@@ -39,7 +39,7 @@ header nav.gnb a:first-child {margin-left:0;}
 .alert-bell{margin-right:5px;}
 
 span.alert-bell {cursor:pointer;}
-	span.alert-bell img {width:20px;}
+span.alert-bell img {width:20px;}
 	.alertContWrap {display:none;position:absolute; top:49px; left:50%; margin-left:-150px; width:300px; background:#fff; z-index:99; border:1px solid #ddd;}
 	.alertContWrap .tit {position:relative; width:100%; height:35px; line-height:35px; text-align:center;}
 	.alertContWrap .tit a {display:block; width:100%; height:100%; background:#3b467c;}
@@ -56,7 +56,7 @@ span.alert-bell {cursor:pointer;}
 	.alertContWrap ul li .txt {float:right; width:210px; text-align:left; padding-right:5px;}
 	.alertContWrap ul li .txt h3 {font-size:14px; color:#8a8a8a; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 	.alertContWrap ul li .txt p {font-size:13px; color:#8a8a8a; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
-				
+#alert-NoContent{color:#304edf;font-weight:500;}			
 
 #visual_wrap {position:relative; width:100%; height:300px; overflow:hidden;}
 #visual li > p {height:300px; background-size:cover !important;}
@@ -1171,10 +1171,11 @@ table.aMypageTbl {width:100%; border:1px solid #ddd; margin-top:30px;}
 .resume-list .resume-item .dropZone span {display:inline-block; margin-top:18px; font-size:17px;}
 .resume-list .resume-item .dropZone input {display:none;}
 
-.resume-list .resume-preview {height:160px;}
+.resume-list .resume-preview {position:relative; height:160px;}
+.resume-list .resume-preview .cover {position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer;}
 .resume-list .resume-preview a {display:block; width:100%; height:100%; padding:13px 20px;}
 .resume-choice {text-align:right;}
-.resume-choice label {display: inline-block;}
+.resume-choice label {display: inline-block; position:relative; z-index:5;}
 .resume-choice label input {width:0; height:0; overflow:none;}
 .resume-choice label i{cursor:pointer;}
 .resume-choice label i.fa-square-o {color:#ddd;}
@@ -1197,7 +1198,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 
 .resume-info .resume-menu .resume-menuBtn span {display:inline-block; width:4px; height:4px; border-radius:50%; background:#bbb;}
 .resume-info .resume-menu .resume-menuBtn span:first-child {}
-.resume-menu ul {display:none; position:absolute; top:25px; left:-120px; width:150px; height:84px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3);}
+.resume-menu ul {display:none; position:absolute; top:25px; left:-120px; width:150px; height:56px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:10;}
 .resume-menu ul li {line-height:28px; font-size:13px; padding:0 15px; transition:all 0.1s ease-in-out;}
 .resume-menu ul li:hover {background:#4f6eff; color:#fff;}
 /*
@@ -1211,7 +1212,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_top {position:relative;}
 .rsm_top .rsm-downBtn {position:absolute; top:0; right:0;}
 .rsm_top .rsm-downBtn button {display:block; width:50px; padding:10px 0; border:1px solid #ddd; outline:none;}
-.rsm_top h3 input {border:none; width:100%; font-size:30px; color:#333; margin-bottom:30px; font-weight:500; outline:none;}
+.rsm_top h3 input {border:none; width:100%; font-size:30px; height:40px; color:#333; margin-bottom:20px; font-weight:500; outline:none;}
 .rsm_top input {border:none; width:100%; height:30px; font-size:17px; margin-top:5px; outline:none; color:#555;}
 .rsm_top textarea {font-size:17px; width:100%; height:100px; margin-top:10px; margin-top:30px; border:none; color:#555; outline:none; resize:none;}
 .rsm_top input::placeholder {color:#999;}

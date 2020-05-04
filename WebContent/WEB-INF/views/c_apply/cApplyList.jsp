@@ -221,7 +221,7 @@ li {margin-top: 10px}
 							</div>
 						</td>
 						
-						<td><span style="text-align: center" onclick="apResumeOpen(${dto.cvSeq})"> ${dto.cvName } </span></td>
+						<td><span style="text-align: center; cursor: pointer" onclick="apResumeOpen(${dto.cvSeq})"> ${dto.cvName } </span></td>
 						
 						<c:set var="aDate" value="${dto.aDate }"/>
 						<td>${fn:substring(aDate,0,16) }</td>
@@ -274,7 +274,6 @@ li {margin-top: 10px}
 		</div>
 	</div>
 </div>
-
 
 
 
@@ -357,12 +356,16 @@ function apResumeOpen(cvSeq) {
 		dataType : "json",
 		data	 : {"cvSeq" : cvSeq},
 		success	 : function(data) {
-			alert("success");
-			alert(data.memEmail);
-			if(data.filePath == null) {
-				alert("웹페이지 디테일");
+
+			var fileDto = data.fileDto
+			alert("success : " + fileDto.seq);
+			if(fileDto.seq == null) {
+				//alert("새창 웹페이지");
+				window.open("openResumeDetail.do?seq="+cvSeq);
+				//window.open('openResume.do?seq='+cvSeq,'window_name','width=830,height=600,location=no,status=no,scrollbars=yes');
 			} else {
 				alert("파일다운");
+				alert(fileDto.filePath);
 			}
 		},
 		error	 : function(request,status,error){ 
@@ -380,7 +383,7 @@ function apProfileOpen(memSeq) {
 
 //프로필 모달에 데이터 저장
 function a_Profile(p_seq){
-	alert("구직자 디테일 : " + p_seq);
+	//alert("구직자 디테일 : " + p_seq);
 	$.ajax({
 		url		: "getaMemberProfile.do",
 		type	: "post",
@@ -404,8 +407,15 @@ function a_Profile(p_seq){
 				//alert("success : " + AMember.job );
 				$('.apProfileName').html(AMember.name);
 				$('.career').text('경력 : ' + AMember.career);
-				$('.job1').text(tempJob[0]);
-				$('.job2').html('&nbsp;[ '+tempJob[1]+' ]');
+
+				if(tempJob[0]=="1차분류") {
+					$('.job1').text("직무를 선택하지 않았습니다.");
+					$('.job2').html("");
+				} else {
+					$('.job1').text(tempJob[0]);
+					$('.job2').html('&nbsp;[ '+tempJob[1]+' ]');
+				}
+				
 				$('.modal-introduce').text(AMember.introduce);
 				$('.apProfileImg').attr("src", "filedownload.do?filename="+AMember.profileName+"&filepath=/upload/amember/")
 
@@ -416,7 +426,7 @@ function a_Profile(p_seq){
 				for(var i=0 ; i < 3 ; i++) {
 					if(tempHash[i] != "undefined") {
 						$('.hashtag'+(i+1)).show();
-						/* $('.hashtag'+(i+1)).text('#'+tempHash[i]); */
+						$('.hashtag'+(i+1)).text('#'+tempHash[i]);
 					} else {
 						$('.hashtag'+(i+1)).hide();
 						/* $('.hashtag'+(i+1)).removeClass(); */
@@ -443,7 +453,6 @@ function cApplySendMsg() {
 	$("#toName").val("받는 이 : " + memName);
 	$("input[name=to]").val(memSeq);	
 }
-
 
 
 

@@ -61,11 +61,11 @@ public class SocketCountroller {
 		  String email = ((AMemberDto) session.getAttribute("loginuser")).getEmail();
 		  System.out.println("=======================getRecentLikeRecruit");
 		  List<EInterestDto> list = interestService.getRecentLikeRecruit(email);
-		  
+		  System.out.println("list.size():" + list.size());
 		  String msg = null;
 		  
-		  if(list != null) {
-			  msg = "<div class='alertContWrap'>" + 
+		  if(list.size() > 0) {
+			  msg = "<div id='recruitExist' class='alertContWrap'>" + 
 			  		"<div class='tit'><a href='/Pickme/e_apply/interestComRecruit.do'><strong>관심기업 최신 채용공고</strong><span>+</span></a></div>	" + 
 			  		"<ul>";
 			  for (int i = 0; i < list.size(); i++) {
