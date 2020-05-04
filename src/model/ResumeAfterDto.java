@@ -36,33 +36,14 @@ public class ResumeAfterDto {
 	private int mainResume;		// 대표이력서 = 1	
 	private int del;			// 삭제 = 1
 	private int open;			// 열람여부 
-	
+	private int status;         // 파일, 직접작성 구분 
 	
 	public ResumeAfterDto() {
 
 	}
 
-	
-
-	public ResumeAfterDto(int seq, int memSeq, int jobSeq, int comSeq, String name, String userName, String wDate,
-			int whose, int del, int open) {
-		super();
-		this.seq = seq;
-		this.memSeq = memSeq;
-		this.jobSeq = jobSeq;
-		this.comSeq = comSeq;
-		this.name = name;
-		this.userName = userName;
-		this.wDate = wDate;
-		this.whose = whose;
-		this.del = del;
-		this.open = open;
-	}
-
-
-
 	public ResumeAfterDto(int seq, int memSeq, int jobSeq, int comSeq, String name, String userName, String phone,
-			String email, String introduce, String wDate, int whose, int mainResume, int del, int open) {
+			String email, String introduce, String wDate, int whose, int mainResume, int del, int open, int status) {
 		super();
 		this.seq = seq;
 		this.memSeq = memSeq;
@@ -78,162 +59,135 @@ public class ResumeAfterDto {
 		this.mainResume = mainResume;
 		this.del = del;
 		this.open = open;
+		this.status = status;
 	}
-
 
 	public int getSeq() {
 		return seq;
 	}
 
-
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
-
 
 	public int getMemSeq() {
 		return memSeq;
 	}
 
-
 	public void setMemSeq(int memSeq) {
 		this.memSeq = memSeq;
 	}
-
 
 	public int getJobSeq() {
 		return jobSeq;
 	}
 
-
 	public void setJobSeq(int jobSeq) {
 		this.jobSeq = jobSeq;
 	}
-
 
 	public int getComSeq() {
 		return comSeq;
 	}
 
-
 	public void setComSeq(int comSeq) {
 		this.comSeq = comSeq;
 	}
-
 
 	public String getName() {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public String getUserName() {
 		return userName;
 	}
 
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 
 	public String getPhone() {
 		return phone;
 	}
 
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 
 	public String getEmail() {
 		return email;
 	}
 
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	public String getIntroduce() {
 		return introduce;
 	}
 
-
 	public void setIntroduce(String introduce) {
 		this.introduce = introduce;
 	}
-
 
 	public String getwDate() {
 		return wDate;
 	}
 
-
 	public void setwDate(String wDate) {
 		this.wDate = wDate;
 	}
-
 
 	public int getWhose() {
 		return whose;
 	}
 
-
 	public void setWhose(int whose) {
 		this.whose = whose;
 	}
-
 
 	public int getMainResume() {
 		return mainResume;
 	}
 
-
 	public void setMainResume(int mainResume) {
 		this.mainResume = mainResume;
 	}
-
 
 	public int getDel() {
 		return del;
 	}
 
-
 	public void setDel(int del) {
 		this.del = del;
 	}
-
 
 	public int getOpen() {
 		return open;
 	}
 
-
 	public void setOpen(int open) {
 		this.open = open;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
 		return "ResumeAfterDto [seq=" + seq + ", memSeq=" + memSeq + ", jobSeq=" + jobSeq + ", comSeq=" + comSeq
 				+ ", name=" + name + ", userName=" + userName + ", phone=" + phone + ", email=" + email + ", introduce="
 				+ introduce + ", wDate=" + wDate + ", whose=" + whose + ", mainResume=" + mainResume + ", del=" + del
-				+ ", open=" + open + "]";
+				+ ", open=" + open + ", status=" + status + "]";
 	}
-	
-	
-	
-	
-	
-
-	
 	
 }
