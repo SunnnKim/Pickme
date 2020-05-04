@@ -149,6 +149,10 @@ public class RecruitServiceImpl implements RecruitService{
 	public int insertApply(CApplyDto dto) {
 		return dao.insertApply(dto);
 	}
+	@Override
+	public ResumeFileDto getResumeFile(int seq) {
+		return dao.getResumeFile(seq);
+	}
 
 	
 	

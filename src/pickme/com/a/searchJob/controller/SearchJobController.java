@@ -303,13 +303,13 @@ public class SearchJobController {
 			int rsmseq = recServ.insertResume(insertResume);
 
 			// 데이터베이스에 파일저장내역 저장 
-			ResumeFileDto resumeFile = new ResumeFileDto(0, rsmseq, originalName, newFilename, "/upload/resume_file");
+			ResumeFileDto resumeFile = new ResumeFileDto(0, rsmseq, originalName, newFilename, "/upload/resume");
 			int number = recServ.insertResumeFile(resumeFile);
 			
 			return number > 0 ? true:false;
 			
 		}
-		//  파일이 아닌 경우 
+		//  등록한 이력서인 경우 
 		else {
 			System.out.println("******************************여기는 컨트롤러 ");
 			System.out.println(resume);
@@ -320,7 +320,7 @@ public class SearchJobController {
 			boolean languageCheck = true;
 			boolean linkCheck = true;
 			
-			int rsmSeq = resume.getSeq();	// 찾는 인덱스 
+			int rsmSeq = resume.getSeq();	// 지원서에 넣은 인덱스 
 			//ResumeAfterDto insertResume = new ResumeAfterDto(seq, memSeq, jobSeq, comSeq, name, userName, wDate, whose, del, open)
 			
 			// 지원서 전체 불러오기 
@@ -350,48 +350,62 @@ public class SearchJobController {
 										 rsmseq, 0, 
 										 null, null, null);
 			int a = recServ.insertApply(dto);
-			System.out.println(a);
-			
-			// 경력불러오기 
-			List<CareerDto> careerList = recServ.getSelectedResumeCareer(rsmSeq);
-			// 경력 rsmseq 바꾸기 
-			for( CareerDto c : careerList ) c.setRsmseq(rsmseq);
-			// 테이블에 집어넣기
-			if( careerList.size() > 0 ) careerCheck = recServ.insertCareerAfter(careerList);
-			if( !careerCheck ) return false;
-			
-			// 학력사항불러오기 + 집어넣기
-			List<EducationDto> eduList = recServ.getSelectedResumeEducation(rsmSeq);
-			// 경력 rsmseq 바꾸기 
-			for( EducationDto c : eduList ) c.setRsmseq(rsmseq);
-			// 테이블에 집어넣기
-			if( eduList.size() > 0 ) educationCheck = recServ.insertEducationAfter(eduList);
-			if( !educationCheck ) return false;
-
-			// 수상 및 기타 불러오기  + 집어넣기
-			List<AwardsEtcDto> awardsList = recServ.getSelectedResumeAwards(rsmSeq);
-			// 경력 rsmseq 바꾸기 
-			for( AwardsEtcDto c : awardsList ) c.setRsmseq(rsmseq);
-			// 테이블에 집어넣기
-			if( awardsList.size() > 0 ) awardCheck = recServ.insertAwardsAfter(awardsList);
-			if( !awardCheck ) return false;
-			
-			// 어학 불러오기 + 집어넣기
-			List<LanguageDto> langList = recServ.getSelectedResumeLanguage(rsmSeq);
-			// 경력 rsmseq 바꾸기 
-			for( LanguageDto c : langList ) c.setRsmseq(rsmseq);
-			// 테이블에 집어넣기
-			if( langList.size() > 0 ) languageCheck = recServ.insertLanguageAfter(langList);
-			if( !languageCheck ) return false;
-			
-			// 링크 불러오기 + 집어넣기
-			List<LinkDto> linkList = recServ.getSelectedResumeLink(rsmSeq);
-			// 경력 rsmseq 바꾸기 
-			for( LinkDto c : linkList ) c.setRsmseq(rsmseq);
-			// 테이블에 집어넣기
-			if( linkList.size() > 0 ) linkCheck = recServ.insertLinkAfter(linkList);
-			if( !linkCheck ) return false;
-
+			ResumeFileDto fileDto = recServ.getResumeFile(rsmSeq);
+			// 등록된 지원서가 파일인 경우 
+			if( fileDto != null ) {
+				System.out.println("지원서가 파일인경우 ");
+				// 데이터 베이스에서 파일저장내역 불러오기 
+				fileDto.setRsmSeq(rsmseq);
+				// 데이터베이스에 파일저장내역 저장 
+				
+				//ResumeFileDto resumeFile = new ResumeFileDto(0, rsmseq,resume.getName(), newFilename, "/upload/resume");
+				//new ResumeFileDto(seq, rsmseq, originalName, storedName, filePath)
+				int number = recServ.insertResumeFile(fileDto);
+			}
+			// 그냥 이력서인경우 
+			else {
+				System.out.println("지원서가 그냥 이력서인경우 ");
+				
+				// 경력불러오기 
+				List<CareerDto> careerList = recServ.getSelectedResumeCareer(rsmSeq);
+				// 경력 rsmseq 바꾸기 
+				for( CareerDto c : careerList ) c.setRsmseq(rsmseq);
+				// 테이블에 집어넣기
+				if( careerList.size() > 0 ) careerCheck = recServ.insertCareerAfter(careerList);
+				if( !careerCheck ) return false;
+				
+				// 학력사항불러오기 + 집어넣기
+				List<EducationDto> eduList = recServ.getSelectedResumeEducation(rsmSeq);
+				// 경력 rsmseq 바꾸기 
+				for( EducationDto c : eduList ) c.setRsmseq(rsmseq);
+				// 테이블에 집어넣기
+				if( eduList.size() > 0 ) educationCheck = recServ.insertEducationAfter(eduList);
+				if( !educationCheck ) return false;
+	
+				// 수상 및 기타 불러오기  + 집어넣기
+				List<AwardsEtcDto> awardsList = recServ.getSelectedResumeAwards(rsmSeq);
+				// 경력 rsmseq 바꾸기 
+				for( AwardsEtcDto c : awardsList ) c.setRsmseq(rsmseq);
+				// 테이블에 집어넣기
+				if( awardsList.size() > 0 ) awardCheck = recServ.insertAwardsAfter(awardsList);
+				if( !awardCheck ) return false;
+				
+				// 어학 불러오기 + 집어넣기
+				List<LanguageDto> langList = recServ.getSelectedResumeLanguage(rsmSeq);
+				// 경력 rsmseq 바꾸기 
+				for( LanguageDto c : langList ) c.setRsmseq(rsmseq);
+				// 테이블에 집어넣기
+				if( langList.size() > 0 ) languageCheck = recServ.insertLanguageAfter(langList);
+				if( !languageCheck ) return false;
+				
+				// 링크 불러오기 + 집어넣기
+				List<LinkDto> linkList = recServ.getSelectedResumeLink(rsmSeq);
+				// 경력 rsmseq 바꾸기 
+				for( LinkDto c : linkList ) c.setRsmseq(rsmseq);
+				// 테이블에 집어넣기
+				if( linkList.size() > 0 ) linkCheck = recServ.insertLinkAfter(linkList);
+				if( !linkCheck ) return false;
+			}
 		
 		
 		}

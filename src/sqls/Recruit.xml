@@ -205,6 +205,11 @@
 	SELECT * FROM RESUME
 	WHERE SEQ = ${seq} AND MEMSEQ = ${memSeq}
 	</select>
+	<!-- 파일 내역 불러오기  -->
+	<select id="getResumeFile" parameterType="int" resultType="model.ResumeFileDto">
+	SELECT * FROM RESUME_FILE
+	WHERE RSMSEQ = ${seq}
+	</select>
 	<!-- 지원서 데이터베이스에 넣기 -->
 	<insert id="insertResume" parameterType="model.ResumeAfterDto">
 	INSERT INTO RESUME_AFTER ( MEMSEQ, JOBSEQ, COMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, WHOSE, DEL, OPEN )

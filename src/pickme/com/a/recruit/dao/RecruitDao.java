@@ -80,6 +80,8 @@ public interface RecruitDao {
 	
 	// Resume 테이블에서 지원서 꺼내오기
 	public ResumeAfterDto getSelectedResume(int seq);
+	// 지원하기 : file 내역 불러오기 
+	public ResumeFileDto getResumeFile(int seq);
 	
 	// Career 테이블에서 경력사항 꺼내오기 
 	public List<CareerDto> getSelectedResumeCareer(int seq);

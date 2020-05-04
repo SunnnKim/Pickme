@@ -215,6 +215,12 @@ public class RecruitDaoImpl implements RecruitDao{
 	}
 
 
+	@Override
+	public ResumeFileDto getResumeFile(int seq) {
+		return sqlSession.selectOne(ns + "getResumeFile", seq);
+	}
+
+
 	/*
 	 * @Override public void dayUpdateDel(String today) {
 	 * sqlSession.update(ns+"dayUpdateDel", today); }

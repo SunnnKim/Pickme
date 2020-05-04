@@ -78,6 +78,8 @@ public interface RecruitService {
 		public int insertApply( CApplyDto dto);
 		// 지원하기 : file 일 경우 resume_file_after 테이블에 넣기 
 		public int insertResumeFile(ResumeFileDto file);
+		// 지원하기 : file 내역 불러오기 
+		public ResumeFileDto getResumeFile(int seq);
 		
 		// Resume 테이블에서 지원서 꺼내오기
 		public ResumeAfterDto getSelectedResume(int seq);
