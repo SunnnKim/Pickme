@@ -107,6 +107,7 @@ WHERE SEQ = ${seq}
 SELECT r.seq, r.memseq, a.name as username, r.name as resumeName, r.status, r.del, r.mainresume, r.wdate
 FROM RESUME as r
 inner join a_member as a on r.memseq = a.seq
+ORDER BY SEQ DESC
 </select>
 
 <!-- 제출한 이력서 관리 : 제출 이력서 목록 가져오기 -->
@@ -114,6 +115,7 @@ inner join a_member as a on r.memseq = a.seq
 select r.seq, r.memseq, c.name as comName, r.name as resumeName, r.username, r.whose, r.del, r.open, r.wdate
 from resume_after r
 inner join c_member c on c.seq = r.comseq
+ORDER BY SEQ DESC
 </select>
 
 <!-- 이력서 관리 : 이력서 삭제처리하기  -->
@@ -135,6 +137,7 @@ WHERE SEQ = ${seq}
 <select id="getAllRecruit" resultType="model.RecruitDto">
 select seq, comseq, comname, comjob1, comjob2, comjobtype, wdate, edate, del
 from recruit
+ORDER BY SEQ DESC
 </select>
 
 <!-- 기업공고 관리 : 기업공고 삭제처리하기  -->

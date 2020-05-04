@@ -4,7 +4,7 @@
 <!-- 메시지작성 팝업 -->
  <div class="messenger-wrap">
      <form id="frm" action="" method="post">
-         <div class="msgBox">
+         <div class="msgBox" style="margin: 2% auto">
                 <div class="msg-bar">
                     <h4>메시지 보내기</h4>
                 </div><!-- // message-bar-->

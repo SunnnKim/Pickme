@@ -69,7 +69,7 @@
 <select id="ResumeAllList" parameterType="model.ResumeParam" resultType="model.ResumeDto">
 	SELECT SEQ, MEMSEQ, NAME, WDATE, STATUS, MAINRESUME, DEL
 	FROM ( SELECT * FROM RESUME WHERE DEL=0 ORDER BY SEQ DESC ) R
-	WHERE 1=1
+	WHERE MEMSEQ = ${memSeq}
 	LIMIT #{recordCountPerPage} OFFSET #{start} 
 </select>
 

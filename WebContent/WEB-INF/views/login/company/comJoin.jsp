@@ -33,7 +33,7 @@
         <div class="input-lable">가입 이메일<span style="color: red;">*</span></div>
         <div class="input-content">
        	  <span id="email-warning"></span>
-          <input class="full-size" type="text" id="email" name="email" placeholder="회사명">
+          <input class="full-size" type="text" id="email" name="email" placeholder="가입 이메일">
           <i class="far fa-check-square i-full" id="email-icon"></i>
         </div>
       </div>
@@ -49,7 +49,7 @@
       <div class="com-input-box">
         <div class="input-lable" style="padding-left: 15px;">패스워드확인<span style="color: red;">*</span></div>
         <div class="input-content">
-          <input type="text" id="pwdcheck" placeholder="패드워드 확인" style="margin-left: 5px;">
+          <input type="password" id="pwdcheck" placeholder="패드워드 확인" style="margin-left: 5px;">
           <i class="far fa-check-square" id="pwdcheck-icon"></i>
         </div>
       </div>
