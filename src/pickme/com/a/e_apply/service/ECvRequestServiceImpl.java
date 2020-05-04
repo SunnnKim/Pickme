@@ -6,9 +6,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.AwardsEtcDto;
+import model.CareerDto;
 import model.CvCompanyDto;
 import model.CvReqDto;
 import model.CvReqParam;
+import model.EducationDto;
+import model.LanguageDto;
+import model.LinkDto;
+import model.ResumeAfterDto;
+import model.ResumeDto;
 import pickme.com.a.e_apply.dao.ECvRequestDao;
 
 @Service
@@ -27,12 +34,6 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 	public int getReqTotalCount(CvReqParam param) {
 		
 		return dao.getReqTotalCount(param);
-	}
-
-	@Override
-	public int doAccept(int seq) {
-		
-		return dao.doAccept(seq);
 	}
 
 	@Override
@@ -76,16 +77,105 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 	}
 
 	@Override
-	public List<CvCompanyDto>getResumeList(int loginSeq) {
+	public int deletePastReq(int seq) {
+		
+		return dao.deletePastReq(seq);
+	}
+
+	@Override
+	public ResumeAfterDto getMainResume(int pseq) {
+		
+		return dao.getMainResume(pseq);
+	}
+
+	@Override
+	public int putResume(ResumeAfterDto rdto) {
+		
+		return dao.putResume(rdto);
+	}
+
+	@Override
+	public int getLastId() {
+		
+		return dao.getLastId();
+	}
+
+	@Override
+	public CareerDto getCareer(int originalId) {
+		
+		return dao.getCareer(originalId);
+	}
+
+	@Override
+	public int putCareer(CareerDto cdto) {
+		
+		return dao.putCareer(cdto);
+	}
+
+	@Override
+	public AwardsEtcDto getAwardsEtc(int originalId) {
+		
+		return dao.getAwardsEtc(originalId);
+	}
+
+	@Override
+	public int putAwardsEtc(AwardsEtcDto adto) {
+		
+		return dao.putAwardsEtc(adto);
+	}
+
+	@Override
+	public LanguageDto getLanguage(int originalId) {
+		
+		return dao.getLanguage(originalId);
+	}
+
+	@Override
+	public int putLanguage(LanguageDto langdto) {
+		
+		return dao.putLanguage(langdto);
+	}
+
+	@Override
+	public EducationDto getEducation(int originalId) {
+		
+		return dao.getEducation(originalId);
+	}
+
+	@Override
+	public int putEducation(EducationDto edto) {
+		
+		return dao.putEducation(edto);
+	}
+
+	@Override
+	public LinkDto getLink(int originalId) {
+		
+		return dao.getLink(originalId);
+	}
+
+	@Override
+	public int putLink(LinkDto linkdto) {
+		
+		return dao.putLink(linkdto);
+	}
+
+	@Override
+	public int doAccept(int seq, int rsmSeq) {
+		
+		return dao.doAccept(seq, rsmSeq);
+	}
+	
+	@Override
+	public List<ResumeDto>getResumeList(int loginSeq) {
 		
 		return dao.getResumeList(loginSeq);
 	}
 
 	@Override
-	public int deletePastReq(int seq) {
+	public ResumeAfterDto getResume(int rSeq) {
 		
-		return dao.deletePastReq(seq);
+		return dao.getResume(rSeq);
 	}
-		
 	
 }

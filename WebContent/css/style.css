@@ -39,7 +39,7 @@ header nav.gnb a:first-child {margin-left:0;}
 .alert-bell{margin-right:5px;}
 
 span.alert-bell {cursor:pointer;}
-	span.alert-bell img {width:20px;}
+span.alert-bell img {width:20px;}
 	.alertContWrap {display:none;position:absolute; top:49px; left:50%; margin-left:-150px; width:300px; background:#fff; z-index:99; border:1px solid #ddd;}
 	.alertContWrap .tit {position:relative; width:100%; height:35px; line-height:35px; text-align:center;}
 	.alertContWrap .tit a {display:block; width:100%; height:100%; background:#3b467c;}
@@ -56,7 +56,7 @@ span.alert-bell {cursor:pointer;}
 	.alertContWrap ul li .txt {float:right; width:210px; text-align:left; padding-right:5px;}
 	.alertContWrap ul li .txt h3 {font-size:14px; color:#8a8a8a; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 	.alertContWrap ul li .txt p {font-size:13px; color:#8a8a8a; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
-				
+#alert-NoContent{color:#304edf;font-weight:500;}			
 
 #visual_wrap {position:relative; width:100%; height:300px; overflow:hidden;}
 #visual li > p {height:300px; background-size:cover !important;}
