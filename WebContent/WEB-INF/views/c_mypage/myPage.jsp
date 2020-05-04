@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -30,7 +32,7 @@
 
 <style>
 #visual_wrap {position:relative; width:100%; height:450px; overflow:hidden;}
-#visual li > p {height:480px; background-size:cover !important;}
+#visual li > p {height:480px; background-size:cover !important;background-repeat:no-repeat; background-position:1cm 100px;}
 .visual-box {opacity:0; transition:all 0.3s ease-in-out 1.5s; position:absolute; bottom:20px; left:50%; margin-left:-525px; width:6000px; background:#fff; z-index:99;}
 .visual-box a {display:block;}
 .visual-box .tit {padding:20px;}
@@ -83,12 +85,17 @@
           <div class="c_introTop clfix">
             <div class="c_introSlider">
             
-                  <div id="visual_wrap">
+            
+            	
+            	
+            	
+            
+      <div id="visual_wrap">
       <link rel="stylesheet" href="/Pickme/css/bxslider.css" type="text/css" />
       <script type="text/javascript" src="/Pickme/js/bxslider.js"></script>
       <ul id="visual">
       <li>
-          <p style="background-image:url('http://bitly.kr/Bhuwi1tzO');background-size:contain;"></p>
+          <p style="background-image:url('http://bitly.kr/Bhuwi1tzO');"></p>
           <div class="visual-box"><a href="#">
           </a></div>
       </li>
@@ -103,12 +110,24 @@
           </a></div>
       </li>
       </ul>
-   </div>
+   </div> 
             
             </div>  <!-- // c_introSlider -->
+          
+            
             <div class="c_introInfo">
                 <div class="tit">
-                   <h3><img src="/Pickme/c_mypage/imageDownload.do?filename=${cMember.logoName }&filepath=${cMember.logoPath }" alt="logo"> <%=memberInfo.getName() %></h3>
+                   <h3>
+                   <c:choose>
+                   		<c:when test="${cMember.logoName eq null}">
+                   			<img src="https://theregister.al/wp-content/themes/arkahost/assets/images/default-680x600.jpg"> ${cMember.name }
+                   		</c:when>
+                   		
+                   		<c:when test="${cMember.logoName ne null }">
+                   			<img src="/Pickme/c_mypage/imageDownload.do?filename=${cMember.logoName }&filepath=${cMember.logoPath }" alt="logo"> <%=memberInfo.getName() %>
+                   		</c:when>
+                   </c:choose>
+                   </h3>
                 
                 </div>
                 <ul>
@@ -148,7 +167,7 @@
           <!--  ★★★★★★★★★★★★★★★★★★ DB 에서 해시태그 걸어야함 ★★★★★★★★★★★★★★★★ -->
           
             <h4>회사소개 
-               <span id="hashTags">
+               <span class="hashTags">
                   
                </span>
            </h4>
@@ -189,46 +208,59 @@
       </script>
 
       <!------------------------- 팔로우 버튼 -------------------------->
-    <script>
-          $(".followBtnWrap label span input[type='checkbox']").click(function(){
-            if($(this).is(":checked")){
-             $('.followBtnWrap span i').show();
-            }else {
-              $('.followBtnWrap span i').hide();
-            }
+	    <script>
+	          $(".followBtnWrap label span input[type='checkbox']").click(function(){
+	            if($(this).is(":checked")){
+	             $('.followBtnWrap span i').show();
+	            }else {
+	              $('.followBtnWrap span i').hide();
+	            }
+	
+	          });
+	    </script>
 
-          });
-         <%-- var c_title = '<%= company.getName()%>';
-          $('#company-logo').append('<span>'+c_title+'</span>') --%>
+      <!----------------------- 해시태그 ------------------------------->
 
+		<script>
+		$(document).ready(function() {
+	
+		// db에서 값 가져오기
+		   var hashstr = '${cMember.hashTag}';
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// @@@@@@@@@@@@@ 해쉬태그 @@@@@@@@@@@@@
+		   var hashdbArray = hashstr.split(',');
+		   var hashdb01 = hashdbArray[0]
+		   var hashdb02 = hashdbArray[1]
+		   var hashdb03 = hashdbArray[2]
 
-      // 해쉬태그 json 가져오기
-      var hashTag = <%=memberInfo.getHashTag()%>;
-      // 해쉬태그가 없는경우
-      if(hashTag == null){
-         $('#hashTags').html('');
-      }
-      // 태그가 있는 경우
-      else{
-         $('#hashTags').html('')
-         // 화면에 뿌리기  
-         for( key in hashTag ){
-            
-            // 태그 배열 뽑아오기
-             console.log('배열 '+hashTag[key])
-            var arr = hashTag[key];
-             console.log(arr);
-            
-            // for 문으로 배열 데이터(태그) 모두 뽑기 
-            $('#hashTags').append('<span>#' + arr + '</span>')
-         }
-         //$('#hashTags').html('<span>' +  + '</span>')
-      }
-        </script>
+		   console.log("hashstr = " + '${cMember.hashTag}');
 
+		   console.log("해쉬태그1: " + hashdb01);
+		   console.log("해쉬태그2: " + hashdb02);
+		   console.log("해쉬태그3: " + hashdb03);
+
+		   var hstr01 = "<span>#"+hashdb01+"<input type='hidden' name='hashTag' value='"+hashdb01+"'></span>"
+		   var hstr02 = "<span>#"+hashdb02+"<input type='hidden' name='hashTag' value='"+hashdb02+"'></span>"
+		   var hstr03 = "<span>#"+hashdb03+"<input type='hidden' name='hashTag' value='"+hashdb03+"'></span>"
+
+		   if(hashdb01 != undefined) {
+				$(".hashTags").append(hstr01);
+		   }
+		   if(hashdb02 != undefined) {
+				$(".hashTags").append(hstr02);
+		   }
+		   if(hashdb03 != undefined) {
+				$(".hashTags").append(hstr03);
+		   } 
+		   
+
+		   /*
+		   hashdb01.replace('','undefined'); 
+		   hashdb02.replace('','undefined'); 
+		   hashdb03.replace('','undefined'); 
+		   */
+		   
+		})
+		</script>
 
 
 </div><!-- // wrap -->

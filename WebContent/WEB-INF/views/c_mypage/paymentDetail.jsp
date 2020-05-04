@@ -118,8 +118,7 @@
 
 		            
 		            // 페이지 처음 들어왔을 때 선택한 서비스 번호 가져오기  
-		            var serviceSeq = 1
-		            
+		            var serviceSeq = <%=request.getParameter("seq")%>
 		            // DB로 보낼 데이터 저장
 		            $("input[name=impUid]").val(rsp.imp_uid);
 		            $("input[name=paymentId]").val(rsp.merchant_uid);

@@ -22,30 +22,16 @@
   
 <style>
 /* 컬럼 이름 */
-div p.column {
-  font-size : 13pt;
-}
+div p.column {font-size : 13pt;}
 
 /* 별표 */
-div label.star {
-  font-size : 14pt;
-}
+div label.star {font-size : 14pt;}
 
 /* 컬럼 설명 */
-div.input-box p.column label.message {
-  color: #757474;
-  font-size: 10pt;
-}
+div.input-box p.column label.message {color: #757474;font-size: 10pt;}
 
 /* input text */
-div input[type=text] {
-  padding-left : 20px;
-  margin-top : 5px;
-  border: 1px solid rgb(176, 176, 176);
-  width : 100%;
-  height : 40px;
-  font-size : 13pt;
-}
+div input[type=text] {padding-left : 20px;margin-top : 5px;border: 1px solid rgb(176, 176, 176);width : 100%;height : 40px;font-size : 13pt;}
 
 /* input password */
 div.input-box input[type=password] {
@@ -375,20 +361,164 @@ div div.logo-img input.btTextW {
           <input type = "text" id="tel" name = "tel" value="${dto.tel }" maxlength="13">
         </div>
 		
+		
         <div class="input-box">
           <p class = "column"> 해시태그 
             <label class = "star" style = "color: #ff0000;"> * </label> 
-            <label class = "message"> 한글, 영문, 숫자만 가능하며, 등록된 태그를 클릭하면 삭제됩니다. </label>
+            <label class = "message"> 한글, 영문, 숫자만 가능하며, 엔터 입력시 등록됩니다. </label>
           </p>
-          <input type = "text" id = "hashId" class = "hashId" placeholder="해시태그는 최대 3개까지 등록 가능합니다."/>
-          <input type = "hidden" id = "hash1">
-          <input type= "hidden" id = "hash2">
-          <input type=  "hidden" id = "hash3">
-          <input type="hidden"  id = "hashT" name = "hashTag" value = ${dto.hashTag }>
-          <ul id = "hashUl">
-          
-          </ul>
+          <input type="text" id="hashtag" placeholder="최대 3개까지 입력가능">
+          <div class="inhash"></div>
         </div>
+       <!-- <input type = "text" id = "hashId" class = "hashId" placeholder="해시태그는 최대 3개까지 등록 가능합니다."/>
+            <input type = "hidden" id = "hash1">
+            <input type= "hidden" id = "hash2">
+            <input type=  "hidden" id = "hash3">
+            <input type="hidden"  id = "hashT" name = "hashTag" value = ${dto.hashTag }>
+              <ul id = "hashUl"></ul>
+        	-->
+        	
+        	<style>
+        		.hashbtn1 {margin-left: 20px;margin-top: 20px;background-color: #4f6eff;color: #fff;border : 12px solid #4f6eff;border-radius: 5px 5px 5px 5px;}
+        		.hashbtn1 i{margin-left:5px;}
+        	</style>
+        	
+        	<!-- 해시태그 테스트 -->
+        
+        <div class="hashtagWrap">
+				
+			   <!-- <button type="button" id="hashadd" onclick="tagappend()">추가</button> -->				
+		</div>
+			
+        	
+        	<script type="text/javascript">
+        	
+		// db에서 값 가져오기
+		   var hashstr = '${dto.hashTag}';
+
+		   var hashdbArray = hashstr.split(',');
+		   var hashdb01 = hashdbArray[0]
+		   var hashdb02 = hashdbArray[1]
+		   var hashdb03 = hashdbArray[2]
+
+		   /*
+		   hashdb01.replace('','undefined'); 
+		   hashdb02.replace('','undefined'); 
+		   hashdb03.replace('','undefined'); 
+		   */
+		   
+		   console.log("hashstr = " + '${dto.hashTag}');
+
+		   console.log("해쉬태그1: " + hashdb01);
+		   console.log("해쉬태그2: " + hashdb02);
+		   console.log("해쉬태그3: " + hashdb03);
+
+
+		   const intervalCall1000 = intervalCall(1000)
+			/* hashtag */
+			 $("#hashtag").keyup(function(e){ 
+				 if(e.keyCode == 13){
+					// 인터벌 함수 실행 
+					 intervalCall1000(() => {
+					 	// 태그삽입
+					   if($(this).val().trim() !=""){
+					     tagappend();
+					   } else {
+					 	// 태그 미입력시
+					     // alert("태그를 입력해주세요.");
+					     Swal.fire({
+							  icon: 'error',
+							  text: '태그를 입력해주세요'
+						 });
+					   }
+				    })
+				}
+
+			 });
+		   // enter 중복클릭 방지
+		   // interval 시간 안에 다시 호출된 함수 콜은 무시한다
+		   function intervalCall(interval){
+			   let elapsed = true
+			   return (fn) => {
+			     if(!elapsed){
+			       return    // 마지막 호출 후 제한된 경과시간이 지나지 않은 경우 리턴
+			     }
+			     elapsed = false
+			     fn()
+			     setTimeout(() => {elapsed = true}, interval)
+			   }
+			 }
+
+		  	// db에 있는 hashtag append시키기 
+			$(function(){		
+				 var hstr01 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb01+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb01+"'></span>";
+				 var hstr02 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb02+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb02+"'></span>";
+				 var hstr03 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb03+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb03+"'></span>";
+				 if(hashdb01 != undefined){			
+			   	    $(".inhash").append(hstr01);
+				     element_count++;
+				     hashTagCount();
+				  }
+				  if(hashdb02 != undefined){
+					  $(".inhash").append(hstr02);
+					  element_count++;
+					  hashTagCount();
+				  }
+				  if(hashdb03 != undefined){
+					  $(".inhash").append(hstr03);
+					  element_count++;
+					  hashTagCount();
+				  }
+				  		  		  		
+				 //alert("끝")
+				
+			});
+		  	
+
+		  //hashtag append
+		  var element_count = document.getElementsByTagName('hashtag').length;
+		  function tagappend(){
+		   var hashtext = document.getElementById('hashtag').value;
+		   const str = "<span><button type='button' class='hashbtn1' name='hashtag' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashtext+"'></span>";
+		   if(hashtext.trim() != ""){
+		    $(".inhash").append(str);
+
+			    document.getElementById('hashtag').value="";
+			    element_count++;
+			    hashTagCount();
+
+		   } else {
+		     // alert("태그를 입력해주세요.");
+			 Swal.fire({
+				  icon: 'error',
+				  text: '태그를 입력해주세요'
+			 });
+		   }
+		 	//alert(element_count);
+		  }
+
+		  function remove( element ){
+		    //element.parentNode.parentNode.removeChild(element.parentNode);
+		    element_count--;
+		    hashTagCount();
+		    //alert(element_count);
+
+		  };
+
+		 $('.inhash').on('click', 'i', function() {
+		    $(this).parent('button').parent('span').remove();
+		 });
+
+		  function hashTagCount(){
+		    if(element_count >= 3){
+		       $("#hashtag").attr("readonly","readonly");
+		       $("#hashadd").attr("disabled",true);
+		    }else {
+		      $("#hashtag").removeAttr("readonly");
+		      $("#hashadd").attr("disabled",false);
+		    }
+		  }
+		</script>
         
         
 
@@ -508,6 +638,24 @@ imgTarget.on('change', function () {
 
 <!--------------------- 유효성 검사 + 수정완료 처리 ---------------------------->
 <script>
+
+//hash tag
+var taglen = $("input[name='hashTag']").length;
+var tags = new Array(taglen);
+
+for(var i=0; i < taglen;i++){
+tags[i] = $("input[name='hashTag']").eq(i).val();
+	console.log("tags:"+tags);
+}
+//var jsondata = JSON.parse(tags);
+/* jsondata = JSON.stringify(tags)
+	console.log(jsondata) */
+
+	console.log("첫번째태그" + tags[0]);
+	console.log("두번째태그" + tags[1]);
+	console.log("세번째태그" + tags[2]);
+
+	
 // 정보 유효성 검사
 
 var presidentCheck = false;		// 대표자명
@@ -586,7 +734,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	        		}).then ( (result) => {
 	        			presidentCheck = false;
 	        		})
-				}
+			}
 		});
 		
 		// 2. 분야
@@ -744,6 +892,7 @@ function updateComplete() {
 	//
 	
 	
+	/*
 	// 해쉬태그 합치기
 	var hashTag = new Array();
 	// <input type= "hidden" name = "hashTag" id = "hashT">
@@ -786,7 +935,7 @@ function updateComplete() {
 	// input 에 변환한 배열 데이터를 넣기
 	$('input[name=hashTag]').val(json);
 	console.log("jsondata: "+jsondata);
-
+	*/
 
 	// submit
 	/* 
@@ -803,9 +952,18 @@ function updateComplete() {
 	 
 
 	 	// 로고 처리한 Ajax
-		   
+	 	
+		 var hashtagVar = tags[0] + "," + tags[1] + "," + tags[2];
 		 var form = $('#frm')[0];
 	     var formData = new FormData(form);
+
+	     var frmTag = document.getElementById("frm");
+
+	 	 var input2 = document.createElement('input');
+	 	 input2.setAttribute("type", "hidden");
+	 	 input2.setAttribute("name", "hashTag");
+	 	 input2.setAttribute("value", hashtagVar);
+	 	 frmTag.appendChild(input2);
 
 		//let data = new FormData;
 		//console.log()
@@ -828,8 +986,15 @@ function updateComplete() {
 		    async 		: false,
 		    enctype		: 'multipart/form-data',
 		    success		: function (data) { 
-					//alert("success");
-					location.href="goCMypage.do"
+			    	Swal.fire({
+			    		position: 'center',
+			    		icon: 'success',
+			    		title: '성공적으로 수정되었습니다!',
+			    		showConfirmButton: true,
+			    		timer: 1500
+			    	}).then(function(result){
+						location.href="goCMypage.do";
+					});
 		    }, 
 		    error		:function(request,status,error){ 
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
@@ -837,15 +1002,7 @@ function updateComplete() {
 
 		})
 			
-
-
-
-
-
-	 
 }
-
-
 
 // 로고 이미지 미리보기
 function readURL(input) {
@@ -876,6 +1033,7 @@ $(function(){
 
 <!----------------------- 해시태그 -------------------------->
 
+<!-- 
 <script>
    // 해시태그 추가
 
@@ -972,6 +1130,8 @@ $(document).ready(function() {
 	   	
 })
 </script>
+
+ -->
 
 <!---------------------- 이미지 다중 썸네일 --------------------------->
 
