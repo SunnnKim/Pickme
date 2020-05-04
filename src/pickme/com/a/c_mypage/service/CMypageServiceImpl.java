@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import model.CMemberDto;
 import model.PaymentDto;
 import model.PremierMemDto;
+import model.PremierServiceDto;
 import pickme.com.a.c_mypage.dao.CMypageDao;
 
 @Service
@@ -109,6 +110,13 @@ public class CMypageServiceImpl implements CMypageService{
 	@Override
 	public PaymentDto getRefundableService(int seq) {
 		return dao.getRefundableService(seq);
+	}
+
+	
+	// 유료서비스 데이터 가져오기
+	@Override
+	public PremierServiceDto showPremere() {
+		return dao.showPremier();
 	}
 
 

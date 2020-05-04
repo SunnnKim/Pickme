@@ -138,6 +138,14 @@ where refund = 1
 DELETE FROM PAYMENT
 WHERE SEQ = ${seq}
 </delete>
+
+<!-- 유료서비스 불러오기(결제페이지 이동) -->
+<select id = "showPremier" parameterType="model.PremierServiceDto" resultType="model.PremierServiceDto">
+	SELECT SERVICESEQ, SERVICENAME, PRICE, PERIOD, SERVICEINFO, CONTENT, DEL
+	FROM PREMIER_SERVICE
+	WHERE DEL=0
+</select>
+
 <!-- 가장 최근 결제 서비스의 종료일 -->
 <!-- <select id = "showRecentPay" parameterType = "model.PaymentDto" resultType="model.PaymentDto">
 	SELECT DATE_ADD(DATE_FORMAT(PAYDATE, '%Y-%m-%d'), INTERVAL 1 MONTH)

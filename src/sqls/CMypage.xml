@@ -12,6 +12,12 @@
   	WHERE SEQ= #{seq} 
   </select>
   
+  <!-- 일반회원 기업정보 이동 -->
+  <select id = "goACMypage" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
+  	SELECT DEPARTMENT, TYPE, PRESIDENT, TEL, EMAIL, ADDRESS, HASHTAG, INTRODUCE
+  	FROM C_MEMBER
+  </select>
+  
   <!-- 기업정보 이동 -->
   <select id = "goCMypage" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
   	SELECT DEPARTMENT, TYPE, PRESIDENT, TEL, EMAIL, ADDRESS, HASHTAG, INTRODUCE
@@ -47,7 +53,6 @@
   	VALUES(#{logoPath}, #{logoName})
   </insert>
   
-
   
   <!-- 기업회원 탈퇴 -->
  <!--  <update id = "withdrawal" parameterType = "model.CMemberDto">
