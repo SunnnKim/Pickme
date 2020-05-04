@@ -8,7 +8,11 @@
 <select id="mainTopRecruit" resultType="model.RecruitDto">
 	SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY READCOUNT DESC LIMIT 4
 </select>
-
+<!-- (메인) 공지사항 4개 뽑아오기 -->
+<select id="getMainNotice" resultType="model.NoticeDto">
+select * from notice
+order by wdate desc limit 4
+</select>
 
 <!-- 일반회원 이메일 체크 -->
 <select id="emailCheckA" parameterType="model.AMemberDto" resultType="model.AMemberDto">

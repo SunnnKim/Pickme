@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.NoticeDto;
 import model.RecruitDto;
 
 @Primary
@@ -166,5 +167,11 @@ public class LoginDao {
 	public List<RecruitDto> mainTopRec(){
 		return sqlSession.selectList(namespace+"mainTopRecruit");
 	}
+	
+	// 메인 공지사항 뽑아오기 
+	public List<NoticeDto> getMainNotice(){
+		return sqlSession.selectList(namespace + "getMainNotice");
+	}
+	
 	
 }
