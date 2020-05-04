@@ -24,12 +24,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
+import model.AwardsEtcDto;
 import model.CApplyDto;
 import model.CMemberDto;
 import model.CareerDto;
 import model.CvRecruitDto;
+import model.EducationDto;
 import model.FavoriteDto;
 import model.FilesDto;
+import model.LanguageDto;
+import model.LinkDto;
 import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -149,19 +153,29 @@ public class CApplyController {
 		ResumeAfterDto dto = cApplyService.getResumeAfter(seq);
 		System.out.println("★openResumeDetail : " +dto.toString());
 		
+		int rsmseq = dto.getSeq();
 		/* CAREER_AFTER 경력 가져오기 */
-		List<CareerDto> careerList = cApplyService.getCareerAfter(seq);
+		List<CareerDto> careerList = cApplyService.getCareerAfter(rsmseq);
 				
 		/* EDUCATION_AFTER 학력 가져오기 */
+		List<EducationDto> educationList = cApplyService.getEducationAfter(rsmseq);
 		
 		/* AWARDSETC_AFTER 수상 및 기타 가져오기 */
+		List<AwardsEtcDto> awardsList = cApplyService.getAwardsAfter(rsmseq);
 		
 		/* LANGUAGE_AFTER 외국어 가져오기 */
+		List<LanguageDto> languageList = cApplyService.getLanguageAfter(rsmseq);
 		
 		/* LINK_AFTER 링크 가져오기 */
+		List<LinkDto> linkList = cApplyService.getLinkAfter(rsmseq);
 		
 		
 		model.addAttribute("dto", dto);
+		model.addAttribute("careerList", careerList);
+		model.addAttribute("educationList", educationList);
+		model.addAttribute("awardsList", awardsList);
+		model.addAttribute("languageList", languageList);
+		model.addAttribute("linkList", linkList);
 		
 		return "c_apply/openResumeDetail";
 	}

@@ -6,9 +6,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import model.AwardsEtcDto;
 import model.CApplyDto;
 import model.CareerDto;
 import model.CvRecruitDto;
+import model.EducationDto;
+import model.LanguageDto;
+import model.LinkDto;
 import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -61,7 +65,26 @@ public class CApplyDaoImpl implements CApplyDao {
 	public List<CareerDto> getCareerAfter(int seq) {
 		return sqlSession.selectList(ns+"getCareerAfter", seq);
 	}
-	
+
+	@Override
+	public List<EducationDto> getEducationAfter(int seq) {
+		return sqlSession.selectList(ns+"getEducationAfter", seq);
+	}
+
+	@Override
+	public List<AwardsEtcDto> getAwardsAfter(int seq) {
+		return sqlSession.selectList(ns+"getAwardsAfter", seq);
+	}
+
+	@Override
+	public List<LanguageDto> getLanguageAfter(int seq) {
+		return sqlSession.selectList(ns+"getLanguageAfter", seq);
+	}
+
+	@Override
+	public List<LinkDto> getLinkAfter(int seq) {
+		return sqlSession.selectList(ns+"getLinkAfter", seq);
+	}
 	
 	
 	

@@ -2,8 +2,12 @@ package pickme.com.a.c_apply.dao;
 
 import java.util.List;
 
+import model.AwardsEtcDto;
 import model.CApplyDto;
 import model.CareerDto;
+import model.EducationDto;
+import model.LanguageDto;
+import model.LinkDto;
 import model.RecruitDto;
 import model.RecruitParam;
 import model.ResumeAfterDto;
@@ -22,6 +26,16 @@ public interface CApplyDao {
 	public ResumeAfterDto getResumeAfter(int seq);
 
 	public List<CareerDto> getCareerAfter(int seq);
+	
+	public List<EducationDto> getEducationAfter(int seq);
+	
+	public List<AwardsEtcDto> getAwardsAfter(int seq);
+	
+	public List<LanguageDto> getLanguageAfter(int seq);
+	
+	public List<LinkDto> getLinkAfter(int seq);
+	
+	
 
 
 }

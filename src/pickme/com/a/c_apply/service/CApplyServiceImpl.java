@@ -5,9 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.AwardsEtcDto;
 import model.CApplyDto;
 import model.CareerDto;
 import model.CvRecruitDto;
+import model.EducationDto;
+import model.LanguageDto;
+import model.LinkDto;
 import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
@@ -54,6 +58,26 @@ public class CApplyServiceImpl implements CApplyService {
 	@Override
 	public List<CareerDto> getCareerAfter(int seq) {
 		return cApplyDao.getCareerAfter(seq);
+	}
+
+	@Override
+	public List<EducationDto> getEducationAfter(int seq) {
+		return cApplyDao.getEducationAfter(seq);
+	}
+
+	@Override
+	public List<AwardsEtcDto> getAwardsAfter(int seq) {
+		return cApplyDao.getAwardsAfter(seq);
+	}
+
+	@Override
+	public List<LanguageDto> getLanguageAfter(int seq) {
+		return cApplyDao.getLanguageAfter(seq);
+	}
+
+	@Override
+	public List<LinkDto> getLinkAfter(int seq) {
+		return cApplyDao.getLinkAfter(seq);
 	}
 
 	

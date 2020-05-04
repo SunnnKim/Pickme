@@ -356,10 +356,8 @@ function apResumeOpen(cvSeq) {
 		dataType : "json",
 		data	 : {"cvSeq" : cvSeq},
 		success	 : function(data) {
-
 			var fileDto = data.fileDto
-			alert("success : " + fileDto.seq);
-			if(fileDto.seq == null) {
+			if(fileDto == null) {
 				//alert("새창 웹페이지");
 				window.open("openResumeDetail.do?seq="+cvSeq);
 				//window.open('openResume.do?seq='+cvSeq,'window_name','width=830,height=600,location=no,status=no,scrollbars=yes');

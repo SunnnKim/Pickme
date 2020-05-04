@@ -8,8 +8,15 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 <!-- c_apply - 구인 현황  -->
 <% if (ifurl.contains("c_apply")){ %>
-지원현황
+
+	<% if(ifurl.contains("openResumeDetail")){%>
+	지원이력서보기
+	<% }
+	else {%>
+	지원현황
+	<% }%>
 <% } %>	
+<!-- c_apply 이력서 디테일 -->
 
 <!-- 일반로그인 서비스 -->
 <% if(ifurl.contains("/login/mem")){

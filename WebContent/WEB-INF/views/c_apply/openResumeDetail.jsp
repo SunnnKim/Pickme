@@ -3,129 +3,133 @@
 <!-- //resumeWrite_Wrap -->
 <div id="resumeWrite_Wrap">
    <div class="rsm_top">
-       <form name="resumeFrm" id="resumeFrm">
-       <input type="hidden" name="seq" value="이력서시퀀스"> <!-- 이력서 시퀀스 -->
-       <input type="hidden" name="memSeq" value="유저시퀀스"> <!-- 유저 시퀀스 -->
-       <input type="hidden" name="userName" value="유저이름"> <!-- 유저 이름 -->
-       <input type="hidden" name="status" value="작성상태"><!-- 작성상태 : 0.작성중, 1.작성완료, 2.첨부완료 -->
-       <h3><input type="text" name="name" value="이력서명1" readonly></h3>
-       <input type="text" name="email" value="a@member.com" readonly>
-       <input type="text" name="phone" value="010-3423-7750" readonly>
-       <textarea name="introduce"readonly>자기소개입니다</textarea>
-       </form>
+       <h3><input type="text" name="name" value="${dto.name }" readonly></h3>
+       <input type="text" name="email" value="${dto.email}" readonly>
+       <input type="text" name="phone" value="${dto.phone}" readonly>
+       <textarea name="introduce"readonly>${dto.introduce }</textarea>
    </div><!-- //rsm_top -->
 
    <div class="rsmCont">
        <h4>경력</h4>
-       <div class="rsm_add">
-           <div class="rsm_addCont clfix" id="career">
-               <div class="rsm_left">
-                   <div class="rsm_date">
-                       <input type="text" value="2020-02" readonly>
-                       <span class="dateHide">-</span>
-                       <input type="text" class="dateHide" value="2020-02" readonly>
-                   </div>
-                   <p><label><input type="checkbox" disabled><span></span>현재 재직중</label></p>
-               </div><!-- //rsm_left -->
-               <div class="rsm_right">
-                   <input type="text" class="tit" value="회사명" readonly>
-                   <input type="text" class="desc" placeholder="부서명/직책" value="부서명/직책" readonly>
-               </div><!-- //rsm_right -->
-           </div><!-- //rsm_addCont -->
-       </div><!-- //rsm_add -->
+       <c:forEach var="dto" items="${careerList}" varStatus="status">
+	       <div class="rsm_add">
+	           <div class="rsm_addCont clfix" id="career">
+	               <div class="rsm_left">
+	                   <div class="rsm_date">
+	                       <input type="text" value="${dto.startdate}" readonly>
+	                       <span class="dateHide" <c:if test="${dto.ing != 0}">style="display:none;"</c:if>>-</span>
+	                       <input type="text" class="dateHide" value="${dto.enddate }" readonly>
+	                   </div>
+	                   <p><label><input type="checkbox" disabled <c:if test="${dto.ing != 0}">checked</c:if>><span></span>현재 재직중</label>
+	                   </p>
+	               </div><!-- //rsm_left -->
+	               <div class="rsm_right">
+	                   <input type="text" class="tit" value="${dto.company }" readonly>
+	                   <input type="text" class="desc" value="${dto.position }" readonly>
+	               </div><!-- //rsm_right -->
+	           </div><!-- //rsm_addCont -->
+	       </div><!-- //rsm_add -->
+       </c:forEach>
    </div><!-- //rsmCont -->
 
    <div class="rsmCont">
        <h4>학력</h4>
-       <div class="rsm_add">
-           <div class="rsm_addCont clfix">
-               <div class="rsm_left">
-                   <div class="rsm_date">
-                       <input type="text" value="2020-02"readonly>
-                       <!-- <span class="dateHide"</c:if></span>>-</span> -->
-                       <!-- <input type="text" class="dateHide" value="2020-03"readonly> -->
-                   </div>
-                   <p><label><input type="checkbox" checked disabled><span></span>현재 재학중</label>
-                   </p>
-               </div><!-- //rsm_left -->
-               <div class="rsm_right">
-                   <input type="text" class="tit" value="비트대학교" readonly>
-                   <input type="text" class="desc" value="컴퓨터학과"readonly>
-                   <textarea readonly>이수과목 및 연구내용 </textarea>
-               </div><!-- //rsm_right -->
-               </div><!-- //rsm_addCont -->
-       </div><!-- //rsm_add -->
+       <c:forEach var="edu" items="${educationList}" varStatus="status">
+	       <div class="rsm_add">
+	           <div class="rsm_addCont clfix">
+	               <div class="rsm_left">
+	                   <div class="rsm_date">
+	                       <input type="text" value="${edu.startdate}" readonly>
+	                       <span class="dateHide" <c:if test="${edu.ing != 0}">style="display:none;"</c:if>>-</span>
+	                       <input type="text" class="dateHide" value="${edu.enddate }" readonly>
+	                   </div>
+	                   <p>
+	                   	<label><input type="checkbox" disabled <c:if test="${edu.ing != 0}">checked</c:if>><span></span>현재 재학중</label>
+	                   </p>
+	               </div><!-- //rsm_left -->
+	               <div class="rsm_right">
+	                  <input type="text" class="tit" value="${edu.school }" readonly>
+	                   <input type="text" class="desc" value="${edu.major }" readonly>
+	                   <textarea readonly>${edu.study }</textarea>
+	               </div><!-- //rsm_right -->
+	               </div><!-- //rsm_addCont -->
+	       </div><!-- //rsm_add -->
+       </c:forEach>
    </div>
    <!-- //rsmCont -->
 
    <div class="rsmCont">
        <h4>수상 및 기타</h4>
-       <div class="rsm_add">
-           <div class="rsm_addCont clfix">
-               <div class="rsm_left">
-                   <div class="rsm_date">
-                       <input type="text" value="2020-02" readonly>
-                   </div>
-               </div><!-- //rsm_left -->
-               <div class="rsm_right">
-                   <input type="text" class="tit" value="활동명">
-                   <textarea readonly >세부사항</textarea>
-               </div><!-- //rsm_right -->
-               <div class="rsm_delete"><i class="fas fa-times"></i>
-           </div><!-- //rsm_addCont -->
-       </div><!-- //rsm_add -->		
+       <c:forEach var="awards" items="${awardsList}" varStatus="status">
+	       <div class="rsm_add">
+	           <div class="rsm_addCont clfix">
+	               <div class="rsm_left">
+	                   <div class="rsm_date">
+	                       <input type="text" maxlength="6" value="${awards.date }" style="width: 120px">
+	                   </div>
+	               </div><!-- //rsm_left -->
+	               <div class="rsm_right">
+	                   <input type="text" class="tit" value="${awards.awards }">
+	                   <textarea readonly >${awards.detail }</textarea>
+	               </div><!-- //rsm_right -->
+	           </div><!-- //rsm_addCont -->
+	       </div><!-- //rsm_add -->		
+       </c:forEach>
    </div><!-- //rsmCont -->
    
 
    <div class="rsmCont">
        <h4>외국어</h4>
-       <form name="langFrm">
+        <c:forEach var="dto" items="${languageList}" varStatus="status">
        <div class="rsm_add">	
            <div class="rsm_addCont clfix">
                <div class="lang">
                    <h5>언어</h5>
                    <ul class="chkBox clfix">
-                       <li class="on"><span></span><i>영어</i></li>
+                       <li><span></span><i>${dto.lang }</i></li>
                    </ul>
                </div>
                <div class="level">
                    <h5>수준</h5>
                    <ul class="chkBox clfix">
-                       <li class="on"><span></span><i>일상회화</i></li>
+                       <li><span></span><i>${dto.level }</i></li>
                    </ul>
                </div>
                <div class="lang_test">
                    <h5>관련 시험</h5>
-                   <input type="text" class="desc" value="시험명" readonly>
-                   <input type="text" class="desc" value="점수/급" readonly>
+                   <input type="text" class="desc" value="${dto.test }" readonly>
+                   <input type="text" class="desc" value="${dto.score }" readonly>
                    <div class="rsm_date">
-                       <input type="text" style="width:80px" value="만료일" readonly>
+                       <input type="text" style="width:80px" value="${dto.date }" readonly>
                    </div>
                </div>
            </div><!-- //rsm_addCont -->
        </div><!-- //rsm_add -->		
-       </form>
+       </c:forEach>
    </div><!-- //rsmCont -->
    <div class="rsmCont">
        <h4>링크</h4>
-       <div class="rsm_add">	
-           <div class="rsm_addCont clfix">
-               <div class="rsm_right link">
-                   <a href="dldkl.com"></a>
-                   <input type="text" value="http://www.naver.com/myblog.com" readonly></div>
-           </div><!-- //rsm_addCont -->
-       </div><!-- //rsm_add -->		
+         <c:forEach var="dto" items="${linkList}" varStatus="status">
+	       <div class="rsm_add">	
+	           <div class="rsm_addCont clfix">
+	               <div class="rsm_right link">
+	                   <a href="dldkl.com"></a>
+	                   <input type="text" value="${dto.url }" readonly></div>
+	           </div><!-- //rsm_addCont -->
+	       </div><!-- //rsm_add -->		
+       </c:forEach>
    </div><!-- //rsmCont -->
     
 
     <div class="resumeBtnWrap">
-        <button type="button" name="button" id="back">뒤로가기</button>
+        <button type="button" name="button" onclick="back()">뒤로가기</button>
     </div>
 </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
 <script type="text/javascript">
-
+function back(){
+	alert('ss??')
+	location.href="/Pickme/c_apply/cApplyList.do?jobSeq=${dto.jobSeq}"
+}
 </script>
 
 <%@include file="../../../include/footer.jsp"%>
