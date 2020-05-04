@@ -1,13 +1,27 @@
 package pickme.com.a.resume.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.javassist.expr.NewArray;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import model.AMemberDto;
 import model.AwardsEtcDto;
@@ -28,6 +43,7 @@ import model.EducationDto;
 import model.LanguageDto;
 import model.LinkDto;
 import model.ResumeDto;
+import model.ResumeFileDto;
 import model.ResumeParam;
 import pickme.com.a.a_mypage.service.AMypageService;
 import pickme.com.a.resume.service.ResumeService;
@@ -43,7 +59,6 @@ public class ResumeController {
 	ResumeService service;
 	
 	// 이력서 관리 페이지 이동 paging
-	/*
 	@RequestMapping(value = "resume.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String resumeView(Model model, ResumeParam param,  HttpSession session) {		
 		
@@ -72,11 +87,13 @@ public class ResumeController {
 		model.addAttribute("totalRecCount", totalRecCount);
 		return "resume/resume";
 	}
-	*/
 	
-	// // 이력서 관리 페이지 이동 scroll
+	
+	/*
+	// 이력서 관리 페이지 이동 
 	@RequestMapping(value = "resume.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String resumeView(Model model, ResumeDto dto, HttpSession session) {		
+		System.out.println("ResumeController resume.do 도착");
 		
 		int memSeq = ((AMemberDto)session.getAttribute("loginuser")).getSeq(); 
 		
@@ -86,14 +103,148 @@ public class ResumeController {
 		List<ResumeDto> list = service.ResumeAllList02(dto);
 		System.out.println("Resume List Size : " + list.size());
 		model.addAttribute("resumeList",list);
-		//model.addAttribute("aMemberDto", aMypageService.profileSelect(1));
+		model.addAttribute("aMemberDto", aMypageService.profileSelect(memSeq));
 		
-		
-
 
 		return "resume/resume";
 	}
+	*/
 	
+	// 이력서 파일 첨부
+	@ResponseBody
+	@RequestMapping(value = "resumeFileUpload.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String profileUpdate(@ModelAttribute ResumeDto resumeDto, Model model, HttpSession session, MultipartFile file, HttpServletRequest request ) {
+		
+		System.out.println("ResumeController resumeFileUpload.do 도착");
+		
+		// 이력서 마지막 시퀀스 번호 +1
+		int rsmSeq = service.resumeGetSeq();		
+		
+		
+		// 저장 경로 불러오기 
+		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/resume/");		
+		System.out.println("uploadPath 저장 경로 ____ : " + uploadPath);
+		
+		if(file != null ) {	// 파일이 있는 경우
+			// 파일 원래 이름
+			String originalName = file.getOriginalFilename();
+			
+			// 파일이름 설정
+			String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+			System.out.println("파일확장자 - "+fileExtension);			
+			
+			// 바꿀이름
+			UUID uuid = UUID.randomUUID();
+			String storedName = uuid.toString() + fileExtension;
+			System.out.println("NEW FILE NAME - " + storedName);
+			
+			// 파일 실제로 업로드 하는부분
+			File uploadFile = new File(uploadPath + storedName);
+			
+			ResumeFileDto fileDto = new ResumeFileDto();
+			
+			fileDto.setRsmSeq(rsmSeq);
+			fileDto.setOriginalName(originalName);
+			fileDto.setStoredName(storedName);
+			fileDto.setFilePath("/upload/resume");
+			
+			service.resumeFileInsert(fileDto);			
+			
+			resumeDto.setName(originalName);
+			// 이력서 기본 정보 insert 
+			service.resumeInsert(resumeDto);
+			
+			try {
+				// 실제 파일을 지정 폴더에 업로드 함 
+				FileUtils.writeByteArrayToFile(uploadFile, file.getBytes());
+				System.out.println("실제 파일을 지정 폴더에 업로드 완료");
+				
+			} catch (IOException e) {
+				e.getMessage();
+				return null;
+			}
+			
+		}
+		
+
+		return "true";
+		
+	}
+	
+	
+	// 첨부 파일 다운로드
+	@RequestMapping(value="download.do")
+	 protected void imageDownload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			   
+		  request.setCharacterEncoding("utf-8");
+		  response.setCharacterEncoding("utf-8");
+		  response.setContentType("text/html; charset=utf-8");
+	      System.out.println("file download connected");
+	      
+	      // file 이름 및 경로 받아오기 
+	      String filename = request.getParameter("filename");
+	      String filepath = request.getParameter("filepath");
+	      
+	      System.out.println("download serv filepath :"+filepath);
+	      System.out.println("download serv filename :"+filename);
+
+	      
+	      String uploadRoot = request.getSession().getServletContext().getRealPath(filepath);
+	      System.out.println("uploadRoot:"+uploadRoot);
+
+	      File f = new File(uploadRoot + filename);
+	      
+	      
+
+	      // response.setHeader("Content-Type", "image/jpg");
+	      response.setHeader("Content-Type", "application/octet-stream");
+	      
+
+	      // 파일을 읽고 사용자에게 전송
+	      FileInputStream fis;
+		try {
+			fis = new FileInputStream(f);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			OutputStream out = response.getOutputStream();
+			BufferedOutputStream bos = new BufferedOutputStream(out);
+			
+			while (true) {
+				int ch = bis.read();
+				if (ch == -1)
+					break;
+				bos.write(ch);
+			}
+			
+			bis.close();
+			fis.close();
+			bos.close();
+			out.close();
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("filedownload error:" + e.getMessage());
+		}
+	}
+		
+	
+	// 파일 다운로드 할 때 필요한 dto
+	@ResponseBody
+	@RequestMapping(value = "resumeFileSelect.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ResumeFileDto resumeFileSelect(Integer seq, Model model) {		
+		System.out.println("ResumeController resumeFileSelect.do 도착");
+		
+		System.out.println("seq " + seq);
+		
+		ResumeFileDto fileDto = service.resumeFileSelect(seq);
+		
+		System.out.println(fileDto.toString());
+		
+		//model.addAttribute("fileDto", fileDto);
+
+		return fileDto;		
+		
+	}
 	
 	// 이력서 관리 이력서명 변경
 	@ResponseBody
@@ -142,6 +293,15 @@ public class ResumeController {
 		System.out.println("ResumeController ResumeDelete.do 도착");	
 		
 		int rs = service.ResumeDelete(seq);	
+		
+		int rsmseq = seq;
+		service.careerDeleteAll(rsmseq);
+		service.educationDeleteAll(rsmseq);
+		service.awardsEtcDeleteAll(rsmseq);
+		service.languageDeleteAll(rsmseq);
+		service.linkDeleteAll(rsmseq);
+
+		service.fileDelete(seq);
 		
 		model.addAttribute("rs", rs);
 		System.out.println("rs : " + rs);
