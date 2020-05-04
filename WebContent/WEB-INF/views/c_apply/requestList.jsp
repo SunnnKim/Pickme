@@ -232,7 +232,7 @@ email : <%=company.getEmail()%>
 
 
 
-<button id="myBtn">Open Modal</button>
+<!-- <button id="myBtn">Open Modal</button> -->
 </div>
 <!-- bbsCont -->
 
@@ -244,7 +244,9 @@ email : <%=company.getEmail()%>
 <div id="myModal" class="modal">
 	<!-- Modal content -->
 	<div class="modal-content">
-		<button type="button" class="modal-msgBtn"><i class="far fa-envelope"></i>&nbsp;메시지 전송</button>
+		<input type="hidden" id="memSeq" value="">
+		<input type="hidden" id="memName" value="">
+		<button type="button" class="modal-msgBtn" onclick="cApplySendMsg()"><i class="far fa-envelope"></i>&nbsp;메시지 전송</button>
 		<span class="close">&times;</span>
 		<div class="modal-content-wrap">
 			<div class="modal-imgArea">
@@ -270,16 +272,8 @@ email : <%=company.getEmail()%>
 				</div>
 			</div>
 		</div>
-
-
-
 	</div>
-
-
 </div>
-
-
-
 
 
 
@@ -297,10 +291,11 @@ var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];                                          
 
 //When the user clicks on the button, open the modal 
+/* 
 btn.onclick = function() {
  modal.style.display = "block";
 }
-
+ */
 //When the user clicks on <span> (x), close the modal
 span.onclick = function() {
  modal.style.display = "none";
@@ -597,6 +592,8 @@ window.onclick = function(event) {
 	  location.href="getRequestList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 	}
 
+
+	//프로필 모달에 데이터 저장
 	function a_Profile(p_seq){
 		//alert("구직자 디테일 : " + p_seq);
 		$.ajax({
@@ -609,22 +606,42 @@ window.onclick = function(event) {
 				var AMember = data.AMember;
 
 				if(AMember.open == 0) {
-					alert("비공개");
+					Swal.fire({
+					  position:'center',
+					  icon : 'warning',
+					  text : '프로필을 공개하지 않았습니다',
+					  showConfirmButton: false,
+					  timer: 1300
+					})
 				} else {
 					var tempJob = AMember.job.split(',');
 					var tempHash = AMember.hashtag.split(',');
 					//alert("success : " + AMember.job );
 					$('.apProfileName').html(AMember.name);
 					$('.career').text('경력 : ' + AMember.career);
-					$('.job1').text(tempJob[0]);
-					$('.job2').html('&nbsp;[ '+tempJob[1]+' ]');
+
+					if(tempJob[0]=="1차분류") {
+						$('.job1').text("직무를 선택하지 않았습니다.");
+						$('.job2').html("");
+					} else {
+						$('.job1').text(tempJob[0]);
+						$('.job2').html('&nbsp;[ '+tempJob[1]+' ]');
+					}
+					
 					$('.modal-introduce').text(AMember.introduce);
-	
+					$('.apProfileImg').attr("src", "filedownload.do?filename="+AMember.profileName+"&filepath=/upload/amember/")
+
+					
+					$('#memSeq').val(AMember.seq);
+					$('#memName').val(AMember.name);
+					
 					for(var i=0 ; i < 3 ; i++) {
 						if(tempHash[i] != "undefined") {
+							$('.hashtag'+(i+1)).show();
 							$('.hashtag'+(i+1)).text('#'+tempHash[i]);
 						} else {
-							$('.hashtag'+(i+1)).removeClass();
+							$('.hashtag'+(i+1)).hide();
+							/* $('.hashtag'+(i+1)).removeClass(); */
 						}
 					}
 					modal.style.display = "block";
@@ -635,6 +652,20 @@ window.onclick = function(event) {
 			}
 		})
 	}
+
+
+
+	/* 메시지 보내기 모달 */
+	function cApplySendMsg() {
+		var memSeq = $('#memSeq').val();
+		var memName = $('#memName').val();
+
+		$(".messenger-wrap").show();
+		$('body').css("overfloww", "hidden");
+		$("#toName").val("받는 이 : " + memName);
+		$("input[name=to]").val(memSeq);	
+	}
+
 
 	function resumeOpen(cvSeq, pEmail) {
 		//var w = window.open("about:blank","_blank","width=600, height=700, top=0,left=0,scrollbars=no");
@@ -682,5 +713,6 @@ window.onclick = function(event) {
 <!-- subCont 끝 -->
 
 
-
+<!-- 메세지 보내기 모달 -->
+<%@include file="../../../include/cApplyWriteMsg.jsp" %>
 <%@include file="/include/footer.jsp"%>

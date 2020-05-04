@@ -79,7 +79,7 @@ public class CMypageController {
 	
 	// 기업 마이페이지 이동
 	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String goCMyPage(Model model, HttpSession session, Integer sentSeq ) {
+	public String goCMyPage(Model model, HttpSession session, String sentSeq ) {
 		
 		// 데이터 불러오는 시퀀스 
 		int seq = 0;
@@ -90,7 +90,7 @@ public class CMypageController {
 			seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq() ;
 		}else{
 			// 채용공고페이지 기업정보  클릭했을 때 이동하기 
-			seq = sentSeq;
+			seq = Integer.parseInt(sentSeq);
 		}
 		
 		

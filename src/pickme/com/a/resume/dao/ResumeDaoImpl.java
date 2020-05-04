@@ -79,10 +79,16 @@ public class ResumeDaoImpl implements ResumeDao{
 		return sqlSession.selectOne(namespace + "ResumeCount" , param);
 	}
 	
-	// 이력서 관리 list 
+	// 이력서 관리 list paging
 	@Override
 	public List<ResumeDto> ResumeAllList(ResumeParam param) {
 		return sqlSession.selectList(namespace + "ResumeAllList" , param);
+	}
+	
+	// 이력서 관리 list ajax
+	@Override
+	public List<ResumeDto> ResumeAllList02(ResumeDto dto) {
+		return sqlSession.selectList(namespace + "ResumeAllList02" , dto);
 	}
 
 	// 이력서 관리 이력서명 변경

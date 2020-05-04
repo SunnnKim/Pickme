@@ -60,6 +60,14 @@
 	LIMIT #{recordCountPerPage} OFFSET #{start} 
 </select>
 
+<!-- 이력서 관리 list(페이징) -->
+<select id="ResumeAllList02" parameterType="model.ResumeDto" resultType="model.ResumeDto">
+	SELECT SEQ, MEMSEQ, NAME, WDATE, STATUS, MAINRESUME, DEL
+	FROM RESUME
+	WHERE DEL=0
+	ORDER BY SEQ DESC
+</select>
+
 <!-- 이력서 관리 이력서명 변경 -->
 <update id="ResumeNameUpdate" parameterType="model.ResumeDto">	
 	UPDATE RESUME 

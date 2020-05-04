@@ -37,8 +37,11 @@ public interface ResumeDao {
 	// 총 이력서 개수
 	public int ResumeCount(ResumeParam param);
 	
-	// 이력서 list
+	// 이력서 list paging
 	public List<ResumeDto> ResumeAllList(ResumeParam param);
+	
+	// 이력서 list ajax
+	public List<ResumeDto> ResumeAllList02(ResumeDto dto);
 	
 	// 이력서 관리 이력서명 변경
 	public int ResumeNameUpdate(ResumeDto dto);
