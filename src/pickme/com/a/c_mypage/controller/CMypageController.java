@@ -30,9 +30,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import model.AMemberDto;
 import model.CMemberDto;
 import model.PaymentDto;
 import model.PremierMemDto;
+import model.PremierServiceDto;
 import pickme.com.a.c_mypage.service.CMypageService;
 
 @Controller
@@ -76,21 +78,38 @@ public class CMypageController {
 		return tel;
 	}
 	
+//	// 일반회원 기업 마이페이지 이동
+//	@RequestMapping(value = "goACMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
+//	public String goACMypage(Model model, HttpSession session, String sentSeq ) {
+//		int seq = 0;
+//		
+//		if( session.getAttribute("loginuser") != null ) {
+//			seq = ((AMemberDto)session.getAttribute("loginuser")).getSeq();
+//		} else {
+//			seq = Integer.parseInt(sentSeq);
+//		}
+//		
+//		AMemberDto aMember = 
+//	}
+	
 	
 	// 기업 마이페이지 이동
 	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String goCMyPage(Model model, HttpSession session, Integer sentSeq ) {
+	public String goCMyPage(Model model, HttpSession session, String sentSeq ) {
 		
 		// 데이터 불러오는 시퀀스 
 		int seq = 0;
+		
 		// 기업로그인 상태일때 
 		if( session.getAttribute("logincompany") != null ) {
+			
 			// 기업로그인시 기업 마이페이지로 이동하기  
 			// 기업 고유 시퀀스 
-			seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq() ;
+			seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();
 		}else{
 			// 채용공고페이지 기업정보  클릭했을 때 이동하기 
-			seq = sentSeq;
+
+			seq = Integer.parseInt(sentSeq);
 		}
 		
 		
@@ -230,24 +249,28 @@ public class CMypageController {
 		PaymentDto recentDto = service.recentService(dto);
 		System.out.println("기업이 현재 이용중인 서비스 내역 = " + recentDto);
 		
-		// 현재시간
-		Date nowDate = new Date();	// java.util.date
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date now = nowDate;
-		Date end = sdf.parse(recentDto.getEndDate());
-		
-		// 결제내역 항목들
-		if(list.size() != 0 && now.before(end)) {	// 결제 이력이 있고, 현재 서비스 이용중인 경우
-			String serviceName = recentDto.getServiceName();
-			String payDate = recentDto.getPayDate();
-			String endDate = recentDto.getEndDate();
+		if( recentDto!=null ) {
+			// 현재시간
+			Date nowDate = new Date();	// java.util.date
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date now = nowDate;
+			Date end = sdf.parse(recentDto.getEndDate());
 			
-			model.addAttribute("list", list);
-			model.addAttribute("recentDto", recentDto);
-			model.addAttribute("serviceName", serviceName);
-			model.addAttribute("payDate", payDate);
-			model.addAttribute("endDate", endDate);
+			// 결제내역 항목들
+			if(list.size() != 0 && now.before(end)) {	// 결제 이력이 있고, 현재 서비스 이용중인 경우
+				
+				String serviceName = recentDto.getServiceName();
+				String payDate = recentDto.getPayDate();
+				String endDate = recentDto.getEndDate();
+				model.addAttribute("serviceName", serviceName);
+				model.addAttribute("payDate", payDate);
+				model.addAttribute("endDate", endDate);
+
+			}
 		}
+		
+		model.addAttribute("list", list);
+		model.addAttribute("recentDto", recentDto);
 		
 		return "c_mypage/payment";
 	}
@@ -332,6 +355,11 @@ public class CMypageController {
 		
 		model.addAttribute("seq", seq);
 		
+		// 유료서비스 데이터 가져오기
+		PremierServiceDto premierDTO = service.showPremere();
+		
+		model.addAttribute("premierDTO", premierDTO);
+		
 		return "c_mypage/paymentDetail";
 	}
 	
@@ -347,7 +375,7 @@ public class CMypageController {
          dto.setBuyerId(c_seq);
          
          // 유료회원 dto 생성
-         PremierMemDto member = new PremierMemDto(0, c_seq, serviceSeq, dto.getServiceName(), null, null, null, null);
+         PremierMemDto member = new PremierMemDto(0, c_seq, serviceSeq, null, dto.getServiceName(), null, null, dto.getImpUid(), 0);
          System.out.println(member);
          
          // payment 테이블에 데이터 저장 

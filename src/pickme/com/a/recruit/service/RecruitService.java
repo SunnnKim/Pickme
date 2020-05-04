@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import model.AwardsEtcDto;
+import model.CApplyDto;
 import model.CMemberDto;
 import model.CareerDto;
 import model.EducationDto;
@@ -73,6 +74,8 @@ public interface RecruitService {
 		// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		// 지원하기 : resume_after 에 데이터 넣기 
 		public int insertResume( ResumeAfterDto dto);
+		// 지원하기 : apply테이블에 데이터 넣기 
+		public int insertApply( CApplyDto dto);
 		// 지원하기 : file 일 경우 resume_file_after 테이블에 넣기 
 		public int insertResumeFile(ResumeFileDto file);
 		

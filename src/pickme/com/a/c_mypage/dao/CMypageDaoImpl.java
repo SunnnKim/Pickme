@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import model.CMemberDto;
 import model.PaymentDto;
 import model.PremierMemDto;
+import model.PremierServiceDto;
 
 @Repository
 public class CMypageDaoImpl implements CMypageDao{
@@ -120,6 +121,13 @@ public class CMypageDaoImpl implements CMypageDao{
 	@Override
 	public PaymentDto getRefundableService(int seq) {
 		return session.selectOne("Payment.getRefundableService", seq);
+	}
+
+	
+	// 유료서비스 데이터 가져오기
+	@Override
+	public PremierServiceDto showPremier() {
+		return session.selectOne("Payment." + "showPremier");
 	}
 
 

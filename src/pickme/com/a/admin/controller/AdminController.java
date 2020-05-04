@@ -6,10 +6,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -215,73 +217,6 @@ public class AdminController {
 		
 		boolean success = service.updateDelRecruit(seqList);
 		return success;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "paymentCancel.do", method = RequestMethod.POST)
-	public String paymentCancel() throws Exception {
-		//1. method 파라미터에 데이터를 받을 것
-		
-		BufferedReader br;
-		OutputStream os;
-		StringBuilder sb = new StringBuilder();
-		// Token request API
-		URL url = new URL("https://api.iamport.kr/users/getToken");
-		
-		// 요청할 파라미터의 정보를 입력한다.
-		String body = "imp_key=2531774582223021&imp_secret=dRDLeTxwpUC8E4EvmWMFZZOb8FQwvEaJvNuKG1h6WUfAYT6lPS0PRP00uQw0vHJ1ueLbf2hbWwMVqTgg";
-		
-		try {
-			HttpURLConnection con = (HttpURLConnection)url.openConnection();
-		    // Request Header 정의
-			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//		    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		    // 전송방식
-		    con.setRequestMethod("POST");
-		    // 서버에 연결되는 Timeout 시간 설정
-		    con.setConnectTimeout(5000);
-		    // InputStream 읽어 오는 Timeout 시간 설정
-		    con.setReadTimeout(5000); 
-		    // URLConnection에 대한 doOutput 필드값을 지정된 값으로 설정한다. 
-		    // URL 연결은 입출력에 사용될 수 있다. 
-		    // URL 연결을 출력용으로 사용하려는 경우 DoOutput 플래그를 true로 설정하고, 
-		    // 그렇지 않은 경우는 false로 설정해야 한다. 기본값은 false이다.
-		    con.setDoOutput(true); 
-
-		    // 응답 데이터를 받아들임
-		    con.setDoInput(true);
-
-		    // 새로운 OutputStream에 요청할 OutputStream을 넣는다.
-		    os = con.getOutputStream();
-
-		    os.write( body.getBytes("UTF-8") );
-		    
-		    os.flush();
-		    os.close();
-		    
-		    System.out.println("응답 코드: " + con.getResponseCode());
-		    // 200 -> OK , 400 -> Bad Request, 401 -> Not Authorized
-		    if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-		      br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-		      String line;
-		      while ((line = br.readLine()) != null) {
-		    	  sb.append(line).append("\n");
-		      }
-		      br.close();
-		      
-		      String accessToken =  sb.toString();
-		      
-		      System.out.println(accessToken);
-		      
-		      
-		    } else {
-		    	System.out.println(con.getResponseMessage());
-		    	return con.getResponseMessage();
-		    }
-		  } catch (Exception e) {
-			  e.printStackTrace();
-		  }
-	  return "sd";
 	}
 	
 	// 환불처리 테스트 

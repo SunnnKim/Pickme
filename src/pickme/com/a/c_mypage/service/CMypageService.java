@@ -5,6 +5,7 @@ import java.util.List;
 import model.CMemberDto;
 import model.PaymentDto;
 import model.PremierMemDto;
+import model.PremierServiceDto;
 
 public interface CMypageService {
 
@@ -53,5 +54,8 @@ public interface CMypageService {
 	
 	// 환불 - 환불할 서비스 가져오기
 	public PaymentDto getRefundableService(int seq);
+
+	// 유료서비스 데이터 가져오기
+	public PremierServiceDto showPremere();
 	
 }

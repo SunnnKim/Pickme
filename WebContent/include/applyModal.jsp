@@ -45,7 +45,7 @@
 						location.href = "/Pickme/login/memLogin.do"
 							return false;
 					}else{
-						console.log(data.myResumes)
+						//console.log(data.myResumes)
 						var myResumes = data.myResumes;				
 						// 이력서 이름 뽑기 
 						$('#selectContents').html('');
@@ -167,9 +167,11 @@
 	     		  	data.append("comSeq", "${recDto.comSeq }" ); 
 	     		  	data.append("jobSeq", "${recDto.seq }" ); 
 	     		  	data.append("userName", "${loginuser.name}" ); 
+	     		  	data.append("comName", "${recDto.comName}" ); 
 				}else{
 	     		  	data.append("seq", $('input[name=resume]:checked').val() ); 
 	     		  	data.append("comSeq", "${recDto.comSeq }" ); 
+	     		  	data.append("comName", "${recDto.comName}" ); 
 	     		  	data.append("jobSeq", "${recDto.seq }" ); 
 				}
 				

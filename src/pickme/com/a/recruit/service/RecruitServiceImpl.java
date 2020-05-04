@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.AwardsEtcDto;
+import model.CApplyDto;
 import model.CMemberDto;
 import model.CareerDto;
 import model.EducationDto;
@@ -143,6 +144,10 @@ public class RecruitServiceImpl implements RecruitService{
 	@Override
 	public boolean insertLinkAfter(List<LinkDto> list) {
 		return dao.insertLinkAfter(list);
+	}
+	@Override
+	public int insertApply(CApplyDto dto) {
+		return dao.insertApply(dto);
 	}
 
 	

@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@include file ="../../../include/header.jsp" %>
@@ -506,10 +508,6 @@ imgTarget.on('change', function () {
 
 <!--------------------- 유효성 검사 + 수정완료 처리 ---------------------------->
 <script>
-
-document.addEventListener("DOMContentLoaded", function() {
-
-	
 // 정보 유효성 검사
 
 var presidentCheck = false;		// 대표자명
@@ -529,13 +527,17 @@ var tel = document.querySelector("#tel");					// 연락처
 	
 var address = document.querySelector("#address");			// 주소
 var hashTag = document.querySelector("#hashId");				// 해시태그
-//var introduce = document.querySelector("#introduce");		// 소개
+var introduce = document.querySelector("#introduce");		// 소개
+
+document.addEventListener("DOMContentLoaded", function() {
+
+	
+
 
 		
 		// 1. 대표자명
 		var korRegPresident = /^[가-힣]*$/;				// 한글 정규식
 		var engRegPresident = /^[a-zA-Z]*$/;				// 영어 정규식
-		//var RegPresident = /^[가-힣a-zA-Z]+$/;				// 정규표현식 (한글영문  포함 띄어쓰기 불가 자음 불가)
 		var beforePresident = $("#president").val();
 		console.log("페이지 열릴 때 대표자명 = " + beforePresident);
 
@@ -682,7 +684,7 @@ function updateComplete() {
 	$('input[name=address]').val(addressStr);
 	console.log(addressStr);
 
-	/*
+	
 	// 대표자명 잘못 입력
 	if( presidentCheck == false ) {
 		president.focus();
@@ -693,7 +695,7 @@ function updateComplete() {
 			showConfirmButton: false,
 			timer: 3000
 		}).then ( (result) => {
-			return false;
+			return;
 		})
 	}
 	
@@ -707,7 +709,7 @@ function updateComplete() {
 			showConfirmButton: false,
 			timer: 3000
 		}).then ( (result) => {
-			return false;
+			return;
 		})
 	}
 
@@ -722,7 +724,7 @@ function updateComplete() {
 			showConfirmButton: false,
 			timer: 3000
 		}).then ( (result) => {
-			return false;
+			return;
 		})
 	}
 	
@@ -736,11 +738,11 @@ function updateComplete() {
 			showConfirmButton: false,
 			timer: 3000
 		}).then ( (result) => {
-			return false;
+			return;
 		})
 	}
 	//
-	*/
+	
 	
 	// 해쉬태그 합치기
 	var hashTag = new Array();

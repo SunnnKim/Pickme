@@ -16,11 +16,12 @@
       <div class="usedService">
           <div class="title">이용서비스확인</div>
           <div class="wrapper">
-              <div>서비스명 : <span>Basic</span></div>
-              <div>결제금액 : <span>500,000</span></div>
+              <div>서비스명 : <span>${payService.serviceName }</span></div>
+              <div>주문자명 : <span>${payService.buyerName }</span></div>
+              <div>결제금액 : <span>${payService.totalPay }원</span></div>
               <div>결제방법 :  <span>카드결제</span></div>
-              <div>결제일 : <span>2020.05.01</span></div>
-              <div>주문번호 : <span>20200501123456</span></div>
+              <div>결제일 : <span>${payService.payDate }</span></div>
+              <!-- <div>주문번호 : <span></span></div> -->
           </div>
       </div>
   </div>
@@ -28,7 +29,7 @@
       <div class="title">환불정보입력</div>
       <div class="info-content">
           <div class="info-label"> * 환불방법<span>카드</span></div>
-          <div class="info-label"> * 환불가능금액<span>500,000</span></div>
+          <div class="info-label"> * 환불가능금액<span>${payService.totalPay }원</span></div>
           <div class="info-label">* 환불사유
             <span>
               <select name="reason">
@@ -55,9 +56,59 @@
   </div>
 	
 </div>
-	
 <script>
+$('#refund').click(function(){
+	if( $('#agreement').is(':checked') === false ){
+		alert('환불절차에 동의해주세요')
+		return false;
+	}
 
+	//JSON.stringify()
+	var sendData = {
+	        "imp_uid": "${payService.impUid}", // 주문번호
+	        "cancel_request_amount": "${payService.totalPay}", // 환불금액
+	        "reason": $('select[name=reason]').val(), // 환불사유
+	        "refund_bank": "97"// [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번) 카카오페이 97번
+	      }
+
+/* 	JSON.stringify({
+        // "merchant_uid": "mid_" + new Date().getTime(), // 주문번호
+        //imp_292773983115, merchant_1588487773805
+        "imp_uid": "${payService.impUid}", // 주문번호
+        "cancel_request_amount": "${payService.totalPay}", // 환불금액
+        "reason": "테스트 결제 환불", // 환불사유
+        "refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 가상계좌 예금주
+        "refund_bank": "97", // [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번) 카카오페이 97번
+        // "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
+      }) */
+	
+	// 환불진행 
+	const $this = $(this);
+    $.ajax({
+        "url": "/Pickme/admin/payment/paymentCancel.do",
+        "type": "POST",
+        "contentType": "application/json",
+        "data": JSON.stringify(sendData),
+        "dataType": "json",
+        "success" : function(data){
+			alert(data)
+			if(data == "nullData"){
+				alert('환불할 내역이 없습니다.')
+			}
+			else if( data == "false"){
+
+			}else if (data == "true"){	// 환불성공 
+				alert('환불요청이 완료되었습니다.')
+				location.href="/Pickme/";
+			}
+        },
+        "error":function(err){
+			alert("왜에러")
+			console.log(err)
+       }
+     });
+	//$this.siblings('#infos').append('<div>ads</div>');
+})
 
 </script>
 

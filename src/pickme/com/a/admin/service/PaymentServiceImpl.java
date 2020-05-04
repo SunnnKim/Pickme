@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import model.PaymentDto;
 import model.PaymentParam;
 import model.PremierMemDto;
 import model.PremierServiceDto;
@@ -54,5 +55,45 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public int getRefundNumber() {
 		return dao.getRefundNumber();
+	}
+
+	@Override
+	public PaymentDto checkRefundData(String impUid) {
+		return dao.checkRefundData(impUid);
+	}
+
+	@Override
+	public boolean updateRefund(PaymentDto dto) {
+		boolean check = dao.updateRefundPayment(dto);
+		if(!check) {
+			System.out.println("updateRefundPayment error");
+			return false;
+		}
+		check = dao.updateRefundPremiereMem(dto);
+		if(!check) {
+			System.out.println("updateRefundPremiereMem error");
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public PaymentDto getRefundableService(int seq) {
+		return dao.getRefundableService(seq);
+	}
+
+	@Override
+	public List<PaymentDto> getAllPayments() {
+		return dao.getAllPayments();
+	}
+
+	@Override
+	public List<PaymentDto> getAllRefund() {
+		return dao.getAllRefund();
+	}
+
+	@Override
+	public boolean deleteRefund(List<Integer> seqList) {
+		return dao.deleteRefund(seqList);
 	}
 }
