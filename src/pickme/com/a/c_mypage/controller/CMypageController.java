@@ -230,24 +230,28 @@ public class CMypageController {
 		PaymentDto recentDto = service.recentService(dto);
 		System.out.println("기업이 현재 이용중인 서비스 내역 = " + recentDto);
 		
-		// 현재시간
-		Date nowDate = new Date();	// java.util.date
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date now = nowDate;
-		Date end = sdf.parse(recentDto.getEndDate());
-		
-		// 결제내역 항목들
-		if(list.size() != 0 && now.before(end)) {	// 결제 이력이 있고, 현재 서비스 이용중인 경우
-			String serviceName = recentDto.getServiceName();
-			String payDate = recentDto.getPayDate();
-			String endDate = recentDto.getEndDate();
+		if( recentDto!=null ) {
+			// 현재시간
+			Date nowDate = new Date();	// java.util.date
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date now = nowDate;
+			Date end = sdf.parse(recentDto.getEndDate());
 			
-			model.addAttribute("list", list);
-			model.addAttribute("recentDto", recentDto);
-			model.addAttribute("serviceName", serviceName);
-			model.addAttribute("payDate", payDate);
-			model.addAttribute("endDate", endDate);
+			// 결제내역 항목들
+			if(list.size() != 0 && now.before(end)) {	// 결제 이력이 있고, 현재 서비스 이용중인 경우
+				
+				String serviceName = recentDto.getServiceName();
+				String payDate = recentDto.getPayDate();
+				String endDate = recentDto.getEndDate();
+				model.addAttribute("serviceName", serviceName);
+				model.addAttribute("payDate", payDate);
+				model.addAttribute("endDate", endDate);
+
+			}
 		}
+		
+		model.addAttribute("list", list);
+		model.addAttribute("recentDto", recentDto);
 		
 		return "c_mypage/payment";
 	}
@@ -347,7 +351,7 @@ public class CMypageController {
          dto.setBuyerId(c_seq);
          
          // 유료회원 dto 생성
-         PremierMemDto member = new PremierMemDto(0, c_seq, serviceSeq, dto.getServiceName(), null, null, null, null);
+         PremierMemDto member = new PremierMemDto(0, c_seq, serviceSeq, null, dto.getServiceName(), null, null, dto.getImpUid(), 0);
          System.out.println(member);
          
          // payment 테이블에 데이터 저장 

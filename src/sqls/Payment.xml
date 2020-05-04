@@ -28,7 +28,7 @@ where refund = 1 and requestdate + interval 1 day >= now()
 </select>
 <!-- 유료 서비스 회원 불러오기 -->
 <select id="getPremierMember" resultType="model.PremierMemDto">
-SELECT p.SEQ, cmember.NAME, p.USERSEQ, p.SERVICENAME, p.STARTDATE, p.ENDDATE, p.SERVICESEQ, p.RESTTICKET
+SELECT p.SEQ, cmember.NAME, p.USERSEQ, p.SERVICENAME, p.STARTDATE, p.ENDDATE, p.SERVICESEQ, p.IMPUID, p.DEL
 from PREMIER_MEM AS p INNER JOIN C_MEMBER AS cmember
 ON p.USERSEQ = cmember.SEQ
 ORDER BY p.STARTDATE ASC, p.ENDDATE DESC
@@ -63,19 +63,19 @@ WHERE SERVICESEQ = ${serviceSeq}
 
 <!-- 결제 승인 후 DB(Payment) 저장 -->
 <insert id="setPaymentInfo" parameterType="model.PaymentDto">
-   INSERT INTO PAYMENT ( BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID, ENDDATE )
-   VALUES ( #{buyerId}, #{serviceName}, NOW(), #{totalPay}, #{paymentId}, #{impUid}, DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 MONTH) )
+   INSERT INTO PAYMENT ( BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID, ENDDATE, REFUND )
+   VALUES ( #{buyerId}, #{serviceName}, NOW(), #{totalPay}, #{paymentId}, #{impUid}, DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 MONTH), 0 )
 </insert>
 
 <!-- 결제 승인 후 DB(Premier_Mem) 저장 -->
 <insert id="insertPremierMem" parameterType="model.PremierMemDto">
-   INSERT INTO PREMIER_MEM ( USERSEQ, SERVICESEQ, SERVICENAME, STARTDATE, ENDDATE, RESTTICKET )
-   VALUES ( ${userSeq}, ${serviceSeq}, #{serviceName}, NOW(), NOW() + INTERVAL 1 MONTH, #{restTicket} )
+   INSERT INTO PREMIER_MEM ( USERSEQ, SERVICESEQ, SERVICENAME, STARTDATE, ENDDATE, IMPUID, DEL  )
+   VALUES ( ${userSeq}, ${serviceSeq}, #{serviceName}, NOW(), NOW() + INTERVAL 1 MONTH, #{impUid}, 0 )
 </insert>
 
 <!-- 결제 페이지 이동 -->
 <select id = "showPayment" parameterType = "model.PaymentDto" resultType="model.PaymentDto">
-	SELECT BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID, ENDDATE
+	SELECT BUYERID, SERVICENAME, PAYDATE, TOTALPAY, PAYMENTID, IMPUID, ENDDATE, REFUND
 	FROM PAYMENT
 	WHERE BUYERID=#{buyerId}
 	ORDER BY PAYDATE
@@ -85,19 +85,59 @@ WHERE SERVICESEQ = ${serviceSeq}
 <select id = "recentService" parameterType = "model.PaymentDto" resultType="model.PaymentDto">
     SELECT SERVICENAME, PAYDATE, TOTALPAY, ENDDATE
 	FROM PAYMENT
-	WHERE BUYERID=#{buyerId} AND <![CDATA[ NOW() < ENDDATE ]]>
+	WHERE BUYERID=#{buyerId} AND REFUND != 1 AND <![CDATA[ NOW() < ENDDATE ]]>
 	ORDER BY SEQ DESC
 	LIMIT 1
 </select>
 
 <!-- 환불하기 - 환불할 서비스 불러오기  -->
 <select id="getRefundableService" parameterType="int" resultType="model.PaymentDto">
-select * from Payment
-where enddate >= now() and buyerid = ${seq}
-order by enddate desc 
+select p.seq, p.buyerid, c.name as buyerName, p.servicename, p.paydate, p.totalpay, p.refund, p.requestdate, p.refunddate, p.method, p.paymentid, p.impuid, p.refundinfo, p.enddate
+from payment p
+inner join C_MEMBER c on c.seq = p.buyerid
+where p.enddate >= now() and p.buyerid = ${seq} AND (p.refund IS NULL OR p.refund = 0 )
+order by p.enddate desc 
 limit 1
 </select>
 
+<!-- 환불하기 - 환불할 데이터가 존재하는지 확인하기 -->
+<select id="checkRefundData" parameterType="String" resultType="model.PaymentDto">
+SELECT * FROM PAYMENT
+WHERE IMPUID = #{impUid}
+</select>
+
+<!-- 환불하기 - 환불 후 결제 데이터베이스 수정하기  -->
+<update id="updateRefundPayment" parameterType="model.PaymentDto">
+UPDATE PAYMENT
+SET REFUND = 1, REFUNDDATE = NOW(), REFUNDDATE = NOW(), REFUNDINFO = #{refundInfo}
+WHERE IMPUID = #{impUid}
+</update>
+<!-- 환불 후 유료회원 데이터베이스 수정하기  -->
+<update id="updateRefundPremiereMem" parameterType="model.PaymentDto">
+UPDATE PREMIER_MEM
+SET DEL = 1
+WHERE IMPUID = #{impUid}
+</update>
+
+
+<!-- 관리자 - 결제서비스 모두 불러오기  -->
+<select id="getAllPayments" resultType="model.PaymentDto">
+select p.seq, p.buyerid, c.name as buyerName, p.servicename, p.paydate, p.totalpay, p.refund, p.requestdate, p.refunddate, p.method, p.paymentid, p.impuid, p.refundinfo, p.enddate
+from payment p
+inner join C_MEMBER c on c.seq = p.buyerid
+</select>
+<!-- 관리자 - 환불처리 모두 불러오기 -->
+<select id="getAllRefund" resultType="model.PaymentDto">
+select p.seq, p.buyerid, c.name as buyerName, p.servicename, p.paydate, p.totalpay, p.refund, p.requestdate, p.refunddate, p.method, p.paymentid, p.impuid, p.refundinfo, p.enddate
+from payment p
+inner join C_MEMBER c on c.seq = p.buyerid
+where refund = 1
+</select>
+<!-- 관리자 - 환불내역 삭제하 -->
+<delete id="deleteRefund" parameterType="int">
+DELETE FROM PAYMENT
+WHERE SEQ = ${seq}
+</delete>
 <!-- 가장 최근 결제 서비스의 종료일 -->
 <!-- <select id = "showRecentPay" parameterType = "model.PaymentDto" resultType="model.PaymentDto">
 	SELECT DATE_ADD(DATE_FORMAT(PAYDATE, '%Y-%m-%d'), INTERVAL 1 MONTH)

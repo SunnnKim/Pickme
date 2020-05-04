@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import model.AMemberDto;
 import model.AwardsEtcDto;
+import model.CApplyDto;
 import model.CMemberDto;
 import model.CareerDto;
 import model.EducationDto;
@@ -269,9 +270,10 @@ public class SearchJobController {
         return retVal;
 	}
 	
+	// 지원하기 
 	@ResponseBody
 	@RequestMapping(value="insertResume.do",method=RequestMethod.POST)
-	public boolean insertResume( @RequestParam(required = false) MultipartFile file, ResumeAfterDto resume,
+	public boolean insertResume( @RequestParam(required = false) MultipartFile file, ResumeAfterDto resume, String comName,
 									HttpServletRequest request) {
 		
 		// 파일인경우 
@@ -338,6 +340,18 @@ public class SearchJobController {
 			// DB에 지원데이터 넣고 rsmseq 꺼내오기 
 			int rsmseq = recServ.insertResume(insertResume);
 			
+			// apply 테이블에 데이터 집어넣기
+			CApplyDto dto = new CApplyDto( 0, 
+										 insertResume.getJobSeq(), 
+										 insertResume.getComSeq(),
+										 comName,
+										 insertResume.getMemSeq(),
+										 null, 0, 0, 
+										 rsmseq, 0, 
+										 null, null, null);
+			int a = recServ.insertApply(dto);
+			System.out.println(a);
+			
 			// 경력불러오기 
 			List<CareerDto> careerList = recServ.getSelectedResumeCareer(rsmSeq);
 			// 경력 rsmseq 바꾸기 
@@ -378,7 +392,10 @@ public class SearchJobController {
 			if( linkList.size() > 0 ) linkCheck = recServ.insertLinkAfter(linkList);
 			if( !linkCheck ) return false;
 
+		
+		
 		}
+		
 		
 		return true;
 	}

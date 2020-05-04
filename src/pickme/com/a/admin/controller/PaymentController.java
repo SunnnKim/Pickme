@@ -2,11 +2,15 @@ package pickme.com.a.admin.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +20,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import model.PaymentDto;
 import model.PaymentParam;
 import model.PremierMemDto;
 import model.PremierServiceDto;
@@ -97,6 +104,14 @@ public class PaymentController {
 	// 결제 관리 페이지 이동
 	@RequestMapping(value="managePayment.do")
 	public String managePayment(Model model) {
+		// 결제내역 가지고 가기 
+		List<PaymentDto> paymentList = service.getAllPayments();
+		// 환불내역 가지고 가기
+		List<PaymentDto> refundList = service.getAllRefund();
+		
+		// model 로 보내기
+		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("refundList", refundList);
 		return "admin/payment/managePayment";
 	}
 	
@@ -237,4 +252,182 @@ public class PaymentController {
 		return success + "";
 	}
 	
+	// 환불하기 - 환불할 서비스있는지 조회
+	@ResponseBody
+	@RequestMapping(value="checkRefundable.do", method=RequestMethod.POST)
+	public boolean getRefundableService(int seq) {
+		PaymentDto check = service.getRefundableService(seq);
+		if(check == null ) return false;
+		return true;
+	}
+	
+	// 환불한 내역 삭제하기
+	@ResponseBody
+	@RequestMapping(value="deleteRefund.do", method=RequestMethod.POST)
+	public String deleteRefund( @RequestParam(value="seqList[]")  List<Integer> seqList ) {
+		boolean success = service.deleteRefund(seqList);
+		return success + "";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "paymentCancel.do", method = RequestMethod.POST, produces = "application/String; charset=utf-8")
+	public String paymentCancel( @RequestBody Map<String, Object> params) throws Exception {
+		//1. method 파라미터에 데이터를 받을 것
+		System.out.println(params.get("imp_uid"));
+		System.out.println(params.get("cancel_request_amount"));
+		System.out.println(params.get("reason"));
+		
+		String imp_uid = (String)params.get("imp_uid");
+		String cancelAmount = (String)params.get("cancel_request_amount");
+		String reason = (String)params.get("reason");
+		
+		BufferedReader br;
+		BufferedReader br2;
+		OutputStream os;
+		
+		StringBuilder sb = new StringBuilder();
+		StringBuilder sb2 = new StringBuilder();
+		// Token request API
+		URL url = new URL("https://api.iamport.kr/users/getToken");
+		URL refindUrl = new URL("https://api.iamport.kr/payments/cancel");
+		
+		// 요청할 파라미터의 정보를 입력한다.
+		String body = "imp_key=2531774582223021&imp_secret=dRDLeTxwpUC8E4EvmWMFZZOb8FQwvEaJvNuKG1h6WUfAYT6lPS0PRP00uQw0vHJ1ueLbf2hbWwMVqTgg";
+		
+		try {
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		    // Request Header 정의
+			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//		    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		    // 전송방식
+		    con.setRequestMethod("POST");
+		    // 서버에 연결되는 Timeout 시간 설정
+		    con.setConnectTimeout(5000);
+		    // InputStream 읽어 오는 Timeout 시간 설정
+		    con.setReadTimeout(5000); 
+		    // URLConnection에 대한 doOutput 필드값을 지정된 값으로 설정한다. 
+		    // URL 연결은 입출력에 사용될 수 있다. 
+		    // URL 연결을 출력용으로 사용하려는 경우 DoOutput 플래그를 true로 설정하고, 
+		    // 그렇지 않은 경우는 false로 설정해야 한다. 기본값은 false이다.
+		    con.setDoOutput(true); 
+
+		    // 응답 데이터를 받아들임
+		    con.setDoInput(true);
+
+		    // 새로운 OutputStream에 요청할 OutputStream을 넣는다.
+		    os = con.getOutputStream();
+
+		    os.write( body.getBytes("UTF-8") );
+		    
+		    os.flush();
+		    os.close();
+		    
+		    System.out.println("응답 코드: " + con.getResponseCode());
+		    // 200 -> OK , 400 -> Bad Request, 401 -> Not Authorized
+		    if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+		      br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+		      String line;
+		      while ((line = br.readLine()) != null) {
+		    	  sb.append(line).append("\n");
+		      }
+		      br.close();
+		      
+		      String accessToken =  sb.toString();
+		      
+		      // String의 json을 map으로 파싱하기 
+		      ObjectMapper mapper = new ObjectMapper();
+		      Map<String, Object> map = mapper.readValue(accessToken, Map.class);
+		      Map<String, Object> tokenMap = (Map<String, Object>)map.get("response");
+		      
+		      System.out.println(accessToken);
+		      System.out.println(map.get("response"));
+		      System.out.println(tokenMap.get("access_token"));
+		     
+		      accessToken = (String)tokenMap.get("access_token");
+		    
+		      // 디비에서 환불할 내역 조회하기 
+		      PaymentDto paidData = service.checkRefundData(imp_uid);
+		      
+		      // 데이터베이스에 환불할 내역이 없을 경우 
+		      if( paidData == null ) {
+		    	  return "nullData";
+		      }
+		      
+		      else {
+		    	  System.out.println("paidData : " + paidData);
+		      }
+		      System.out.println();
+		      
+		      // 환불하기 
+		      String body2 = "reason=" + reason + "&imp_uid=" + imp_uid + "&amount" + cancelAmount;
+		      // 환불요청 페이지 연결 
+		      HttpURLConnection con2 = (HttpURLConnection)refindUrl.openConnection();
+			    // Request Header 정의
+				con2.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				con2.setRequestProperty("Authorization", accessToken);	// 인증토큰 
+			    // 전송방식
+				con2.setRequestMethod("POST");
+			    // 서버에 연결되는 Timeout 시간 설정
+				con2.setConnectTimeout(5000);
+			    // InputStream 읽어 오는 Timeout 시간 설정
+				con2.setReadTimeout(5000); 
+			    // URLConnection에 대한 doOutput 필드값을 지정된 값으로 설정한다. 
+			    // URL 연결은 입출력에 사용될 수 있다. 
+			    // URL 연결을 출력용으로 사용하려는 경우 DoOutput 플래그를 true로 설정하고, 
+			    // 그렇지 않은 경우는 false로 설정해야 한다. 기본값은 false이다.
+				con2.setDoOutput(true); 
+			    
+			    // 응답 데이터를 받아들임
+				con2.setDoInput(true);
+		      
+			 // 새로운 OutputStream에 요청할 OutputStream을 넣는다.
+			    os = con2.getOutputStream();
+
+			    os.write( body2.getBytes("EUC-KR") );
+			    
+			    os.flush();
+			    os.close();
+			    
+			    System.out.println("응답 코드: " + con2.getResponseCode());
+			    // 200 -> OK , 400 -> Bad Request, 401 -> Not Authorized
+			    if (con2.getResponseCode() == HttpURLConnection.HTTP_OK) {
+			      br2 = new BufferedReader(new InputStreamReader(con2.getInputStream(), "UTF-8"));
+			      String line2;
+			      while ((line2 = br2.readLine()) != null) {
+			    	  sb2.append(line2).append("\n");
+			      }
+			      br2.close();
+			      
+			      String response =  sb2.toString();
+			      
+			      
+			      System.out.println("response:::");
+			      System.out.println(response);
+			 	 
+			      // 데이터베이스 수정하기
+			      PaymentDto dto = new PaymentDto();
+			      dto.setImpUid(imp_uid);
+			      dto.setRefundInfo(reason);
+			      boolean success = service.updateRefund(dto);
+
+			      return success + "";
+
+			      
+			    }else {
+			    	System.out.println(con2.getResponseMessage());
+			    	return con2.getResponseMessage();
+			    }
+		      
+		    } else {
+		    	System.out.println(con.getResponseMessage());
+		    	return con.getResponseMessage();
+		    }
+		    
+		    
+		  } catch (Exception e) {
+			  e.printStackTrace();
+			  return "trycatchException";
+		  }
+
+	}
 }

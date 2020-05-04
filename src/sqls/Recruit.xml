@@ -210,6 +210,11 @@
 	INSERT INTO RESUME_AFTER ( MEMSEQ, JOBSEQ, COMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, WHOSE, DEL, OPEN )
 	VALUES ( ${memSeq}, ${jobSeq}, ${comSeq}, #{name}, #{userName}, #{phone}, #{email}, #{introduce}, NOW(), 0, 0, 0)
 	</insert>
+	<!-- Apply 테이블에 데이터 넣기  -->
+	<insert id="insertApply" parameterType="model.CApplyDto">
+	INSERT INTO APPLY ( JOBSEQ, COMSEQ, COMNAME, MEMSEQ, ADATE, OPEN, CANCEL, CVSEQ, DEL)
+	VALUES( ${jobSeq}, ${comSeq}, #{comName}, ${memSeq}, NOW(), 0, 0, ${cvSeq}, 0)
+	</insert>
 	<!-- 디비에 넣은 이력서 시퀀스 뽑기 -->
 	<select id="getResumeLastSeq" resultType="int">
 	SELECT  LAST_INSERT_ID()

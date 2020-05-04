@@ -63,13 +63,16 @@ var dataList2 = [];
 	List<PremierMemDto> memberList = (List<PremierMemDto>)request.getAttribute("memberList");
 	for(int i = 0; i < memberList.size(); i++ ){
 		PremierMemDto member = memberList.get(i);
+		String usingType = Integer.parseInt( member.getEndDate().replaceAll("-", "")) > today ? "이용중":"종료";
+		
 	%>	var data = {
-			TYPE:'<%= Integer.parseInt( member.getEndDate().replaceAll("-", "")) > today ? "이용중":"종료" %>',
+			TYPE:'<%= member.getDel() == 0 ? usingType:"환불처리" %>',
 			USERNAME:'<%=member.getName()%>',
+			USERNAME:'<%=member.getName()%>',
+			IMPUID:'<%=member.getImpUid()%>',
 			SERVICENAME:'<%=member.getServiceName()%>', 
 			STARTDATE:'<%=member.getStartDate()%>', 
-			ENDDATE:'<%=member.getEndDate()%>',
-			RESTTICKET:'<%= member.getRestTicket() != null ? member.getRestTicket():""%>'
+			ENDDATE:'<%=member.getDel() == 0 ? member.getEndDate() : "" %>'
 		}
 		dataList.push(data)
 	<%
@@ -121,15 +124,15 @@ $(document).ready(function () {
          }, {
              field: "STARTDATE",
              title: "시작일",
-             width: 150
+             width: 100
          }, {
              field: "ENDDATE",
              title: "마감일",
-             width: 150
-         }, {
-             field: "RESTTICKET",
-             title: "잔여이용권",
              width: 100
+         }, {
+             field: "IMPUID",
+             title: "주문번호",
+             width: 150
          }, {
              field: "checkall",
              title: "체크",

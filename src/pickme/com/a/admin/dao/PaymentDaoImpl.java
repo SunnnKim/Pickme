@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import model.PaymentDto;
 import model.PaymentParam;
 import model.PremierMemDto;
 import model.PremierServiceDto;
@@ -58,6 +59,45 @@ public class PaymentDaoImpl implements PaymentDao{
 	@Override
 	public int getRefundNumber() {
 		return sqlSession.selectOne(namespace + "getRefundNumber");
+	}
+
+	@Override
+	public PaymentDto checkRefundData(String impUid) {
+		return sqlSession.selectOne(namespace + "checkRefundData", impUid);
+	}
+
+	@Override
+	public boolean updateRefundPayment(PaymentDto dto) {
+		return sqlSession.update(namespace + "updateRefundPayment", dto) > 0 ? true:false;
+	}
+
+	@Override
+	public boolean updateRefundPremiereMem(PaymentDto dto) {
+		return sqlSession.update(namespace + "updateRefundPremiereMem", dto) > 0 ? true:false;
+	}
+
+	@Override
+	public PaymentDto getRefundableService(int seq) {
+		return sqlSession.selectOne(namespace + "getRefundableService", seq);
+	}
+
+	@Override
+	public List<PaymentDto> getAllPayments() {
+		return sqlSession.selectList(namespace + "getAllPayments");
+	}
+
+	@Override
+	public List<PaymentDto> getAllRefund() {
+		return sqlSession.selectList(namespace + "getAllRefund");
+	}
+
+	@Override
+	public boolean deleteRefund(List<Integer> seqList) {
+		for( int i = 0; i < seqList.size(); i++ ) {
+			int count = sqlSession.delete(namespace + "deleteRefund", seqList.get(i));
+			if( count == 0 ) return false;
+		}
+		return true;
 	}
 
 }

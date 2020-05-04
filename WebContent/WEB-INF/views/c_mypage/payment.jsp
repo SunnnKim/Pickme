@@ -60,10 +60,10 @@
 					<td><c:out value="${result.endDate }" /></td>
 					<td>
 						<c:choose>
-							<c:when test="${today le result.endDate }">
+							<c:when test="${today le result.endDate and result.refund eq 0}">
 								<span style="color:#ff0000">이용중</span>
 							</c:when>
-							<c:when test="${today gt result.endDate }">
+							<c:when test="${today gt result.endDate or result.refund eq 1}">
 								<span>만료</span>
 							</c:when>
 						</c:choose>
@@ -80,7 +80,7 @@
 
 <!-- 이용내역이 존재하며, 현재 이용중인 서비스가 없는 경우 -->
 
-<c:if test = "${not empty list && recentDto eq null}">
+<c:if test = "${not empty list && recentDto eq null }">
 	<div class="previous">
 		<label> 이전 결제 내역 </label>
 		
@@ -110,10 +110,10 @@
 					<td><c:out value="${result.endDate }" /></td>
 					<td>
 						<c:choose>
-							<c:when test="${today le result.endDate }">
+							<c:when test="${today le result.endDate and result.refund eq 0}">
 								<span style="color:#ff0000">이용중</span>
 							</c:when>
-							<c:when test="${today gt result.endDate }">
+							<c:when test="${today gt result.endDate or result.refund eq 1}">
 								<span>만료</span>
 							</c:when>
 						</c:choose>
@@ -141,7 +141,23 @@
 
    // 환불페이지 가기
 function refundPage( seq ){
-	   location.href="/Pickme/c_mypage/refundPage.do?seq=" + seq;
+
+	$.ajax({
+		url:"/Pickme/admin/payment/checkRefundable.do",
+		data: "seq="+seq,
+		type:'post',
+		success:function (data){
+		alert(data)
+			if( data == true){
+				 location.href="/Pickme/c_mypage/refundPage.do?seq=" + seq;
+			}else{
+				alert('환불할 서비스가 없습니다.')
+			}
+		}
+	})
+
+	   
+	  
    }
 </script>
 

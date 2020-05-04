@@ -6,10 +6,10 @@
 <div class="profile-wrap">
 
 
-<button type="test" id="pay" style="">
+<button type="button" id="pay" style="">
 결제테스트
 </button>
-<form id="frm" method=post action="setPaymentInfo.do">
+<form id="frm" method=post action="/Pickme/c_mypage/setPaymentInfo.do">
    <input type="hidden" name="impUid" value="">         <!-- 아임포트 거래 고유 번호 -->
    <input type="hidden" name="totalPay" value="">      <!-- 결제금액 -->
    <input type="hidden" name="paymentId" value="">      <!-- 가맹점에서 생성/관리하는 고유 주문번호 -->
@@ -50,12 +50,13 @@ $('#info-btn').click(function() {
 	$this.siblings('#infos').append('<div>ads</div>');
 });
 
+// 결제하기 
 $(document).on('click', '#pay', function(){
 
 	//IMP.request_pay(param, callback) 호출
 	IMP.request_pay({ // param
-		  pg: "kakaopay",
-		  //pay_method: "card",
+		  pg: "inicis",
+		  pay_method: "card",
 		  merchant_uid: 'merchant_' + new Date().getTime(),
 		  name: "노르웨이 회전 의자",
 		  amount: 100,
@@ -66,25 +67,35 @@ $(document).on('click', '#pay', function(){
 		  buyer_postcode: "01181"
 	}, function (rsp) { // callback
 		if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-		      // jQuery로 HTTP 요청
-		      jQuery.ajax({
-		          url: "https://www.myservice.com/payments/complete", // 가맹점 서버
-		          method: "POST",
-		          headers: { "Content-Type": "application/json" },
-		          data: {
-		              imp_uid: rsp.imp_uid,
-		              merchant_uid: rsp.merchant_uid
-		          }
-		      }).done(function (data) {
-		        // 가맹점 서버 결제 API 성공시 로직
-			        console.log(data)
-		      })
-		    } else {
-		      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
-		    }
+
+	        var msg = '결제가 완료되었습니다.';
+              msg += '고유ID : ' + rsp.imp_uid;
+              msg += '상점 거래ID : ' + rsp.merchant_uid;
+              msg += '결제 금액 : ' + rsp.paid_amount;
+              msg += '카드 승인번호 : ' + rsp.apply_num;
+              msg += '주문명 : ' + rsp.name;
+
+             // 페이지 처음 들어왔을 때 선택한 서비스 번호 가져오기  
+             var serviceSeq = 1
+             
+             // DB로 보낼 데이터 저장
+             $("input[name=impUid]").val(rsp.imp_uid);
+             $("input[name=paymentId]").val(rsp.merchant_uid);
+             $("input[name=totalPay]").val(rsp.paid_amount);
+             $("input[name=serviceName]").val(rsp.name);
+             $("input[name=serviceSeq]").val(serviceSeq);
+ 	
+             $("form").submit();
+
+		      		        
+	    } else {
+	      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+	    }
 	});
 	
 })
+
+
 
 
 
