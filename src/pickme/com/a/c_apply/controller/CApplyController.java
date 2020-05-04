@@ -263,7 +263,19 @@ public class CApplyController {
 	
 	
 	
-	
+	@RequestMapping(value = "resumeDownLoad.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String resumeDownLoad(String filename, HttpServletRequest request, Model model) {
+			// download 경로
+			// tomcat
+			String fupload = request.getServletContext().getRealPath("/upload/resume_file");
+			System.out.println("Download filename: " + filename);
+			File downloadFile = new File(fupload + "/" + filename);
+			
+			model.addAttribute("downloadFile", downloadFile);
+			
+			return "downloadView";	// 파일만 다운로드
+		
+	}
 	
 	
 	

@@ -347,7 +347,7 @@ function cApply_list() {
 }
 
 
-/* 이력서 열람 */
+/* 이력서 열람 파일 유무 검증 */
 function apResumeOpen(cvSeq) {
 	alert("cvSeq : " + cvSeq);
 	$.ajax({
@@ -359,11 +359,13 @@ function apResumeOpen(cvSeq) {
 			var fileDto = data.fileDto
 			if(fileDto == null) {
 				//alert("새창 웹페이지");
+				alert("첨부파일 없음 , 웹페이지 연결");
 				window.open("openResumeDetail.do?seq="+cvSeq);
 				//window.open('openResume.do?seq='+cvSeq,'window_name','width=830,height=600,location=no,status=no,scrollbars=yes');
 			} else {
-				alert("파일다운");
+				alert("첨부파일 있음 , 파일 다운로드");
 				alert(fileDto.filePath);
+				location.href = "resumeDownLoad.do?filename="+fileDto.storedName;
 			}
 		},
 		error	 : function(request,status,error){ 
