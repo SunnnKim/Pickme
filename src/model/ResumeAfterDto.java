@@ -62,6 +62,22 @@ public class ResumeAfterDto {
 		this.status = status;
 	}
 
+	
+	public ResumeAfterDto(int seq, int memSeq, int jobSeq, int comSeq, String name, String userName, String wDate,
+			int whose, int del, int open) {
+		super();
+		this.seq = seq;
+		this.memSeq = memSeq;
+		this.jobSeq = jobSeq;
+		this.comSeq = comSeq;
+		this.name = name;
+		this.userName = userName;
+		this.wDate = wDate;
+		this.whose = whose;
+		this.del = del;
+		this.open = open;
+	}
+
 	public int getSeq() {
 		return seq;
 	}

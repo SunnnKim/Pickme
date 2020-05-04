@@ -53,8 +53,7 @@ public class CApplyServiceImpl implements CApplyService {
 
 	@Override
 	public List<CareerDto> getCareerAfter(int seq) {
-		// TODO Auto-generated method stub
-		return null;
+		return cApplyDao.getCareerAfter(seq);
 	}
 
 	

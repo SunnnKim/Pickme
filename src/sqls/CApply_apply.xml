@@ -73,6 +73,12 @@
 </select>
 
 
+<!-- CAREER_AFTER 경력 가져오기  -->
+<select id="getCareerAfter" resultType="model.CareerDto">
+
+
+
+</select>
 
 
 

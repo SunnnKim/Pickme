@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.CApplyDto;
+import model.CareerDto;
 import model.CvRecruitDto;
 import model.MessageDto;
 import model.RecruitDto;
@@ -54,6 +55,11 @@ public class CApplyDaoImpl implements CApplyDao {
 	@Override
 	public ResumeAfterDto getResumeAfter(int seq) {
 		return sqlSession.selectOne(ns + "getResumeAfter", seq);
+	}
+
+	@Override
+	public List<CareerDto> getCareerAfter(int seq) {
+		return sqlSession.selectList(ns+"getCareerAfter", seq);
 	}
 	
 	
