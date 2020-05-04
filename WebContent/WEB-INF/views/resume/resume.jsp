@@ -141,7 +141,7 @@ function ajaxFileTransmit() {
       enctype: 'multipart/form-data',
       success: function (data) { 
           
-			alert('success');
+			//alert('success');
 			Swal.fire({
 				  icon: 'success',
 				  title: '파일 첨부가 완료됐습니다',

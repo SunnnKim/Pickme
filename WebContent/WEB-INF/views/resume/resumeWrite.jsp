@@ -496,7 +496,7 @@ $(document).on('click','.resumeBtnWrap button', function(){
         processData: false,
         async : false,
         success: function (data) { 
-            //alert("resumeInsert.do");        
+            // alert("resumeInsert.do");        
 			if(data > 0){
 				Swal.fire({
 					  icon: 'success',
