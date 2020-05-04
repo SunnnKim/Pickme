@@ -302,6 +302,17 @@ public class SearchJobController {
 			ResumeAfterDto insertResume = new ResumeAfterDto(0, resume.getMemSeq(), resume.getJobSeq(), resume.getComSeq(), newFilename, resume.getUserName(), null, 0, 0, 0);
 			int rsmseq = recServ.insertResume(insertResume);
 
+			// apply 테이블에 데이터 집어넣기
+			CApplyDto dto = new CApplyDto( 0, 
+										 insertResume.getJobSeq(), 
+										 insertResume.getComSeq(),
+										 comName,
+										 insertResume.getMemSeq(),
+										 null, 0, 0, 
+										 rsmseq, 0, 
+										 null, null, null);
+			int a = recServ.insertApply(dto);
+			
 			// 데이터베이스에 파일저장내역 저장 
 			ResumeFileDto resumeFile = new ResumeFileDto(0, rsmseq, originalName, newFilename, "/upload/resume");
 			int number = recServ.insertResumeFile(resumeFile);
