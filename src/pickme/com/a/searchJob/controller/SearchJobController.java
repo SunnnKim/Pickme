@@ -299,7 +299,7 @@ public class SearchJobController {
 				return false;
 			}
 			// 데이터베이스 지원이력서 저장
-			ResumeAfterDto insertResume = new ResumeAfterDto(0, resume.getMemSeq(), resume.getJobSeq(), resume.getComSeq(), newFilename, resume.getUserName(), null, 0, 0, 0);
+			ResumeAfterDto insertResume = new ResumeAfterDto(0, resume.getMemSeq(), resume.getJobSeq(), resume.getComSeq(), originalName, resume.getUserName(), null, 0, 0, 0);
 			int rsmseq = recServ.insertResume(insertResume);
 
 			// apply 테이블에 데이터 집어넣기

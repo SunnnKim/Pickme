@@ -120,7 +120,11 @@ public class CApplyController {
 	@ResponseBody
 	@RequestMapping(value = "apResumeOpen.do", method = { RequestMethod.POST })
 	public Map<String, Object> apResumeOpen(int cvSeq, HttpSession session) {
+		//System.out.println("memSeq : " + memSeq );
 		
+		// 열람 확인 DB 저장
+		boolean b = cApplyService.resumeOpenConfirm(cvSeq);
+		System.out.println("열람 확인 DB 저장 : " + b);
 		ResumeFileDto dto = cApplyService.findResumeFile(cvSeq);
 				
 		

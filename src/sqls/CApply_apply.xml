@@ -20,7 +20,8 @@
   -->
 <!-- 지원자 관리 채용공고 list -->
 <select id="myCurrentRecList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
-	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, COUNT(A.JOBSEQ) AS applyCount
+	<!-- SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, COUNT(A.JOBSEQ) AS applyCount -->
+	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, (select count(*) from apply where cancel = 0) AS applyCount
 	FROM RECRUIT R LEFT OUTER JOIN APPLY A ON R.SEQ = A.JOBSEQ
 	WHERE R.COMSEQ = #{comSeq}
 	GROUP BY R.SEQ
@@ -48,6 +49,21 @@
 	
 </select>
 
+
+
+
+
+
+
+
+
+
+<!-- 이력서 열람 확인 update -->
+<update id="resumeOpenConfirm">
+	UPDATE APPLY
+	SET OPEN=1
+	WHERE CVSEQ = #{cvSeq}
+</update>
 
 
 

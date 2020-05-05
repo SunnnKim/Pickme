@@ -195,7 +195,7 @@ li {margin-top: 10px}
 			<tbody>
 				<c:if test="${empty cApplyList }">
 					<tr>
-						<td colspan="4">지원자가 없습니다</td>
+						<td colspan="5">지원자가 없습니다</td>
 					</tr>
 				</c:if>
 				<c:forEach items="${cApplyList }" var="dto" varStatus="vs">

@@ -80,5 +80,10 @@ public class CApplyServiceImpl implements CApplyService {
 		return cApplyDao.getLinkAfter(seq);
 	}
 
+	@Override
+	public boolean resumeOpenConfirm(int cvSeq) {
+		return cApplyDao.resumeOpenConfirm(cvSeq);
+	}
+
 	
 }
