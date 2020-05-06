@@ -108,7 +108,7 @@
 			
 			<c:forEach items="${myApplyList }" var="myApply" varStatus="vs">
 			<c:set var="adate" value="${myApply.adate }"/>
-				<tr >
+				<tr>
 					<td><a href="/Pickme/searchJob/recDetail.do?seq=${myApply.jobSeq }" title="채용공고페이지" style="text-align:center;">${myApply.comName }</a></td>
 					<td>${myApply.comJob2 }</td>
 					<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("adate").toString())%></td>

@@ -12,10 +12,12 @@ import model.CvCompanyDto;
 import model.CvReqDto;
 import model.CvReqParam;
 import model.EducationDto;
+import model.FilesDto;
 import model.LanguageDto;
 import model.LinkDto;
 import model.ResumeAfterDto;
 import model.ResumeDto;
+import model.ResumeFileDto;
 import pickme.com.a.e_apply.dao.ECvRequestDao;
 
 @Service
@@ -101,7 +103,7 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 	}
 
 	@Override
-	public CareerDto getCareer(int originalId) {
+	public List<CareerDto> getCareer(int originalId) {
 		
 		return dao.getCareer(originalId);
 	}
@@ -113,7 +115,7 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 	}
 
 	@Override
-	public AwardsEtcDto getAwardsEtc(int originalId) {
+	public List<AwardsEtcDto> getAwardsEtc(int originalId) {
 		
 		return dao.getAwardsEtc(originalId);
 	}
@@ -125,7 +127,7 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 	}
 
 	@Override
-	public LanguageDto getLanguage(int originalId) {
+	public List<LanguageDto> getLanguage(int originalId) {
 		
 		return dao.getLanguage(originalId);
 	}
@@ -137,7 +139,7 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 	}
 
 	@Override
-	public EducationDto getEducation(int originalId) {
+	public List<EducationDto> getEducation(int originalId) {
 		
 		return dao.getEducation(originalId);
 	}
@@ -149,7 +151,7 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 	}
 
 	@Override
-	public LinkDto getLink(int originalId) {
+	public List<LinkDto> getLink(int originalId) {
 		
 		return dao.getLink(originalId);
 	}
@@ -176,6 +178,18 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 	public ResumeAfterDto getResume(int rSeq) {
 		
 		return dao.getResume(rSeq);
+	}
+
+	@Override
+	public List<ResumeFileDto> getFilesList(int originalId) {
+		
+		return dao.getFilesList(originalId);
+	}
+
+	@Override
+	public int putFilesDto(ResumeFileDto filesDto) {
+	
+		return dao.putFilesDto(filesDto);
 	}
 	
 }

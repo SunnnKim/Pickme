@@ -83,7 +83,7 @@
 				<c:set var="adate" value="${myPastApply.adate }"/>
 					<tr>
 						<td><input type="checkbox" name="checkRow" value="${myPastApply.seq  }"></td>
-						<td>${myPastApply.comName }</td>
+						<td><a href="0/Pickme/c_mypage/goCMypage.do?sentSeq=${myPastApply.comSeq}">${myPastApply.comName }</a></td>
 						<td>${myPastApply.comJob2 }</td>
 						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("adate").toString())%></td>
 						<td>${myPastApply.edate }</td>

@@ -9,10 +9,12 @@ import model.CvCompanyDto;
 import model.CvReqDto;
 import model.CvReqParam;
 import model.EducationDto;
+import model.FilesDto;
 import model.LanguageDto;
 import model.LinkDto;
 import model.ResumeAfterDto;
 import model.ResumeDto;
+import model.ResumeFileDto;
 
 public interface ECvRequestDao {
 	
@@ -49,30 +51,35 @@ public interface ECvRequestDao {
 	
 	public int putResume(ResumeAfterDto rdto);
 	
-	public CareerDto getCareer(int originalId);
+	public List<CareerDto> getCareer(int originalId);
 	
 	public int putCareer(CareerDto cdto);
 	
-	public AwardsEtcDto getAwardsEtc(int originalId);
+	public List<AwardsEtcDto> getAwardsEtc(int originalId);
 	
 	public int putAwardsEtc(AwardsEtcDto adto);
 	
-	public LanguageDto getLanguage(int originalId);
+	public List<LanguageDto> getLanguage(int originalId);
 	
 	public int putLanguage(LanguageDto langdto);
 	
-	public EducationDto getEducation(int originalId);
+	public List<EducationDto> getEducation(int originalId);
 	
 	public int putEducation(EducationDto edto);
 	
-	public LinkDto getLink(int originalId);
+	public List<LinkDto> getLink(int originalId);
 	
 	public int putLink(LinkDto linkdto);
+	
+	public List<ResumeFileDto> getFilesList(int originalId);
+	
+	public int putFilesDto(ResumeFileDto filesDto);
 	
 	public int doAccept(int seq, int rsmSeq);
 	
 	public List<ResumeDto> getResumeList(int loginSeq);
 	
 	public ResumeAfterDto getResume(int rseq);
+	
 	
 }

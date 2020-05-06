@@ -18,6 +18,7 @@ import model.LanguageDto;
 import model.LinkDto;
 import model.ResumeAfterDto;
 import model.ResumeDto;
+import model.ResumeFileDto;
 
 @Repository
 public class ECvRequestDaoImpl implements ECvRequestDao{
@@ -110,9 +111,9 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 	}
 
 	@Override
-	public CareerDto getCareer(int originalId) {
+	public List<CareerDto> getCareer(int originalId) {
 		
-		return sqlSession.selectOne(ns + "getCareer", originalId);
+		return sqlSession.selectList(ns + "getCareer", originalId);
 	}
 
 	@Override
@@ -122,9 +123,9 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 	}
 
 	@Override
-	public AwardsEtcDto getAwardsEtc(int originalId) {
+	public List<AwardsEtcDto> getAwardsEtc(int originalId) {
 		
-		return sqlSession.selectOne(ns + "getAwardsEtc", originalId);
+		return sqlSession.selectList(ns + "getAwardsEtc", originalId);
 	}
 
 	@Override
@@ -134,9 +135,9 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 	}
 
 	@Override
-	public LanguageDto getLanguage(int originalId) {
+	public List<LanguageDto> getLanguage(int originalId) {
 		
-		return sqlSession.selectOne(ns + "getLanguage", originalId);
+		return sqlSession.selectList(ns + "getLanguage", originalId);
 	}
 
 	@Override
@@ -146,9 +147,9 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 	}
 
 	@Override
-	public EducationDto getEducation(int originalId) {
+	public List<EducationDto> getEducation(int originalId) {
 		
-		return sqlSession.selectOne(ns + "getEducation", originalId);
+		return sqlSession.selectList(ns + "getEducation", originalId);
 	}
 
 	@Override
@@ -158,9 +159,9 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 	}
 
 	@Override
-	public LinkDto getLink(int originalId) {
+	public List<LinkDto> getLink(int originalId) {
 		
-		return sqlSession.selectOne(ns + "getLink", originalId);
+		return sqlSession.selectList(ns + "getLink", originalId);
 	}
 
 	@Override
@@ -182,7 +183,8 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 	public List<ResumeDto> getResumeList(int loginSeq) {
 		
 		List<ResumeDto> list = sqlSession.selectList(ns + "getResumeList", loginSeq);
-		System.out.println("list.size():" + list.size());	
+		System.out.println("list.size()>>>>" + list.size());	
+		System.out.println(list.get(0).toString());
 		return list;
 	}
 
@@ -190,6 +192,18 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 	public ResumeAfterDto getResume(int rseq) {
 		
 		return sqlSession.selectOne(ns + "getResume", rseq);
+	}
+
+	@Override
+	public List<ResumeFileDto> getFilesList(int originalId) {
+		
+		return sqlSession.selectList(ns + "getFilesList", originalId);
+	}
+
+	@Override
+	public int putFilesDto(ResumeFileDto resumeFileDto) {
+		
+		return sqlSession.insert(ns + "putFilesDto", resumeFileDto);
 	}
 
 }

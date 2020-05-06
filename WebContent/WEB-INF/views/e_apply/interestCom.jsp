@@ -26,7 +26,7 @@
 		<!-- 검색창 -->
 		<div class="bbs-top">
 			<div class="form-search">
-				<input type="text" id="_keyword" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해 주세요." value=${sKeyword }>
+				<input type="text" id="_keyword" name="keyWord" title="검색어 입력" placeholder="검색어를 입력해주세요." value=${sKeyword }>
 				<button type="button" class="btn-search" onclick="searchAction()"><span>검색</span>	</button>
 			</div>
 		</div>
