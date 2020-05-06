@@ -4,7 +4,7 @@
     pageEncoding="UTF-8"%>
  <%
 	// session invalid check
-	if(session==null || !request.isRequestedSessionIdValid()){ 
+	if( session==null || !request.isRequestedSessionIdValid()){ 
 		response.sendRedirect("/Pickme/login/main.do");
 	}
  %>
