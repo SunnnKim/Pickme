@@ -12,6 +12,7 @@ WHERE USERSEQ = ${seq}
 	AND STARTDATE &lt;= NOW() 
 	AND ENDDATE &gt;= NOW() 
 	AND SERVICESEQ IN ( 1, 2 )
+	AND DEL != 1
 </select>
 
 <!-- 기본 인재찾기 -->
@@ -32,7 +33,7 @@ WHERE (DEL != 1 AND OPEN = 1)
 	AND (CAREER LIKE #{career} )
 	AND (JOB LIKE #{job1} AND JOB LIKE #{job2} )
 </select>
-<!-- 디테일 인재 찾기 인원수 -->
+<!-- 디테일 인재 찾기 -->
 <select id="getSearchDetail" parameterType="model.SearchPeopleParam" resultType="model.AMemberDto">
 SELECT SEQ, NAME, PROFILEPATH, PROFILENAME, INTRODUCE, JOB, CAREER, HASHTAG
 FROM A_MEMBER
@@ -44,6 +45,7 @@ WHERE (DEL != 1 AND OPEN = 1)
 	        HASHTAG LIKE #{tag}
 	  	</foreach>
 	)
+LIMIT 5 offset ${moreContentNum}
 </select>
 <!-- 디테일 인재 찾기 인원수 -->
 <select id="getSearchDetailNumber" parameterType="model.SearchPeopleParam" resultType="int">

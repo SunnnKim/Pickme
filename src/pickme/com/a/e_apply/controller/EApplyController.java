@@ -22,13 +22,13 @@ public class EApplyController {
 
 	@Autowired
 	EApplyService eservice;
-	@RequestMapping(value="curAList.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String getCurAList(Model model, HttpSession session, EApplyParam param) {
+	@RequestMapping(value="curApplyList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getCurApplyList(Model model, HttpSession session, EApplyParam param) {
 		
 		// session에서 login seq 받아오기 
 		int loginSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
 				
-		// 받은 사람(원래는 보낸사람 seq로 해야하는데 param에 toSeq밖에 없어 그냥 통용하기)seq 를 수신인 seq로 셋팅 
+		// 로그인한 아이디 세팅 
 		param.setLoginSeq(loginSeq);
 		
 		int pn = param.getPageNumber(); // 현재페이지넘버
@@ -55,10 +55,10 @@ public class EApplyController {
 		model.addAttribute("pageNumber", pn);
 		model.addAttribute("sKeyword", param.getsKeyword());
 		
-		return "e_apply/curAList";
+		return "e_apply/curApplyList";
 	}
 	
-	@RequestMapping(value="pastAList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="pastApplyList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getPastAList(Model model, HttpSession session, EApplyParam param) {
 		
 		// session에서 login seq 받아오기 
@@ -88,7 +88,7 @@ public class EApplyController {
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());
 		model.addAttribute("pageNumber", pn);
 		model.addAttribute("sKeyword", param.getsKeyword());
-		return "e_apply/pastAList";
+		return "e_apply/pastApplyList";
 	}
 	
 	

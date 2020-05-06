@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@include file ="../../../include/header.jsp" %>
@@ -20,30 +22,16 @@
   
 <style>
 /* 컬럼 이름 */
-div p.column {
-  font-size : 13pt;
-}
+div p.column {font-size : 13pt;}
 
 /* 별표 */
-div label.star {
-  font-size : 14pt;
-}
+div label.star {font-size : 14pt;}
 
 /* 컬럼 설명 */
-div.input-box p.column label.message {
-  color: #757474;
-  font-size: 10pt;
-}
+div.input-box p.column label.message {color: #757474;font-size: 10pt;}
 
 /* input text */
-div input[type=text] {
-  padding-left : 20px;
-  margin-top : 5px;
-  border: 1px solid rgb(176, 176, 176);
-  width : 100%;
-  height : 40px;
-  font-size : 13pt;
-}
+div input[type=text] {padding-left : 20px;margin-top : 5px;border: 1px solid rgb(176, 176, 176);width : 100%;height : 40px;font-size : 13pt;}
 
 /* input password */
 div.input-box input[type=password] {
@@ -373,20 +361,164 @@ div div.logo-img input.btTextW {
           <input type = "text" id="tel" name = "tel" value="${dto.tel }" maxlength="13">
         </div>
 		
+		
         <div class="input-box">
           <p class = "column"> 해시태그 
             <label class = "star" style = "color: #ff0000;"> * </label> 
-            <label class = "message"> 한글, 영문, 숫자만 가능하며, 등록된 태그를 클릭하면 삭제됩니다. </label>
+            <label class = "message"> 한글, 영문, 숫자만 가능하며, 엔터 입력시 등록됩니다. </label>
           </p>
-          <input type = "text" id = "hashId" class = "hashId" placeholder="해시태그는 최대 3개까지 등록 가능합니다."/>
-          <input type = "hidden" id = "hash1">
-          <input type= "hidden" id = "hash2">
-          <input type=  "hidden" id = "hash3">
-          <input type="hidden"  id = "hashT" name = "hashTag" value = ${dto.hashTag }>
-          <ul id = "hashUl">
-          
-          </ul>
+          <input type="text" id="hashtag" placeholder="최대 3개까지 입력가능">
+          <div class="inhash"></div>
         </div>
+       <!-- <input type = "text" id = "hashId" class = "hashId" placeholder="해시태그는 최대 3개까지 등록 가능합니다."/>
+            <input type = "hidden" id = "hash1">
+            <input type= "hidden" id = "hash2">
+            <input type=  "hidden" id = "hash3">
+            <input type="hidden"  id = "hashT" name = "hashTag" value = ${dto.hashTag }>
+              <ul id = "hashUl"></ul>
+        	-->
+        	
+        	<style>
+        		.hashbtn1 {margin-left: 20px;margin-top: 20px;background-color: #4f6eff;color: #fff;border : 12px solid #4f6eff;border-radius: 5px 5px 5px 5px;}
+        		.hashbtn1 i{margin-left:5px;}
+        	</style>
+        	
+        	<!-- 해시태그 테스트 -->
+        
+        <div class="hashtagWrap">
+				
+			   <!-- <button type="button" id="hashadd" onclick="tagappend()">추가</button> -->				
+		</div>
+			
+        	
+        	<script type="text/javascript">
+        	
+		// db에서 값 가져오기
+		   var hashstr = '${dto.hashTag}';
+
+		   var hashdbArray = hashstr.split(',');
+		   var hashdb01 = hashdbArray[0]
+		   var hashdb02 = hashdbArray[1]
+		   var hashdb03 = hashdbArray[2]
+
+		   /*
+		   hashdb01.replace('','undefined'); 
+		   hashdb02.replace('','undefined'); 
+		   hashdb03.replace('','undefined'); 
+		   */
+		   
+		   console.log("hashstr = " + '${dto.hashTag}');
+
+		   console.log("해쉬태그1: " + hashdb01);
+		   console.log("해쉬태그2: " + hashdb02);
+		   console.log("해쉬태그3: " + hashdb03);
+
+
+		   const intervalCall1000 = intervalCall(1000)
+			/* hashtag */
+			 $("#hashtag").keyup(function(e){ 
+				 if(e.keyCode == 13){
+					// 인터벌 함수 실행 
+					 intervalCall1000(() => {
+					 	// 태그삽입
+					   if($(this).val().trim() !=""){
+					     tagappend();
+					   } else {
+					 	// 태그 미입력시
+					     // alert("태그를 입력해주세요.");
+					     Swal.fire({
+							  icon: 'error',
+							  text: '태그를 입력해주세요'
+						 });
+					   }
+				    })
+				}
+
+			 });
+		   // enter 중복클릭 방지
+		   // interval 시간 안에 다시 호출된 함수 콜은 무시한다
+		   function intervalCall(interval){
+			   let elapsed = true
+			   return (fn) => {
+			     if(!elapsed){
+			       return    // 마지막 호출 후 제한된 경과시간이 지나지 않은 경우 리턴
+			     }
+			     elapsed = false
+			     fn()
+			     setTimeout(() => {elapsed = true}, interval)
+			   }
+			 }
+
+		  	// db에 있는 hashtag append시키기 
+			$(function(){		
+				 var hstr01 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb01+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb01+"'></span>";
+				 var hstr02 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb02+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb02+"'></span>";
+				 var hstr03 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb03+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb03+"'></span>";
+				 if(hashdb01 != undefined){			
+			   	    $(".inhash").append(hstr01);
+				     element_count++;
+				     hashTagCount();
+				  }
+				  if(hashdb02 != undefined){
+					  $(".inhash").append(hstr02);
+					  element_count++;
+					  hashTagCount();
+				  }
+				  if(hashdb03 != undefined){
+					  $(".inhash").append(hstr03);
+					  element_count++;
+					  hashTagCount();
+				  }
+				  		  		  		
+				 //alert("끝")
+				
+			});
+		  	
+
+		  //hashtag append
+		  var element_count = document.getElementsByTagName('hashtag').length;
+		  function tagappend(){
+		   var hashtext = document.getElementById('hashtag').value;
+		   const str = "<span><button type='button' class='hashbtn1' name='hashtag' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashtext+"'></span>";
+		   if(hashtext.trim() != ""){
+		    $(".inhash").append(str);
+
+			    document.getElementById('hashtag').value="";
+			    element_count++;
+			    hashTagCount();
+
+		   } else {
+		     // alert("태그를 입력해주세요.");
+			 Swal.fire({
+				  icon: 'error',
+				  text: '태그를 입력해주세요'
+			 });
+		   }
+		 	//alert(element_count);
+		  }
+
+		  function remove( element ){
+		    //element.parentNode.parentNode.removeChild(element.parentNode);
+		    element_count--;
+		    hashTagCount();
+		    //alert(element_count);
+
+		  };
+
+		 $('.inhash').on('click', 'i', function() {
+		    $(this).parent('button').parent('span').remove();
+		 });
+
+		  function hashTagCount(){
+		    if(element_count >= 3){
+		       $("#hashtag").attr("readonly","readonly");
+		       $("#hashadd").attr("disabled",true);
+		    }else {
+		      $("#hashtag").removeAttr("readonly");
+		      $("#hashadd").attr("disabled",false);
+		    }
+		  }
+		</script>
         
         
 
@@ -404,23 +536,26 @@ div div.logo-img input.btTextW {
         </div>
  </form>
  
+ 
+ 
+ <form id="fileform" method="post" action="uploadImage.do" enctype="multipart/form-data">
         <div class="input-box">
           <p class = "column"> 기업 이미지
             <label class = "star" style = "color:#ff0000"> * </label>
             <label class = "message"> 최대 3장까지 등록 가능하며, 해당 이미지를 클릭하면 삭제됩니다. </label>
           </p>
-          <form>
+
 	          <div class="cmypage-fileWrap clfix">
 	           	 <div class="c-fileBtn clfix">
-	             	<input type = "file" class="photo-add" id = "image1" name="images[]" accept="image/*">
-	             	<input type = "file" class="photo-add" id = "image2" name="images[]" accept="image/*">
-	             	<input type = "file" class="photo-add" id = "image3" name="images[]" accept="image/*">
+	             	<input type = "file" class="photo-add" id = "image1" name="originfile" accept=".jpg, .png">
+	             	<input type = "file" class="photo-add" id = "image2" name="originfile" accept=".jpg, .png">
+	             	<input type = "file" class="photo-add" id = "image3" name="originfile" accept=".jpg, .png">
 	             </div>
 	            <div class = "c-gallery clfix" style="width:1052px; height:332px;border:1px solid rgb(176, 176, 176)">
 	            </div>
 	          </div>
-          </form>
-        </div>
+   		</div>
+</form>
 
         <!-- <div style = "margin-top: 100px;">
         </div> -->
@@ -507,7 +642,21 @@ imgTarget.on('change', function () {
 <!--------------------- 유효성 검사 + 수정완료 처리 ---------------------------->
 <script>
 
-document.addEventListener("DOMContentLoaded", function() {
+//hash tag
+var taglen = $("input[name='hashTag']").length;
+var tags = new Array(taglen);
+
+for(var i=0; i < taglen;i++){
+tags[i] = $("input[name='hashTag']").eq(i).val();
+	console.log("tags:"+tags);
+}
+//var jsondata = JSON.parse(tags);
+/* jsondata = JSON.stringify(tags)
+	console.log(jsondata) */
+
+	console.log("첫번째태그" + tags[0]);
+	console.log("두번째태그" + tags[1]);
+	console.log("세번째태그" + tags[2]);
 
 	
 // 정보 유효성 검사
@@ -529,13 +678,17 @@ var tel = document.querySelector("#tel");					// 연락처
 	
 var address = document.querySelector("#address");			// 주소
 var hashTag = document.querySelector("#hashId");				// 해시태그
-//var introduce = document.querySelector("#introduce");		// 소개
+var introduce = document.querySelector("#introduce");		// 소개
+
+document.addEventListener("DOMContentLoaded", function() {
+
+	
+
 
 		
 		// 1. 대표자명
 		var korRegPresident = /^[가-힣]*$/;				// 한글 정규식
 		var engRegPresident = /^[a-zA-Z]*$/;				// 영어 정규식
-		//var RegPresident = /^[가-힣a-zA-Z]+$/;				// 정규표현식 (한글영문  포함 띄어쓰기 불가 자음 불가)
 		var beforePresident = $("#president").val();
 		console.log("페이지 열릴 때 대표자명 = " + beforePresident);
 
@@ -584,7 +737,7 @@ var hashTag = document.querySelector("#hashId");				// 해시태그
 	        		}).then ( (result) => {
 	        			presidentCheck = false;
 	        		})
-				}
+			}
 		});
 		
 		// 2. 분야
@@ -672,17 +825,52 @@ function CKupdate(){
 //============================= 완료 submit ===========================================//
 function updateComplete() {
 	CKupdate();
-	
-	
-	// 주소 합치기 ! 
-	var addressStr = '';
-	addressStr += "[" + $('#sample6_postcode').val() + "]'";		// 우편번호
-	addressStr += $('#sample6_address').val() + "'";			// 기본주소
-	addressStr += $('#sample6_detailAddress').val();			// 상세주소
-	$('input[name=address]').val(addressStr);
-	console.log(addressStr);
 
-	/*
+	var presidentVal = $("#president").val();
+	var typeVal = $("#typeid").val();
+	var departmentVal = $("#c_department").val();
+	var telVal = $("#tel").val();
+
+
+	// 대표자명 검사
+	var korRegPresident1 = /^[가-힣]*$/;				// 한글 정규식
+	var engRegPresident1 = /^[a-zA-Z]*$/;
+	if(korRegPresident1.test(presidentVal) && engRegPresident1.test(presidentVal)) {
+		presidentCheck = true;
+	}
+
+	// 기업 규모 검사
+	if(typeVal != 'none') {
+		typeCheck = true;
+	}
+
+	// 기업 분야 검사
+	if(departmentVal != 'none') {
+		departmentCheck = true;
+	}
+
+	// 전화번호 검사
+	var telReg1 = /^\d{2,3}-\d{3,4}-\d{4}$/;
+	if(telReg1.test(telVal)) {
+		telVal = true;
+	}
+
+	
+	// 주소 합치기 !
+   var addressStr = '';
+   addressStr += "[" + $('#sample6_postcode').val() + "]'";      // 우편번호
+   addressStr += $('#sample6_address').val() + "'";         // 기본주소
+   if($('#sample6_detailAddress').val() == "") {
+      addressStr += " ";       // 상세주소
+   } else {
+      addressStr += $('#sample6_detailAddress').val();       // 상세주소
+   }
+      $('input[name=address]').val(addressStr);
+
+   alert(addressStr);
+   console.log(addressStr);
+
+	
 	// 대표자명 잘못 입력
 	if( presidentCheck == false ) {
 		president.focus();
@@ -693,7 +881,7 @@ function updateComplete() {
 			showConfirmButton: false,
 			timer: 3000
 		}).then ( (result) => {
-			return false;
+			return;
 		})
 	}
 	
@@ -707,7 +895,7 @@ function updateComplete() {
 			showConfirmButton: false,
 			timer: 3000
 		}).then ( (result) => {
-			return false;
+			return;
 		})
 	}
 
@@ -722,7 +910,7 @@ function updateComplete() {
 			showConfirmButton: false,
 			timer: 3000
 		}).then ( (result) => {
-			return false;
+			return;
 		})
 	}
 	
@@ -736,12 +924,13 @@ function updateComplete() {
 			showConfirmButton: false,
 			timer: 3000
 		}).then ( (result) => {
-			return false;
+			return;
 		})
 	}
 	//
-	*/
 	
+	
+	/*
 	// 해쉬태그 합치기
 	var hashTag = new Array();
 	// <input type= "hidden" name = "hashTag" id = "hashT">
@@ -784,7 +973,7 @@ function updateComplete() {
 	// input 에 변환한 배열 데이터를 넣기
 	$('input[name=hashTag]').val(json);
 	console.log("jsondata: "+jsondata);
-
+	*/
 
 	// submit
 	/* 
@@ -801,21 +990,27 @@ function updateComplete() {
 	 
 
 	 	// 로고 처리한 Ajax
-		   
+	 	
+		 var hashtagVar = tags[0] + "," + tags[1] + "," + tags[2];
 		 var form = $('#frm')[0];
 	     var formData = new FormData(form);
 
-		//let data = new FormData;
-		//console.log()
+	     var frmTag = document.getElementById("frm");
+
+	 	 var input2 = document.createElement('input');
+	 	 input2.setAttribute("type", "hidden");
+	 	 input2.setAttribute("name", "hashTag");
+	 	 input2.setAttribute("value", hashtagVar);
+	 	 frmTag.appendChild(input2);
+
 		var getFile = $('input[name=logoImg]')[0].files[0];
-		alert("getFile 값 :" + getFile);
+		var originName = $("#input[name=originname]").val();	//
+
+		//alert("getFile 값 :" + getFile);
 		formData.append("file", getFile);
-		//console.log(data)   
-		
-		//var introduce = $('#introduce').val();
-		//alert("introduce 값 :" + introduce);
-		//formDate.append("introduce", introduce);
 		   
+	if(presidentCheck == true && typeCheck == true && departmentCheck == true && telCheck== true) {
+			   
 		$.ajax({
 			data 		: formData,
 			type 		: 'POST',
@@ -826,24 +1021,23 @@ function updateComplete() {
 		    async 		: false,
 		    enctype		: 'multipart/form-data',
 		    success		: function (data) { 
-					//alert("success");
-					location.href="goCMypage.do"
+			    	Swal.fire({
+			    		position: 'center',
+			    		icon: 'success',
+			    		title: '성공적으로 수정되었습니다!',
+			    		showConfirmButton: true,
+			    		timer: 1500
+			    	}).then(function(result){
+			    		$("#fileform").submit();
+					});
 		    }, 
 		    error		:function(request,status,error){ 
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 			}
 
 		})
-			
-
-
-
-
-
-	 
+	}	
 }
-
-
 
 // 로고 이미지 미리보기
 function readURL(input) {
@@ -874,6 +1068,7 @@ $(function(){
 
 <!----------------------- 해시태그 -------------------------->
 
+<!-- 
 <script>
    // 해시태그 추가
 
@@ -970,6 +1165,8 @@ $(document).ready(function() {
 	   	
 })
 </script>
+
+ -->
 
 <!---------------------- 이미지 다중 썸네일 --------------------------->
 

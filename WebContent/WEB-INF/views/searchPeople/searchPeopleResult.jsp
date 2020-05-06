@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file ="../../../include/header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%
 	// 
 	List<AMemberDto> searchList = (List<AMemberDto>)request.getAttribute("searchList");
@@ -42,6 +43,12 @@
 	    </div>
 	  </div>
 	  <div class="tag-area">
+	   <c:if test="${ not empty searchParam.hashTags }">
+	  	 <c:forEach var="data" items="${searchParam.hashTags}" >
+	   		<c:set var="string" value="${fn:replace( data, '%', '')}" />
+                <span class="tags">#${string }</span>
+	   	 </c:forEach>
+                </c:if>
 	  </div>
 	  <button class="search-btn" onclick="searchPeople()">검색하기</button>
 	</div>
@@ -207,9 +214,19 @@
 
 
 <script>
+
 // 검색 
 // 변수 
 var tagList = [];
+
+// 해쉬태그 처음에 있을때 
+<%
+ for( String str: searchParam.getHashTags()){
+ %>
+ 	tagList.push('<%=str%>')
+ <%
+ }
+%>
 
 // 해쉬태그 입력하기 
 function putHashtag(){
@@ -310,7 +327,6 @@ $(document).on('click', '#sendRequset', function(){
 		return false;
 	}
 	var sendData = $('#frm2').serialize();
-	alert(sendData)
 	$.ajax({
 		data:sendData,
 		url:'/Pickme/searchPeople/requestResume.do',

@@ -24,14 +24,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
+import model.AwardsEtcDto;
 import model.CApplyDto;
 import model.CMemberDto;
+import model.CareerDto;
 import model.CvRecruitDto;
+import model.EducationDto;
 import model.FavoriteDto;
 import model.FilesDto;
+import model.LanguageDto;
+import model.LinkDto;
 import model.MessageDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
+import model.ResumeFileDto;
 import pickme.com.a.c_apply.service.CApplyService;
 import pickme.com.a.c_apply.service.CMsgService;
 import pickme.com.a.recruit.service.RecruitService;
@@ -71,7 +78,9 @@ public class CApplyController {
 		param.setEnd(end);
 		List<RecruitDto> list = cApplyService.myCurrentRecList(param);
 		
-		//int applyCount = cApplyService.
+		//int recCount = cApplyService.myCurrentRecCount(param);
+		
+		//System.out.println("?>???????????????????? : " + recCount);
 		
 		
 		model.addAttribute("comCurrentRecList", list);
@@ -109,18 +118,85 @@ public class CApplyController {
 	
 	
 	
-	// 이력서 열람 버튼 Ajax
+	// 이력서 열람 버튼 Ajax file인지 아닌지 판별
 	@ResponseBody
 	@RequestMapping(value = "apResumeOpen.do", method = { RequestMethod.POST })
-	public CvRecruitDto apResumeOpen(int cvSeq, HttpSession session) {
+	public Map<String, Object> apResumeOpen(int cvSeq, HttpSession session) {
+		//System.out.println("memSeq : " + memSeq );
 		
-		CvRecruitDto apResumeDto = cApplyService.apResumeOpen(cvSeq);
+		// 열람 확인 DB 저장
+		boolean b = cApplyService.resumeOpenConfirm(cvSeq);
+		System.out.println("열람 확인 DB 저장 : " + b);
+		ResumeFileDto dto = cApplyService.findResumeFile(cvSeq);
+				
 		
-		System.out.println(apResumeDto.toString());
+		// 시퀀스로 RESUME_FILE_AFTER 조회
+		// 리턴이 null 이면 "cant find file"
 		
-		return apResumeDto;
+		// null이 아니면 모든 내용 리턴
+		
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("fileDto", dto);
+		
+		
+		
+		//CvRecruitDto apResumeDto = cApplyService.apResumeOpen(cvSeq);
+		//System.out.println(apResumeDto.toString());
+		System.out.println("왜 안되니 : " + map);
+		return map;
 		
 	}
+	
+	
+	@RequestMapping(value = "openResumeDetail.do",  method = { RequestMethod.POST, RequestMethod.GET })
+	public String openResumeDetail(int seq, Model model) {
+		
+		System.out.println("openResume : " + seq);
+		
+		/* RESUME_AFTER 이력서 가져오기 */
+		ResumeAfterDto dto = cApplyService.getResumeAfter(seq);
+		System.out.println("★openResumeDetail : " +dto.toString());
+		
+		int rsmseq = dto.getSeq();
+		/* CAREER_AFTER 경력 가져오기 */
+		List<CareerDto> careerList = cApplyService.getCareerAfter(rsmseq);
+				
+		/* EDUCATION_AFTER 학력 가져오기 */
+		List<EducationDto> educationList = cApplyService.getEducationAfter(rsmseq);
+		
+		/* AWARDSETC_AFTER 수상 및 기타 가져오기 */
+		List<AwardsEtcDto> awardsList = cApplyService.getAwardsAfter(rsmseq);
+		
+		/* LANGUAGE_AFTER 외국어 가져오기 */
+		List<LanguageDto> languageList = cApplyService.getLanguageAfter(rsmseq);
+		
+		/* LINK_AFTER 링크 가져오기 */
+		List<LinkDto> linkList = cApplyService.getLinkAfter(rsmseq);
+		
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("careerList", careerList);
+		model.addAttribute("educationList", educationList);
+		model.addAttribute("awardsList", awardsList);
+		model.addAttribute("languageList", languageList);
+		model.addAttribute("linkList", linkList);
+		
+		return "c_apply/openResumeDetail";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -193,7 +269,19 @@ public class CApplyController {
 	
 	
 	
-	
+	@RequestMapping(value = "resumeDownLoad.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String resumeDownLoad(String filename, HttpServletRequest request, Model model) {
+			// download 경로
+			// tomcat
+			String fupload = request.getServletContext().getRealPath("/upload/resume_file");
+			System.out.println("Download filename: " + filename);
+			File downloadFile = new File(fupload + "/" + filename);
+			
+			model.addAttribute("downloadFile", downloadFile);
+			
+			return "downloadView";	// 파일만 다운로드
+		
+	}
 	
 	
 	

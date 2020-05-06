@@ -10,6 +10,7 @@ import model.FavoriteDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
 import model.ResumeDto;
 import pickme.com.a.searchJob.dao.SearchJobDao;
 
@@ -52,6 +53,10 @@ public class SearchJobServiceImpl implements SearchJobService{
 	@Override
 	public int likeCountByMem(FavoriteDto dto) {
 		return dao.likeCountByMem(dto);
+	}
+	@Override
+	public int checkIfApply(ResumeAfterDto dto) {
+		return dao.checkIfApply(dto);
 	}
 	
 

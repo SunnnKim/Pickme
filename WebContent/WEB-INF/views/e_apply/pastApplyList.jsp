@@ -16,8 +16,8 @@
 	
 	<!-- 메뉴 -->
 	<ul class="tab-default column3 mt30" data-tab="">
-		<li><a href="curAList.do" >현재지원내역</a></li>
-		<li class="active"><a href="pastAList.do">지난지원내역</a></li>
+		<li><a href="curApplyList.do" >현재지원내역</a></li>
+		<li class="active"><a href="pastApplyList.do">지난지원내역</a></li>
 	</ul>
 	
 	<div id="allList" data-tab-content="" class="active">
@@ -83,7 +83,7 @@
 				<c:set var="adate" value="${myPastApply.adate }"/>
 					<tr>
 						<td><input type="checkbox" name="checkRow" value="${myPastApply.seq  }"></td>
-						<td>${myPastApply.comName }</td>
+						<td><a href="0/Pickme/c_mypage/goCMypage.do?sentSeq=${myPastApply.comSeq}">${myPastApply.comName }</a></td>
 						<td>${myPastApply.comJob2 }</td>
 						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("adate").toString())%></td>
 						<td>${myPastApply.edate }</td>
@@ -168,7 +168,7 @@
 									  var sKeyword = '<c:out value="${sKeyword}"/>';
 									  var pn = '<c:out value="${pageNumber}"/>'
 									
-									location.href="pastAList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+									location.href="pastApplyList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
 								})
 							}
 						},
@@ -232,7 +232,7 @@
 								    	  var sKeyword = '<c:out value="${sKeyword}"/>';
 										  var pn = '<c:out value="${pageNumber}"/>'
 										
-										location.href="pastAList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+										location.href="pastApplyList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
 										
 								    });
 								}
@@ -252,7 +252,7 @@
 			/* 페이지 이동 */
 			function goPage(pn){
 			  	var sKeyword = '<c:out value="${sKeyword}"/>';
-			 	 location.href="pastAList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
+			 	 location.href="pastApplyList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 				
 			}
 	
@@ -264,7 +264,7 @@
 				if(sKeyword == null || sKeyword == ""){
 					alert("검색어를 입력해주세요.");
 				}else{
-				 location.href="pastAList.do?sKeyword=" + sKeyword +"&pageNumber=0";
+				 location.href="pastApplyList.do?sKeyword=" + sKeyword +"&pageNumber=0";
 				}	
 			}
 				

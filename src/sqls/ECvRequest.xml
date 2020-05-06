@@ -32,12 +32,7 @@
 		</if>
  	</select>
  	
- 	<!-- 요청 수락한것으로 표시 -->
- 	<update id="doAccept" parameterType="int">
- 		UPDATE CV_REQUEST
- 		SET ACCEPT = 1
- 		WHERE SEQ = #{seq}
- 	</update>
+ 
  	
  	<!-- 다중수락시 수락할 메인 이력서 가져오기 -->
  	<select id="getMainResumeSeq" parameterType="int" resultType="model.CvCompanyDto">
@@ -57,7 +52,7 @@
  		SELECT LAST_INSERT_ID()
  	</select>
  	
- 	<!-- 위에서 가져온 시퀀스 넘버를 cv_request테이블의 수락할 요청 항목안에 cvseq컬럼에 넣기  -->
+ 	<!-- 위에서 가져온시퀀스 넘버를 cv_request테이블의 수락할 요청 항목안에 cvseq컬럼에 넣기  -->
  	<update id="putCvSeq" parameterType="map">
  		UPDATE CV_REQUEST
  		SET  CVSEQ = #{cvSeq} 
@@ -66,12 +61,12 @@
  	
  	<!-- 수락여부를 결정한 요청들 불러오기 / 지난요청 -->
  	<select id="getPastCvReqList" parameterType="model.CvReqParam" resultType="model.CvReqDto">
- 		SELECT v.SEQ, v.PSEQ, v.CSEQ, v.RDATE, v.COMMENT, v.ACCEPT, v.DELMEM, v.CANCEL, v.CVSEQ, c.NAME, y.STATUS
+ 		SELECT v.SEQ, v.PSEQ, v.CSEQ, v.RDATE, v.COMMENT, v.ACCEPT, v.DELMEM, v.CANCEL, v.CVSEQ, c.NAME
  		FROM (SELECT * FROM CV_REQUEST WHERE PSEQ = #{loginSeq}) v
  		INNER JOIN C_MEMBER c
  		ON v.CSEQ = c.SEQ
- 		INNER JOIN CV_COMPANY y
- 		ON v.CVSEQ = y.SEQ
+ 		INNER JOIN RESUME_AFTER r
+ 		ON v.CVSEQ = r.SEQ
  		WHERE (v.ACCEPT = 1 OR v.ACCEPT = 2) AND v.DELMEM = 0 
 		<if test="sKeyword != null and sKeyword !=''">
 			AND (c.NAME = #{sKeyword} OR v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%'))
@@ -99,12 +94,7 @@
  		WHERE SEQ = #{seq}
  	</update>
 
-	<!-- 개별 요청 수락시 이력서 선택할 수 있도록 이력서 리스트 가져오기 -->
- 	<select id="getResumeList" parameterType="int" resultType="model.CvCompanyDto">
- 		SELECT SEQ, NAME
- 		FROM RESUME
- 		WHERE MEMSEQ = #{loginSeq}
- 	</select>
+
  
     <!-- 지난요청 내역 삭제하기 --> 
  	<update id="deletePastReq" parameterType="int">
@@ -114,4 +104,136 @@
  	
  	</update>
  
+ 
+ 	<!-- ======================이력서 다시 넣기============  -->
+ 	<select id="getMainResume" parameterType="int" resultType="model.ResumeAfterDto">
+ 		SELECT SEQ, MEMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, STATUS, MAINRESUME
+ 		FROM RESUME
+ 		WHERE MEMSEQ = #{pseq} AND MAINRESUME = 1 AND DEL = 0 AND (STATUS = 1 OR STATUS = 2)
+ 	</select>
+ 	
+ 	<insert id="putResume" parameterType="model.ResumeAfterDto">
+ 		INSERT INTO RESUME_AFTER
+ 		VALUES(SEQ, #{memSeq}, -1, #{comSeq}, #{name}, #{userName}, #{phone}, #{email}, #{introduce}, #{wDate}, 1, #{mainResume},0,0)
+ 	</insert>
+ 	<!-- 커리어 가져오기 -->
+ 	<select id="getCareer" parameterType="int" resultType="model.CareerDto">
+ 		SELECT COMPANY, POSITION, STARTDATE, ENDDATE, ING
+ 		FROM CAREER
+ 		WHERE RSMSEQ = #{originalId}
+ 	</select>
+ 	<!-- 커리어 넣기 -->
+ 	<insert id="putCareer" parameterType="model.CareerDto" >
+ 		INSERT INTO CAREER_AFTER
+ 		VALUES(SEQ, #{rsmseq}, #{company}, #{position}, #{startDate}, #{endDate}, #{ing})
+ 	</insert>
+ 	<!-- 학력 가져오기 -->
+ 	<select id="getEducation" parameterType="int" resultType="model.EducationDto">
+ 		SELECT SCHOOL, MAJOR, STUDY, STARTDATE, ENDDATE
+ 		FROM EDUCATION
+ 		WHERE RSMSEQ = #{originalId}
+ 	</select>
+ 	<!-- 학력 넣기 -->
+ 	<insert id="putEducation" parameterType="model.EducationDto">
+ 		INSERT INTO EDUCATION_AFTER
+ 		VALUES(SEQ, #{rsmseq}, #{school}, #{major}, #{study}, #{startDate}, #{endDate})
+ 	</insert>
+ 	<select id="getAwardsEtc" parameterType="int" resultType="model.AwardsEtcDto">
+ 		SELECT AWARDS, DETAIL, DATE
+ 		FROM AWARDSETC
+ 		WHERE RSMSEQ = #{originalId}
+ 	</select>
+ 	<insert id="putAwardsEtc" parameterType="model.AwardsEtcDto">
+ 		INSERT INTO AWARDSETC_AFTER
+ 		VALUES (SEQ, #{rsmseq}, #{awards}, #{detail}, #{date})
+ 	</insert>
+ 	<select id="getLanguage" parameterType="int" resultType="model.LanguageDto">
+ 		SELECT LANG, LEVEL, TEST, SCORE, DATE
+ 		FROM LANGUAGE
+ 		WHERE RSMSEQ = #{originalId}
+ 	</select>
+ 	<insert id="putLanguage" parameterType="model.LanguageDto">
+ 		INSERT INTO LANGUAGE_AFTER
+ 		VALUES (SEQ, #{rsmseq}, #{lang}, #{level}, #{test}, #{score}, #{date})
+ 	</insert>
+ 	<select id="getLink" parameterType="int" resultType="model.LinkDto">
+ 		SELECT URL
+ 		FROM LINK
+ 		WHERE RSMSEQ = #{originalId}
+ 	</select>
+ 	<insert id="putLink">
+ 		INSERT INTO LINK_AFTER
+ 		VALUES (SEQ, #{rsmseq}, #{url})
+ 	</insert>
+ 	
+ 	<select id="getFilesList" parameterType="int" resultType="model.ResumeFileDto"> 
+ 		SELECT ORIGINALNAME, STOREDNAME, FILEPATH
+ 		FROM RESUME_FILE
+ 		WHERE RSMSEQ = #{originalId}
+ 	</select>
+ 	
+ 	<insert id="putResumeFile" parameterType="model.ResumeFileDto">
+ 		INSERT INTO RESUME_FILE_AFTER
+ 		VALUES ( SEQ, #{rsmSeq}, #{originalName}, #{storedName}, #{filePath})
+ 	</insert>
+ 		<!-- 요청 수락한것으로 표시하고, 수락할 cvseq update -->
+ 	<update id="doAccept" parameterType="hashmap">
+ 		UPDATE CV_REQUEST
+ 		SET ACCEPT = 1, CVSEQ = #{rsmSeq}
+ 		WHERE SEQ = #{seq}
+ 	</update>
+ 	
+ 	
+ 		<!-- 개별 요청 수락시 이력서 선택할 수 있도록 이력서 리스트 가져오기 -->
+ 	<select id="getResumeList" parameterType="int" resultType="model.ResumeDto">
+ 		SELECT SEQ, NAME
+ 		FROM RESUME
+ 		WHERE MEMSEQ = #{loginSeq} 
+ 	</select>
+ 	
+ 	<select id="getResume" parameterType = "int" resultType="model.ResumeAfterDto">
+ 		SELECT SEQ, MEMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, STATUS, MAINRESUME
+ 		FROM RESUME
+ 		WHERE SEQ  = #{rseq} AND DEL = 0 AND (STATUS = 1 OR STATUS = 2)	
+ 	</select>
+ 	
  </mapper> 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

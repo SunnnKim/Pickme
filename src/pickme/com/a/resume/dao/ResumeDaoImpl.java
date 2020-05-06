@@ -13,6 +13,7 @@ import model.EducationDto;
 import model.LanguageDto;
 import model.LinkDto;
 import model.ResumeDto;
+import model.ResumeFileDto;
 import model.ResumeParam;
 
 @Repository
@@ -26,6 +27,19 @@ public class ResumeDaoImpl implements ResumeDao{
 	@Override
 	public int resumeGetSeq() {
 		return sqlSession.selectOne(namespace + "resumeGetSeq");
+	}
+	
+	
+	// 이력서 파일 select
+	@Override
+	public ResumeFileDto resumeFileSelect(int seq) {
+		return sqlSession.selectOne(namespace + "resumeFileSelect", seq);
+	}
+	
+	// 이력서 파일 insert
+	@Override
+	public int resumeFileInsert(ResumeFileDto fileDto) {
+		return sqlSession.insert(namespace + "resumeFileInsert", fileDto);
 	}
 		
 	// 이력서 기본 정보  insert 
@@ -79,10 +93,16 @@ public class ResumeDaoImpl implements ResumeDao{
 		return sqlSession.selectOne(namespace + "ResumeCount" , param);
 	}
 	
-	// 이력서 관리 list 
+	// 이력서 관리 list paging
 	@Override
 	public List<ResumeDto> ResumeAllList(ResumeParam param) {
 		return sqlSession.selectList(namespace + "ResumeAllList" , param);
+	}
+	
+	// 이력서 관리 list ajax
+	@Override
+	public List<ResumeDto> ResumeAllList02(ResumeDto dto) {
+		return sqlSession.selectList(namespace + "ResumeAllList02" , dto);
 	}
 
 	// 이력서 관리 이력서명 변경
@@ -180,6 +200,12 @@ public class ResumeDaoImpl implements ResumeDao{
 		return sqlSession.delete(namespace + "LinkDelete", seq);
 	}
 	
+	// 이력서 delete 파일
+	@Override
+	public int fileDelete(int rsmSeq) {
+		return sqlSession.delete(namespace + "fileDelete", rsmSeq);
+	}
+	
 	// 이력서 update 기본 이력서
 	@Override
 	public int resumeUpdate(ResumeDto dto) {
@@ -245,6 +271,10 @@ public class ResumeDaoImpl implements ResumeDao{
 	public int linkDeleteAll(int rsmseq) {
 		return sqlSession.delete(namespace + "LinkDeleteAll", rsmseq);
 	}
+
+	
+
+	
 	
 	
 

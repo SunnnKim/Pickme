@@ -27,7 +27,7 @@
 	   <div class="join-content">
 	       <div class="input-label">패스워드<span>*</span></div>
 	       <div class="join-input" id="pwd-icon">
-	           <input type="text" id="password" name="password" placeholder="패스워드를 입력하세요 (숫자, 기호 포함 6자이상)">
+	           <input type="password" id="password" name="password" placeholder="패스워드를 입력하세요 (숫자, 기호 포함 6자이상)">
 	           <i class="far fa-check-square true"></i>
 	       </div>
 	   </div>
@@ -35,7 +35,7 @@
 	   <div class="join-content">
 	       <div class="input-label">패스워드 확인 <span>*</span></div>
 	       <div class="join-input" id="pwdcheck-icon">
-	           <input type="text" id="pwdcheck" placeholder="패스워드를 확인하세요 (숫자, 기호 포함 6자이상)">
+	           <input type="password" id="pwdcheck" placeholder="패스워드를 확인하세요 (숫자, 기호 포함 6자이상)">
 	           <i class="far fa-check-square true"></i>
 	       </div>
 	   </div>

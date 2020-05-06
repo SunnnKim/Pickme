@@ -553,6 +553,11 @@ $(document).on('click','button#saveBtn', function(){
 	$('.rsm_top input[name=status]').val(1);
 });
 
+// 임시저장 버튼 클릭 시 status value 0로 변경
+$(document).on('click','button#tmpBtn', function(){
+	$('.rsm_top input[name=status]').val(0);
+});
+
 
 // 외국어 체크박스
 $(document).on('click','.chkBox li', function(){
@@ -720,7 +725,7 @@ $(document).on('click','.resumeBtnWrap button', function(){
         processData: false,
         async : false,
         success: function (data) { 
-            alert("ResumeUpdate.do");        
+            // alert("ResumeUpdate.do");        
 			if(data > 0){
 				Swal.fire({
 					  icon: 'success',

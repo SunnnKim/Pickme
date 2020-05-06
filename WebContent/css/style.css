@@ -7,14 +7,14 @@ header {width:100%; height:50px; border-bottom:1px solid #ddd;}
 header .inner {position:relative;}
 header strong.logo {float:left; width:108px; display:block; font-size:25px; height:50px; line-height:52px; overflow:hidden; font-family: 'Black Han Sans', sans-serif;}
 header strong.logo a {color:#304edf; text-shadow:2px 2px 0 #ececec;}
-header nav.gnb {float:left; width:670px; text-align:center;}
+header nav.gnb {float:left; /* width:670px; */ padding-left:168px; text-align:center;}
 header nav.gnb a {display:inline-block; line-height:49px; color:#333; font-size:15px; margin-left:40px; font-weight:500;}
 header nav.gnb a:first-child {margin-left:0;}
 .header_infoBtn {float:right;}
 .header_infoBtn > li {float:left; line-height:49px; margin-left:12px; font-size:14px;}
 .header_infoBtn > li:first-child {position:relative; margin-left:0;}
 .header_infoBtn > li:first-child:before{position:absolute; top:13px; right:0; content:''; width:1px; height:24px; background:#ddd;}
-.header_infoBtn > li button#searchBtn {display:block; width:50px; height:50px; background:url(../images/main/ico_search.png) center / 15px no-repeat;}
+.header_infoBtn > li button#searchBtn {display:block; width:1px; /* width:50px; */ height:50px; background:url(../images/main/ico_search.png) center / 15px no-repeat;}
 .header_infoBtn > li a {color:#333;}
 .header_infoBtn > li span {display:inline-block;}
 .header_infoBtn > li span a {}
@@ -39,7 +39,7 @@ header nav.gnb a:first-child {margin-left:0;}
 .alert-bell{margin-right:5px;}
 
 span.alert-bell {cursor:pointer;}
-	span.alert-bell img {width:20px;}
+span.alert-bell img {width:20px;}
 	.alertContWrap {display:none;position:absolute; top:49px; left:50%; margin-left:-150px; width:300px; background:#fff; z-index:99; border:1px solid #ddd;}
 	.alertContWrap .tit {position:relative; width:100%; height:35px; line-height:35px; text-align:center;}
 	.alertContWrap .tit a {display:block; width:100%; height:100%; background:#3b467c;}
@@ -56,7 +56,7 @@ span.alert-bell {cursor:pointer;}
 	.alertContWrap ul li .txt {float:right; width:210px; text-align:left; padding-right:5px;}
 	.alertContWrap ul li .txt h3 {font-size:14px; color:#8a8a8a; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 	.alertContWrap ul li .txt p {font-size:13px; color:#8a8a8a; width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
-				
+#alert-NoContent{color:#304edf;font-weight:500;}			
 
 #visual_wrap {position:relative; width:100%; height:300px; overflow:hidden;}
 #visual li > p {height:300px; background-size:cover !important;}
@@ -1164,16 +1164,18 @@ table.aMypageTbl {width:100%; border:1px solid #ddd; margin-top:30px;}
 .resume-list .resume-item a.new_resume span {display:inline-block; margin-top:18px; font-size:17px;}
 
 .resume-list .resume-item .dropZone {width:100%; height:198px; cursor:pointer;}
-.resume-list .resume-item .dropZone > div {display:table-cell; width:245.5px; height:198px; vertical-align:middle; text-align:center;}
+.resume-list .resume-item .dropZone label {display:block; width:100%; height:100%; cursor:pointer;}
+.resume-list .resume-item .dropZone label > div {display:table-cell; width:245.5px; height:198px; vertical-align:middle; text-align:center;}
 .resume-list .resume-item .dropZone i {padding:18px 0 0 3px; color:#757575; font-size:41px; position:relative; display:inline-block; width:100%; height:74px; z-index:1;}
 .resume-list .resume-item .dropZone i:after {position:absolute; top:0; left:50%; margin-left:-40px; width:80px; height:80px; content:''; background:#eaeaea; border-radius:50%; z-index:-1;}
 .resume-list .resume-item .dropZone span {display:inline-block; margin-top:18px; font-size:17px;}
 .resume-list .resume-item .dropZone input {display:none;}
 
-.resume-list .resume-preview {height:160px;}
+.resume-list .resume-preview {position:relative; height:160px;}
+.resume-list .resume-preview .cover {position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer;}
 .resume-list .resume-preview a {display:block; width:100%; height:100%; padding:13px 20px;}
 .resume-choice {text-align:right;}
-.resume-choice label {display: inline-block;}
+.resume-choice label {display: inline-block; position:relative; z-index:5;}
 .resume-choice label input {width:0; height:0; overflow:none;}
 .resume-choice label i{cursor:pointer;}
 .resume-choice label i.fa-square-o {color:#ddd;}
@@ -1196,7 +1198,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 
 .resume-info .resume-menu .resume-menuBtn span {display:inline-block; width:4px; height:4px; border-radius:50%; background:#bbb;}
 .resume-info .resume-menu .resume-menuBtn span:first-child {}
-.resume-menu ul {display:none; position:absolute; top:25px; left:-120px; width:150px; height:84px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3);}
+.resume-menu ul {display:none; position:absolute; top:25px; left:-120px; width:150px; height:56px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:10;}
 .resume-menu ul li {line-height:28px; font-size:13px; padding:0 15px; transition:all 0.1s ease-in-out;}
 .resume-menu ul li:hover {background:#4f6eff; color:#fff;}
 /*
@@ -1210,7 +1212,7 @@ label.radioBtn.active i.fa-check-square-o {display: inline-block;}
 .rsm_top {position:relative;}
 .rsm_top .rsm-downBtn {position:absolute; top:0; right:0;}
 .rsm_top .rsm-downBtn button {display:block; width:50px; padding:10px 0; border:1px solid #ddd; outline:none;}
-.rsm_top h3 input {border:none; width:100%; font-size:30px; color:#333; margin-bottom:30px; font-weight:500; outline:none;}
+.rsm_top h3 input {border:none; width:100%; font-size:30px; height:40px; color:#333; margin-bottom:20px; font-weight:500; outline:none;}
 .rsm_top input {border:none; width:100%; height:30px; font-size:17px; margin-top:5px; outline:none; color:#555;}
 .rsm_top textarea {font-size:17px; width:100%; height:100px; margin-top:10px; margin-top:30px; border:none; color:#555; outline:none; resize:none;}
 .rsm_top input::placeholder {color:#999;}

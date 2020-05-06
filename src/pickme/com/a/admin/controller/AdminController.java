@@ -1,12 +1,17 @@
 package pickme.com.a.admin.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +21,7 @@ import model.AMemberDto;
 import model.AdminDto;
 import model.AdminParam;
 import model.CMemberDto;
+import model.PaymentDto;
 import model.RecruitDto;
 import model.StatisticsParam;
 import pickme.com.a.admin.service.AdminService;
@@ -212,8 +218,6 @@ public class AdminController {
 		boolean success = service.updateDelRecruit(seqList);
 		return success;
 	}
-	
-	
 	
 	// 환불처리 테스트 
 	@ResponseBody

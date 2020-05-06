@@ -2,19 +2,19 @@ package model;
 
 public class ResumeFileDto {
 
-	private int seq;
-	private int rsmSeq;
-	private String originalName;
-	private String storedName;
-	private String filePath;
+	private int seq;		 	 // 파일 시퀀스	
+	private int rsmSeq;			 // 이력서 시퀀스
+	private String originalName; // 원본 파일명
+	private String storedName;	 // 저장 파일명
+	private String filePath; 	 // 저장 경로
 	
 	public ResumeFileDto() {
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public ResumeFileDto(int seq, int rsmSeq, String originalName, String storedName, String filePath) {
 		super();
-		this.seq = seq;
+		this.seq = seq;					  
 		this.rsmSeq = rsmSeq;
 		this.originalName = originalName;
 		this.storedName = storedName;

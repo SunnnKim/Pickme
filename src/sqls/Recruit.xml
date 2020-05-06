@@ -205,10 +205,20 @@
 	SELECT * FROM RESUME
 	WHERE SEQ = ${seq} AND MEMSEQ = ${memSeq}
 	</select>
+	<!-- 파일 내역 불러오기  -->
+	<select id="getResumeFile" parameterType="int" resultType="model.ResumeFileDto">
+	SELECT * FROM RESUME_FILE
+	WHERE RSMSEQ = ${seq}
+	</select>
 	<!-- 지원서 데이터베이스에 넣기 -->
 	<insert id="insertResume" parameterType="model.ResumeAfterDto">
 	INSERT INTO RESUME_AFTER ( MEMSEQ, JOBSEQ, COMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, WHOSE, DEL, OPEN )
 	VALUES ( ${memSeq}, ${jobSeq}, ${comSeq}, #{name}, #{userName}, #{phone}, #{email}, #{introduce}, NOW(), 0, 0, 0)
+	</insert>
+	<!-- Apply 테이블에 데이터 넣기  -->
+	<insert id="insertApply" parameterType="model.CApplyDto">
+	INSERT INTO APPLY ( JOBSEQ, COMSEQ, COMNAME, MEMSEQ, ADATE, OPEN, CANCEL, CVSEQ, DEL)
+	VALUES( ${jobSeq}, ${comSeq}, #{comName}, ${memSeq}, NOW(), 0, 0, ${cvSeq}, 0)
 	</insert>
 	<!-- 디비에 넣은 이력서 시퀀스 뽑기 -->
 	<select id="getResumeLastSeq" resultType="int">
@@ -297,5 +307,10 @@
 		</foreach>
 	</insert>
 	
+	<!-- 지원한 내역있는지 확인하기 -->
+	<select id="checkIfApply" parameterType="model.ResumeAfterDto" resultType="int">
+	SELECT count(*) FROM resume_after
+	where jobseq = ${jobSeq} AND memseq = ${memSeq} 
+</select>
 	
  </mapper>

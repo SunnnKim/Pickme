@@ -4,7 +4,7 @@
 <!-- 메시지작성 팝업 -->
  <div class="messenger-wrap">
      <form id="frm" action="" method="post">
-         <div class="msgBox">
+         <div class="msgBox" style="margin: 2% auto">
                 <div class="msg-bar">
                     <h4>메시지 보내기</h4>
                 </div><!-- // message-bar-->
@@ -58,7 +58,7 @@
 				data  :formData,
 				dataType: "json",
 				success:function(data){
-					alert("MSG AJAX SUCCESS");
+					//alert("MSG AJAX SUCCESS");
 					if(data != null){
 						console.log(data.receiverEmail);
 						console.log(data.msgSeq);
@@ -75,7 +75,7 @@
 						 Swal.fire({
 							  position: 'center',
 							  icon: 'success',
-							  text: '메시지가 성공적으로 보내졌습니다',
+							  text: '메시지를 전송하였습니다',
 							  showConfirmButton: false,
 							  timer: 1500
 							})					

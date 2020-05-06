@@ -26,7 +26,7 @@
 <script>
 function refund(){
 
-    $.ajax({
+/*     $.ajax({
         url: "https://api.iamport.kr/users/getToken",
         method: "post", // POST method
         headers: { 
@@ -43,7 +43,7 @@ function refund(){
             alert('error')
             console.log(err)
         }
-    })
+    }) */
  }
  
 

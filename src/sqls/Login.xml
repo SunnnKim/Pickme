@@ -8,7 +8,11 @@
 <select id="mainTopRecruit" resultType="model.RecruitDto">
 	SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY READCOUNT DESC LIMIT 4
 </select>
-
+<!-- (메인) 공지사항 4개 뽑아오기 -->
+<select id="getMainNotice" resultType="model.NoticeDto">
+select * from notice
+order by wdate desc limit 4
+</select>
 
 <!-- 일반회원 이메일 체크 -->
 <select id="emailCheckA" parameterType="model.AMemberDto" resultType="model.AMemberDto">
@@ -41,8 +45,8 @@ WHERE EMAIL = #{email} AND DEL != 1
  </select>
 <!-- 기업  회원가입  -->
  <insert id="companyJoin" parameterType="model.CMemberDto">
- INSERT INTO C_MEMBER ( EMAIL, PASSWORD, PRESIDENT, NAME, DEPARTMENT, TYPE, NUMBER, TEL, DEL, SIGNDATE )
- VALUES ( #{email}, #{password}, #{president}, #{name}, #{department}, #{type}, #{number}, #{tel}, -1, SYSDATE() )
+ INSERT INTO C_MEMBER ( EMAIL, PASSWORD, PRESIDENT, NAME, DEPARTMENT, TYPE, NUMBER, TEL, DEL, SIGNDATE, ADDRESS )
+ VALUES ( #{email}, #{password}, #{president}, #{name}, #{department}, #{type}, #{number}, #{tel}, 0, SYSDATE(), '' )
  </insert>
 <!-- 일반 회원 이메일 인증 -->
 <update id="AMemberValidate" parameterType="model.AMemberDto">

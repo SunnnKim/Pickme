@@ -12,6 +12,12 @@
   	WHERE SEQ= #{seq} 
   </select>
   
+  <!-- 일반회원 기업정보 이동 -->
+  <select id = "goACMypage" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
+  	SELECT DEPARTMENT, TYPE, PRESIDENT, TEL, EMAIL, ADDRESS, HASHTAG, INTRODUCE
+  	FROM C_MEMBER
+  </select>
+  
   <!-- 기업정보 이동 -->
   <select id = "goCMypage" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
   	SELECT DEPARTMENT, TYPE, PRESIDENT, TEL, EMAIL, ADDRESS, HASHTAG, INTRODUCE
@@ -47,7 +53,28 @@
   	VALUES(#{logoPath}, #{logoName})
   </insert>
   
-
+  <!-- 이미지 업로드 -->
+  <insert id = "uploadImage" parameterType = "model.FilesDto">
+  	INSERT INTO FILES(USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE )
+  	VALUES ( 'C_MEMBER', #{originname}, #{newname}, 'upload/c_mypage/', 0, #{ref}, #{step}, #{filetype} )
+  </insert>
+  
+  <!-- newName -->
+  <update id="imageNameUpdate" parameterType="int">
+	UPDATE FILES
+	SET ORIGINNAME=#{newname}
+	WHERE USETABLE='C_MEMBER' AND STEP=0 AND REF=#{ref}
+  </update>
+  
+  <!-- ref가 동일한 이미지 가져오기 -->
+  <select id="getImages" parameterType="int" resultType="model.FilesDto">
+	SELECT SEQ, USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE
+	FROM FILES 
+	WHERE USETABLE='C_MEMBER' AND REF=${ref}
+  </select> 
+  
+  
+  
   
   <!-- 기업회원 탈퇴 -->
  <!--  <update id = "withdrawal" parameterType = "model.CMemberDto">

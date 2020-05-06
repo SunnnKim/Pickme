@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.AwardsEtcDto;
+import model.CApplyDto;
 import model.CMemberDto;
 import model.CareerDto;
 import model.EducationDto;
@@ -205,6 +206,18 @@ public class RecruitDaoImpl implements RecruitDao{
 	@Override
 	public boolean insertLinkAfter(List<LinkDto> list) {
 		return sqlSession.insert(ns + "insertLinkAfter", list) > 0 ? true:false;
+	}
+
+
+	@Override
+	public int insertApply(CApplyDto dto) {
+		return sqlSession.insert(ns + "insertApply", dto);
+	}
+
+
+	@Override
+	public ResumeFileDto getResumeFile(int seq) {
+		return sqlSession.selectOne(ns + "getResumeFile", seq);
 	}
 
 

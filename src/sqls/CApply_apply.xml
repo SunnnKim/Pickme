@@ -20,7 +20,10 @@
   -->
 <!-- 지원자 관리 채용공고 list -->
 <select id="myCurrentRecList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
-	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, COUNT(A.JOBSEQ) AS applyCount
+	<!-- SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL
+	, (select count(*)   from recruit r, apply a where r.comseq = #{comSeq} and r.seq = a.JOBSEQ and a.open = 0) AS applyCount -->
+	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, 
+	COUNT( if(A.cancel=0,a.cancel,null) ) AS applyCount
 	FROM RECRUIT R LEFT OUTER JOIN APPLY A ON R.SEQ = A.JOBSEQ
 	WHERE R.COMSEQ = #{comSeq}
 	GROUP BY R.SEQ
@@ -28,19 +31,112 @@
 	LIMIT 8 OFFSET #{start}
 </select>
 
+<!-- 
+<select id="myCurrentRecCount" parameterType="model.RecruitParam" resultType="int">
+	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, COUNT(A.JOBSEQ) AS applyCount
+	select count(*)  AS applyCount
+	from recruit r, apply a 
+	where r.comseq = #{comSeq} and r.seq = a.JOBSEQ and a.open = 0
+</select>
+ -->
+
+
 
 <!-- 지원자 관리 - 상세 리스트 -->
 <select id="getCApplyList" resultType="model.CApplyDto">
-	SELECT a.name as memName, p.adate, p.open, c.name as cvName, a.profilename, p.cvseq, a.seq as memSeq
+	<!-- SELECT a.name as memName, p.adate, p.open, c.name as cvName, a.profilename, p.cvseq, a.seq as memSeq
 	FROM APPLY p, A_MEMBER a, CV_RECRUIT c
-	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0  -->
+	
+	
+	<!-- SELECT a.name as memName, p.adate, p.open, a.profilename, p.cvseq, a.seq as memSeq
+	FROM APPLY p, A_MEMBER a
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 --> 
+	
+	
+	<!-- SELECT a.name as memName, p.adate, p.open, a.profilename, a.seq as memSeq, r.seq as cvSeq, r.name as cvName
+	FROM APPLY p, A_MEMBER a, RESUME_AFTER r
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 AND r.memseq = p.memseq; -->
+	
+	SELECT a.name as memName, p.adate, p.open, a.profilename, a.seq as memSeq, r.seq as cvSeq, r.name as cvName
+	FROM APPLY p, A_MEMBER a, RESUME_AFTER r
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 AND r.seq = p.cvseq;
+	
 </select>
 
 
-<select id="apResumeOpen" resultType="model.CvRecruitDto">
+
+
+
+
+
+
+
+
+<!-- 이력서 열람 확인 update -->
+<update id="resumeOpenConfirm">
+	UPDATE APPLY
+	SET OPEN=1
+	WHERE CVSEQ = #{cvSeq}
+</update>
+
+
+
+<!-- 이력서가 파일인지 확인 -->
+<select id="findResumeFile" resultType="int">
+	SELECT COUNT(*)
+	FROM RESUME_FILE_AFTER
+	WHERE RSMSEQ = #{cvSeq}
+</select>
+
+<!-- 이력서 파일 내용 호출 -->
+<select id="getResumeFile" resultType="model.ResumeFileDto">
 	SELECT *
-	FROM CV_RECRUIT
-	WHERE seq = #{cvSeq}
+	FROM RESUME_FILE_AFTER
+	WHERE RSMSEQ = #{cvSeq}
+</select>
+
+<!-- 지원자 현황 이력서 뷰 내용 취득 -->
+<select id="getResumeAfter" resultType="model.ResumeAfterDto">
+	SELECT *
+	FROM RESUME_AFTER
+	WHERE SEQ = #{seq}
+</select>
+
+
+<!-- CAREER_AFTER 경력 가져오기  -->
+<select id="getCareerAfter" parameterType="int" resultType="model.CareerDto">
+select * FROM CAREER_AFTER
+WHERE RSMSEQ = ${seq}
+ORDER BY SEQ ASC
+</select>
+
+<!-- EDUCATION_AFTER 학력 가져오기  -->
+<select id="getEducationAfter" parameterType="int" resultType="model.EducationDto">
+select * FROM EDUCATION_AFTER
+WHERE RSMSEQ = ${seq}
+ORDER BY SEQ ASC
+</select>
+
+<!-- AWARDSETC_AFTER 수상 가져오기  -->
+<select id="getAwardsAfter" parameterType="int" resultType="model.AwardsEtcDto">
+select * FROM AWARDSETC_AFTER
+WHERE RSMSEQ = ${seq}
+ORDER BY SEQ ASC
+</select>
+
+<!-- LANGUAGE_AFTER 외국어 가져오기  -->
+<select id="getLanguageAfter" parameterType="int" resultType="model.LanguageDto">
+select * FROM LANGUAGE_AFTER
+WHERE RSMSEQ = ${seq}
+ORDER BY SEQ ASC
+</select>
+
+<!-- LINK_AFTER 링크 가져오기  -->
+<select id="getLinkAfter" parameterType="int" resultType="model.LinkDto">
+select * FROM LINK_AFTER
+WHERE RSMSEQ = ${seq}
+ORDER BY SEQ ASC
 </select>
 
 

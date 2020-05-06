@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.NoticeDto;
 import model.RecruitDto;
 import pickme.com.a.login.dao.LoginDao;
 
@@ -87,6 +88,11 @@ public class CustomUserDetailsService implements LoginService, UserDetailsServic
 	@Override
 	public List<RecruitDto> mainTopRec() {
 		return dao.mainTopRec();
+	}
+
+	@Override
+	public List<NoticeDto> getMainNotice() {
+		return dao.getMainNotice();
 	}
 
 

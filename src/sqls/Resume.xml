@@ -9,7 +9,20 @@
 <select id="resumeGetSeq" resultType="int">
 	SELECT IFNULL(MAX(A.SEQ), 0)+1 FROM RESUME A
 </select>
- 	
+
+<!-- 이력서 파일 정보  select -->
+<select id="resumeFileSelect" parameterType="int" resultType="model.ResumeFileDto">
+	SELECT SEQ RSMSEQ, ORIGINALNAME, STOREDNAME, FILEPATH
+	FROM RESUME_FILE
+	WHERE RSMSEQ=#{seq}
+</select>
+
+<!-- 이력서 파일 정보  insert -->
+<insert id="resumeFileInsert" parameterType="model.ResumeFileDto">
+	INSERT INTO RESUME_FILE(RSMSEQ, ORIGINALNAME, STOREDNAME, FILEPATH)
+	VALUES (#{rsmSeq}, #{originalName}, #{storedName}, #{filePath})
+</insert>
+
 <!-- 이력서 기본 정보  insert -->
 <insert id="resumeInsert" parameterType="model.ResumeDto">
 	INSERT INTO RESUME(MEMSEQ, NAME, USERNAME, PHONE, EMAIL, INTRODUCE, WDATE, STATUS, MAINRESUME, DEL)
@@ -56,8 +69,16 @@
 <select id="ResumeAllList" parameterType="model.ResumeParam" resultType="model.ResumeDto">
 	SELECT SEQ, MEMSEQ, NAME, WDATE, STATUS, MAINRESUME, DEL
 	FROM ( SELECT * FROM RESUME WHERE DEL=0 ORDER BY SEQ DESC ) R
-	WHERE 1=1
+	WHERE MEMSEQ = ${memSeq}
 	LIMIT #{recordCountPerPage} OFFSET #{start} 
+</select>
+
+<!-- 이력서 관리 list(페이징) -->
+<select id="ResumeAllList02" parameterType="model.ResumeDto" resultType="model.ResumeDto">
+	SELECT SEQ, MEMSEQ, NAME, WDATE, STATUS, MAINRESUME, DEL
+	FROM RESUME
+	WHERE DEL=0
+	ORDER BY SEQ DESC
 </select>
 
 <!-- 이력서 관리 이력서명 변경 -->
@@ -158,6 +179,12 @@
 <delete id="LinkDelete" parameterType="int">
 	DELETE FROM LINK
 	WHERE SEQ=#{seq}
+</delete>
+
+<!-- delete 파일 -->
+<delete id="fileDelete" parameterType="int">
+	DELETE FROM RESUME_FILE 
+	WHERE RSMSEQ=#{rsmSeq}
 </delete>
 
 <!-- update 이력서 기본 정보  -->

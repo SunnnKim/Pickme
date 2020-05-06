@@ -33,7 +33,7 @@
         <div class="input-lable">가입 이메일<span style="color: red;">*</span></div>
         <div class="input-content">
        	  <span id="email-warning"></span>
-          <input class="full-size" type="text" id="email" name="email" placeholder="회사명">
+          <input class="full-size" type="text" id="email" name="email" placeholder="가입 이메일">
           <i class="far fa-check-square i-full" id="email-icon"></i>
         </div>
       </div>
@@ -41,7 +41,7 @@
       <div class="com-input-box">
         <div class="input-lable">패스워드<span style="color: red;">*</span></div>
         <div class="input-content">
-          <input type="text" id="password" name="password" placeholder="패드워드 입력 (숫자, 기호 포함 6자이상)">
+          <input type="password" id="password" name="password" placeholder="패드워드 입력 (숫자, 기호 포함 6자이상)">
           <i class="far fa-check-square" id="pwd-icon" ></i>
         </div>
       </div>
@@ -49,7 +49,7 @@
       <div class="com-input-box">
         <div class="input-lable" style="padding-left: 15px;">패스워드확인<span style="color: red;">*</span></div>
         <div class="input-content">
-          <input type="text" id="pwdcheck" placeholder="패드워드 확인" style="margin-left: 5px;">
+          <input type="password" id="pwdcheck" placeholder="패드워드 확인" style="margin-left: 5px;">
           <i class="far fa-check-square" id="pwdcheck-icon"></i>
         </div>
       </div>
@@ -151,7 +151,7 @@
 
 
 	// 기업명 확인 
-	var regExpComname = /^[0-9가-힣a-zA-Z]*$/;
+	var regExpComname = /^[0-9가-힣a-zA-Z()-*&]*$/;
 	
 	if( name.onkeyup = () => {
 		if( name.value.length >= 2 && regExpComname.test( name.value ) ){

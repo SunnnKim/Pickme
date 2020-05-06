@@ -69,10 +69,9 @@ public class SearchPeopleController {
 			// 검색데이터 총 개수 
 			dataNumber = service.getSearchBasicNumber(searchParam);
 		}
-		
+		System.out.println(searchParam);
 		
 		// 검색 데이터 보내기 
-		model.addAttribute("searchList", searchList);
 		model.addAttribute("searchList", searchList);
 		model.addAttribute("dataNumber", dataNumber);
 		

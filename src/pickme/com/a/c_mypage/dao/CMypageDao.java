@@ -3,8 +3,10 @@ package pickme.com.a.c_mypage.dao;
 import java.util.List;
 
 import model.CMemberDto;
+import model.FilesDto;
 import model.PaymentDto;
 import model.PremierMemDto;
+import model.PremierServiceDto;
 
 public interface CMypageDao {
 
@@ -54,6 +56,21 @@ public interface CMypageDao {
 	
 	// 환불 - 환불할 서비스 가져오기
 	public PaymentDto getRefundableService(int seq);
+
+	// 유료서비스 데이터 가져오기
+	public PremierServiceDto showPremier();
+	
+	// 이미지 업로드
+	public boolean uploadImage(List<FilesDto> list);
+
+	// to newName
+	public void imageNameUpdate(int ref);
+
+	// 마지막 시퀀스 불러오기
+	public int getLastSeq();
+	
+	// 해당 기업 이미지 불러오기
+	public List<FilesDto> getImages(int ref);
 	
 	
 }

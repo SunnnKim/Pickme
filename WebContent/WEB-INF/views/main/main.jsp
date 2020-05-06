@@ -76,14 +76,13 @@
 					<a href="/Pickme/resume/resume.do">이력서</a><!-- 일반회원 이력서관리  -->
 					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a><!-- 일반회원 지원현황  -->
 					<a href="/Pickme/customer/noticeList.do">고객센터</a>
-					<a href="/Pickme/c_mypage/goCMypage.do">테스트</a>
 				</nav>
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
 					<li class="alert-wrap bell">
 					   <span class="alert-bell"><img alt="" src="../images/main/alarm-bell.png"></span>
-					   <div class="alert-NoContent">현재 관심등록한 기업의 채용공고가 없습니다.</div>	
+					   <div id='alert-NoContent' class="alertContWrap">현재 관심등록한 기업의 채용공고가 없습니다.</div>	
 					 </li>	
 					<li class="alert-wrap msg">	
 					   	<a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
@@ -318,7 +317,20 @@
 	      <div class="inner">
 	        <div class="m-tit">
 	          <h2>공지사항</h2>
-	          <a href="#none">more +</a>
+	          
+	          <a href="/Pickme/customer/noticeList.do">more +</a>
+	          <div class="notice-wrap">
+			<c:forEach items="${mainNoticeList }" var="dto" varStatus="rs">
+              <div class="content" onclick="goNotice('${dto.seq}')">
+                <div class="notice-info">
+                  <div class="title">${dto.title }
+                  </div>
+                  <div class="type">[${dto.type }]</div>
+                  <div class="date">${dto.wdate }</div>
+                </div>
+              </div>
+			</c:forEach>
+            </div>
 	        </div>
 	      </div><!-- // inner -->
 	    </div><!-- // section03 -->
@@ -462,9 +474,8 @@
 		            },6000);
 		            
 				}else if((event.data).includes("<ul>")){
-					console.log('recruit!>>>');
 					console.log('recruit!>>>' + event.data);
-					$('.alert-NoContent').detach();
+					$('#alert-NoContent').detach();
 					$('.alert-wrap.bell').append(event.data);
 							 	
 				}else{ // 안읽은 메시지 갯수 표시
@@ -508,10 +519,18 @@
 		window.onkeyup = function(e) {
 			var key = e.keyCode ? e.keyCode : e.which;
 
-			$('.alertContWrap').fadeToggle('fast');
+			if(key == 27){
+				$('.alertContWrap').fadeOut('fast');
+			}	
+			
 		}
 		 
-		
+
+
+		// 공지사항클릭시 페이지로 가기
+		goNotice = (seq) => {
+			location.href="/Pickme/customer/noticeDetail.do?seq=" + seq;
+		}
 		
 	   
 	 </script>
@@ -530,5 +549,18 @@
 			}
 		})
 	</script> -->
+
 </body>
 </html>
+<style>
+.notice-wrap{ height: 300px; cursor: pointer; display: flex; flex-flow: row nowrap; justify-content:space-between; }
+.notice-wrap .content{ width:240px; height: 180px; margin-top: 80px;border: 1px solid #eaeaea; overflow: hidden; cursor: pointe;}
+.notice-wrap .content:hover{ }
+.notice-wrap .notice-info{transition: all 0.5s ease-in-out; width: 100%; height: 100%; }
+.notice-wrap .notice-info:hover{transform: scale(1.1); font-weight: 600;}
+.notice-wrap .notice-info > div { margin: 0 10px;}
+.notice-wrap .notice-info .type{ margin: 0 10px; float: left; color: #333; font-weight: 200;}
+.notice-wrap .notice-info .title{ font-size: 18px; font-weight: 400;
+    margin: 0 10px; margin-top: 50px; height: 50px;line-height: 50px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis}
+.notice-wrap .notice-info > .date { float: right; margin: 0 20px; color: #333; font-weight: 200;}
+</style>

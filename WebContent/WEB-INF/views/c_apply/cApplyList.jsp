@@ -24,8 +24,8 @@
 
 <style>
 .apProfile {
-	width: 80px;
-	height: 80px;
+	width: 70px;
+	height: 70px;
 	border-radius: 50%;
 }
 
@@ -46,6 +46,67 @@
 
 
 
+
+ /* 프로필 모달 시작 (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */.;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.3); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 15px;
+    border: 1px solid #888;
+    width: 530px; /* Could be more or less, depending on screen size */  
+   /*  height: 304px; */                        
+}
+
+.modal-content-wrap {display: inline-flex; border-bottom: 1px solid #aaa; border-top: 1px solid #aaa; width: 498px;margin-bottom: 23px;}
+.modal-imgArea {width: 180px;}
+.modal-imgWrap {float: left; width: 100%; text-align: center; margin-top: 20px;margin-bottom:15px}
+.modal-textArea {width: 348px; padding-left: 10px; padding-right: 10px;}
+.modal-introduce {resize: none; border: none; margin-bottom: 5px;}
+
+
+/* 메시지 전송 버튼 */
+.modal-msgBtn {margin-left: 9px}
+.far.fa-envelope {font-size: 20px; vertical-align: middle; vertical-align: -2px}
+/* 프로필 이미지 */
+.apProfileImg {width: 140px; height: 140px; border-radius: 50%;}
+/* 구직자 이름 */
+.apProfileName {margin-top: 7px; display: inline-block; font-size: 20px;}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: -12px;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-textUl li {margin-top:5px}
+.hashtag1 {display:inline-block;padding:5px 15px;font-size:13px;color:#fff;background:#999;border-radius:3px;margin-right:10px; margin-bottom: 10px; float: left}
+.hashtag2 {display:inline-block;padding:5px 15px;font-size:13px;color:#fff;background:#999;border-radius:3px;margin-right:10px; margin-bottom: 10px; float: left}
+.hashtag3 {display:inline-block;padding:5px 15px;font-size:13px;color:#fff;background:#999;border-radius:3px;margin-right:10px; margin-bottom: 10px; float: left}
+
+/* 프로필 모달 끝 */
 
 
 
@@ -134,7 +195,7 @@ li {margin-top: 10px}
 			<tbody>
 				<c:if test="${empty cApplyList }">
 					<tr>
-						<td colspan="4">지원자가 없습니다</td>
+						<td colspan="5">지원자가 없습니다</td>
 					</tr>
 				</c:if>
 				<c:forEach items="${cApplyList }" var="dto" varStatus="vs">
@@ -146,21 +207,21 @@ li {margin-top: 10px}
 						</td>
 						<%-- <td><span class="apSubMenu" style="text-align: center" onclick="apProfileOpen(${dto.memSeq})"> ${dto.memName } </span></td> --%>
 						<td>
-							<div class="capply-menu">
+							<div class="capply-menu" onclick="a_Profile(${dto.memSeq })">
 								<img class="apProfile" src="filedownload.do?filename=${dto.profilename }&filepath=/upload/amember/"  alt="프로필사진">
 								<!-- <div class="resume-menuBtn"> -->
 									<%-- <span class="apSubMenu" style="text-align: center" onclick="apProfileOpen(${dto.memSeq})"> ${dto.memName } </span> --%>
 									<span class="apSubMenu" style="display: block;"> ${dto.memName } </span>
 								<!-- </div> -->
-								<ul>
+								<%-- <ul>
 									<li><a href="#none" onclick="profileDetail('${dto.profilename }')">프로필 확인</a></li>
-									<%-- <li><a href="cApplyProfile.do?aProfileSeq=${dto.memSeq }">프로필 확인</a></li> --%>
+									<li><a href="cApplyProfile.do?aProfileSeq=${dto.memSeq }">프로필 확인</a></li>
 									<li><a href="#none" onclick="cApplySendMeg(${dto.memSeq }, '${dto.memName }')">메시지 전송</a></li>
-								</ul>
+								</ul> --%>
 							</div>
 						</td>
 						
-						<td><span style="text-align: center" onclick="apResumeOpen(${dto.cvSeq})"> ${dto.cvName } </span></td>
+						<td><span style="text-align: center; cursor: pointer" onclick="apResumeOpen(${dto.cvSeq})"> ${dto.cvName } </span></td>
 						
 						<c:set var="aDate" value="${dto.aDate }"/>
 						<td>${fn:substring(aDate,0,16) }</td>
@@ -174,56 +235,84 @@ li {margin-top: 10px}
 	
 </div>
 <!-- // allList -->
+	
 
 
 
 
-<!-- Trigger/Open The Modal -->
-    <button id="myBtn">Open Modal</button>
- 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-	        <span class="close">&times;</span>
-      	<!-- 
-      	<div>
-	        <h3 style="margin-left: 25px; margin-bottom: 10px; float: left">ㅇㅇㅇ 님의 프로필</h3>
-	      	<div class="btn-message clfix" style="float: left">
-				<button type="button" onclick="" >메시지 보내기</button>
-			</div> 
-        </div>
-         -->
-        
-                                                                       
-      	<div style="display: inline-flex;border-bottom: 1px solid #ddd;border-top: 1px solid #ddd;width: 498px;height: 223px;">
-        	<div style="width: 180px;/* background-color: chartreuse; */">
-	        	<div style="float: left;width: 100%;text-align: center;">
-	        		<img class="apProfileDetail" src="filedownload.do?filename=1.jpg&filepath=/upload/amember/"  alt="프로필사진">
-	        		<span style="margin-top: 12px;display:inline-block;font-size: 20px;">김이박최 &nbsp;<i class="far fa-envelope" style="font-size: 20px"></i></span>
-	        	</div>
-        	</div>
-        	<div style="width: 348px;height: 200px;/* background-color: aqua; */padding-left: 10px;padding-right: 10px;">
-	        	<div style="float: right;width: 100%;">
-	        		<ul>
-	        			<li>신입</li>
-	        			<li>리테일/고객서비스 [CS 어드바이저]</li>
-	        			<li><textarea rows="3px" cols="35px" readonly="readonly" style="resize: none; border: none">안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요</textarea> </li>
-	        			<li><span class="hashTag"> #JAVA </span></li>
-	        		</ul>
-	        	</div>
-        	</div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+	<!-- Modal content -->
+	<div class="modal-content">
+		<input type="hidden" id="memSeq" value="">
+		<input type="hidden" id="memName" value="">
+		<button type="button" class="modal-msgBtn" onclick="cApplySendMsg()"><i class="far fa-envelope"></i>&nbsp;메시지 전송</button>
+		<span class="close">&times;</span>
+		<div class="modal-content-wrap">
+			<div class="modal-imgArea">
+				<div class="modal-imgWrap">
+					<img class="apProfileImg" src="filedownload.do?filename=1.jpg&filepath=/upload/amember/" alt="프로필사진"> 
+					<span class="apProfileName">
+					</span>
+				</div>
+			</div>
+			<div class="modal-textArea">
+				<div style="float: right; width: 100%;">
+					<ul class="modal-textUl">
+						<li class="career"></li>
+						<li class="job1" style="float: left"></li>
+						<li class="job2"></li>
+						<li>
+							<textarea class="modal-introduce" rows="4.5px" cols="40px" readonly="readonly"></textarea>
+						</li>
+						<li><span class="hashtag1"></span></li>
+						<li><span class="hashtag2"></span></li>
+						<li><span class="hashtag3"></span></li>
+					</ul>
+				</div>
+			</div>
 		</div>
-		<!-- <div style="text-align: center; margin-top: 20px">
-			<button type="button">메시지 보내기</button>
-		</div>  
-		 -->
-		     
-        
-      </div>
-      
- 
-    </div>
+	</div>
+</div>
+
+
+
+
+
+<script>
+
+//Get the modal
+var modal = document.getElementById('myModal');
+
+//Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+//Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];                                          
+
+//When the user clicks on the button, open the modal 
+/*
+btn.onclick = function() {
+ modal.style.display = "block";
+}
+*/
+
+//When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+ modal.style.display = "none";
+}
+
+//When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+ if (event.target == modal) {
+     modal.style.display = "none";
+ }
+}
+
+
+
+
+</script>
 
 
 
@@ -232,46 +321,16 @@ li {margin-top: 10px}
 
 
 
-<!-- 
-<dialog id="cvRequest">
-    <div class="dialog__inner">
-        <button class="button button-close close">
-          <i class="fas fa-times"></i>
-        </button>
-        <div class="title">
-          Request
-        </div>
-        <div class="request-modal">
-          <form action="" method="post" id="frm">
-            <div>
-              요청기업
-              <span id="sender">비트캠프</span>
-              <input type="hidden" name="pseq">
-            </div>
-            <div>
-              받는사람
-              <span id="receiver">김선주</span>
-            </div>
-            <div class="text-area">
-              <textarea name="comment" placeholder="코멘트를 남겨주세요."></textarea>
-            </div>
-          </form>
-        </div>
-        <div class="send-request">
-          <button id="sendRequset">열람요청 보내기</button>
-        </div>
-
-    </div>
-</dialog>
-
-
- -->
 
 
 
 
-<!-- 메세지 보내기 모달 -->
-<%@include file="../../../include/cApplyWriteMsg.jsp" %>
+
+
+
+
+
+
 
 <script>
 /* 페이지 이동 */
@@ -288,7 +347,7 @@ function cApply_list() {
 }
 
 
-/* 이력서 열람 */
+/* 이력서 열람 파일 유무 검증 */
 function apResumeOpen(cvSeq) {
 	alert("cvSeq : " + cvSeq);
 	$.ajax({
@@ -297,12 +356,16 @@ function apResumeOpen(cvSeq) {
 		dataType : "json",
 		data	 : {"cvSeq" : cvSeq},
 		success	 : function(data) {
-			alert("success");
-			alert(data.memEmail);
-			if(data.filePath == null) {
-				alert("웹페이지 디테일");
+			var fileDto = data.fileDto
+			if(fileDto == null) {
+				//alert("새창 웹페이지");
+				alert("첨부파일 없음 , 웹페이지 연결");
+				window.open("openResumeDetail.do?seq="+cvSeq);
+				//window.open('openResume.do?seq='+cvSeq,'window_name','width=830,height=600,location=no,status=no,scrollbars=yes');
 			} else {
-				alert("파일다운");
+				alert("첨부파일 있음 , 파일 다운로드");
+				alert(fileDto.filePath);
+				location.href = "resumeDownLoad.do?filename="+fileDto.storedName;
 			}
 		},
 		error	 : function(request,status,error){ 
@@ -317,24 +380,79 @@ function apProfileOpen(memSeq) {
 }
 
 
-function cApplySendMeg(memSeq, memName) {
-	//alert("메시지 전송 MODAL 구직자 seq : " + memSeq);
-	//alert("메시지 전송 MODAL 구직자 memName : " + memName);
-	$(".messenger-wrap").show();
-	$('body').css("overflow", "hidden");
-	$("#toName").val("받는 이 : " + memName); 
-	$("input[name=to]").val(memSeq); 
+
+//프로필 모달에 데이터 저장
+function a_Profile(p_seq){
+	//alert("구직자 디테일 : " + p_seq);
+	$.ajax({
+		url		: "getaMemberProfile.do",
+		type	: "post",
+		dataType: "json",
+		data 	: {"seq" : p_seq},
+		success	: function(data){
+
+			var AMember = data.AMember;
+
+			if(AMember.open == 0) {
+				Swal.fire({
+				  position:'center',
+				  icon : 'warning',
+				  text : '프로필을 공개하지 않았습니다',
+				  showConfirmButton: false,
+				  timer: 1300
+				})
+			} else {
+				var tempJob = AMember.job.split(',');
+				var tempHash = AMember.hashtag.split(',');
+				//alert("success : " + AMember.job );
+				$('.apProfileName').html(AMember.name);
+				$('.career').text('경력 : ' + AMember.career);
+
+				if(tempJob[0]=="1차분류") {
+					$('.job1').text("직무를 선택하지 않았습니다.");
+					$('.job2').html("");
+				} else {
+					$('.job1').text(tempJob[0]);
+					$('.job2').html('&nbsp;[ '+tempJob[1]+' ]');
+				}
+				
+				$('.modal-introduce').text(AMember.introduce);
+				$('.apProfileImg').attr("src", "filedownload.do?filename="+AMember.profileName+"&filepath=/upload/amember/")
+
+				
+				$('#memSeq').val(AMember.seq);
+				$('#memName').val(AMember.name);
+				
+				for(var i=0 ; i < 3 ; i++) {
+					if(tempHash[i] != "undefined") {
+						$('.hashtag'+(i+1)).show();
+						$('.hashtag'+(i+1)).text('#'+tempHash[i]);
+					} else {
+						$('.hashtag'+(i+1)).hide();
+						/* $('.hashtag'+(i+1)).removeClass(); */
+					}
+				}
+				modal.style.display = "block";
+			}
+		},
+		error		: function(request,status,error){ 
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+		}
+	})
 }
 
 
 
-$(".capply-menu").click(function(){
-   //$("capply-menu ul").not($(this).find('ul').fadeToggle('fast')).hide();
-   modal.style.display = "block";
-});
+/* 메시지 보내기 모달 */
+function cApplySendMsg() {
+	var memSeq = $('#memSeq').val();
+	var memName = $('#memName').val();
 
-
-
+	$(".messenger-wrap").show();
+	$('body').css("overfloww", "hidden");
+	$("#toName").val("받는 이 : " + memName);
+	$("input[name=to]").val(memSeq);	
+}
 
 
 
@@ -353,52 +471,12 @@ function profileDetail(imgName) {
 
 
 
-
-
-
-
-
-
-
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];                                          
-
-// When the user clicks on the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
-
-
-
-
-
-
-
-
-
 </script>
 
 
 <!-- subCont 끝 -->
 
-
+<!-- 메세지 보내기 모달 -->
+<%@include file="../../../include/cApplyWriteMsg.jsp" %>
 <%@include file="/include/footer.jsp"%>
+

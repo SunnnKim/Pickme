@@ -39,13 +39,35 @@
             $.ajax({
 				url:"getMyResume.do",
 				type:'post',
+				data:'jobseq=${recDto.seq }',
 				success: function(data){
 					if(data == 'fail'){	// 로그인 필요 
-						alert('로그인이 필요합니다.');
-						location.href = "/Pickme/login/memLogin.do"
+						Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  text:'로그인이 필요합니다.',
+							  showConfirmButton: false,
+							  timer: 1000 
+						}).then(result = () => {
+							location.href = "/Pickme/login/memLogin.do"
 							return false;
-					}else{
-						console.log(data.myResumes)
+
+						})
+					}
+					else if( data == "alreadyApply" ){	// 이미 지원했을때
+						Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  text:'이미 지원한 공고입니다.',
+							  showConfirmButton: false,
+							  timer: 1000 
+						}).then(result = () => {
+							return false;
+						})
+
+					}
+					else{
+						//console.log(data.myResumes)
 						var myResumes = data.myResumes;				
 						// 이력서 이름 뽑기 
 						$('#selectContents').html('');
@@ -167,9 +189,11 @@
 	     		  	data.append("comSeq", "${recDto.comSeq }" ); 
 	     		  	data.append("jobSeq", "${recDto.seq }" ); 
 	     		  	data.append("userName", "${loginuser.name}" ); 
+	     		  	data.append("comName", "${recDto.comName}" ); 
 				}else{
 	     		  	data.append("seq", $('input[name=resume]:checked').val() ); 
 	     		  	data.append("comSeq", "${recDto.comSeq }" ); 
+	     		  	data.append("comName", "${recDto.comName}" ); 
 	     		  	data.append("jobSeq", "${recDto.seq }" ); 
 				}
 				

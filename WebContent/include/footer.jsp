@@ -85,8 +85,11 @@
 								url:"../recentLikeRecruit.do",
 							    dataType:"text",
 						    	success: function(data){
-							    	console.log(data);
-									socket.send("null,recruit,null,null,null,null," + data);
+							    	console.log("recruit: " + data);
+							    	if(data != null){
+								    	console.log("data != null");
+										socket.send("null,recruit,null,null,null,null," + data);
+							    	}
 								},
 								error:function(request,status,error){
 									alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -155,7 +158,8 @@
 				}else if((event.data).includes("<ul>")){
 
 					console.log('recruit!>>>' + event.data);
-					$('.alert-NoContent').detach();
+					
+					$('#alert-NoContent').detach();
 					$('.alert-wrap.bell').append(event.data);
 					// $('.alert-recruitList').hide();
 				 	// alert(event.data);
@@ -170,12 +174,12 @@
 						$('li.alert-wrap').html('<span class="alert-number">'+ event.data + '</span>');  */
 						//$(".alert-number").css('display', 'block');
 						//$(".alert-number").text(event.data); 
-						$('.alert-wrap').append('<span class="alert-number">'+event.data+'</span>');
+						$('.alert-wrap.msg').append('<span class="alert-number">'+event.data+'</span>');
 
 						
 					}else if(event.data == 0){
 						console.log("메시지 없음?");
-						$('.alert-wrap').find('span').remove();				
+						$('.alert-wrap.msg').find('span').remove();				
 						
 						
 				   }
@@ -213,8 +217,10 @@
 	 	// esc키로 알림내용 닫기 
 		window.onkeyup = function(e) {
 			var key = e.keyCode ? e.keyCode : e.which;
-
-			$('.alertContWrap').fadeToggle('fast');
+			if(key == 27){
+				$('.alertContWrap').fadeOut('fast');
+			}	
+			
 		}
 		 
 

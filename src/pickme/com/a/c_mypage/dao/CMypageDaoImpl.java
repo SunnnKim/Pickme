@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.CMemberDto;
+import model.FilesDto;
 import model.PaymentDto;
 import model.PremierMemDto;
+import model.PremierServiceDto;
 
 @Repository
 public class CMypageDaoImpl implements CMypageDao{
@@ -120,6 +122,47 @@ public class CMypageDaoImpl implements CMypageDao{
 	@Override
 	public PaymentDto getRefundableService(int seq) {
 		return session.selectOne("Payment.getRefundableService", seq);
+	}
+
+	
+	// 유료서비스 데이터 가져오기
+	@Override
+	public PremierServiceDto showPremier() {
+		return session.selectOne("Payment." + "showPremier");
+	}
+
+	// 이미지 업로드
+	@Override
+	public boolean uploadImage(List<FilesDto> list) {
+		// 등록한 첨부파일목록을 디비에 넣기 
+		for( int i = 0; i < list.size(); i++) {
+			FilesDto file = list.get(i);
+			if(file.getOriginname().trim() != "") {
+				int result = session.insert(nameSpace + "uploadImage", file);
+				if(result == 0) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	// to newName
+	@Override
+	public void imageNameUpdate(int ref) {
+		session.update(nameSpace + "imageNameUpdate", ref);
+	}
+
+	// 마지막 시퀀스 불러오기
+	@Override
+	public int getLastSeq() {
+		return session.selectOne(nameSpace + "getLastSeq");
+	}
+
+	// 해당 기업 이미지 불러오기
+	@Override
+	public List<FilesDto> getImages(int ref) {
+		return session.selectList(nameSpace + "getImages", ref);
 	}
 
 

@@ -4,7 +4,7 @@
     pageEncoding="UTF-8"%>
  <%
 	// session invalid check
-	if(session==null || !request.isRequestedSessionIdValid()){ 
+	if( session==null || !request.isRequestedSessionIdValid()){ 
 		response.sendRedirect("/Pickme/login/main.do");
 	}
  %>
@@ -64,6 +64,9 @@
 <!-- 구글폰트 적용 -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 
+
+
+
 </head>
 <body>
 <!-- message alert  -->
@@ -91,9 +94,9 @@
 					<li><button type="button" id="searchBtn"></button></li> 
 					<li class="alert-wrap bell">
 					   <span class="alert-bell"><img alt="" src="../images/main/alarm-bell.png"></span>
-					   <div class="alert-NoContent">현재 관심등록한 기업의 채용공고가 없습니다.</div>	
+					   <div id='alert-NoContent' class="alertContWrap">현재 관심등록한 기업의 채용공고가 없습니다.</div>	
 					 </li>		
-					 <li class="alert-wrap">  
+					 <li class="alert-wrap msg">  
 					   <a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a>    
 					</li>
 					<li>
@@ -114,7 +117,7 @@
 				<!-- // gnb -->
 				<ul class="header_infoBtn clfix">
 					<li><button type="button" id="searchBtn"></button></li>
-					<li class="alert-wrap">
+					<li class="alert-wrap msg">
 					   		<a href="/Pickme/c_apply/cRcvMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
 					   		
 					</li>

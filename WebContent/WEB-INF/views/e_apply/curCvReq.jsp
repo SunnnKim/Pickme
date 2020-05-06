@@ -93,8 +93,7 @@
 						<td><input type="checkbox" name="checkRow"
 							value="${cvReq.seq }"> <input type="hidden"
 							class="cvReq_cSeq" value="${cvReq.cSeq}"></td>
-						<%-- <td>${pageNumber*10 + vs.index + 1}</td> --%>
-						<td>${cvReq.name }</td>
+						<td><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${cvReq.cSeq }" style="text-align:center;">${cvReq.name }</a></td>
 						<td>${cvReq.comment }</td>
 						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("rdate").toString())%></td>
 						<td>
@@ -163,14 +162,14 @@
 
 		$.ajax({
 			type	: "post",
-			url		: "getResumeList.do",
+			url		: "getMainResume.do",
 			dataType: "json",
 			success : function(data){
 				// 작성된 이력서 없을 때
-				if(data == ""){
+				if(data == 0){
 					Swal.fire({
 							  icon: 'warning',
-							  title: '수락하실 이력서가 없습니다',
+							  title: '수락하실 메인이력서가 없습니다',
 							  text: '이력서를 먼저 작성해주세요.',
 							  
 							})
@@ -189,7 +188,7 @@
 					}).then((result) =>{
 					  if (result.value) {
 						  $.ajax({
-								url        : "cvReqAccepts.do",
+								url        : "cvReqAccept.do",
 								dataType   : "json",
 								type       : "post",
 						    	traditional: true, // array보낼때 필요
@@ -210,6 +209,19 @@
 										  var pn = '<c:out value="${pageNumber}"/>'
 										
 										location.href="curCvReq.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+										});
+									}else{
+										Swal.fire({
+											  position: 'center',
+											  icon: 'warning',
+											  title: '작성된 메인이력서가 없습니다',
+											  showConfirmButton: true,
+											  cancelButton : true,
+											  timer: 1000
+										}).then( (result) =>{
+		
+											location.href="/Pickme/resume/resume.do";
+										
 										});
 									}
 								},

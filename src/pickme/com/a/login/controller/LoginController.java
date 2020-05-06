@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.NoticeDto;
 import model.RecruitDto;
 import pickme.com.a.login.service.LoginService;
 import pickme.com.a.login.service.LoginServiceForCompany;
@@ -37,9 +38,10 @@ public class LoginController {
 	public String mainView( Model model) {
 		
 		// 공지사항 데이터 
-		
+		List<NoticeDto> mainNoticeList = aMember.getMainNotice();
 		// 메인 금주의 채용
 		List<RecruitDto> recTopList = aMember.mainTopRec();
+		model.addAttribute("mainNoticeList",mainNoticeList);
 		model.addAttribute("recTopList",recTopList);
 		
 		return "main/main";

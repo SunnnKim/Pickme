@@ -47,7 +47,7 @@
 				}) 	
 
 	     }else{ 
-		     alert("로그인")
+
 		 	$(".messenger-wrap").show();
 		 	$('body').css("overflow", "hidden");
 

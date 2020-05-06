@@ -93,9 +93,9 @@ if (durl.contains("c_mypage")) {
 	<li class=<%= durl.contains("changePassword.jsp") ? " on" :" "%>>
 		<a href="/Pickme/a_mypage/changePassword.do">비밀번호 변경</a>
 	</li>
-	<li class=<%= durl.contains("inquiry.jsp") ? " on" :" "%>>
+	<%-- <li class=<%= durl.contains("inquiry.jsp") ? " on" :" "%>>
 		<a href="/Pickme/a_mypage/inquiry.do">문의내역</a>
-	</li>
+	</li> --%>
 	<li class=<%= durl.contains("withdrawal.jsp") ? " on" :" "%>>
 		<a href="/Pickme/a_mypage/withdrawal.do">탈퇴</a>
 	</li>
@@ -130,14 +130,13 @@ if( durl.contains("e_apply")){
 	<li class=<%= durl.contains("Msg") ? " on" :" "%>>
 		<a href="inMsg.do">메시지함</a>
 	</li>
-	<li class=<%= durl.contains("AList")? " on" : " "%>>
-	  <a href="curAList.do">나의지원내역</a>
+	<li class=<%= durl.contains("ApplyList")? " on" : " "%>>
+	  <a href="curApplyList.do">나의지원내역</a>
 	</li>
 	<li class=<%= durl.contains("interest")? " on" : " "%>>
 	  <a href="interestCom.do">나의관심</a>
 	</li>
 </ul>
-
 <%} %>
 
 

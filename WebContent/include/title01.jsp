@@ -8,8 +8,15 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 <!-- c_apply - 구인 현황  -->
 <% if (ifurl.contains("c_apply")){ %>
-지원현황
+
+	<% if(ifurl.contains("openResumeDetail")){%>
+	지원이력서보기
+	<% }
+	else {%>
+	지원현황
+	<% }%>
 <% } %>	
+<!-- c_apply 이력서 디테일 -->
 
 <!-- 일반로그인 서비스 -->
 <% if(ifurl.contains("/login/mem")){
@@ -86,11 +93,11 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 
 <!--  c_mypage 기업 마이페이지  -->
-<% if(ifurl.contains("c_mypage")){ %>
-		마이페이지
-	<% if(ifurl.contains("myPage.jsp")){%>
-		Corporation Information
-<% }}%>
+<% if(ifurl.contains("c_mypage") && !ifurl.contains("/c_mypage/myPage.jsp")){ %>
+      마이페이지
+<% } else if(ifurl.contains("/c_mypage/myPage.jsp")){%>
+      Corporation Information
+<% } %>
 
 <!-- 결제 직전 단계 디테일 -->
 <% if(ifurl.contains("/c_mypage/paymentDetail.jsp")) { %>

@@ -1,5 +1,6 @@
 package pickme.com.a.e_apply.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,9 +13,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.AMemberDto;
+import model.AwardsEtcDto;
+import model.CareerDto;
 import model.CvCompanyDto;
 import model.CvReqDto;
 import model.CvReqParam;
+import model.EducationDto;
+import model.FilesDto;
+import model.LanguageDto;
+import model.LinkDto;
+import model.ResumeAfterDto;
+import model.ResumeDto;
+import model.ResumeFileDto;
 import pickme.com.a.e_apply.service.ECvRequestService;
 
 @Controller
@@ -101,40 +111,101 @@ public class ECvRequestController {
 	
 	// 다중 이력서 열람 수락
 	@ResponseBody
-	@RequestMapping(value="cvReqAccepts.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="cvReqAccept.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public int cvReqAccept(HttpSession session, int[] seqArray, int[] cSeqArray) {
 		//List cvReq 불러오기
 		AMemberDto login = (AMemberDto)(session.getAttribute("loginuser"));
 		 int pseq = login.getSeq();
-		 
-		 int result = 0; // 최종결과 return값 
+		 int n = 0; 
 		for (int i = 0; i < seqArray.length; i++) {
 		
 			int seq = seqArray[i];
-			int comseq = cSeqArray[i];
-		  //System.out.println("seq: " + seq );
-		  //System.out.println("cSeq: " + cseq);
-			
+			int comSeq = cSeqArray[i];
+		 
 			// 수락할 항목의 CV_REQUEST accept컬럼을 1로 만들기 
-			int success = eservice.doAccept(seq);
+			
 			
 			//System.out.println("success: " + success);
 			
-			// main이력서를 dto 안에 담아오기
-			CvCompanyDto dto = eservice.getMainResumeSeq(pseq);
-			
-			// dto에 담은 이력서를 cv_company테이블(회사제출된 이력서 넣는 테이블)안에 담고 그 seq return(service에서 처리)
-	
-			dto.setComseq(comseq); //넘어온 cSeq를 dto에 세팅하기 
-			int cvSeq = eservice.sendResume(dto);
-			System.out.println("cvSeq:" + cvSeq);
-			
-			//return된 seq를 CV_REQUEST테이블의 수락할 항목 row에 CVSEQ 값으로 업데이트하기 
-			result = eservice.putCvSeq(seq, cvSeq); 
-			
+			// main이력서를 resumeDto 안에 담은 다음 resumeAfter테이블에 넣기 
+			 /*가져오기*/ 
+			ResumeAfterDto rdto = eservice.getMainResume(pseq);
+			System.out.println(rdto.toString());
+			if(rdto !=null) {
+				int originalId = rdto.getSeq();
+				 /*넣기*/
+				// 수락할 회사시퀀스 셋팅 
+				rdto.setComSeq(comSeq);
+				n = eservice.putResume(rdto);
+				// System.out.println("resume insert: " + n);
+				int rsmSeq = eservice.getLastId();
+				
+				// 이력서를 직접 작성한 것인지, 파일로 올린것인지 구분하기  
+				if(rdto.getStatus() == 1) { // 직접 작성한 경우 
+					// career를 careerDto에 담은 다음 careerAfter테이블에 넣기 
+					List<CareerDto> cList = new ArrayList<CareerDto>();
+					cList = eservice.getCareer(originalId);
+					for (int j = 0; j < cList.size(); j++) {
+						//cdto에 새로 집어넣은 afterResumeId를 rsmseq로 세팅하기( resume를 기준으로 관련 경력을 한번에 꺼내기 위함)
+						cList.get(j).setRsmseq(rsmSeq);
+						n = eservice.putCareer(cList.get(j));
+					}
+					
+					//System.out.println("career insert: " + n);
+					// awards를 awardsEtcDto에 담은 다음 awardAfter테이블에 넣기
+					List<AwardsEtcDto> aList = new ArrayList<AwardsEtcDto>();
+					aList = eservice.getAwardsEtc(originalId);
+					for (int j = 0; j < aList.size(); j++) {
+						aList.get(j).setRsmseq(rsmSeq);
+						n = eservice.putAwardsEtc(aList.get(j));
+						System.out.println("awardsEtc insert: " + n);
+					}
+					
+					// language를 languageDto에 담은 다음 languageAfter 테이블에 넣기 
+					List<LanguageDto> langList = new ArrayList<LanguageDto>();
+					langList = eservice.getLanguage(originalId);
+					for (int j = 0; j < langList.size(); j++) {
+						langList.get(j).setRsmseq(rsmSeq);
+						n = eservice.putLanguage(langList.get(j));
+						System.out.println("language insert; " + n);
+					}
+					// education을 educationDto 에 담은 다음 educatonAfter테이블에 넣기 
+					List<EducationDto> eList = new ArrayList<EducationDto>();
+					eList = eservice.getEducation(originalId);
+					for (int j = 0; j < eList.size(); j++) {
+						eList.get(j).setRsmseq(rsmSeq);
+						n = eservice.putEducation(eList.get(j));
+						System.out.println("educatioin insert: " + n);
+					}
+					
+					// link를 
+					List<LinkDto>  linkList = new ArrayList<LinkDto>();
+					linkList = eservice.getLink(originalId);
+					for (int j = 0; j < linkList.size(); j++) {
+						linkList.get(j).setRsmseq(rsmSeq);
+						n = eservice.putLink(linkList.get(j));
+						System.out.println("link insert: " + n);
+					}
+					
+				
+				}else if(rdto.getStatus() == 2) { // 파일로 업로드 한 경우 (나중에 dto만들면 하기)
+					
+					List<ResumeFileDto> filesList = new ArrayList<ResumeFileDto>(); 
+					filesList = eservice.getFilesList(originalId);
+					for (int j = 0; j < filesList.size(); j++) {
+						filesList.get(j).setRsmSeq(rsmSeq);
+						n = eservice.putFilesDto(filesList.get(j));
+						
+					}
+					
+				}	
+					
+			// 이력서 열람 수락한 것으로 표시 + 수락한 resume 시퀀스 cvRequest테이블에 넣기 
+				n = eservice.doAccept(seq, rsmSeq);
+			}				
 		}	
 		
-		return result;
+		return n;
 	}
 	
 	
@@ -148,24 +219,82 @@ public class ECvRequestController {
 		
 		AMemberDto login = (AMemberDto)(session.getAttribute("loginuser"));
 		 int pseq = login.getSeq();
-		 
-		int success = eservice.doAccept(seq);
+		 int n = 0;
+		// 선택한이력서를 dto 안에 담아오기
+		ResumeAfterDto rdto = eservice.getResume(rSeq);
+		int originalId = rdto.getSeq();
+		 /*넣기*/
+		// 수락할 회사시퀀스 셋팅 
+		rdto.setComSeq(cSeq);
+		n = eservice.putResume(rdto);
+		System.out.println("resume insert: " + n);
+		int rsmSeq = eservice.getLastId();
 		
-		//System.out.println("success: " + success);
+		// 이력서를 직접 작성한 것인지, 파일로 올린것인지 구분하기  
+		if(rdto.getStatus() == 1) { // 직접 작성한 경우 
+			// career를 careerDto에 담은 다음 careerAfter테이블에 넣기 
+			List<CareerDto> cList = new ArrayList<CareerDto>();
+			cList = eservice.getCareer(originalId);
+			for (int i = 0; i < cList.size(); i++) {
+				//cdto에 새로 집어넣은 afterResumeId를 rsmseq로 세팅하기( resume를 기준으로 관련 경력을 한번에 꺼내기 위함)
+				cList.get(i).setRsmseq(rsmSeq);
+				n = eservice.putCareer(cList.get(i));
+			}
+			
+			//System.out.println("career insert: " + n);
+			// awards를 awardsEtcDto에 담은 다음 awardAfter테이블에 넣기
+			List<AwardsEtcDto> aList = new ArrayList<AwardsEtcDto>();
+			aList = eservice.getAwardsEtc(originalId);
+			for (int i = 0; i < aList.size(); i++) {
+				aList.get(i).setRsmseq(rsmSeq);
+				n = eservice.putAwardsEtc(aList.get(i));
+				System.out.println("awardsEtc insert: " + n);
+			}
+			
+			// language를 languageDto에 담은 다음 languageAfter 테이블에 넣기 
+			List<LanguageDto> langList = new ArrayList<LanguageDto>();
+			langList = eservice.getLanguage(originalId);
+			for (int i = 0; i < langList.size(); i++) {
+				langList.get(i).setRsmseq(rsmSeq);
+				n = eservice.putLanguage(langList.get(i));
+				System.out.println("language insert; " + n);
+			}
+			// education을 educationDto 에 담은 다음 educatonAfter테이블에 넣기 
+			List<EducationDto> eList = new ArrayList<EducationDto>();
+			eList = eservice.getEducation(originalId);
+			for (int i = 0; i < eList.size(); i++) {
+				eList.get(i).setRsmseq(rsmSeq);
+				n = eservice.putEducation(eList.get(i));
+				System.out.println("educatioin insert: " + n);
+			}
+			
+			// link를 
+			List<LinkDto>  linkList = new ArrayList<LinkDto>();
+			linkList = eservice.getLink(originalId);
+			for (int i = 0; i < linkList.size(); i++) {
+				linkList.get(i).setRsmseq(rsmSeq);
+				n = eservice.putLink(linkList.get(i));
+				System.out.println("link insert: " + n);
+			}
+			
 		
-		// main이력서를 dto 안에 담아오기
-		CvCompanyDto dto = eservice.getMainResumeSeq(pseq);
+		}else if(rdto.getStatus() == 2) { // 파일로 업로드 한 경우 (나중에 dto만들면 하기)
+			
+			List<ResumeFileDto> filesList = new ArrayList<ResumeFileDto>(); 
+			filesList = eservice.getFilesList(originalId);
+			for (int i = 0; i < filesList.size(); i++) {
+				filesList.get(i).setRsmSeq(rsmSeq);
+				n = eservice.putFilesDto(filesList.get(i));
+				
+			}
+			
+		}	
+			
+	// 이력서 열람 수락한 것으로 표시 + 수락한 resume 시퀀스 cvRequest테이블에 넣기 
+		n = eservice.doAccept(seq, rsmSeq);	
 		
-		// dto에 담은 이력서를 cv_company테이블(회사제출된 이력서 넣는 테이블)안에 담고 그 seq return(service에서 처리)
-
-		dto.setComseq(cSeq); //넘어온 cSeq를 dto에 세팅하기 
-		int cvSeq = eservice.sendResume(dto);
-		System.out.println("cvSeq:" + cvSeq);
 		
-		//return된 seq를 CV_REQUEST테이블의 수락할 항목 row에 CVSEQ 값으로 업데이트하기 
-		int result = eservice.putCvSeq(seq, cvSeq);
-		
-		return result;
+		return n;
 	}
 	
 	
@@ -173,13 +302,13 @@ public class ECvRequestController {
 	// 이력서요청수락시 이력서 선택을 위해 이력서 리스트불러오기 
 	@ResponseBody
 	@RequestMapping(value="getResumeList.do", method={RequestMethod.GET, RequestMethod.POST})
-	public List<CvCompanyDto> getResumeList(HttpSession session){
+	public List<ResumeDto> getResumeList(HttpSession session){
 		int loginSeq = ((AMemberDto) session.getAttribute("loginuser")).getSeq();
-		List<CvCompanyDto> list = eservice.getResumeList(loginSeq);
+		List<ResumeDto> list = eservice.getResumeList(loginSeq);
 		
 		System.out.println("리스트사이즈::" + list.size());
-		for(CvCompanyDto dto : list) {
-		System.out.println("name: " + dto.getName());
+		for(ResumeDto dto : list) {
+			System.out.println("name: " + dto.getName());	
 		}
 		
 		return list;
@@ -209,5 +338,20 @@ public class ECvRequestController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="getMainResume.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public int getMainResume(HttpSession session) {
+		int n = 0;
+		AMemberDto login = (AMemberDto)(session.getAttribute("loginuser"));
+		 int pseq = login.getSeq();
+		ResumeAfterDto dto = eservice.getMainResume(pseq);
+		
+		if(dto != null) {
+			System.out.println("resumedto: " + dto.toString());
+			n = 1;
+		}
+		
+		return n;
+	}
 	
 }
