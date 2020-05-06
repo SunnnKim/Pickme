@@ -138,7 +138,7 @@ public class CMypageDaoImpl implements CMypageDao{
 		for( int i = 0; i < list.size(); i++) {
 			FilesDto file = list.get(i);
 			if(file.getOriginname().trim() != "") {
-				int result = session.insert(nameSpace + "recUpfile", file);
+				int result = session.insert(nameSpace + "uploadImage", file);
 				if(result == 0) {
 					return false;
 				}
@@ -157,6 +157,12 @@ public class CMypageDaoImpl implements CMypageDao{
 	@Override
 	public int getLastSeq() {
 		return session.selectOne(nameSpace + "getLastSeq");
+	}
+
+	// 해당 기업 이미지 불러오기
+	@Override
+	public List<FilesDto> getImages(int ref) {
+		return session.selectList(nameSpace + "getImages", ref);
 	}
 
 

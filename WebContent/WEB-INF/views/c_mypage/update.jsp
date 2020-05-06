@@ -538,7 +538,7 @@ div div.logo-img input.btTextW {
  
  
  
- <form id="fileform" method="post" action="recfileup.do" enctype="multipart/form-data">
+ <form id="fileform" method="post" action="uploadImage.do" enctype="multipart/form-data">
         <div class="input-box">
           <p class = "column"> 기업 이미지
             <label class = "star" style = "color:#ff0000"> * </label>
@@ -1029,7 +1029,6 @@ function updateComplete() {
 			    		timer: 1500
 			    	}).then(function(result){
 			    		$("#fileform").submit();
-						location.href="goCMypage.do";
 					});
 		    }, 
 		    error		:function(request,status,error){ 

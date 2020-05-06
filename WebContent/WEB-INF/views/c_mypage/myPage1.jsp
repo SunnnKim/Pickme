@@ -39,14 +39,14 @@
 .swiper-slide img{width:100%;height:500px;}
 
 /* 정보 영역 */
-.companyInfo {padding-left:350px;margin-top:100px;}
-.number {font-size:50px;font-weight:bold;color:#4f6eff;padding-right:30px;}
-.number .field{font-size:31px;padding-left:20px;font-weight:normal;color:#000;}
-.companyInfo .content1{padding-left: 93px;font-size:20px; font-weight:normal; color:"#000";}
-.companyInfo .content2{padding-left: 93px;font-size:20px; font-weight:normal; color:"#000";}
-.companyInfo .content3{padding-left: 93px;font-size:20px; font-weight:normal; color:"#000";}
-.companyInfo .content4{padding-left: 93px;font-size:20px; font-weight:normal; color:"#000";}
-.companyInfo .content5{padding-left: 93px;font-size:20px; font-weight:normal; color:"#000";}
+.companyInfo {padding-left:350px;margin-top:100px;margin-bottom:90px;}
+.number {font-size:66px;font-weight:bold;color:#4f6eff;padding-right:30px;}
+.number .field{font-size:31px;padding-left:51px;font-weight:normal;color:#000;}
+.companyInfo .content1{padding-left: 140px;font-size:20px; font-weight:normal; color:"#000";}
+.companyInfo .content2{padding-left: 141px;font-size:20px; font-weight:normal; color:"#000";}
+.companyInfo .content3{padding-left: 141px;font-size:20px; font-weight:normal; color:"#000";}
+.companyInfo .content4{padding-left: 141px;font-size:20px; font-weight:normal; color:"#000";}
+.companyInfo .content5{padding-left: 141px;font-size:20px; font-weight:normal; color:"#000";}
 
 .followBtnWrap {margin-top: 21px;}
 .followBtnWrap span {text-align: center;height: 93px;background-color: #4f6eff;color: #fff;line-height: 12px;font-size: 38px;cursor: pointer;padding-left: 100px;padding-right: 100px;margin-left: 121px;}
@@ -81,31 +81,47 @@ h4.h4_introduce{margin-top:100px; margin-left:50px;margin-bottom:15px;font-size:
 
 
 <body>
-
 <!------------------------------------ 슬라이드 영역 ---------------------------------------------->
 
 <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">
-          <img src = "https://gorumors.com/wp-content/uploads/2019/04/Checkout.png">
-      </div>
-      <div class="swiper-slide">
-          <img src = "https://buffer.com/resources/wp-content/uploads/2017/02/The-Complete-Guide-to-Instagram-Ads-Featured-image@2x-1024x576.png">
-      </div>
-      <div class="swiper-slide">
-          <img src="https://techcrunch.com/wp-content/uploads/2018/06/instagram-time-well-spent-1.png?w=730&crop=1" alt="">
-      </div>
-    </div>
-    
+    	<c:choose>
+	    	 	<c:when test="${not empty fileslist }">
+         		 <c:forEach var="dto" items="${fileslist }" varStatus="rs">
+	    			<div class="swiper-slide">
+	    					<img src = "imageDownload.do?filename=${dto.newname }&filepath=/upload/c_mypage/">
+      			</div>
+	    		
       <!-- If we need pagination -->
    <div class="swiper-pagination"></div>
 
    <!-- If we need navigation buttons -->
-   <div class="swiper-button-prev"></div>
-   <div class="swiper-button-next"></div>
+   <!-- <div class="swiper-button-prev"></div>
+   <div class="swiper-button-next"></div> -->
    
    <div class="swiper-scrollbar"></div>
-</div>
+   
+    				</c:forEach>
+	    	   </c:when>
+	    	   <c:otherwise>
+	    	   		<div class="swiper-slide">
+	    				<img src = "https://cdn.pixabay.com/photo/2015/01/08/18/25/startup-593327_1280.jpg">
+      			</div>
+      			<div class="swiper-slide">
+	    				<img src = "https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849822_1280.jpg">
+      			</div>
+      			<div class="swiper-slide">
+	    				<img src = "https://cdn.pixabay.com/photo/2015/05/15/14/22/conference-room-768441_1280.jpg">
+      			</div>
+      			
+      			<!-- If we need pagination -->
+   				<div class="swiper-pagination"></div>
+   				<div class="swiper-scrollbar"></div>
+   				
+	    	   </c:otherwise>
+	    	</c:choose>
+    </div>
+</div> 
 
 
 <!---------------------------------- 로고, 회사명 영역 --------------------------------------------->
@@ -206,7 +222,7 @@ h4.h4_introduce{margin-top:100px; margin-left:50px;margin-bottom:15px;font-size:
 </div>
 
 <div class="rec-location">
-<div id="map" style="width:500px;height:400px;"></div>
+<div id="map" style="width:1050px;height:500px;"></div>
 </div>
 <script>
 var container = document.getElementById('rec-location'); // 지도와 로드뷰를 감싸고 있는 div 입니다

@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,13 +22,10 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.AMemberDto;
 import model.CMemberDto;
@@ -119,6 +115,13 @@ public class CMypageController {
 		CMemberDto cMember = service.select(seq);
 		model.addAttribute("cMember", cMember);
 		
+		int comSeq = cMember.getSeq();
+		
+		//첨부한 파일 넘기기
+		List<FilesDto> fileslist = service.getImages(comSeq);
+		
+		model.addAttribute("fileslist", fileslist);
+		
 		String address = cMember.getAddress().replace("\'", " ");
 		int findBracket =  address.indexOf("]");
 		cMember.setAddress(address.substring(findBracket+1));
@@ -163,7 +166,7 @@ public class CMypageController {
 			model.addAttribute("realAddress[2]", realAddress[2]);		// 상세주소
 			};
 		};
-		return "c_mypage/myPage";
+		return "c_mypage/myPage1";
 	}
 		
 	
@@ -201,6 +204,11 @@ public class CMypageController {
 		model.addAttribute("dto", dtoo);
 		System.out.println("수정페이지 열릴 때 해시태그 = " + dtoo.getHashTag());
 		System.out.println("수정페이지 열릴 때 주소 = " + dtoo.getAddress());
+		
+		//첨부한 파일 넘기기
+		List<FilesDto> fileslist = service.getImages(seq);
+		
+		model.addAttribute("fileslist", fileslist);
 		
 		// 등록된 주소가 있을 경우 spilt하여 전송
 		if(dtoo.getAddress() != null) {
@@ -283,61 +291,69 @@ public class CMypageController {
 		return "c_mypage/payment";
 	}
 	
+	@RequestMapping(value="uploadImage.do", method = {RequestMethod.POST})
+	public String uploadImage(CMemberDto dto, Model model, HttpSession session, MultipartFile[] originfile, HttpServletRequest request) {
+		// (ref) 그룹번호 불러오기
+				int ref = (int)((CMemberDto)session.getAttribute("logincompany")).getSeq();
+				System.out.println("그룹번호 ref = " + ref);
+				
+				// 첨부파일용 파일 테이블에 저장할 리스트 만들기
+				boolean result = true;
+				System.out.println("number of files = " + originfile.length);
+				
+				if(originfile.length > 0) {	// 첨부파일이 있을 경우
+					List<FilesDto> list = new ArrayList<>();
+					for( int i = 0; i < originfile.length; i++ ) {
+						// 파일 새 이름 등록
+						String originName = originfile[i].getOriginalFilename();
+						if ( !originName.equals("") ) {
+							System.out.println("오리지날 이름 = " + originName);
+							String newname = FUpUtil.getNewFileName(originName);
+							String path = "/upload/c_mypage";
+							String type = originfile[i].getContentType();
+							FilesDto filesDto = new FilesDto(originName, newname, ref, i , type);
+							
+							// 리스트에 담기
+							list.add(filesDto);
+							
+							System.out.println("list["+i+"] = " + list.get(i));
+							
+							// 경로 및 파일이름 지정
+							String uploadPath = request.getSession().getServletContext().getRealPath(path);
+							File uploadFile = new File(uploadPath + "/" + newname);
+							System.out.println("upload = " + uploadFile.toString());
+							
+							// 서버에 파일 업로드하기
+							try {
+								// 실제 파일을 지정 폴더에 업로드 함 
+								FileUtils.writeByteArrayToFile(uploadFile, originfile[i].getBytes());
+							} catch (IOException e) {
+								e.getMessage();
+								return "redirect:/c_mypage/goUpdate.do";
+							}
+						} else break;
+					}
+					
+					// 파일 DB에 넣기
+					result = service.uploadImage(list);
+					
+					// newname 으로 바꾸기
+					service.imageNameUpdate(ref);
+				}
+				CMemberDto c = (CMemberDto)session.getAttribute("logincompany");
+				request.setAttribute("seq", c.getSeq());
+				
+				return result ? "forward:/c_mypage/goCMypage.do":"";
+	}
+	
 	
 	// 기업 정보 수정 
 	@ResponseBody
 	@RequestMapping(value = "update.do", method = {RequestMethod.POST})
-	public String update(CMemberDto dto, Model model, HttpSession session, String hashTag, MultipartFile file, MultipartFile [] originfile, HttpServletRequest request) throws Exception {
+	public String update(CMemberDto dto, Model model, HttpSession session, String hashTag, MultipartFile file, HttpServletRequest request) throws Exception {
 		
 		System.out.println("file>>>>>>>>>>>>>>>>>>>>>>>>> : " + file);
 		System.out.println("dto to String : " + dto.toString());
-		
-		// (ref) 그룹번호 불러오기
-		int ref = service.getLastSeq();
-		
-		// 첨부파일용 파일 테이블에 저장할 리스트 만들기
-		boolean result = true;
-		System.out.println("number of files = " + originfile.length);
-		
-		if(originfile.length > 0) {	// 첨부파일이 있을 경우
-			List<FilesDto> list = new ArrayList<>();
-			for( int i = 0; i < originfile.length; i++ ) {
-				// 파일 새 이름 등록
-				String originName = originfile[i].getOriginalFilename();
-				if ( !originName.equals("") ) {
-					System.out.println("오리지날 이름 = " + originName);
-					String newname = FUpUtil.getNewFileName(originName);
-					String path = "/upload/c_mypage";
-					String type = originfile[i].getContentType();
-					FilesDto filesDto = new FilesDto(originName, newname, ref, i , type);
-					
-					// 리스트에 담기
-					list.add(filesDto);
-					
-					System.out.println("list["+i+"] = " + list.get(i));
-					
-					// 경로 및 파일이름 지정
-					String uploadPath = request.getSession().getServletContext().getRealPath(path);
-					File uploadFile = new File(uploadPath + "/" + newname);
-					System.out.println("upload = " + uploadFile.toString());
-					
-					// 서버에 파일 업로드하기
-					try {
-						// 실제 파일을 지정 폴더에 업로드 함 
-						FileUtils.writeByteArrayToFile(uploadFile, originfile[i].getBytes());
-					} catch (IOException e) {
-						e.getMessage();
-						return null;
-					}
-				} else break;
-			}
-			
-			// 파일 DB에 넣기
-			result = service.uploadImage(list);
-			
-			// newname 으로 바꾸기
-			service.imageNameUpdate(ref);
-		}
 		
 		// 기업 세션 seq 저장
         int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();

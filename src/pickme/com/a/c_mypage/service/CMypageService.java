@@ -68,4 +68,7 @@ public interface CMypageService {
 	// 마지막 시퀀스 불러오기
 	public int getLastSeq();
 	
+	// 해당 기업 이미지 불러오기
+	public List<FilesDto> getImages(int ref);
+	
 }

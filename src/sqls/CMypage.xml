@@ -63,13 +63,15 @@
   <update id="imageNameUpdate" parameterType="int">
 	UPDATE FILES
 	SET ORIGINNAME=#{newname}
-	WHERE SEQ=${ref} AND USETABLE='C_MEMBER' AND STEP=0
+	WHERE USETABLE='C_MEMBER' AND STEP=0 AND REF=#{ref}
   </update>
   
-  <!-- 마지막 시퀀스 뽑아내기 -->
-  <select id="getLastSeq" resultType="int">
-	SELECT LAST_INSERT_ID()
-  </select>
+  <!-- ref가 동일한 이미지 가져오기 -->
+  <select id="getImages" parameterType="int" resultType="model.FilesDto">
+	SELECT SEQ, USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE
+	FROM FILES 
+	WHERE USETABLE='C_MEMBER' AND REF=${ref}
+  </select> 
   
   
   

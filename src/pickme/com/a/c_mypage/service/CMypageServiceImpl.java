@@ -138,6 +138,12 @@ public class CMypageServiceImpl implements CMypageService{
 		return dao.getLastSeq();
 	}
 
+	// 해당 기업 이미지 불러오기
+	@Override
+	public List<FilesDto> getImages(int ref) {
+		return dao.getImages(ref);
+	}
+
 
 	
 	
