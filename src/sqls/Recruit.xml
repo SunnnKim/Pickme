@@ -307,5 +307,10 @@
 		</foreach>
 	</insert>
 	
+	<!-- 지원한 내역있는지 확인하기 -->
+	<select id="checkIfApply" parameterType="model.ResumeAfterDto" resultType="int">
+	SELECT count(*) FROM resume_after
+	where jobseq = ${jobSeq} AND memseq = ${memSeq} 
+</select>
 	
  </mapper>

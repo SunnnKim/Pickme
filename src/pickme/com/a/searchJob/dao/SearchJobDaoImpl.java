@@ -11,6 +11,7 @@ import model.FavoriteDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
 import model.ResumeDto;
 
 @Repository
@@ -59,6 +60,11 @@ public class SearchJobDaoImpl implements SearchJobDao{
 	@Override
 	public int likeCountByMem(FavoriteDto dto) {
 		return sqlSession.selectOne(ns+"likeCountByMem", dto);
+	}
+
+	@Override
+	public int checkIfApply(ResumeAfterDto dto) {
+		return sqlSession.selectOne(ns + "checkIfApply", dto);
 	}
 
 

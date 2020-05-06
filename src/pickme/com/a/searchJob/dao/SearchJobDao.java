@@ -7,6 +7,7 @@ import model.FavoriteDto;
 import model.FilesDto;
 import model.RecruitDto;
 import model.RecruitParam;
+import model.ResumeAfterDto;
 import model.ResumeDto;
 
 public interface SearchJobDao {
@@ -36,5 +37,7 @@ public interface SearchJobDao {
 	// @@@@@ 지원하기 @@@@@
 	// 나의 이력서 불러오기 
 	public List<ResumeDto> getMyResumes(int seq);
+	// 지원한 내역 있는지 확인하기
+	public int checkIfApply(ResumeAfterDto dto);
 	
 }

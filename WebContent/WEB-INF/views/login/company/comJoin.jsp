@@ -41,7 +41,7 @@
       <div class="com-input-box">
         <div class="input-lable">패스워드<span style="color: red;">*</span></div>
         <div class="input-content">
-          <input type="text" id="password" name="password" placeholder="패드워드 입력 (숫자, 기호 포함 6자이상)">
+          <input type="password" id="password" name="password" placeholder="패드워드 입력 (숫자, 기호 포함 6자이상)">
           <i class="far fa-check-square" id="pwd-icon" ></i>
         </div>
       </div>
@@ -151,7 +151,7 @@
 
 
 	// 기업명 확인 
-	var regExpComname = /^[0-9가-힣a-zA-Z]*$/;
+	var regExpComname = /^[0-9가-힣a-zA-Z()-*&]*$/;
 	
 	if( name.onkeyup = () => {
 		if( name.value.length >= 2 && regExpComname.test( name.value ) ){

@@ -252,16 +252,25 @@ public class SearchJobController {
 	// 나의 이력서 불러오기 
 	@ResponseBody
 	@RequestMapping(value="getMyResume.do", method=RequestMethod.POST)
-	public Object getMyResume(String memberSeq, HttpSession session) {
+	public Object getMyResume(String jobseq, HttpSession session) {
 		AMemberDto loginuser = (AMemberDto) session.getAttribute("loginuser");
 		if(loginuser == null) {
 			return "fail";
 		}
 		int seq = loginuser.getSeq();
 		System.out.println("memberseq: " + seq);
+		// 지원내역이 있을 경우
+		int jobSeq = Integer.parseInt(jobseq);
+		ResumeAfterDto dto = new ResumeAfterDto(0, seq, jobSeq, 0, null, null, null, 0, 0, 0);
+		int count = searchServ.checkIfApply(dto);
+		if(count > 0 ) {
+			return "alreadyApply";
+		}
 		
 		// 리스트에 담기 
 		List<ResumeDto> myResumes = searchServ.getMyResumes(seq);
+		
+		
 		
 		// 리턴값 : map 으로 담아 프론트에 보내기  
         Map<String, Object> retVal = new HashMap<String, Object>();
