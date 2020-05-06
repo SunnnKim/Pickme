@@ -20,13 +20,26 @@
   -->
 <!-- 지원자 관리 채용공고 list -->
 <select id="myCurrentRecList" parameterType="model.RecruitParam" resultType="model.RecruitDto">
-	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, COUNT(A.JOBSEQ) AS applyCount
+	<!-- SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL
+	, (select count(*)   from recruit r, apply a where r.comseq = #{comSeq} and r.seq = a.JOBSEQ and a.open = 0) AS applyCount -->
+	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, 
+	COUNT( if(A.open=0,a.open,null) ) AS applyCount
 	FROM RECRUIT R LEFT OUTER JOIN APPLY A ON R.SEQ = A.JOBSEQ
 	WHERE R.COMSEQ = #{comSeq}
 	GROUP BY R.SEQ
 	ORDER BY R.SEQ DESC
 	LIMIT 8 OFFSET #{start}
 </select>
+
+<!-- 
+<select id="myCurrentRecCount" parameterType="model.RecruitParam" resultType="int">
+	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, COUNT(A.JOBSEQ) AS applyCount
+	select count(*)  AS applyCount
+	from recruit r, apply a 
+	where r.comseq = #{comSeq} and r.seq = a.JOBSEQ and a.open = 0
+</select>
+ -->
+
 
 
 <!-- 지원자 관리 - 상세 리스트 -->
@@ -48,6 +61,21 @@
 	
 </select>
 
+
+
+
+
+
+
+
+
+
+<!-- 이력서 열람 확인 update -->
+<update id="resumeOpenConfirm">
+	UPDATE APPLY
+	SET OPEN=1
+	WHERE CVSEQ = #{cvSeq}
+</update>
 
 
 

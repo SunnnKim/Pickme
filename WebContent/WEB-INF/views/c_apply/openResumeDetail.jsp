@@ -20,12 +20,12 @@
 	                       <span class="dateHide" <c:if test="${dto.ing != 0}">style="display:none;"</c:if>>-</span>
 	                       <input type="text" class="dateHide" value="${dto.enddate }" readonly>
 	                   </div>
-	                   <p><label><input type="checkbox" disabled <c:if test="${dto.ing != 0}">checked</c:if>><span></span>현재 재직중</label>
-	                   </p>
+	                   <%-- <p><label><input type="checkbox" disabled <c:if test="${dto.ing != 0}">checked</c:if>><span></span>현재 재직중</label>
+	                   </p> --%>
 	               </div><!-- //rsm_left -->
 	               <div class="rsm_right">
-	                   <input type="text" class="tit" value="${dto.company }" readonly>
-	                   <input type="text" class="desc" value="${dto.position }" readonly>
+	                   <input type="text" class="tit" value="회사 : ${dto.company }" readonly>
+	                   <input type="text" class="desc" value="부서 / 직책 : ${dto.position }" readonly>
 	               </div><!-- //rsm_right -->
 	           </div><!-- //rsm_addCont -->
 	       </div><!-- //rsm_add -->
@@ -43,14 +43,14 @@
 	                       <span class="dateHide" <c:if test="${edu.ing != 0}">style="display:none;"</c:if>>-</span>
 	                       <input type="text" class="dateHide" value="${edu.enddate }" readonly>
 	                   </div>
-	                   <p>
+	                   <%-- <p>
 	                   	<label><input type="checkbox" disabled <c:if test="${edu.ing != 0}">checked</c:if>><span></span>현재 재학중</label>
-	                   </p>
+	                   </p> --%>
 	               </div><!-- //rsm_left -->
 	               <div class="rsm_right">
 	                  <input type="text" class="tit" value="${edu.school }" readonly>
-	                   <input type="text" class="desc" value="${edu.major }" readonly>
-	                   <textarea readonly>${edu.study }</textarea>
+	                   <input type="text" class="desc" value="전공 : ${edu.major }" readonly>
+	                   <textarea readonly>이수과목 / 내용 : ${edu.study }</textarea>
 	               </div><!-- //rsm_right -->
 	               </div><!-- //rsm_addCont -->
 	       </div><!-- //rsm_add -->
@@ -97,10 +97,10 @@
                </div>
                <div class="lang_test">
                    <h5>관련 시험</h5>
-                   <input type="text" class="desc" value="${dto.test }" readonly>
-                   <input type="text" class="desc" value="${dto.score }" readonly>
+                   <input type="text" class="desc" value="시험 : ${dto.test }" readonly>
+                   <input type="text" class="desc" value="점수 /급수 : ${dto.score }" readonly>
                    <div class="rsm_date">
-                       <input type="text" style="width:80px" value="${dto.date }" readonly>
+                       <input type="text" style="width:80px" value="취득 연도 : ${dto.date }" readonly>
                    </div>
                </div>
            </div><!-- //rsm_addCont -->

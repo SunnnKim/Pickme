@@ -130,14 +130,13 @@ if( durl.contains("e_apply")){
 	<li class=<%= durl.contains("Msg") ? " on" :" "%>>
 		<a href="inMsg.do">메시지함</a>
 	</li>
-	<li class=<%= durl.contains("AList")? " on" : " "%>>
-	  <a href="curAList.do">나의지원내역</a>
+	<li class=<%= durl.contains("ApplyList")? " on" : " "%>>
+	  <a href="curApplyList.do">나의지원내역</a>
 	</li>
 	<li class=<%= durl.contains("interest")? " on" : " "%>>
 	  <a href="interestCom.do">나의관심</a>
 	</li>
 </ul>
-
 <%} %>
 
 

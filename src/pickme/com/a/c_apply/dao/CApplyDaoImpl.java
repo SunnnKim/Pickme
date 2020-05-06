@@ -85,6 +85,17 @@ public class CApplyDaoImpl implements CApplyDao {
 	public List<LinkDto> getLinkAfter(int seq) {
 		return sqlSession.selectList(ns+"getLinkAfter", seq);
 	}
+
+	@Override
+	public boolean resumeOpenConfirm(int cvSeq) {
+		int n = sqlSession.update(ns + "resumeOpenConfirm", cvSeq);
+		return (n>0)?true:false;
+	}
+
+	@Override
+	public int myCurrentRecCount(RecruitParam param) {
+		return sqlSession.selectOne(ns + "myCurrentRecCount", param);
+	}
 	
 	
 	

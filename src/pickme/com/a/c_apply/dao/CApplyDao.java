@@ -34,6 +34,10 @@ public interface CApplyDao {
 	public List<LanguageDto> getLanguageAfter(int seq);
 	
 	public List<LinkDto> getLinkAfter(int seq);
+
+	public boolean resumeOpenConfirm(int cvSeq);
+
+	public int myCurrentRecCount(RecruitParam param);
 	
 	
 
