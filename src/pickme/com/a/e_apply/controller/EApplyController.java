@@ -58,7 +58,7 @@ public class EApplyController {
 		return "e_apply/curApplyList";
 	}
 	
-	@RequestMapping(value="pastAList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="pastApplyList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getPastAList(Model model, HttpSession session, EApplyParam param) {
 		
 		// session에서 login seq 받아오기 

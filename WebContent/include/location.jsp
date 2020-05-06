@@ -157,13 +157,24 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 
 <!-- apply - applyList -->
-<% if (lourl.contains("AList")) {%>
+<% if (lourl.contains("ApplyList")) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>
 	<span>지원현황</span>
 	<span>></span>
 	<span>나의지원내역</span>
+</div>
+<% } %>
+
+<!-- apply - interest -->
+<% if (lourl.contains("interest") || lourl.contains("likeRecruit")) {%>
+<div class="location">
+	<span>홈</span>
+	<span>></span>
+	<span>지원현황</span>
+	<span>></span>
+	<span>나의관심</span>
 </div>
 <% } %>
 
