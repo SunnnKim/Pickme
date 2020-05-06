@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -32,10 +33,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.AMemberDto;
 import model.CMemberDto;
+import model.FilesDto;
 import model.PaymentDto;
 import model.PremierMemDto;
 import model.PremierServiceDto;
 import pickme.com.a.c_mypage.service.CMypageService;
+import pickme.com.a.util.FUpUtil;
 
 @Controller
 @RequestMapping(value = "/c_mypage")
@@ -116,21 +119,26 @@ public class CMypageController {
 		CMemberDto cMember = service.select(seq);
 		model.addAttribute("cMember", cMember);
 		
+		String address = cMember.getAddress().replace("\'", " ");
+		int findBracket =  address.indexOf("]");
+		cMember.setAddress(address.substring(findBracket+1));
+		System.out.println("바뀐 주소 : "+cMember.getAddress());
+		
 		//System.out.println(" >>>>>>>>>>>>>> " + cMember.getAddress().length());
 		
 		//주소 따옴표 제거하기
-		if(cMember.getAddress() != null) {
-			if(cMember.getAddress().length() > 5) {
-			System.out.println("getAddress true");
-			String addressDto = cMember.getAddress();
-			String[] realAddress = addressDto.split("'");
-					
-			model.addAttribute("realAddress[0]", realAddress[0]);		// 우편번호
-			model.addAttribute("realAddress[1]", realAddress[1]);		// 기본주소
-			model.addAttribute("realAddress[2]", realAddress[2]);		// 상세주소
-			};
-		};
-		return "c_mypage/myPage";
+//		if(cMember.getAddress() != null) {
+//			if(cMember.getAddress().length() > 5) {
+//			System.out.println("getAddress true");
+//			String addressDto = cMember.getAddress();
+//			String[] realAddress = addressDto.split("'");
+//					
+//			model.addAttribute("realAddress[0]", realAddress[0]);		// 우편번호
+//			model.addAttribute("realAddress[1]", realAddress[1]);		// 기본주소
+//			model.addAttribute("realAddress[2]", realAddress[2]);		// 상세주소
+//			};
+//		};
+		return "c_mypage/myPage1";
 	}
 	
 	
@@ -279,11 +287,57 @@ public class CMypageController {
 	// 기업 정보 수정 
 	@ResponseBody
 	@RequestMapping(value = "update.do", method = {RequestMethod.POST})
-	public String update(CMemberDto dto, Model model, HttpSession session, String hashTag, MultipartFile file, HttpServletRequest request) throws Exception {
+	public String update(CMemberDto dto, Model model, HttpSession session, String hashTag, MultipartFile file, MultipartFile [] originfile, HttpServletRequest request) throws Exception {
 		
 		System.out.println("file>>>>>>>>>>>>>>>>>>>>>>>>> : " + file);
 		System.out.println("dto to String : " + dto.toString());
 		
+		// (ref) 그룹번호 불러오기
+		int ref = service.getLastSeq();
+		
+		// 첨부파일용 파일 테이블에 저장할 리스트 만들기
+		boolean result = true;
+		System.out.println("number of files = " + originfile.length);
+		
+		if(originfile.length > 0) {	// 첨부파일이 있을 경우
+			List<FilesDto> list = new ArrayList<>();
+			for( int i = 0; i < originfile.length; i++ ) {
+				// 파일 새 이름 등록
+				String originName = originfile[i].getOriginalFilename();
+				if ( !originName.equals("") ) {
+					System.out.println("오리지날 이름 = " + originName);
+					String newname = FUpUtil.getNewFileName(originName);
+					String path = "/upload/c_mypage";
+					String type = originfile[i].getContentType();
+					FilesDto filesDto = new FilesDto(originName, newname, ref, i , type);
+					
+					// 리스트에 담기
+					list.add(filesDto);
+					
+					System.out.println("list["+i+"] = " + list.get(i));
+					
+					// 경로 및 파일이름 지정
+					String uploadPath = request.getSession().getServletContext().getRealPath(path);
+					File uploadFile = new File(uploadPath + "/" + newname);
+					System.out.println("upload = " + uploadFile.toString());
+					
+					// 서버에 파일 업로드하기
+					try {
+						// 실제 파일을 지정 폴더에 업로드 함 
+						FileUtils.writeByteArrayToFile(uploadFile, originfile[i].getBytes());
+					} catch (IOException e) {
+						e.getMessage();
+						return null;
+					}
+				} else break;
+			}
+			
+			// 파일 DB에 넣기
+			result = service.uploadImage(list);
+			
+			// newname 으로 바꾸기
+			service.imageNameUpdate(ref);
+		}
 		
 		// 기업 세션 seq 저장
         int c_seq = ((CMemberDto)session.getAttribute("logincompany")).getSeq();

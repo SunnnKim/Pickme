@@ -53,6 +53,26 @@
   	VALUES(#{logoPath}, #{logoName})
   </insert>
   
+  <!-- 이미지 업로드 -->
+  <insert id = "uploadImage" parameterType = "model.FilesDto">
+  	INSERT INTO FILES(USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE )
+  	VALUES ( 'C_MEMBER', #{originname}, #{newname}, 'upload/c_mypage/', 0, #{ref}, #{step}, #{filetype} )
+  </insert>
+  
+  <!-- newName -->
+  <update id="imageNameUpdate" parameterType="int">
+	UPDATE FILES
+	SET ORIGINNAME=#{newname}
+	WHERE SEQ=${ref} AND USETABLE='C_MEMBER' AND STEP=0
+  </update>
+  
+  <!-- 마지막 시퀀스 뽑아내기 -->
+  <select id="getLastSeq" resultType="int">
+	SELECT LAST_INSERT_ID()
+  </select>
+  
+  
+  
   
   <!-- 기업회원 탈퇴 -->
  <!--  <update id = "withdrawal" parameterType = "model.CMemberDto">

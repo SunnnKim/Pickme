@@ -536,23 +536,26 @@ div div.logo-img input.btTextW {
         </div>
  </form>
  
+ 
+ 
+ <form id="fileform" method="post" action="recfileup.do" enctype="multipart/form-data">
         <div class="input-box">
           <p class = "column"> 기업 이미지
             <label class = "star" style = "color:#ff0000"> * </label>
             <label class = "message"> 최대 3장까지 등록 가능하며, 해당 이미지를 클릭하면 삭제됩니다. </label>
           </p>
-          <form>
+
 	          <div class="cmypage-fileWrap clfix">
 	           	 <div class="c-fileBtn clfix">
-	             	<input type = "file" class="photo-add" id = "image1" name="images[]" accept="image/*">
-	             	<input type = "file" class="photo-add" id = "image2" name="images[]" accept="image/*">
-	             	<input type = "file" class="photo-add" id = "image3" name="images[]" accept="image/*">
+	             	<input type = "file" class="photo-add" id = "image1" name="originfile" accept=".jpg, .png">
+	             	<input type = "file" class="photo-add" id = "image2" name="originfile" accept=".jpg, .png">
+	             	<input type = "file" class="photo-add" id = "image3" name="originfile" accept=".jpg, .png">
 	             </div>
 	            <div class = "c-gallery clfix" style="width:1052px; height:332px;border:1px solid rgb(176, 176, 176)">
 	            </div>
 	          </div>
-          </form>
-        </div>
+   		</div>
+</form>
 
         <!-- <div style = "margin-top: 100px;">
         </div> -->
@@ -822,15 +825,50 @@ function CKupdate(){
 //============================= 완료 submit ===========================================//
 function updateComplete() {
 	CKupdate();
+
+	var presidentVal = $("#president").val();
+	var typeVal = $("#typeid").val();
+	var departmentVal = $("#c_department").val();
+	var telVal = $("#tel").val();
+
+
+	// 대표자명 검사
+	var korRegPresident1 = /^[가-힣]*$/;				// 한글 정규식
+	var engRegPresident1 = /^[a-zA-Z]*$/;
+	if(korRegPresident1.test(presidentVal) && engRegPresident1.test(presidentVal)) {
+		presidentCheck = true;
+	}
+
+	// 기업 규모 검사
+	if(typeVal != 'none') {
+		typeCheck = true;
+	}
+
+	// 기업 분야 검사
+	if(departmentVal != 'none') {
+		departmentCheck = true;
+	}
+
+	// 전화번호 검사
+	var telReg1 = /^\d{2,3}-\d{3,4}-\d{4}$/;
+	if(telReg1.test(telVal)) {
+		telVal = true;
+	}
+
 	
-	
-	// 주소 합치기 ! 
-	var addressStr = '';
-	addressStr += "[" + $('#sample6_postcode').val() + "]'";		// 우편번호
-	addressStr += $('#sample6_address').val() + "'";			// 기본주소
-	addressStr += $('#sample6_detailAddress').val();			// 상세주소
-	$('input[name=address]').val(addressStr);
-	console.log(addressStr);
+	// 주소 합치기 !
+   var addressStr = '';
+   addressStr += "[" + $('#sample6_postcode').val() + "]'";      // 우편번호
+   addressStr += $('#sample6_address').val() + "'";         // 기본주소
+   if($('#sample6_detailAddress').val() == "") {
+      addressStr += " ";       // 상세주소
+   } else {
+      addressStr += $('#sample6_detailAddress').val();       // 상세주소
+   }
+      $('input[name=address]').val(addressStr);
+
+   alert(addressStr);
+   console.log(addressStr);
 
 	
 	// 대표자명 잘못 입력
@@ -965,17 +1003,14 @@ function updateComplete() {
 	 	 input2.setAttribute("value", hashtagVar);
 	 	 frmTag.appendChild(input2);
 
-		//let data = new FormData;
-		//console.log()
 		var getFile = $('input[name=logoImg]')[0].files[0];
-		alert("getFile 값 :" + getFile);
+		var originName = $("#input[name=originname]").val();	//
+
+		//alert("getFile 값 :" + getFile);
 		formData.append("file", getFile);
-		//console.log(data)   
-		
-		//var introduce = $('#introduce').val();
-		//alert("introduce 값 :" + introduce);
-		//formDate.append("introduce", introduce);
 		   
+	if(presidentCheck == true && typeCheck == true && departmentCheck == true && telCheck== true) {
+			   
 		$.ajax({
 			data 		: formData,
 			type 		: 'POST',
@@ -993,6 +1028,7 @@ function updateComplete() {
 			    		showConfirmButton: true,
 			    		timer: 1500
 			    	}).then(function(result){
+			    		$("#fileform").submit();
 						location.href="goCMypage.do";
 					});
 		    }, 
@@ -1001,7 +1037,7 @@ function updateComplete() {
 			}
 
 		})
-			
+	}	
 }
 
 // 로고 이미지 미리보기

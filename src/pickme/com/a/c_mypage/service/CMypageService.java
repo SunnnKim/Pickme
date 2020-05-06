@@ -3,6 +3,7 @@ package pickme.com.a.c_mypage.service;
 import java.util.List;
 
 import model.CMemberDto;
+import model.FilesDto;
 import model.PaymentDto;
 import model.PremierMemDto;
 import model.PremierServiceDto;
@@ -57,5 +58,14 @@ public interface CMypageService {
 
 	// 유료서비스 데이터 가져오기
 	public PremierServiceDto showPremere();
+	
+	// 이미지 업로드
+	public boolean uploadImage(List<FilesDto> list);
+	
+	// to newName
+	public void imageNameUpdate(int ref);
+
+	// 마지막 시퀀스 불러오기
+	public int getLastSeq();
 	
 }

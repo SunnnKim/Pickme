@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.CMemberDto;
+import model.FilesDto;
 import model.PaymentDto;
 import model.PremierMemDto;
 import model.PremierServiceDto;
@@ -117,6 +118,24 @@ public class CMypageServiceImpl implements CMypageService{
 	@Override
 	public PremierServiceDto showPremere() {
 		return dao.showPremier();
+	}
+
+	// 이미지 업로드
+	@Override
+	public boolean uploadImage(List<FilesDto> list) {
+		return dao.uploadImage(list);
+	}
+
+	// to newName
+	@Override
+	public void imageNameUpdate(int ref) {
+		dao.imageNameUpdate(ref);
+	}
+
+	// 마지막 시퀀스 불러오기
+	@Override
+	public int getLastSeq() {
+		return dao.getLastSeq();
 	}
 
 
