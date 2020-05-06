@@ -71,6 +71,7 @@
 	SELECT SEQ, USETABLE, ORIGINNAME, NEWNAME, PATH, DEL, REF, STEP, FILETYPE
 	FROM FILES 
 	WHERE USETABLE='C_MEMBER' AND REF=${ref}
+	order by seq desc limit 3;
   </select> 
   
   

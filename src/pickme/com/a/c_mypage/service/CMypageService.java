@@ -52,7 +52,6 @@ public interface CMypageService {
 	// 가장 최근 결제 서비스의 종료일
 	//public PaymentDto showRecentPay(PaymentDto dto);
 	
-	
 	// 환불 - 환불할 서비스 가져오기
 	public PaymentDto getRefundableService(int seq);
 
