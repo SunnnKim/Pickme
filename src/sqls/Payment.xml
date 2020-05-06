@@ -140,10 +140,16 @@ WHERE SEQ = ${seq}
 </delete>
 
 <!-- 유료서비스 불러오기(결제페이지 이동) -->
-<select id = "showPremier" parameterType="model.PremierServiceDto" resultType="model.PremierServiceDto">
+<select id = "showPremier" parameterType="int" resultType="model.PremierServiceDto">
 	SELECT SERVICESEQ, SERVICENAME, PRICE, PERIOD, SERVICEINFO, CONTENT, DEL
 	FROM PREMIER_SERVICE
-	WHERE DEL=0
+	WHERE DEL=0 AND SERVICESEQ = ${serviceSeq}
+</select>
+<!-- 결제페이지 이동시 가입할 기업 Dto 불러오기  -->
+<select id = "getCmemberDto" parameterType="int" resultType="model.CMemberDto">
+	SELECT EMAIL, NAME, TEL, ADDRESS
+	FROM C_MEMBER
+	WHERE SEQ = ${seq}
 </select>
 
 <!-- 가장 최근 결제 서비스의 종료일 -->

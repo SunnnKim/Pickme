@@ -96,11 +96,11 @@
 		            */
 		            merchant_uid: 'merchant_' + new Date().getTime(),
 		            name: '${premierDTO.serviceName }',                // 결제창에서 보여질 이름
-		            amount: '${premierDTO.price }',                         //가격 
-		            buyer_email: '${dto.email }',
-		            buyer_name: '${dto.name }',
-		            buyer_tel: '${dto.tel }',         //(필수항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
-		            buyer_addr: '${dto.address }'
+		            amount: 100,                         //가격 
+		            buyer_email: `${memberDto.email }`,
+		            buyer_name: `${memberDto.name }`,
+		            buyer_tel: `${memberDto.tel }`,         //(필수항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+		            buyer_addr: `${memberDto.address }`
 		            /*  
 		                모바일 결제시,
 		                결제가 끝나고 랜딩되는 URL을 지정 
@@ -139,17 +139,13 @@
 		            } else {
 		                var msg = '결제에 실패하였습니다.';
 		                msg += '에러내용 : ' + rsp.error_msg;
-		                
-		            }
-
-	        				Swal.fire({
+		                Swal.fire({
 		        			position: 'center',
 		        			icon: 'error',
 		        			title: '결제에 실패했습니다.',
 		        			timer: 4000
 		        		})
-
-		            
+		            }
 		        });
 		    });
 		</script>
@@ -184,10 +180,10 @@
 		            merchant_uid: 'merchant_' + new Date().getTime(),
 		            name: '결제테스트',                // 결제창에서 보여질 이름
 		            amount: 150,                         //가격 
-		            buyer_email: '${dto.email }',
-		            buyer_name: '${dto.name }',
-		            buyer_tel: '${dto.tel }',         //(필수항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
-		            buyer_addr: '${dto.address }'
+		            buyer_email: `${memberDto.email }`,
+		            buyer_name: `${memberDto.name }`,
+		            buyer_tel: `${memberDto.tel }`,         //(필수항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+		            buyer_addr: `${memberDto.address }`
 		            /*  
 		                모바일 결제시,
 		                결제가 끝나고 랜딩되는 URL을 지정 
@@ -205,7 +201,7 @@
 
 		            
 		            // 페이지 처음 들어왔을 때 선택한 서비스 번호 가져오기  
-		            var serviceSeq = 1
+		            var serviceSeq = ${seq};
 		            
 		            // DB로 보낼 데이터 저장
 		            $("input[name=impUid]").val(rsp.imp_uid);
@@ -228,13 +224,13 @@
 		            } else {
 		                var msg = '결제에 실패하였습니다.';
 		                msg += '에러내용 : ' + rsp.error_msg;
-		            }
-			            Swal.fire({
+		                Swal.fire({
 		        			position: 'center',
 		        			icon: 'error',
 		        			title: '결제에 실패했습니다.',
 		        			timer: 4000
 		        		})
+		            }
 		        });
 		    });
 		</script>

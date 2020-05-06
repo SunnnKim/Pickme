@@ -116,8 +116,8 @@ public class CMypageServiceImpl implements CMypageService{
 	
 	// 유료서비스 데이터 가져오기
 	@Override
-	public PremierServiceDto showPremere() {
-		return dao.showPremier();
+	public PremierServiceDto showPremere( int serviceSeq ) {
+		return dao.showPremier(serviceSeq);
 	}
 
 	// 이미지 업로드
@@ -142,6 +142,12 @@ public class CMypageServiceImpl implements CMypageService{
 	@Override
 	public List<FilesDto> getImages(int ref) {
 		return dao.getImages(ref);
+	}
+
+
+	@Override
+	public CMemberDto getCmemberDto(int seq) {
+		return dao.getCmemberDto(seq);
 	}
 
 
