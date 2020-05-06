@@ -91,6 +91,11 @@ public class CApplyDaoImpl implements CApplyDao {
 		int n = sqlSession.update(ns + "resumeOpenConfirm", cvSeq);
 		return (n>0)?true:false;
 	}
+
+	@Override
+	public int myCurrentRecCount(RecruitParam param) {
+		return sqlSession.selectOne(ns + "myCurrentRecCount", param);
+	}
 	
 	
 	

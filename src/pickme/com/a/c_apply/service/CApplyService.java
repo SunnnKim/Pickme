@@ -38,5 +38,7 @@ public interface CApplyService {
 	public List<LinkDto> getLinkAfter(int seq);
 
 	public boolean resumeOpenConfirm(int cvSeq);
+
+	public int myCurrentRecCount(RecruitParam param);
 	
 }

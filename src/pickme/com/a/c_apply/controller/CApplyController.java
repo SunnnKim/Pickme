@@ -78,7 +78,9 @@ public class CApplyController {
 		param.setEnd(end);
 		List<RecruitDto> list = cApplyService.myCurrentRecList(param);
 		
-		//int applyCount = cApplyService.
+		//int recCount = cApplyService.myCurrentRecCount(param);
+		
+		//System.out.println("?>???????????????????? : " + recCount);
 		
 		
 		model.addAttribute("comCurrentRecList", list);

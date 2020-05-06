@@ -85,5 +85,10 @@ public class CApplyServiceImpl implements CApplyService {
 		return cApplyDao.resumeOpenConfirm(cvSeq);
 	}
 
+	@Override
+	public int myCurrentRecCount(RecruitParam param) {
+		return cApplyDao.myCurrentRecCount(param);
+	}
+
 	
 }
