@@ -93,8 +93,7 @@
 						<td><input type="checkbox" name="checkRow"
 							value="${cvReq.seq }"> <input type="hidden"
 							class="cvReq_cSeq" value="${cvReq.cSeq}"></td>
-						<%-- <td>${pageNumber*10 + vs.index + 1}</td> --%>
-						<td><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${cvReq.cSeq }">${cvReq.name }</a></td>
+						<td><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${cvReq.cSeq }" style="text-align:center;">${cvReq.name }</a></td>
 						<td>${cvReq.comment }</td>
 						<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("rdate").toString())%></td>
 						<td>
