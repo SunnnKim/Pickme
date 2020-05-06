@@ -7,14 +7,14 @@ header {width:100%; height:50px; border-bottom:1px solid #ddd;}
 header .inner {position:relative;}
 header strong.logo {float:left; width:108px; display:block; font-size:25px; height:50px; line-height:52px; overflow:hidden; font-family: 'Black Han Sans', sans-serif;}
 header strong.logo a {color:#304edf; text-shadow:2px 2px 0 #ececec;}
-header nav.gnb {float:left; width:670px; text-align:center;}
+header nav.gnb {float:left; /* width:670px; */ padding-left:168px; text-align:center;}
 header nav.gnb a {display:inline-block; line-height:49px; color:#333; font-size:15px; margin-left:40px; font-weight:500;}
 header nav.gnb a:first-child {margin-left:0;}
 .header_infoBtn {float:right;}
 .header_infoBtn > li {float:left; line-height:49px; margin-left:12px; font-size:14px;}
 .header_infoBtn > li:first-child {position:relative; margin-left:0;}
 .header_infoBtn > li:first-child:before{position:absolute; top:13px; right:0; content:''; width:1px; height:24px; background:#ddd;}
-.header_infoBtn > li button#searchBtn {display:block; width:50px; height:50px; background:url(../images/main/ico_search.png) center / 15px no-repeat;}
+.header_infoBtn > li button#searchBtn {display:block; width:1px; /* width:50px; */ height:50px; background:url(../images/main/ico_search.png) center / 15px no-repeat;}
 .header_infoBtn > li a {color:#333;}
 .header_infoBtn > li span {display:inline-block;}
 .header_infoBtn > li span a {}

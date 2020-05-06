@@ -269,19 +269,13 @@
    var hashstr = "${dto.hashtag}";
 
    var hashdbArray = hashstr.split(',');
+
+  
+
    var hashdb01 = hashdbArray[0]
    var hashdb02 = hashdbArray[1]
    var hashdb03 = hashdbArray[2]
-
-   hashdb01.replace('undefined',''); 
-   hashdb02.replace('undefined',''); 
-   hashdb03.replace('undefined',''); 
-
-   console.log("hashstr = " + "${dto.hashtag}");
-
-   console.log("해쉬태그1: " + hashdb01);
-   console.log("해쉬태그2: " + hashdb02);
-   console.log("해쉬태그3: " + hashdb03);
+  
 
 
    const intervalCall1000 = intervalCall(1000)
@@ -324,17 +318,17 @@
 		 var hstr01 = "<span><button type='button' class='hashbtn mr8' name='hashtag'>#"+hashdb01+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb01+"'></span>";
 		 var hstr02 = "<span><button type='button' class='hashbtn mr8' name='hashtag'>#"+hashdb02+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb02+"'></span>";
 		 var hstr03 = "<span><button type='button' class='hashbtn mr8' name='hashtag'>#"+hashdb03+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb03+"'></span>";
-		 if(hashdb01 != "" && hashdb01 != "undefined"){			
+		 if(hashdb01 != "" && typeof hashdb01 != "undefined"){			
 	   	    $(".inhash").append(hstr01);
 		     element_count++;
 		     hashTagCount();
 		  }
-		  if(hashdb02 != "" && hashdb02 != "undefined"){
+		  if(hashdb02 != "" && typeof hashdb02 != "undefined"){
 			  $(".inhash").append(hstr02);
 			  element_count++;
 			  hashTagCount();
 		  }
-		  if(hashdb03 != "" && hashdb03 != "undefined"){
+		  if(hashdb03 != "" && typeof hashdb03 != "undefined"){
 			  $(".inhash").append(hstr03);
 			  element_count++;
 			  hashTagCount();
