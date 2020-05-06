@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="../../../include/header.jsp"%>
+
 <!-- //resumeWrite_Wrap -->
 <div id="resumeWrite_Wrap">
    <div class="rsm_top">
@@ -100,7 +101,7 @@
                    <input type="text" class="desc" value="시험 : ${dto.test }" readonly>
                    <input type="text" class="desc" value="점수 /급수 : ${dto.score }" readonly>
                    <div class="rsm_date">
-                       <input type="text" style="width:80px" value="취득 연도 : ${dto.date }" readonly>
+                       <input type="text" style="width:200px" value="취득 연도 : ${dto.date }" readonly>
                    </div>
                </div>
            </div><!-- //rsm_addCont -->
