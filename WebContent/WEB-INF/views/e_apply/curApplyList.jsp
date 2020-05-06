@@ -16,8 +16,8 @@
 
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
-	<li class="active"><a href="curAList.do" >현재지원내역</a></li>
-	<li><a href="pastAList.do">지난지원내역</a></li>
+	<li class="active"><a href="curApplyList.do" >현재지원내역</a></li>
+	<li><a href="pastApplyList.do">지난지원내역</a></li>
 </ul>
 
 <div id="allList" data-tab-content="" class="active">
@@ -180,7 +180,7 @@
 
 							  var sKeyword = '<c:out value="${sKeyword}"/>';
 							  var pn = '<c:out value="${pageNumber}"/>'
-							  location.href="curAList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
+							  location.href="curApplyList.do?sKeyword=" +sKeyword + "&pageNumber=" + pn;
 							});
 						}
 					},
@@ -197,7 +197,7 @@
 	//  alert("sKeyword: " + sKeyword);	
 	  var filter = '<c:out value="${filter}"/>';
 		
-	  location.href="curAList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn + "&sort=" + sort + "&filter=" + filter;
+	  location.href="curApplyList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn + "&sort=" + sort + "&filter=" + filter;
 		
 	}
 	
@@ -209,7 +209,7 @@
 			if(sKeyword == null || sKeyword == ""){
 				alert("검색어를 입력해주세요.");
 			}else{
-			 location.href="curAList.do?sKeyword=" + sKeyword +"&pageNumber=0" + "&sort=" + 0 + "&filter=채용마감일";
+			 location.href="curApplyList.do?sKeyword=" + sKeyword +"&pageNumber=0" + "&sort=" + 0 + "&filter=채용마감일";
 			}	
 		}
 		
@@ -224,7 +224,7 @@
 			
         }else{
  			var sKeyword = '<c:out value="${sKeyword}"/>';
-			location.href="curAList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
+			location.href="curApplyList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
         }
 	});
 
@@ -240,7 +240,7 @@
 			alert("카테고리를 선택해주세요.");
         }else{
             alert("확인")
-    		location.href="curAList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
+    		location.href="curApplyList.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
         }
    }   
 			

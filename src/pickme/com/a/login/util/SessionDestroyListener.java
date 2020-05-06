@@ -10,7 +10,7 @@ public class SessionDestroyListener implements ApplicationListener<SessionDestro
 
 	@Override
 	public void onApplicationEvent(SessionDestroyedEvent event) {
-		// TODO Auto-generated method stub
+
 		List<SecurityContext> securityContexts = event.getSecurityContexts();
 		
 		System.out.println("[SessionDestroyListener] Session destroyed.");

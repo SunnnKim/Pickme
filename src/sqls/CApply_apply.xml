@@ -23,7 +23,7 @@
 	<!-- SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL
 	, (select count(*)   from recruit r, apply a where r.comseq = #{comSeq} and r.seq = a.JOBSEQ and a.open = 0) AS applyCount -->
 	SELECT R.SEQ, R.COMSEQ, R.COMNAME, R.TITLE, R.COMJOBTYPE, R.WDATE, R.EDATE, R.REF, R.READCOUNT, R.IMAGENAME, R.DEL, 
-	COUNT( if(A.open=0,a.open,null) ) AS applyCount
+	COUNT( if(A.cancel=0,a.cancel,null) ) AS applyCount
 	FROM RECRUIT R LEFT OUTER JOIN APPLY A ON R.SEQ = A.JOBSEQ
 	WHERE R.COMSEQ = #{comSeq}
 	GROUP BY R.SEQ
@@ -54,10 +54,13 @@
 	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 --> 
 	
 	
+	<!-- SELECT a.name as memName, p.adate, p.open, a.profilename, a.seq as memSeq, r.seq as cvSeq, r.name as cvName
+	FROM APPLY p, A_MEMBER a, RESUME_AFTER r
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 AND r.memseq = p.memseq; -->
+	
 	SELECT a.name as memName, p.adate, p.open, a.profilename, a.seq as memSeq, r.seq as cvSeq, r.name as cvName
 	FROM APPLY p, A_MEMBER a, RESUME_AFTER r
-	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 AND r.memseq = p.memseq;
-	
+	WHERE p.JOBSEQ = #{jobSeq} AND p.memseq = a.seq AND p.cancel = 0 AND r.seq = p.cvseq;
 	
 </select>
 
