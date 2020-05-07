@@ -273,7 +273,7 @@ public class CApplyController {
 	public String resumeDownLoad(String filename, HttpServletRequest request, Model model) {
 			// download 경로
 			// tomcat
-			String fupload = request.getServletContext().getRealPath("/upload/resume_file");
+			String fupload = request.getServletContext().getRealPath("/upload/resume");
 			System.out.println("Download filename: " + filename);
 			File downloadFile = new File(fupload + "/" + filename);
 			

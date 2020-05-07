@@ -359,12 +359,12 @@ function apResumeOpen(cvSeq) {
 			var fileDto = data.fileDto
 			if(fileDto == null) {
 				//alert("새창 웹페이지");
-				alert("첨부파일 없음 , 웹페이지 연결");
+				//alert("첨부파일 없음 , 웹페이지 연결");
 				//window.open("openResumeDetail.do?seq="+cvSeq);
 				location.href = "openResumeDetail.do?seq="+cvSeq;
 			} else {
-				alert("첨부파일 있음 , 파일 다운로드");
-				alert(fileDto.filePath);
+				//alert("첨부파일 있음 , 파일 다운로드");
+				//alert(fileDto.filePath);
 				location.href = "resumeDownLoad.do?filename="+fileDto.storedName;
 			}
 		},
