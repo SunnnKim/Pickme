@@ -65,8 +65,6 @@
  		FROM (SELECT * FROM CV_REQUEST WHERE PSEQ = #{loginSeq}) v
  		INNER JOIN C_MEMBER c
  		ON v.CSEQ = c.SEQ
- 		INNER JOIN RESUME_AFTER r
- 		ON v.CVSEQ = r.SEQ
  		WHERE (v.ACCEPT = 1 OR v.ACCEPT = 2) AND v.DELMEM = 0 
 		<if test="sKeyword != null and sKeyword !=''">
 			AND (c.NAME = #{sKeyword} OR v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%'))
@@ -188,7 +186,7 @@
  	<select id="getResumeList" parameterType="int" resultType="model.ResumeDto">
  		SELECT SEQ, NAME
  		FROM RESUME
- 		WHERE MEMSEQ = #{loginSeq} 
+ 		WHERE MEMSEQ = #{loginSeq} AND DEL = 0
  	</select>
  	
  	<select id="getResume" parameterType = "int" resultType="model.ResumeAfterDto">

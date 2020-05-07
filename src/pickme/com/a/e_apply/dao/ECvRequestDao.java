@@ -26,9 +26,7 @@ public interface ECvRequestDao {
 	
 	// 이력서 선택해서 수락하기
 	
-	public CvCompanyDto getMainResumeSeq(int pseq);
-	
-	public int sendResume(CvCompanyDto dto);
+//	public CvCompanyDto getMainResumeSeq(int pseq);
 	
 	public int getLastId();
 	

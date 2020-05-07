@@ -88,21 +88,21 @@ public class SocketCountroller {
 	  
 	// 회사로고 불러오기 
 		@RequestMapping(value="getComLogo.do")
-		 protected void getComLogo(HttpServletRequest request, HttpServletResponse response, String logoname, String logopath) throws ServletException, IOException {
+		 protected void getComLogo(HttpServletRequest request, HttpServletResponse response, String filename, String filepath) throws ServletException, IOException {
 				   
 			  request.setCharacterEncoding("utf-8");
 			  response.setCharacterEncoding("utf-8");
 			  response.setContentType("text/html; charset=utf-8");
 		      System.out.println("file download connected");
 		      
-		      System.out.println("download serv logopath :"+ logopath);
-		      System.out.println("download serv logoname :"+ logoname);
+		      System.out.println("download serv logopath :"+ filepath);
+		      System.out.println("download serv logoname :"+ filename);
 
 		      
-		      String uploadRoot = request.getSession().getServletContext().getRealPath(logopath);
+		      String uploadRoot = request.getSession().getServletContext().getRealPath(filepath);
 		      System.out.println("uploadRoot:"+uploadRoot);
 
-		      File f = new File(uploadRoot + logoname);
+		      File f = new File(uploadRoot + filename);
 
 		      response.setHeader("Content-Type", "image/jpg");
 
@@ -131,5 +131,7 @@ public class SocketCountroller {
 				// TODO Auto-generated catch block
 				System.out.println("filedownload error:" + e.getMessage());
 			}
-		}
+				
+		}	
+			
 }

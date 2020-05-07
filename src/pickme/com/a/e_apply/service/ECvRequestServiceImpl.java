@@ -38,21 +38,21 @@ public class ECvRequestServiceImpl implements ECvRequestService {
 		return dao.getReqTotalCount(param);
 	}
 
-	@Override
-	public CvCompanyDto getMainResumeSeq(int pseq) {
-		
-		return dao.getMainResumeSeq(pseq);
-	}
-
-	@Override
-	public int sendResume(CvCompanyDto dto) {
-	 
-		int result = dao.sendResume(dto);
-		System.out.println("sendResumeResult: " + result);
-		int cvSeq = dao.getLastId(); // CV_COMPANY테이블에 추가된 항목의 seq가져오기
-		
-		return cvSeq;
-	}
+//	@Override
+//	public CvCompanyDto getMainResumeSeq(int pseq) {
+//		
+//		return dao.getMainResumeSeq(pseq);
+//	}
+//
+//	@Override
+//	public int sendResume(CvCompanyDto dto) {
+//	 
+//		int result = dao.sendResume(dto);
+//		System.out.println("sendResumeResult: " + result);
+//		int cvSeq = dao.getLastId(); // CV_COMPANY테이블에 추가된 항목의 seq가져오기
+//		
+//		return cvSeq;
+//	}
 
 	@Override
 	public int putCvSeq(int seq, int cvSeq) {

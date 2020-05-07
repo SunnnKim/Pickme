@@ -325,6 +325,7 @@ public class ECvRequestController {
 		return success;
 	}
 
+	// 
 	@ResponseBody
 	@RequestMapping(value="deletePastReq.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public int[] deletePastReq(int[] seqArray) {

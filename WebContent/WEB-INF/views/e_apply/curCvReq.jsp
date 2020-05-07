@@ -150,15 +150,15 @@
 
 		});
 		
-		if (seqArray == null) {
-			alert("수락할 대상을 선택하세요.");
+		if (seqArray == null || seqArray.length == 0) {
+			Swal.fire({
+				  icon: 'warning',
+				  title: '선택하신 요청이 없습니다.',
+				  text: '수락하실 요청을 먼저 선택해주세요.',
+				  
+				})
 			return false;
 		}
-		if(seqArray.length == 0){
-			alert("이력서 열람요청 내역이 없습니다");
-			return false;
-		}
-
 
 		$.ajax({
 			type	: "post",
@@ -170,7 +170,7 @@
 					Swal.fire({
 							  icon: 'warning',
 							  title: '수락하실 메인이력서가 없습니다',
-							  text: '이력서를 먼저 작성해주세요.',
+							  text: '메인이력서를 설정해주세요.',
 							  
 							})
 						return false;

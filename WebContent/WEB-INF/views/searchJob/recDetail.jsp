@@ -121,6 +121,7 @@
        
 <!-- Kakao Map Api -->
 <%@include file="../../../../api/kakaoMap.jsp" %>
+<!-- 메시지보내기 -->
 <%@include file="../../../include/sendMsg.jsp" %>
 <script>
 //좋아요 하트 클래스 add+remove

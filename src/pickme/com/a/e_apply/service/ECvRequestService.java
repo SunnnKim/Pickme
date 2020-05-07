@@ -22,9 +22,9 @@ public interface ECvRequestService {
 
 	public int getReqTotalCount(CvReqParam param);
 	
-	public CvCompanyDto getMainResumeSeq(int pseq);
-	
-	public int sendResume(CvCompanyDto dto);
+//	public CvCompanyDto getMainResumeSeq(int pseq);
+//	
+//	public int sendResume(CvCompanyDto dto);
 	
 	public int putCvSeq(int seq, int cvSeq);
 	

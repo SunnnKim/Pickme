@@ -41,17 +41,17 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 		return sqlSession.selectOne(ns + "getReqTotalCount", param);
 	}
 
-	@Override
-	public CvCompanyDto getMainResumeSeq(int pseq) {
-		
-		return sqlSession.selectOne(ns + "getMainResumeSeq", pseq);
-	}
-
-	@Override
-	public int sendResume(CvCompanyDto dto) {
-		
-		return sqlSession.insert(ns + "sendResume", dto);
-	}
+//	@Override
+//	public CvCompanyDto getMainResumeSeq(int pseq) {
+//		
+//		return sqlSession.selectOne(ns + "getMainResumeSeq", pseq);
+//	}
+//
+//	@Override
+//	public int sendResume(CvCompanyDto dto) {
+//		
+//		return sqlSession.insert(ns + "sendResume", dto);
+//	}
 
 	@Override
 	public int getLastId() {
@@ -184,7 +184,6 @@ public class ECvRequestDaoImpl implements ECvRequestDao{
 		
 		List<ResumeDto> list = sqlSession.selectList(ns + "getResumeList", loginSeq);
 		System.out.println("list.size()>>>>" + list.size());	
-		System.out.println(list.get(0).toString());
 		return list;
 	}
 
