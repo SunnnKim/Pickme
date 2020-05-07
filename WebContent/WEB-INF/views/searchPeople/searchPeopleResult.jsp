@@ -77,58 +77,79 @@
 	<%
 }
 %>
-<% for(int i = 0; i < searchList.size(); i++ ){
-		AMemberDto dto = searchList.get(i);
+<%
+pageContext.setAttribute("cn", "\n"); //Enter
 %>
+<c:forEach items="${searchList }" var="dto" varStatus="index">
 	  <!-- people -->
 	<div class="people-box">
 	  <div class="content-wrapper">
 	    <div class="img-wrapper" style="margin-left: 15px;">
-	    <% if( dto.getProfileName() != null ){ %>
-	      <img src="/Pickme/a_mypage/imageDownload.do?filename=<%=dto.getProfileName() %>&filepath=<%=dto.getProfilePath()%>">
-        <%} else {%>
-        <label for="inputFile"></label>
+	    <c:choose>
+		    <c:when test="${ '' ne dto.profileName and null ne dto.profileName  }">
+		      <img src="/Pickme/a_mypage/imageDownload.do?filename=${dto.profileName }&filepath=${dto.profilePath}">
+		    </c:when>
+		    <c:otherwise>
+		        <label for="inputFile">이미지 없음</label>
+		    </c:otherwise>
+	    </c:choose>
 	     <!--  <img src="../images/woman1.png"> -->
-        <%} %>
 	    </div>
 	  </div>
 	  <div class="people-info">
 	    <div class="content-wrapper">
-	      <div class="name"><%=dto.getName() %></div>
+	      <div class="name">${dto.name }</div>
 	      <div class="info-wrapper">
-	        <div style="font-size: 11px"><%= dto.getJob().split(",")[0] %> / <%= dto.getJob().split(",")[1] %></div>
-	        <div><%=dto.getCareer().equals("신입") ? "신입":"경력"%></div>
+	        <div style="font-size: 11px">
+	        	 <c:if test="${dto.job ne '' }">
+	        	 	${fn:split(dto.job,',')[0]}/${fn:split( dto.job ,',')[1]}
+	        	 </c:if> 
+	        </div>
+	        <div>
+	        	<c:choose>
+        			<c:when test="${fn:contains(dto.career,'신입')}">
+						    신입
+        			</c:when>
+        			<c:otherwise>
+        					경력
+        			</c:otherwise>
+	        	</c:choose>
+        	</div>
 	      </div>
 	      <div class="info-hashtag scroller">
-	      	<% String [] hashTag = dto.getHashtag().split(",");
-	      		for(int j = 0; j < hashTag.length; j++ ){ 
-	      			 if(!hashTag[j].contains("undefined")){
-	      		%>
-	        	<span>#<%=hashTag[j] %></span>
-        	<%  }} %>
+	      		<c:forEach items="${dto.hashtag }" var="tag" varStatus="i">
+	      			<c:if test="${not fn:contains(tag,'undefined') and '' ne tag }">
+	      				<span>#${tag }</span>
+	      			</c:if>
+	      		</c:forEach>
 	      </div>
 	    </div>
 	  </div>
 	  <div class="people-introduce">
 	    <div class="content-wrapper">
 	      <div class="text-area">
-	        <%=dto.getIntroduce().replaceAll("\n", "<br>") %>
+			<c:if test="${dto.introduce ne ''}">
+			<c:set var="str" value="${fn:replace(dto.introduce, cn, '<br>')}"/>		
+				${str }
+			</c:if>	      	
+	        <%-- <%=dto.getIntroduce().replaceAll("\n", "<br>") %> --%>
 	      </div>
 	    </div>
 	  </div>
 	  <div class="people-btn">
 	    <div class="content-wrapper">
-	      <button class="show-btn profileBtn" seq="<%=dto.getSeq()%>">
+	      <button class="show-btn profileBtn" seq="${dto.seq }">
 	        프로필보기
 	      </button>
-	      <button class="show-btn requestBtn" seq="<%=dto.getSeq()%>" pname="<%=dto.getName()%>">
+	      <button class="show-btn requestBtn" seq="${dto.seq }" pname="${dto.name }">
 	        이력서 열람요청
 	      </button>
 	    </div>
 	  </div>
 	</div>
-<%}%>
-	<!-- people -->
+</c:forEach>
+
+<!-- people -->
 <!-- 인재프로필 -->
 <!-- 더보기버튼 -->
 <% if( dataNumber > 5 ) { %>
