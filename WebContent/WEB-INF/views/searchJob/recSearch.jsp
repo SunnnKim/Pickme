@@ -116,7 +116,7 @@ $(document).ready(function(){
 	if(getOcc==""){
 		 $(".location").children(":last").text("전체보기");
 	}else if(getOcc != ""){
-	    $(".pageTit").append(" / "+getOcc);
+	    $(".pageTit").append("<i class='fas fa-chevron-right' style='color: #ccc;font-size: 22pt;'></i> "+getOcc);
 	    $(".location").children(":last").text(getOcc);
 	
 	}
