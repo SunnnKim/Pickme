@@ -123,7 +123,7 @@
  	<!-- 커리어 넣기 -->
  	<insert id="putCareer" parameterType="model.CareerDto" >
  		INSERT INTO CAREER_AFTER
- 		VALUES(SEQ, #{rsmseq}, #{company}, #{position}, #{startDate}, #{endDate}, #{ing})
+ 		VALUES(SEQ, #{rsmseq}, #{company}, #{position}, #{startdate}, #{enddate}, #{ing})
  	</insert>
  	<!-- 학력 가져오기 -->
  	<select id="getEducation" parameterType="int" resultType="model.EducationDto">
@@ -134,7 +134,7 @@
  	<!-- 학력 넣기 -->
  	<insert id="putEducation" parameterType="model.EducationDto">
  		INSERT INTO EDUCATION_AFTER
- 		VALUES(SEQ, #{rsmseq}, #{school}, #{major}, #{study}, #{startDate}, #{endDate})
+ 		VALUES(SEQ, #{rsmseq}, #{school}, #{major}, #{study}, #{startdate}, #{enddate})
  	</insert>
  	<select id="getAwardsEtc" parameterType="int" resultType="model.AwardsEtcDto">
  		SELECT AWARDS, DETAIL, DATE
