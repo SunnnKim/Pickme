@@ -375,19 +375,13 @@ $(document).ready(function(){
 	     var hashtext = document.getElementById('hashtag').value.trim();
 	     var text_len =  document.getElementById('hashtag').value.trim().length;
 	     const str = "<span><button type='button' class='hashbtn' name='hashbtn' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashtext+"'></span>";
-	     if(hashtext != "" && text_len>=2 ){
+	     if(hashtext != "" && text_len>=1 ){
 	      $(".inhash").append(str);
 	    
 	      document.getElementById('hashtag').value="";
 	      element_count++;
 	      hashTagCount();
-	     } else if(text_len < 2){
-	    	 Swal.fire({
-				  icon: 'error',
-				  text: '태그를 2자이상입력해주세요.'
-			})
-
-	     } else if(hashtext == ""){
+	     }  else if(hashtext == ""){
 	    	 Swal.fire({
 				  icon: 'error',
 				  text: '태그를 입력해주세요.'
@@ -401,13 +395,13 @@ $(document).ready(function(){
    $("#hashtag").keyup(function(e){
 	   hashTagCount();
 	   if(e.keyCode == 13) {
-		   if( $(this).val().trim().length >= 2 ) {
+		   if( $(this).val().trim().length >= 1 ) {
 			 tagappend();
 			 
-		   } else if ( $(this).val().trim().length < 2){
+		   } else if ( $(this).val().trim().length < 1){
 			   Swal.fire({
 					  icon: 'error',
-					  text: '태그를 2자이상입력해주세요.'
+					  text: '태그를 입력해주세요.'
 				})
 		   }
 		}

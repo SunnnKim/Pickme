@@ -125,7 +125,7 @@
               </div>
               <h4>태그<span class="ess">*</span></h4>
               <div class="cont">
-                <input type="text" id="hashtag" required placeholder="태그는 최대 3개까지 입력가능합니다." maxlength="7"><button type="button" id="hashadd" onclick="tagappend()" >추가</button>
+                <input type="text" id="hashtag" required placeholder="태그는 최대 3개까지 입력가능합니다." maxlength="10"><button type="button" id="hashadd" onclick="tagappend()" >추가</button>
                 <div class="inhash"></div>
               </div>
               <div class="rec-buttons">
@@ -323,18 +323,12 @@
 	     var hashtext = document.getElementById('hashtag').value;
 	     var text_len =  document.getElementById('hashtag').value.length;
 	     const str = "<span><button type='button' class='hashbtn' name='hashbtn' style='margin-right:8px;'>#"+hashtext+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashtext+"'></span>";
-	     if(hashtext.trim() != "" && text_len>=4 ){
+	     if(hashtext.trim() != "" && text_len>=1 ){
 	      $(".inhash").append(str);
 	    
 	      document.getElementById('hashtag').value="";
 	      element_count++;
 	      hashTagCount();
-	     } else if(text_len > 1 && text_len < 2){
-	    	 Swal.fire({
-				  icon: 'error',
-				  text: '태그를 2자이상입력해주세요.'
-			})
-
 	     } else if(hashtext.trim() == ""){
 	    	 Swal.fire({
 				  icon: 'error',
@@ -348,12 +342,12 @@
 	//태그 입력
    $("#hashtag").keyup(function(e){
 	   if(e.keyCode == 13) {
-		   if( $(this).val().length >= 2 ) {
+		   if( $(this).val().length >= 1 ) {
 			 tagappend();
-		   } else if ( $(this).val().length > 1 && $(this).val().length < 2){
+		   } else if ( $(this).val().trim().length < 1){
 			   Swal.fire({
 					  icon: 'error',
-					  text: '태그를 2자이상입력해주세요.'
+					  text: '태그를 입력해주세요.'
 				})
 		   }
 		}
