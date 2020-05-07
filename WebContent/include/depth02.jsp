@@ -260,9 +260,6 @@ if (durl.contains("customer/")){
 	<li class=<%= durl.contains("notice") ? " on" :" "%>>
 		<a href="/Pickme/customer/noticeList.do">공지사항</a>
 	</li>
-	<li class=<%= durl.contains("customerQuestion") ? " on" :" "%>>
-		<a href="/Pickme/customer/customerQuestion.do">자주하는질문</a>
-	</li>
 	<li class=<%= durl.contains("customerService.jsp") ? " on" :" "%>>
 		<a href="/Pickme/customer/customerService.do">문의하기</a>
 	</li>

@@ -72,7 +72,7 @@
 	</bean>
 	<!-- 기업 회원 석세스 핸들러 -->
 	<bean id="companySuccessHandler" class="pickme.com.a.login.util.CustomSuccessHandlerForCompany">
-		<property name="defaultTargetUrl" value="/login/main.do" />
+		<property name="defaultTargetUrl" value="/login/comMain.do" />
 		<property name="alwaysUseDefaultTargetUrl" value="true"></property>		
 	</bean>
 	

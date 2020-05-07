@@ -3,6 +3,7 @@ package pickme.com.a.login.service;
 import java.util.List;
 
 import model.AMemberDto;
+import model.CMemberDto;
 import model.NoticeDto;
 import model.RecruitDto;
 
@@ -29,4 +30,8 @@ public interface LoginService {
 	public List<RecruitDto> mainTopRec();
 	// 메인 공지사항 뽑아오기 
 	public List<NoticeDto> getMainNotice();
+	// 메인 추천 기업 
+	public List<CMemberDto> mainTopCompany();
+	
+	
 }

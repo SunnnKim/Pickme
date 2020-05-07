@@ -35,14 +35,21 @@ public class LoginController {
 	
 	// 메인페이지
 	@RequestMapping(value = "main.do")
-	public String mainView( Model model) {
+	public String mainView( Model model, HttpSession session ) {
 		
+		if(session.getAttribute("logincompany") != null ) {
+			return "main/comMain";
+		}
 		// 공지사항 데이터 
 		List<NoticeDto> mainNoticeList = aMember.getMainNotice();
 		// 메인 금주의 채용
 		List<RecruitDto> recTopList = aMember.mainTopRec();
+		// 메인 추천기업
+		List<CMemberDto> companyList = aMember.mainTopCompany();
+		
 		model.addAttribute("mainNoticeList",mainNoticeList);
 		model.addAttribute("recTopList",recTopList);
+		model.addAttribute("companyList",companyList);
 		
 		return "main/main";
 	}

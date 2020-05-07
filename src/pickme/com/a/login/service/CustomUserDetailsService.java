@@ -95,5 +95,10 @@ public class CustomUserDetailsService implements LoginService, UserDetailsServic
 		return dao.getMainNotice();
 	}
 
+	@Override
+	public List<CMemberDto> mainTopCompany() {
+		return dao.mainTopCompany();
+	}
+
 
 }
