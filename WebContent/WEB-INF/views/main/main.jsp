@@ -234,6 +234,7 @@
 	          	<c:forEach items="${companyList }" var="dto" varStatus="index">
 	            <li><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${dto.seq }">
 	              <div class="img">
+			          <img src="/Pickme/searchJob/filedownload.do?filename=${dto.logoName }&filepath=${dto.logoPath }" alt="엑박" onerror="this.src='/Pickme/images/sub/no-img.png'"/>
 	              	<img src="/Pickme/searchJob/filedownload.do?filename=${dto.logoName }&filepath=${dto.logoPath }" alt="엑박">
 	              </div>
 	              <div class="txt">
@@ -266,7 +267,7 @@
 							<c:forEach items="${recTopList }" var="dto" varStatus="rs">
 								<li><a href="/Pickme/searchJob/recDetail.do?seq=${dto.seq }">
 					              <div class="img">
-					               <img src="/Pickme/searchJob/filedownload.do?filename=${dto.imagename }&filepath=/upload/recruit/" alt="엑박">
+					               <img src="/Pickme/searchJob/filedownload.do?filename=${dto.imagename }&filepath=/upload/recruit/"  onerror="this.src='/Pickme/images/sub/no-img.png'" alt="엑박">
 					              </div>
 					              <div class="txt">
 					                <h3>${dto.title }</h3>
