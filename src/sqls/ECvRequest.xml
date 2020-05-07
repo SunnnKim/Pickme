@@ -127,14 +127,14 @@
  	</insert>
  	<!-- 학력 가져오기 -->
  	<select id="getEducation" parameterType="int" resultType="model.EducationDto">
- 		SELECT SCHOOL, MAJOR, STUDY, STARTDATE, ENDDATE
+ 		SELECT SCHOOL, MAJOR, STUDY, STARTDATE, ENDDATE, ING
  		FROM EDUCATION
  		WHERE RSMSEQ = #{originalId}
  	</select>
  	<!-- 학력 넣기 -->
  	<insert id="putEducation" parameterType="model.EducationDto">
  		INSERT INTO EDUCATION_AFTER
- 		VALUES(SEQ, #{rsmseq}, #{school}, #{major}, #{study}, #{startdate}, #{enddate})
+ 		VALUES(SEQ, #{rsmseq}, #{school}, #{major}, #{study}, #{startdate}, #{enddate}, #{ing})
  	</insert>
  	<select id="getAwardsEtc" parameterType="int" resultType="model.AwardsEtcDto">
  		SELECT AWARDS, DETAIL, DATE

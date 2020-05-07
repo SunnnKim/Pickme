@@ -78,7 +78,7 @@
 			<c:set var="rdate" value="${pastCvReq.rdate }"/>
 				<tr>
 					<td><input type="checkbox" name="checkRow" value="${pastCvReq.seq }"></td>
-					<td>${pastCvReq.name }</td>
+					<td><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${pastCvReq.cSeq }" style="text-align:center;">${pastCvReq.name }</a></td>
 					<td>${pastCvReq.comment }</td>
 					<td><%=EApplyUtil.todayMsg(pageContext.getAttribute("rdate").toString())%></td>
 				<!-- 수락여부 및 열람여부 확인 -->
