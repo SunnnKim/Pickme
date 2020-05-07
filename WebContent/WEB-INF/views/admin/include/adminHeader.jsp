@@ -35,7 +35,7 @@
   <header>
     <div class="inner clfix">
       <strong class="logo"><a href="#none">PICK ME</a></strong>
-      <nav class="gnb" style="width: 700px; margin-left: 50px;">
+      <nav class="gnb" style="width: 700px; margin-left: 50px; padding-left:0">
         <a href="/Pickme/admin/adminMember.do">회원관리</a>
         <a href="/Pickme/admin/adminCompany.do">기업관리</a>
         <a href="/Pickme/admin/notice/noticeList.do">공지사항</a>
