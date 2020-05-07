@@ -64,24 +64,24 @@ public class SearchJobController {
 	@RequestMapping(value = "recSearch.do")
 	public String recSearch(Model model, RecruitParam param) {
 		//1차 직군 선택시
-		System.out.println("occ : "+ param.getOcc());
-		//model.addAttribute("occ", param.getOcc());
+		//System.out.println("occ : "+ param.getOcc());
+		model.addAttribute("occ", param.getOcc());
 			
 		//2차 직무 선택
-		System.out.println("job : "+ param.getJob());
-		//model.addAttribute("job", param.getJob());
+		//System.out.println("job : "+ param.getJob());
+		model.addAttribute("job", param.getJob());
 		
 		//필터 - sorting(최신순, 인기순)
-		System.out.println("sorting : " + param.getSorting());
-		//model.model.addAttribute("sorting", param.getSorting());
+		//System.out.println("sorting : " + param.getSorting());
+		model.addAttribute("sorting", param.getSorting());
 		
 		//경력 정렬
-		System.out.println("comJobType : "+param.getComJobType());
-		//model.addAttribute("comJobType",param.getComJobType());
+		//System.out.println("comJobType : "+param.getComJobType());
+		model.addAttribute("comJobType",param.getComJobType());
 	
 		//검색
-		System.out.println("sKeyword : " + param.getsKeyword());
-		//model.addAttribute("sKeyword", param.getsKeyword());
+		//System.out.println("sKeyword : " + param.getsKeyword());
+		model.addAttribute("sKeyword", param.getsKeyword());
 		
 		int nowPage = param.getPageNumber(); // 현재페이지넘버
 		int start = nowPage * param.getRecordCountPerPage(); // 1, 11, 21
