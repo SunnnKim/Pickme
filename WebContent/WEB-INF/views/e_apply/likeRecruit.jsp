@@ -77,12 +77,12 @@
 		<table >
 			<caption>전체</caption>
 			<colgroup>
+				<col style="width: 5%">
 				<col style="width: 10%">
-				<col style="width: 15%">
 				<col style="width: 30%">
-				<col style="width: 15%">
-				<col style="width: 15%">
-				<col style="width: 15%">
+				<col style="width: 10%">
+				<col style="width: 25%">
+				<col style="width: 20%">
 			</colgroup>
 			<thead>
 				<tr>
@@ -114,13 +114,13 @@
 									<i class="fas fa-heart liked"></i>
 								</button>
 					</td>
-					<td><a href="#" class="interest-com" title="기업상세페이지" >${likeRecruit.comName }</a></td>
-					<td><a href="#" class="interest-com" title="채용상세페이지">${likeRecruit.title }</a></td>
+					<td><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${likeRecruit.comseq}" class="interest-com" title="기업상세페이지" >${likeRecruit.comName }</a></td>
+					<td><a href="/Pickme/searchJob/recDetail.do?seq=${likeRecruit.likepickseq }" class="interest-com" title="채용상세페이지">${likeRecruit.title }</a></td>
 					<td>${likeRecruit.comjob1 }</td>
 					<td>${likeRecruit.edate }</td>
 					<c:if test="${likeRecruit.apply == 0 }">
 					<td>
-						<button class="goApplyBtn" onclick="apply()">지원하러가기</button>
+						<button class="goApplyBtn" onclick="apply(${likeRecruit.likepickseq })">지원하러가기</button>
 					</td>
 					</c:if>
 					<c:if test="${likeRecruit.apply == 1 }">
@@ -150,7 +150,7 @@
 	// 관심기업 삭제 	 
 	function likech(likepickseq){
 		
-		alert(likepickseq);
+		//alert(likepickseq);
 		var pn = '<c:out value="${pageNumber }"/>'
 		$.ajax({
 			 url: "removefav.do", 
@@ -160,7 +160,7 @@
 			 dataType: "json",
 			 success: function(data){
 				if(data >0){
-					alert("관심기업 삭제");
+					//alert("관심기업 삭제");
 					location.href="likeRecruit.do?pageNum=" + pn;
 	
 					}
@@ -171,6 +171,81 @@
 		    }
 	    })
 	}
+
+	function apply(seq){
+
+		location.href="/Pickme/searchJob/recDetail.do?seq=" + seq;
+
+		 }
+		
+	 function apply(seq){
+
+			location.href="/Pickme/searchJob/recDetail.do?seq=" + seq;
+
+	 }
+
+	
+
+	function searchAction() {
+		//alert("검색 버튼 클릭");
+		
+		var sKeyword =($("#_keyword").val()).trim();		
+		// alert("sKeyword: " + sKeyword );
+		
+		if(sKeyword == null || sKeyword == ""){
+			Swal.fire({
+				  icon : 'warning',
+				  text : '검색어를 입력해 주세요'
+				})
+		}else{
+		 location.href="likeRecruit.do?sKeyword=" + sKeyword +"&pageNumber=0";
+		}
+	}
+	// 엔터키로 검색 
+	$("#_keyword").keyup(function(e){if(e.keyCode == 13) searchAction(); });	
+
+	
+
+	/* 페이지 이동 */
+	function goPage(pn){
+		  var sKeyword = '<c:out value="${sKeyword}"/>';
+		  var filter = '<c:out value="${filter}"/>';
+	
+		  	location.href="likeRecruit.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
+	
+	}	
+
+	/*정렬 카테고리 변경시 이벤트*/	
+	$("#applyFilter").change(function(){
+		var filterAfter = $("#applyFilter option:selected").val();
+		// alert(filterAfter);
+		// 검색된 페이지인 경우 검색어 불러오기
+		if(filterAfter == '선택'){
+	
+			
+        }else{
+		
+ 			var sKeyword = '<c:out value="${sKeyword}"/>';
+			location.href="likeRecruit.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
+        }
+	});
+
+    /* 정렬 */		
+    function sorting(sort){
+    	// 검색된 페이지인 경우 검색어 불러오기
+ 		var sKeyword = '<c:out value="${sKeyword}"/>';
+ 		// 필터 select box 텍스트 가져오기
+ 		var filterAfter = $("#applyFilter option:selected").val();
+    	// alert("필터: " + filterAfter + " 정렬: " + sort);
+
+    	if(filterAfter == '선택'){
+			alert("카테고리를 선택해주세요.");
+			
+        }else{
+ 
+    		location.href="likeRecruit.do?sKeyword=" + sKeyword + "&pageNumber=0&sort=" + sort + "&filter=" + filterAfter;
+        }
+     }   
 				
 </script>
 

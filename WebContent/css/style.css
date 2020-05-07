@@ -1331,11 +1331,11 @@ margin-right:6px;
 }
 
 /*=====================MyfavCom=======================*/
-.sendMsgBtn{background:#202a9e; border-radius:5%; padding:5px; color: #fff; font-weight: 400; font-size:13px; height: 40px; width: 100px;}
+.sendMsgBtn{background:#202a9e; border-radius:5%; padding:5px; color: #fff; font-weight: 400; font-size:13px; height: 40px; width: 150px;}
 
 
 /*=======================MyfavComRecruit===============*/
-.goApplyBtn{background:#202a9e; border-radius:5%; padding:5px; color: #fff; font-weight: 400px; font-size:13px; height: 40px; width: 100px;}
+.goApplyBtn{background:#202a9e; border-radius:5%; padding:5px; color: #fff; font-weight: 400px; font-size:13px; height: 40px; width: 150px;}
 .applyCompleteBtn{font-weight:500px;}
 .table-bbs td a.interest-com{text-align:center;}
 

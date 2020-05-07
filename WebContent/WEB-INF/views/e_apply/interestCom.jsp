@@ -71,7 +71,6 @@
 						</c:if>
 						</tr>
 					</c:if>
-
 					<c:forEach items="${interComList }" var="interCom" varStatus="vs">
 						<tr>
 							<td class="like-td">
@@ -81,7 +80,7 @@
 							</td>
 							
 							<td >	<!-- 기업 기본 정보 링크 들어가야함 -->
-								<a class="interest-com" href="#none" onclick="a_detail(${interCom.likepickseq })">
+								<a class="interest-com" href="/Pickme/c_mypage/goCMypage.do?sentSeq=${interCom.likepickseq }">
 									${interCom.name }
 								</a>
 							</td>
@@ -292,10 +291,6 @@
 		  	location.href="interestCom.do?sKeyword=" + sKeyword +"&pageNumber=" + pn;
 	
 	}	
-
-	function a_detail(cseq){
-		alert("기업디테일 페이지로 ");
-	}
 
 </script> 
 

@@ -72,7 +72,7 @@ public class SocketCountroller {
 				  
 					 msg = msg + "<li><a href='/Pickme/searchJob/recDetail.do?seq=" + list.get(i).getSeq() +"'>" +		 
 							 		"<div class='img'><img src='/Pickme/getComLogo.do?filename=" + list.get(i).getLogoname() + 
-							 		"&filepath=" + list.get(i).getLogopath() + "' alt='기업 로고'></div>" + 
+							 		"&filepath=" + list.get(i).getLogopath() + " onerror='this.src=/Pickme/images/sub/no-img.png' alt='기업 로고'></div>" + 
 							 		"<div class='txt'>" + 
 							 			"<h3>" + list.get(i).getComName() + "</h3>"+ 
 							 			"<p>~" + list.get(i).getEdate() + "</p>" + 

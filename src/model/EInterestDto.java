@@ -12,6 +12,7 @@ public class EInterestDto {
     private String edate;    // 채용 마감일
     private int apply;       // 지원여부  
     private int seq;         // 채용공고 seq 
+    private int comseq;
   
     
     public EInterestDto() {
@@ -20,7 +21,7 @@ public class EInterestDto {
 
 
 	public EInterestDto(int likepickseq, String name, String tel, String title, String comName, String logopath,
-			String logoname, String comjob1, String edate, int apply, int seq) {
+			String logoname, String comjob1, String edate, int apply, int seq, int comseq) {
 		super();
 		this.likepickseq = likepickseq;
 		this.name = name;
@@ -33,6 +34,7 @@ public class EInterestDto {
 		this.edate = edate;
 		this.apply = apply;
 		this.seq = seq;
+		this.comseq = comseq;
 	}
 
 
@@ -146,16 +148,25 @@ public class EInterestDto {
 	}
 
 
+	public int getComseq() {
+		return comseq;
+	}
+
+
+	public void setComseq(int comseq) {
+		this.comseq = comseq;
+	}
+
+
 	@Override
 	public String toString() {
 		return "EInterestDto [likepickseq=" + likepickseq + ", name=" + name + ", tel=" + tel + ", title=" + title
 				+ ", comName=" + comName + ", logopath=" + logopath + ", logoname=" + logoname + ", comjob1=" + comjob1
-				+ ", edate=" + edate + ", apply=" + apply + ", seq=" + seq + "]";
+				+ ", edate=" + edate + ", apply=" + apply + ", seq=" + seq + ", comseq=" + comseq + "]";
 	}
 
 
 	
-
 	
     
 }
