@@ -128,7 +128,7 @@
 </div>
 <script type="text/javascript">
 function back(){
-	alert('ss??')
+	//alert('ss??')
 	location.href="/Pickme/c_apply/cApplyList.do?jobSeq=${dto.jobSeq}"
 }
 </script>

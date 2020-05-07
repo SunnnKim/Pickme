@@ -89,7 +89,7 @@ color: #4f6eff;
 						<div class="txt">
 							<h3 class="cApply_title">${dto.title }</h3>
 							<c:if test="${dto.del == 0 }"><H4 style="text-align: right; color: #4f6eff">[모집]</H4> </c:if>							
-							<c:if test="${dto.del == 1 }"><H4 style="text-align: right; color: #ff7373">[마감]</H4> </c:if>		
+							<c:if test="${dto.del == 2 }"><H4 style="text-align: right; color: #ff7373">[마감]</H4> </c:if>		
 							<%-- <p>${dto.comName }</p> --%>
 							<%-- <p>${dto.comJobType }</p> --%>
 							<span style="text-align: right;">[기간] : ${dto.wdate } ~ ${dto.edate }</span>

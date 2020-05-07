@@ -45,8 +45,8 @@
 			<colgroup>
 				<col style="width: 10%">
 				<col style="width: 10%">
-				<col style="width: 50%">
-				<col style="width: 10%">
+				<col style="width: 45%">
+				<col style="width: 15%">
 				<col style="width: 20%">
 			</colgroup>
 			<thead>
