@@ -90,7 +90,7 @@ pageContext.setAttribute("cn", "\n"); //Enter
 		      <img src="/Pickme/a_mypage/imageDownload.do?filename=${dto.profileName }&filepath=${dto.profilePath}">
 		    </c:when>
 		    <c:otherwise>
-		        <label for="inputFile">이미지 없음</label>
+		       <span><i class="fas fa-user"></i></span>
 		    </c:otherwise>
 	    </c:choose>
 	     <!--  <img src="../images/woman1.png"> -->
@@ -402,7 +402,7 @@ $('#more-btn').click(function(){
 				    			'<div class="img-wrapper" style="margin-left: 15px;">'
 			 	if( people.profileName != "" ){
 						str += '<img src="/Pickme/a_mypage/imageDownload.do?filename='+ people.profileName + '&filepath=' + people.profilePath + '">'
-				}else str += '<label for="inputFile"></label>'
+				}else str += ' <span><i class="fas fa-user"></i></span>'
 				str += '</div></div>'
 
 				// 일반회원 정보 + 해쉬태그
@@ -640,6 +640,8 @@ select { width: 200px; /* 원하는 너비설정 */ padding: .8em .5em; /* 여�
 /* 로고이미지 */
 .search-contents .people-box .img-wrapper{ border: 1px solid #eaeaea; width: 150px; height: 150px; overflow: hidden; border-radius: 1000px;  }
 .search-contents .people-box .img-wrapper img{ width: 150px; height: 150px; }
+.search-contents .people-box .img-wrapper span {display:block; width:100%; height:100%; position:relative; background:#ddd;}
+.search-contents .people-box .img-wrapper span i {position:absolute; top:30px; left:22px; font-size:120px; color:#fff;}
 /* 인재소개 */
 .people-info{ text-align: center; width: 180px;}
 .people-info .content-wrapper .name{ font-size: 30px; display: block;  }

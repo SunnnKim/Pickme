@@ -37,7 +37,8 @@
 <meta name="viewport" content="width= 1050px, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="refresh" content="3600">
-<title>index</title>
+<title>Pick me</title>
+<link rel="icon" href="/Pickme/images/main/pickme.ico" sizes="32x32">
 <!----- [ 디자인 CSS 영역 ] ----->
 <!-- 리셋 CSS -->
 <link rel="stylesheet" href="/Pickme/css/reset.css" type="text/css">
