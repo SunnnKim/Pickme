@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <div id="aMypage-wrap">
 	<%-- <img src="/Pickme/a_mypage/imageDownload.do?filename=${dto.profileName }&filepath=${dto.profilePath }" class="upload-thumb"> --%>
 	<form id="form" method="post" enctype="multipart/form-data">

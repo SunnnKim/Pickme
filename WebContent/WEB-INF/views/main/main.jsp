@@ -37,7 +37,8 @@
 <meta name="viewport" content="width= 1050px, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="refresh" content="3600">
-<title>index</title>
+<title>Pick me</title>
+<link rel="icon" href="/Pickme/images/main/pickme.ico" sizes="32x32">
 <!----- [ 디자인 CSS 영역 ] ----->
 <!-- 리셋 CSS -->
 <link rel="stylesheet" href="/Pickme/css/reset.css" type="text/css">
@@ -342,7 +343,7 @@
 	   function connectWs(){
 			console.log("Info: connecting...");
 			// 웹소켓 객체생성
-			var ws = new WebSocket("ws://localhost:8090/Pickme/echo.do");
+			var ws = new WebSocket("ws://192.168.2.31:8090/Pickme/echo.do");
 
 			// 다른곳에서 사용할 수 있게 전역변수에 넣기 
 			socket = ws;

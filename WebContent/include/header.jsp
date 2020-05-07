@@ -45,7 +45,8 @@
 <meta name="viewport" content="width=1050, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="refresh" content="3600">
-<title>index</title>
+<title>Pick me</title>
+<link rel="icon" href="/Pickme/images/main/pickme.ico" sizes="32x32">
 <!-- 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
  -->
