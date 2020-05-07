@@ -292,7 +292,7 @@ public class SearchJobController {
 
 			// 파일 저장
 			// 저장 경로 불러오기 
-			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/resume_file");
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/resume");
 			// 파일이름 설정
 			String originalName = file.getOriginalFilename();
 			// 바꿀이름

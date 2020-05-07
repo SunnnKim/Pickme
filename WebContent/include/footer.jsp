@@ -51,7 +51,7 @@
 	   function connectWs(){
 			console.log("Info: connecting...");
 			// 웹소켓 객체생성
-			var ws = new WebSocket("ws://192.168.2.31:8090/Pickme/echo.do");
+			var ws = new WebSocket("ws://localhost:8090/Pickme/echo.do");
 
 			// 다른곳에서 사용할 수 있게 전역변수에 넣기 
 			socket = ws;

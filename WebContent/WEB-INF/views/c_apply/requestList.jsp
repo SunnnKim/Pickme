@@ -194,7 +194,7 @@ email : <%=company.getEmail()%>
 							<td>
 								<c:choose>
 								<c:when test="${request.accept eq '1'}">
-									<button type="button" class="btn-resumeOpen" onclick="resumeOpen(${request.cvSeq}, '${request.pEmail }')">이력서 열람</button>
+									<button type="button" class="btn-resumeOpen" onclick="apResumeOpen(${request.cvSeq})">이력서 열람</button>
 								</c:when>
 									<c:when test="${request.accept eq '2'}">
 										 <!-- 요청 거절 됨 -->
@@ -667,7 +667,7 @@ window.onclick = function(event) {
 	}
 
 
-	function resumeOpen(cvSeq, pEmail) {
+	/* function apResumeOpen(cvSeq, pEmail) {
 		//var w = window.open("about:blank","_blank","width=600, height=700, top=0,left=0,scrollbars=no");
 
 		
@@ -688,22 +688,39 @@ window.onclick = function(event) {
 				} else {
 					alert("파일 다운로드 연결");
 				}
-				
-
-
-				
 			},
 			error		: function(request,status,error){ 
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 			}
-			
-
 		})
+	} */
 
 
-
-
-		
+	function apResumeOpen(cvSeq) {
+		//alert("cvSeq : " + cvSeq);
+		$.ajax({
+			url		 : "/Pickme/c_apply/reResumeOpen.do",
+			type	 : "POST",
+			dataType : "json",
+			data	 : {"cvSeq" : cvSeq},
+			success	 : function(data) {
+				var fileDto = data.fileDto
+				if(fileDto == null) {
+					//alert("새창 웹페이지");
+					//alert("첨부파일 없음 , 웹페이지 연결");
+					//window.open("openResumeDetail.do?seq="+cvSeq);
+					location.href = "reOpenResumeDetail.do?seq="+cvSeq;
+				} else {
+					//alert("첨부파일 있음 , 파일 다운로드");
+					//alert(fileDto.filePath);
+					location.href = "reResumeDownLoad.do?filename="+fileDto.storedName;
+				}
+			},
+			error	 : function(request,status,error){ 
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+			}
+		})
+			
 	}
 
 	

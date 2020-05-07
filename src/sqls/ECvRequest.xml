@@ -170,7 +170,7 @@
  		WHERE RSMSEQ = #{originalId}
  	</select>
  	
- 	<insert id="putResumeFile" parameterType="model.ResumeFileDto">
+ 	<insert id="putFilesDto" parameterType="model.ResumeFileDto">
  		INSERT INTO RESUME_FILE_AFTER
  		VALUES ( SEQ, #{rsmSeq}, #{originalName}, #{storedName}, #{filePath})
  	</insert>
