@@ -185,7 +185,7 @@ public class SearchJobController {
 		int findBracket =  address.indexOf("]");
 		//address.substring(findBracket);
 		cmemdto.setAddress(address.substring(findBracket+1));
-		//System.out.println("바뀐 주소 : "+cmemdto.getAddress());
+		System.out.println("바뀐 주소 : "+cmemdto.getAddress());
 		
 		model.addAttribute("recDto", dto);
 		model.addAttribute("cmem",cmemdto);

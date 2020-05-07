@@ -273,7 +273,7 @@
     $(i_main_task).keyup(function(){
     	var regStr = regExpTest( $(this).val() );
 		$(this).val(regStr);
-	    if($(this).val().length >10){
+	    if($(this).val().length >5){
 	      $(this).next("i").css("color","green");
 	      b_main_task=true;
 	    } else {
@@ -285,7 +285,7 @@
     $(i_requirements).keyup(function(){
     	 var regStr = regExpTest( $(this).val() );
 		 $(this).val(regStr);
-		  if( $(this).val().length >10){
+		  if( $(this).val().length >5){
 		      $(this).next("i").css("color","green");
 		      b_requirements=true;
 		    } else {

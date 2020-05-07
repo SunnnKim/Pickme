@@ -335,7 +335,7 @@ $(document).ready(function(){
     $(i_main_task).keyup(function(){
      var inputLength = $(this).val().length;
     //console.log(inputLength);
-    if(inputLength>10){
+    if(inputLength>5){
       $(this).next("i").css("color","green");
       b_main_task=true;
       } else {
@@ -347,7 +347,7 @@ $(document).ready(function(){
     $(i_requirements).keyup(function(){
      var inputLength = $(this).val().length;
     //console.log(inputLength);
-    if(inputLength>10){
+    if(inputLength>5){
       $(this).next("i").css("color","green");
       b_requirements=true;
       } else {
