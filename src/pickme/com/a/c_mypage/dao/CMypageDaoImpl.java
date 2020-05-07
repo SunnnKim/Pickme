@@ -127,8 +127,8 @@ public class CMypageDaoImpl implements CMypageDao{
 	
 	// 유료서비스 데이터 가져오기
 	@Override
-	public PremierServiceDto showPremier() {
-		return session.selectOne("Payment." + "showPremier");
+	public PremierServiceDto showPremier( int serviceSeq ) {
+		return session.selectOne("Payment." + "showPremier", serviceSeq);
 	}
 
 	// 이미지 업로드
@@ -163,6 +163,12 @@ public class CMypageDaoImpl implements CMypageDao{
 	@Override
 	public List<FilesDto> getImages(int ref) {
 		return session.selectList(nameSpace + "getImages", ref);
+	}
+
+
+	@Override
+	public CMemberDto getCmemberDto(int seq) {
+		return session.selectOne("Payment.getCmemberDto", seq);
 	}
 
 

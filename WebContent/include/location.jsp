@@ -157,7 +157,7 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 
 <!-- apply - applyList -->
-<% if (lourl.contains("ApplyList")) {%>
+<% if (lourl.contains("curApplyList") || lourl.contains("pastApplyList")) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>
@@ -184,7 +184,7 @@ String lourl = request.getServletPath();  //프로젝트의 경로값만 가져�
 
 <!-- 기업_지원자 관리 -->
 
-<% if ( lourl.contains("cApply") ) {%>
+<% if ( lourl.contains("cApplyList") || lourl.contains("cApplyMain")) {%>
 <div class="location">
 	<span>홈</span>
 	<span>></span>

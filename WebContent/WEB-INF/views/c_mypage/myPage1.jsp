@@ -146,7 +146,7 @@ h4.h4_introduce{margin-top:100px; margin-left:50px;margin-bottom:15px;font-size:
 		</c:when>
      </c:choose>
      </div>
-     
+</div>     
 <!--------------------------------- 팔로우버튼, 수정버튼 영역 ----------------------------------------->
   <div class="followBtnWrap">
 	<label>
@@ -157,7 +157,7 @@ h4.h4_introduce{margin-top:100px; margin-left:50px;margin-bottom:15px;font-size:
 	  <% } %>               
     </label>
 </div>
-</div>
+
 
   <script>
   $(".followBtnWrap label span input[type='checkbox']").click(function(){

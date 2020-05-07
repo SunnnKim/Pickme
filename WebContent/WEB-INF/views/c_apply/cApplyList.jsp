@@ -150,7 +150,7 @@
     cursor: pointer;
 }
 
-li {margin-top: 10px}
+/* li {margin-top: 10px} */
 
 
 .hashTag {display:inline-block;padding:5px 15px;font-size:15px;color:#fff;background:#999;border-radius:3px;margin-right:10px;}
@@ -349,7 +349,7 @@ function cApply_list() {
 
 /* 이력서 열람 파일 유무 검증 */
 function apResumeOpen(cvSeq) {
-	alert("cvSeq : " + cvSeq);
+	//alert("cvSeq : " + cvSeq);
 	$.ajax({
 		url		 : "apResumeOpen.do",
 		type	 : "POST",
@@ -360,8 +360,8 @@ function apResumeOpen(cvSeq) {
 			if(fileDto == null) {
 				//alert("새창 웹페이지");
 				alert("첨부파일 없음 , 웹페이지 연결");
-				window.open("openResumeDetail.do?seq="+cvSeq);
-				//window.open('openResume.do?seq='+cvSeq,'window_name','width=830,height=600,location=no,status=no,scrollbars=yes');
+				//window.open("openResumeDetail.do?seq="+cvSeq);
+				location.href = "openResumeDetail.do?seq="+cvSeq;
 			} else {
 				alert("첨부파일 있음 , 파일 다운로드");
 				alert(fileDto.filePath);

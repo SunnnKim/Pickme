@@ -421,14 +421,17 @@ public class CMypageController {
 	
 	// 결제 디테일 이동
 	@RequestMapping(value="paymentDetail.do", method = {RequestMethod.GET})
-	public String paymentDetail(int seq, Model model) {
-		
+	public String paymentDetail(int seq, Model model, HttpSession session) {
+		System.out.println(seq);
 		model.addAttribute("seq", seq);
-		
+
+		int memSeq = ((CMemberDto) session.getAttribute("logincompany")).getSeq();
 		// 유료서비스 데이터 가져오기
-		PremierServiceDto premierDTO = service.showPremere();
+		PremierServiceDto premierDTO = service.showPremere(seq);
+		CMemberDto cMemberDto = service.getCmemberDto(memSeq);
 		
 		model.addAttribute("premierDTO", premierDTO);
+		model.addAttribute("memberDto", cMemberDto);
 		
 		return "c_mypage/paymentDetail";
 	}

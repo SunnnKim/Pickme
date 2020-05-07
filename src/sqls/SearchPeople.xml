@@ -22,6 +22,8 @@ FROM A_MEMBER
 WHERE (DEL != 1 AND OPEN = 1)
 	AND (CAREER LIKE #{career} )
 	AND (JOB LIKE #{job1} AND JOB LIKE #{job2} )
+	AND ( JOB NOT LIKE '%1차분류%' OR JOB NOT LIKE '%2차분류%')
+	AND CAREER IS NOT NULL
 LIMIT 5 offset ${moreContentNum}
 </select>
 
@@ -32,6 +34,8 @@ FROM A_MEMBER
 WHERE (DEL != 1 AND OPEN = 1)
 	AND (CAREER LIKE #{career} )
 	AND (JOB LIKE #{job1} AND JOB LIKE #{job2} )
+	AND ( JOB NOT LIKE '%1차분류%' OR JOB NOT LIKE '%2차분류%')
+	AND CAREER IS NOT NULL
 </select>
 <!-- 디테일 인재 찾기 -->
 <select id="getSearchDetail" parameterType="model.SearchPeopleParam" resultType="model.AMemberDto">
@@ -45,6 +49,8 @@ WHERE (DEL != 1 AND OPEN = 1)
 	        HASHTAG LIKE #{tag}
 	  	</foreach>
 	)
+	AND ( JOB NOT LIKE '%1차분류%' OR JOB NOT LIKE '%2차분류%')
+	AND CAREER IS NOT NULL
 LIMIT 5 offset ${moreContentNum}
 </select>
 <!-- 디테일 인재 찾기 인원수 -->
@@ -59,6 +65,8 @@ WHERE (DEL != 1 AND OPEN = 1)
 	        HASHTAG LIKE #{tag}
 	  	</foreach>
 	)
+	AND ( JOB NOT LIKE '%1차분류%' OR JOB NOT LIKE '%2차분류%')
+	AND CAREER IS NOT NULL
 </select>
 <!-- 인재정보 디테일불러오기 -->
 <select id="getPeopleDetail" parameterType="int" resultType="model.AMemberDto">

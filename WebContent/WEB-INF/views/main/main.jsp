@@ -36,6 +36,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width= 1050px, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="refresh" content="3600">
 <title>index</title>
 <!----- [ 디자인 CSS 영역 ] ----->
 <!-- 리셋 CSS -->

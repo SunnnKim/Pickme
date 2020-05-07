@@ -304,7 +304,7 @@ $('#check2').click(function(){
 // 자세히보기 클릭
 function goBtn( btn ){
 	var seqNum = btn.parentElement.parentElement.childNodes[0].innerHTML;
-	location.href="/Pickme/customer/noticeDetail.do?seq="+seqNum;	// 공지사항 디테일로 가는 경로 입력 
+	location.href="/Pickme/customer/paidServiceDetail.do?seq="+seqNum;	// 공지사항 디테일로 가는 경로 입력 
 }
 // 수정하기 클릭
 function updateBtn( btn ){

@@ -115,11 +115,6 @@ public class PaymentController {
 		return "admin/payment/managePayment";
 	}
 	
-	// 서비스 디테일보기 
-	@RequestMapping(value="getServiceDetail.do")
-	public String getServiceDetail() {
-		return "";
-	}
 	
 	
 	// 공지사항 텍스트 에디터에 이미지 넣어서 파일로 변환하는 부분

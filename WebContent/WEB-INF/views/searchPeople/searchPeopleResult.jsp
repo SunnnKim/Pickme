@@ -63,8 +63,6 @@
 <!-- 필터 -->
 	<div class="filter-wrapper">
 	  <div class="filter">
-	    <a href="#">인기순</a>
-	    <a href="#">경력순</a>
 	  </div>
 	</div>
 <!-- 필터 -->	
@@ -103,9 +101,11 @@
 	      </div>
 	      <div class="info-hashtag scroller">
 	      	<% String [] hashTag = dto.getHashtag().split(",");
-	      		for(int j = 0; j < hashTag.length; j++ ){ %>
+	      		for(int j = 0; j < hashTag.length; j++ ){ 
+	      			 if(!hashTag[j].contains("undefined")){
+	      		%>
 	        	<span>#<%=hashTag[j] %></span>
-        	<%  } %>
+        	<%  }} %>
 	      </div>
 	    </div>
 	  </div>
@@ -222,10 +222,11 @@ var tagList = [];
 // 해쉬태그 처음에 있을때 
 <%
  for( String str: searchParam.getHashTags()){
+	 if(!str.contains("undefined")){
  %>
  	tagList.push('<%=str%>')
  <%
- }
+ }}
 %>
 
 // 해쉬태그 입력하기 
@@ -290,7 +291,9 @@ function searchPeople(){
  			console.log(profileTags)
  			$('.basic-info .profile-tags').html('')
  			for ( var i in profileTags ){
- 				$('.basic-info .profile-tags').append('<span>#' + profileTags[i] + '</span>')
+ 	 			if(profileTags[i].includes('undefined') == 'false' ){
+	 				$('.basic-info .profile-tags').append('<span>#' + profileTags[i] + '</span>')
+ 	 	 		}
  			}
  			// 사진
  			if( people.profileName.trim() == ""){
@@ -394,6 +397,7 @@ $('#more-btn').click(function(){
 	        	str += '<div class="info-hashtag scroller">';
 	        	var hashTag = people.hashtag.split(',');
 	        	for( var j in hashTag ){
+		        	if(hashTag[j].includes('undefined') == false)
 					str += '<span>#' + hashTag[j] + '</span>'
 		        }
 	        	str += '</div></div></div>'
