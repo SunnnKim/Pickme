@@ -110,7 +110,7 @@
 					<td><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${interComRecruit.likepickseq }" class="interest-com" title="기업상세페이지" >${interComRecruit.comName }</a></td>
 					<td><a href="/Pickme/searchJob/recDetail.do?seq=${interComRecruit.seq }" class="interest-com" title="채용상세페이지">${interComRecruit.title }</a></td>
 					<td>${interComRecruit.comjob1 }</td>
-					<td>${interComRecruit.edate }</td>
+					<td>${interComRecruit.edate } 지원여부: ${ interComRecruit.apply}</td>
 					<c:if test="${interComRecruit.apply == 0 }">
 					<td>
 						<button class="goApplyBtn" onclick="apply(${interComRecruit.seq})">지원하러가기</button>

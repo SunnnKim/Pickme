@@ -42,7 +42,7 @@
 		ON f.LIKEPICKSEQ = r.COMSEQ
 		WHERE f.ID = #{email}
 		<if test="sKeyword != null and sKeyword !=''">
-		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
+		AND (r.COMNAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
 		<if test="filter == '채용마감일'">
 			<if test="sort == 0">
@@ -71,7 +71,7 @@
 		ON f.LIKEPICKSEQ = r.COMSEQ
 		WHERE f.ID = #{email}
 		<if test="sKeyword != null and sKeyword !=''">
-		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
+		AND (r.COMNAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
   	</select>
   	
@@ -90,7 +90,7 @@
   		ON f.LIKEPICKSEQ = r.SEQ
   		WHERE f.ID = #{email}
   		<if test="sKeyword != null and sKeyword !=''">
-		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
+		AND (r.COMNAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
 		<if test="filter == '채용마감일'">
 			<if test="sort == 0">
@@ -117,7 +117,7 @@
   		ON f.LIKEPICKSEQ = r.SEQ
   		WHERE f.ID = #{email}
   		<if test="sKeyword != null and sKeyword !=''">
-		AND (c.NAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
+		AND (r.COMNAME = #{sKeyword} OR  r.TITLE LIKE CONCAT('%', #{sKeyword}, '%') OR r.COMJOB1 LIKE CONCAT('%', #{sKeyword}, '%'))
 		</if>
   	</select> 	
   	
