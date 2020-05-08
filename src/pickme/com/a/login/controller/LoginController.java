@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +19,7 @@ import model.NoticeDto;
 import model.RecruitDto;
 import pickme.com.a.login.service.LoginService;
 import pickme.com.a.login.service.LoginServiceForCompany;
-import pickme.com.a.recruit.service.RecruitService;
-import pickme.com.a.recruit.service.RecruitServiceImpl;
+import pickme.com.a.util.MailUtil;
 
 @RequestMapping("/login")
 @Controller
@@ -140,7 +138,7 @@ public class LoginController {
 		msg += keyCode + "</strong> 를 입력해주세요.</div><br/>";
 		// 메일 보내기 
 		try {
-			// MailUtil.sendMail(email, subject, msg);
+			MailUtil.sendMail(email, subject, msg);
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -275,7 +273,7 @@ public class LoginController {
 		msg += keyCode + "</strong> 를 입력해주세요.</div><br/>";
 		// 메일 보내기 
 		try {
-		//	MailUtil.sendMail( email, subject, msg);
+			MailUtil.sendMail( dto.getEmail(), subject, msg);
 		} catch (Exception e) {
 			e.getMessage();
 			return "false";
@@ -342,7 +340,7 @@ public class LoginController {
 		msg += keyCode + "</strong> 를 입력해주세요.</div><br/>";
 		// 메일 보내기 
 		try {
-//			MailUtil.sendMail( email, subject, msg);
+			MailUtil.sendMail( dto.getEmail(), subject, msg);
 		} catch (Exception e) {
 			e.getMessage();
 			return "false";
