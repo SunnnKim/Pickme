@@ -126,7 +126,7 @@
 
 			// 서버에서 메시지 도착한 경우
 		    ws.onmessage = function(event){
-
+			
 				if((event.data).includes("메시지")){//메시지 도착시 alert 
 					console.log("ReceiveMessage:", event.data + '\n');
 					
@@ -222,7 +222,12 @@
 			}	
 			
 		}
-		 
+
+		// 이미지 없을때 
+/* 		 function noImage(){
+			$(this).setAttribute("src", "/Pickme/images/sub/no-img.png");
+
+	     } */
 
 	   
 	 </script>

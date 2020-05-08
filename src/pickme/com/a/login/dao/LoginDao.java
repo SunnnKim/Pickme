@@ -167,6 +167,10 @@ public class LoginDao {
 	public List<RecruitDto> mainTopRec(){
 		return sqlSession.selectList(namespace+"mainTopRecruit");
 	}
+	// 메인 추천 기업 
+	public List<CMemberDto> mainTopCompany(){
+		return sqlSession.selectList(namespace + "mainTopCompany"); 
+	}
 	
 	// 메인 공지사항 뽑아오기 
 	public List<NoticeDto> getMainNotice(){

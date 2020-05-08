@@ -8,6 +8,15 @@
 <select id="mainTopRecruit" resultType="model.RecruitDto">
 	SELECT * FROM RECRUIT WHERE DEL=0 ORDER BY READCOUNT DESC LIMIT 4
 </select>
+<!-- (메인) 추천기업 4개뽑아오기 -->
+<select id="mainTopCompany" resultType="model.CMemberDto">
+select c.seq, c.name, c.department, c.logoname, c.logopath from c_member c 
+inner join (select count(*) as count, LIKEPICKSEQ as seq from favorite
+where auth = 1
+group by LIKEPICKSEQ
+order by count desc ) f on c.seq = f.seq 
+limit 4
+</select>
 <!-- (메인) 공지사항 4개 뽑아오기 -->
 <select id="getMainNotice" resultType="model.NoticeDto">
 select * from notice

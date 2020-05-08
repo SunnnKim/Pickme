@@ -37,8 +37,7 @@
 <meta name="viewport" content="width= 1050px, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="refresh" content="3600">
-<title>Pick me</title>
-<link rel="icon" href="/Pickme/images/main/pickme.ico" sizes="32x32">
+<title>index</title>
 <!----- [ 디자인 CSS 영역 ] ----->
 <!-- 리셋 CSS -->
 <link rel="stylesheet" href="/Pickme/css/reset.css" type="text/css">
@@ -70,34 +69,8 @@
 			<div class="inner clfix">
 				<strong class="logo"><a href="/Pickme/login/main.do">PICK ME</a></strong>
 				<%
-			 // 일반 로그인일 떄 
-		 	 if( member != null ){
-		 		 %>
-		 		 <nav class="gnb">
-					<a href="/Pickme/searchJob/recSearch.do">채용탐색</a> <!-- 일반회원 채용탐색  -->
-					<a href="/Pickme/resume/resume.do">이력서</a><!-- 일반회원 이력서관리  -->
-					<a href="/Pickme/e_apply/curCvReq.do">지원현황</a><!-- 일반회원 지원현황  -->
-					<a href="/Pickme/customer/noticeList.do">고객센터</a>
-				</nav>
-				<!-- // gnb -->
-				<ul class="header_infoBtn clfix">
-					<li><button type="button" id="searchBtn"></button></li>
-					<li class="alert-wrap bell">
-					   <span class="alert-bell"><img alt="" src="../images/main/alarm-bell.png"></span>
-					   <div id='alert-NoContent' class="alertContWrap">현재 관심등록한 기업의 채용공고가 없습니다.</div>	
-					 </li>	
-					<li class="alert-wrap msg">	
-					   	<a href="/Pickme/e_apply/inMsg.do"><img alt="" src="../images/main/message.png" width="20px" height="20px"></a> 
-					</li>
-					<li>
-						<a href="/Pickme/a_mypage/profile.do"><%=userName %> 님 </a><!-- 일반회원 마이페이지 -->
-					</li>
-					<li><a href="/Pickme/login/logout.do">로그아웃</a></li>
-				</ul>
-		 		 <%
-		 		 // 기업회원 로그인일때
-		 	 } else if( company != null ){
-				 %>
+			  		if( company != null ){
+				%>
 				 <nav class="gnb">
 					<a href="/Pickme/searchPeople/searchPeopleIntro.do">인재탐색</a> <!-- 기업회원 인재탐색  -->
 					<a href="/Pickme/c_apply/cApplyMain.do">지원현황</a><!-- 기업회원 지원현황  -->
@@ -149,162 +122,68 @@
 		</header>
 		<!-- // header -->
 
-		<div id="visual_wrap">
-		<link rel="stylesheet" href="/Pickme/css/bxslider.css" type="text/css" />
-		<script type="text/javascript" src="/Pickme/js/bxslider.js"></script>
-		<ul id="visual">
-      <li>
-          <p style="background:url(/Pickme/images/main/visual01.jpg) no-repeat 50%;"></p>
-          <div class="visual-box"><a href="#">
-            <div class="tit">
-              <strong>'글로벌 앱' 만드는 픽소</strong>
-              <p>iOS・Android 개발자, 디자이너 채용중</p>
-            </div>
-            <div class="more">바로가기 <i class="fas fa-angle-right"></i></div>
-          </a></div>
-      </li>
-			<li>
-          <p style="background:url(/Pickme/images/main/visual02.jpg) no-repeat 50%;"></p>
-          <div class="visual-box"><a href="#">
-            <div class="tit">
-              <strong>'글로벌 앱' 만드는 픽소2</strong>
-              <p>iOS・Android 개발자, 디자이너 채용중</p>
-            </div>
-            <div class="more">바로가기 <i class="fas fa-angle-right"></i></div>
-          </a></div>
-      </li>
-      <li>
-          <p style="background:url(/Pickme/images/main/visual03.jpg) no-repeat 50%;"></p>
-          <div class="visual-box"><a href="#">
-            <div class="tit">
-              <strong>'글로벌 앱' 만드는 픽소3</strong>
-              <p>iOS・Android 개발자, 디자이너 채용중</p>
-            </div>
-            <div class="more">바로가기 <i class="fas fa-angle-right"></i></div>
-          </a></div>
-      </li>
-		</ul>
-	</div><!-- //visual_wrap -->
-	<script type="text/javascript">
-		<!-- 현재공고/지난공고 볼때  로그인한 기업 seq 넘기기 -->
-		function goPage(str) {
-		    var f = document.seqFrm;
-	
-		    if(str==="now"){
-			    f.action = "/Pickme/recruit/recNow.do"
-		    } else if(str==="past"){
-		    	f.action = "/Pickme/recruit/recPast.do"
-		    } else if(str==="insert"){
-				f.action = "/Pickme/recruit/recInsert.do"
-		    }
-		    // 전송 방식 : post
-		    f.method = "post"
-		    f.submit();
-		  };
+		<div id="visual_wrap" class="animation">
+			<div class="title-content">
+				<b>기업</b> 서비스를 통해  <br>
+				원하는 인재를 <b>Pick</b> 하세요
+			</div>
+			<div class="btns">
+				<a href="/Pickme/customer/paidService.do">서비스 이용하기</a>
+				<a href="/Pickme/c_mypage/goPayment.do">서비스 이용내역</a>
+			</div>
+		</div><!-- //visual_wrap -->
 
-			
-	
-		$(document).ready(function(){
-			$('#visual').bxSlider({
-				//mode:'fade',
-        pause:4500,
-			  pager: false,
-			  auto:true,
-  			onSliderLoad: function(currentIndex) {
-    			  $('#visual_wrap').find('.bx-viewport').find('ul').children().eq(currentIndex).addClass('active-slide');
-      			$('#visual_wrap').find('.bx-viewport').find('ul').children().eq(1).addClass('active-slide').css('transition', 'all 0.1 ease-in-out');
-    			},
-    			onSlideBefore: function($slideElement){
-    			  $('#visual_wrap').find('.bx-viewport').find('ul').children().removeClass('active-slide');
-    			  $slideElement.addClass('active-slide');
-    			}
-  			});
-		});
-	</script>
-
-	  <div id="container">
-	    <div id="section01">
-	      <div class="inner">
-	        <div class="m-tit">
-	          <h2>요즘 뜨는 기업 <a href="#none"><i class="fas fa-cog"></i></a></h2>
-	          <!-- <a href="#none">more +</a> -->
-	        </div>
-	        <div class="cont">
-	          <ul class="pmList clfix">
-	          	<c:forEach items="${companyList }" var="dto" varStatus="index">
-	            <li><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${dto.seq }">
-	              <div class="img">
-			          <img src="/Pickme/searchJob/filedownload.do?filename=${dto.logoName }&filepath=${dto.logoPath }" alt="엑박" onerror="this.src='/Pickme/images/sub/no-img.png'"/>
-	              	<img src="/Pickme/searchJob/filedownload.do?filename=${dto.logoName }&filepath=${dto.logoPath }" alt="엑박">
-	              </div>
-	              <div class="txt">
-	                <h3>${dto.name }</h3>
-	                <p>${dto.department }</p>
-	              </div>
-	            </a></li>
-	          	</c:forEach>
-	          </ul>
-	        </div>
-	      </div><!-- // inner -->
+	  <div id="container" class="animation2">
+		  <div id="section01">
+			<div class="com-cover"></div>
+	      	<div class="inner">
+				<div class="left-txt">
+					Pick Me를<br>
+					이용하는 이유 
+				</div>
+				<div class="right-txt">
+					국내 다수 기업 및 구직자 이용<br>
+					기존 채널 대비 40% 채용 비용 절감<br>
+					구직자-기업 간 빠른 매칭 서비스<br>
+					채용 후 6개월 내 채용 유지율 95%<br>
+					효율적인 헤드헌팅 서비스<br>
+				</div>
+			</div><!-- // inner -->
 	    </div><!-- // section01 -->
-	    <div id="section02">
-	      <div class="inner">
-	        <div class="m-tit">
-	          <h2>금주의 채용</h2>
-	          <a href="/Pickme/searchJob/recSearch.do">more +</a>
-	        </div>
-	        <div class="cont">
-	        	<c:choose>
-	          		<c:when test="${empty recTopList }">
-						<div style="text-align:center; position:relative; margin-top:4wndl0px;">
-	          			<p style="position:absolute; top:0; left:0; width:100%; font-size:30px;">등록된 공고가 없습니다.</p>
-						<%-- <img src="${pageContext.request.contextPath }/images/sub/notfound.jpg" style="width:60%;"> --%>
-						</div>
-					</c:when>
-					<c:when test="${not empty recTopList }">
-						   <ul class="pmList clfix">
-						  
-							<c:forEach items="${recTopList }" var="dto" varStatus="rs">
-								<li><a href="/Pickme/searchJob/recDetail.do?seq=${dto.seq }">
-					              <div class="img">
-					               <img src="/Pickme/searchJob/filedownload.do?filename=${dto.imagename }&filepath=/upload/recruit/"  onerror="this.src='/Pickme/images/sub/no-img.png'" alt="엑박">
-					              </div>
-					              <div class="txt">
-					                <h3>${dto.title }</h3>
-					                <p>${dto.comName }</p>
-					                <p>${dto.comJobType }</p>
-					                <span>[채용]${dto.wdate } ~ ${dto.edate }</span>
-					              </div>
-					            </a></li>
-							</c:forEach>
-			         	 </ul>
-			     	</c:when>
-          		</c:choose>
-		    </div><!-- cont -->
+	    <div id="section02" class="animation2">
+			<div class="inner">
+				<div class="left-txt">
+					기업서비스
+				</div>
+				<div class="right-txt">
+					<div>
+						<span class="red">인재탐색</span><br>
+							경력, 직무에 적합한 인재를 찾아보세요 
+					</div>
+					<div>
+						<span class="blue">열람요청</span><br>
+						엄선된 경력자들 중에 맘에 드는 후보자에게 직접 면접을 제안하세요
+					</div>
+					<div>
+						<span class="green">채용광고</span><br>
+						빠르고 쉽게 채용공고를 등록하고 효율적으로 지원자를 관리해보세요
+					</div>
+				</div>
 	      </div><!-- // inner -->
 	    </div><!-- // section02 -->
-	    <div id="section03">
+	    <div id="section03" class="animation2">
 	      <div class="inner">
-	        <div class="m-tit">
-	          <h2>공지사항</h2>
-	          
-	          <a href="/Pickme/customer/noticeList.do">more +</a>
-	          <div class="notice-wrap">
-			<c:forEach items="${mainNoticeList }" var="dto" varStatus="rs">
-              <div class="content" onclick="goNotice('${dto.seq}')">
-                <div class="notice-info">
-                  <div class="title">${dto.title }
-                  </div>
-                  <div class="type">[${dto.type }]</div>
-                  <div class="date">${dto.wdate }</div>
-                </div>
-              </div>
-			</c:forEach>
-            </div>
-	        </div>
+			<div class="left-txt">
+				Pick Me 기업서비스를 통해 <br>최적의 인재를 만나보세요 
+			</div>
+			<div class="right-txt">
+				<a href="/Pickme/c_mypage/goCMypage.do">기업프로필 작성하기</a>
+			</div>
 	      </div><!-- // inner -->
 	    </div><!-- // section03 -->
 	  </div><!-- // container -->
+	  
+	  
 	  
 	  <div class="btn_top"></div>
 	  <script>
@@ -344,7 +223,7 @@
 	   function connectWs(){
 			console.log("Info: connecting...");
 			// 웹소켓 객체생성
-			var ws = new WebSocket("ws://192.168.2.31:8090/Pickme/echo.do");
+			var ws = new WebSocket("ws://localhost:8090/Pickme/echo.do");
 
 			// 다른곳에서 사용할 수 있게 전역변수에 넣기 
 			socket = ws;
@@ -435,8 +314,6 @@
 				            $socketAlert.removeClass( 'wsFixed' );
 				          }
 				        });
-											
- 
 		            setTimeout( function(){
 			             $('#inner').detach();
 		            	 $socketAlert.slideUp();
@@ -458,15 +335,9 @@
 					}else{
 						console.log("메시지 없음");
 						$('.alert-wrap.msg').find('span').remove();	
-
 				   }
-			  
 		 	}
-
 	   }
-
-			   
-
 	 	// 소켓 닫힌경우	 
 	    ws.onclose = function() {
 	      	console.log('connect close');
@@ -474,17 +345,12 @@
 	    };
 	    ws.onerror = function (err) {console.log('Errors : ' , err);}
 	   }
-
-
-
 		   // 알람 클릭시 
 		$(".alert-bell").click(function(){
 			// alert("종클릭!");
 			$('.alertContWrap').fadeToggle('fast');
 	
 		});
-
-
 	 	// esc키로 알림내용 닫기 
 		window.onkeyup = function(e) {
 			var key = e.keyCode ? e.keyCode : e.which;
@@ -492,30 +358,108 @@
 			if(key == 27){
 				$('.alertContWrap').fadeOut('fast');
 			}	
-			
 		}
-		 
-
-
-		// 공지사항클릭시 페이지로 가기
-		goNotice = (seq) => {
-			location.href="/Pickme/customer/noticeDetail.do?seq=" + seq;
-		}
-		
-	   
 	 </script>
-
 </body>
-</html>
 <style>
-.notice-wrap{ height: 300px; cursor: pointer; display: flex; flex-flow: row nowrap; justify-content:space-between; }
-.notice-wrap .content{ width:240px; height: 180px; margin-top: 80px;border: 1px solid #eaeaea; overflow: hidden; cursor: pointe;}
-.notice-wrap .content:hover{ }
-.notice-wrap .notice-info{transition: all 0.5s ease-in-out; width: 100%; height: 100%; }
-.notice-wrap .notice-info:hover{transform: scale(1.1); font-weight: 600;}
-.notice-wrap .notice-info > div { margin: 0 10px;}
-.notice-wrap .notice-info .type{ margin: 0 10px; float: left; color: #333; font-weight: 200;}
-.notice-wrap .notice-info .title{ font-size: 18px; font-weight: 400;
-    margin: 0 10px; margin-top: 50px; height: 50px;line-height: 50px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis}
-.notice-wrap .notice-info > .date { float: right; margin: 0 20px; color: #333; font-weight: 200;}
+#visual_wrap{
+	height: 500px;
+}
+#visual_wrap .title-content{
+	font-size: 50px; font-weight: 200; color: #aaa; text-align: center; margin-top: 100px;
+
+}
+#visual_wrap .title-content b { font-weight: 400; color: #333; }
+#visual_wrap .btns{ width: 470px; height: 80px; margin: 0 auto; margin-top: 50px;}
+#visual_wrap .btns > a{
+	background-color: #304edf; color: #fff; border-radius: 5px;
+	width: 200px; height: 50px; line-height: 50px; text-align: center; float: left; margin: 20px 15px;
+}
+/* container1 */
+#container #section01{ height: 500px; 
+	background-image: url("/Pickme/images/main/comMain.jpeg"); background-size:cover; background-position:center 80%; }
+#container .com-cover{ z-index: 1;
+	width: 100%; height: 500px; position: absolute; background-color: rgba(0,0, 0, 0.7);
+}
+#container #section01 .inner{
+	position:relative; z-index:2; color: #fff;
+}
+#container #section01 .inner .left-txt{ text-align: left; padding-top: 200px; padding-left: 120px;
+	font-size: 40px; font-weight: 500; height: 500px; width: 450px; float: left;
+}
+#container #section01 .inner .right-txt{ padding-left: 50px; font-size: 20px; font-weight: 400; line-height: 40px;
+	width: 450px;height: 500px;float: left;padding-top: 170px;} 
+/* service-info */
+#section02{  height: 500px;}
+#section02 .inner{}
+#container #section02 .inner .left-txt{ text-align: left; padding-left: 120px; padding-top: 120px; font-size: 40px; font-weight: 500; height: 500px; width: 450px; float: left;}
+#container #section02 .inner .right-txt{ padding-left: 0px; font-size: 20px; font-weight: 400; line-height: 40px;width: 600px;height: 500px;float: left;padding-top: 110px;} 
+#container #section02 .inner .right-txt > div{ margin: 20px 0;}
+.red{color:tomato; font-weight: 600;}
+.blue{color:blueviolet; font-weight: 600;}
+.green{color:green; font-weight: 600;}
+/* section03 */
+#container #section03 .inner .left-txt{ text-align: left;  padding-top: 70px;font-size: 40px; font-weight: 500; width: 600px; float: left; font-weight: 200;}
+#container #section03 .inner .right-txt{ font-size: 20px; font-weight: 400; line-height: 40px; width: 400px; float: left;padding-top: 80px;} 
+#container #section03 .inner .right-txt > a {
+background-color: #304edf; display: block; width: 300px; height: 50px; text-align: center; color: #fff;
+line-height: 50px; margin-top: 30px; float: right; font-weight: 300; border-radius: 10px;}
+
+/* animation */
+.animation {
+    animation: fadein 1s;
+    -moz-animation: fadein 1s; /* Firefox */
+    -webkit-animation: fadein 1s; /* Safari and Chrome */
+    -o-animation: fadein 1s; /* Opera */
+}
+.animation2 {
+  animation: fadeinDelay 2s;
+    -moz-animation: fadeinDelay 2s; /* Firefox */
+    -webkit-animation: fadeinDelay 2s; /* Safari and Chrome */
+    -o-animation: fadeinDelay 2s; /* Opera */
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@keyframes fadeinDelay {
+    0% {
+        opacity:0;
+    }
+    60% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 </style>
+</html>

@@ -107,13 +107,13 @@
 			
 			<c:forEach items="${interComRecruitList }" var="interComRecruit" varStatus="vs">
 				<tr>
-					<td><a href="#" class="interest-com" title="기업상세페이지" >${interComRecruit.comName }</a></td>
-					<td><a href="#" class="interest-com" title="채용상세페이지">${interComRecruit.title }</a></td>
+					<td><a href="/Pickme/c_mypage/goCMypage.do?sentSeq=${interComRecruit.likepickseq }" class="interest-com" title="기업상세페이지" >${interComRecruit.comName }</a></td>
+					<td><a href="/Pickme/searchJob/recDetail.do?seq=${interComRecruit.seq }" class="interest-com" title="채용상세페이지">${interComRecruit.title }</a></td>
 					<td>${interComRecruit.comjob1 }</td>
 					<td>${interComRecruit.edate }</td>
 					<c:if test="${interComRecruit.apply == 0 }">
 					<td>
-						<button class="goApplyBtn" onclick="apply()">지원하러가기</button>
+						<button class="goApplyBtn" onclick="apply(${interComRecruit.seq})">지원하러가기</button>
 					</td>
 					</c:if>
 					<c:if test="${interComRecruit.apply == 1 }">
@@ -187,13 +187,22 @@
 		  }
 		});	
 	}
+
+ function apply(seq){
+
+	location.href="/Pickme/searchJob/recDetail.do?seq=" + seq;
+
+	 }
+
+
+	
 		/* 페이지 이동 */
 	function goPage(pn){
 	  var sKeyword = '<c:out value="${sKeyword}"/>';
 	//  alert("sKeyword: " + sKeyword);	
 	  var filter = '<c:out value="${filter}"/>';
 		
-	  location.href="curAList.do?sKeyword=" + sKeyword +"&pageNumber=" + pn + "&sort=" + sort + "&filter=" + filter;
+	  location.href="interestComRecruit.do?sKeyword=" + sKeyword +"&pageNumber=" + pn + "&sort=" + sort + "&filter=" + filter;
 		
 	}
 	
@@ -205,7 +214,7 @@
 			if(sKeyword == null || sKeyword == ""){
 				alert("검색어를 입력해주세요.");
 			}else{
-			 location.href="curAList.do?sKeyword=" + sKeyword +"&pageNumber=0" + "&sort=" + 0 + "&filter=채용마감일";
+			 location.href="interestComRecruit.do?sKeyword=" + sKeyword +"&pageNumber=0" + "&sort=" + 0 + "&filter=채용마감일";
 			}	
 		}
 		

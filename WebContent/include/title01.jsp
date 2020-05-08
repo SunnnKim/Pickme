@@ -92,12 +92,22 @@ String ifurl = request.getServletPath();  //프로젝트의 경로값만 가져�
 <% }%>
 
 
+		
 <!--  c_mypage 기업 마이페이지  -->
-<% if(ifurl.contains("c_mypage") && !ifurl.contains("/c_mypage/myPage.jsp")){ %>
-      마이페이지
-<% } else if(ifurl.contains("/c_mypage/myPage.jsp")){%>
-      Corporation Information
-<% } %>
+<%
+if(session.getAttribute("logincompany") != null) {
+	if(ifurl.contains("/c_mypage/passwordUpdate.jsp") || ifurl.contains("/c_mypage/myPage1.jsp")
+			|| ifurl.contains("/c_mypage/payment.jsp") || ifurl.contains("/c_mypage/update.jsp")
+			|| ifurl.contains("/c_mypage/withdrawal.jsp")) { %>
+		마이페이지
+<%	}
+} else if(session.getAttribute("logincompany") == null ) {
+	if(ifurl.contains("/c_mypage/myPage1.jsp")) { %>
+		회사정보
+<%	}
+}
+%>
+
 
 <!-- 결제 직전 단계 디테일 -->
 <% if(ifurl.contains("/c_mypage/paymentDetail.jsp")) { %>

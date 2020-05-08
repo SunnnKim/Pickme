@@ -84,7 +84,7 @@
   	
   	
   	<select id="getLikeRecruitList" parameterType="model.EInterestParam" resultType="model.EInterestDto">
-  		SELECT f.LIKEPICKSEQ, r.TITLE, r.COMJOB1, r.COMNAME, r.EDATE
+  		SELECT f.LIKEPICKSEQ, r.COMSEQ, r.TITLE, r.COMJOB1, r.COMNAME, r.EDATE 
   		FROM (SELECT * FROM FAVORITE WHERE AUTH =  #{auth}) f
   		INNER JOIN (SELECT * FROM RECRUIT WHERE <![CDATA[EDATE >= DATE(NOW()) ]]>) r
   		ON f.LIKEPICKSEQ = r.SEQ

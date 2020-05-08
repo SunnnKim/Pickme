@@ -89,10 +89,9 @@
 						console.debug("reply.js:: socket>>", socket)
 						if(socket) {
 							// websocket에 보내기  (distinguish, cmd, 메시지 보내는자이름, 메시지받는자이메일 , 메시지seq, 안읽은메시지갯수)
-						   let socketMsg = socket.send("com,alert," +  data.senderName + "," + data.receiverEmail 
+						   socket.send("com,alert," +  data.senderName + "," + data.receiverEmail 
 								                       + "," + data.msgSeq + ",null,null");
-						 	console.debug("sssmsg >> ", socketMsg)
-						 	socket.send(socketMsg)
+
 						}  
 						 
 						 Swal.fire({

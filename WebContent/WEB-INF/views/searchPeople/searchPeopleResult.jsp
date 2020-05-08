@@ -87,7 +87,7 @@ pageContext.setAttribute("cn", "\n"); //Enter
 	    <div class="img-wrapper" style="margin-left: 15px;">
 	    <c:choose>
 		    <c:when test="${ '' ne dto.profileName and null ne dto.profileName  }">
-		      <img src="/Pickme/a_mypage/imageDownload.do?filename=${dto.profileName }&filepath=${dto.profilePath}">
+		      <img src="/Pickme/a_mypage/imageDownload.do?filename=${dto.profileName }&filepath=${dto.profilePath}"  onerror="this.src='/Pickme/images/sub/no-img.png'">
 		    </c:when>
 		    <c:otherwise>
 		       <span><i class="fas fa-user"></i></span>

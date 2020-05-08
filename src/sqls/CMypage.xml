@@ -74,39 +74,14 @@
 	order by seq desc limit 3;
   </select> 
   
+  <!-- 기업 이미지 삭제 -->
+  <delete id = "deleteImage" parameterType = "int">
+  	DELETE FROM FILES
+  	WHERE USETABLE='C_MEMBER' AND REF=#{ref}
+  </delete>
   
   
-  
-  <!-- 기업회원 탈퇴 -->
- <!--  <update id = "withdrawal" parameterType = "model.CMemberDto">
-  	UPDATE C_MEMBER
-  	SET DEL = 1
-  	WHERE EMAIL=#{email} AND PASSWORD=#{password}
-  </update> -->
-  
-  <!-- 탈퇴를 위해 비밀번호 체크 -->
- <!--  <select id = "checkPassword" parameterType = "model.CMemberDto" resultType = "java.lang.Integer">
-  	SELECT COUNT(*)
-  	FROM C_MEMBER
-  	WHERE EMAIL=#{email} AND PASSWORD=#{password}
-  </select> -->
-  
-  <!-- 주소 불러오기 -->
- <!--  <select id = "showAddress" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
-  	SELECT ADDRESS
-  	FROM C_MEMBER
-  	WHERE SEQ=#{seq}
-  </select> -->
-  
-  <!-- 연락처 불러오기 -->
-  <!-- <select id = "showTel" parameterType = "model.CMemberDto" resultType = "model.CMemberDto">
-  	SELECT TEL
-  	FROM C_MEMBER
-  	WHERE SEQ=#{seq}
-  </select> -->
-  
-  
-  
+ 
   </mapper>
   
   

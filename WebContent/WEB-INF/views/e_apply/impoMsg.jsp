@@ -50,7 +50,7 @@
 			<caption>전체</caption>
 			<colgroup>
 				<col style="width: 5%">
-				<col style="width: 5%">
+				<col style="width: 10%">
 				<col style="width: 60%">
 				<col style="width:15%">
 				<col style="width:15%">
@@ -211,16 +211,15 @@
 			// 배열에 집어넣기
 			seqArray.push($(this).val());
 		});
-		
-		if (seqArray == null) {
-			alert("삭제 할 대상을 선택하세요.");
-			return false;
-		}
-		
-		// alert(seqArray.length);
 
-		if(seqArray.length == 0){
-			alert("삭제하실 내역이 없습니다");
+		if (seqArray == null || seqArray.length == 0) {
+			Swal.fire({
+				  title: '삭제하실 메시지를 선택해주세요',
+				  text: "",
+				  icon: 'warning',
+				  showCancelButton: false,
+				  timer: 1500
+				})
 			return false;
 		}
 
