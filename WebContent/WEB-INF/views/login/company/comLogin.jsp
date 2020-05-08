@@ -34,7 +34,7 @@ if(request.getParameter("fail") != null ){
 	      <input type="password" id="pwd" name="password" onkeyup="enterkey()" placeholder="비밀번호 입력하세요" autocomplete="off">
 	      <button id="com-login-btn" type="button" onclick="login()">로그인</button>
 	   	</form>
-    	<div class="com-href"><a href="ffd.do">아이디/비밀번호를 잊으셨나요?</a></div>
+    	<div class="com-href"><a href="/Pickme/login/company/findEmailPwdC.do">아이디/비밀번호를 잊으셨나요?</a></div>
     </div>
   </div>
 </div>

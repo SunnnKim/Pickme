@@ -50,7 +50,6 @@ updatePwd = () => {
 	var emailCode = $('input[name=emailCode]');
 	var password = $('input[name=password]');
 	var passwordCheck = $('input[name=passwordCheck]');
-	alert(emailCode.val())
 	// 빈칸 확인
 	if( emailCode.val().trim() == '' ){
 		emailCode.focus();
