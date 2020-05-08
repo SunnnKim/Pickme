@@ -12,14 +12,14 @@ public class CvReqDto {
 	private int cancel;		// 취소여부(기업)
 	private int cvSeq;		// 수락할 cv의 시퀀
 	private String name;	// 이력서 열람요청한 기업이름 
-	private int status; 	// 요청 수락한 이력서 오픈 상태
+	private int open; 	// 요청 수락한 이력서 오픈 상태
 	
 	public CvReqDto() {
 		
 	}
 
 	public CvReqDto(int seq, int pSeq, int cSeq, String rdate, String comment, int accept, int delmem, int cancel,
-			int cvSeq, String name, int status) {
+			int cvSeq, String name, int open) {
 		super();
 		this.seq = seq;
 		this.pSeq = pSeq;
@@ -31,7 +31,7 @@ public class CvReqDto {
 		this.cancel = cancel;
 		this.cvSeq = cvSeq;
 		this.name = name;
-		this.status = status;
+		this.open = open;
 	}
 
 	public int getSeq() {
@@ -114,19 +114,19 @@ public class CvReqDto {
 		this.name = name;
 	}
 
-	public int getStatus() {
-		return status;
+	public int getOpen() {
+		return open;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setOpen(int open) {
+		this.open = open;
 	}
 
 	@Override
 	public String toString() {
 		return "CvReqDto [seq=" + seq + ", pSeq=" + pSeq + ", cSeq=" + cSeq + ", rdate=" + rdate + ", comment="
 				+ comment + ", accept=" + accept + ", delmem=" + delmem + ", cancel=" + cancel + ", cvSeq=" + cvSeq
-				+ ", name=" + name + ", status=" + status + "]";
+				+ ", name=" + name + ", open=" + open + "]";
 	}
 
 	

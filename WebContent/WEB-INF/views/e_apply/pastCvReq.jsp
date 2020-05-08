@@ -89,10 +89,10 @@
 						</span>
 					</td>
 					<td>
-					<c:if test="${pastCvReq.status eq 0}">
+					<c:if test="${pastCvReq.open eq 0}">
 						미열람 
 					</c:if>
-					<c:if test="${pastCvReq.status eq 1}">
+					<c:if test="${pastCvReq.open eq 1}">
 						열람 
 					</c:if>
 					</td>	
