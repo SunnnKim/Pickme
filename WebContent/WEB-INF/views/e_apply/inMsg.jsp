@@ -278,8 +278,7 @@ function goPage(pn){
 	//  alert("sKeyword: " + sKeyword);	
 
 	  var isUnread = '<c:out value="${isUnread}"/>';
-	  alert("확인 " + isUnread);
-
+	  
 	  if(isUnread == 'yes'){
 		  location.href="unread.do?sKeyword=" + sKeyword + "&page=inMsg&pageNumber=" + pn;
 	 }else{	
