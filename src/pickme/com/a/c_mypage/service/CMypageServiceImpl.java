@@ -150,6 +150,12 @@ public class CMypageServiceImpl implements CMypageService{
 		return dao.getCmemberDto(seq);
 	}
 
+	// 기업 이미지 삭제
+	@Override
+	public boolean deleteImage(int ref) {
+		return dao.deleteImage(ref);
+	}
+
 
 	
 	

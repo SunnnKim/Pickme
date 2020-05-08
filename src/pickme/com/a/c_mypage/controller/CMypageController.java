@@ -207,6 +207,7 @@ public class CMypageController {
 		
 		//첨부한 파일 넘기기
 		List<FilesDto> fileslist = service.getImages(seq);
+		System.out.println("이미지 리스트 = " + fileslist.toString());
 		
 		model.addAttribute("fileslist", fileslist);
 		
@@ -291,6 +292,65 @@ public class CMypageController {
 		return "c_mypage/payment";
 	}
 	
+	// 기업 이미지 삭제
+    @RequestMapping(value="imageDelete.do", method= {RequestMethod.POST})
+    public String imageDelete(CMemberDto dto, Model model, MultipartFile[] originfile, HttpServletRequest request, HttpSession session) {
+    	// (ref) 그룹번호 불러오기
+    	int ref = (int)((CMemberDto)session.getAttribute("logincompany")).getSeq();
+    	System.out.println("그룹번호 ref = " + ref);
+    	
+    	service.deleteImage(ref);
+    	
+    	// 첨부파일용 파일 테이블에 저장할 리스트 만들기
+		boolean result = true;
+		System.out.println("number of files = " + originfile.length);
+		List<FilesDto> list = new ArrayList<>();
+		
+		//새로운 첨부파일이 있는지 확인
+				if(originfile.length > 0) {	
+					//List<FilesDto> list = new ArrayList<>();
+					for( int i = 0; i < originfile.length; i++ ) {
+						// 파일 새이름 등록 
+						String originName = originfile[i].getOriginalFilename();
+						if( !originName.equals("") ) {
+						System.out.println("오리지날 이름: "+originName);
+						String newname = FUpUtil.getNewFileName(originName);
+						String path = "/upload/recruit/";
+						String type = originfile[i].getContentType();
+						FilesDto filesDto = new FilesDto(originName, newname, ref, i, type);
+						
+						// 리스트에 담기 
+						list.add(filesDto);
+						
+						System.out.println("list["+i+"] : " + list.get(i));
+						
+						// 경로 및 파일이름 지정
+						String uploadPath = request.getSession().getServletContext().getRealPath(path);
+						File uploadFile = new File(uploadPath + "/" + newname);
+						System.out.println("upload = " + uploadFile.toString());
+						
+						// 서버에 파일 업로드하기
+						try {
+							// 실제 파일을 지정 폴더에 업로드 함 
+							FileUtils.writeByteArrayToFile(uploadFile, originfile[i].getBytes());
+						} catch (IOException e) {
+							e.getMessage();
+							return "redirect:/c_mypage/goUpdate.do";
+						}
+					} else break;
+				}
+			}
+				
+		    result = service.uploadImage(list);
+		    service.imageNameUpdate(ref);
+		    CMemberDto c = (CMemberDto)session.getAttribute("logincompany");
+		    request.setAttribute("seq", c.getSeq());
+		    
+		    return result ? "forward:/c_mypage/goCMypage.do":"";
+    	}
+	
+	
+	// 기업 이미지 업로드
 	@RequestMapping(value="uploadImage.do", method = {RequestMethod.POST})
 	public String uploadImage(CMemberDto dto, Model model, HttpSession session, MultipartFile[] originfile, HttpServletRequest request) {
 		// (ref) 그룹번호 불러오기
@@ -475,6 +535,7 @@ public class CMypageController {
     	
     	return "c_mypage/refundRequest";
     }
+    
     
     
     // 기업로고 보여주기

@@ -171,6 +171,12 @@ public class CMypageDaoImpl implements CMypageDao{
 		return session.selectOne("Payment.getCmemberDto", seq);
 	}
 
+	// 기업 이미지 삭제
+	@Override
+	public boolean deleteImage(int ref) {
+		return session.delete(nameSpace + "deleteImage", ref)>0?true:false;
+	}
+
 
 	
 	// 가장 최근 결제 서비스의 종료일

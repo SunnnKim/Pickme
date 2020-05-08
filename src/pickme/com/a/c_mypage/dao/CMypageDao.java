@@ -74,5 +74,8 @@ public interface CMypageDao {
 	// 해당 기업 이미지 불러오기
 	public List<FilesDto> getImages(int ref);
 	
+	// 기업 이미지 삭제
+	public boolean deleteImage(int ref);
+	
 	
 }

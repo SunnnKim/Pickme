@@ -74,7 +74,7 @@
 		        // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 		        // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
 		        IMP.request_pay({
-		            pg: 'nice', // version 1.1.0부터 지원.
+		            pg: 'inicis', // version 1.1.0부터 지원.
 		            /* 
 		                'kakao':카카오페이, 
 		                html5_inicis':이니시스(웹표준결제)
@@ -157,7 +157,7 @@
 		        // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 		        // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
 		        IMP.request_pay({
-		            pg:'nice', // version 1.1.0부터 지원.
+		            pg:'inicis', // version 1.1.0부터 지원.
 		            /* 
 		                'kakao':카카오페이, 
 		                html5_inicis':이니시스(웹표준결제)
