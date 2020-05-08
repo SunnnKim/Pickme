@@ -243,7 +243,7 @@
 		alert("검색 버튼 클릭");
 		var sKeyword = ($("#_keyword").val()).trim();
 		
-		alert("sKeyword: " + sKeyword );
+	//	alert("sKeyword: " + sKeyword );
 		if(sKeyword == null || sKeyword == ""){
 			alert("검색어를 입력해주세요.");
 		}else{
