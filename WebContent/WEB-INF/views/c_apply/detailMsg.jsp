@@ -11,9 +11,9 @@
 
 <!-- 메뉴 -->
 <ul class="tab-default column3 mt30" data-tab="">
-	<li id="rcvMsg"><a href="cRcvMsg.do">받은 메시지</a></li>
-	<li id="sendMsg"><a href="cSendMsg.do">보낸 메시지</a></li>
-	<li id="impoMsg"><a href="cImpoMsg.do">중요 메시지</a></li>
+	<li id="cRcvMsg"><a href="cRcvMsg.do">받은 메시지</a></li>
+	<li id="cSendMsg"><a href="cSendMsg.do">보낸 메시지</a></li>
+	<li id="cImpoMsg"><a href="cImpoMsg.do">중요 메시지</a></li>
 </ul>
 
 <div id="allList" data-tab-content="" class="active">
@@ -46,26 +46,21 @@
 		<!--// msg-content -->
 		<div class="messageBtn" id="msgBtn">
 			<button onclick="delcheck()">삭제하기</button>
-
-
+			<button id="_reply" onclick="reply()">답장하기</button>
 
 			<c:if test="${page eq 'cRcvMsg'}">
 				<c:if test="${unread == 0 }">
-					<button id="_reply" onclick="reply()">답장하기</button>
 					<a href="cRcvMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
 				</c:if>
 				<c:if test="${unread == 1 }">
-					<button id="_reply" onclick="reply()">답장하기</button>
 					<a href="unread.do?page=cRcvMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
 				</c:if>
 			</c:if>
 			<c:if test="${page eq 'cImpoMsg'}">
 				<c:if test="${unread == 0 }">
-					<button id="_reply" onclick="reply()">답장하기</button>
 					<a href="cImpoMsg.do?pageNumber=${pageNumber }"><button>목록으로</button></a>
 				</c:if>
 				<c:if test="${unread == 1 }">
-					<button id="_reply" onclick="reply()">답장하기</button>
 					<a href="unread.do?page=cImpoMsg&pageNumber=${pageNumber }"><button>목록으로</button></a>
 				</c:if>
 			</c:if>
@@ -111,22 +106,17 @@
 <script>
 
 $(document).ready(function(){
-  
 	//alert('<c:out value="${page}"/>')
-	
 	var page = '<c:out value="${page}"/>'
 	// messageDetail 들어오기 직전 탭 지정하기
 	document.getElementById(page).setAttribute('class', 'active');
-	
 	if(page == 'cSendMsg'){
-		
 		$("#_reply").hide();
-		
 	}
-	
+	// 처음에 답장창 숨기기
+	$(".messageBox").hide();
 });
 
- $(".messageBox").hide();
    
 // 답장하기 버튼 누른 경우
 
@@ -139,29 +129,26 @@ function reply(){
     $("#repl-cont").blur(function(){ $(".messageBox").css('box-shadow', '');});
    
     var offset = $('.messageBox').offset(); //선택한 태그의 위치를 반환
-
-          //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
-
+    //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
     $('html').animate({scrollTop : offset.top}, 400);  
     $("#msgBtn").hide();
     
 }
 
-// 답장 닫기
-function hideThis(){
-    $("#recipient").val("보낸이 불러서 넣기") // 수신자 수정 가능하게 했을경우 
-    $("#repl-title").val("");
-    $("#repl-cont").val("");
-    $(".messageBox").hide();
-  
-}
+	// 답장 닫기
+	function hideThis(){
+	    $("#repl-cont").val("");
+	    $(".messageBox").hide();
+	    $("#msgBtn").show();
+	  
+	}
 
 function delcheck(){
 	var seq = '<c:out value="${msgDetail.seq}"/>';
 	// alert(seq);
 	
 	Swal.fire({
-		  title: '정말 삭제하시겠습니까?',
+		  title: '메시지를 삭제합니다.',
 		  text: "",
 		  icon: 'warning',
 		  showCancelButton: true,
@@ -181,20 +168,22 @@ function delcheck(){
 				    traditional: true, // array보낼때 필요
 					data       : {"checkRow" : seq },
 					success    : function(data){
-						
-						  alert("삭제되었습니다")
-						
-						
 						if(data != null){
-							var goPage = '<c:out value="${page}"/>'
-								//alert("goPage: " + goPage);
-							if(goPage == 'cImpoMsg'){
-								location.href="cImpoMsg.do";
-							}else if(goPage == 'cRcvMsg'){
-								location.href="cRcvMsg.do";
-							}else if(goPage == 'cSendMsg'){
-								location.href="cSendMsg.do";
-							}	
+							 Swal.fire(
+								      '삭제되었습니다',
+								      '',
+								      'success'
+							    ).then((reslut)=>{
+								var goPage = '<c:out value="${page}"/>'
+									//alert("goPage: " + goPage);
+								if(goPage == 'cImpoMsg'){
+									location.href="cImpoMsg.do";
+								}else if(goPage == 'cRcvMsg'){
+									location.href="cRcvMsg.do";
+								}else if(goPage == 'cSendMsg'){
+									location.href="cSendMsg.do";
+								}	
+						    });
 						}	
 					},
 					error      : function(request, status, error){
@@ -214,12 +203,12 @@ function send(){
 	if ($("#repl-cont").val() == null || $("#repl-cont").val() == ""){
 		//alert("메시지 내용을 입력해주세요");
 		Swal.fire({
-			  position: 'center',
-			  icon: 'error',
-			  text: '내용을 입력하세요',
-			  showConfirmButton: false,
-			  timer: 1500
-			})		
+				  position: 'center',
+				  icon: 'warning',
+				  title: '메시지를 입력해주세요.',
+				  showConfirmButton: false,
+				  timer: 1500
+			}) 		 
 		//return false;
 		 
 	}else{
@@ -243,7 +232,7 @@ function send(){
 						 Swal.fire({
 							  position: 'center',
 							  icon: 'success',
-							  text: '메시지가 성공적으로 보내졌습니다',
+							  text: '메시지를 전송하였습니다',
 							  showConfirmButton: false,
 							  timer: 1500
 							})					
@@ -263,12 +252,20 @@ function send(){
 }
 
 function searchAction() {
-	alert("검색 버튼 클릭");
+	//alert("검색 버튼 클릭");
 	var sKeyword = ($("#_keyword").val()).trim();
 	
-	alert("sKeyword: " + sKeyword );
+	//alert("sKeyword: " + sKeyword );
 	if(sKeyword == null || sKeyword == ""){
-		alert("검색어를 입력해주세요.");
+		//alert("검색어를 입력해주세요.");
+		Swal.fire({
+			  position: 'center',
+			  icon: 'warning',
+			  title: '검색어를 입력해주세요.',
+			  showConfirmButton: false,
+			  timer: 1500
+		}) 		
+		
 	}else{
 		var page = '<c:out value="${page}"/>'
 		if(page == 'cRcvMsg'){
