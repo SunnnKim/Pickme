@@ -147,7 +147,6 @@ function refundPage( seq ){
 		data: "seq="+seq,
 		type:'post',
 		success:function (data){
-		alert(data)
 			if( data == true){
 				 location.href="/Pickme/c_mypage/refundPage.do?seq=" + seq;
 			}else{

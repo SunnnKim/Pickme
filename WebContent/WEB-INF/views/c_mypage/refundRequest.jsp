@@ -91,7 +91,6 @@ $('#refund').click(function(){
         "data": JSON.stringify(sendData),
         "dataType": "json",
         "success" : function(data){
-			alert(data)
 			if(data == "nullData"){
 				alert('환불할 내역이 없습니다.')
 			}
@@ -99,7 +98,7 @@ $('#refund').click(function(){
 
 			}else if (data == "true"){	// 환불성공 
 				alert('환불요청이 완료되었습니다.')
-				location.href="/Pickme/";
+				location.href="/Pickme/c_mypage/goPayment.do";
 			}
         },
         "error":function(err){
