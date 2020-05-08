@@ -204,16 +204,7 @@
 	
 		});
 
-	   /*
-		$(document).click(function(e){
-			if(e.target.className == 'alert-wrap'){return false}
-			if(e.target.className == 'alert-bell'){return false}
-			
-				$('.alertContWrap').fadeOut(100);
-
-		})	
-
- */
+ 
 	 	// esc키로 알림내용 닫기 
 		window.onkeyup = function(e) {
 			var key = e.keyCode ? e.keyCode : e.which;
@@ -223,12 +214,7 @@
 			
 		}
 
-		// 이미지 없을때 
-/* 		 function noImage(){
-			$(this).setAttribute("src", "/Pickme/images/sub/no-img.png");
-
-	     } */
-
+		
 	   
 	 </script>
 </body>

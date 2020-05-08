@@ -302,7 +302,7 @@ function goPage(pn){
 	function searchAction() {
 		var sKeyword =($("#_keyword").val()).trim();
 		var isUnread = '<c:out value="${isUnread}"/>';
-		  alert("확인 " + isUnread);
+		 
 		
 		if(sKeyword == null || sKeyword == ""){
 			alert("검색어를 입력해주세요.");

@@ -78,7 +78,7 @@ public class SocketCountroller {
 				  }else {
 					  msg = msg + "<li><a href='/Pickme/searchJob/recDetail.do?seq=" + list.get(i).getSeq() +"'>" +		 
 					 		"<div class='img'><img src='/Pickme/getComLogo.do?filename=" + list.get(i).getLogoname() + 
-					 		"&filepath=" + list.get(i).getLogopath() + " alt='기업로고'></div>" ;
+					 		"&filepath=" + list.get(i).getLogopath() + "' alt='기업로고'></div>" ;
 				  }
 				  
 					 msg = msg + "<div class='txt'>" + 
