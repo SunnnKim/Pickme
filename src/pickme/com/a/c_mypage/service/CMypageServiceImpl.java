@@ -17,12 +17,6 @@ public class CMypageServiceImpl implements CMypageService{
 	
 	@Autowired
 	CMypageDao dao;
-
-	@Override
-	public CMemberDto dateTest(CMemberDto dto) {
-		return dao.dateTest(dto);
-	}
-
 	
 	// 기업 마이페이지 이동
 	@Override
@@ -155,15 +149,5 @@ public class CMypageServiceImpl implements CMypageService{
 	public boolean deleteImage(int ref) {
 		return dao.deleteImage(ref);
 	}
-
-
-	
-	
-	
-	// 가장 최근 결제 서비스의 종료일
-//	@Override
-//	public PaymentDto showRecentPay(PaymentDto dto) {
-//		return dao.showRecentPay(dto);
-//	}
 	
 }

@@ -892,8 +892,8 @@ function updateComplete() {
       addressStr += $('#sample6_detailAddress').val();       // 상세주소
    }
       $('input[name=address]').val(addressStr);
-
-   alert(addressStr);
+/* 
+   alert(addressStr); */
    console.log(addressStr);
 
 	

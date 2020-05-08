@@ -108,7 +108,6 @@ h4.h4_introduce{margin-top:100px; margin-left:50px;margin-bottom:15px;font-size:
 
 
 
-
 <!------------------------------------ 슬라이드 영역 ---------------------------------------------->
 
 <div class="swiper-container">
@@ -117,19 +116,19 @@ h4.h4_introduce{margin-top:100px; margin-left:50px;margin-bottom:15px;font-size:
 	    	 	<c:when test="${not empty fileslist }">
          		 <c:forEach var="dto" items="${fileslist }" varStatus="rs">
 	    			<div class="swiper-slide">
-	    					<img src = "imageDownload.do?filename=${dto.newname }&filepath=/upload/c_mypage/">
+	    				<img src = "imageDownload.do?filename=${dto.newname }&filepath=/upload/c_mypage/">
       			</div>
+    				</c:forEach>
 	    		
       <!-- If we need pagination -->
-   <div class="swiper-pagination"></div>
+   <!-- <div class="swiper-pagination"></div>
 
-   <!-- If we need navigation buttons -->
-   <!-- <div class="swiper-button-prev"></div>
+   If we need navigation buttons
+   <div class="swiper-button-prev"></div>
    <div class="swiper-button-next"></div> -->
    
    <div class="swiper-scrollbar"></div>
    
-    				</c:forEach>
 	    	   </c:when>
 	    	   <c:otherwise>
 	    	   		<div class="swiper-slide">
@@ -143,7 +142,7 @@ h4.h4_introduce{margin-top:100px; margin-left:50px;margin-bottom:15px;font-size:
       			</div>
       			
       			<!-- If we need pagination -->
-   				<div class="swiper-pagination"></div>
+   				<!-- <div class="swiper-pagination"></div> -->
    				<div class="swiper-scrollbar"></div>
    				
 	    	   </c:otherwise>

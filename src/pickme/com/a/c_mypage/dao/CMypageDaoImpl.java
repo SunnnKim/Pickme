@@ -19,13 +19,6 @@ public class CMypageDaoImpl implements CMypageDao{
 	SqlSession session;
 	
 	String nameSpace = "cMember.";
-
-	@Override
-	public CMemberDto dateTest(CMemberDto dto) {
-		CMemberDto dtoList = session.selectOne(nameSpace + "TestAll", dto);
-		return dtoList;
-	}
-
 	
 	// 기업 마이페이지 이동
 	@Override
@@ -177,13 +170,5 @@ public class CMypageDaoImpl implements CMypageDao{
 		return session.delete(nameSpace + "deleteImage", ref)>0?true:false;
 	}
 
-
-	
-	// 가장 최근 결제 서비스의 종료일
-//	@Override
-//	public PaymentDto showRecentPay(PaymentDto dto) {
-//		PaymentDto recentDto = session.selectOne("Payment." + "showRecentPay", dto);
-//		return recentDto;
-//	}
 	
 }

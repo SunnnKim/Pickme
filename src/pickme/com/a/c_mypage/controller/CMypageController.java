@@ -42,24 +42,8 @@ public class CMypageController {
 
 	@Autowired
 	CMypageService service;
-	  
 	
-	// 슬라이드 테스트용
-	@RequestMapping(value = "slide.do", method = {RequestMethod.GET,RequestMethod.POST})
-	public String slide() {
-		return "c_mypage/slideTest";
-	}
-	
-	
-	@RequestMapping(value = "test1.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String test(CMemberDto dto, Model model) {
-		CMemberDto list = service.dateTest(dto);
-		model.addAttribute("list", list);
-		System.out.println(list.toString());
-		return "index2";
-	}
-	
-	// 주소 불러오기
+	// 주소 불러오기========================================================================
 	@RequestMapping(value = "showAddress.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public CMemberDto loadAddress(CMemberDto dto, Model model) {
 		CMemberDto address = service.showAddress(dto);
@@ -68,7 +52,7 @@ public class CMypageController {
 		return address;
 	}
 	
-	// 연락처 불러오기
+	// 연락처 불러오기========================================================================
 	@RequestMapping(value = "showTel.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public CMemberDto showTel(CMemberDto dto, Model model) {
 		CMemberDto tel = service.showTel(dto);
@@ -77,22 +61,8 @@ public class CMypageController {
 		return tel;
 	}
 	
-//	// 일반회원 기업 마이페이지 이동
-//	@RequestMapping(value = "goACMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
-//	public String goACMypage(Model model, HttpSession session, String sentSeq ) {
-//		int seq = 0;
-//		
-//		if( session.getAttribute("loginuser") != null ) {
-//			seq = ((AMemberDto)session.getAttribute("loginuser")).getSeq();
-//		} else {
-//			seq = Integer.parseInt(sentSeq);
-//		}
-//		
-//		AMemberDto aMember = 
-//	}
 	
-	
-	// 기업 마이페이지 이동
+	// 기업 마이페이지 이동========================================================================
 	@RequestMapping(value = "goCMypage.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String goCMyPage(Model model, HttpSession session, String sentSeq ) {
 		
@@ -145,7 +115,7 @@ public class CMypageController {
 	}
 	
 	
-	// 채용탐색 > 채용 공고 > 기업디테일
+	// 채용탐색 > 채용 공고 > 기업디테일========================================================================
 	@RequestMapping(value = "companyDetail.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String companyDetail(Model model, HttpSession session, int seq) {
 
@@ -168,31 +138,15 @@ public class CMypageController {
 		};
 		return "c_mypage/myPage1";
 	}
-		
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 기업 비밀번호 변경 페이지 이동
+	// 기업 비밀번호 변경 페이지 이동========================================================================
 	@RequestMapping(value = "goPasswordUpdate.do", method = {RequestMethod.GET})
 	public String goPasswordUpdate() {
 		
 		return "c_mypage/passwordUpdate";
 	}
 	
-	// 기업 수정페이지 이동
+	// 기업 수정페이지 이동========================================================================
 	@RequestMapping(value = "goUpdate.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String goUpdate(CMemberDto dto, Model model, HttpSession session) {
 			
@@ -238,7 +192,7 @@ public class CMypageController {
 		return "c_mypage/update";
 	}
 	
-	// 기업회원 탈퇴페이지 이동
+	// 기업회원 탈퇴페이지 이동========================================================================
 	@RequestMapping(value = "goWithdrawal.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String goWithdrawal(CMemberDto dto) {
 		
@@ -247,7 +201,7 @@ public class CMypageController {
 		return "c_mypage/withdrawal";
 	}
 	
-	// 결제내역 이동
+	// 결제내역 이동=================================================================================
 	@RequestMapping(value = "goPayment.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String goPayment(PaymentDto dto, Model model, HttpSession session) throws ParseException {
 		
@@ -292,7 +246,7 @@ public class CMypageController {
 		return "c_mypage/payment";
 	}
 	
-	// 기업 이미지 삭제
+	// 기업 이미지 삭제========================================================================
     @RequestMapping(value="imageDelete.do", method= {RequestMethod.POST})
     public String imageDelete(CMemberDto dto, Model model, MultipartFile[] originfile, HttpServletRequest request, HttpSession session) {
     	// (ref) 그룹번호 불러오기
@@ -350,7 +304,7 @@ public class CMypageController {
     	}
 	
 	
-	// 기업 이미지 업로드
+	// 기업 이미지 업로드========================================================================
 	@RequestMapping(value="uploadImage.do", method = {RequestMethod.POST})
 	public String uploadImage(CMemberDto dto, Model model, HttpSession session, MultipartFile[] originfile, HttpServletRequest request) {
 		// (ref) 그룹번호 불러오기
@@ -407,7 +361,7 @@ public class CMypageController {
 	}
 	
 	
-	// 기업 정보 수정 
+	// 기업 정보 수정 ========================================================================
 	@ResponseBody
 	@RequestMapping(value = "update.do", method = {RequestMethod.POST})
 	public String update(CMemberDto dto, Model model, HttpSession session, String hashTag, MultipartFile file, HttpServletRequest request) throws Exception {
@@ -453,11 +407,6 @@ public class CMypageController {
 			
 		}
 		
-		
-		
-		
-		
-		
 		System.out.println("DB에 들어갈 해쉬태그 : " + hashTag);
 		System.out.println("DB : " + dto.getHashTag());
 		
@@ -473,13 +422,7 @@ public class CMypageController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	// 결제 디테일 이동
+	// 결제 디테일 이동========================================================================
 	@RequestMapping(value="paymentDetail.do", method = {RequestMethod.GET})
 	public String paymentDetail(int seq, Model model, HttpSession session) {
 		System.out.println(seq);
@@ -496,7 +439,7 @@ public class CMypageController {
 		return "c_mypage/paymentDetail";
 	}
 	
-    // 결제 성공 후 DB저장
+    // 결제 성공 후 DB저장========================================================================
     @RequestMapping(value = "setPaymentInfo.do", method = {RequestMethod.GET, RequestMethod.POST})
     public String setPaymentInfo(PaymentDto dto, int serviceSeq, HttpSession session) {
       
@@ -526,7 +469,7 @@ public class CMypageController {
     }
 
 	
-    // 환불하기 페이지 이동
+    // 환불하기 페이지 이동========================================================================
     @RequestMapping(value="refundPage.do")
     public String refundPage( Model model, int seq ) {
     	System.out.println(seq);
@@ -538,7 +481,7 @@ public class CMypageController {
     
     
     
-    // 기업로고 보여주기
+    // 기업로고 보여주기========================================================================
  	@RequestMapping(value="imageDownload.do")
  	 protected void imageDownload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
  			   
@@ -590,37 +533,6 @@ public class CMypageController {
  	}
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-	
-	// 로고 업로드
-/*	@RequestMapping(value = "uploadLogo.do", method = {RequestMethod.POST})
-	public String uploadLogo(CMemberDto dto,
-								@RequestParam(value = "fileload", required = false)
-								MulitipartFile fileload, HttpServletRequest req) {
-		
-		// fileName
-		String fileName = fileload
-				
-		return "";
-	}
-	*/
 }
 
 
