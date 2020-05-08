@@ -94,8 +94,8 @@
 				</div>
 				<!-- // mesageText-->
 				<div class="messageBtn">
-					<button onclick="send()">보내기</button>
-					<button onclick="hideThis()">닫기</button>
+					<button type="button" onclick="send()">보내기</button>
+					<button type="button" onclick="hideThis()">닫기</button>
 				</div>
 				<!--//  messageBtn -->
 			</div>
@@ -212,9 +212,15 @@ function send(){
 	
 	var formData = $("#frm").serialize();
 	if ($("#repl-cont").val() == null || $("#repl-cont").val() == ""){
-		alert("메시지 내용을 입력해주세요");
-		
-		return false;
+		//alert("메시지 내용을 입력해주세요");
+		Swal.fire({
+			  position: 'center',
+			  icon: 'error',
+			  text: '내용을 입력하세요',
+			  showConfirmButton: false,
+			  timer: 1500
+			})		
+		//return false;
 		 
 	}else{
 		 $.ajax({
@@ -253,7 +259,7 @@ function send(){
 				}	
 			}); 
 	}
-	 return false; 
+//	 return false; 
 }
 
 function searchAction() {
