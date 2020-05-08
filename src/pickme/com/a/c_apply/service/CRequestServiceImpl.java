@@ -85,6 +85,11 @@ public class CRequestServiceImpl implements CRequestService{
 		return cApplyDao.getaMemberProfile(seq);
 	}
 
+	@Override
+	public boolean setResumeOpen(int cvSeq) {
+		return cApplyDao.setResumeOpen(cvSeq);
+	}
+
 	
 	
 	

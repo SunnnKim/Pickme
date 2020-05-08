@@ -247,8 +247,8 @@ public class CRequestController {
 			//System.out.println("memSeq : " + memSeq );
 			
 			// 열람 확인 DB 저장
-			boolean b = cApply.resumeOpenConfirm(cvSeq);
-			System.out.println("열람 확인 DB 저장 : " + b);
+			boolean b = cApplyService.setResumeOpen(cvSeq);
+			System.out.println("열람요청 페이지 열람 확인 DB 저장 : " + b);
 			ResumeFileDto dto = cApply.findResumeFile(cvSeq);
 					
 			

@@ -136,6 +136,12 @@
  
 
 
+<!-- 이력서 열람시 구직자에게 open값 확인되도록 -->
+<update id="setResumeOpen" parameterType="int">
+	UPDATE RESUME_AFTER
+	SET OPEN = 1
+	WHERE SEQ = #{cvSeq}
+</update>
 
 
 
