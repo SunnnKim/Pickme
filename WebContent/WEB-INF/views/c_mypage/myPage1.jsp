@@ -3,9 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f02f285c91592b3506f84c3a3ce66d20&libraries=services,clusterer,drawing"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f02f285c91592b3506f84c3a3ce66d20"></script>
-
 
 <!-- 기업회원 정보 불러오기  --> 
 <%
@@ -21,8 +18,7 @@
    
    
 %> 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    
+<%@include file="../../../../api/kakaoMap.jsp" %>
 <!-- 헤더호출 -->
 <%@include file="../../../include/header.jsp"%>
 <html>
