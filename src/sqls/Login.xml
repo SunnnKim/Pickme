@@ -55,7 +55,7 @@ WHERE EMAIL = #{email} AND DEL != 1
 <!-- 기업  회원가입  -->
  <insert id="companyJoin" parameterType="model.CMemberDto">
  INSERT INTO C_MEMBER ( EMAIL, PASSWORD, PRESIDENT, NAME, DEPARTMENT, TYPE, NUMBER, TEL, DEL, SIGNDATE, ADDRESS )
- VALUES ( #{email}, #{password}, #{president}, #{name}, #{department}, #{type}, #{number}, #{tel}, 0, SYSDATE(), '' )
+ VALUES ( #{email}, #{password}, #{president}, #{name}, #{department}, #{type}, #{number}, #{tel}, -1, SYSDATE(), '' )
  </insert>
 <!-- 일반 회원 이메일 인증 -->
 <update id="AMemberValidate" parameterType="model.AMemberDto">

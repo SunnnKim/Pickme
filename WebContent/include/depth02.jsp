@@ -61,11 +61,12 @@ if (durl.contains("/login/com")){
 <%
 }	
 %>
-
 <!-- 기업 마이페이지 -->	
 <%
+
 if (durl.contains("c_mypage")) {
 	if ( !durl.contains("c_mypage/myPage.jsp") && !durl.contains("c_mypage/paymentDetail.jsp") ) {
+		if( session.getAttribute("logincompany") != null ){
 		%>
 		<ul class = "depth02 clfix">
 			<li class = <%= durl.contains("update.jsp") ? " on" :" " %>>
@@ -82,6 +83,7 @@ if (durl.contains("c_mypage")) {
 			</li>
 		</ul>
 	<% }
+	}
 } %>
 
 <!-- 일반 마이페이지 -->

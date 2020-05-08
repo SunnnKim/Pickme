@@ -169,7 +169,7 @@ $('#codeBtn').click(function(){
 })
 
 $(document).on('click','#pressBtn', function(){
-	alert(keyCode)
+	//alert(keyCode)
 	var inputCode = $('#append input').val();
 	if( inputCode == '' ){
 		Swal.fire({

@@ -25,7 +25,7 @@ if(request.getParameter("fail") != null ){
                         <input type="text" id="email" name="email" onkeyup="enterkey()" placeholder="이메일을 입력하세요" autocomplete="off">
                         <input type="password" id="pwd" name="password" onkeyup="enterkey()" placeholder="비밀번호 입력하세요" autocomplete="off">
                         <button type="button" id="com-login-btn" onclick="login()">로그인</button>
-                        <div class="com-href"><a href="#">아이디/비밀번호를 잊으셨나요?</a></div>
+                        <div class="com-href"><a href="/Pickme/login/findEmailPwdA.do">아이디/비밀번호를 잊으셨나요?</a></div>
                     </div>
                     <div class="com-logo">
                         <img src="/Pickme/images/sub/memlogin.jpg">

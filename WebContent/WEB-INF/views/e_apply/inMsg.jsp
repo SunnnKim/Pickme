@@ -212,26 +212,19 @@
 		$("input[name='checkRow']:checked").each(function() {
 			// 배열에 집어넣기
 			seqArray.push($(this).val());
-			
-			//checkRow = checkRow + $(this).val() + ",";
 		});
-		// checkRow = checkRow.substring(0, checkRow.lastIndexOf(",")); //맨끝 콤마 지우기
-		
-		if (seqArray == null) {
-			alert("삭제 할 대상을 선택하세요.");
-			return false;
-		}
-		// console.log("### checkRow => {}" + checkRow);
-		
-		alert(seqArray.length);
 
-		if(seqArray.length == 0){
-			alert("삭제하실 내역이 없습니다");
-			return false;
+		if (seqArray == null || seqArray.length == 0) {
+				Swal.fire({
+					  title: '삭제하실 메시지를 선택해주세요',
+					  text: "",
+					  icon: 'warning',
+					  showCancelButton: false,
+					  timer: 1500
+					})
+				return false;
 		}
 
-		// alert(seq);
-		
 		Swal.fire({
 			  title: '선택하신 메시지를 삭제하시겠습니까?',
 			  text: "",
@@ -285,8 +278,7 @@ function goPage(pn){
 	//  alert("sKeyword: " + sKeyword);	
 
 	  var isUnread = '<c:out value="${isUnread}"/>';
-	  alert("확인 " + isUnread);
-
+	  
 	  if(isUnread == 'yes'){
 		  location.href="unread.do?sKeyword=" + sKeyword + "&page=inMsg&pageNumber=" + pn;
 	 }else{	
@@ -309,7 +301,7 @@ function goPage(pn){
 	function searchAction() {
 		var sKeyword =($("#_keyword").val()).trim();
 		var isUnread = '<c:out value="${isUnread}"/>';
-		  alert("확인 " + isUnread);
+		 
 		
 		if(sKeyword == null || sKeyword == ""){
 			alert("검색어를 입력해주세요.");

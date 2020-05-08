@@ -33,6 +33,8 @@ public interface CRequestDao {
 
 	public AMemberDto getaMemberProfile(String seq);
 
+	public boolean setResumeOpen(int cvSeq);
+
 	
 	
 	

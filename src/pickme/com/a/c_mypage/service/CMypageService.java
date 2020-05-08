@@ -10,7 +10,6 @@ import model.PremierServiceDto;
 
 public interface CMypageService {
 
-	CMemberDto dateTest(CMemberDto dto);
 
 	// 기업 마이페이지 이동
 	public void goCMypage(CMemberDto dto);
@@ -23,7 +22,6 @@ public interface CMypageService {
 	
 	// 기업 정보 수정
 	public void update(CMemberDto dto);
-
 	
 	// 주소 불러오기
 	public CMemberDto showAddress(CMemberDto dto);
@@ -48,9 +46,6 @@ public interface CMypageService {
 	
 	// 현재 서비스 진행중인지
 	public PaymentDto recentService(PaymentDto dto);
-
-	// 가장 최근 결제 서비스의 종료일
-	//public PaymentDto showRecentPay(PaymentDto dto);
 	
 	// 환불 - 환불할 서비스 가져오기
 	public PaymentDto getRefundableService(int seq);
@@ -60,7 +55,6 @@ public interface CMypageService {
 	
 	// 결제를 위해 기업 회원정보 불러오기 
 	public CMemberDto getCmemberDto( int seq );
-	
 	
 	// 이미지 업로드
 	public boolean uploadImage(List<FilesDto> list);
@@ -73,5 +67,8 @@ public interface CMypageService {
 	
 	// 해당 기업 이미지 불러오기
 	public List<FilesDto> getImages(int ref);
+
+	// 기업 이미지 삭제
+	public boolean deleteImage(int ref);
 	
 }

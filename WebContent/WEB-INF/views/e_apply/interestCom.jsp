@@ -239,7 +239,7 @@
    // 관심기업 삭제 	 
 	function likech(likepickseq){
 		
-		alert(likepickseq);
+		//alert(likepickseq);
 		var pn = '<c:out value="${pageNumber }"/>'
 		$.ajax({
 			 url: "removefav.do", 
@@ -249,7 +249,7 @@
 			 dataType: "json",
 			 success: function(data){
 				if(data >0){
-					alert("관심기업 삭제");
+					// alert("관심기업 삭제");
 					
 					location.href="interestCom.do?pageNum=" + pn;
 

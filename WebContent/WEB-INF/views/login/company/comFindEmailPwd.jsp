@@ -25,7 +25,7 @@
            <input type="text" name="email2" placeholder="이메일을 입력하세요" onkeyup="enterkey('pwd')">
            <button type="button" id="sendEmail">메일전송</button>
          </div>
-         <input type="text" name="temp" placeholder="인증번호를 입력하세요" onkeyup="enterkey('pwd')">
+         <input type="password" name="temp" placeholder="인증번호를 입력하세요" onkeyup="enterkey('pwd')">
          <button class="check-btn" id="validateBtn" onclick="checkPwd()">인증하기</button>
        </div>
      </div>
@@ -127,7 +127,6 @@ $('#sendEmail').click( function(){
        }else if( data == 'false'){
     	   sweetAlert('error', '인증메일 전송실패', 800, false)
        }else{
-           alert(data)
            $('#memberEmail').val($('input[name=email2]').val())	  
 		   emailCode = data
 		   $('input[name=temp]').focus()

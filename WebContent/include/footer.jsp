@@ -51,7 +51,7 @@
 	   function connectWs(){
 			console.log("Info: connecting...");
 			// 웹소켓 객체생성
-			var ws = new WebSocket("ws://localhost:8090/Pickme/echo.do");
+			var ws = new WebSocket("ws://192.168.2.31:8090/Pickme/echo.do");
 
 			// 다른곳에서 사용할 수 있게 전역변수에 넣기 
 			socket = ws;
@@ -126,7 +126,7 @@
 
 			// 서버에서 메시지 도착한 경우
 		    ws.onmessage = function(event){
-
+			
 				if((event.data).includes("메시지")){//메시지 도착시 alert 
 					console.log("ReceiveMessage:", event.data + '\n');
 					
@@ -204,16 +204,7 @@
 	
 		});
 
-	   /*
-		$(document).click(function(e){
-			if(e.target.className == 'alert-wrap'){return false}
-			if(e.target.className == 'alert-bell'){return false}
-			
-				$('.alertContWrap').fadeOut(100);
-
-		})	
-
- */
+ 
 	 	// esc키로 알림내용 닫기 
 		window.onkeyup = function(e) {
 			var key = e.keyCode ? e.keyCode : e.which;
@@ -222,8 +213,8 @@
 			}	
 			
 		}
-		 
 
+		
 	   
 	 </script>
 </body>

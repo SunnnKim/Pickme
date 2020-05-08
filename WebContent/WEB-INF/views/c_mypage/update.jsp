@@ -154,6 +154,7 @@ div.input-box div.img1 img {
 div.input-box div.c-gallery {
 	width:100%;
 	margin-top:40px;
+	margin-bottom:50px;
 }
 
 
@@ -257,6 +258,7 @@ div div.logo-img input.btTextW {
 <input type="hidden" name="logoPath" value="/upload/c_mypage/">
 <input type="hidden" name="logoName" value="${dto.logoName }">
 		
+		
 		          
         <div class="update-logo">
           <div class="logo-text">
@@ -302,7 +304,7 @@ div div.logo-img input.btTextW {
           <p class = "column"> 기업명
           <label class = "star" style = "color:#ff0000"> * </label>
           </p>
-          <input type = "text" value = "원티드" value = "${dto.name }" style = "background: #f4f4f4;border: none;" readonly>
+          <input type = "text"  value = "${dto.name }" style = "background: #f4f4f4;border: none;" readonly>
         </div>
 
         <div class = "input-box">
@@ -454,7 +456,9 @@ div div.logo-img input.btTextW {
 				 var hstr01 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb01+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb01+"'></span>";
 				 var hstr02 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb02+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb02+"'></span>";
 				 var hstr03 = "<span><button type='button' class='hashbtn1 mr8' name='hashtag'>#"+hashdb03+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb03+"'></span>";
-				 if(hashdb01 != undefined){			
+				 
+				  
+				 if(hashdb01 != undefined && hashdb01 != ''){			
 			   	    $(".inhash").append(hstr01);
 				     element_count++;
 				     hashTagCount();
@@ -469,6 +473,7 @@ div div.logo-img input.btTextW {
 					  element_count++;
 					  hashTagCount();
 				  }
+
 				  		  		  		
 				 //alert("끝")
 				
@@ -537,12 +542,21 @@ div div.logo-img input.btTextW {
  </form>
  
  
+	<style>
+		.column_images{font-size : 13pt;}
+		.company_image_container{margin-top:5px;}
+		.company_image_container img{display:block;width:350px;height:330px;float:left;}
+	</style>
+ 
+ 
+ 
+ 
  
  <form id="fileform" method="post" action="uploadImage.do" enctype="multipart/form-data">
         <div class="input-box">
-          <p class = "column"> 기업 이미지
+          <p class = "column"> 기업 이미지 
             <label class = "star" style = "color:#ff0000"> * </label>
-            <label class = "message"> 최대 3장까지 등록 가능하며, 해당 이미지를 클릭하면 삭제됩니다. </label>
+            <label class = "message"> 3장만 등록 가능하며, 해당 이미지를 클릭하면 삭제됩니다. </label>
           </p>
 
 	          <div class="cmypage-fileWrap clfix">
@@ -551,9 +565,21 @@ div div.logo-img input.btTextW {
 	             	<input type = "file" class="photo-add" id = "image2" name="originfile" accept=".jpg, .png">
 	             	<input type = "file" class="photo-add" id = "image3" name="originfile" accept=".jpg, .png">
 	             </div>
+	             <!-- 이미지 추가되는 영역 -->
 	            <div class = "c-gallery clfix" style="width:1052px; height:332px;border:1px solid rgb(176, 176, 176)">
+	            
 	            </div>
+	            
 	          </div>
+	             <!-- 기존 이미지 영역 -->
+	            <c:if test="${not empty fileslist }">
+		            <p class = "column_images"> 기존 이미지 </p>
+		            <div class="company_image_container" style="width:1052px;height:332px;border:1px solid rgb(176,176,176)">
+		            		<c:forEach var = "dto" items="${fileslist }" varStatus="rs">
+		            			<img src = "imageDownload.do?filename=${dto.newname }&filepath=/upload/c_mypage/">
+		            		</c:forEach>
+	 	            </div>
+	            </c:if>
    		</div>
 </form>
 
@@ -866,8 +892,8 @@ function updateComplete() {
       addressStr += $('#sample6_detailAddress').val();       // 상세주소
    }
       $('input[name=address]').val(addressStr);
-
-   alert(addressStr);
+/* 
+   alert(addressStr); */
    console.log(addressStr);
 
 	
@@ -989,7 +1015,37 @@ function updateComplete() {
 	 */
 	 
 
-	 	// 로고 처리한 Ajax
+	 	
+	 	
+	 	var image1Upload = $("#image1").val();
+ 		var image2Upload = $("#image2").val();
+ 		var image3Upload = $("#image3").val();
+
+ 		var imageUploadCheck = false;
+
+
+ 		// 이미지 3개 모두 업로드 하거나
+	 	if(image1Upload != '' && image2Upload != '' && image3Upload != '') {
+	 		imageUploadCheck = true;
+		 }
+
+ 		// 이미지를 단 1장도 업로드 하지 않거나
+		if(image1Upload == '' && image2Upload == '' && image3Upload == '') {
+			imageUploadCheck = true;
+		 }
+
+		// 이미지 업로드 에러
+		if( imageUploadCheck == false ) {
+			Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: '이미지는 3장을 업로드 해야 합니다.',
+				showConfirmButton: false,
+				timer: 3000
+			}).then ( (result) => {
+				return;
+			})
+		}
 	 	
 		 var hashtagVar = tags[0] + "," + tags[1] + "," + tags[2];
 		 var form = $('#frm')[0];
@@ -1008,8 +1064,11 @@ function updateComplete() {
 
 		//alert("getFile 값 :" + getFile);
 		formData.append("file", getFile);
-		   
-	if(presidentCheck == true && typeCheck == true && departmentCheck == true && telCheck== true) {
+
+
+
+		   // Ajax
+	if(imageUploadCheck == true && presidentCheck == true && typeCheck == true && departmentCheck == true && telCheck== true) {
 			   
 		$.ajax({
 			data 		: formData,
@@ -1031,11 +1090,13 @@ function updateComplete() {
 			    		$("#fileform").submit();
 					});
 		    }, 
-		    error		:function(request,status,error){ 
+		    error : function(request,status,error){ 
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 			}
 
 		})
+
+		
 	}	
 }
 

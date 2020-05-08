@@ -264,16 +264,7 @@
 
 
 
-   // db에서 값 가져오기
-   var hashstr = "${dto.hashtag}";
-
-   var hashdbArray = hashstr.split(',');
-
-  
-
-   var hashdb01 = hashdbArray[0]
-   var hashdb02 = hashdbArray[1]
-   var hashdb03 = hashdbArray[2]
+   
   
 
 
@@ -314,6 +305,18 @@
 
   	// db에 있는 hashtag append시키기 
 	$(function(){		
+
+		// db에서 값 가져오기
+	    var hashstr = "${dto.hashtag}";
+
+	    var hashdbArray = hashstr.split(',');
+
+	  
+
+	    var hashdb01 = hashdbArray[0]
+	    var hashdb02 = hashdbArray[1]
+	    var hashdb03 = hashdbArray[2]
+		   
 		 var hstr01 = "<span><button type='button' class='hashbtn mr8' name='hashtag'>#"+hashdb01+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb01+"'></span>";
 		 var hstr02 = "<span><button type='button' class='hashbtn mr8' name='hashtag'>#"+hashdb02+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb02+"'></span>";
 		 var hstr03 = "<span><button type='button' class='hashbtn mr8' name='hashtag'>#"+hashdb03+"<i class='fas fa-times close' onclick='remove(this)'></i></button><input type='hidden' name='hashTag' value='"+hashdb03+"'></span>";
@@ -323,7 +326,7 @@
 		     hashTagCount();
 		  }
 		  if(hashdb02 != "" && typeof hashdb02 != "undefined"){
-			  $(".inhash").append(hstr02);
+				$(".inhash").append(hstr02);
 			  element_count++;
 			  hashTagCount();
 		  }
@@ -400,6 +403,9 @@ $("#pSaveBtn").on("click",function(){
      //hash tag
   	var taglen = $("input[name='hashTag']").length;
   	var tags = new Array(taglen);
+  	tags[0] = "";
+  	tags[1] = "";
+  	tags[2] = "";
 
     for(var i=0; i < taglen;i++){
         tags[i] = $("input[name='hashTag']").eq(i).val();

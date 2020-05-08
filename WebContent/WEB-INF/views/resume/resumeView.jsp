@@ -142,7 +142,7 @@
 								<input type="text" class="desc" name="language[][test]" placeholder="시험명" value="${dto.test }">
 								<input type="text" class="desc" name="language[][score]" placeholder="점수/급" value="${dto.score }">
 								<div class="rsm_date">
-									<input type="text" name="language[][date]" placeholder="YYYYMMDD" style="width:80px" maxlength="6"  value="${dto.date }">
+									<input type="text" name="language[][date]" placeholder="YYYYMM" style="width:80px" maxlength="6"  value="${dto.date }">
 								</div>
 							</div>
 							<div class="rsm_delete"><i class="fas fa-times"></i><input type="hidden" value="${dto.seq }"></div>

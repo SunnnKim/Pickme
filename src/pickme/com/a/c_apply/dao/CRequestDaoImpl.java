@@ -90,6 +90,12 @@ public class CRequestDaoImpl implements CRequestDao{
 		return sqlSession.selectOne(ns + "getaMemberProfile", seq);
 	}
 
+	@Override
+	public boolean setResumeOpen(int cvSeq) {
+		int n = sqlSession.update(ns + "setResumeOpen", cvSeq);
+		return (n>0)?true:false;
+	}
+
 	
 	
 	

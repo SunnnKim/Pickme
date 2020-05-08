@@ -89,10 +89,10 @@
 						</span>
 					</td>
 					<td>
-					<c:if test="${pastCvReq.status eq 0}">
+					<c:if test="${pastCvReq.open eq 0}">
 						미열람 
 					</c:if>
-					<c:if test="${pastCvReq.status eq 1}">
+					<c:if test="${pastCvReq.open eq 1}">
 						열람 
 					</c:if>
 					</td>	
@@ -163,7 +163,7 @@
 
 		if(seqArray != null){
 		Swal.fire({
-			  title: '선택하신 메시지를 삭제하시겠습니까?',
+			  title: '선택하신 항목을 삭제하시겠습니까?',
 			  text: "",
 			  icon: 'warning',
 			  showCancelButton: true,

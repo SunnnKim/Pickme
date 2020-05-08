@@ -239,7 +239,13 @@
     	// alert("필터: " + filterAfter + " 정렬: " + sort);
 
     	if(filterAfter == '선택'){
-			alert("카테고리를 선택해주세요.");
+    		Swal.fire({
+  			  title: '카테고리를 선택해주세요',
+  			  text: "",
+  			  icon: 'warning',
+  			  showCancelButton: false,
+  			  timer: 1500
+  		});	
 			
         }else{
  
