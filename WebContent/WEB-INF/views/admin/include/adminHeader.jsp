@@ -6,7 +6,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width= 1050px, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>index</title>
+<title>Pick me 관리자</title>
+<link rel="icon" href="/Pickme/images/main/pickme.ico" sizes="32x32">
+<!-- 
 <!----- [ 디자인 CSS 영역 ] ----->
 <link rel="stylesheet" href="/Pickme/css/reset.css" type="text/css"> <!-- 리셋 CSS -->
 <link rel="stylesheet" href="/Pickme/css/style.css" type="text/css"> <!-- 디자인 CSS -->
