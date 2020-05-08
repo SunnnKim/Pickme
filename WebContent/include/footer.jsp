@@ -222,7 +222,12 @@
 			}	
 			
 		}
-		 
+
+		// 이미지 없을때 
+/* 		 function noImage(){
+			$(this).setAttribute("src", "/Pickme/images/sub/no-img.png");
+
+	     } */
 
 	   
 	 </script>
