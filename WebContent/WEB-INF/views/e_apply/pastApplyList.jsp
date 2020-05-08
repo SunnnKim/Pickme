@@ -206,7 +206,7 @@
 				
 	
 				Swal.fire({
-				  title: '선택하신 메시지를 삭제하시겠습니까?',
+				  title: '선택하신 항목을 삭제하시겠습니까?',
 				  text: "",
 				  icon: 'warning',
 				  showCancelButton: true,

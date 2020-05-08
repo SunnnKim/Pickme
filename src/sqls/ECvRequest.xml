@@ -66,7 +66,7 @@
  		INNER JOIN C_MEMBER c
  		ON v.CSEQ = c.SEQ
  		INNER JOIN RESUME_AFTER r
- 		ON v.PSEQ = r.MEMSEQ
+ 		ON v.CVSEQ = r.SEQ
  		WHERE (v.ACCEPT = 1 OR v.ACCEPT = 2) AND v.DELMEM = 0 
 		<if test="sKeyword != null and sKeyword !=''">
 			AND (c.NAME = #{sKeyword} OR v.COMMENT LIKE CONCAT('%', #{sKeyword}, '%'))

@@ -92,6 +92,7 @@ public class ECvRequestController {
 		// 지난 요청 내역 받아오기
 		List<CvReqDto> pastCvReqList = eservice.getPastCvReqList(param);
 		
+		
 		// 총 내역 수 불러오기
 		int totalRecordCount = eservice.getPastReqTotalCount(param);
 		System.out.println("totalRecordCount: " + totalRecordCount);
