@@ -170,3 +170,6 @@ $RECYCLE.BIN/
 
 src/properties/jdbc.properties
 pickme_diagram.ucls
+
+#api
+kakaoMap.jsp
