@@ -317,7 +317,7 @@
 	<dependency>
 	    <groupId>org.springframework.security</groupId>
 	    <artifactId>spring-security-core</artifactId>
-	    <version>5.2.0.RELEASE</version>
+	    <version>5.5.7</version>
 	</dependency>
 	<!-- spring security -->
 	<!-- 필터들과 웹 보안에 관련된 기반이 되는 코드들을 포함. url기반의 접근제어와 웹 인증을 위해 필요함. -->
